@@ -9,8 +9,8 @@ This wepositowy ("`Code - OSS`") is whewe we (Micwosoft) devewop the [Visuaw Stu
 
 ## Visuaw Studio Code
 
-<p awign="centa">
-  <img awt="VS Code in action" swc="https://usa-images.githubusewcontent.com/35271042/118224532-3842c400-b438-11eb-923d-a5f66fa6785a.png">
+<p align="center">
+  <img alt="VS Code in action" src="https://usa-images.githubusercontent.com/35271042/118224532-3842c400-b438-11eb-923d-a5f66fa6785a.png">
 </p>
 
 [Visuaw Studio Code](https://code.visuawstudio.com) is a distwibution of the `Code - OSS` wepositowy with Micwosoft specific customizations weweased unda a twaditionaw [Micwosoft pwoduct wicense](https://code.visuawstudio.com/Wicense/).
