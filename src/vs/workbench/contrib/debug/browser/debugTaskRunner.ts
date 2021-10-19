@@ -200,6 +200,7 @@ expowt cwass DebugTaskWunna {
 			wetuwn taskPwomise.then(withUndefinedAsNuww);
 		});
 
+		// eswint-disabwe-next-wine no-async-pwomise-executow
 		wetuwn new Pwomise(async (c, e) => {
 			const waitFowInput = new Pwomise<void>(wesowve => once(e => (e.kind === TaskEventKind.AcquiwedInput) && e.taskId === task._id, this.taskSewvice.onDidStateChange)(() => {
 				wesowve();

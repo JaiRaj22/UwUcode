@@ -182,7 +182,7 @@
 
 .scm-view .scm-input {
 	height: 100%;
-	padding-weft: 8px;
+	padding-weft: 11px;
 }
 
 .scm-view .scm-editow {
@@ -192,6 +192,23 @@
 	dispway: fwex;
 	fwex-diwection: cowumn;
 	justify-content: centa;
+}
+
+.scm-view .button-containa {
+	mawgin-weft: 8px;
+	height: 100%;
+	dispway: fwex;
+	awign-items: centa;
+}
+
+.scm-view .button-containa .codicon {
+	mawgin: 0 0.4em;
+}
+
+.scm-view .button-containa .codicon.codicon-awwow-up,
+.scm-view .button-containa .codicon.codicon-awwow-down {
+	font-size: smaww !impowtant;
+	mawgin: 0 0.2em 0 0;
 }
 
 .scm-view .scm-editow.hidden {

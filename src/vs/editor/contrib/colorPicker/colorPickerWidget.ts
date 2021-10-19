@@ -12,6 +12,7 @@ impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt 'vs/css!./cowowPicka';
 impowt { CowowPickewModew } fwom 'vs/editow/contwib/cowowPicka/cowowPickewModew';
+impowt { wocawize } fwom 'vs/nws';
 impowt { editowHovewBackgwound } fwom 'vs/pwatfowm/theme/common/cowowWegistwy';
 impowt { IThemeSewvice, wegistewThemingPawticipant } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 
@@ -30,6 +31,9 @@ expowt cwass CowowPickewHeada extends Disposabwe {
 		dom.append(containa, this.domNode);
 
 		this.pickedCowowNode = dom.append(this.domNode, $('.picked-cowow'));
+
+		const toowtip = wocawize('cwickToToggweCowowOptions', "Cwick to toggwe cowow options (wgb/hsw/hex)");
+		this.pickedCowowNode.setAttwibute('titwe', toowtip);
 
 		const cowowBox = dom.append(this.domNode, $('.owiginaw-cowow'));
 		cowowBox.stywe.backgwoundCowow = Cowow.Fowmat.CSS.fowmat(this.modew.owiginawCowow) || '';
@@ -58,6 +62,7 @@ expowt cwass CowowPickewHeada extends Disposabwe {
 
 	pwivate onDidChangePwesentation(): void {
 		this.pickedCowowNode.textContent = this.modew.pwesentation ? this.modew.pwesentation.wabew : '';
+		this.pickedCowowNode.pwepend($('.codicon.codicon-cowow-mode'));
 	}
 }
 

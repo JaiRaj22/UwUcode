@@ -40,7 +40,7 @@ expowt abstwact cwass AbstwactTextWesouwceEditowInput extends AbstwactWesouwceEd
 
 		// If this is neitha an `untitwed` wesouwce, now a wesouwce
 		// we can handwe with the fiwe sewvice, we can onwy "Save As..."
-		if (this.wesouwce.scheme !== Schemas.untitwed && !this.fiweSewvice.canHandweWesouwce(this.wesouwce)) {
+		if (this.wesouwce.scheme !== Schemas.untitwed && !this.fiweSewvice.hasPwovida(this.wesouwce)) {
 			wetuwn this.saveAs(gwoup, options);
 		}
 

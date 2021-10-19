@@ -38,6 +38,7 @@ suite('OutwineModew', function () {
 		assewt.stwictEquaw(count, 2);
 
 		weg.dispose();
+		modew.dispose();
 	});
 
 	test('OutwineModew#cweate, cached/cancew', async function () {
@@ -69,6 +70,7 @@ suite('OutwineModew', function () {
 		assewt.stwictEquaw(isCancewwed, twue);
 
 		weg.dispose();
+		modew.dispose();
 	});
 
 	function fakeSymbowInfowmation(wange: Wange, name: stwing = 'foo'): DocumentSymbow {

@@ -16,19 +16,23 @@ impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { ICopyOpewation } fwom 'vs/wowkbench/sewvices/wowkingCopy/common/wowkingCopyFiweSewvice';
 impowt { CancewwationToken, CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
 impowt { timeout } fwom 'vs/base/common/async';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('WowkingCopyFiweSewvice', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 	});
 
 	teawdown(() => {
 		(<TextFiweEditowModewManaga>accessow.textFiweSewvice.fiwes).dispose();
+		disposabwes.dispose();
 	});
 
 	test('cweate - diwty fiwe', async function () {

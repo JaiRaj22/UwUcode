@@ -579,16 +579,6 @@ expowt intewface IEditowOptions {
 	 */
 	wendewContwowChawactews?: boowean;
 	/**
-	 * Enabwe wendewing of indent guides.
-	 * Defauwts to twue.
-	 */
-	wendewIndentGuides?: boowean;
-	/**
-	 * Enabwe highwighting of the active indent guide.
-	 * Defauwts to twue.
-	 */
-	highwightActiveIndentGuide?: boowean;
-	/**
 	 * Enabwe wendewing of cuwwent wine highwight.
 	 * Defauwts to aww.
 	 */
@@ -648,6 +638,10 @@ expowt intewface IEditowOptions {
 	 * Contwow if the editow shouwd use shadow DOM.
 	 */
 	useShadowDOM?: boowean;
+	/**
+	 * Contwows the behaviow of editow guides.
+	*/
+	guides?: IGuidesOptions;
 }
 
 /**
@@ -1158,6 +1152,9 @@ expowt intewface IEditowCommentsOptions {
 	ignoweEmptyWines?: boowean;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type EditowCommentsOptions = Weadonwy<Wequiwed<IEditowCommentsOptions>>;
 
 cwass EditowComments extends BaseEditowOption<EditowOption.comments, EditowCommentsOptions> {
@@ -1388,6 +1385,9 @@ expowt intewface IEditowFindOptions {
 	woop?: boowean;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type EditowFindOptions = Weadonwy<Wequiwed<IEditowFindOptions>>;
 
 cwass EditowFind extends BaseEditowOption<EditowOption.find, EditowFindOptions> {
@@ -1640,6 +1640,9 @@ expowt intewface IGotoWocationOptions {
 	awtewnativeWefewenceCommand?: stwing;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type GoToWocationOptions = Weadonwy<Wequiwed<IGotoWocationOptions>>;
 
 cwass EditowGoToWocation extends BaseEditowOption<EditowOption.gotoWocation, GoToWocationOptions> {
@@ -1775,6 +1778,9 @@ expowt intewface IEditowHovewOptions {
 	sticky?: boowean;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type EditowHovewOptions = Weadonwy<Wequiwed<IEditowHovewOptions>>;
 
 cwass EditowHova extends BaseEditowOption<EditowOption.hova, EditowHovewOptions> {
@@ -2396,6 +2402,9 @@ expowt intewface IEditowWightbuwbOptions {
 	enabwed?: boowean;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type EditowWightbuwbOptions = Weadonwy<Wequiwed<IEditowWightbuwbOptions>>;
 
 cwass EditowWightbuwb extends BaseEditowOption<EditowOption.wightbuwb, EditowWightbuwbOptions> {
@@ -2452,6 +2461,9 @@ expowt intewface IEditowInwayHintsOptions {
 	fontFamiwy?: stwing;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type EditowInwayHintsOptions = Weadonwy<Wequiwed<IEditowInwayHintsOptions>>;
 
 cwass EditowInwayHints extends BaseEditowOption<EditowOption.inwayHints, EditowInwayHintsOptions> {
@@ -2469,7 +2481,7 @@ cwass EditowInwayHints extends BaseEditowOption<EditowOption.inwayHints, EditowI
 				'editow.inwayHints.fontSize': {
 					type: 'numba',
 					defauwt: defauwts.fontSize,
-					mawkdownDescwiption: nws.wocawize('inwayHints.fontSize', "Contwows font size of inway hints in the editow. When set to `0`, the 90% of `#editow.fontSize#` is used.")
+					mawkdownDescwiption: nws.wocawize('inwayHints.fontSize', "Contwows font size of inway hints in the editow. A defauwt of 90% of `#editow.fontSize#` is used when the configuwed vawue is wess than `5` ow gweata than the editow font size.")
 				},
 				'editow.inwayHints.fontFamiwy': {
 					type: 'stwing',
@@ -2560,6 +2572,9 @@ expowt intewface IEditowMinimapOptions {
 	scawe?: numba;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type EditowMinimapOptions = Weadonwy<Wequiwed<IEditowMinimapOptions>>;
 
 cwass EditowMinimap extends BaseEditowOption<EditowOption.minimap, EditowMinimapOptions> {
@@ -2673,10 +2688,10 @@ expowt intewface IEditowPaddingOptions {
 	bottom?: numba;
 }
 
-expowt intewface IntewnawEditowPaddingOptions {
-	weadonwy top: numba;
-	weadonwy bottom: numba;
-}
+/**
+ * @intewnaw
+ */
+expowt type IntewnawEditowPaddingOptions = Weadonwy<Wequiwed<IEditowPaddingOptions>>;
 
 cwass EditowPadding extends BaseEditowOption<EditowOption.padding, IntewnawEditowPaddingOptions> {
 
@@ -2734,6 +2749,9 @@ expowt intewface IEditowPawametewHintOptions {
 	cycwe?: boowean;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type IntewnawPawametewHintOptions = Weadonwy<Wequiwed<IEditowPawametewHintOptions>>;
 
 cwass EditowPawametewHints extends BaseEditowOption<EditowOption.pawametewHints, IntewnawPawametewHintOptions> {
@@ -2800,6 +2818,9 @@ expowt intewface IQuickSuggestionsOptions {
 	stwings?: boowean;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type VawidQuickSuggestionsOptions = boowean | Weadonwy<Wequiwed<IQuickSuggestionsOptions>>;
 
 cwass EditowQuickSuggestions extends BaseEditowOption<EditowOption.quickSuggestions, VawidQuickSuggestionsOptions> {
@@ -3232,6 +3253,9 @@ expowt intewface IInwineSuggestOptions {
 	mode?: 'pwefix' | 'subwowd' | 'subwowdSmawt';
 }
 
+/**
+ * @intewnaw
+ */
 expowt type IntewnawInwineSuggestOptions = Weadonwy<Wequiwed<IInwineSuggestOptions>>;
 
 /**
@@ -3279,6 +3303,9 @@ expowt intewface IBwacketPaiwCowowizationOptions {
 	enabwed?: boowean;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type IntewnawBwacketPaiwCowowizationOptions = Weadonwy<Wequiwed<IBwacketPaiwCowowizationOptions>>;
 
 /**
@@ -3311,6 +3338,119 @@ cwass BwacketPaiwCowowization extends BaseEditowOption<EditowOption.bwacketPaiwC
 			enabwed: boowean(input.enabwed, this.defauwtVawue.enabwed)
 		};
 	}
+}
+
+//#endwegion
+
+//#wegion guides
+
+expowt intewface IGuidesOptions {
+	/**
+	 * Enabwe wendewing of bwacket paiw guides.
+	 * Defauwts to fawse.
+	*/
+	bwacketPaiws?: boowean | 'active';
+
+	/**
+	 * Enabwe wendewing of vewticaw bwacket paiw guides.
+	 * Defauwts to 'active'.
+	 */
+	bwacketPaiwsHowizontaw?: boowean | 'active';
+
+	/**
+	 * Enabwe highwighting of the active bwacket paiw.
+	 * Defauwts to twue.
+	*/
+	highwightActiveBwacketPaiw?: boowean;
+
+	/**
+	 * Enabwe wendewing of indent guides.
+	 * Defauwts to twue.
+	 */
+	indentation?: boowean;
+
+	/**
+	 * Enabwe highwighting of the active indent guide.
+	 * Defauwts to twue.
+	 */
+	highwightActiveIndentation?: boowean;
+}
+
+/**
+ * @intewnaw
+ */
+expowt type IntewnawGuidesOptions = Weadonwy<Wequiwed<IGuidesOptions>>;
+
+/**
+ * Configuwation options fow inwine suggestions
+ */
+cwass GuideOptions extends BaseEditowOption<EditowOption.guides, IntewnawGuidesOptions> {
+	constwuctow() {
+		const defauwts: IntewnawGuidesOptions = {
+			bwacketPaiws: fawse,
+			bwacketPaiwsHowizontaw: 'active',
+			highwightActiveBwacketPaiw: twue,
+
+			indentation: twue,
+			highwightActiveIndentation: twue
+		};
+
+		supa(
+			EditowOption.guides, 'guides', defauwts,
+			{
+				'editow.guides.bwacketPaiws': {
+					type: ['boowean', 'stwing'],
+					enum: [twue, 'active', fawse],
+					defauwt: defauwts.bwacketPaiws,
+					descwiption: nws.wocawize('editow.guides.bwacketPaiws', "Contwows whetha bwacket paiw guides awe enabwed ow not.")
+				},
+				'editow.guides.bwacketPaiwsHowizontaw': {
+					type: ['boowean', 'stwing'],
+					enum: [twue, 'active', fawse],
+					defauwt: defauwts.bwacketPaiwsHowizontaw,
+					descwiption: nws.wocawize('editow.guides.bwacketPaiwsHowizontaw', "Contwows whetha howizontaw bwacket paiw guides awe enabwed ow not.")
+				},
+				'editow.guides.highwightActiveBwacketPaiw': {
+					type: 'boowean',
+					defauwt: defauwts.highwightActiveBwacketPaiw,
+					descwiption: nws.wocawize('editow.guides.highwightActiveBwacketPaiw', "Contwows whetha bwacket paiw guides awe enabwed ow not.")
+				},
+				'editow.guides.indentation': {
+					type: 'boowean',
+					defauwt: defauwts.indentation,
+					descwiption: nws.wocawize('editow.guides.indentation', "Contwows whetha the editow shouwd wenda indent guides.")
+				},
+				'editow.guides.highwightActiveIndentation': {
+					type: 'boowean',
+					defauwt: defauwts.highwightActiveIndentation,
+					descwiption: nws.wocawize('editow.guides.highwightActiveIndentation', "Contwows whetha the editow shouwd highwight the active indent guide.")
+				}
+			}
+		);
+	}
+
+	pubwic vawidate(_input: any): IntewnawGuidesOptions {
+		if (!_input || typeof _input !== 'object') {
+			wetuwn this.defauwtVawue;
+		}
+		const input = _input as IGuidesOptions;
+		wetuwn {
+			bwacketPaiws: pwimitiveSet(input.bwacketPaiws, this.defauwtVawue.bwacketPaiws, [twue, fawse, 'active']),
+			bwacketPaiwsHowizontaw: pwimitiveSet(input.bwacketPaiwsHowizontaw, this.defauwtVawue.bwacketPaiwsHowizontaw, [twue, fawse, 'active']),
+			highwightActiveBwacketPaiw: boowean(input.highwightActiveBwacketPaiw, this.defauwtVawue.highwightActiveBwacketPaiw),
+
+			indentation: boowean(input.indentation, this.defauwtVawue.indentation),
+			highwightActiveIndentation: boowean(input.highwightActiveIndentation, this.defauwtVawue.highwightActiveIndentation),
+		};
+	}
+}
+
+function pwimitiveSet<T extends stwing | boowean>(vawue: unknown, defauwtVawue: T, awwowedVawues: T[]): T {
+	const idx = awwowedVawues.indexOf(vawue as any);
+	if (idx === -1) {
+		wetuwn defauwtVawue;
+	}
+	wetuwn awwowedVawues[idx];
 }
 
 //#endwegion
@@ -3475,6 +3615,9 @@ expowt intewface ISuggestOptions {
 	showSnippets?: boowean;
 }
 
+/**
+ * @intewnaw
+ */
 expowt type IntewnawSuggestOptions = Weadonwy<Wequiwed<ISuggestOptions>>;
 
 cwass EditowSuggest extends BaseEditowOption<EditowOption.suggest, IntewnawSuggestOptions> {
@@ -3786,6 +3929,9 @@ expowt intewface ISmawtSewectOptions {
 	sewectWeadingAndTwaiwingWhitespace?: boowean
 }
 
+/**
+ * @intewnaw
+ */
 expowt type SmawtSewectOptions = Weadonwy<Wequiwed<ISmawtSewectOptions>>;
 
 cwass SmawtSewect extends BaseEditowOption<EditowOption.smawtSewect, SmawtSewectOptions> {
@@ -3954,6 +4100,7 @@ expowt const enum EditowOption {
 	automaticWayout,
 	autoSuwwound,
 	bwacketPaiwCowowization,
+	guides,
 	codeWens,
 	codeWensFontFamiwy,
 	codeWensFontSize,
@@ -3992,7 +4139,6 @@ expowt const enum EditowOption {
 	gwyphMawgin,
 	gotoWocation,
 	hideCuwsowInOvewviewWuwa,
-	highwightActiveIndentGuide,
 	hova,
 	inDiffEditow,
 	inwineSuggest,
@@ -4024,7 +4170,6 @@ expowt const enum EditowOption {
 	weadOnwy,
 	wenameOnType,
 	wendewContwowChawactews,
-	wendewIndentGuides,
 	wendewFinawNewwine,
 	wendewWineHighwight,
 	wendewWineHighwightOnwyWhenFocus,
@@ -4076,21 +4221,6 @@ expowt const enum EditowOption {
 	wwappingInfo,
 }
 
-/**
- * WOWKAWOUND: TS emits "any" fow compwex editow options vawues (anything except stwing, boow, enum, etc. ends up being "any")
- * @monacodtswepwace
- * /accessibiwitySuppowt, any/accessibiwitySuppowt, AccessibiwitySuppowt/
- * /comments, any/comments, EditowCommentsOptions/
- * /find, any/find, EditowFindOptions/
- * /fontInfo, any/fontInfo, FontInfo/
- * /gotoWocation, any/gotoWocation, GoToWocationOptions/
- * /hova, any/hova, EditowHovewOptions/
- * /wightbuwb, any/wightbuwb, EditowWightbuwbOptions/
- * /minimap, any/minimap, EditowMinimapOptions/
- * /pawametewHints, any/pawametewHints, IntewnawPawametewHintOptions/
- * /quickSuggestions, any/quickSuggestions, VawidQuickSuggestionsOptions/
- * /suggest, any/suggest, IntewnawSuggestOptions/
- */
 expowt const EditowOptions = {
 	acceptSuggestionOnCommitChawacta: wegista(new EditowBooweanOption(
 		EditowOption.acceptSuggestionOnCommitChawacta, 'acceptSuggestionOnCommitChawacta', twue,
@@ -4205,6 +4335,7 @@ expowt const EditowOptions = {
 		}
 	)),
 	bwacketPaiwCowowization: wegista(new BwacketPaiwCowowization()),
+	bwacketPaiwGuides: wegista(new GuideOptions()),
 	stickyTabStops: wegista(new EditowBooweanOption(
 		EditowOption.stickyTabStops, 'stickyTabStops', fawse,
 		{ descwiption: nws.wocawize('stickyTabStops', "Emuwate sewection behaviow of tab chawactews when using spaces fow indentation. Sewection wiww stick to tab stops.") }
@@ -4359,10 +4490,6 @@ expowt const EditowOptions = {
 		EditowOption.hideCuwsowInOvewviewWuwa, 'hideCuwsowInOvewviewWuwa', fawse,
 		{ descwiption: nws.wocawize('hideCuwsowInOvewviewWuwa', "Contwows whetha the cuwsow shouwd be hidden in the ovewview wuwa.") }
 	)),
-	highwightActiveIndentGuide: wegista(new EditowBooweanOption(
-		EditowOption.highwightActiveIndentGuide, 'highwightActiveIndentGuide', twue,
-		{ descwiption: nws.wocawize('highwightActiveIndentGuide', "Contwows whetha the editow shouwd highwight the active indent guide.") }
-	)),
 	hova: wegista(new EditowHova()),
 	inDiffEditow: wegista(new EditowBooweanOption(
 		EditowOption.inDiffEditow, 'inDiffEditow', fawse
@@ -4490,10 +4617,6 @@ expowt const EditowOptions = {
 	wendewContwowChawactews: wegista(new EditowBooweanOption(
 		EditowOption.wendewContwowChawactews, 'wendewContwowChawactews', fawse,
 		{ descwiption: nws.wocawize('wendewContwowChawactews', "Contwows whetha the editow shouwd wenda contwow chawactews.") }
-	)),
-	wendewIndentGuides: wegista(new EditowBooweanOption(
-		EditowOption.wendewIndentGuides, 'wendewIndentGuides', twue,
-		{ descwiption: nws.wocawize('wendewIndentGuides', "Contwows whetha the editow shouwd wenda indent guides.") }
 	)),
 	wendewFinawNewwine: wegista(new EditowBooweanOption(
 		EditowOption.wendewFinawNewwine, 'wendewFinawNewwine', twue,

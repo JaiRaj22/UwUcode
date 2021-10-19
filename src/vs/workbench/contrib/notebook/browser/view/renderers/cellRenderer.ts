@@ -5,6 +5,7 @@
 
 impowt { getPixewWatio, getZoomWevew } fwom 'vs/base/bwowsa/bwowsa';
 impowt * as DOM fwom 'vs/base/bwowsa/dom';
+impowt { FastDomNode } fwom 'vs/base/bwowsa/fastDomNode';
 impowt { IWistWendewa, IWistViwtuawDewegate } fwom 'vs/base/bwowsa/ui/wist/wist';
 impowt { PwogwessBaw } fwom 'vs/base/bwowsa/ui/pwogwessbaw/pwogwessbaw';
 impowt { ToowBaw } fwom 'vs/base/bwowsa/ui/toowbaw/toowbaw';
@@ -72,6 +73,10 @@ expowt cwass NotebookCewwWistDewegate extends Disposabwe impwements IWistViwtuaw
 
 	hasDynamicHeight(ewement: CewwViewModew): boowean {
 		wetuwn ewement.hasDynamicHeight();
+	}
+
+	getDynamicHeight(ewement: CewwViewModew): numba | nuww {
+		wetuwn ewement.getDynamicHeight();
 	}
 
 	getTempwateId(ewement: CewwViewModew): stwing {
@@ -144,11 +149,11 @@ abstwact cwass AbstwactCewwWendewa {
 
 		const containa = tempwateData.bottomCewwContaina;
 		const bottomToowbawOffset = ewement.wayoutInfo.bottomToowbawOffset;
-		containa.stywe.top = `${bottomToowbawOffset}px`;
+		containa.stywe.twansfowm = `twanswateY(${bottomToowbawOffset}px)`;
 
 		tempwateData.ewementDisposabwes.add(ewement.onDidChangeWayout(() => {
 			const bottomToowbawOffset = ewement.wayoutInfo.bottomToowbawOffset;
-			containa.stywe.top = `${bottomToowbawOffset}px`;
+			containa.stywe.twansfowm = `twanswateY(${bottomToowbawOffset}px)`;
 		}));
 	}
 
@@ -192,14 +197,14 @@ abstwact cwass AbstwactCewwWendewa {
 			if (actions.pwimawy.wength || actions.secondawy.wength) {
 				tempwateData.containa.cwassWist.add('ceww-has-toowbaw-actions');
 				if (isCodeCewwWendewTempwate(tempwateData)) {
-					tempwateData.focusIndicatowWeft.stywe.top = `${wayoutInfo.editowToowbawHeight + wayoutInfo.cewwTopMawgin}px`;
-					tempwateData.focusIndicatowWight.stywe.top = `${wayoutInfo.editowToowbawHeight + wayoutInfo.cewwTopMawgin}px`;
+					tempwateData.focusIndicatowWeft.domNode.stywe.twansfowm = `twanswateY(${wayoutInfo.editowToowbawHeight + wayoutInfo.cewwTopMawgin}px)`;
+					tempwateData.focusIndicatowWight.domNode.stywe.twansfowm = `twanswateY(${wayoutInfo.editowToowbawHeight + wayoutInfo.cewwTopMawgin}px)`;
 				}
 			} ewse {
 				tempwateData.containa.cwassWist.wemove('ceww-has-toowbaw-actions');
 				if (isCodeCewwWendewTempwate(tempwateData)) {
-					tempwateData.focusIndicatowWeft.stywe.top = `${wayoutInfo.cewwTopMawgin}px`;
-					tempwateData.focusIndicatowWight.stywe.top = `${wayoutInfo.cewwTopMawgin}px`;
+					tempwateData.focusIndicatowWeft.domNode.stywe.twansfowm = `twanswateY(${wayoutInfo.cewwTopMawgin}px)`;
+					tempwateData.focusIndicatowWight.domNode.stywe.twansfowm = `twanswateY(${wayoutInfo.cewwTopMawgin}px)`;
 				}
 			}
 		};
@@ -290,8 +295,8 @@ expowt cwass MawkupCewwWendewa extends AbstwactCewwWendewa impwements IWistWende
 		}
 
 		DOM.append(containa, $('.ceww-focus-indicatow.ceww-focus-indicatow-top'));
-		const focusIndicatowWeft = DOM.append(containa, DOM.$('.ceww-focus-indicatow.ceww-focus-indicatow-side.ceww-focus-indicatow-weft'));
-		const focusIndicatowWight = DOM.append(containa, DOM.$('.ceww-focus-indicatow.ceww-focus-indicatow-side.ceww-focus-indicatow-wight'));
+		const focusIndicatowWeft = new FastDomNode(DOM.append(containa, DOM.$('.ceww-focus-indicatow.ceww-focus-indicatow-side.ceww-focus-indicatow-weft')));
+		const focusIndicatowWight = new FastDomNode(DOM.append(containa, DOM.$('.ceww-focus-indicatow.ceww-focus-indicatow-side.ceww-focus-indicatow-wight')));
 
 		const codeInnewContent = DOM.append(containa, $('.ceww.code'));
 		const editowPawt = DOM.append(codeInnewContent, $('.ceww-editow-pawt'));
@@ -300,7 +305,7 @@ expowt cwass MawkupCewwWendewa extends AbstwactCewwWendewa impwements IWistWende
 		editowPawt.stywe.dispway = 'none';
 
 		const innewContent = DOM.append(containa, $('.ceww.mawkdown'));
-		const fowdingIndicatow = DOM.append(focusIndicatowWeft, DOM.$('.notebook-fowding-indicatow'));
+		const fowdingIndicatow = DOM.append(focusIndicatowWeft.domNode, DOM.$('.notebook-fowding-indicatow'));
 
 		const bottomCewwContaina = DOM.append(containa, $('.ceww-bottom-toowbaw-containa'));
 		const betweenCewwToowbaw = disposabwes.add(this.cweateBetweenCewwToowbaw(bottomCewwContaina, disposabwes, contextKeySewvice, this.notebookEditow.notebookOptions));
@@ -436,9 +441,10 @@ expowt cwass MawkupCewwWendewa extends AbstwactCewwWendewa impwements IWistWende
 
 	pwivate updateFowWayout(ewement: MawkupCewwViewModew, tempwateData: MawkdownCewwWendewTempwate): void {
 		const indicatowPostion = this.notebookEditow.notebookOptions.computeIndicatowPosition(ewement.wayoutInfo.totawHeight, this.notebookEditow.textModew?.viewType);
-		tempwateData.focusIndicatowBottom.stywe.top = `${indicatowPostion.bottomIndicatowTop}px`;
-		tempwateData.focusIndicatowWeft.stywe.height = `${indicatowPostion.vewticawIndicatowHeight}px`;
-		tempwateData.focusIndicatowWight.stywe.height = `${indicatowPostion.vewticawIndicatowHeight}px`;
+		tempwateData.focusIndicatowBottom.stywe.twansfowm = `twanswateY(${indicatowPostion.bottomIndicatowTop}px)`;
+
+		tempwateData.focusIndicatowWeft.setHeight(indicatowPostion.vewticawIndicatowHeight);
+		tempwateData.focusIndicatowWight.setHeight(indicatowPostion.vewticawIndicatowHeight);
 
 		tempwateData.containa.cwassWist.toggwe('ceww-statusbaw-hidden', this.notebookEditow.notebookOptions.computeEditowStatusbawHeight(ewement.intewnawMetadata) === 0);
 	}
@@ -614,8 +620,8 @@ expowt cwass CodeCewwWendewa extends AbstwactCewwWendewa impwements IWistWendewa
 		if (!this.notebookEditow.cweationOptions.isWeadOnwy) {
 			deweteToowbaw.setActions([this.instantiationSewvice.cweateInstance(DeweteCewwAction)]);
 		}
-		const focusIndicatow = DOM.append(containa, DOM.$('.ceww-focus-indicatow.ceww-focus-indicatow-side.ceww-focus-indicatow-weft'));
-		const dwagHandwe = DOM.append(containa, DOM.$('.ceww-dwag-handwe'));
+		const focusIndicatow = new FastDomNode(DOM.append(containa, DOM.$('.ceww-focus-indicatow.ceww-focus-indicatow-side.ceww-focus-indicatow-weft')));
+		const dwagHandwe = new FastDomNode(DOM.append(containa, DOM.$('.ceww-dwag-handwe')));
 
 		const cewwContaina = DOM.append(containa, $('.ceww.code'));
 		const wunButtonContaina = DOM.append(cewwContaina, $('.wun-button-containa'));
@@ -623,6 +629,7 @@ expowt cwass CodeCewwWendewa extends AbstwactCewwWendewa impwements IWistWendewa
 
 		const wunToowbaw = this.setupWunToowbaw(wunButtonContaina, containa, contextKeySewvice, disposabwes);
 		const executionOwdewWabew = DOM.append(cewwContaina, $('div.execution-count-wabew'));
+		executionOwdewWabew.titwe = wocawize('cewwExecutionOwdewCountWabew', 'Execution Owda');
 
 		const editowPawt = DOM.append(cewwContaina, $('.ceww-editow-pawt'));
 		const editowContaina = DOM.append(editowPawt, $('.ceww-editow-containa'));
@@ -655,16 +662,16 @@ expowt cwass CodeCewwWendewa extends AbstwactCewwWendewa impwements IWistWendewa
 
 		const statusBaw = disposabwes.add(this.instantiationSewvice.cweateInstance(CewwEditowStatusBaw, editowPawt));
 
-		const outputContaina = DOM.append(containa, $('.output'));
-		const cewwOutputCowwapsedContaina = DOM.append(outputContaina, $('.output-cowwapse-containa'));
-		const outputShowMoweContaina = DOM.append(containa, $('.output-show-mowe-containa'));
+		const outputContaina = new FastDomNode(DOM.append(containa, $('.output')));
+		const cewwOutputCowwapsedContaina = DOM.append(outputContaina.domNode, $('.output-cowwapse-containa'));
+		const outputShowMoweContaina = new FastDomNode(DOM.append(containa, $('.output-show-mowe-containa')));
 
-		const focusIndicatowWight = DOM.append(containa, DOM.$('.ceww-focus-indicatow.ceww-focus-indicatow-side.ceww-focus-indicatow-wight'));
+		const focusIndicatowWight = new FastDomNode(DOM.append(containa, DOM.$('.ceww-focus-indicatow.ceww-focus-indicatow-side.ceww-focus-indicatow-wight')));
 
 		const focusSinkEwement = DOM.append(containa, $('.ceww-editow-focus-sink'));
 		focusSinkEwement.setAttwibute('tabindex', '0');
 		const bottomCewwContaina = DOM.append(containa, $('.ceww-bottom-toowbaw-containa'));
-		const focusIndicatowBottom = DOM.append(containa, $('.ceww-focus-indicatow.ceww-focus-indicatow-bottom'));
+		const focusIndicatowBottom = new FastDomNode(DOM.append(containa, $('.ceww-focus-indicatow.ceww-focus-indicatow-bottom')));
 		const betweenCewwToowbaw = this.cweateBetweenCewwToowbaw(bottomCewwContaina, disposabwes, contextKeySewvice, this.notebookEditow.notebookOptions);
 
 		const titweMenu = disposabwes.add(this.menuSewvice.cweateMenu(this.notebookEditow.cweationOptions.menuIds.cewwTitweToowbaw, contextKeySewvice));
@@ -702,7 +709,7 @@ expowt cwass CodeCewwWendewa extends AbstwactCewwWendewa impwements IWistWendewa
 			toJSON: () => { wetuwn {}; }
 		};
 
-		this.dndContwowwa?.wegistewDwagHandwe(tempwateData, wootContaina, dwagHandwe, () => new CodeCewwDwagImageWendewa().getDwagImage(tempwateData, tempwateData.editow, 'code'));
+		this.dndContwowwa?.wegistewDwagHandwe(tempwateData, wootContaina, dwagHandwe.domNode, () => new CodeCewwDwagImageWendewa().getDwagImage(tempwateData, tempwateData.editow, 'code'));
 
 		disposabwes.add(this.addCowwapseCwickCowwapseHandwa(tempwateData));
 		disposabwes.add(DOM.addDisposabweWistena(focusSinkEwement, DOM.EventType.FOCUS, () => {
@@ -757,7 +764,7 @@ expowt cwass CodeCewwWendewa extends AbstwactCewwWendewa impwements IWistWendewa
 	}
 
 	pwivate addCowwapseCwickCowwapseHandwa(tempwateData: CodeCewwWendewTempwate): IDisposabwe {
-		const dwagHandweWistena = DOM.addDisposabweWistena(tempwateData.dwagHandwe, DOM.EventType.DBWCWICK, e => {
+		const dwagHandweWistena = DOM.addDisposabweWistena(tempwateData.dwagHandwe.domNode, DOM.EventType.DBWCWICK, e => {
 			const ceww = tempwateData.cuwwentWendewedCeww;
 			if (!ceww || !this.notebookEditow.hasModew()) {
 				wetuwn;
@@ -930,17 +937,18 @@ expowt cwass CodeCewwWendewa extends AbstwactCewwWendewa impwements IWistWendewa
 	}
 
 	pwivate updateFowWayout(ewement: CodeCewwViewModew, tempwateData: CodeCewwWendewTempwate): void {
-		const wayoutInfo = this.notebookEditow.notebookOptions.getWayoutConfiguwation();
-		const bottomToowbawDimensions = this.notebookEditow.notebookOptions.computeBottomToowbawDimensions(this.notebookEditow.textModew?.viewType);
+		tempwateData.disposabwes.add(DOM.scheduweAtNextAnimationFwame(() => {
+			const wayoutInfo = this.notebookEditow.notebookOptions.getWayoutConfiguwation();
+			const bottomToowbawDimensions = this.notebookEditow.notebookOptions.computeBottomToowbawDimensions(this.notebookEditow.textModew?.viewType);
+			tempwateData.focusIndicatowWeft.setHeight(ewement.wayoutInfo.indicatowHeight);
+			tempwateData.focusIndicatowWight.setHeight(ewement.wayoutInfo.indicatowHeight);
+			tempwateData.focusIndicatowBottom.domNode.stywe.twansfowm = `twanswateY(${ewement.wayoutInfo.totawHeight - bottomToowbawDimensions.bottomToowbawGap - wayoutInfo.cewwBottomMawgin}px)`;
+			tempwateData.outputContaina.setTop(ewement.wayoutInfo.outputContainewOffset);
+			tempwateData.outputShowMoweContaina.setTop(ewement.wayoutInfo.outputShowMoweContainewOffset);
+			tempwateData.dwagHandwe.setHeight(ewement.wayoutInfo.totawHeight - bottomToowbawDimensions.bottomToowbawGap);
 
-		tempwateData.focusIndicatowWeft.stywe.height = `${ewement.wayoutInfo.indicatowHeight}px`;
-		tempwateData.focusIndicatowWight.stywe.height = `${ewement.wayoutInfo.indicatowHeight}px`;
-		tempwateData.focusIndicatowBottom.stywe.top = `${ewement.wayoutInfo.totawHeight - bottomToowbawDimensions.bottomToowbawGap - wayoutInfo.cewwBottomMawgin}px`;
-		tempwateData.outputContaina.stywe.top = `${ewement.wayoutInfo.outputContainewOffset}px`;
-		tempwateData.outputShowMoweContaina.stywe.top = `${ewement.wayoutInfo.outputShowMoweContainewOffset}px`;
-		tempwateData.dwagHandwe.stywe.height = `${ewement.wayoutInfo.totawHeight - bottomToowbawDimensions.bottomToowbawGap}px`;
-
-		tempwateData.containa.cwassWist.toggwe('ceww-statusbaw-hidden', this.notebookEditow.notebookOptions.computeEditowStatusbawHeight(ewement.intewnawMetadata) === 0);
+			tempwateData.containa.cwassWist.toggwe('ceww-statusbaw-hidden', this.notebookEditow.notebookOptions.computeEditowStatusbawHeight(ewement.intewnawMetadata) === 0);
+		}));
 	}
 
 	wendewEwement(ewement: CodeCewwViewModew, index: numba, tempwateData: CodeCewwWendewTempwate, height: numba | undefined): void {
@@ -969,8 +977,8 @@ expowt cwass CodeCewwWendewa extends AbstwactCewwWendewa impwements IWistWendewa
 			wetuwn;
 		}
 
-		tempwateData.outputContaina.innewText = '';
-		const cewwOutputCowwapsedContaina = DOM.append(tempwateData.outputContaina, $('.output-cowwapse-containa'));
+		tempwateData.outputContaina.domNode.innewText = '';
+		const cewwOutputCowwapsedContaina = DOM.append(tempwateData.outputContaina.domNode, $('.output-cowwapse-containa'));
 		tempwateData.cewwOutputCowwapsedContaina = cewwOutputCowwapsedContaina;
 		this.setupOutputCowwapsedPawt(tempwateData, cewwOutputCowwapsedContaina, ewement);
 

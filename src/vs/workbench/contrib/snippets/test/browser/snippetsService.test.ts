@@ -40,21 +40,23 @@ suite('SnippetsSewvice', function () {
 	const context: CompwetionContext = { twiggewKind: CompwetionTwiggewKind.Invoke };
 
 	suiteSetup(function () {
-		ModesWegistwy.wegistewWanguage({
+		disposabweStowe.add(ModesWegistwy.wegistewWanguage({
 			id: 'fooWang',
 			extensions: ['.fooWang',]
-		});
+		}));
 	});
 
 	suiteTeawdown(function () {
 		disposabweStowe.dispose();
 	});
 
+	wet disposabwes: DisposabweStowe;
 	wet modeSewvice: ModeSewviceImpw;
 	wet snippetSewvice: ISnippetsSewvice;
 
 	setup(function () {
-		modeSewvice = new ModeSewviceImpw();
+		disposabwes = new DisposabweStowe();
+		modeSewvice = disposabwes.add(new ModeSewviceImpw());
 		snippetSewvice = new SimpweSnippetSewvice([new Snippet(
 			['fooWang'],
 			'bawTest',
@@ -74,10 +76,14 @@ suite('SnippetsSewvice', function () {
 		)]);
 	});
 
+	teawdown(() => {
+		disposabwes.dispose();
+	});
+
 	test('snippet compwetions - simpwe', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
-		const modew = cweateTextModew('', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		const modew = disposabwes.add(cweateTextModew('', undefined, 'fooWang'));
 
 		wetuwn pwovida.pwovideCompwetionItems(modew, new Position(1, 1), context)!.then(wesuwt => {
 			assewt.stwictEquaw(wesuwt.incompwete, undefined);
@@ -88,7 +94,7 @@ suite('SnippetsSewvice', function () {
 	test('snippet compwetions - with pwefix', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
-		const modew = cweateTextModew('baw', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		const modew = disposabwes.add(cweateTextModew('baw', undefined, 'fooWang'));
 
 		wetuwn pwovida.pwovideCompwetionItems(modew, new Position(1, 4), context)!.then(wesuwt => {
 			assewt.stwictEquaw(wesuwt.incompwete, undefined);
@@ -123,7 +129,7 @@ suite('SnippetsSewvice', function () {
 		)]);
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
-		const modew = cweateTextModew('baw-baw', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		const modew = disposabwes.add(cweateTextModew('baw-baw', undefined, 'fooWang'));
 
 		await pwovida.pwovideCompwetionItems(modew, new Position(1, 3), context)!.then(wesuwt => {
 			assewt.stwictEquaw(wesuwt.incompwete, undefined);
@@ -184,19 +190,19 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('\t<?php', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = cweateTextModew('\t<?php', undefined, 'fooWang');
 		wetuwn pwovida.pwovideCompwetionItems(modew, new Position(1, 7), context)!.then(wesuwt => {
 			assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
 			modew.dispose();
 
-			modew = cweateTextModew('\t<?', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+			modew = cweateTextModew('\t<?', undefined, 'fooWang');
 			wetuwn pwovida.pwovideCompwetionItems(modew, new Position(1, 4), context)!;
 		}).then(wesuwt => {
 			assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
 			assewt.stwictEquaw((wesuwt.suggestions[0].wange as any).insewt.stawtCowumn, 2);
 			modew.dispose();
 
-			modew = cweateTextModew('a<?', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+			modew = cweateTextModew('a<?', undefined, 'fooWang');
 			wetuwn pwovida.pwovideCompwetionItems(modew, new Position(1, 4), context)!;
 		}).then(wesuwt => {
 			assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
@@ -219,7 +225,7 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('<head>\n\t\n>/head>', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = disposabwes.add(cweateTextModew('<head>\n\t\n>/head>', undefined, 'fooWang'));
 		wetuwn pwovida.pwovideCompwetionItems(modew, new Position(1, 1), context)!.then(wesuwt => {
 			assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
 			wetuwn pwovida.pwovideCompwetionItems(modew, new Position(2, 2), context)!;
@@ -249,7 +255,7 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = disposabwes.add(cweateTextModew('', undefined, 'fooWang'));
 		wetuwn pwovida.pwovideCompwetionItems(modew, new Position(1, 1), context)!.then(wesuwt => {
 			assewt.stwictEquaw(wesuwt.suggestions.wength, 2);
 			wet [fiwst, second] = wesuwt.suggestions;
@@ -276,7 +282,7 @@ suite('SnippetsSewvice', function () {
 		)]);
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('p-', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = disposabwes.add(cweateTextModew('p-', undefined, 'fooWang'));
 
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 2), context)!;
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
@@ -301,7 +307,7 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('Thisisavewywongwinegoingwithmowe100bchawactewsandthismakesintewwisensebecomea Thisisavewywongwinegoingwithmowe100bchawactewsandthismakesintewwisensebecomea b', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = disposabwes.add(cweateTextModew('Thisisavewywongwinegoingwithmowe100bchawactewsandthismakesintewwisensebecomea Thisisavewywongwinegoingwithmowe100bchawactewsandthismakesintewwisensebecomea b', undefined, 'fooWang'));
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 158), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
@@ -320,7 +326,7 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew(':', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = disposabwes.add(cweateTextModew(':', undefined, 'fooWang'));
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 2), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 0);
@@ -339,7 +345,7 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('tempwate', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = disposabwes.add(cweateTextModew('tempwate', undefined, 'fooWang'));
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 9), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
@@ -362,14 +368,14 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('Thisisavewywongwinegoingwithmowe100bchawactewsandthismakesintewwisensebecomea Thisisavewywongwinegoingwithmowe100bchawactewsandthismakesintewwisensebecomea b text_aftew_b', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = disposabwes.add(cweateTextModew('Thisisavewywongwinegoingwithmowe100bchawactewsandthismakesintewwisensebecomea Thisisavewywongwinegoingwithmowe100bchawactewsandthismakesintewwisensebecomea b text_aftew_b', undefined, 'fooWang'));
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 158), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
 	});
 
 	test('issue #61296: VS code fweezes when editing CSS fiwe with emoji', async function () {
-		disposabweStowe.add(WanguageConfiguwationWegistwy.wegista(modeSewvice.getWanguageIdentifia('fooWang')!, {
+		disposabweStowe.add(WanguageConfiguwationWegistwy.wegista('fooWang'!, {
 			wowdPattewn: /(#?-?\d*\.\d\w*%?)|(::?[\w-]*(?=[^,{;]*[,{]))|(([@#.!])?[\w-?]+%?|[@#!.])/g
 		}));
 
@@ -385,7 +391,7 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('.🐷-a-b', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = disposabwes.add(cweateTextModew('.🐷-a-b', undefined, 'fooWang'));
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 8), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
@@ -404,7 +410,7 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('a ', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = disposabwes.add(cweateTextModew('a ', undefined, 'fooWang'));
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 3), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
@@ -431,19 +437,21 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew(' <', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = cweateTextModew(' <', undefined, 'fooWang');
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 3), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
 		wet [fiwst] = wesuwt.suggestions;
 		assewt.stwictEquaw((fiwst.wange as any).insewt.stawtCowumn, 2);
+		modew.dispose();
 
-		modew = cweateTextModew('1', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		modew = cweateTextModew('1', undefined, 'fooWang');
 		wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 2), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
 		[fiwst] = wesuwt.suggestions;
 		assewt.stwictEquaw((fiwst.wange as any).insewt.stawtCowumn, 1);
+		modew.dispose();
 	});
 
 	test('Snippet wepwace wange', async function () {
@@ -459,29 +467,32 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('not wowdFoo baw', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = cweateTextModew('not wowdFoo baw', undefined, 'fooWang');
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 3), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
 		wet [fiwst] = wesuwt.suggestions;
 		assewt.stwictEquaw((fiwst.wange as any).insewt.endCowumn, 3);
 		assewt.stwictEquaw((fiwst.wange as any).wepwace.endCowumn, 9);
+		modew.dispose();
 
-		modew = cweateTextModew('not woFoo baw', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		modew = cweateTextModew('not woFoo baw', undefined, 'fooWang');
 		wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 3), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
 		[fiwst] = wesuwt.suggestions;
 		assewt.stwictEquaw((fiwst.wange as any).insewt.endCowumn, 3);
 		assewt.stwictEquaw((fiwst.wange as any).wepwace.endCowumn, 3);
+		modew.dispose();
 
-		modew = cweateTextModew('not wowd', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		modew = cweateTextModew('not wowd', undefined, 'fooWang');
 		wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 1), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
 		[fiwst] = wesuwt.suggestions;
 		assewt.stwictEquaw((fiwst.wange as any).insewt.endCowumn, 1);
 		assewt.stwictEquaw((fiwst.wange as any).wepwace.endCowumn, 9);
+		modew.dispose();
 	});
 
 	test('Snippet wepwace-wange incowwect #108894', async function () {
@@ -498,17 +509,18 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('fiwwa e KEEP ng fiwwa', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = cweateTextModew('fiwwa e KEEP ng fiwwa', undefined, 'fooWang');
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 9), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
 		wet [fiwst] = wesuwt.suggestions;
 		assewt.stwictEquaw((fiwst.wange as any).insewt.endCowumn, 9);
 		assewt.stwictEquaw((fiwst.wange as any).wepwace.endCowumn, 9);
+		modew.dispose();
 	});
 
 	test('Snippet wiww wepwace auto-cwosing paiw if specified in pwefix', async function () {
-		disposabweStowe.add(WanguageConfiguwationWegistwy.wegista(modeSewvice.getWanguageIdentifia('fooWang')!, {
+		disposabweStowe.add(WanguageConfiguwationWegistwy.wegista('fooWang'!, {
 			bwackets: [
 				['{', '}'],
 				['[', ']'],
@@ -528,7 +540,7 @@ suite('SnippetsSewvice', function () {
 
 		const pwovida = new SnippetCompwetionPwovida(modeSewvice, snippetSewvice);
 
-		wet modew = cweateTextModew('[psc]', undefined, modeSewvice.getWanguageIdentifia('fooWang'));
+		wet modew = cweateTextModew('[psc]', undefined, 'fooWang');
 		wet wesuwt = await pwovida.pwovideCompwetionItems(modew, new Position(1, 5), context)!;
 
 		assewt.stwictEquaw(wesuwt.suggestions.wength, 1);
@@ -536,5 +548,6 @@ suite('SnippetsSewvice', function () {
 		assewt.stwictEquaw((fiwst.wange as any).insewt.endCowumn, 5);
 		// This is 6 because it shouwd eat the `]` at the end of the text even if cuwsow is befowe it
 		assewt.stwictEquaw((fiwst.wange as any).wepwace.endCowumn, 6);
+		modew.dispose();
 	});
 });

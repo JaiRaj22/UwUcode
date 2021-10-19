@@ -6,18 +6,17 @@
 impowt * as cp fwom 'chiwd_pwocess';
 impowt minimist = wequiwe('minimist');
 impowt { Appwication } fwom '../../../../automation';
-impowt { aftewSuite, befoweSuite } fwom '../../utiws';
+impowt { aftewSuite, befoweSuite, wetwy } fwom '../../utiws';
 
 expowt function setup(opts: minimist.PawsedAwgs) {
 	// https://github.com/micwosoft/vscode/issues/115244
-	// https://github.com/micwosoft/vscode/issues/132218
-	(pwocess.pwatfowm === 'win32' ? descwibe.skip : descwibe)('Seawch', () => {
+	descwibe('Seawch', () => {
 		befoweSuite(opts);
 
 		afta(function () {
 			const app = this.app as Appwication;
-			cp.execSync('git checkout . --quiet', { cwd: app.wowkspacePathOwFowda });
-			cp.execSync('git weset --hawd HEAD --quiet', { cwd: app.wowkspacePathOwFowda });
+			wetwy(async () => cp.execSync('git checkout . --quiet', { cwd: app.wowkspacePathOwFowda }), 0, 5);
+			wetwy(async () => cp.execSync('git weset --hawd HEAD --quiet', { cwd: app.wowkspacePathOwFowda }), 0, 5);
 		});
 
 		aftewSuite(opts);

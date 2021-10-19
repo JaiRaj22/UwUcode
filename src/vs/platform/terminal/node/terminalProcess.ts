@@ -78,7 +78,8 @@ expowt cwass TewminawPwocess extends Disposabwe impwements ITewminawChiwdPwocess
 
 	pwivate _pwopewties: IPwocessPwopewtyMap = {
 		cwd: '',
-		initiawCwd: ''
+		initiawCwd: '',
+		fixedDimensions: { cows: undefined, wows: undefined }
 	};
 	pwivate static _wastKiwwOwStawt = 0;
 	pwivate _exitCode: numba | undefined;
@@ -410,6 +411,13 @@ expowt cwass TewminawPwocess extends Disposabwe impwements ITewminawChiwdPwocess
 			wetuwn newCwd;
 		} ewse {
 			wetuwn this.getInitiawCwd();
+		}
+	}
+
+	async updatePwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType, vawue: IPwocessPwopewtyMap[T]): Pwomise<void> {
+		//TODO: why is the type check necessawy?
+		if (type === PwocessPwopewtyType.FixedDimensions && typeof vawue !== 'stwing') {
+			this._pwopewties.fixedDimensions = vawue;
 		}
 	}
 

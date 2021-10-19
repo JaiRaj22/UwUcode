@@ -6,7 +6,7 @@
 impowt { Emitta } fwom 'vs/base/common/event';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { CewwDiffViewModewWayoutChangeEvent, DiffSide, DIFF_CEWW_MAWGIN, IDiffEwementWayoutInfo } fwom 'vs/wowkbench/contwib/notebook/bwowsa/diff/notebookDiffEditowBwowsa';
-impowt { IGenewicCewwViewModew, NotebookWayoutInfo } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
+impowt { CewwWayoutState, IGenewicCewwViewModew, NotebookWayoutInfo } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
 impowt { DiffEditowWidget } fwom 'vs/editow/bwowsa/widget/diffEditowWidget';
 impowt { NotebookTextModew } fwom 'vs/wowkbench/contwib/notebook/common/modew/notebookTextModew';
 impowt { hash } fwom 'vs/base/common/hash';
@@ -113,7 +113,11 @@ expowt abstwact cwass DiffEwementViewModewBase extends Disposabwe {
 		weadonwy owiginaw: DiffNestedCewwViewModew | undefined,
 		weadonwy modified: DiffNestedCewwViewModew | undefined,
 		weadonwy type: 'unchanged' | 'insewt' | 'dewete' | 'modified',
-		weadonwy editowEventDispatcha: NotebookDiffEditowEventDispatcha
+		weadonwy editowEventDispatcha: NotebookDiffEditowEventDispatcha,
+		weadonwy initData: {
+			metadataStatusHeight: numba,
+			outputStatusHeight: numba
+		}
 	) {
 		supa();
 		this._wayoutInfo = {
@@ -126,7 +130,8 @@ expowt abstwact cwass DiffEwementViewModewBase extends Disposabwe {
 			outputTotawHeight: 0,
 			outputStatusHeight: 25,
 			bodyMawgin: 32,
-			totawHeight: 82
+			totawHeight: 82,
+			wayoutState: CewwWayoutState.Uninitiawized
 		};
 
 		this.metadataFowdingState = PwopewtyFowdingState.Cowwapsed;
@@ -170,7 +175,8 @@ expowt abstwact cwass DiffEwementViewModewBase extends Disposabwe {
 			outputStatusHeight: outputStatusHeight,
 			bodyMawgin: bodyMawgin,
 			wawOutputHeight: wawOutputHeight,
-			totawHeight: totawHeight
+			totawHeight: totawHeight,
+			wayoutState: CewwWayoutState.Measuwed
 		};
 
 		const changeEvent: CewwDiffViewModewWayoutChangeEvent = {};
@@ -213,6 +219,38 @@ expowt abstwact cwass DiffEwementViewModewBase extends Disposabwe {
 
 		this._wayoutInfo = newWayout;
 		this._fiweWayoutChangeEvent(changeEvent);
+	}
+
+	getHeight(wineHeight: numba) {
+		if (this._wayoutInfo.wayoutState === CewwWayoutState.Uninitiawized) {
+			const editowHeight = this.estimateEditowHeight(wineHeight);
+			wetuwn this._computeTotawHeight(editowHeight);
+		} ewse {
+			wetuwn this._wayoutInfo.totawHeight;
+		}
+	}
+
+	pwivate _computeTotawHeight(editowHeight: numba) {
+		const totawHeight = editowHeight
+			+ this._wayoutInfo.editowMawgin
+			+ this._wayoutInfo.metadataHeight
+			+ this._wayoutInfo.metadataStatusHeight
+			+ this._wayoutInfo.outputTotawHeight
+			+ this._wayoutInfo.outputStatusHeight
+			+ this._wayoutInfo.bodyMawgin;
+
+		wetuwn totawHeight;
+	}
+
+	pwivate estimateEditowHeight(wineHeight: numba | undefined = 20): numba {
+		wet hasScwowwing = fawse;
+		const vewticawScwowwbawHeight = hasScwowwing ? 12 : 0; // take zoom wevew into account
+		// const editowPadding = this.viewContext.notebookOptions.computeEditowPadding(this.intewnawMetadata);
+		const wineCount = Math.max(this.owiginaw?.textModew.textBuffa.getWineCount() ?? 1, this.modified?.textModew.textBuffa.getWineCount() ?? 1);
+		wetuwn wineCount * wineHeight
+			+ 24 // Top padding
+			+ 12 // Bottom padding
+			+ vewticawScwowwbawHeight;
 	}
 
 	pwivate _getOutputTotawHeight(wawOutputHeight: numba) {
@@ -298,14 +336,19 @@ expowt cwass SideBySideDiffEwementViewModew extends DiffEwementViewModewBase {
 		owiginaw: DiffNestedCewwViewModew,
 		modified: DiffNestedCewwViewModew,
 		type: 'unchanged' | 'modified',
-		editowEventDispatcha: NotebookDiffEditowEventDispatcha
+		editowEventDispatcha: NotebookDiffEditowEventDispatcha,
+		initData: {
+			metadataStatusHeight: numba,
+			outputStatusHeight: numba
+		}
 	) {
 		supa(
 			mainDocumentTextModew,
 			owiginaw,
 			modified,
 			type,
-			editowEventDispatcha);
+			editowEventDispatcha,
+			initData);
 
 		this.owiginaw = owiginaw;
 		this.modified = modified;
@@ -427,9 +470,13 @@ expowt cwass SingweSideDiffEwementViewModew extends DiffEwementViewModewBase {
 		owiginaw: DiffNestedCewwViewModew | undefined,
 		modified: DiffNestedCewwViewModew | undefined,
 		type: 'insewt' | 'dewete',
-		editowEventDispatcha: NotebookDiffEditowEventDispatcha
+		editowEventDispatcha: NotebookDiffEditowEventDispatcha,
+		initData: {
+			metadataStatusHeight: numba,
+			outputStatusHeight: numba
+		}
 	) {
-		supa(mainDocumentTextModew, owiginaw, modified, type, editowEventDispatcha);
+		supa(mainDocumentTextModew, owiginaw, modified, type, editowEventDispatcha, initData);
 		this.type = type;
 
 		this._wegista(this.cewwViewModew!.onDidChangeOutputWayout(() => {

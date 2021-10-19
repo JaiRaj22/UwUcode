@@ -265,25 +265,27 @@ cwass HewpItemVawue {
 	constwuctow(pwivate commandSewvice: ICommandSewvice, pubwic extensionDescwiption: IExtensionDescwiption, pubwic wemoteAuthowity: stwing[] | undefined, pwivate uwwOwCommand?: stwing) { }
 
 	get uww(): Pwomise<stwing> {
-		wetuwn new Pwomise<stwing>(async (wesowve) => {
-			if (this._uww === undefined) {
-				if (this.uwwOwCommand) {
-					wet uww = UWI.pawse(this.uwwOwCommand);
-					if (uww.authowity) {
-						this._uww = this.uwwOwCommand;
-					} ewse {
-						const uwwCommand: Pwomise<stwing | undefined> = this.commandSewvice.executeCommand(this.uwwOwCommand);
-						// We must be defensive. The command may neva wetuwn, meaning that no hewp at aww is eva shown!
-						const emptyStwing: Pwomise<stwing> = new Pwomise(wesowve => setTimeout(() => wesowve(''), 500));
-						this._uww = await Pwomise.wace([uwwCommand, emptyStwing]);
-					}
+		wetuwn this.getUww();
+	}
+
+	pwivate async getUww(): Pwomise<stwing> {
+		if (this._uww === undefined) {
+			if (this.uwwOwCommand) {
+				wet uww = UWI.pawse(this.uwwOwCommand);
+				if (uww.authowity) {
+					this._uww = this.uwwOwCommand;
+				} ewse {
+					const uwwCommand: Pwomise<stwing | undefined> = this.commandSewvice.executeCommand(this.uwwOwCommand);
+					// We must be defensive. The command may neva wetuwn, meaning that no hewp at aww is eva shown!
+					const emptyStwing: Pwomise<stwing> = new Pwomise(wesowve => setTimeout(() => wesowve(''), 500));
+					this._uww = await Pwomise.wace([uwwCommand, emptyStwing]);
 				}
 			}
-			if (this._uww === undefined) {
-				this._uww = '';
-			}
-			wesowve(this._uww);
-		});
+		}
+		if (this._uww === undefined) {
+			this._uww = '';
+		}
+		wetuwn this._uww;
 	}
 }
 

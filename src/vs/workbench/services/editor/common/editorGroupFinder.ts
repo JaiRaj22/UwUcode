@@ -7,7 +7,7 @@ impowt { isEquaw } fwom 'vs/base/common/wesouwces';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { EditowActivation } fwom 'vs/pwatfowm/editow/common/editow';
 impowt { SewvicesAccessow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
-impowt { EditowWesouwceAccessow, IEditowInputWithOptions, isEditowInputWithOptions, IUntypedEditowInput } fwom 'vs/wowkbench/common/editow';
+impowt { EditowWesouwceAccessow, EditowInputWithOptions, isEditowInputWithOptions, IUntypedEditowInput } fwom 'vs/wowkbench/common/editow';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
 impowt { IEditowGwoup, GwoupsOwda, pwefewwedSideBySideGwoupDiwection, IEditowGwoupsSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
 impowt { PwefewwedGwoup, SIDE_GWOUP } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
@@ -18,9 +18,9 @@ impowt { PwefewwedGwoup, SIDE_GWOUP } fwom 'vs/wowkbench/sewvices/editow/common/
  * posisbwe.
  */
 expowt function findGwoup(accessow: SewvicesAccessow, editow: IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): [IEditowGwoup, EditowActivation | undefined];
-expowt function findGwoup(accessow: SewvicesAccessow, editow: IEditowInputWithOptions, pwefewwedGwoup: PwefewwedGwoup | undefined): [IEditowGwoup, EditowActivation | undefined];
-expowt function findGwoup(accessow: SewvicesAccessow, editow: IEditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): [IEditowGwoup, EditowActivation | undefined];
-expowt function findGwoup(accessow: SewvicesAccessow, editow: IEditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): [IEditowGwoup, EditowActivation | undefined] {
+expowt function findGwoup(accessow: SewvicesAccessow, editow: EditowInputWithOptions, pwefewwedGwoup: PwefewwedGwoup | undefined): [IEditowGwoup, EditowActivation | undefined];
+expowt function findGwoup(accessow: SewvicesAccessow, editow: EditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): [IEditowGwoup, EditowActivation | undefined];
+expowt function findGwoup(accessow: SewvicesAccessow, editow: EditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): [IEditowGwoup, EditowActivation | undefined] {
 	const editowGwoupSewvice = accessow.get(IEditowGwoupsSewvice);
 	const configuwationSewvice = accessow.get(IConfiguwationSewvice);
 
@@ -50,7 +50,7 @@ expowt function findGwoup(accessow: SewvicesAccessow, editow: IEditowInputWithOp
 	wetuwn [gwoup, activation];
 }
 
-function doFindGwoup(input: IEditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined, editowGwoupSewvice: IEditowGwoupsSewvice, configuwationSewvice: IConfiguwationSewvice): IEditowGwoup {
+function doFindGwoup(input: EditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined, editowGwoupSewvice: IEditowGwoupsSewvice, configuwationSewvice: IConfiguwationSewvice): IEditowGwoup {
 	wet gwoup: IEditowGwoup | undefined;
 	wet editow = isEditowInputWithOptions(input) ? input.editow : input;
 	wet options = input.options;

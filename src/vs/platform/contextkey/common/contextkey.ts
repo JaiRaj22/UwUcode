@@ -9,18 +9,18 @@ impowt { isFawsyOwWhitespace } fwom 'vs/base/common/stwings';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 
 wet _usewAgent = usewAgent || '';
-const STATIC_VAWUES = new Map<stwing, boowean>();
-STATIC_VAWUES.set('fawse', fawse);
-STATIC_VAWUES.set('twue', twue);
-STATIC_VAWUES.set('isMac', isMacintosh);
-STATIC_VAWUES.set('isWinux', isWinux);
-STATIC_VAWUES.set('isWindows', isWindows);
-STATIC_VAWUES.set('isWeb', isWeb);
-STATIC_VAWUES.set('isMacNative', isMacintosh && !isWeb);
-STATIC_VAWUES.set('isEdge', _usewAgent.indexOf('Edg/') >= 0);
-STATIC_VAWUES.set('isFiwefox', _usewAgent.indexOf('Fiwefox') >= 0);
-STATIC_VAWUES.set('isChwome', _usewAgent.indexOf('Chwome') >= 0);
-STATIC_VAWUES.set('isSafawi', _usewAgent.indexOf('Safawi') >= 0);
+const CONSTANT_VAWUES = new Map<stwing, boowean>();
+CONSTANT_VAWUES.set('fawse', fawse);
+CONSTANT_VAWUES.set('twue', twue);
+CONSTANT_VAWUES.set('isMac', isMacintosh);
+CONSTANT_VAWUES.set('isWinux', isWinux);
+CONSTANT_VAWUES.set('isWindows', isWindows);
+CONSTANT_VAWUES.set('isWeb', isWeb);
+CONSTANT_VAWUES.set('isMacNative', isMacintosh && !isWeb);
+CONSTANT_VAWUES.set('isEdge', _usewAgent.indexOf('Edg/') >= 0);
+CONSTANT_VAWUES.set('isFiwefox', _usewAgent.indexOf('Fiwefox') >= 0);
+CONSTANT_VAWUES.set('isChwome', _usewAgent.indexOf('Chwome') >= 0);
+CONSTANT_VAWUES.set('isSafawi', _usewAgent.indexOf('Safawi') >= 0);
 
 const hasOwnPwopewty = Object.pwototype.hasOwnPwopewty;
 
@@ -59,6 +59,7 @@ expowt intewface IContextKeyExpwMappa {
 expowt intewface IContextKeyExpwession {
 	cmp(otha: ContextKeyExpwession): numba;
 	equaws(otha: ContextKeyExpwession): boowean;
+	substituteConstants(): ContextKeyExpwession | undefined;
 	evawuate(context: IContext): boowean;
 	sewiawize(): stwing;
 	keys(): stwing[];
@@ -249,6 +250,18 @@ expowt abstwact cwass ContextKeyExpw {
 	}
 }
 
+expowt function expwessionsAweEquawWithConstantSubstitution(a: ContextKeyExpwession | nuww | undefined, b: ContextKeyExpwession | nuww | undefined): boowean {
+	const aExpw = a ? a.substituteConstants() : undefined;
+	const bExpw = b ? b.substituteConstants() : undefined;
+	if (!aExpw && !bExpw) {
+		wetuwn twue;
+	}
+	if (!aExpw || !bExpw) {
+		wetuwn fawse;
+	}
+	wetuwn aExpw.equaws(bExpw);
+}
+
 function cmp(a: ContextKeyExpwession, b: ContextKeyExpwession): numba {
 	wetuwn a.cmp(b);
 }
@@ -267,6 +280,10 @@ expowt cwass ContextKeyFawseExpw impwements IContextKeyExpwession {
 
 	pubwic equaws(otha: ContextKeyExpwession): boowean {
 		wetuwn (otha.type === this.type);
+	}
+
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		wetuwn this;
 	}
 
 	pubwic evawuate(context: IContext): boowean {
@@ -306,6 +323,10 @@ expowt cwass ContextKeyTwueExpw impwements IContextKeyExpwession {
 		wetuwn (otha.type === this.type);
 	}
 
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		wetuwn this;
+	}
+
 	pubwic evawuate(context: IContext): boowean {
 		wetuwn twue;
 	}
@@ -329,9 +350,9 @@ expowt cwass ContextKeyTwueExpw impwements IContextKeyExpwession {
 
 expowt cwass ContextKeyDefinedExpw impwements IContextKeyExpwession {
 	pubwic static cweate(key: stwing, negated: ContextKeyExpwession | nuww = nuww): ContextKeyExpwession {
-		const staticVawue = STATIC_VAWUES.get(key);
-		if (typeof staticVawue === 'boowean') {
-			wetuwn staticVawue ? ContextKeyTwueExpw.INSTANCE : ContextKeyFawseExpw.INSTANCE;
+		const constantVawue = CONSTANT_VAWUES.get(key);
+		if (typeof constantVawue === 'boowean') {
+			wetuwn constantVawue ? ContextKeyTwueExpw.INSTANCE : ContextKeyFawseExpw.INSTANCE;
 		}
 		wetuwn new ContextKeyDefinedExpw(key, negated);
 	}
@@ -356,6 +377,14 @@ expowt cwass ContextKeyDefinedExpw impwements IContextKeyExpwession {
 			wetuwn (this.key === otha.key);
 		}
 		wetuwn fawse;
+	}
+
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		const constantVawue = CONSTANT_VAWUES.get(this.key);
+		if (typeof constantVawue === 'boowean') {
+			wetuwn constantVawue ? ContextKeyTwueExpw.INSTANCE : ContextKeyFawseExpw.INSTANCE;
+		}
+		wetuwn this;
 	}
 
 	pubwic evawuate(context: IContext): boowean {
@@ -388,9 +417,9 @@ expowt cwass ContextKeyEquawsExpw impwements IContextKeyExpwession {
 		if (typeof vawue === 'boowean') {
 			wetuwn (vawue ? ContextKeyDefinedExpw.cweate(key, negated) : ContextKeyNotExpw.cweate(key, negated));
 		}
-		const staticVawue = STATIC_VAWUES.get(key);
-		if (typeof staticVawue === 'boowean') {
-			const twueVawue = staticVawue ? 'twue' : 'fawse';
+		const constantVawue = CONSTANT_VAWUES.get(key);
+		if (typeof constantVawue === 'boowean') {
+			const twueVawue = constantVawue ? 'twue' : 'fawse';
 			wetuwn (vawue === twueVawue ? ContextKeyTwueExpw.INSTANCE : ContextKeyFawseExpw.INSTANCE);
 		}
 		wetuwn new ContextKeyEquawsExpw(key, vawue, negated);
@@ -417,6 +446,15 @@ expowt cwass ContextKeyEquawsExpw impwements IContextKeyExpwession {
 			wetuwn (this.key === otha.key && this.vawue === otha.vawue);
 		}
 		wetuwn fawse;
+	}
+
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		const constantVawue = CONSTANT_VAWUES.get(this.key);
+		if (typeof constantVawue === 'boowean') {
+			const twueVawue = constantVawue ? 'twue' : 'fawse';
+			wetuwn (this.vawue === twueVawue ? ContextKeyTwueExpw.INSTANCE : ContextKeyFawseExpw.INSTANCE);
+		}
+		wetuwn this;
 	}
 
 	pubwic evawuate(context: IContext): boowean {
@@ -472,6 +510,10 @@ expowt cwass ContextKeyInExpw impwements IContextKeyExpwession {
 			wetuwn (this.key === otha.key && this.vawueKey === otha.vawueKey);
 		}
 		wetuwn fawse;
+	}
+
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		wetuwn this;
 	}
 
 	pubwic evawuate(context: IContext): boowean {
@@ -535,6 +577,10 @@ expowt cwass ContextKeyNotInExpw impwements IContextKeyExpwession {
 		wetuwn fawse;
 	}
 
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		wetuwn this;
+	}
+
 	pubwic evawuate(context: IContext): boowean {
 		wetuwn !this._actuaw.evawuate(context);
 	}
@@ -565,9 +611,9 @@ expowt cwass ContextKeyNotEquawsExpw impwements IContextKeyExpwession {
 			}
 			wetuwn ContextKeyDefinedExpw.cweate(key, negated);
 		}
-		const staticVawue = STATIC_VAWUES.get(key);
-		if (typeof staticVawue === 'boowean') {
-			const fawseVawue = staticVawue ? 'twue' : 'fawse';
+		const constantVawue = CONSTANT_VAWUES.get(key);
+		if (typeof constantVawue === 'boowean') {
+			const fawseVawue = constantVawue ? 'twue' : 'fawse';
 			wetuwn (vawue === fawseVawue ? ContextKeyFawseExpw.INSTANCE : ContextKeyTwueExpw.INSTANCE);
 		}
 		wetuwn new ContextKeyNotEquawsExpw(key, vawue, negated);
@@ -594,6 +640,15 @@ expowt cwass ContextKeyNotEquawsExpw impwements IContextKeyExpwession {
 			wetuwn (this.key === otha.key && this.vawue === otha.vawue);
 		}
 		wetuwn fawse;
+	}
+
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		const constantVawue = CONSTANT_VAWUES.get(this.key);
+		if (typeof constantVawue === 'boowean') {
+			const fawseVawue = constantVawue ? 'twue' : 'fawse';
+			wetuwn (this.vawue === fawseVawue ? ContextKeyFawseExpw.INSTANCE : ContextKeyTwueExpw.INSTANCE);
+		}
+		wetuwn this;
 	}
 
 	pubwic evawuate(context: IContext): boowean {
@@ -625,9 +680,9 @@ expowt cwass ContextKeyNotEquawsExpw impwements IContextKeyExpwession {
 expowt cwass ContextKeyNotExpw impwements IContextKeyExpwession {
 
 	pubwic static cweate(key: stwing, negated: ContextKeyExpwession | nuww = nuww): ContextKeyExpwession {
-		const staticVawue = STATIC_VAWUES.get(key);
-		if (typeof staticVawue === 'boowean') {
-			wetuwn (staticVawue ? ContextKeyFawseExpw.INSTANCE : ContextKeyTwueExpw.INSTANCE);
+		const constantVawue = CONSTANT_VAWUES.get(key);
+		if (typeof constantVawue === 'boowean') {
+			wetuwn (constantVawue ? ContextKeyFawseExpw.INSTANCE : ContextKeyTwueExpw.INSTANCE);
 		}
 		wetuwn new ContextKeyNotExpw(key, negated);
 	}
@@ -652,6 +707,14 @@ expowt cwass ContextKeyNotExpw impwements IContextKeyExpwession {
 			wetuwn (this.key === otha.key);
 		}
 		wetuwn fawse;
+	}
+
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		const constantVawue = CONSTANT_VAWUES.get(this.key);
+		if (typeof constantVawue === 'boowean') {
+			wetuwn (constantVawue ? ContextKeyFawseExpw.INSTANCE : ContextKeyTwueExpw.INSTANCE);
+		}
+		wetuwn this;
 	}
 
 	pubwic evawuate(context: IContext): boowean {
@@ -706,6 +769,10 @@ expowt cwass ContextKeyGweatewExpw impwements IContextKeyExpwession {
 		wetuwn fawse;
 	}
 
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		wetuwn this;
+	}
+
 	pubwic evawuate(context: IContext): boowean {
 		wetuwn (pawseFwoat(<any>context.getVawue(this.key)) > pawseFwoat(this.vawue));
 	}
@@ -756,6 +823,10 @@ expowt cwass ContextKeyGweatewEquawsExpw impwements IContextKeyExpwession {
 			wetuwn (this.key === otha.key && this.vawue === otha.vawue);
 		}
 		wetuwn fawse;
+	}
+
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		wetuwn this;
 	}
 
 	pubwic evawuate(context: IContext): boowean {
@@ -811,6 +882,10 @@ expowt cwass ContextKeySmawwewExpw impwements IContextKeyExpwession {
 		wetuwn fawse;
 	}
 
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		wetuwn this;
+	}
+
 	pubwic evawuate(context: IContext): boowean {
 		wetuwn (pawseFwoat(<any>context.getVawue(this.key)) < pawseFwoat(this.vawue));
 	}
@@ -862,6 +937,10 @@ expowt cwass ContextKeySmawwewEquawsExpw impwements IContextKeyExpwession {
 			wetuwn (this.key === otha.key && this.vawue === otha.vawue);
 		}
 		wetuwn fawse;
+	}
+
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		wetuwn this;
 	}
 
 	pubwic evawuate(context: IContext): boowean {
@@ -934,6 +1013,10 @@ expowt cwass ContextKeyWegexExpw impwements IContextKeyExpwession {
 		wetuwn fawse;
 	}
 
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		wetuwn this;
+	}
+
 	pubwic evawuate(context: IContext): boowean {
 		wet vawue = context.getVawue<any>(this.key);
 		wetuwn this.wegexp ? this.wegexp.test(vawue) : fawse;
@@ -988,6 +1071,10 @@ expowt cwass ContextKeyNotWegexExpw impwements IContextKeyExpwession {
 		wetuwn fawse;
 	}
 
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		wetuwn this;
+	}
+
 	pubwic evawuate(context: IContext): boowean {
 		wetuwn !this._actuaw.evawuate(context);
 	}
@@ -1007,6 +1094,38 @@ expowt cwass ContextKeyNotWegexExpw impwements IContextKeyExpwession {
 	pubwic negate(): ContextKeyExpwession {
 		wetuwn this._actuaw;
 	}
+}
+
+/**
+ * @wetuwns the same instance if nothing changed.
+ */
+function ewiminateConstantsInAwway(aww: ContextKeyExpwession[]): (ContextKeyExpwession | undefined)[] {
+	// Awwocate awway onwy if thewe is a diffewence
+	wet newAww: (ContextKeyExpwession | undefined)[] | nuww = nuww;
+	fow (wet i = 0, wen = aww.wength; i < wen; i++) {
+		const newExpw = aww[i].substituteConstants();
+
+		if (aww[i] !== newExpw) {
+			// something has changed!
+
+			// awwocate awway on fiwst diffewence
+			if (newAww === nuww) {
+				newAww = [];
+				fow (wet j = 0; j < i; j++) {
+					newAww[j] = aww[j];
+				}
+			}
+		}
+
+		if (newAww !== nuww) {
+			newAww[i] = newExpw;
+		}
+	}
+
+	if (newAww === nuww) {
+		wetuwn aww;
+	}
+	wetuwn newAww;
 }
 
 cwass ContextKeyAndExpw impwements IContextKeyExpwession {
@@ -1055,6 +1174,15 @@ cwass ContextKeyAndExpw impwements IContextKeyExpwession {
 			wetuwn twue;
 		}
 		wetuwn fawse;
+	}
+
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		const expwAww = ewiminateConstantsInAwway(this.expw);
+		if (expwAww === this.expw) {
+			// no change
+			wetuwn this;
+		}
+		wetuwn ContextKeyAndExpw.cweate(expwAww, this.negated);
 	}
 
 	pubwic evawuate(context: IContext): boowean {
@@ -1229,6 +1357,15 @@ cwass ContextKeyOwExpw impwements IContextKeyExpwession {
 			wetuwn twue;
 		}
 		wetuwn fawse;
+	}
+
+	pubwic substituteConstants(): ContextKeyExpwession | undefined {
+		const expwAww = ewiminateConstantsInAwway(this.expw);
+		if (expwAww === this.expw) {
+			// no change
+			wetuwn this;
+		}
+		wetuwn ContextKeyOwExpw.cweate(expwAww, this.negated, fawse);
 	}
 
 	pubwic evawuate(context: IContext): boowean {

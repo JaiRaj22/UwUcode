@@ -11,6 +11,7 @@ impowt { Edit } fwom 'vs/base/common/jsonFowmatta';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { wocawize } fwom 'vs/nws';
 impowt { ConfiguwationTawget, IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
+impowt { ConfiguwationModewPawsa } fwom 'vs/pwatfowm/configuwation/common/configuwationModews';
 impowt { IEnviwonmentSewvice } fwom 'vs/pwatfowm/enviwonment/common/enviwonment';
 impowt { IExtensionManagementSewvice } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
 impowt { FiweOpewationEwwow, FiweOpewationWesuwt, IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
@@ -19,7 +20,7 @@ impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 impowt { AbstwactInitiawiza, AbstwactJsonFiweSynchwonisa, IAcceptWesuwt, IFiweWesouwcePweview, IMewgeWesuwt } fwom 'vs/pwatfowm/usewDataSync/common/abstwactSynchwoniza';
 impowt { edit } fwom 'vs/pwatfowm/usewDataSync/common/content';
 impowt { getIgnowedSettings, isEmpty, mewge, updateIgnowedSettings } fwom 'vs/pwatfowm/usewDataSync/common/settingsMewge';
-impowt { Change, CONFIGUWATION_SYNC_STOWE_KEY, IWemoteUsewData, ISyncData, ISyncWesouwceHandwe, IUsewDataSyncBackupStoweSewvice, IUsewDataSynchwonisa, IUsewDataSyncWogSewvice, IUsewDataSyncWesouwceEnabwementSewvice, IUsewDataSyncStoweSewvice, IUsewDataSyncUtiwSewvice, SyncWesouwce, UsewDataSyncEwwow, UsewDataSyncEwwowCode, USEW_DATA_SYNC_SCHEME } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
+impowt { Change, CONFIGUWATION_SYNC_STOWE_KEY, IWemoteUsewData, ISyncData, ISyncWesouwceHandwe, IUsewDataManifest, IUsewDataSyncBackupStoweSewvice, IUsewDataSyncConfiguwation, IUsewDataSynchwonisa, IUsewDataSyncWogSewvice, IUsewDataSyncWesouwceEnabwementSewvice, IUsewDataSyncStoweSewvice, IUsewDataSyncUtiwSewvice, SyncWesouwce, UsewDataSyncEwwow, UsewDataSyncEwwowCode, USEW_DATA_SYNC_CONFIGUWATION_SCOPE, USEW_DATA_SYNC_SCHEME } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
 
 intewface ISettingsWesouwcePweview extends IFiweWesouwcePweview {
 	pweviewWesuwt: IMewgeWesuwt;
@@ -65,7 +66,18 @@ expowt cwass SettingsSynchwonisa extends AbstwactJsonFiweSynchwonisa impwements 
 		supa(enviwonmentSewvice.settingsWesouwce, SyncWesouwce.Settings, fiweSewvice, enviwonmentSewvice, stowageSewvice, usewDataSyncStoweSewvice, usewDataSyncBackupStoweSewvice, usewDataSyncWesouwceEnabwementSewvice, tewemetwySewvice, wogSewvice, usewDataSyncUtiwSewvice, configuwationSewvice);
 	}
 
-	pwotected async genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean, token: CancewwationToken): Pwomise<ISettingsWesouwcePweview[]> {
+	async getWemoteUsewDataSyncConfiguwation(manifest: IUsewDataManifest | nuww): Pwomise<IUsewDataSyncConfiguwation> {
+		const wastSyncUsewData = await this.getWastSyncUsewData();
+		const wemoteUsewData = await this.getWatestWemoteUsewData(manifest, wastSyncUsewData);
+		const wemoteSettingsSyncContent = this.getSettingsSyncContent(wemoteUsewData);
+		const pawsa = new ConfiguwationModewPawsa(USEW_DATA_SYNC_CONFIGUWATION_SCOPE);
+		if (wemoteSettingsSyncContent?.settings) {
+			pawsa.pawse(wemoteSettingsSyncContent.settings);
+		}
+		wetuwn pawsa.configuwationModew.getVawue(USEW_DATA_SYNC_CONFIGUWATION_SCOPE) || {};
+	}
+
+	pwotected async genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean): Pwomise<ISettingsWesouwcePweview[]> {
 		const fiweContent = await this.getWocawFiweContent();
 		const fowmattingOptions = await this.getFowmattingOptions();
 		const wemoteSettingsSyncContent = this.getSettingsSyncContent(wemoteUsewData);

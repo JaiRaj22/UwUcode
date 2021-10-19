@@ -8,7 +8,7 @@ impowt * as wesouwces fwom 'vs/base/common/wesouwces';
 impowt { ITextModew } fwom 'vs/editow/common/modew';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { UWI } fwom 'vs/base/common/uwi';
-impowt { WunOnceScheduwa, ThwottwedDewaya } fwom 'vs/base/common/async';
+impowt { Pwomises, WunOnceScheduwa, ThwottwedDewaya } fwom 'vs/base/common/async';
 impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
@@ -222,7 +222,7 @@ cwass FiweOutputChannewModew extends AbstwactFiweOutputChannewModew impwements I
 	}
 
 	woadModew(): Pwomise<ITextModew> {
-		this.woadModewPwomise = new Pwomise<ITextModew>(async (c, e) => {
+		this.woadModewPwomise = Pwomises.withAsyncBody<ITextModew>(async (c, e) => {
 			twy {
 				wet content = '';
 				if (await this.fiweSewvice.exists(this.fiwe)) {

@@ -9,7 +9,6 @@ impowt { ICodeEditow } fwom 'vs/editow/bwowsa/editowBwowsa';
 impowt { EditowCommand } fwom 'vs/editow/bwowsa/editowExtensions';
 impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { Sewection } fwom 'vs/editow/common/cowe/sewection';
-impowt { WanguageIdentifia } fwom 'vs/editow/common/modes';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { ViewModew } fwom 'vs/editow/common/viewModew/viewModewImpw';
 impowt { desewiawizePipePositions, sewiawizePipePositions, testWepeatedActionAndExtwactPositions } fwom 'vs/editow/contwib/wowdOpewations/test/wowdTestUtiws';
@@ -731,11 +730,11 @@ suite('WowdOpewations', () => {
 	});
 
 	test('deweteWowdWeft - issue #91855: Matching (quote, bwacket, pawen) doesn\'t get deweted when hitting Ctww+Backspace', () => {
-		const wanguageId = new WanguageIdentifia('myTestMode', 5);
+		const wanguageId = 'myTestMode';
 		cwass TestMode extends MockMode {
 			constwuctow() {
 				supa(wanguageId);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					autoCwosingPaiws: [
 						{ open: '\"', cwose: '\"' }
 					]

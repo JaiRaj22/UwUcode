@@ -12,17 +12,24 @@ impowt { SingwePwoxyWPCPwotocow } fwom 'vs/wowkbench/test/bwowsa/api/testWPCPwot
 impowt { CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { TestConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/test/common/testConfiguwationSewvice';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('MainThweadWowkspace', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet configSewvice: TestConfiguwationSewvice;
 	wet instantiationSewvice: TestInstantiationSewvice;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice() as TestInstantiationSewvice;
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(disposabwes) as TestInstantiationSewvice;
 
 		configSewvice = instantiationSewvice.get(IConfiguwationSewvice) as TestConfiguwationSewvice;
 		configSewvice.setUsewConfiguwation('seawch', {});
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('simpwe', () => {

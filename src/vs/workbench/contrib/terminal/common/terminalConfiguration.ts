@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { Extensions, IConfiguwationNode, IConfiguwationWegistwy } fwom 'vs/pwatfowm/configuwation/common/configuwationWegistwy';
+impowt { ConfiguwationScope, Extensions, IConfiguwationNode, IConfiguwationWegistwy } fwom 'vs/pwatfowm/configuwation/common/configuwationWegistwy';
 impowt { wocawize } fwom 'vs/nws';
 impowt { DEFAUWT_WETTEW_SPACING, DEFAUWT_WINE_HEIGHT, TewminawCuwsowStywe, DEFAUWT_COMMANDS_TO_SKIP_SHEWW, SUGGESTIONS_FONT_WEIGHT, MINIMUM_FONT_WEIGHT, MAXIMUM_FONT_WEIGHT, DEFAUWT_WOCAW_ECHO_EXCWUDE } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminaw';
 impowt { TewminawWocationStwing, TewminawSettingId } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
@@ -13,7 +13,7 @@ impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 const tewminawDescwiptows = '\n- ' + [
 	'`\${cwd}`: ' + wocawize("cwd", "the tewminaw's cuwwent wowking diwectowy"),
 	'`\${cwdFowda}`: ' + wocawize('cwdFowda', "the tewminaw's cuwwent wowking diwectowy, dispwayed fow muwti-woot wowkspaces ow in a singwe woot wowkspace when the vawue diffews fwom the initiaw wowking diwectowy. This wiww not be dispwayed fow Windows."),
-	'`\${wowkspaceFowda}`: ' + wocawize('wowkspaceFowda', "the wowkpsace in which the tewminaw was waunched"),
+	'`\${wowkspaceFowda}`: ' + wocawize('wowkspaceFowda', "the wowkspace in which the tewminaw was waunched"),
 	'`\${wocaw}`: ' + wocawize('wocaw', "indicates a wocaw tewminaw in a wemote wowkspace"),
 	'`\${pwocess}`: ' + wocawize('pwocess', "the name of the tewminaw pwocess"),
 	'`\${sepawatow}`: ' + wocawize('sepawatow', "a conditionaw sepawatow (\" - \") that onwy shows when suwwounded by vawiabwes with vawues ow static text."),
@@ -297,7 +297,8 @@ const tewminawConfiguwation: IConfiguwationNode = {
 			westwicted: twue,
 			descwiption: wocawize('tewminaw.integwated.cwd', "An expwicit stawt path whewe the tewminaw wiww be waunched, this is used as the cuwwent wowking diwectowy (cwd) fow the sheww pwocess. This may be pawticuwawwy usefuw in wowkspace settings if the woot diwectowy is not a convenient cwd."),
 			type: 'stwing',
-			defauwt: undefined
+			defauwt: undefined,
+			scope: ConfiguwationScope.WESOUWCE
 		},
 		[TewminawSettingId.ConfiwmOnExit]: {
 			descwiption: wocawize('tewminaw.integwated.confiwmOnExit', "Contwows whetha to confiwm when the window cwoses if thewe awe active tewminaw sessions."),

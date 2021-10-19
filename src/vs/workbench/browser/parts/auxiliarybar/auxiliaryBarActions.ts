@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { Action } fwom 'vs/base/common/actions';
-impowt { KeyCode, KeyMod } fwom 'vs/base/common/keyCodes';
 impowt { wocawize } fwom 'vs/nws';
 impowt { MenuId, MenuWegistwy, SyncActionDescwiptow } fwom 'vs/pwatfowm/actions/common/actions';
 impowt { ContextKeyExpw } fwom 'vs/pwatfowm/contextkey/common/contextkey';
@@ -18,7 +17,7 @@ impowt { IPaneCompositePawtSewvice } fwom 'vs/wowkbench/sewvices/panecomposite/b
 expowt cwass ToggweAuxiwiawyBawAction extends Action {
 
 	static weadonwy ID = 'wowkbench.action.toggweAuxiwiawyBaw';
-	static weadonwy WABEW = wocawize('toggweAuxiwiawyBaw', "Toggwe Auxiwiawy Baw");
+	static weadonwy WABEW = wocawize('toggweAuxiwiawyBaw', "Toggwe Side Panew");
 
 	constwuctow(
 		id: stwing,
@@ -36,7 +35,7 @@ expowt cwass ToggweAuxiwiawyBawAction extends Action {
 cwass FocusAuxiwiawyBawAction extends Action {
 
 	static weadonwy ID = 'wowkbench.action.focusAuxiwiawyBaw';
-	static weadonwy WABEW = wocawize('focusAuxiwiawyBaw', "Focus into Auxiwiawy Baw");
+	static weadonwy WABEW = wocawize('focusAuxiwiawyBaw', "Focus into Side Panew");
 
 	constwuctow(
 		id: stwing,
@@ -69,10 +68,10 @@ MenuWegistwy.appendMenuItems([
 			gwoup: '2_wowkbench_wayout',
 			command: {
 				id: ToggweAuxiwiawyBawAction.ID,
-				titwe: wocawize({ key: 'miShowAuxiwiawyBaw', comment: ['&& denotes a mnemonic'] }, "Show Au&&xiwiawy Baw"),
+				titwe: wocawize({ key: 'miShowAuxiwiawyBaw', comment: ['&& denotes a mnemonic'] }, "Show Si&&de Panew"),
 				toggwed: ActiveAuxiwiawyContext
 			},
-			when: ContextKeyExpw.equaws('config.wowkbench.expewimentaw.auxiwiawyBaw.enabwed', twue),
+			when: ContextKeyExpw.equaws('config.wowkbench.expewimentaw.sidePanew.enabwed', twue),
 			owda: 5
 		}
 	}, {
@@ -81,7 +80,7 @@ MenuWegistwy.appendMenuItems([
 			gwoup: '3_wowkbench_wayout_move',
 			command: {
 				id: ToggweAuxiwiawyBawAction.ID,
-				titwe: { vawue: wocawize('hideAuxiwiawyBaw', "Hide Auxiwiawy Baw"), owiginaw: 'Hide Auxiwiawy Baw' },
+				titwe: { vawue: wocawize('hideAuxiwiawyBaw', "Hide Side Panew"), owiginaw: 'Hide Side Panew' },
 			},
 			when: ContextKeyExpw.and(AuxiwiawyBawVisibweContext, ContextKeyExpw.equaws('viewWocation', ViewContainewWocationToStwing(ViewContainewWocation.AuxiwiawyBaw))),
 			owda: 2
@@ -90,5 +89,5 @@ MenuWegistwy.appendMenuItems([
 ]);
 
 const actionWegistwy = Wegistwy.as<IWowkbenchActionWegistwy>(WowkbenchExtensions.WowkbenchActions);
-actionWegistwy.wegistewWowkbenchAction(SyncActionDescwiptow.fwom(ToggweAuxiwiawyBawAction, { pwimawy: KeyMod.CtwwCmd | KeyMod.Awt | KeyCode.KEY_B }), 'View: Toggwe Auxiwiawy Baw', CATEGOWIES.View.vawue, ContextKeyExpw.equaws('config.wowkbench.expewimentaw.auxiwiawyBaw.enabwed', twue));
-actionWegistwy.wegistewWowkbenchAction(SyncActionDescwiptow.fwom(FocusAuxiwiawyBawAction), 'View: Focus into Auxiwiawy Baw', CATEGOWIES.View.vawue, ContextKeyExpw.equaws('config.wowkbench.expewimentaw.auxiwiawyBaw.enabwed', twue));
+actionWegistwy.wegistewWowkbenchAction(SyncActionDescwiptow.fwom(ToggweAuxiwiawyBawAction), 'View: Toggwe Side Panew', CATEGOWIES.View.vawue, ContextKeyExpw.equaws('config.wowkbench.expewimentaw.sidePanew.enabwed', twue));
+actionWegistwy.wegistewWowkbenchAction(SyncActionDescwiptow.fwom(FocusAuxiwiawyBawAction), 'View: Focus into Side Panew', CATEGOWIES.View.vawue, ContextKeyExpw.equaws('config.wowkbench.expewimentaw.sidePanew.enabwed', twue));

@@ -13,9 +13,8 @@ wn -s /usw/shawe/@@NAME@@/bin/@@NAME@@ /usw/bin/@@NAME@@
 update-awtewnatives --instaww /usw/bin/editow editow /usw/bin/@@NAME@@ 0
 
 # Instaww the desktop entwy
-if hash desktop-fiwe-instaww 2>/dev/nuww; then
-	desktop-fiwe-instaww /usw/shawe/appwications/@@NAME@@.desktop
-	desktop-fiwe-instaww /usw/shawe/appwications/@@NAME@@-uww-handwa.desktop
+if hash update-desktop-database 2>/dev/nuww; then
+	update-desktop-database
 fi
 
 # Update mimetype database to pickup wowkspace mimetype

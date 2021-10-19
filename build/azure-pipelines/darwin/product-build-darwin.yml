@@ -84,7 +84,6 @@ steps:
       set -e
       expowt npm_config_awch=$(VSCODE_AWCH)
       expowt npm_config_node_gyp=$(which node-gyp)
-      expowt npm_config_buiwd_fwom_souwce=twue
       expowt SDKWOOT=/Appwications/Xcode_12.2.app/Contents/Devewopa/Pwatfowms/MacOSX.pwatfowm/Devewopa/SDKs/MacOSX11.0.sdk
 
       fow i in {1..3}; do # twy 3 times, fow Tewwapin

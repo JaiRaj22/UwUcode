@@ -186,7 +186,7 @@
 	}
 
 	/**
-	 * @pawam {boowean | undefined} disawwowWewoadKeybinding
+	 * @pawam {boowean | undefined} disawwowWewoadKeybinding
 	 * @wetuwns {() => void}
 	 */
 	function wegistewDevewopewKeybindings(disawwowWewoadKeybinding) {
@@ -211,7 +211,7 @@
 		const TOGGWE_DEV_TOOWS_KB_AWT = '123'; // F12
 		const WEWOAD_KB = (safePwocess.pwatfowm === 'dawwin' ? 'meta-82' : 'ctww-82'); // mac: Cmd-W, west: Ctww-W
 
-		/** @type {((e: KeyboawdEvent) => void) | undefined} */
+		/** @type {((e: KeyboawdEvent) => void) | undefined} */
 		wet wistena = function (e) {
 			const key = extwactKey(e);
 			if (key === TOGGWE_DEV_TOOWS_KB || key === TOGGWE_DEV_TOOWS_KB_AWT) {

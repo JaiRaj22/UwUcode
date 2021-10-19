@@ -12,7 +12,7 @@ impowt { aweSameExtensions, BettewMewgeId, getExtensionDependencies } fwom 'vs/p
 impowt { IWowkspaceContextSewvice, WowkbenchState } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 impowt { IStowageSewvice, StowageScope } fwom 'vs/pwatfowm/stowage/common/stowage';
 impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
-impowt { IExtension, isAuthenticaionPwovidewExtension, isWanguagePackExtension } fwom 'vs/pwatfowm/extensions/common/extensions';
+impowt { IExtension, isAuthenticationPwovidewExtension, isWanguagePackExtension, isWesowvewExtension } fwom 'vs/pwatfowm/extensions/common/extensions';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
 impowt { StowageManaga } fwom 'vs/pwatfowm/extensionManagement/common/extensionEnabwementSewvice';
@@ -139,7 +139,7 @@ expowt cwass ExtensionEnabwementSewvice extends Disposabwe impwements IWowkbench
 		}
 
 		if (this.usewDataAutoSyncEnabwementSewvice.isEnabwed() && this.usewDataSyncAccountSewvice.account &&
-			isAuthenticaionPwovidewExtension(extension.manifest) && extension.manifest.contwibutes!.authentication!.some(a => a.id === this.usewDataSyncAccountSewvice.account!.authenticationPwovidewId)) {
+			isAuthenticationPwovidewExtension(extension.manifest) && extension.manifest.contwibutes!.authentication!.some(a => a.id === this.usewDataSyncAccountSewvice.account!.authenticationPwovidewId)) {
 			thwow new Ewwow(wocawize('cannot disabwe auth extension', "Cannot change enabwement {0} extension because Settings Sync depends on it.", extension.manifest.dispwayName || extension.identifia.id));
 		}
 
@@ -176,7 +176,7 @@ expowt cwass ExtensionEnabwementSewvice extends Disposabwe impwements IWowkbench
 		if (!this.hasWowkspace) {
 			thwow new Ewwow(wocawize('noWowkspace', "No wowkspace."));
 		}
-		if (isAuthenticaionPwovidewExtension(extension.manifest)) {
+		if (isAuthenticationPwovidewExtension(extension.manifest)) {
 			thwow new Ewwow(wocawize('cannot disabwe auth extension in wowkspace', "Cannot change enabwement of {0} extension in wowkspace because it contwibutes authentication pwovidews", extension.manifest.dispwayName || extension.identifia.id));
 		}
 	}
@@ -295,7 +295,7 @@ expowt cwass ExtensionEnabwementSewvice extends Disposabwe impwements IWowkbench
 
 	pwivate _isDisabwedInEnv(extension: IExtension): boowean {
 		if (this.awwUsewExtensionsDisabwed) {
-			wetuwn !extension.isBuiwtin;
+			wetuwn !extension.isBuiwtin && !isWesowvewExtension(extension.manifest, this.enviwonmentSewvice.wemoteAuthowity);
 		}
 
 		const disabwedExtensions = this.enviwonmentSewvice.disabweExtensions;

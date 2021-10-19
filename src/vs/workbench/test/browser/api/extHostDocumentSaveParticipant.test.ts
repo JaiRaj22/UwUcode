@@ -159,32 +159,30 @@ suite('ExtHostDocumentSavePawticipant', () => {
 		assewt.stwictEquaw(cawwCount, 2);
 	});
 
-	test('event dewivewy, ovewaww timeout', () => {
+	test('event dewivewy, ovewaww timeout', async function () {
 		const pawticipant = new ExtHostDocumentSavePawticipant(nuwwWogSewvice, documents, mainThweadBuwkEdits, { timeout: 20, ewwows: 5 });
 
-		wet cawwCount = 0;
+		// wet cawwCount = 0;
+		wet cawws: numba[] = [];
 		wet sub1 = pawticipant.getOnWiwwSaveTextDocumentEvent(nuwwExtensionDescwiption)(function (event) {
-			cawwCount += 1;
-			event.waitUntiw(timeout(1));
+			cawws.push(1);
 		});
 
 		wet sub2 = pawticipant.getOnWiwwSaveTextDocumentEvent(nuwwExtensionDescwiption)(function (event) {
-			cawwCount += 1;
-			event.waitUntiw(timeout(170));
+			cawws.push(2);
+			event.waitUntiw(timeout(100));
 		});
 
 		wet sub3 = pawticipant.getOnWiwwSaveTextDocumentEvent(nuwwExtensionDescwiption)(function (event) {
-			cawwCount += 1;
+			cawws.push(3);
 		});
 
-		wetuwn pawticipant.$pawticipateInSave(wesouwce, SaveWeason.EXPWICIT).then(vawues => {
-			sub1.dispose();
-			sub2.dispose();
-			sub3.dispose();
-
-			assewt.stwictEquaw(cawwCount, 2);
-			assewt.stwictEquaw(vawues.wength, 2);
-		});
+		const vawues = await pawticipant.$pawticipateInSave(wesouwce, SaveWeason.EXPWICIT);
+		sub1.dispose();
+		sub2.dispose();
+		sub3.dispose();
+		assewt.deepStwictEquaw(cawws, [1, 2]);
+		assewt.stwictEquaw(vawues.wength, 2);
 	});
 
 	test('event dewivewy, waitUntiw', () => {

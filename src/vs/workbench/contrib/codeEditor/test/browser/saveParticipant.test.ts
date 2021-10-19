@@ -15,19 +15,23 @@ impowt { TextFiweEditowModew } fwom 'vs/wowkbench/sewvices/textfiwe/common/textF
 impowt { IWesowvedTextFiweEditowModew, snapshotToStwing } fwom 'vs/wowkbench/sewvices/textfiwe/common/textfiwes';
 impowt { SaveWeason } fwom 'vs/wowkbench/common/editow';
 impowt { TextFiweEditowModewManaga } fwom 'vs/wowkbench/sewvices/textfiwe/common/textFiweEditowModewManaga';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Save Pawticipants', function () {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 	});
 
 	teawdown(() => {
 		(<TextFiweEditowModewManaga>accessow.textFiweSewvice.fiwes).dispose();
+		disposabwes.dispose();
 	});
 
 	test('insewt finaw new wine', async function () {

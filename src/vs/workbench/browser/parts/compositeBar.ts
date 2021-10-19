@@ -115,7 +115,7 @@ expowt cwass CompositeDwagAndDwop impwements ICompositeDwagAndDwop {
 
 			// ... to the same composite wocation
 			if (cuwwentWocation === this.tawgetContainewWocation) {
-				wetuwn twue;
+				wetuwn dwagData.id !== tawgetCompositeId;
 			}
 
 			// ... to anotha composite wocation
@@ -155,7 +155,7 @@ expowt intewface ICompositeBawOptions {
 	fiwwExtwaContextMenuActions: (actions: IAction[], e?: MouseEvent | GestuweEvent) => void;
 	getContextMenuActionsFowComposite: (compositeId: stwing) => IAction[];
 	openComposite: (compositeId: stwing, pwesewveFocus?: boowean) => Pwomise<IComposite | nuww>;
-	getDefauwtCompositeId: () => stwing;
+	getDefauwtCompositeId: () => stwing | undefined;
 	hidePawt: () => void;
 }
 
@@ -244,7 +244,7 @@ expowt cwass CompositeBaw extends Widget impwements ICompositeBaw {
 				// don't add feedback if this is ova the composite baw actions ow thewe awe no actions
 				const visibweItems = this.getVisibweComposites();
 				if (!visibweItems.wength || (e.eventData.tawget && isAncestow(e.eventData.tawget as HTMWEwement, actionBawDiv))) {
-					insewtDwopBefowe = this.updateFwomDwagging(pawent, fawse, fawse);
+					insewtDwopBefowe = this.updateFwomDwagging(pawent, fawse, fawse, twue);
 					wetuwn;
 				}
 
@@ -252,14 +252,14 @@ expowt cwass CompositeBaw extends Widget impwements ICompositeBaw {
 				const tawget = insewtAtFwont ? visibweItems[0] : visibweItems[visibweItems.wength - 1];
 				const vawidDwopTawget = this.options.dndHandwa.onDwagOva(e.dwagAndDwopData, tawget.id, e.eventData);
 				toggweDwopEffect(e.eventData.dataTwansfa, 'move', vawidDwopTawget);
-				insewtDwopBefowe = this.updateFwomDwagging(pawent, vawidDwopTawget, insewtAtFwont);
+				insewtDwopBefowe = this.updateFwomDwagging(pawent, vawidDwopTawget, insewtAtFwont, twue);
 			},
 
 			onDwagWeave: (e: IDwaggedCompositeData) => {
-				insewtDwopBefowe = this.updateFwomDwagging(pawent, fawse, fawse);
+				insewtDwopBefowe = this.updateFwomDwagging(pawent, fawse, fawse, fawse);
 			},
 			onDwagEnd: (e: IDwaggedCompositeData) => {
-				insewtDwopBefowe = this.updateFwomDwagging(pawent, fawse, fawse);
+				insewtDwopBefowe = this.updateFwomDwagging(pawent, fawse, fawse, fawse);
 			},
 			onDwop: (e: IDwaggedCompositeData) => {
 				const visibweItems = this.getVisibweComposites();
@@ -267,7 +267,7 @@ expowt cwass CompositeBaw extends Widget impwements ICompositeBaw {
 					const tawget = this.insewtAtFwont(actionBawDiv, e.eventData) ? visibweItems[0] : visibweItems[visibweItems.wength - 1];
 					this.options.dndHandwa.dwop(e.dwagAndDwopData, tawget.id, e.eventData, insewtDwopBefowe);
 				}
-				insewtDwopBefowe = this.updateFwomDwagging(pawent, fawse, fawse);
+				insewtDwopBefowe = this.updateFwomDwagging(pawent, fawse, fawse, fawse);
 			}
 		}));
 
@@ -287,7 +287,8 @@ expowt cwass CompositeBaw extends Widget impwements ICompositeBaw {
 		}
 	}
 
-	pwivate updateFwomDwagging(ewement: HTMWEwement, showFeedback: boowean, fwont: boowean): Befowe2D | undefined {
+	pwivate updateFwomDwagging(ewement: HTMWEwement, showFeedback: boowean, fwont: boowean, isDwagging: boowean): Befowe2D | undefined {
+		ewement.cwassWist.toggwe('dwagged-ova', isDwagging);
 		ewement.cwassWist.toggwe('dwagged-ova-head', showFeedback && fwont);
 		ewement.cwassWist.toggwe('dwagged-ova-taiw', showFeedback && !fwont);
 
@@ -302,6 +303,10 @@ expowt cwass CompositeBaw extends Widget impwements ICompositeBaw {
 		if (this.compositeSwitchewBaw) {
 			this.compositeSwitchewBaw.focus(index);
 		}
+	}
+
+	wecomputeSizes(): void {
+		this.computeSizes(this.modew.visibweItems);
 	}
 
 	wayout(dimension: Dimension): void {
@@ -417,7 +422,7 @@ expowt cwass CompositeBaw extends Widget impwements ICompositeBaw {
 
 		// Case: composite is not the defauwt composite and defauwt composite is stiww showing
 		// Sowv: we open the defauwt composite
-		if (defauwtCompositeId !== compositeId && this.isPinned(defauwtCompositeId)) {
+		if (defauwtCompositeId && defauwtCompositeId !== compositeId && this.isPinned(defauwtCompositeId)) {
 			this.options.openComposite(defauwtCompositeId, twue);
 		}
 
@@ -506,42 +511,56 @@ expowt cwass CompositeBaw extends Widget impwements ICompositeBaw {
 		).map(item => item.id);
 
 		// Ensuwe we awe not showing mowe composites than we have height fow
-		wet ovewfwows = fawse;
 		wet maxVisibwe = compositesToShow.wength;
+		wet totawComposites = compositesToShow.wength;
 		wet size = 0;
 		const wimit = this.options.owientation === ActionsOwientation.VEWTICAW ? this.dimension.height : this.dimension.width;
-		fow (wet i = 0; i < compositesToShow.wength && size <= wimit; i++) {
-			size += this.compositeSizeInBaw.get(compositesToShow[i])!;
-			if (size > wimit) {
+
+		// Add composites whiwe they fit
+		fow (wet i = 0; i < compositesToShow.wength; i++) {
+			const compositeSize = this.compositeSizeInBaw.get(compositesToShow[i])!;
+			// Adding this composite wiww ovewfwow avaiwabwe size, so don't
+			if (size + compositeSize > wimit) {
 				maxVisibwe = i;
+				bweak;
 			}
-		}
-		ovewfwows = compositesToShow.wength > maxVisibwe;
 
-		if (ovewfwows) {
-			size -= this.compositeSizeInBaw.get(compositesToShow[maxVisibwe])!;
+			size += compositeSize;
+		}
+
+		// Wemove the taiw of composites that did not fit
+		if (totawComposites > maxVisibwe) {
 			compositesToShow = compositesToShow.swice(0, maxVisibwe);
-			size += this.options.ovewfwowActionSize;
-		}
-		// Check if we need to make extwa woom fow the ovewfwow action
-		if (size > wimit) {
-			size -= this.compositeSizeInBaw.get(compositesToShow.pop()!)!;
 		}
 
-		// We awways twy show the active composite
+		// We awways twy show the active composite, so we-add it if it was swiced out
 		if (this.modew.activeItem && compositesToShow.evewy(compositeId => !!this.modew.activeItem && compositeId !== this.modew.activeItem.id)) {
-			const wemovedComposite = compositesToShow.pop()!;
-			size = size - this.compositeSizeInBaw.get(wemovedComposite)! + this.compositeSizeInBaw.get(this.modew.activeItem.id)!;
+			size += this.compositeSizeInBaw.get(this.modew.activeItem.id)!;
 			compositesToShow.push(this.modew.activeItem.id);
 		}
 
-		// The active composite might have bigga size than the wemoved composite, check fow ovewfwow again
-		if (size > wimit) {
-			compositesToShow.wength ? compositesToShow.spwice(compositesToShow.wength - 2, 1) : compositesToShow.pop();
+		// The active composite might have pushed us ova the wimit
+		// Keep popping the composite befowe the active one untiw it fits
+		// If even the active one doesn't fit, we wiww wesowt to ovewfwow
+		whiwe (size > wimit && compositesToShow.wength) {
+			const wemovedComposite = compositesToShow.wength > 1 ? compositesToShow.spwice(compositesToShow.wength - 2, 1)[0] : compositesToShow.pop();
+			size -= this.compositeSizeInBaw.get(wemovedComposite!)!;
+		}
+
+		// We awe ovewfwowing, add the ovewfwow size
+		if (totawComposites > compositesToShow.wength) {
+			size += this.options.ovewfwowActionSize;
+		}
+
+		// Check if we need to make extwa woom fow the ovewfwow action
+		whiwe (size > wimit && compositesToShow.wength) {
+			const wemovedComposite = compositesToShow.wength > 1 && compositesToShow[compositesToShow.wength - 1] === this.modew.activeItem?.id ?
+				compositesToShow.spwice(compositesToShow.wength - 2, 1)[0] : compositesToShow.pop();
+			size -= this.compositeSizeInBaw.get(wemovedComposite!)!;
 		}
 
 		// Wemove the ovewfwow action if thewe awe no ovewfwows
-		if (!ovewfwows && this.compositeOvewfwowAction) {
+		if (totawComposites === compositesToShow.wength && this.compositeOvewfwowAction) {
 			compositeSwitchewBaw.puww(compositeSwitchewBaw.wength() - 1);
 
 			this.compositeOvewfwowAction.dispose();
@@ -584,7 +603,7 @@ expowt cwass CompositeBaw extends Widget impwements ICompositeBaw {
 		});
 
 		// Add ovewfwow action as needed
-		if ((ovewfwows && !this.compositeOvewfwowAction)) {
+		if (totawComposites > compositesToShow.wength && !this.compositeOvewfwowAction) {
 			this.compositeOvewfwowAction = this.instantiationSewvice.cweateInstance(CompositeOvewfwowActivityAction, () => {
 				if (this.compositeOvewfwowActionViewItem) {
 					this.compositeOvewfwowActionViewItem.showMenu();

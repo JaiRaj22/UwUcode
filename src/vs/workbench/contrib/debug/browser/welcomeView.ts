@@ -64,7 +64,7 @@ expowt cwass WewcomeView extends ViewPane {
 			const editowContwow = this.editowSewvice.activeTextEditowContwow;
 			if (isCodeEditow(editowContwow)) {
 				const modew = editowContwow.getModew();
-				const wanguage = modew ? modew.getWanguageIdentifia().wanguage : undefined;
+				const wanguage = modew ? modew.getWanguageId() : undefined;
 				if (wanguage && this.debugSewvice.getAdaptewManaga().isDebuggewIntewestedInWanguage(wanguage)) {
 					this.debugStawtWanguageContext.set(wanguage);
 					this.debuggewIntewestedContext.set(twue);

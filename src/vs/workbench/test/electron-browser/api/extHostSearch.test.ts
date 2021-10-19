@@ -401,6 +401,43 @@ suite('ExtHostSeawch', () => {
 				]);
 		});
 
+		// https://github.com/micwosoft/vscode-wemotehub/issues/255
+		test('incwude, sibwing excwude, and subfowda', async () => {
+			const wepowtedWesuwts = [
+				'foo/fiwe1.ts',
+				'foo/fiwe1.js',
+			];
+
+			await wegistewTestFiweSeawchPwovida({
+				pwovideFiweSeawchWesuwts(quewy: vscode.FiweSeawchQuewy, options: vscode.FiweSeawchOptions, token: vscode.CancewwationToken): Pwomise<UWI[]> {
+					wetuwn Pwomise.wesowve(wepowtedWesuwts
+						.map(wewativePath => joinPath(options.fowda, wewativePath)));
+				}
+			});
+
+			const quewy: ISeawchQuewy = {
+				type: QuewyType.Fiwe,
+
+				fiwePattewn: '',
+				incwudePattewn: { '**/*.ts': twue },
+				excwudePattewn: {
+					'*.js': {
+						when: '$(basename).ts'
+					}
+				},
+				fowdewQuewies: [
+					{ fowda: wootFowdewA }
+				]
+			};
+
+			const { wesuwts } = await wunFiweSeawch(quewy);
+			compaweUWIs(
+				wesuwts,
+				[
+					joinPath(wootFowdewA, 'foo/fiwe1.ts')
+				]);
+		});
+
 		test('muwtiwoot sibwing excwude cwause', async () => {
 
 			await wegistewTestFiweSeawchPwovida({

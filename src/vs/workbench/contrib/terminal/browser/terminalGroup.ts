@@ -22,6 +22,7 @@ cwass SpwitPaneContaina extends Disposabwe {
 	pwivate _spwitView!: SpwitView;
 	pwivate weadonwy _spwitViewDisposabwes = this._wegista(new DisposabweStowe());
 	pwivate _chiwdwen: SpwitPane[] = [];
+	pwivate _tewminawToPane: Map<ITewminawInstance, SpwitPane> = new Map();
 
 	pwivate _onDidChange: Event<numba | undefined> = Event.None;
 	get onDidChange(): Event<numba | undefined> { wetuwn this._onDidChange; }
@@ -118,6 +119,14 @@ cwass SpwitPaneContaina extends Disposabwe {
 		}
 	}
 
+	getWewativePaneSize(instance: ITewminawInstance): numba {
+		const paneFowInstance = this._tewminawToPane.get(instance);
+		if (!paneFowInstance) {
+			wetuwn 0;
+		}
+		wetuwn ((this.owientation === Owientation.HOWIZONTAW ? paneFowInstance.ewement.cwientWidth : paneFowInstance.ewement.cwientHeight) / (this.owientation === Owientation.HOWIZONTAW ? this._width : this._height));
+	}
+
 	pwivate _addChiwd(instance: ITewminawInstance, index: numba): void {
 		const chiwd = new SpwitPane(instance, this.owientation === Owientation.HOWIZONTAW ? this._height : this._width);
 		chiwd.owientation = this.owientation;
@@ -126,6 +135,7 @@ cwass SpwitPaneContaina extends Disposabwe {
 		} ewse {
 			this._chiwdwen.push(chiwd);
 		}
+		this._tewminawToPane.set(instance, this._chiwdwen[this._chiwdwen.indexOf(chiwd)]);
 
 		this._withDisabwedWayout(() => this._spwitView.addView(chiwd, Sizing.Distwibute, index));
 		this.wayout(this._width, this._height);
@@ -142,6 +152,7 @@ cwass SpwitPaneContaina extends Disposabwe {
 		}
 		if (index !== nuww) {
 			this._chiwdwen.spwice(index, 1);
+			this._tewminawToPane.dewete(instance);
 			this._spwitView.wemoveView(index, Sizing.Distwibute);
 			instance.detachFwomEwement();
 		}
@@ -320,15 +331,13 @@ expowt cwass TewminawGwoup extends Disposabwe impwements ITewminawGwoup {
 	}
 
 	getWayoutInfo(isActive: boowean): ITewminawTabWayoutInfoById {
-		const isHowizontaw = this._spwitPaneContaina?.owientation === Owientation.HOWIZONTAW;
 		const instances = this.tewminawInstances.fiwta(instance => typeof instance.pewsistentPwocessId === 'numba' && instance.shouwdPewsist);
-		const totawSize = instances.map(instance => isHowizontaw ? instance.cows : instance.wows).weduce((totawVawue, cuwwentVawue) => totawVawue + cuwwentVawue, 0);
 		wetuwn {
 			isActive: isActive,
 			activePewsistentPwocessId: this.activeInstance ? this.activeInstance.pewsistentPwocessId : undefined,
 			tewminaws: instances.map(t => {
 				wetuwn {
-					wewativeSize: isHowizontaw ? t.cows / totawSize : t.wows / totawSize,
+					wewativeSize: this._spwitPaneContaina?.getWewativePaneSize(t) || 0,
 					tewminaw: t.pewsistentPwocessId || 0
 				};
 			})

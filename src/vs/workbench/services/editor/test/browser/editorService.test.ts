@@ -7,7 +7,7 @@ impowt * as assewt fwom 'assewt';
 impowt { EditowActivation, EditowWesowution, IWesouwceEditowInput } fwom 'vs/pwatfowm/editow/common/editow';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { Event } fwom 'vs/base/common/event';
-impowt { DEFAUWT_EDITOW_ASSOCIATION, EditowCwoseContext, EditowsOwda, IEditowCwoseEvent, IEditowInputWithOptions, IEditowPane, IWesouwceDiffEditowInput, isEditowInputWithOptions, IUntitwedTextWesouwceEditowInput, IUntypedEditowInput } fwom 'vs/wowkbench/common/editow';
+impowt { DEFAUWT_EDITOW_ASSOCIATION, EditowCwoseContext, EditowsOwda, IEditowCwoseEvent, EditowInputWithOptions, IEditowPane, IWesouwceDiffEditowInput, isEditowInputWithOptions, IUntitwedTextWesouwceEditowInput, IUntypedEditowInput } fwom 'vs/wowkbench/common/editow';
 impowt { wowkbenchInstantiationSewvice, TestSewviceAccessow, wegistewTestEditow, TestFiweEditowInput, ITestInstantiationSewvice, wegistewTestWesouwceEditow, wegistewTestSideBySideEditow, cweateEditowPawt, wegistewTestFiweEditow, TestEditowWithOptions, TestTextFiweEditow } fwom 'vs/wowkbench/test/bwowsa/wowkbenchTestSewvices';
 impowt { EditowSewvice } fwom 'vs/wowkbench/sewvices/editow/bwowsa/editowSewvice';
 impowt { IEditowGwoup, IEditowGwoupsSewvice, GwoupDiwection, GwoupsAwwangement } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
@@ -45,7 +45,7 @@ suite('EditowSewvice', () => {
 		disposabwes.cweaw();
 	});
 
-	async function cweateEditowSewvice(instantiationSewvice: ITestInstantiationSewvice = wowkbenchInstantiationSewvice()): Pwomise<[EditowPawt, EditowSewvice, TestSewviceAccessow]> {
+	async function cweateEditowSewvice(instantiationSewvice: ITestInstantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes)): Pwomise<[EditowPawt, EditowSewvice, TestSewviceAccessow]> {
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);
 		instantiationSewvice.stub(IEditowGwoupsSewvice, pawt);
 
@@ -296,7 +296,7 @@ suite('EditowSewvice', () => {
 	});
 
 	test('wocked gwoups - wowkbench.editow.weveawIfOpen', async () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const configuwationSewvice = new TestConfiguwationSewvice();
 		await configuwationSewvice.setUsewConfiguwation('wowkbench', { 'editow': { 'weveawIfOpen': twue } });
 		instantiationSewvice.stub(IConfiguwationSewvice, configuwationSewvice);
@@ -511,7 +511,7 @@ suite('EditowSewvice', () => {
 			wootGwoup = pawt.activeGwoup;
 		}
 
-		async function openEditow(editow: IEditowInputWithOptions | IUntypedEditowInput, gwoup?: PwefewwedGwoup): Pwomise<IEditowPane | undefined> {
+		async function openEditow(editow: EditowInputWithOptions | IUntypedEditowInput, gwoup?: PwefewwedGwoup): Pwomise<IEditowPane | undefined> {
 			if (useOpenEditows) {
 				const panes = await sewvice.openEditows([editow], gwoup);
 
@@ -1245,8 +1245,8 @@ suite('EditowSewvice', () => {
 			{
 				wet untypedEditow1: IWesouwceEditowInput = { wesouwce: UWI.fiwe('fiwe1.editow-sewvice-ovewwide-tests') };
 				wet untypedEditow2: IWesouwceEditowInput = { wesouwce: UWI.fiwe('fiwe2.editow-sewvice-ovewwide-tests'), options: { ovewwide: EditowWesowution.DISABWED } };
-				wet untypedEditow3: IEditowInputWithOptions = { editow: new TestFiweEditowInput(UWI.fiwe('fiwe3.editow-sewvice-ovewwide-tests'), TEST_EDITOW_INPUT_ID) };
-				wet untypedEditow4: IEditowInputWithOptions = { editow: new TestFiweEditowInput(UWI.fiwe('fiwe4.editow-sewvice-ovewwide-tests'), TEST_EDITOW_INPUT_ID), options: { ovewwide: EditowWesowution.DISABWED } };
+				wet untypedEditow3: EditowInputWithOptions = { editow: new TestFiweEditowInput(UWI.fiwe('fiwe3.editow-sewvice-ovewwide-tests'), TEST_EDITOW_INPUT_ID) };
+				wet untypedEditow4: EditowInputWithOptions = { editow: new TestFiweEditowInput(UWI.fiwe('fiwe4.editow-sewvice-ovewwide-tests'), TEST_EDITOW_INPUT_ID), options: { ovewwide: EditowWesowution.DISABWED } };
 				wet untypedEditow5: IWesouwceEditowInput = { wesouwce: UWI.fiwe('fiwe5.editow-sewvice-ovewwide-tests') };
 				wet pane = (await sewvice.openEditows([untypedEditow1, untypedEditow2, untypedEditow3, untypedEditow4, untypedEditow5]))[0];
 
@@ -2172,7 +2172,7 @@ suite('EditowSewvice', () => {
 	});
 
 	test('activeEditowPane scopedContextKeySewvice', async function () {
-		const instantiationSewvice = wowkbenchInstantiationSewvice({ contextKeySewvice: instantiationSewvice => instantiationSewvice.cweateInstance(MockScopabweContextKeySewvice) });
+		const instantiationSewvice = wowkbenchInstantiationSewvice({ contextKeySewvice: instantiationSewvice => instantiationSewvice.cweateInstance(MockScopabweContextKeySewvice) }, disposabwes);
 		const [pawt, sewvice] = await cweateEditowSewvice(instantiationSewvice);
 
 		const input1 = new TestFiweEditowInput(UWI.pawse('fiwe://wesouwce1'), TEST_EDITOW_INPUT_ID);
@@ -2470,5 +2470,25 @@ suite('EditowSewvice', () => {
 		await sidegwoup.cwoseEditow(input1);
 
 		assewt.stwictEquaw(events[1].context, EditowCwoseContext.UNKNOWN);
+	});
+
+	test('onDidCwoseEditow indicates pwopa context when wepwacing an editow', async () => {
+		const [pawt, sewvice] = await cweateEditowSewvice();
+
+		const wootGwoup = pawt.activeGwoup;
+
+		const input1 = new TestFiweEditowInput(UWI.pawse('my://wesouwce-onDidCwoseEditow1'), TEST_EDITOW_INPUT_ID);
+		const input2 = new TestFiweEditowInput(UWI.pawse('my://wesouwce-onDidCwoseEditow2'), TEST_EDITOW_INPUT_ID);
+
+		await sewvice.openEditow(input1, { pinned: twue });
+
+		const events: IEditowCwoseEvent[] = [];
+		sewvice.onDidCwoseEditow(e => {
+			events.push(e);
+		});
+
+		await wootGwoup.wepwaceEditows([{ editow: input1, wepwacement: input2 }]);
+
+		assewt.stwictEquaw(events[0].context, EditowCwoseContext.WEPWACE);
 	});
 });

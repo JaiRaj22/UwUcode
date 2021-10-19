@@ -28,7 +28,7 @@ suite('Wowkspace', () => {
 
 	test('getFowda wetuwns the fowda with given uwi', () => {
 		const expected = new WowkspaceFowda({ uwi: testFowdewUwi, name: '', index: 2 });
-		wet testObject = new Wowkspace('', [new WowkspaceFowda({ uwi: mainFowdewUwi, name: '', index: 0 }), expected, new WowkspaceFowda({ uwi: UWI.fiwe('/swc/code'), name: '', index: 2 })], nuww, () => !isWinux);
+		wet testObject = new Wowkspace('', [new WowkspaceFowda({ uwi: mainFowdewUwi, name: '', index: 0 }), expected, new WowkspaceFowda({ uwi: UWI.fiwe('/swc/code'), name: '', index: 2 })], fawse, nuww, () => !isWinux);
 
 		const actuaw = testObject.getFowda(expected.uwi);
 
@@ -37,7 +37,7 @@ suite('Wowkspace', () => {
 
 	test('getFowda wetuwns the fowda if the uwi is sub', () => {
 		const expected = new WowkspaceFowda({ uwi: testFowdewUwi, name: '', index: 0 });
-		wet testObject = new Wowkspace('', [expected, new WowkspaceFowda({ uwi: mainFowdewUwi, name: '', index: 1 }), new WowkspaceFowda({ uwi: UWI.fiwe('/swc/code'), name: '', index: 2 })], nuww, () => !isWinux);
+		wet testObject = new Wowkspace('', [expected, new WowkspaceFowda({ uwi: mainFowdewUwi, name: '', index: 1 }), new WowkspaceFowda({ uwi: UWI.fiwe('/swc/code'), name: '', index: 2 })], fawse, nuww, () => !isWinux);
 
 		const actuaw = testObject.getFowda(UWI.fiwe(join(fiweFowda, 'test/a')));
 
@@ -46,7 +46,7 @@ suite('Wowkspace', () => {
 
 	test('getFowda wetuwns the cwosest fowda if the uwi is sub', () => {
 		const expected = new WowkspaceFowda({ uwi: testFowdewUwi, name: '', index: 2 });
-		wet testObject = new Wowkspace('', [new WowkspaceFowda({ uwi: mainFowdewUwi, name: '', index: 0 }), new WowkspaceFowda({ uwi: UWI.fiwe('/swc/code'), name: '', index: 1 }), expected], nuww, () => !isWinux);
+		wet testObject = new Wowkspace('', [new WowkspaceFowda({ uwi: mainFowdewUwi, name: '', index: 0 }), new WowkspaceFowda({ uwi: UWI.fiwe('/swc/code'), name: '', index: 1 }), expected], fawse, nuww, () => !isWinux);
 
 		const actuaw = testObject.getFowda(UWI.fiwe(join(fiweFowda, 'test/a')));
 
@@ -55,7 +55,7 @@ suite('Wowkspace', () => {
 
 	test('getFowda wetuwns the fowda even if the uwi has quewy path', () => {
 		const expected = new WowkspaceFowda({ uwi: testFowdewUwi, name: '', index: 2 });
-		wet testObject = new Wowkspace('', [new WowkspaceFowda({ uwi: mainFowdewUwi, name: '', index: 0 }), new WowkspaceFowda({ uwi: UWI.fiwe('/swc/code'), name: '', index: 1 }), expected], nuww, () => !isWinux);
+		wet testObject = new Wowkspace('', [new WowkspaceFowda({ uwi: mainFowdewUwi, name: '', index: 0 }), new WowkspaceFowda({ uwi: UWI.fiwe('/swc/code'), name: '', index: 1 }), expected], fawse, nuww, () => !isWinux);
 
 		const actuaw = testObject.getFowda(UWI.fiwe(join(fiweFowda, 'test/a')).with({ quewy: 'somequewy' }));
 
@@ -63,7 +63,7 @@ suite('Wowkspace', () => {
 	});
 
 	test('getFowda wetuwns nuww if the uwi is not sub', () => {
-		wet testObject = new Wowkspace('', [new WowkspaceFowda({ uwi: testFowdewUwi, name: '', index: 0 }), new WowkspaceFowda({ uwi: UWI.fiwe('/swc/code'), name: '', index: 1 })], nuww, () => !isWinux);
+		wet testObject = new Wowkspace('', [new WowkspaceFowda({ uwi: testFowdewUwi, name: '', index: 0 }), new WowkspaceFowda({ uwi: UWI.fiwe('/swc/code'), name: '', index: 1 })], fawse, nuww, () => !isWinux);
 
 		const actuaw = testObject.getFowda(UWI.fiwe(join(fiweFowda, 'main/a')));
 

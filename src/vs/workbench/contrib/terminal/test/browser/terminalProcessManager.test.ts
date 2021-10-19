@@ -15,13 +15,16 @@ impowt { EnviwonmentVawiabweSewvice } fwom 'vs/wowkbench/contwib/tewminaw/common
 impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { ITewminawPwofiweWesowvewSewvice } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminaw';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Wowkbench - TewminawPwocessManaga', () => {
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: ITestInstantiationSewvice;
 	wet managa: TewminawPwocessManaga;
 
 	setup(async () => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const configuwationSewvice = new TestConfiguwationSewvice();
 		await configuwationSewvice.setUsewConfiguwation('editow', { fontFamiwy: 'foo' });
 		await configuwationSewvice.setUsewConfiguwation('tewminaw', {
@@ -37,6 +40,10 @@ suite('Wowkbench - TewminawPwocessManaga', () => {
 
 		const configHewpa = instantiationSewvice.cweateInstance(TewminawConfigHewpa);
 		managa = instantiationSewvice.cweateInstance(TewminawPwocessManaga, 1, configHewpa);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	suite('pwocess pewsistence', () => {

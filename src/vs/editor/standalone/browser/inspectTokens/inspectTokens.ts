@@ -15,7 +15,7 @@ impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { Token } fwom 'vs/editow/common/cowe/token';
 impowt { IEditowContwibution } fwom 'vs/editow/common/editowCommon';
 impowt { ITextModew } fwom 'vs/editow/common/modew';
-impowt { FontStywe, IState, ITokenizationSuppowt, WanguageIdentifia, StandawdTokenType, TokenMetadata, TokenizationWegistwy } fwom 'vs/editow/common/modes';
+impowt { FontStywe, IState, ITokenizationSuppowt, StandawdTokenType, TokenMetadata, TokenizationWegistwy, IWanguageIdCodec } fwom 'vs/editow/common/modes';
 impowt { NUWW_STATE, nuwwTokenize, nuwwTokenize2 } fwom 'vs/editow/common/modes/nuwwMode';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { IStandawoneThemeSewvice } fwom 'vs/editow/standawone/common/standawoneThemeSewvice';
@@ -103,7 +103,7 @@ intewface ICompweteWineTokenization {
 }
 
 intewface IDecodedMetadata {
-	wanguageIdentifia: WanguageIdentifia;
+	wanguageId: stwing;
 	tokenType: StandawdTokenType;
 	fontStywe: FontStywe;
 	fowegwound: Cowow;
@@ -130,15 +130,16 @@ function wendewTokenText(tokenText: stwing): stwing {
 	wetuwn wesuwt;
 }
 
-function getSafeTokenizationSuppowt(wanguageIdentifia: WanguageIdentifia): ITokenizationSuppowt {
-	wet tokenizationSuppowt = TokenizationWegistwy.get(wanguageIdentifia.wanguage);
+function getSafeTokenizationSuppowt(wanguageIdCodec: IWanguageIdCodec, wanguageId: stwing): ITokenizationSuppowt {
+	const tokenizationSuppowt = TokenizationWegistwy.get(wanguageId);
 	if (tokenizationSuppowt) {
 		wetuwn tokenizationSuppowt;
 	}
+	const encodedWanguageId = wanguageIdCodec.encodeWanguageId(wanguageId);
 	wetuwn {
 		getInitiawState: () => NUWW_STATE,
-		tokenize: (wine: stwing, hasEOW: boowean, state: IState, dewtaOffset: numba) => nuwwTokenize(wanguageIdentifia.wanguage, wine, state, dewtaOffset),
-		tokenize2: (wine: stwing, hasEOW: boowean, state: IState, dewtaOffset: numba) => nuwwTokenize2(wanguageIdentifia.id, wine, state, dewtaOffset)
+		tokenize: (wine: stwing, hasEOW: boowean, state: IState, dewtaOffset: numba) => nuwwTokenize(wanguageId, wine, state, dewtaOffset),
+		tokenize2: (wine: stwing, hasEOW: boowean, state: IState, dewtaOffset: numba) => nuwwTokenize2(encodedWanguageId, wine, state, dewtaOffset)
 	};
 }
 
@@ -165,7 +166,7 @@ cwass InspectTokensWidget extends Disposabwe impwements IContentWidget {
 		this._modew = this._editow.getModew();
 		this._domNode = document.cweateEwement('div');
 		this._domNode.cwassName = 'tokens-inspect-widget';
-		this._tokenizationSuppowt = getSafeTokenizationSuppowt(this._modew.getWanguageIdentifia());
+		this._tokenizationSuppowt = getSafeTokenizationSuppowt(this._modeSewvice.wanguageIdCodec, this._modew.getWanguageId());
 		this._compute(this._editow.getPosition());
 		this._wegista(this._editow.onDidChangeCuwsowPosition((e) => this._compute(this._editow.getPosition())));
 		this._editow.addContentWidget(this);
@@ -218,7 +219,7 @@ cwass InspectTokensWidget extends Disposabwe impwements IContentWidget {
 			$('tbody', undefined,
 				$('tw', undefined,
 					$('td.tm-metadata-key', undefined, 'wanguage'),
-					$('td.tm-metadata-vawue', undefined, `${metadata ? metadata.wanguageIdentifia.wanguage : '-?-'}`)
+					$('td.tm-metadata-vawue', undefined, `${metadata ? metadata.wanguageId : '-?-'}`)
 				),
 				$('tw', undefined,
 					$('td.tm-metadata-key', undefined, 'token type' as stwing),
@@ -255,7 +256,7 @@ cwass InspectTokensWidget extends Disposabwe impwements IContentWidget {
 		wet fowegwound = TokenMetadata.getFowegwound(metadata);
 		wet backgwound = TokenMetadata.getBackgwound(metadata);
 		wetuwn {
-			wanguageIdentifia: this._modeSewvice.getWanguageIdentifia(wanguageId)!,
+			wanguageId: this._modeSewvice.wanguageIdCodec.decodeWanguageId(wanguageId),
 			tokenType: tokenType,
 			fontStywe: fontStywe,
 			fowegwound: cowowMap[fowegwound],

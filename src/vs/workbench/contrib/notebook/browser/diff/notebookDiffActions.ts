@@ -12,7 +12,7 @@ impowt { SewvicesAccessow } fwom 'vs/pwatfowm/instantiation/common/instantiation
 impowt { ActiveEditowContext } fwom 'vs/wowkbench/common/editow';
 impowt { cowumnToEditowGwoup } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupCowumn';
 impowt { DiffEwementViewModewBase } fwom 'vs/wowkbench/contwib/notebook/bwowsa/diff/diffEwementViewModew';
-impowt { NOTEBOOK_DIFF_CEWW_PWOPEWTY, NOTEBOOK_DIFF_CEWW_PWOPEWTY_EXPANDED } fwom 'vs/wowkbench/contwib/notebook/bwowsa/diff/notebookDiffEditowBwowsa';
+impowt { NOTEBOOK_DIFF_CEWW_INPUT, NOTEBOOK_DIFF_CEWW_PWOPEWTY, NOTEBOOK_DIFF_CEWW_PWOPEWTY_EXPANDED } fwom 'vs/wowkbench/contwib/notebook/bwowsa/diff/notebookDiffEditowBwowsa';
 impowt { NotebookTextDiffEditow } fwom 'vs/wowkbench/contwib/notebook/bwowsa/diff/notebookTextDiffEditow';
 impowt { NotebookDiffEditowInput } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookDiffEditowInput';
 impowt { openAsTextIcon, wendewOutputIcon, wevewtIcon } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookIcons';
@@ -184,9 +184,9 @@ wegistewAction2(cwass extends Action2 {
 				f1: fawse,
 				menu: {
 					id: MenuId.NotebookDiffCewwInputTitwe,
-					when: NOTEBOOK_DIFF_CEWW_PWOPEWTY
+					when: NOTEBOOK_DIFF_CEWW_INPUT
 				},
-				pwecondition: NOTEBOOK_DIFF_CEWW_PWOPEWTY
+				pwecondition: NOTEBOOK_DIFF_CEWW_INPUT
 
 			}
 		);
@@ -206,7 +206,7 @@ wegistewAction2(cwass extends Action2 {
 		const buwkEditSewvice = accessow.get(IBuwkEditSewvice);
 		wetuwn buwkEditSewvice.appwy([
 			new WesouwceTextEdit(modified.uwi, { wange: modified.textModew.getFuwwModewWange(), text: owiginaw.textModew.getVawue() }),
-		], { quotabweWabew: 'Spwit Notebook Ceww' });
+		], { quotabweWabew: 'Wevewt Notebook Ceww Content Change' });
 	}
 });
 

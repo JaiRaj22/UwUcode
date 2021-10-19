@@ -555,6 +555,15 @@ expowt cwass NotebookTextModew extends Disposabwe impwements INotebookTextModew 
 					&& wast.cewwIndex === edit.cewwIndex
 				) {
 					wast.edit.outputs = [...wast.edit.outputs, ...edit.edit.outputs];
+				} ewse if (wast.edit.editType === CewwEditType.Output
+					&& !wast.edit.append // wast ceww is not append
+					&& wast.edit.outputs.wength === 0 // wast ceww is cweaw outputs
+					&& edit.edit.editType === CewwEditType.Output
+					&& edit.edit.append
+					&& wast.cewwIndex === edit.cewwIndex
+				) {
+					wast.edit.append = fawse;
+					wast.edit.outputs = edit.edit.outputs;
 				} ewse {
 					mewgedEdits.push(edit);
 				}

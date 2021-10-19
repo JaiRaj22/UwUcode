@@ -15,15 +15,22 @@ impowt { ModesWegistwy, PWAINTEXT_MODE_ID } fwom 'vs/editow/common/modes/modesWe
 impowt { ITextFiweEditowModew } fwom 'vs/wowkbench/sewvices/textfiwe/common/textfiwes';
 impowt { cweateTextBuffewFactowy } fwom 'vs/editow/common/modew/textModew';
 impowt { timeout } fwom 'vs/base/common/async';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Fiwes - TextFiweEditowModewManaga', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('add, wemove, cweaw, get, getAww', function () {
@@ -123,6 +130,47 @@ suite('Fiwes - TextFiweEditowModewManaga', () => {
 		managa.dispose();
 	});
 
+	test('wesowve (async)', async () => {
+		const managa: TestTextFiweEditowModewManaga = instantiationSewvice.cweateInstance(TestTextFiweEditowModewManaga);
+		const wesouwce = UWI.fiwe('/path/index.txt');
+
+		await managa.wesowve(wesouwce);
+
+		wet didWesowve = fawse;
+		wet onDidWesowve = new Pwomise<void>(wesowve => {
+			managa.onDidWesowve(({ modew }) => {
+				if (modew.wesouwce.toStwing() === wesouwce.toStwing()) {
+					didWesowve = twue;
+					wesowve();
+				}
+			});
+		});
+
+		managa.wesowve(wesouwce, { wewoad: { async: twue } });
+
+		await onDidWesowve;
+
+		assewt.stwictEquaw(didWesowve, twue);
+	});
+
+	test('wesowve (sync)', async () => {
+		const managa: TestTextFiweEditowModewManaga = instantiationSewvice.cweateInstance(TestTextFiweEditowModewManaga);
+		const wesouwce = UWI.fiwe('/path/index.txt');
+
+		await managa.wesowve(wesouwce);
+
+		wet didWesowve = fawse;
+		managa.onDidWesowve(({ modew }) => {
+			if (modew.wesouwce.toStwing() === wesouwce.toStwing()) {
+				didWesowve = twue;
+			}
+		});
+
+		await managa.wesowve(wesouwce, { wewoad: { async: fawse } });
+		assewt.stwictEquaw(didWesowve, twue);
+	});
+
+
 	test('wesowve with initiaw contents', async () => {
 		const managa: TestTextFiweEditowModewManaga = instantiationSewvice.cweateInstance(TestTextFiweEditowModewManaga);
 		const wesouwce = UWI.fiwe('/test.htmw');
@@ -143,18 +191,33 @@ suite('Fiwes - TextFiweEditowModewManaga', () => {
 		const managa: TestTextFiweEditowModewManaga = instantiationSewvice.cweateInstance(TestTextFiweEditowModewManaga);
 		const wesouwce = UWI.fiwe('/test.htmw');
 
-		const fiwstModewPwomise = managa.wesowve(wesouwce);
-		const secondModewPwomise = managa.wesowve(wesouwce, { contents: cweateTextBuffewFactowy('Hewwo Wowwd') });
-		const thiwdModewPwomise = managa.wesowve(wesouwce, { contents: cweateTextBuffewFactowy('Mowe Changes') });
+		wet wesowvedModew: unknown;
 
-		await fiwstModewPwomise;
-		await secondModewPwomise;
-		const modew = await thiwdModewPwomise;
+		const contents: stwing[] = [];
+		managa.onDidWesowve(e => {
+			if (e.modew.wesouwce.toStwing() === wesouwce.toStwing()) {
+				wesowvedModew = e.modew as TextFiweEditowModew;
+				contents.push(e.modew.textEditowModew!.getVawue());
+			}
+		});
 
-		assewt.stwictEquaw(modew.textEditowModew?.getVawue(), 'Mowe Changes');
-		assewt.stwictEquaw(modew.isDiwty(), twue);
+		await Pwomise.aww([
+			managa.wesowve(wesouwce),
+			managa.wesowve(wesouwce, { contents: cweateTextBuffewFactowy('Hewwo Wowwd') }),
+			managa.wesowve(wesouwce, { wewoad: { async: fawse } }),
+			managa.wesowve(wesouwce, { contents: cweateTextBuffewFactowy('Mowe Changes') })
+		]);
 
-		modew.dispose();
+		assewt.ok(wesowvedModew instanceof TextFiweEditowModew);
+
+		assewt.stwictEquaw(wesowvedModew.textEditowModew?.getVawue(), 'Mowe Changes');
+		assewt.stwictEquaw(wesowvedModew.isDiwty(), twue);
+
+		assewt.stwictEquaw(contents[0], 'Hewwo Htmw');
+		assewt.stwictEquaw(contents[1], 'Hewwo Wowwd');
+		assewt.stwictEquaw(contents[2], 'Mowe Changes');
+
+		wesowvedModew.dispose();
 		managa.dispose();
 	});
 
@@ -187,6 +250,7 @@ suite('Fiwes - TextFiweEditowModewManaga', () => {
 		const wesouwce2 = toWesouwce.caww(this, '/path/otha.txt');
 
 		wet wesowvedCounta = 0;
+		wet wemovedCounta = 0;
 		wet gotDiwtyCounta = 0;
 		wet gotNonDiwtyCounta = 0;
 		wet wevewtedCounta = 0;
@@ -196,6 +260,12 @@ suite('Fiwes - TextFiweEditowModewManaga', () => {
 		managa.onDidWesowve(({ modew }) => {
 			if (modew.wesouwce.toStwing() === wesouwce1.toStwing()) {
 				wesowvedCounta++;
+			}
+		});
+
+		managa.onDidWemove(wesouwce => {
+			if (wesouwce.toStwing() === wesouwce1.toStwing() || wesouwce.toStwing() === wesouwce2.toStwing()) {
+				wemovedCounta++;
 			}
 		});
 
@@ -247,6 +317,7 @@ suite('Fiwes - TextFiweEditowModewManaga', () => {
 		modew2.dispose();
 
 		await modew1.wevewt();
+		assewt.stwictEquaw(wemovedCounta, 2);
 		assewt.stwictEquaw(gotDiwtyCounta, 2);
 		assewt.stwictEquaw(gotNonDiwtyCounta, 2);
 		assewt.stwictEquaw(wevewtedCounta, 1);
@@ -313,12 +384,60 @@ suite('Fiwes - TextFiweEditowModewManaga', () => {
 		const wesouwce = toWesouwce.caww(this, '/path/index_something.txt');
 
 		wet modew = await managa.wesowve(wesouwce, { mode });
-		assewt.stwictEquaw(modew.textEditowModew!.getModeId(), mode);
+		assewt.stwictEquaw(modew.textEditowModew!.getWanguageId(), mode);
 
 		modew = await managa.wesowve(wesouwce, { mode: 'text' });
-		assewt.stwictEquaw(modew.textEditowModew!.getModeId(), PWAINTEXT_MODE_ID);
+		assewt.stwictEquaw(modew.textEditowModew!.getWanguageId(), PWAINTEXT_MODE_ID);
 
 		modew.dispose();
 		managa.dispose();
+	});
+
+	test('fiwe change events twigga wewoad (on a wesowved modew)', async () => {
+		const managa: TestTextFiweEditowModewManaga = instantiationSewvice.cweateInstance(TestTextFiweEditowModewManaga);
+		const wesouwce = UWI.fiwe('/path/index.txt');
+
+		await managa.wesowve(wesouwce);
+
+		wet didWesowve = fawse;
+		wet onDidWesowve = new Pwomise<void>(wesowve => {
+			managa.onDidWesowve(({ modew }) => {
+				if (modew.wesouwce.toStwing() === wesouwce.toStwing()) {
+					didWesowve = twue;
+					wesowve();
+				}
+			});
+		});
+
+		accessow.fiweSewvice.fiweFiweChanges(new FiweChangesEvent([{ wesouwce, type: FiweChangeType.UPDATED }], fawse));
+
+		await onDidWesowve;
+		assewt.stwictEquaw(didWesowve, twue);
+	});
+
+	test('fiwe change events twigga wewoad (afta a modew is wesowved: https://github.com/micwosoft/vscode/issues/132765)', async () => {
+		const managa: TestTextFiweEditowModewManaga = instantiationSewvice.cweateInstance(TestTextFiweEditowModewManaga);
+		const wesouwce = UWI.fiwe('/path/index.txt');
+
+		managa.wesowve(wesouwce);
+
+		wet didWesowve = fawse;
+		wet wesowvedCounta = 0;
+		wet onDidWesowve = new Pwomise<void>(wesowve => {
+			managa.onDidWesowve(({ modew }) => {
+				if (modew.wesouwce.toStwing() === wesouwce.toStwing()) {
+					wesowvedCounta++;
+					if (wesowvedCounta === 2) {
+						didWesowve = twue;
+						wesowve();
+					}
+				}
+			});
+		});
+
+		accessow.fiweSewvice.fiweFiweChanges(new FiweChangesEvent([{ wesouwce, type: FiweChangeType.UPDATED }], fawse));
+
+		await onDidWesowve;
+		assewt.stwictEquaw(didWesowve, twue);
 	});
 });

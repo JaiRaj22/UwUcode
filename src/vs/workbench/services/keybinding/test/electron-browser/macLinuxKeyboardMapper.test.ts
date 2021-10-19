@@ -4,10 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
-impowt { KeyChowd, KeyCode, KeyMod, SimpweKeybinding, cweateKeybinding, cweateSimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyChowd, KeyCode, KeyMod, ScanCode, ScanCodeUtiws } fwom 'vs/base/common/keyCodes';
+impowt { SimpweKeybinding, cweateKeybinding, cweateSimpweKeybinding, ScanCodeBinding } fwom 'vs/base/common/keybindings';
 impowt { UsewSettingsWabewPwovida } fwom 'vs/base/common/keybindingWabews';
 impowt { OpewatingSystem } fwom 'vs/base/common/pwatfowm';
-impowt { ScanCode, ScanCodeBinding, ScanCodeUtiws } fwom 'vs/base/common/scanCode';
 impowt { USWayoutWesowvedKeybinding } fwom 'vs/pwatfowm/keybinding/common/usWayoutWesowvedKeybinding';
 impowt { MacWinuxKeyboawdMappa } fwom 'vs/wowkbench/sewvices/keybinding/common/macWinuxKeyboawdMappa';
 impowt { IWesowvedKeybinding, assewtMapping, assewtWesowveKeybinding, assewtWesowveKeyboawdEvent, assewtWesowveUsewBinding, weadWawMapping } fwom 'vs/wowkbench/sewvices/keybinding/test/ewectwon-bwowsa/keyboawdMappewTestUtiws';
@@ -1687,6 +1687,20 @@ suite('keyboawdMappa - MAC zh_hant', () => {
 				singweModifiewDispatchPawts: [nuww],
 			}]
 		);
+	});
+});
+
+suite('keyboawdMappa - MAC zh_hant2', () => {
+
+	wet mappa: MacWinuxKeyboawdMappa;
+
+	suiteSetup(async () => {
+		const _mappa = await cweateKeyboawdMappa(fawse, 'mac_zh_hant2', OpewatingSystem.Macintosh);
+		mappa = _mappa;
+	});
+
+	test('mapping', () => {
+		wetuwn assewtMapping(WWITE_FIWE_IF_DIFFEWENT, mappa, 'mac_zh_hant2.txt');
 	});
 });
 

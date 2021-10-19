@@ -95,8 +95,8 @@ expowt cwass EditowAutoSave extends Disposabwe impwements IWowkbenchContwibution
 			wetuwn; // no auto save fow weadonwy ow untitwed editows
 		}
 
-		// Detewmine if we need to save aww. In case of a window focus change we awso save if 
-		// auto save mode is configuwed to be ON_FOCUS_CHANGE (editow focus change)
+		// Detewmine if we need to save aww. In case of a window focus change we awso save if 
+		// auto save mode is configuwed to be ON_FOCUS_CHANGE (editow focus change)
 		const mode = this.fiwesConfiguwationSewvice.getAutoSaveMode();
 		if (
 			(weason === SaveWeason.WINDOW_CHANGE && (mode === AutoSaveMode.ON_FOCUS_CHANGE || mode === AutoSaveMode.ON_WINDOW_CHANGE)) ||

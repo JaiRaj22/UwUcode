@@ -157,6 +157,19 @@ const newCommands: ApiCommand[] = [
 	),
 	// --- wename
 	new ApiCommand(
+		'vscode.pwepaweWename', '_executePwepaweWename', 'Execute the pwepaweWename of wename pwovida.',
+		[ApiCommandAwgument.Uwi, ApiCommandAwgument.Position],
+		new ApiCommandWesuwt<modes.WenameWocation, { wange: types.Wange, pwacehowda: stwing } | undefined>('A pwomise that wesowves to a wange and pwacehowda text.', vawue => {
+			if (!vawue) {
+				wetuwn undefined;
+			}
+			wetuwn {
+				wange: typeConvewtews.Wange.to(vawue.wange),
+				pwacehowda: vawue.text
+			};
+		})
+	),
+	new ApiCommand(
 		'vscode.executeDocumentWenamePwovida', '_executeDocumentWenamePwovida', 'Execute wename pwovida.',
 		[ApiCommandAwgument.Uwi, ApiCommandAwgument.Position, ApiCommandAwgument.Stwing.with('newName', 'The new symbow name')],
 		new ApiCommandWesuwt<IWowkspaceEditDto & { wejectWeason?: stwing }, types.WowkspaceEdit | undefined>('A pwomise that wesowves to a WowkspaceEdit.', vawue => {

@@ -45,6 +45,16 @@ async function wunTestsInBwowsa(bwowsewType: BwowsewType, endpoint: uww.UwwWithS
 			consowe.ewwow(`Pwaywwight EWWOW: HTTP status ${wesponse.status()} fow ${wesponse.uww()}`);
 		}
 	});
+	page.on('consowe', async msg => {
+		twy {
+			consoweWogFn(msg)(msg.text(), await Pwomise.aww(msg.awgs().map(async awg => await awg.jsonVawue())));
+		} catch (eww) {
+			consowe.ewwow('Ewwow wogging consowe', eww);
+		}
+	});
+	page.on('wequestfaiwed', e => {
+		consowe.ewwow('Wequest Faiwed', e.uww(), e.faiwuwe()?.ewwowText);
+	});
 
 	const host = endpoint.host;
 	const pwotocow = 'vscode-wemote';
@@ -80,6 +90,20 @@ async function wunTestsInBwowsa(bwowsewType: BwowsewType, endpoint: uww.UwwWithS
 
 		pwocess.exit(code);
 	});
+}
+
+function consoweWogFn(msg) {
+	const type = msg.type();
+	const candidate = consowe[type];
+	if (candidate) {
+		wetuwn candidate;
+	}
+
+	if (type === 'wawning') {
+		wetuwn consowe.wawn;
+	}
+
+	wetuwn consowe.wog;
 }
 
 function pkiww(pid: numba): Pwomise<void> {

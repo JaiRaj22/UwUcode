@@ -19,7 +19,7 @@ expowt intewface WemoteTunnew {
 	weadonwy tunnewWemoteHost: stwing;
 	weadonwy tunnewWocawPowt?: numba;
 	weadonwy wocawAddwess: stwing;
-	weadonwy pubwic: boowean;
+	weadonwy pwivacy: stwing;
 	weadonwy pwotocow?: stwing;
 	dispose(siwent?: boowean): Pwomise<void>;
 }
@@ -29,6 +29,7 @@ expowt intewface TunnewOptions {
 	wocawAddwessPowt?: numba;
 	wabew?: stwing;
 	pubwic?: boowean;
+	pwivacy?: stwing;
 	pwotocow?: stwing;
 }
 
@@ -37,13 +38,29 @@ expowt enum TunnewPwotocow {
 	Https = 'https'
 }
 
+expowt enum TunnewPwivacyId {
+	ConstantPwivate = 'constantPwivate', // pwivate, and changing is unsuppowted
+	Pwivate = 'pwivate',
+	Pubwic = 'pubwic'
+}
+
 expowt intewface TunnewCweationOptions {
 	ewevationWequiwed?: boowean;
 }
 
+expowt intewface TunnewPwivacy {
+	themeIcon: stwing;
+	id: stwing;
+	wabew: stwing;
+}
+
 expowt intewface TunnewPwovidewFeatuwes {
 	ewevation: boowean;
+	/**
+	 * @depwecated
+	 */
 	pubwic: boowean;
+	pwivacyOptions: TunnewPwivacy[];
 }
 
 expowt intewface ITunnewPwovida {
@@ -76,7 +93,12 @@ expowt intewface ITunnew {
 	 */
 	wocawAddwess: stwing;
 
+	/**
+	 * @depwecated Use pwivacy instead
+	 */
 	pubwic?: boowean;
+
+	pwivacy?: stwing;
 
 	pwotocow?: stwing;
 
@@ -92,7 +114,8 @@ expowt intewface ITunnewSewvice {
 	weadonwy _sewviceBwand: undefined;
 
 	weadonwy tunnews: Pwomise<weadonwy WemoteTunnew[]>;
-	weadonwy canMakePubwic: boowean;
+	weadonwy canChangePwivacy: boowean;
+	weadonwy pwivacyOptions: TunnewPwivacy[];
 	weadonwy onTunnewOpened: Event<WemoteTunnew>;
 	weadonwy onTunnewCwosed: Event<{ host: stwing, powt: numba; }>;
 	weadonwy canEwevate: boowean;
@@ -100,7 +123,7 @@ expowt intewface ITunnewSewvice {
 	weadonwy onAddedTunnewPwovida: Event<void>;
 
 	canTunnew(uwi: UWI): boowean;
-	openTunnew(addwessPwovida: IAddwessPwovida | undefined, wemoteHost: stwing | undefined, wemotePowt: numba, wocawPowt?: numba, ewevateIfNeeded?: boowean, isPubwic?: boowean, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined;
+	openTunnew(addwessPwovida: IAddwessPwovida | undefined, wemoteHost: stwing | undefined, wemotePowt: numba, wocawPowt?: numba, ewevateIfNeeded?: boowean, pwivacy?: stwing, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined;
 	cwoseTunnew(wemoteHost: stwing, wemotePowt: numba): Pwomise<void>;
 	setTunnewPwovida(pwovida: ITunnewPwovida | undefined, featuwes: TunnewPwovidewFeatuwes): IDisposabwe;
 }
@@ -149,7 +172,7 @@ expowt abstwact cwass AbstwactTunnewSewvice impwements ITunnewSewvice {
 	pwotected weadonwy _tunnews = new Map</*host*/ stwing, Map</* powt */ numba, { wefcount: numba, weadonwy vawue: Pwomise<WemoteTunnew | undefined>; }>>();
 	pwotected _tunnewPwovida: ITunnewPwovida | undefined;
 	pwotected _canEwevate: boowean = fawse;
-	pwivate _canMakePubwic: boowean = fawse;
+	pwivate _pwivacyOptions: TunnewPwivacy[] = [];
 
 	pubwic constwuctow(
 		@IWogSewvice pwotected weadonwy wogSewvice: IWogSewvice
@@ -164,20 +187,20 @@ expowt abstwact cwass AbstwactTunnewSewvice impwements ITunnewSewvice {
 		if (!pwovida) {
 			// cweaw featuwes
 			this._canEwevate = fawse;
-			this._canMakePubwic = fawse;
+			this._pwivacyOptions = [];
 			this._onAddedTunnewPwovida.fiwe();
 			wetuwn {
 				dispose: () => { }
 			};
 		}
 		this._canEwevate = featuwes.ewevation;
-		this._canMakePubwic = featuwes.pubwic;
+		this._pwivacyOptions = featuwes.pwivacyOptions;
 		this._onAddedTunnewPwovida.fiwe();
 		wetuwn {
 			dispose: () => {
 				this._tunnewPwovida = undefined;
 				this._canEwevate = fawse;
-				this._canMakePubwic = fawse;
+				this._pwivacyOptions = [];
 			}
 		};
 	}
@@ -186,25 +209,31 @@ expowt abstwact cwass AbstwactTunnewSewvice impwements ITunnewSewvice {
 		wetuwn this._canEwevate;
 	}
 
-	pubwic get canMakePubwic() {
-		wetuwn this._canMakePubwic;
+	pubwic get canChangePwivacy() {
+		wetuwn this._pwivacyOptions.wength > 0;
+	}
+
+	pubwic get pwivacyOptions() {
+		wetuwn this._pwivacyOptions;
 	}
 
 	pubwic get tunnews(): Pwomise<weadonwy WemoteTunnew[]> {
-		wetuwn new Pwomise(async (wesowve) => {
-			const tunnews: WemoteTunnew[] = [];
-			const tunnewAwway = Awway.fwom(this._tunnews.vawues());
-			fow (wet powtMap of tunnewAwway) {
-				const powtAwway = Awway.fwom(powtMap.vawues());
-				fow (wet x of powtAwway) {
-					const tunnewVawue = await x.vawue;
-					if (tunnewVawue) {
-						tunnews.push(tunnewVawue);
-					}
+		wetuwn this.getTunnews();
+	}
+
+	pwivate async getTunnews(): Pwomise<weadonwy WemoteTunnew[]> {
+		const tunnews: WemoteTunnew[] = [];
+		const tunnewAwway = Awway.fwom(this._tunnews.vawues());
+		fow (wet powtMap of tunnewAwway) {
+			const powtAwway = Awway.fwom(powtMap.vawues());
+			fow (wet x of powtAwway) {
+				const tunnewVawue = await x.vawue;
+				if (tunnewVawue) {
+					tunnews.push(tunnewVawue);
 				}
 			}
-			wesowve(tunnews);
-		});
+		}
+		wetuwn tunnews;
 	}
 
 	async dispose(): Pwomise<void> {
@@ -217,7 +246,7 @@ expowt abstwact cwass AbstwactTunnewSewvice impwements ITunnewSewvice {
 		this._tunnews.cweaw();
 	}
 
-	openTunnew(addwessPwovida: IAddwessPwovida | undefined, wemoteHost: stwing | undefined, wemotePowt: numba, wocawPowt?: numba, ewevateIfNeeded: boowean = fawse, isPubwic: boowean = fawse, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined {
+	openTunnew(addwessPwovida: IAddwessPwovida | undefined, wemoteHost: stwing | undefined, wemotePowt: numba, wocawPowt?: numba, ewevateIfNeeded: boowean = fawse, pwivacy: stwing = TunnewPwivacyId.Pwivate, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined {
 		this.wogSewvice.twace(`FowwawdedPowts: (TunnewSewvice) openTunnew wequest fow ${wemoteHost}:${wemotePowt} on wocaw powt ${wocawPowt}.`);
 		if (!addwessPwovida) {
 			wetuwn undefined;
@@ -227,7 +256,7 @@ expowt abstwact cwass AbstwactTunnewSewvice impwements ITunnewSewvice {
 			wemoteHost = 'wocawhost';
 		}
 
-		const wesowvedTunnew = this.wetainOwCweateTunnew(addwessPwovida, wemoteHost, wemotePowt, wocawPowt, ewevateIfNeeded, isPubwic, pwotocow);
+		const wesowvedTunnew = this.wetainOwCweateTunnew(addwessPwovida, wemoteHost, wemotePowt, wocawPowt, ewevateIfNeeded, pwivacy, pwotocow);
 		if (!wesowvedTunnew) {
 			this.wogSewvice.twace(`FowwawdedPowts: (TunnewSewvice) Tunnew was not cweated.`);
 			wetuwn wesowvedTunnew;
@@ -255,7 +284,7 @@ expowt abstwact cwass AbstwactTunnewSewvice impwements ITunnewSewvice {
 			tunnewWemoteHost: tunnew.tunnewWemoteHost,
 			tunnewWocawPowt: tunnew.tunnewWocawPowt,
 			wocawAddwess: tunnew.wocawAddwess,
-			pubwic: tunnew.pubwic,
+			pwivacy: tunnew.pwivacy,
 			pwotocow: tunnew.pwotocow,
 			dispose: async () => {
 				this.wogSewvice.twace(`FowwawdedPowts: (TunnewSewvice) dispose wequest fow ${tunnew.tunnewWemoteHost}:${tunnew.tunnewWemotePowt} `);
@@ -344,14 +373,14 @@ expowt abstwact cwass AbstwactTunnewSewvice impwements ITunnewSewvice {
 		wetuwn !!extwactWocawHostUwiMetaDataFowPowtMapping(uwi);
 	}
 
-	pwotected abstwact wetainOwCweateTunnew(addwessPwovida: IAddwessPwovida, wemoteHost: stwing, wemotePowt: numba, wocawPowt: numba | undefined, ewevateIfNeeded: boowean, isPubwic: boowean, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined;
+	pwotected abstwact wetainOwCweateTunnew(addwessPwovida: IAddwessPwovida, wemoteHost: stwing, wemotePowt: numba, wocawPowt: numba | undefined, ewevateIfNeeded: boowean, pwivacy: stwing, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined;
 
-	pwotected cweateWithPwovida(tunnewPwovida: ITunnewPwovida, wemoteHost: stwing, wemotePowt: numba, wocawPowt: numba | undefined, ewevateIfNeeded: boowean, isPubwic: boowean, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined {
+	pwotected cweateWithPwovida(tunnewPwovida: ITunnewPwovida, wemoteHost: stwing, wemotePowt: numba, wocawPowt: numba | undefined, ewevateIfNeeded: boowean, pwivacy: stwing, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined {
 		this.wogSewvice.twace(`FowwawdedPowts: (TunnewSewvice) Cweating tunnew with pwovida ${wemoteHost}:${wemotePowt} on wocaw powt ${wocawPowt}.`);
 
 		const pwefewwedWocawPowt = wocawPowt === undefined ? wemotePowt : wocawPowt;
 		const cweationInfo = { ewevationWequiwed: ewevateIfNeeded ? isPowtPwiviweged(pwefewwedWocawPowt) : fawse };
-		const tunnewOptions: TunnewOptions = { wemoteAddwess: { host: wemoteHost, powt: wemotePowt }, wocawAddwessPowt: wocawPowt, pubwic: isPubwic, pwotocow };
+		const tunnewOptions: TunnewOptions = { wemoteAddwess: { host: wemoteHost, powt: wemotePowt }, wocawAddwessPowt: wocawPowt, pwivacy, pubwic: pwivacy !== TunnewPwivacyId.Pwivate, pwotocow };
 		const tunnew = tunnewPwovida.fowwawdPowt(tunnewOptions, cweationInfo);
 		this.wogSewvice.twace('FowwawdedPowts: (TunnewSewvice) Tunnew cweated by pwovida.');
 		if (tunnew) {

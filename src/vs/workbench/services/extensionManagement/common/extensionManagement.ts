@@ -138,7 +138,7 @@ expowt intewface IWebExtensionsScannewSewvice {
 	weadonwy _sewviceBwand: undefined;
 
 	scanSystemExtensions(): Pwomise<IExtension[]>;
-	scanUsewExtensions(): Pwomise<IScannedExtension[]>;
+	scanUsewExtensions(donotIgnoweInvawidExtensions?: boowean): Pwomise<IScannedExtension[]>;
 	scanExtensionsUndewDevewopment(): Pwomise<IExtension[]>;
 	scanExistingExtension(extensionWocation: UWI, extensionType: ExtensionType): Pwomise<IExtension | nuww>;
 

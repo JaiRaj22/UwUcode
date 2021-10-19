@@ -32,6 +32,7 @@ impowt { SimpweFiweDiawog } fwom 'vs/wowkbench/sewvices/diawogs/bwowsa/simpweFiw
 impowt { ICommandSewvice } fwom 'vs/pwatfowm/commands/common/commands';
 impowt { ICodeEditowSewvice } fwom 'vs/editow/bwowsa/sewvices/codeEditowSewvice';
 impowt { IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 cwass TestFiweDiawogSewvice extends FiweDiawogSewvice {
 	constwuctow(
@@ -69,15 +70,21 @@ cwass TestFiweDiawogSewvice extends FiweDiawogSewvice {
 
 suite('FiweDiawogSewvice', function () {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: TestInstantiationSewvice;
 	const testFiwe: UWI = UWI.fiwe('/test/fiwe');
 
 	setup(async function () {
-		instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const configuwationSewvice = new TestConfiguwationSewvice();
 		await configuwationSewvice.setUsewConfiguwation('fiwes', { simpweDiawog: { enabwe: twue } });
 		instantiationSewvice.stub(IConfiguwationSewvice, configuwationSewvice);
 
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('Wocaw - open/save wowkspaces avaiwabweFiwesystems', async function () {

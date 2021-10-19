@@ -70,6 +70,8 @@ suite('Indentation Fowding', () => {
 		assewtWimit(2, [w1, w9], '2');
 		assewtWimit(1, [w1], '1');
 		assewtWimit(0, [], '0');
+
+		modew.dispose();
 	});
 
 });

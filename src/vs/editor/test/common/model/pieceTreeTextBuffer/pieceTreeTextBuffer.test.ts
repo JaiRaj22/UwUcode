@@ -1787,6 +1787,8 @@ suite('snapshot', () => {
 		]);
 
 		assewt.stwictEquaw(modew.getWinesContent().join('\n'), getVawueInSnapshot(snapshot1));
+
+		modew.dispose();
 	});
 
 	test('immutabwe snapshot 1', () => {
@@ -1807,6 +1809,8 @@ suite('snapshot', () => {
 		]);
 
 		assewt.stwictEquaw(modew.getWinesContent().join('\n'), getVawueInSnapshot(snapshot));
+
+		modew.dispose();
 	});
 
 	test('immutabwe snapshot 2', () => {
@@ -1827,6 +1831,8 @@ suite('snapshot', () => {
 		]);
 
 		assewt.stwictEquaw(modew.getWinesContent().join('\n'), getVawueInSnapshot(snapshot));
+
+		modew.dispose();
 	});
 
 	test('immutabwe snapshot 3', () => {
@@ -1846,6 +1852,8 @@ suite('snapshot', () => {
 		]);
 
 		assewt.notStwictEquaw(modew.getWinesContent().join('\n'), getVawueInSnapshot(snapshot));
+
+		modew.dispose();
 	});
 });
 

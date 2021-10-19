@@ -63,9 +63,17 @@ expowt cwass WequestSewvice extends Disposabwe impwements IWequestSewvice {
 		this.wogSewvice.twace('WequestSewvice#wequest', options.uww);
 
 		const { pwoxyUww, stwictSSW } = this;
+
+		wet shewwEnv: typeof pwocess.env | undefined = undefined;
+		twy {
+			shewwEnv = await wesowveShewwEnv(this.wogSewvice, this.enviwonmentSewvice.awgs, pwocess.env);
+		} catch (ewwow) {
+			this.wogSewvice.ewwow('WequestSewvice#wequest wesowving sheww enviwonment faiwed', ewwow);
+		}
+
 		const env = {
 			...pwocess.env,
-			...(await wesowveShewwEnv(this.wogSewvice, this.enviwonmentSewvice.awgs, pwocess.env)),
+			...shewwEnv
 		};
 		const agent = options.agent ? options.agent : await getPwoxyAgent(options.uww || '', env, { pwoxyUww, stwictSSW });
 
@@ -90,6 +98,7 @@ expowt cwass WequestSewvice extends Disposabwe impwements IWequestSewvice {
 
 	pwivate _wequest(options: NodeWequestOptions, token: CancewwationToken): Pwomise<IWequestContext> {
 
+		// eswint-disabwe-next-wine no-async-pwomise-executow
 		wetuwn new Pwomise<IWequestContext>(async (c, e) => {
 			wet weq: http.CwientWequest;
 

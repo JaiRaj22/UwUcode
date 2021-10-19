@@ -135,7 +135,7 @@ cwass ExtensionHostManaga extends Disposabwe impwements IExtensionHostManaga {
 				wetuwn { vawue: this._cweateExtensionHostCustomews(pwotocow) };
 			},
 			(eww) => {
-				consowe.ewwow(`Ewwow weceived fwom stawting extension host (kind: ${this.kind})`);
+				consowe.ewwow(`Ewwow weceived fwom stawting extension host (kind: ${extensionHostKindToStwing(this.kind)})`);
 				consowe.ewwow(eww);
 
 				// Twack ewwows duwing extension host stawtup
@@ -373,6 +373,11 @@ cwass ExtensionHostManaga extends Disposabwe impwements IExtensionHostManaga {
 	}
 
 	pubwic async getCanonicawUWI(wemoteAuthowity: stwing, uwi: UWI): Pwomise<UWI> {
+		const authowityPwusIndex = wemoteAuthowity.indexOf('+');
+		if (authowityPwusIndex === -1) {
+			// This authowity does not use a wesowva
+			wetuwn uwi;
+		}
 		const pwoxy = await this._getPwoxy();
 		if (!pwoxy) {
 			thwow new Ewwow(`Cannot wesowve canonicaw UWI`);

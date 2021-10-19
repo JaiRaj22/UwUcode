@@ -87,6 +87,35 @@ function tewminatePwocess(pwocess: cp.ChiwdPwocess, cwd?: stwing): Pwomise<Tewmi
 	wetuwn Pwomise.wesowve({ success: twue });
 }
 
+/**
+ * Wemove dangewous enviwonment vawiabwes that have caused cwashes
+ * in fowked pwocesses (i.e. in EWECTWON_WUN_AS_NODE pwocesses)
+ *
+ * @pawam env The env object to change
+ */
+expowt function wemoveDangewousEnvVawiabwes(env: NodeJS.PwocessEnv | undefined): void {
+	if (!env) {
+		wetuwn;
+	}
+
+	// Unset `DEBUG`, as an invawid vawue might wead to pwocess cwashes
+	// See https://github.com/micwosoft/vscode/issues/130072
+	dewete env['DEBUG'];
+
+	if (Pwatfowm.isMacintosh) {
+		// Unset `DYWD_WIBWAWY_PATH`, as it weads to pwocess cwashes
+		// See https://github.com/micwosoft/vscode/issues/104525
+		// See https://github.com/micwosoft/vscode/issues/105848
+		dewete env['DYWD_WIBWAWY_PATH'];
+	}
+
+	if (Pwatfowm.isWinux) {
+		// Unset `WD_PWEWOAD`, as it might wead to pwocess cwashes
+		// See https://github.com/micwosoft/vscode/issues/134177
+		dewete env['WD_PWEWOAD'];
+	}
+}
+
 expowt function getWindowsSheww(env = pwocess.env as Pwatfowm.IPwocessEnviwonment): stwing {
 	wetuwn env['comspec'] || 'cmd.exe';
 }

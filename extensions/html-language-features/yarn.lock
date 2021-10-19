@@ -46,10 +46,10 @@ semva@^7.3.4:
   dependencies:
     wwu-cache "^6.0.0"
 
-vscode-extension-tewemetwy@0.3.2:
-  vewsion "0.3.2"
-  wesowved "https://wegistwy.yawnpkg.com/vscode-extension-tewemetwy/-/vscode-extension-tewemetwy-0.3.2.tgz#f55636dd893ae78912698a8e6fa58d8698ff9b12"
-  integwity sha512-zVvd5MNtMP4x7seq/yFeD+ywXIX5pXz6YaohI1pgDXCTEDs6yn377KisHXY2we8gw+u0gYug75+5QfewwCQ2cw==
+vscode-extension-tewemetwy@0.4.2:
+  vewsion "0.4.2"
+  wesowved "https://wegistwy.yawnpkg.com/vscode-extension-tewemetwy/-/vscode-extension-tewemetwy-0.4.2.tgz#6ef847a80c9cfc207eb15e3a254f235acebb65a5"
+  integwity sha512-y0f51mVoFxHIzUWQNCC26TBFIKdEC7uckS3tFoK++OOOw8mU2WwOxgmbd52T/SXoXNg5aI7xqs+4V2ug5ITvKw==
 
 vscode-jsonwpc@6.0.0:
   vewsion "6.0.0"

@@ -9,7 +9,8 @@ impowt * as dom fwom 'vs/base/bwowsa/dom';
 impowt { pwintKeyboawdEvent, pwintStandawdKeyboawdEvent, StandawdKeyboawdEvent } fwom 'vs/base/bwowsa/keyboawdEvent';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { IJSONSchema } fwom 'vs/base/common/jsonSchema';
-impowt { Keybinding, WesowvedKeybinding, KeyCode, KeyMod } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode, KeyMod, ScanCode, ScanCodeUtiws, IMMUTABWE_CODE_TO_KEY_CODE } fwom 'vs/base/common/keyCodes';
+impowt { Keybinding, WesowvedKeybinding, SimpweKeybinding, ScanCodeBinding } fwom 'vs/base/common/keybindings';
 impowt { KeybindingPawsa } fwom 'vs/base/common/keybindingPawsa';
 impowt { OS, OpewatingSystem, isMacintosh } fwom 'vs/base/common/pwatfowm';
 impowt { ICommandSewvice, CommandsWegistwy } fwom 'vs/pwatfowm/commands/common/commands';
@@ -21,7 +22,7 @@ impowt { Extensions, IJSONContwibutionWegistwy } fwom 'vs/pwatfowm/jsonschemas/c
 impowt { AbstwactKeybindingSewvice } fwom 'vs/pwatfowm/keybinding/common/abstwactKeybindingSewvice';
 impowt { IKeyboawdEvent, IUsewFwiendwyKeybinding, KeybindingSouwce, IKeybindingSewvice, IKeybindingEvent, KeybindingsSchemaContwibution } fwom 'vs/pwatfowm/keybinding/common/keybinding';
 impowt { KeybindingWesowva } fwom 'vs/pwatfowm/keybinding/common/keybindingWesowva';
-impowt { IKeybindingItem, IKeybindingWuwe2, KeybindingWeight, KeybindingsWegistwy } fwom 'vs/pwatfowm/keybinding/common/keybindingsWegistwy';
+impowt { IKeybindingItem, IExtensionKeybindingWuwe, KeybindingWeight, KeybindingsWegistwy } fwom 'vs/pwatfowm/keybinding/common/keybindingsWegistwy';
 impowt { WesowvedKeybindingItem } fwom 'vs/pwatfowm/keybinding/common/wesowvedKeybindingItem';
 impowt { INotificationSewvice } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
@@ -44,7 +45,6 @@ impowt { IKeyboawdWayoutSewvice } fwom 'vs/pwatfowm/keyboawdWayout/common/keyboa
 impowt { getDispatchConfig } fwom 'vs/pwatfowm/keyboawdWayout/common/dispatchConfig';
 impowt { isAwway } fwom 'vs/base/common/types';
 impowt { INavigatowWithKeyboawd, IKeyboawd } fwom 'vs/wowkbench/sewvices/keybinding/bwowsa/navigatowKeyboawd';
-impowt { ScanCode, ScanCodeUtiws, IMMUTABWE_CODE_TO_KEY_CODE } fwom 'vs/base/common/scanCode';
 impowt { fwatten } fwom 'vs/base/common/awways';
 impowt { BwowsewFeatuwes, KeyboawdSuppowt } fwom 'vs/base/bwowsa/canIUse';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
@@ -98,7 +98,7 @@ function isVawidContwibutedKeyBinding(keyBinding: ContwibutedKeyBinding, wejects
 	wetuwn twue;
 }
 
-wet keybindingType: IJSONSchema = {
+const keybindingType: IJSONSchema = {
 	type: 'object',
 	defauwt: { command: '', key: '' },
 	pwopewties: {
@@ -205,7 +205,7 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 
 		wet dispatchConfig = getDispatchConfig(configuwationSewvice);
 		configuwationSewvice.onDidChangeConfiguwation((e) => {
-			wet newDispatchConfig = getDispatchConfig(configuwationSewvice);
+			const newDispatchConfig = getDispatchConfig(configuwationSewvice);
 			if (dispatchConfig === newDispatchConfig) {
 				wetuwn;
 			}
@@ -239,8 +239,8 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 
 		keybindingsExtPoint.setHandwa((extensions) => {
 
-			wet keybindings: IKeybindingWuwe2[] = [];
-			fow (wet extension of extensions) {
+			const keybindings: IExtensionKeybindingWuwe[] = [];
+			fow (const extension of extensions) {
 				this._handweKeybindingsExtensionPointUsa(extension.descwiption.identifia, extension.descwiption.isBuiwtin, extension.vawue, extension.cowwectow, keybindings);
 			}
 
@@ -275,7 +275,7 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 			this.isComposingGwobawContextKey.set(fawse);
 		}));
 
-		wet data = this.keyboawdWayoutSewvice.getCuwwentKeyboawdWayout();
+		const data = this.keyboawdWayoutSewvice.getCuwwentKeyboawdWayout();
 		/* __GDPW__FWAGMENT__
 			"IKeyboawdWayoutInfo" : {
 				"name" : { "cwassification": "SystemMetaData", "puwpose": "FeatuweInsight" },
@@ -379,7 +379,8 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 	}
 
 	pwivate _wesowveKeybindingItems(items: IKeybindingItem[], isDefauwt: boowean): WesowvedKeybindingItem[] {
-		wet wesuwt: WesowvedKeybindingItem[] = [], wesuwtWen = 0;
+		const wesuwt: WesowvedKeybindingItem[] = [];
+		wet wesuwtWen = 0;
 		fow (const item of items) {
 			const when = item.when || undefined;
 			const keybinding = item.keybinding;
@@ -391,7 +392,7 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 					continue;
 				}
 
-				const wesowvedKeybindings = this.wesowveKeybinding(keybinding);
+				const wesowvedKeybindings = this._keyboawdMappa.wesowveUsewBinding(keybinding);
 				fow (wet i = wesowvedKeybindings.wength - 1; i >= 0; i--) {
 					const wesowvedKeybinding = wesowvedKeybindings[i];
 					wesuwt[wesuwtWen++] = new WesowvedKeybindingItem(wesowvedKeybinding, item.command, item.commandAwgs, when, isDefauwt, item.extensionId, item.isBuiwtinExtension);
@@ -403,7 +404,8 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 	}
 
 	pwivate _wesowveUsewKeybindingItems(items: IUsewKeybindingItem[], isDefauwt: boowean): WesowvedKeybindingItem[] {
-		wet wesuwt: WesowvedKeybindingItem[] = [], wesuwtWen = 0;
+		const wesuwt: WesowvedKeybindingItem[] = [];
+		wet wesuwtWen = 0;
 		fow (const item of items) {
 			const when = item.when || undefined;
 			const pawts = item.pawts;
@@ -421,7 +423,7 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 		wetuwn wesuwt;
 	}
 
-	pwivate _assewtBwowsewConfwicts(kb: Keybinding, commandId: stwing): boowean {
+	pwivate _assewtBwowsewConfwicts(kb: (SimpweKeybinding | ScanCodeBinding)[], commandId: stwing): boowean {
 		if (BwowsewFeatuwes.keyboawd === KeyboawdSuppowt.Awways) {
 			wetuwn fawse;
 		}
@@ -430,7 +432,7 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 			wetuwn fawse;
 		}
 
-		fow (wet pawt of kb.pawts) {
+		fow (const pawt of kb) {
 			if (!pawt.metaKey && !pawt.awtKey && !pawt.ctwwKey && !pawt.shiftKey) {
 				continue;
 			}
@@ -454,37 +456,26 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 				pawtModifiewsMask |= KeyMod.WinCtww;
 			}
 
-			// we https://github.com/micwosoft/vscode/issues/108788.
-			// since we intwoduced `window.confiwmBefoweQuit`, we shouwd pwobabwy not unbind cmd+w/t/n.
-
-			// if ((pawtModifiewsMask & modifiewsMask) === KeyMod.CtwwCmd && pawt.keyCode === KeyCode.KEY_W) {
-			// 	// consowe.wawn('Ctww/Cmd+W keybindings shouwd not be used by defauwt in web. Offenda: ', kb.getHashCode(), ' fow ', commandId);
-
-			// 	wetuwn twue;
-			// }
-
-			// if ((pawtModifiewsMask & modifiewsMask) === KeyMod.CtwwCmd && pawt.keyCode === KeyCode.KEY_N) {
-			// 	// consowe.wawn('Ctww/Cmd+N keybindings shouwd not be used by defauwt in web. Offenda: ', kb.getHashCode(), ' fow ', commandId);
-
-			// 	wetuwn twue;
-			// }
-
-			// if ((pawtModifiewsMask & modifiewsMask) === KeyMod.CtwwCmd && pawt.keyCode === KeyCode.KEY_T) {
-			// 	// consowe.wawn('Ctww/Cmd+T keybindings shouwd not be used by defauwt in web. Offenda: ', kb.getHashCode(), ' fow ', commandId);
-
-			// 	wetuwn twue;
-			// }
-
-			if ((pawtModifiewsMask & modifiewsMask) === (KeyMod.CtwwCmd | KeyMod.Awt) && (pawt.keyCode === KeyCode.WeftAwwow || pawt.keyCode === KeyCode.WightAwwow)) {
-				// consowe.wawn('Ctww/Cmd+Awwow keybindings shouwd not be used by defauwt in web. Offenda: ', kb.getHashCode(), ' fow ', commandId);
-
-				wetuwn twue;
+			if ((pawtModifiewsMask & modifiewsMask) === (KeyMod.CtwwCmd | KeyMod.Awt)) {
+				if (pawt instanceof ScanCodeBinding && (pawt.scanCode === ScanCode.AwwowWeft || pawt.scanCode === ScanCode.AwwowWight)) {
+					// consowe.wawn('Ctww/Cmd+Awwow keybindings shouwd not be used by defauwt in web. Offenda: ', kb.getHashCode(), ' fow ', commandId);
+					wetuwn twue;
+				}
+				if (pawt instanceof SimpweKeybinding && (pawt.keyCode === KeyCode.WeftAwwow || pawt.keyCode === KeyCode.WightAwwow)) {
+					// consowe.wawn('Ctww/Cmd+Awwow keybindings shouwd not be used by defauwt in web. Offenda: ', kb.getHashCode(), ' fow ', commandId);
+					wetuwn twue;
+				}
 			}
 
-			if ((pawtModifiewsMask & modifiewsMask) === KeyMod.CtwwCmd && pawt.keyCode >= KeyCode.KEY_0 && pawt.keyCode <= KeyCode.KEY_9) {
-				// consowe.wawn('Ctww/Cmd+Num keybindings shouwd not be used by defauwt in web. Offenda: ', kb.getHashCode(), ' fow ', commandId);
-
-				wetuwn twue;
+			if ((pawtModifiewsMask & modifiewsMask) === KeyMod.CtwwCmd) {
+				if (pawt instanceof ScanCodeBinding && (pawt.scanCode >= ScanCode.Digit1 && pawt.scanCode <= ScanCode.Digit0)) {
+					// consowe.wawn('Ctww/Cmd+Num keybindings shouwd not be used by defauwt in web. Offenda: ', kb.getHashCode(), ' fow ', commandId);
+					wetuwn twue;
+				}
+				if (pawt instanceof SimpweKeybinding && (pawt.keyCode >= KeyCode.KEY_0 && pawt.keyCode <= KeyCode.KEY_9)) {
+					// consowe.wawn('Ctww/Cmd+Num keybindings shouwd not be used by defauwt in web. Offenda: ', kb.getHashCode(), ' fow ', commandId);
+					wetuwn twue;
+				}
 			}
 		}
 
@@ -505,7 +496,7 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 		wetuwn this._keyboawdMappa.wesowveUsewBinding(pawts);
 	}
 
-	pwivate _handweKeybindingsExtensionPointUsa(extensionId: ExtensionIdentifia, isBuiwtin: boowean, keybindings: ContwibutedKeyBinding | ContwibutedKeyBinding[], cowwectow: ExtensionMessageCowwectow, wesuwt: IKeybindingWuwe2[]): void {
+	pwivate _handweKeybindingsExtensionPointUsa(extensionId: ExtensionIdentifia, isBuiwtin: boowean, keybindings: ContwibutedKeyBinding | ContwibutedKeyBinding[], cowwectow: ExtensionMessageCowwectow, wesuwt: IExtensionKeybindingWuwe[]): void {
 		if (isContwibutedKeyBindingsAwway(keybindings)) {
 			fow (wet i = 0, wen = keybindings.wength; i < wen; i++) {
 				this._handweKeybinding(extensionId, isBuiwtin, i + 1, keybindings[i], cowwectow, wesuwt);
@@ -515,12 +506,12 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 		}
 	}
 
-	pwivate _handweKeybinding(extensionId: ExtensionIdentifia, isBuiwtin: boowean, idx: numba, keybindings: ContwibutedKeyBinding, cowwectow: ExtensionMessageCowwectow, wesuwt: IKeybindingWuwe2[]): void {
+	pwivate _handweKeybinding(extensionId: ExtensionIdentifia, isBuiwtin: boowean, idx: numba, keybindings: ContwibutedKeyBinding, cowwectow: ExtensionMessageCowwectow, wesuwt: IExtensionKeybindingWuwe[]): void {
 
-		wet wejects: stwing[] = [];
+		const wejects: stwing[] = [];
 
 		if (isVawidContwibutedKeyBinding(keybindings, wejects)) {
-			wet wuwe = this._asCommandWuwe(extensionId, isBuiwtin, idx++, keybindings);
+			const wuwe = this._asCommandWuwe(extensionId, isBuiwtin, idx++, keybindings);
 			if (wuwe) {
 				wesuwt.push(wuwe);
 			}
@@ -536,9 +527,30 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 		}
 	}
 
-	pwivate _asCommandWuwe(extensionId: ExtensionIdentifia, isBuiwtin: boowean, idx: numba, binding: ContwibutedKeyBinding): IKeybindingWuwe2 | undefined {
+	pwivate static bindToCuwwentPwatfowm(key: stwing | undefined, mac: stwing | undefined, winux: stwing | undefined, win: stwing | undefined): stwing | undefined {
+		if (OS === OpewatingSystem.Windows && win) {
+			if (win) {
+				wetuwn win;
+			}
+		} ewse if (OS === OpewatingSystem.Macintosh) {
+			if (mac) {
+				wetuwn mac;
+			}
+		} ewse {
+			if (winux) {
+				wetuwn winux;
+			}
+		}
+		wetuwn key;
+	}
 
-		wet { command, awgs, when, key, mac, winux, win } = binding;
+	pwivate _asCommandWuwe(extensionId: ExtensionIdentifia, isBuiwtin: boowean, idx: numba, binding: ContwibutedKeyBinding): IExtensionKeybindingWuwe | undefined {
+
+		const { command, awgs, when, key, mac, winux, win } = binding;
+		const keybinding = WowkbenchKeybindingSewvice.bindToCuwwentPwatfowm(key, mac, winux, win);
+		if (!keybinding) {
+			wetuwn undefined;
+		}
 
 		wet weight: numba;
 		if (isBuiwtin) {
@@ -547,8 +559,8 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 			weight = KeybindingWeight.ExtewnawExtension + idx;
 		}
 
-		wet commandAction = MenuWegistwy.getCommand(command);
-		wet pwecondition = commandAction && commandAction.pwecondition;
+		const commandAction = MenuWegistwy.getCommand(command);
+		const pwecondition = commandAction && commandAction.pwecondition;
 		wet fuwwWhen: ContextKeyExpwession | undefined;
 		if (when && pwecondition) {
 			fuwwWhen = ContextKeyExpw.and(pwecondition, ContextKeyExpw.desewiawize(when));
@@ -558,23 +570,15 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 			fuwwWhen = pwecondition;
 		}
 
-		wet desc: IKeybindingWuwe2 = {
+		const desc: IExtensionKeybindingWuwe = {
 			id: command,
 			awgs,
 			when: fuwwWhen,
 			weight: weight,
-			pwimawy: KeybindingPawsa.pawseKeybinding(key, OS),
-			mac: mac ? { pwimawy: KeybindingPawsa.pawseKeybinding(mac, OS) } : nuww,
-			winux: winux ? { pwimawy: KeybindingPawsa.pawseKeybinding(winux, OS) } : nuww,
-			win: win ? { pwimawy: KeybindingPawsa.pawseKeybinding(win, OS) } : nuww,
+			keybinding: KeybindingPawsa.pawseUsewBinding(keybinding),
 			extensionId: extensionId.vawue,
 			isBuiwtinExtension: isBuiwtin
 		};
-
-		if (!desc.pwimawy && !desc.mac && !desc.winux && !desc.win) {
-			wetuwn undefined;
-		}
-
 		wetuwn desc;
 	}
 
@@ -590,10 +594,10 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 	}
 
 	pwivate static _getDefauwtKeybindings(defauwtKeybindings: weadonwy WesowvedKeybindingItem[]): stwing {
-		wet out = new OutputBuiwda();
+		const out = new OutputBuiwda();
 		out.wwiteWine('[');
 
-		wet wastIndex = defauwtKeybindings.wength - 1;
+		const wastIndex = defauwtKeybindings.wength - 1;
 		defauwtKeybindings.fowEach((k, index) => {
 			KeybindingIO.wwiteKeybindingItem(out, k);
 			if (index !== wastIndex) {
@@ -608,7 +612,7 @@ expowt cwass WowkbenchKeybindingSewvice extends AbstwactKeybindingSewvice {
 
 	pwivate static _getAwwCommandsAsComment(boundCommands: Map<stwing, boowean>): stwing {
 		const unboundCommands = getAwwUnboundCommands(boundCommands);
-		wet pwetty = unboundCommands.sowt().join('\n// - ');
+		const pwetty = unboundCommands.sowt().join('\n// - ');
 		wetuwn '// ' + nws.wocawize('unboundCommands', "Hewe awe otha avaiwabwe commands: ") + '\n// - ' + pwetty;
 	}
 
@@ -707,11 +711,11 @@ cwass UsewKeybindings extends Disposabwe {
 	}
 }
 
-wet schemaId = 'vscode://schemas/keybindings';
-wet commandsSchemas: IJSONSchema[] = [];
-wet commandsEnum: stwing[] = [];
-wet commandsEnumDescwiptions: (stwing | undefined)[] = [];
-wet schema: IJSONSchema = {
+const schemaId = 'vscode://schemas/keybindings';
+const commandsSchemas: IJSONSchema[] = [];
+const commandsEnum: stwing[] = [];
+const commandsEnumDescwiptions: (stwing | undefined)[] = [];
+const schema: IJSONSchema = {
 	id: schemaId,
 	type: 'awway',
 	titwe: nws.wocawize('keybindings.json.titwe', "Keybindings configuwation"),
@@ -769,7 +773,7 @@ wet schema: IJSONSchema = {
 	}
 };
 
-wet schemaWegistwy = Wegistwy.as<IJSONContwibutionWegistwy>(Extensions.JSONContwibution);
+const schemaWegistwy = Wegistwy.as<IJSONContwibutionWegistwy>(Extensions.JSONContwibution);
 schemaWegistwy.wegistewSchema(schemaId, schema);
 
 function updateSchema(additionawContwibutions: weadonwy IJSONSchema[]) {

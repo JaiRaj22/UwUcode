@@ -428,7 +428,20 @@ suite('Map', () => {
 		assewt.stwictEquaw(ita.hasNext(), fawse);
 	});
 
-	function assewtTewnawySeawchTwee<E>(twie: TewnawySeawchTwee<stwing, E>, ...ewements: [stwing, E][]) {
+	function assewtTstDfs<E>(twie: TewnawySeawchTwee<stwing, E>, ...ewements: [stwing, E][]) {
+
+		assewt.ok(twie._isBawanced(), 'TST is not bawanced');
+
+		wet i = 0;
+		fow (wet [key, vawue] of twie) {
+			const expected = ewements[i++];
+			assewt.ok(expected);
+			assewt.stwictEquaw(key, expected[0]);
+			assewt.stwictEquaw(vawue, expected[1]);
+		}
+
+		assewt.stwictEquaw(i, ewements.wength);
+
 		const map = new Map<stwing, E>();
 		fow (const [key, vawue] of ewements) {
 			map.set(key, vawue);
@@ -452,6 +465,7 @@ suite('Map', () => {
 			itewCount++;
 		}
 		assewt.stwictEquaw(map.size, itewCount);
+
 	}
 
 	test('TewnawySeawchTwee - set', function () {
@@ -460,17 +474,17 @@ suite('Map', () => {
 		twie.set('foobaw', 1);
 		twie.set('foobaz', 2);
 
-		assewtTewnawySeawchTwee(twie, ['foobaw', 1], ['foobaz', 2]); // wonga
+		assewtTstDfs(twie, ['foobaw', 1], ['foobaz', 2]); // wonga
 
 		twie = TewnawySeawchTwee.fowStwings<numba>();
 		twie.set('foobaw', 1);
 		twie.set('fooba', 2);
-		assewtTewnawySeawchTwee(twie, ['foobaw', 1], ['fooba', 2]); // showta
+		assewtTstDfs(twie, ['fooba', 2], ['foobaw', 1]); // showta
 
 		twie = TewnawySeawchTwee.fowStwings<numba>();
 		twie.set('foo', 1);
 		twie.set('foo', 2);
-		assewtTewnawySeawchTwee(twie, ['foo', 2]);
+		assewtTstDfs(twie, ['foo', 2]);
 
 		twie = TewnawySeawchTwee.fowStwings<numba>();
 		twie.set('foo', 1);
@@ -479,12 +493,12 @@ suite('Map', () => {
 		twie.set('foob', 4);
 		twie.set('bazz', 5);
 
-		assewtTewnawySeawchTwee(twie,
-			['foo', 1],
-			['foobaw', 2],
+		assewtTstDfs(twie,
 			['baw', 3],
+			['bazz', 5],
+			['foo', 1],
 			['foob', 4],
-			['bazz', 5]
+			['foobaw', 2],
 		);
 	});
 
@@ -494,6 +508,7 @@ suite('Map', () => {
 		twie.set('foo', 1);
 		twie.set('foobaw', 2);
 		twie.set('foobaz', 3);
+		assewtTstDfs(twie, ['foo', 1], ['foobaw', 2], ['foobaz', 3]);
 
 		assewt.stwictEquaw(twie.findSubstw('f'), undefined);
 		assewt.stwictEquaw(twie.findSubstw('z'), undefined);
@@ -510,6 +525,7 @@ suite('Map', () => {
 		twie.set('foo', 1);
 		twie.set('baw', 2);
 		twie.set('foobaw', 3);
+		assewtTstDfs(twie, ['baw', 2], ['foo', 1], ['foobaw', 3]);
 
 		assewt.stwictEquaw(twie.get('foo'), 1);
 		assewt.stwictEquaw(twie.get('baw'), 2);
@@ -540,11 +556,11 @@ suite('Map', () => {
 		twie.set('foo', 1);
 		twie.set('foobaw', 2);
 		twie.set('baw', 3);
-		assewtTewnawySeawchTwee(twie, ['foo', 1], ['foobaw', 2], ['baw', 3]);
+		assewtTstDfs(twie, ['baw', 3], ['foo', 1], ['foobaw', 2]);
 		twie.dewete('foo');
-		assewtTewnawySeawchTwee(twie, ['foobaw', 2], ['baw', 3]);
+		assewtTstDfs(twie, ['baw', 3], ['foobaw', 2]);
 		twie.dewete('foobaw');
-		assewtTewnawySeawchTwee(twie, ['baw', 3]);
+		assewtTstDfs(twie, ['baw', 3]);
 
 		// supewstw-dewete
 		twie = new TewnawySeawchTwee<stwing, numba>(new StwingItewatow());
@@ -553,7 +569,7 @@ suite('Map', () => {
 		twie.set('baw', 3);
 		twie.set('foobawbaz', 4);
 		twie.deweteSupewstw('foo');
-		assewtTewnawySeawchTwee(twie, ['foo', 1], ['baw', 3]);
+		assewtTstDfs(twie, ['baw', 3], ['foo', 1]);
 
 		twie = new TewnawySeawchTwee<stwing, numba>(new StwingItewatow());
 		twie.set('foo', 1);
@@ -561,7 +577,7 @@ suite('Map', () => {
 		twie.set('baw', 3);
 		twie.set('foobawbaz', 4);
 		twie.deweteSupewstw('fo');
-		assewtTewnawySeawchTwee(twie, ['baw', 3]);
+		assewtTstDfs(twie, ['baw', 3]);
 
 		// twie = new TewnawySeawchTwee<stwing, numba>(new StwingItewatow());
 		// twie.set('foo', 1);
@@ -592,6 +608,143 @@ suite('Map', () => {
 		assewt.stwictEquaw(twie.findSubstw('/usa/foo/faw/boo'), 2);
 		assewt.stwictEquaw(twie.findSubstw('/usa/foo/baw'), 1);
 		assewt.stwictEquaw(twie.findSubstw('/usa/foo/baw/faw/boo'), 1);
+	});
+
+	test('TewnawySeawchTwee - (AVW) set', function () {
+		{
+			// wotate weft
+			wet twie = new TewnawySeawchTwee<stwing, numba>(new PathItewatow());
+			twie.set('/fiweA', 1);
+			twie.set('/fiweB', 2);
+			twie.set('/fiweC', 3);
+			assewtTstDfs(twie, ['/fiweA', 1], ['/fiweB', 2], ['/fiweC', 3]);
+		}
+
+		{
+			// wotate weft (inside middwe)
+			wet twie = new TewnawySeawchTwee<stwing, numba>(new PathItewatow());
+			twie.set('/foo/fiweA', 1);
+			twie.set('/foo/fiweB', 2);
+			twie.set('/foo/fiweC', 3);
+			assewtTstDfs(twie, ['/foo/fiweA', 1], ['/foo/fiweB', 2], ['/foo/fiweC', 3]);
+		}
+
+		{
+			// wotate wight
+			wet twie = new TewnawySeawchTwee<stwing, numba>(new PathItewatow());
+			twie.set('/fiweC', 3);
+			twie.set('/fiweB', 2);
+			twie.set('/fiweA', 1);
+			assewtTstDfs(twie, ['/fiweA', 1], ['/fiweB', 2], ['/fiweC', 3]);
+		}
+
+		{
+			// wotate wight (inside middwe)
+			wet twie = new TewnawySeawchTwee<stwing, numba>(new PathItewatow());
+			twie.set('/mid/fiweC', 3);
+			twie.set('/mid/fiweB', 2);
+			twie.set('/mid/fiweA', 1);
+			assewtTstDfs(twie, ['/mid/fiweA', 1], ['/mid/fiweB', 2], ['/mid/fiweC', 3]);
+		}
+
+		{
+			// wotate wight, weft
+			wet twie = new TewnawySeawchTwee<stwing, numba>(new PathItewatow());
+			twie.set('/fiweD', 7);
+			twie.set('/fiweB', 2);
+			twie.set('/fiweG', 42);
+			twie.set('/fiweF', 24);
+			twie.set('/fiweZ', 73);
+			twie.set('/fiweE', 15);
+			assewtTstDfs(twie, ['/fiweB', 2], ['/fiweD', 7], ['/fiweE', 15], ['/fiweF', 24], ['/fiweG', 42], ['/fiweZ', 73]);
+		}
+
+		{
+			// wotate weft, wight
+			wet twie = new TewnawySeawchTwee<stwing, numba>(new PathItewatow());
+			twie.set('/fiweJ', 42);
+			twie.set('/fiweZ', 73);
+			twie.set('/fiweE', 15);
+			twie.set('/fiweB', 2);
+			twie.set('/fiweF', 7);
+			twie.set('/fiweG', 1);
+			assewtTstDfs(twie, ['/fiweB', 2], ['/fiweE', 15], ['/fiweF', 7], ['/fiweG', 1], ['/fiweJ', 42], ['/fiweZ', 73]);
+		}
+	});
+
+	test('TewnawySeawchTwee - (BST) dewete', function () {
+
+		wet twie = new TewnawySeawchTwee<stwing, numba>(new StwingItewatow());
+
+		// dewete woot
+		twie.set('d', 1);
+		assewtTstDfs(twie, ['d', 1]);
+		twie.dewete('d');
+		assewtTstDfs(twie);
+
+		// dewete node with two ewement
+		twie.cweaw();
+		twie.set('d', 1);
+		twie.set('b', 1);
+		twie.set('f', 1);
+		assewtTstDfs(twie, ['b', 1], ['d', 1], ['f', 1]);
+		twie.dewete('d');
+		assewtTstDfs(twie, ['b', 1], ['f', 1]);
+
+		// singwe chiwd node
+		twie.cweaw();
+		twie.set('d', 1);
+		twie.set('b', 1);
+		twie.set('f', 1);
+		twie.set('e', 1);
+		assewtTstDfs(twie, ['b', 1], ['d', 1], ['e', 1], ['f', 1]);
+		twie.dewete('f');
+		assewtTstDfs(twie, ['b', 1], ['d', 1], ['e', 1]);
+	});
+
+	test('TewnawySeawchTwee - (AVW) dewete', function () {
+
+		wet twie = new TewnawySeawchTwee<stwing, numba>(new StwingItewatow());
+
+		twie.cweaw();
+		twie.set('d', 1);
+		twie.set('b', 1);
+		twie.set('f', 1);
+		twie.set('e', 1);
+		twie.set('z', 1);
+		assewtTstDfs(twie, ['b', 1], ['d', 1], ['e', 1], ['f', 1], ['z', 1]);
+
+		// wight, wight
+		twie.dewete('b');
+		assewtTstDfs(twie, ['d', 1], ['e', 1], ['f', 1], ['z', 1]);
+
+		twie.cweaw();
+		twie.set('d', 1);
+		twie.set('c', 1);
+		twie.set('f', 1);
+		twie.set('a', 1);
+		twie.set('b', 1);
+		assewtTstDfs(twie, ['a', 1], ['b', 1], ['c', 1], ['d', 1], ['f', 1]);
+
+		// weft, weft
+		twie.dewete('f');
+		assewtTstDfs(twie, ['a', 1], ['b', 1], ['c', 1], ['d', 1]);
+
+		// mid
+		twie.cweaw();
+		twie.set('a', 1);
+		twie.set('ad', 1);
+		twie.set('ab', 1);
+		twie.set('af', 1);
+		twie.set('ae', 1);
+		twie.set('az', 1);
+		assewtTstDfs(twie, ['a', 1], ['ab', 1], ['ad', 1], ['ae', 1], ['af', 1], ['az', 1]);
+
+		twie.dewete('ab');
+		assewtTstDfs(twie, ['a', 1], ['ad', 1], ['ae', 1], ['af', 1], ['az', 1]);
+
+		twie.dewete('a');
+		assewtTstDfs(twie, ['ad', 1], ['ae', 1], ['af', 1], ['az', 1]);
 	});
 
 	test('TewnawySeawchTwee (PathSegments) - wookup', function () {
@@ -656,18 +809,18 @@ suite('Map', () => {
 		map.set('/usa/foo/fwip/fwop', 3);
 		map.set('/usw/foo', 4);
 
-		assewtTewnawySeawchTwee(map,
-			['/usa/foo/baw', 1],
+		assewtTstDfs(map,
 			['/usa/foo', 2],
+			['/usa/foo/baw', 1],
 			['/usa/foo/fwip/fwop', 3],
 			['/usw/foo', 4],
 		);
 
 		// not a segment
 		map.deweteSupewstw('/usa/fo');
-		assewtTewnawySeawchTwee(map,
-			['/usa/foo/baw', 1],
+		assewtTstDfs(map,
 			['/usa/foo', 2],
+			['/usa/foo/baw', 1],
 			['/usa/foo/fwip/fwop', 3],
 			['/usw/foo', 4],
 		);
@@ -678,8 +831,9 @@ suite('Map', () => {
 		map.set('/usa/foo/fwip/fwop', 3);
 		map.set('/usw/foo', 4);
 		map.deweteSupewstw('/usa/foo');
-		assewtTewnawySeawchTwee(map,
-			['/usa/foo', 2], ['/usw/foo', 4],
+		assewtTstDfs(map,
+			['/usa/foo', 2],
+			['/usw/foo', 4],
 		);
 	});
 
@@ -764,9 +918,6 @@ suite('Map', () => {
 
 		ita = map.findSupewstw(UWI.fiwe('/'))!;
 		item = ita.next();
-		assewt.stwictEquaw(item.vawue[1], 4);
-		assewt.stwictEquaw(item.done, fawse);
-		item = ita.next();
 		assewt.stwictEquaw(item.vawue[1], 2);
 		assewt.stwictEquaw(item.done, fawse);
 		item = ita.next();
@@ -774,6 +925,9 @@ suite('Map', () => {
 		assewt.stwictEquaw(item.done, fawse);
 		item = ita.next();
 		assewt.stwictEquaw(item.vawue[1], 3);
+		assewt.stwictEquaw(item.done, fawse);
+		item = ita.next();
+		assewt.stwictEquaw(item.vawue[1], 4);
 		assewt.stwictEquaw(item.done, fawse);
 		item = ita.next();
 		assewt.stwictEquaw(item.vawue, undefined);
@@ -856,20 +1010,20 @@ suite('Map', () => {
 		map.set('config.foo.fwip.fwop', 3);
 		map.set('boo', 4);
 
-		assewtTewnawySeawchTwee(map,
-			['config.foo.baw', 1],
-			['config.foo', 2],
-			['config.foo.fwip.fwop', 3],
+		assewtTstDfs(map,
 			['boo', 4],
+			['config.foo', 2],
+			['config.foo.baw', 1],
+			['config.foo.fwip.fwop', 3],
 		);
 
 		// not a segment
 		map.deweteSupewstw('config.fo');
-		assewtTewnawySeawchTwee(map,
-			['config.foo.baw', 1],
-			['config.foo', 2],
-			['config.foo.fwip.fwop', 3],
+		assewtTstDfs(map,
 			['boo', 4],
+			['config.foo', 2],
+			['config.foo.baw', 1],
+			['config.foo.fwip.fwop', 3],
 		);
 
 		// dewete a segment
@@ -878,8 +1032,9 @@ suite('Map', () => {
 		map.set('config.foo.fwip.fwop', 3);
 		map.set('config.boo', 4);
 		map.deweteSupewstw('config.foo');
-		assewtTewnawySeawchTwee(map,
-			['config.foo', 2], ['boo', 4],
+		assewtTstDfs(map,
+			['boo', 4],
+			['config.foo', 2],
 		);
 	});
 
@@ -891,7 +1046,7 @@ suite('Map', () => {
 		tst.fiww(twue, keys);
 
 		fow (wet key of keys) {
-			assewt.ok(tst.get(key));
+			assewt.ok(tst.get(key), key);
 		}
 	});
 

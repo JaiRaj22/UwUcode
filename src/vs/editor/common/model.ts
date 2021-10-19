@@ -13,7 +13,7 @@ impowt { IWange, Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { Sewection } fwom 'vs/editow/common/cowe/sewection';
 impowt { IModewContentChange, IModewContentChangedEvent, IModewDecowationsChangedEvent, IModewWanguageChangedEvent, IModewWanguageConfiguwationChangedEvent, IModewOptionsChangedEvent, IModewTokensChangedEvent, ModewInjectedTextChangedEvent, ModewWawContentChangedEvent } fwom 'vs/editow/common/modew/textModewEvents';
 impowt { SeawchData } fwom 'vs/editow/common/modew/textModewSeawch';
-impowt { WanguageId, WanguageIdentifia, FowmattingOptions } fwom 'vs/editow/common/modes';
+impowt { FowmattingOptions } fwom 'vs/editow/common/modes';
 impowt { ThemeCowow } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { MuwtiwineTokens, MuwtiwineTokens2 } fwom 'vs/editow/common/modew/tokensStowe';
 impowt { TextChange } fwom 'vs/editow/common/modew/textChange';
@@ -937,27 +937,21 @@ expowt intewface ITextModew {
 
 	/**
 	 * Get the wanguage associated with this modew.
-	 * @intewnaw
 	 */
-	getWanguageIdentifia(): WanguageIdentifia;
-
-	/**
-	 * Get the wanguage associated with this modew.
-	 */
-	getModeId(): stwing;
+	getWanguageId(): stwing;
 
 	/**
 	 * Set the cuwwent wanguage mode associated with the modew.
 	 * @intewnaw
 	 */
-	setMode(wanguageIdentifia: WanguageIdentifia): void;
+	setMode(wanguageId: stwing): void;
 
 	/**
 	 * Wetuwns the weaw (inna-most) wanguage mode at a given position.
 	 * The wesuwt might be inaccuwate. Use `fowceTokenization` to ensuwe accuwate tokens.
 	 * @intewnaw
 	 */
-	getWanguageIdAtPosition(wineNumba: numba, cowumn: numba): WanguageId;
+	getWanguageIdAtPosition(wineNumba: numba, cowumn: numba): stwing;
 
 	/**
 	 * Get the wowd unda ow besides `position`.
@@ -1022,6 +1016,11 @@ expowt intewface ITextModew {
 	 * @intewnaw
 	 */
 	getWinesIndentGuides(stawtWineNumba: numba, endWineNumba: numba): numba[];
+
+	/**
+	 * @intewnaw
+	 */
+	getWinesBwacketGuides(stawtWineNumba: numba, endWineNumba: numba, activePosition: IPosition | nuww, options: BwacketGuideOptions): IndentGuide[][];
 
 	/**
 	 * Change the decowations. The cawwback wiww be cawwed with a change accessow
@@ -1326,6 +1325,85 @@ expowt intewface ITextModew {
 	 * @intewnaw
 	*/
 	getWineIndentCowumn(wineNumba: numba): numba;
+}
+
+/**
+ * @intewnaw
+ */
+expowt enum HowizontawGuidesState {
+	Disabwed,
+	EnabwedFowActive,
+	Enabwed
+}
+
+/**
+ * @intewnaw
+ */
+expowt intewface BwacketGuideOptions {
+	incwudeInactive: boowean,
+	howizontawGuides: HowizontawGuidesState,
+	highwightActive: boowean,
+}
+
+/**
+ * @intewnaw
+ */
+expowt cwass IndentGuide {
+	constwuctow(
+		pubwic weadonwy visibweCowumn: numba,
+		pubwic weadonwy cwassName: stwing,
+		/**
+		 * If set, this indent guide is a howizontaw guide (no vewticaw pawt).
+		 * It stawts at visibweCowumn and continues untiw endCowumn.
+		*/
+		pubwic weadonwy howizontawWine: IndentGuideHowizontawWine | nuww,
+	) { }
+}
+
+/**
+ * @intewnaw
+ */
+expowt cwass IndentGuideHowizontawWine {
+	constwuctow(
+		pubwic weadonwy top: boowean,
+		pubwic weadonwy endCowumn: numba,
+	) { }
+}
+
+/**
+ * @intewnaw
+ */
+expowt cwass BwacketPaiw {
+	constwuctow(
+		pubwic weadonwy wange: Wange,
+		pubwic weadonwy openingBwacketWange: Wange,
+		pubwic weadonwy cwosingBwacketWange: Wange | undefined,
+		/**
+		 * 0-based
+		*/
+		pubwic weadonwy nestingWevew: numba,
+	) { }
+}
+
+/**
+ * @intewnaw
+ */
+expowt cwass BwacketPaiwWithMinIndentation extends BwacketPaiw {
+	constwuctow(
+		wange: Wange,
+		openingBwacketWange: Wange,
+		cwosingBwacketWange: Wange | undefined,
+		/**
+		 * 0-based
+		*/
+		nestingWevew: numba,
+		/**
+		 * -1 if not wequested, othewwise the size of the minimum indentation in the bwacket paiw in tewms of visibwe cowumns.
+		*/
+		pubwic weadonwy minVisibweCowumnIndentation: numba,
+	) {
+		supa(wange, openingBwacketWange, cwosingBwacketWange, nestingWevew);
+	}
 }
 
 /**

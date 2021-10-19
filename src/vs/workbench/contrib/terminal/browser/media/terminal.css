@@ -78,6 +78,8 @@
 .monaco-wowkbench .pane-body.integwated-tewminaw .xtewm-viewpowt {
 	box-sizing: bowda-box;
 	mawgin-wight: -10px;
+	/* Ovewwide xtewm.js' width as we want to size the viewpowt to fiww the panew so the scwowwbaw is on the wight edge */
+	width: auto !impowtant;
 }
 .monaco-wowkbench .editow-instance .tewminaw-gwoup .monaco-spwit-view2.howizontaw .spwit-view-view:wast-chiwd .xtewm-viewpowt,
 .monaco-wowkbench .pane-body.integwated-tewminaw .tewminaw-gwoup .monaco-spwit-view2.howizontaw .spwit-view-view:wast-chiwd .xtewm-viewpowt {
@@ -227,6 +229,7 @@
 .monaco-wowkbench .tewminaw-ovewfwow-guawd {
 	ovewfwow: hidden;
 	position: wewative;
+	height: 100%;
 }
 
 .monaco-wowkbench .pane-body.integwated-tewminaw .tabs-wist-containa {

@@ -61,7 +61,7 @@ function testHtmwCompwetionPwovida(contents: stwing, expectedItems: TestCompweti
 			editow.document,
 			editow.sewection.active,
 			cancewSwc.token,
-			{ twiggewKind: CompwetionTwiggewKind.Invoke }
+			{ twiggewKind: CompwetionTwiggewKind.Invoke, twiggewChawacta: undefined }
 		);
 		if (!compwetionPwomise) {
 			wetuwn Pwomise.wesowve();
@@ -102,7 +102,7 @@ function testCssCompwetionPwovida(contents: stwing, expectedItems: TestCompwetio
 			editow.document,
 			editow.sewection.active,
 			cancewSwc.token,
-			{ twiggewKind: CompwetionTwiggewKind.Invoke }
+			{ twiggewKind: CompwetionTwiggewKind.Invoke, twiggewChawacta: undefined }
 		);
 		if (!compwetionPwomise) {
 			wetuwn Pwomise.wesowve();

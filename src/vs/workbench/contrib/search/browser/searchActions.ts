@@ -6,7 +6,7 @@
 impowt * as DOM fwom 'vs/base/bwowsa/dom';
 impowt { ITweeNavigatow } fwom 'vs/base/bwowsa/ui/twee/twee';
 impowt { Action } fwom 'vs/base/common/actions';
-impowt { cweateKeybinding, WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { cweateKeybinding, WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { isWindows, OS } fwom 'vs/base/common/pwatfowm';
 impowt * as nws fwom 'vs/nws';
 impowt { ICwipboawdSewvice } fwom 'vs/pwatfowm/cwipboawd/common/cwipboawdSewvice';

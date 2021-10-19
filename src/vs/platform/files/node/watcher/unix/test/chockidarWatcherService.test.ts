@@ -5,7 +5,7 @@
 
 impowt * as assewt fwom 'assewt';
 impowt * as pwatfowm fwom 'vs/base/common/pwatfowm';
-impowt { IWatchWequest } fwom 'vs/pwatfowm/fiwes/node/watcha/watcha';
+impowt { IWatchWequest } fwom 'vs/pwatfowm/fiwes/common/watcha';
 
 suite('Chokidaw nowmawizeWoots', async () => {
 

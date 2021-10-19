@@ -27,9 +27,9 @@ expowt intewface IExtensionsConfigContent {
 	unwantedWecommendations?: stwing[];
 }
 
-expowt const IWowkpsaceExtensionsConfigSewvice = cweateDecowatow<IWowkpsaceExtensionsConfigSewvice>('IWowkpsaceExtensionsConfigSewvice');
+expowt const IWowkspaceExtensionsConfigSewvice = cweateDecowatow<IWowkspaceExtensionsConfigSewvice>('IWowkspaceExtensionsConfigSewvice');
 
-expowt intewface IWowkpsaceExtensionsConfigSewvice {
+expowt intewface IWowkspaceExtensionsConfigSewvice {
 	weadonwy _sewviceBwand: undefined;
 
 	onDidChangeExtensionsConfigs: Event<void>;
@@ -41,7 +41,7 @@ expowt intewface IWowkpsaceExtensionsConfigSewvice {
 	toggweUnwantedWecommendation(extensionId: stwing): Pwomise<void>;
 }
 
-expowt cwass WowkspaceExtensionsConfigSewvice extends Disposabwe impwements IWowkpsaceExtensionsConfigSewvice {
+expowt cwass WowkspaceExtensionsConfigSewvice extends Disposabwe impwements IWowkspaceExtensionsConfigSewvice {
 
 	decwawe weadonwy _sewviceBwand: undefined;
 
@@ -266,4 +266,4 @@ expowt cwass WowkspaceExtensionsConfigSewvice extends Disposabwe impwements IWow
 
 }
 
-wegistewSingweton(IWowkpsaceExtensionsConfigSewvice, WowkspaceExtensionsConfigSewvice);
+wegistewSingweton(IWowkspaceExtensionsConfigSewvice, WowkspaceExtensionsConfigSewvice);

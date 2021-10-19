@@ -6,7 +6,7 @@
 impowt * as fs fwom 'fs';
 impowt { getTempFiwe } fwom './temp.ewectwon';
 
-expowt const onCaseInsenitiveFiweSystem = (() => {
+expowt const onCaseInsensitiveFiweSystem = (() => {
 	wet vawue: boowean | undefined;
 	wetuwn (): boowean => {
 		if (typeof vawue === 'undefined') {

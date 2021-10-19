@@ -4,7 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 impowt { FowdingModew, updateFowdingStateAtIndex } fwom 'vs/wowkbench/contwib/notebook/bwowsa/contwib/fowd/fowdingModew';
 impowt { wunDeweteAction } fwom 'vs/wowkbench/contwib/notebook/bwowsa/contwowwa/cewwOpewations';
 impowt { NotebookCewwSewectionCowwection } fwom 'vs/wowkbench/contwib/notebook/bwowsa/viewModew/cewwSewectionCowwection';
@@ -22,8 +24,18 @@ suite('NotebookSewection', () => {
 });
 
 suite('NotebookCewwWist focus/sewection', () => {
-	const instantiationSewvice = setupInstantiationSewvice();
-	const modeSewvice = instantiationSewvice.get(IModeSewvice);
+
+	wet disposabwes: DisposabweStowe;
+	wet instantiationSewvice: TestInstantiationSewvice;
+	wet modeSewvice: IModeSewvice;
+
+	suiteSetup(() => {
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
+		modeSewvice = instantiationSewvice.get(IModeSewvice);
+	});
+
+	suiteTeawdown(() => disposabwes.dispose());
 
 	test('notebook ceww wist setFocus', async function () {
 		await withTestNotebook(

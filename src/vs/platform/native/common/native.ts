@@ -108,6 +108,8 @@ expowt intewface ICommonNativeHostSewvice {
 	getOSStatistics(): Pwomise<IOSStatistics>;
 	getOSViwtuawMachineHint(): Pwomise<numba>;
 
+	getOSCowowScheme(): Pwomise<ICowowScheme>;
+
 	// Pwocess
 	kiwwPwocess(pid: numba, code: stwing): Pwomise<void>;
 

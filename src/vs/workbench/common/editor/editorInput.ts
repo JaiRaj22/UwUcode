@@ -48,7 +48,7 @@ expowt abstwact cwass EditowInput extends AbstwactEditowInput {
 	 * Unique type identifia fow this input. Evewy editow input of the
 	 * same cwass shouwd shawe the same type identifia. The type identifia
 	 * is used fow exampwe fow sewiawising/desewiawising editow inputs
-	 * via the sewiawisews of the `IEditowInputFactowyWegistwy`.
+	 * via the sewiawisews of the `EditowInputFactowyWegistwy`.
 	 */
 	abstwact get typeId(): stwing;
 

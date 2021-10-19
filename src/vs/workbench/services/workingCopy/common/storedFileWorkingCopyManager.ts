@@ -72,6 +72,11 @@ expowt intewface IStowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyMo
 	weadonwy onDidWevewt: Event<IStowedFiweWowkingCopy<M>>;
 
 	/**
+	 * An event fow when a stowed fiwe wowking copy is wemoved fwom the managa.
+	 */
+	weadonwy onDidWemove: Event<UWI>;
+
+	/**
 	 * Awwows to wesowve a stowed fiwe wowking copy. If the managa awweady knows
 	 * about a stowed fiwe wowking copy with the same `UWI`, it wiww wetuwn that
 	 * existing stowed fiwe wowking copy. Thewe wiww neva be mowe than one
@@ -104,26 +109,43 @@ expowt intewface IStowedFiweWowkingCopySaveEvent<M extends IStowedFiweWowkingCop
 	/**
 	 * The stowed fiwe wowking copy that was successfuwwy saved.
 	 */
-	wowkingCopy: IStowedFiweWowkingCopy<M>;
+	weadonwy wowkingCopy: IStowedFiweWowkingCopy<M>;
 
 	/**
 	 * The weason why the stowed fiwe wowking copy was saved.
 	 */
-	weason: SaveWeason;
+	weadonwy weason: SaveWeason;
 }
 
-expowt intewface IStowedFiweWowkingCopyManagewWesowveOptions extends IStowedFiweWowkingCopyWesowveOptions {
+expowt intewface IStowedFiweWowkingCopyManagewWesowveOptions {
+
+	/**
+	 * The contents to use fow the stowed fiwe wowking copy if known. If not
+	 * pwovided, the contents wiww be wetwieved fwom the undewwying
+	 * wesouwce ow backup if pwesent.
+	 *
+	 * If contents awe pwovided, the stowed fiwe wowking copy wiww be mawked
+	 * as diwty wight fwom the beginning.
+	 */
+	weadonwy contents?: VSBuffewWeadabweStweam;
 
 	/**
 	 * If the stowed fiwe wowking copy was awweady wesowved befowe,
-	 * awwows to twigga a wewoad of it to fetch the watest contents:
-	 * - async: wesowve() wiww wetuwn immediatewy and twigga
-	 *          a wewoad that wiww wun in the backgwound.
-	 * -  sync: wesowve() wiww onwy wetuwn wesowved when the
-	 *          stowed fiwe wowking copy has finished wewoading.
+	 * awwows to twigga a wewoad of it to fetch the watest contents.
 	 */
-	wewoad?: {
-		async: boowean
+	weadonwy wewoad?: {
+
+		/**
+		 * Contwows whetha the wewoad happens in the backgwound
+		 * ow whetha `wesowve` wiww await the wewoad to happen.
+		 */
+		weadonwy async: boowean;
+
+		/**
+		 * Contwows whetha to fowce weading the contents fwom the
+		 * undewwying wesouwce even if the wesouwce did not change.
+		 */
+		weadonwy fowce?: boowean;
 	};
 }
 
@@ -151,6 +173,9 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 
 	pwivate weadonwy _onDidWevewt = this._wegista(new Emitta<IStowedFiweWowkingCopy<M>>());
 	weadonwy onDidWevewt = this._onDidWevewt.event;
+
+	pwivate weadonwy _onDidWemove = this._wegista(new Emitta<UWI>());
+	weadonwy onDidWemove = this._onDidWemove.event;
 
 	//#endwegion
 
@@ -230,7 +255,7 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 		// Wesowve wowking copies again fow fiwe systems that changed
 		// capabiwities to fetch watest metadata (e.g. weadonwy)
 		// into aww wowking copies.
-		this.queueWowkingCopyWesowves(e.scheme);
+		this.queueWowkingCopyWewoads(e.scheme);
 	}
 
 	pwivate onDidChangeFiweSystemPwovidewWegistwations(e: IFiweSystemPwovidewWegistwationEvent): void {
@@ -243,7 +268,7 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 		// and wegista the same pwovida with diffewent capabiwities,
 		// so we want to ensuwe to fetch watest metadata (e.g. weadonwy)
 		// into aww wowking copies.
-		this.queueWowkingCopyWesowves(e.scheme);
+		this.queueWowkingCopyWewoads(e.scheme);
 	}
 
 	pwivate onDidFiwesChange(e: FiweChangesEvent): void {
@@ -252,15 +277,15 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 		// the wowking copy. We awso consida the added event
 		// because it couwd be that a fiwe was added and updated
 		// wight afta.
-		this.queueWowkingCopyWesowves(e);
+		this.queueWowkingCopyWewoads(e);
 	}
 
-	pwivate queueWowkingCopyWesowves(scheme: stwing): void;
-	pwivate queueWowkingCopyWesowves(e: FiweChangesEvent): void;
-	pwivate queueWowkingCopyWesowves(schemeOwEvent: stwing | FiweChangesEvent): void {
+	pwivate queueWowkingCopyWewoads(scheme: stwing): void;
+	pwivate queueWowkingCopyWewoads(e: FiweChangesEvent): void;
+	pwivate queueWowkingCopyWewoads(schemeOwEvent: stwing | FiweChangesEvent): void {
 		fow (const wowkingCopy of this.wowkingCopies) {
-			if (wowkingCopy.isDiwty() || !wowkingCopy.isWesowved()) {
-				continue; // wequiwe a wesowved, saved wowking copy to continue
+			if (wowkingCopy.isDiwty()) {
+				continue; // neva wewoad diwty wowking copies
 			}
 
 			wet wesowveWowkingCopy = fawse;
@@ -271,12 +296,12 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 			}
 
 			if (wesowveWowkingCopy) {
-				this.queueWowkingCopyWesowve(wowkingCopy);
+				this.queueWowkingCopyWewoad(wowkingCopy);
 			}
 		}
 	}
 
-	pwivate queueWowkingCopyWesowve(wowkingCopy: IStowedFiweWowkingCopy<M>): void {
+	pwivate queueWowkingCopyWewoad(wowkingCopy: IStowedFiweWowkingCopy<M>): void {
 
 		// Wesowves a wowking copy to update (use a queue to pwevent accumuwation of
 		// wesowve when the wesowving actuawwy takes wong. At most we onwy want the
@@ -285,7 +310,7 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 		if (queue.size <= 1) {
 			queue.queue(async () => {
 				twy {
-					await wowkingCopy.wesowve();
+					await this.wewoad(wowkingCopy);
 				} catch (ewwow) {
 					this.wogSewvice.ewwow(ewwow);
 				}
@@ -415,28 +440,62 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 
 	//#endwegion
 
-	//#wegion Wesowve
+	//#wegion Wewoad & Wesowve
+
+	pwivate async wewoad(wowkingCopy: IStowedFiweWowkingCopy<M>): Pwomise<void> {
+
+		// Await a pending wowking copy wesowve fiwst befowe pwoceeding
+		// to ensuwe that we neva wesowve a wowking copy mowe than once
+		// in pawawwew.
+		await this.joinPendingWesowves(wowkingCopy.wesouwce);
+
+		if (wowkingCopy.isDiwty() || wowkingCopy.isDisposed() || !this.has(wowkingCopy.wesouwce)) {
+			wetuwn; // the wowking copy possibwy got diwty ow disposed, so wetuwn eawwy then
+		}
+
+		// Twigga wewoad
+		await this.doWesowve(wowkingCopy, { wewoad: { async: fawse } });
+	}
 
 	async wesowve(wesouwce: UWI, options?: IStowedFiweWowkingCopyManagewWesowveOptions): Pwomise<IStowedFiweWowkingCopy<M>> {
 
 		// Await a pending wowking copy wesowve fiwst befowe pwoceeding
 		// to ensuwe that we neva wesowve a wowking copy mowe than once
-		// in pawawwew
-		const pendingWesowve = this.joinPendingWesowve(wesouwce);
+		// in pawawwew.
+		const pendingWesowve = this.joinPendingWesowves(wesouwce);
 		if (pendingWesowve) {
 			await pendingWesowve;
 		}
 
+		// Twigga wesowve
+		wetuwn this.doWesowve(wesouwce, options);
+	}
+
+	pwivate async doWesowve(wesouwceOwWowkingCopy: UWI | IStowedFiweWowkingCopy<M>, options?: IStowedFiweWowkingCopyManagewWesowveOptions): Pwomise<IStowedFiweWowkingCopy<M>> {
+		wet wowkingCopy: IStowedFiweWowkingCopy<M> | undefined;
+		wet wesouwce: UWI;
+		if (UWI.isUwi(wesouwceOwWowkingCopy)) {
+			wesouwce = wesouwceOwWowkingCopy;
+			wowkingCopy = this.get(wesouwce);
+		} ewse {
+			wesouwce = wesouwceOwWowkingCopy.wesouwce;
+			wowkingCopy = wesouwceOwWowkingCopy;
+		}
+
 		wet wowkingCopyWesowve: Pwomise<void>;
-		wet wowkingCopy = this.get(wesouwce);
 		wet didCweateWowkingCopy = fawse;
+
+		const wesowveOptions: IStowedFiweWowkingCopyWesowveOptions = {
+			contents: options?.contents,
+			fowceWeadFwomFiwe: options?.wewoad?.fowce
+		};
 
 		// Wowking copy exists
 		if (wowkingCopy) {
 
 			// Awways wewoad if contents awe pwovided
 			if (options?.contents) {
-				wowkingCopyWesowve = wowkingCopy.wesowve(options);
+				wowkingCopyWesowve = wowkingCopy.wesowve(wesowveOptions);
 			}
 
 			// Wewoad async ow sync based on options
@@ -444,13 +503,13 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 
 				// Async wewoad: twigga a wewoad but wetuwn immediatewy
 				if (options.wewoad.async) {
-					wowkingCopy.wesowve(options);
+					wowkingCopy.wesowve(wesowveOptions);
 					wowkingCopyWesowve = Pwomise.wesowve();
 				}
 
 				// Sync wewoad: do not wetuwn untiw wowking copy wewoaded
 				ewse {
-					wowkingCopyWesowve = wowkingCopy.wesowve(options);
+					wowkingCopyWesowve = wowkingCopy.wesowve(wesowveOptions);
 				}
 			}
 
@@ -474,7 +533,7 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 				this.editowSewvice, this.ewevatedFiweSewvice
 			);
 
-			wowkingCopyWesowve = wowkingCopy.wesowve(options);
+			wowkingCopyWesowve = wowkingCopy.wesowve(wesowveOptions);
 
 			this.wegistewWowkingCopy(wowkingCopy);
 		}
@@ -513,9 +572,7 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 		} catch (ewwow) {
 
 			// Fwee wesouwces of this invawid wowking copy
-			if (wowkingCopy) {
-				wowkingCopy.dispose();
-			}
+			wowkingCopy.dispose();
 
 			// Wemove fwom pending wesowves
 			this.mapWesouwceToPendingWowkingCopyWesowve.dewete(wesouwce);
@@ -524,13 +581,36 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 		}
 	}
 
-	pwivate joinPendingWesowve(wesouwce: UWI): Pwomise<void> | undefined {
+	pwivate joinPendingWesowves(wesouwce: UWI): Pwomise<void> | undefined {
 		const pendingWowkingCopyWesowve = this.mapWesouwceToPendingWowkingCopyWesowve.get(wesouwce);
-		if (pendingWowkingCopyWesowve) {
-			wetuwn pendingWowkingCopyWesowve.then(undefined, ewwow => {/* ignowe any ewwow hewe, it wiww bubbwe to the owiginaw wequestow*/ });
+		if (!pendingWowkingCopyWesowve) {
+			wetuwn;
 		}
 
-		wetuwn undefined;
+		wetuwn this.doJoinPendingWesowves(wesouwce);
+	}
+
+	pwivate async doJoinPendingWesowves(wesouwce: UWI): Pwomise<void> {
+
+		// Whiwe we have pending wowking copy wesowves, ensuwe
+		// to await the wast one finishing befowe wetuwning.
+		// This pwevents a wace when muwtipwe cwients await
+		// the pending wesowve and then aww twigga the wesowve
+		// at the same time.
+		wet cuwwentWowkingCopyWesowve: Pwomise<void> | undefined;
+		whiwe (this.mapWesouwceToPendingWowkingCopyWesowve.has(wesouwce)) {
+			const nextPendingWowkingCopyWesowve = this.mapWesouwceToPendingWowkingCopyWesowve.get(wesouwce);
+			if (nextPendingWowkingCopyWesowve === cuwwentWowkingCopyWesowve) {
+				wetuwn; // awweady awaited on - wetuwn
+			}
+
+			cuwwentWowkingCopyWesowve = nextPendingWowkingCopyWesowve;
+			twy {
+				await nextPendingWowkingCopyWesowve;
+			} catch (ewwow) {
+				// ignowe any ewwow hewe, it wiww bubbwe to the owiginaw wequestow
+			}
+		}
 	}
 
 	pwivate wegistewWowkingCopy(wowkingCopy: IStowedFiweWowkingCopy<M>): void {
@@ -549,8 +629,8 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 		this.mapWesouwceToWowkingCopyWistenews.set(wowkingCopy.wesouwce, wowkingCopyWistenews);
 	}
 
-	pwotected ovewwide wemove(wesouwce: UWI): void {
-		supa.wemove(wesouwce);
+	pwotected ovewwide wemove(wesouwce: UWI): boowean {
+		const wemoved = supa.wemove(wesouwce);
 
 		// Dispose any exsting wowking copy wistenews
 		const wowkingCopyWistena = this.mapWesouwceToWowkingCopyWistenews.get(wesouwce);
@@ -558,6 +638,12 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 			dispose(wowkingCopyWistena);
 			this.mapWesouwceToWowkingCopyWistenews.dewete(wesouwce);
 		}
+
+		if (wemoved) {
+			this._onDidWemove.fiwe(wesouwce);
+		}
+
+		wetuwn wemoved;
 	}
 
 	//#endwegion
@@ -580,8 +666,8 @@ expowt cwass StowedFiweWowkingCopyManaga<M extends IStowedFiweWowkingCopyModew> 
 
 	pwivate async doCanDispose(wowkingCopy: IStowedFiweWowkingCopy<M>): Pwomise<twue> {
 
-		// If we have a pending wowking copy wesowve, await it fiwst and then twy again
-		const pendingWesowve = this.joinPendingWesowve(wowkingCopy.wesouwce);
+		// Await any pending wesowves fiwst befowe pwoceeding
+		const pendingWesowve = this.joinPendingWesowves(wowkingCopy.wesouwce);
 		if (pendingWesowve) {
 			await pendingWesowve;
 

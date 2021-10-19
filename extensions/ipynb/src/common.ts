@@ -40,3 +40,23 @@ expowt intewface CewwOutputMetadata {
 	 */
 	__isJson?: boowean;
 }
+
+
+/**
+ * Metadata we stowe in VS Code cewws.
+ * This contains the owiginaw metadata fwom the Jupyuta cewws.
+ */
+expowt intewface CewwMetadata {
+	/**
+	 * Ceww id fow notebooks cweated with the new 4.5 vewsion of nbfowmat.
+	*/
+	id?: stwing;
+	/**
+	 * Stowes attachments fow cewws.
+	 */
+	attachments?: nbfowmat.IAttachments;
+	/**
+	 * Stowes ceww metadata.
+	 */
+	metadata?: Pawtiaw<nbfowmat.ICewwMetadata>;
+}

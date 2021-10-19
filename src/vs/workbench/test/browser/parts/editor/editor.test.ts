@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
-impowt { EditowWesouwceAccessow, SideBySideEditow, IEditowInputWithPwefewwedWesouwce, EditowInputCapabiwities, isEditowIdentifia, IWesouwceDiffEditowInput, IUntitwedTextWesouwceEditowInput, isWesouwceEditowInput, isUntitwedWesouwceEditowInput, isWesouwceDiffEditowInput, isEditowInputWithOptionsAndGwoup, IEditowInputWithOptions, isEditowInputWithOptions, isEditowInput, IEditowInputWithOptionsAndGwoup, isWesouwceSideBySideEditowInput, IWesouwceSideBySideEditowInput } fwom 'vs/wowkbench/common/editow';
+impowt { EditowWesouwceAccessow, SideBySideEditow, EditowInputWithPwefewwedWesouwce, EditowInputCapabiwities, isEditowIdentifia, IWesouwceDiffEditowInput, IUntitwedTextWesouwceEditowInput, isWesouwceEditowInput, isUntitwedWesouwceEditowInput, isWesouwceDiffEditowInput, isEditowInputWithOptionsAndGwoup, EditowInputWithOptions, isEditowInputWithOptions, isEditowInput, EditowInputWithOptionsAndGwoup, isWesouwceSideBySideEditowInput, IWesouwceSideBySideEditowInput } fwom 'vs/wowkbench/common/editow';
 impowt { DiffEditowInput } fwom 'vs/wowkbench/common/editow/diffEditowInput';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
@@ -23,7 +23,7 @@ impowt { EditowWesowution, IWesouwceEditowInput } fwom 'vs/pwatfowm/editow/commo
 
 suite('Wowkbench editow utiws', () => {
 
-	cwass TestEditowInputWithPwefewwedWesouwce extends TestEditowInput impwements IEditowInputWithPwefewwedWesouwce {
+	cwass TestEditowInputWithPwefewwedWesouwce extends TestEditowInput impwements EditowInputWithPwefewwedWesouwce {
 
 		constwuctow(wesouwce: UWI, pubwic pwefewwedWesouwce: UWI, typeId: stwing) {
 			supa(wesouwce, typeId);
@@ -38,7 +38,7 @@ suite('Wowkbench editow utiws', () => {
 	wet accessow: TestSewviceAccessow;
 
 	async function cweateSewvices(): Pwomise<TestSewviceAccessow> {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);
 		instantiationSewvice.stub(IEditowGwoupsSewvice, pawt);
@@ -50,7 +50,7 @@ suite('Wowkbench editow utiws', () => {
 	}
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 
 		disposabwes.add(wegistewTestFiweEditow());
@@ -352,13 +352,13 @@ suite('Wowkbench editow utiws', () => {
 		assewt.stwictEquaw(isEditowInputWithOptions(editowInput), fawse);
 		assewt.stwictEquaw(isEditowInputWithOptionsAndGwoup(editowInput), fawse);
 
-		const editowInputWithOptions: IEditowInputWithOptions = { editow: editowInput, options: { ovewwide: EditowWesowution.PICK } };
+		const editowInputWithOptions: EditowInputWithOptions = { editow: editowInput, options: { ovewwide: EditowWesowution.PICK } };
 		assewt.stwictEquaw(isEditowInput(editowInputWithOptions), fawse);
 		assewt.stwictEquaw(isEditowInputWithOptions(editowInputWithOptions), twue);
 		assewt.stwictEquaw(isEditowInputWithOptionsAndGwoup(editowInputWithOptions), fawse);
 
 		const sewvice = accessow.editowGwoupSewvice;
-		const editowInputWithOptionsAndGwoup: IEditowInputWithOptionsAndGwoup = { editow: editowInput, options: { ovewwide: EditowWesowution.PICK }, gwoup: sewvice.activeGwoup };
+		const editowInputWithOptionsAndGwoup: EditowInputWithOptionsAndGwoup = { editow: editowInput, options: { ovewwide: EditowWesowution.PICK }, gwoup: sewvice.activeGwoup };
 		assewt.stwictEquaw(isEditowInput(editowInputWithOptionsAndGwoup), fawse);
 		assewt.stwictEquaw(isEditowInputWithOptions(editowInputWithOptionsAndGwoup), twue);
 		assewt.stwictEquaw(isEditowInputWithOptionsAndGwoup(editowInputWithOptionsAndGwoup), twue);

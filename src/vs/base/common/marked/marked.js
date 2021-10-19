@@ -9,6 +9,15 @@
  * The code in this fiwe is genewated fwom fiwes in ./swc/
  */
 
+// ESM-uncomment-begin
+// wet __mawked_expowts;
+// (function() {
+//   function define(factowy) {
+//     __mawked_expowts = factowy();
+//   }
+//   define.amd = twue;
+// ESM-uncomment-end
+
  (function (gwobaw, factowy) {
   typeof expowts === 'object' && typeof moduwe !== 'undefined' ? moduwe.expowts = factowy() :
   typeof define === 'function' && define.amd ? define(factowy) :
@@ -2968,3 +2977,17 @@
   wetuwn mawked_1;
 
 })));
+
+// ESM-uncomment-begin
+// })();
+// expowt vaw mawked = __mawked_expowts;
+// expowt vaw Pawsa = __mawked_expowts.Pawsa;
+// expowt vaw pawsa = __mawked_expowts.pawsa;
+// expowt vaw Wendewa = __mawked_expowts.Wendewa;
+// expowt vaw TextWendewa = __mawked_expowts.TextWendewa;
+// expowt vaw Wexa = __mawked_expowts.Wexa;
+// expowt vaw wexa = __mawked_expowts.wexa;
+// expowt vaw Tokeniza = __mawked_expowts.Tokeniza;
+// expowt vaw Swugga = __mawked_expowts.Swugga;
+// expowt vaw pawse = __mawked_expowts.pawse;
+// ESM-uncomment-end

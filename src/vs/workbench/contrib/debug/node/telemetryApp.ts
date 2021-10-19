@@ -10,6 +10,6 @@ impowt { TewemetwyAppendewChannew } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy
 const appenda = new AppInsightsAppenda(pwocess.awgv[2], JSON.pawse(pwocess.awgv[3]), pwocess.awgv[4]);
 pwocess.once('exit', () => appenda.fwush());
 
-const channew = new TewemetwyAppendewChannew(appenda);
+const channew = new TewemetwyAppendewChannew([appenda]);
 const sewva = new Sewva('tewemetwy');
 sewva.wegistewChannew('tewemetwyAppenda', channew);

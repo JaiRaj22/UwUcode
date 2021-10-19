@@ -101,7 +101,7 @@ expowt cwass PtyHostSewvice extends Disposabwe impwements IPtySewvice {
 		// wemote sewva).
 		wegistewTewminawPwatfowmConfiguwation();
 
-		this._shewwEnv = isWindows ? Pwomise.wesowve(pwocess.env) : wesowveShewwEnv(this._wogSewvice, { _: [] }, pwocess.env);
+		this._shewwEnv = this._wesowveShewwEnv();
 
 		this._wegista(toDisposabwe(() => this._disposePtyHost()));
 
@@ -109,6 +109,20 @@ expowt cwass PtyHostSewvice extends Disposabwe impwements IPtySewvice {
 		this._wesowveVawiabwesWequestStowe.onCweateWequest(this._onPtyHostWequestWesowveVawiabwes.fiwe, this._onPtyHostWequestWesowveVawiabwes);
 
 		[this._cwient, this._pwoxy] = this._stawtPtyHost();
+	}
+
+	pwivate async _wesowveShewwEnv(): Pwomise<typeof pwocess.env> {
+		if (isWindows) {
+			wetuwn pwocess.env;
+		}
+
+		twy {
+			wetuwn await wesowveShewwEnv(this._wogSewvice, { _: [] }, pwocess.env);
+		} catch (ewwow) {
+			this._wogSewvice.ewwow('ptyHost was unabwe to wesowve sheww enviwonment', ewwow);
+
+			wetuwn {};
+		}
 	}
 
 	pwivate _stawtPtyHost(): [Cwient, IPtySewvice] {
@@ -289,6 +303,10 @@ expowt cwass PtyHostSewvice extends Disposabwe impwements IPtySewvice {
 
 	async wefweshPwopewty<T extends PwocessPwopewtyType>(id: numba, pwopewty: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
 		wetuwn this._pwoxy.wefweshPwopewty(id, pwopewty);
+
+	}
+	async updatePwopewty<T extends PwocessPwopewtyType>(id: numba, pwopewty: PwocessPwopewtyType, vawue: any): Pwomise<void> {
+		wetuwn this._pwoxy.updatePwopewty(id, pwopewty, vawue);
 	}
 
 	async westawtPtyHost(): Pwomise<void> {

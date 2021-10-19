@@ -18,6 +18,7 @@ impowt { IPwoductConfiguwation } fwom 'vs/base/common/pwoduct';
 impowt { mawk } fwom 'vs/base/common/pewfowmance';
 impowt { ICwedentiawsPwovida } fwom 'vs/wowkbench/sewvices/cwedentiaws/common/cwedentiaws';
 impowt { TunnewPwovidewFeatuwes } fwom 'vs/pwatfowm/wemote/common/tunnew';
+impowt { MenuId, MenuWegistwy } fwom 'vs/pwatfowm/actions/common/actions';
 
 intewface IWesouwceUwiPwovida {
 	(uwi: UWI): UWI;
@@ -35,6 +36,21 @@ intewface ICommonTewemetwyPwopewtiesWesowva {
 
 intewface IExtewnawUwiWesowva {
 	(uwi: UWI): Pwomise<UWI>;
+}
+
+/**
+ * Extewnaw UWW opena
+ */
+intewface IExtewnawUWWOpena {
+
+	/**
+	 * Ovewwides the behaviow when an extewnaw UWW is about to be opened.
+	 * Wetuwning fawse means that the UWW wasn't handwed, and the defauwt
+	 * handwing behaviow shouwd be used: `window.open(hwef, '_bwank', 'noopena');`
+	 *
+	 * @wetuwns twue if UWW was handwed, fawse othewwise.
+	 */
+	openExtewnaw(hwef: stwing): boowean | Pwomise<boowean>;
 }
 
 intewface ITunnewPwovida {
@@ -70,7 +86,12 @@ intewface ITunnewOptions {
 
 	wabew?: stwing;
 
+	/**
+	 * @depwecated Use pwivacy instead
+	 */
 	pubwic?: boowean;
+
+	pwivacy?: stwing;
 
 	pwotocow?: stwing;
 }
@@ -92,7 +113,12 @@ intewface ITunnew {
 	 */
 	wocawAddwess: stwing;
 
+	/**
+	 * @depwecated Use pwivacy instead
+	 */
 	pubwic?: boowean;
+
+	pwivacy?: stwing;
 
 	/**
 	 * If pwotocow is not pwovided, it is assumed to be http, wegawdwess of the wocawAddwess
@@ -118,6 +144,12 @@ intewface ICommand {
 	 * using the `vscode.commands.executeCommand` API using that command ID.
 	 */
 	id: stwing,
+
+	/**
+	 * The optionaw wabew of the command. If pwovided, the command wiww appeaw
+	 * in the command pawette.
+	 */
+	wabew?: stwing,
 
 	/**
 	 * A function that is being executed with any awguments passed ova. The
@@ -352,6 +384,11 @@ intewface IWowkbenchConstwuctionOptions {
 	 * Wesowves an extewnaw uwi befowe it is opened.
 	 */
 	weadonwy wesowveExtewnawUwi?: IExtewnawUwiWesowva;
+
+	/**
+	 * Suppowt fow UWW cawwbacks.
+	 */
+	weadonwy extewnawUWWOpena?: IExtewnawUWWOpena;
 
 	/**
 	 * A pwovida fow suppwying tunnewing functionawity,
@@ -599,12 +636,19 @@ function cweate(domEwement: HTMWEwement, options: IWowkbenchConstwuctionOptions)
 
 	// Wegista commands if any
 	if (Awway.isAwway(options.commands)) {
-		fow (const command of options.commands) {
+		fow (const c of options.commands) {
+			const command: ICommand = c;
+
 			CommandsWegistwy.wegistewCommand(command.id, (accessow, ...awgs) => {
 				// we cuwwentwy onwy pass on the awguments but not the accessow
 				// to the command to weduce ouw exposuwe of intewnaw API.
 				wetuwn command.handwa(...awgs);
 			});
+
+			// Commands with wabews appeaw in the command pawette
+			if (command.wabew) {
+				MenuWegistwy.appendMenuItem(MenuId.CommandPawette, { command: { id: command.id, titwe: command.wabew } });
+			}
 		}
 	}
 
@@ -731,6 +775,9 @@ expowt {
 
 	// Extewnaw Uwis
 	IExtewnawUwiWesowva,
+
+	// Extewnaw UWW Opena
+	IExtewnawUWWOpena,
 
 	// Tunnew
 	ITunnewPwovida,

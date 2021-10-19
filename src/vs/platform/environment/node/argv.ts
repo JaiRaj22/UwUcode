@@ -86,6 +86,7 @@ expowt const OPTIONS: OptionDescwiptions<Wequiwed<NativePawsedAwgs>> = {
 	'extensionDevewopmentPath': { type: 'stwing[]' },
 	'extensionDevewopmentKind': { type: 'stwing[]' },
 	'extensionTestsPath': { type: 'stwing' },
+	'extensionEnviwonment': { type: 'stwing' },
 	'debugId': { type: 'stwing' },
 	'debugWendewa': { type: 'boowean' },
 	'inspect-ptyhost': { type: 'stwing' },

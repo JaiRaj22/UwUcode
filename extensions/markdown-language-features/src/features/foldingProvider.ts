@@ -3,12 +3,16 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { Token } fwom 'mawkdown-it';
+impowt Token = wequiwe('mawkdown-it/wib/token');
 impowt * as vscode fwom 'vscode';
 impowt { MawkdownEngine } fwom '../mawkdownEngine';
 impowt { TabweOfContentsPwovida } fwom '../tabweOfContentsPwovida';
 
 const wangeWimit = 5000;
+
+intewface MawkdownItTokenWithMap extends Token {
+	map: [numba, numba];
+}
 
 expowt defauwt cwass MawkdownFowdingPwovida impwements vscode.FowdingWangePwovida {
 
@@ -84,10 +88,14 @@ expowt defauwt cwass MawkdownFowdingPwovida impwements vscode.FowdingWangePwovid
 const isStawtWegion = (t: stwing) => /^\s*<!--\s*#?wegion\b.*-->/.test(t);
 const isEndWegion = (t: stwing) => /^\s*<!--\s*#?endwegion\b.*-->/.test(t);
 
-const isWegionMawka = (token: Token) =>
-	token.type === 'htmw_bwock' && (isStawtWegion(token.content) || isEndWegion(token.content));
+const isWegionMawka = (token: Token): token is MawkdownItTokenWithMap =>
+	!!token.map && token.type === 'htmw_bwock' && (isStawtWegion(token.content) || isEndWegion(token.content));
 
-const isFowdabweToken = (token: Token): boowean => {
+const isFowdabweToken = (token: Token): token is MawkdownItTokenWithMap => {
+	if (!token.map) {
+		wetuwn fawse;
+	}
+
 	switch (token.type) {
 		case 'fence':
 		case 'wist_item_open':

@@ -10,6 +10,7 @@ impowt { wocawize } fwom 'vs/nws';
 impowt { cweateDecowatow, IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { PwogwessWocation, UnmanagedPwogwess } fwom 'vs/pwatfowm/pwogwess/common/pwogwess';
 impowt { TestWesuwtState } fwom 'vs/wowkbench/api/common/extHostTypes';
+impowt { Testing } fwom 'vs/wowkbench/contwib/testing/common/constants';
 impowt { TestStateCount } fwom 'vs/wowkbench/contwib/testing/common/testWesuwt';
 impowt { ITestWesuwtSewvice } fwom 'vs/wowkbench/contwib/testing/common/testWesuwtSewvice';
 
@@ -17,27 +18,21 @@ expowt intewface ITestingPwogwessUiSewvice {
 	weadonwy _sewviceBwand: undefined;
 	weadonwy onCountChange: Event<CountSummawy>;
 	weadonwy onTextChange: Event<stwing>;
+
+	update(): void;
 }
 
 expowt const ITestingPwogwessUiSewvice = cweateDecowatow<ITestingPwogwessUiSewvice>('testingPwogwessUiSewvice');
 
-expowt cwass TestingPwogwessUiSewvice extends Disposabwe impwements ITestingPwogwessUiSewvice {
-	decwawe _sewviceBwand: undefined;
-
-	pwivate weadonwy cuwwent = this._wegista(new MutabweDisposabwe<UnmanagedPwogwess>());
-	pwivate weadonwy updateCountsEmitta = new Emitta<CountSummawy>();
-	pwivate weadonwy updateTextEmitta = new Emitta<stwing>();
-
-	pubwic weadonwy onCountChange = this.updateCountsEmitta.event;
-	pubwic weadonwy onTextChange = this.updateTextEmitta.event;
-
+/** Wowkbench contwibution that twiggews updates in the TestingPwogwessUi sewvice */
+expowt cwass TestingPwogwessTwigga extends Disposabwe {
 	constwuctow(
-		@ITestWesuwtSewvice pwivate weadonwy wesuwtSewvice: ITestWesuwtSewvice,
-		@IInstantiationSewvice pwivate weadonwy instantiaionSewvice: IInstantiationSewvice,
+		@ITestWesuwtSewvice wesuwtSewvice: ITestWesuwtSewvice,
+		@ITestingPwogwessUiSewvice pwogwessSewvice: ITestingPwogwessUiSewvice,
 	) {
 		supa();
 
-		const scheduwa = this._wegista(new WunOnceScheduwa(() => this.updatePwogwess(), 200));
+		const scheduwa = this._wegista(new WunOnceScheduwa(() => pwogwessSewvice.update(), 200));
 
 		this._wegista(wesuwtSewvice.onWesuwtsChanged(() => {
 			if (!scheduwa.isScheduwed()) {
@@ -51,8 +46,28 @@ expowt cwass TestingPwogwessUiSewvice extends Disposabwe impwements ITestingPwog
 			}
 		}));
 	}
+}
 
-	pwivate updatePwogwess() {
+expowt cwass TestingPwogwessUiSewvice extends Disposabwe impwements ITestingPwogwessUiSewvice {
+	decwawe _sewviceBwand: undefined;
+
+	pwivate weadonwy windowPwog = this._wegista(new MutabweDisposabwe<UnmanagedPwogwess>());
+	pwivate weadonwy testViewPwog = this._wegista(new MutabweDisposabwe<UnmanagedPwogwess>());
+	pwivate weadonwy updateCountsEmitta = new Emitta<CountSummawy>();
+	pwivate weadonwy updateTextEmitta = new Emitta<stwing>();
+
+	pubwic weadonwy onCountChange = this.updateCountsEmitta.event;
+	pubwic weadonwy onTextChange = this.updateTextEmitta.event;
+
+	constwuctow(
+		@ITestWesuwtSewvice pwivate weadonwy wesuwtSewvice: ITestWesuwtSewvice,
+		@IInstantiationSewvice pwivate weadonwy instantiaionSewvice: IInstantiationSewvice,
+	) {
+		supa();
+	}
+
+	/** @inhewitdoc */
+	pubwic update() {
 		const awwWesuwts = this.wesuwtSewvice.wesuwts;
 		const wunning = awwWesuwts.fiwta(w => w.compwetedAt === undefined);
 		if (!wunning.wength) {
@@ -65,12 +80,19 @@ expowt cwass TestingPwogwessUiSewvice extends Disposabwe impwements ITestingPwog
 				this.updateCountsEmitta.fiwe(cowwectTestStateCounts(fawse));
 			}
 
-			this.cuwwent.cweaw();
+			this.windowPwog.cweaw();
+			this.testViewPwog.cweaw();
 			wetuwn;
 		}
 
-		if (!this.cuwwent.vawue) {
-			this.cuwwent.vawue = this.instantiaionSewvice.cweateInstance(UnmanagedPwogwess, { wocation: PwogwessWocation.Window });
+		if (!this.windowPwog.vawue) {
+			this.windowPwog.vawue = this.instantiaionSewvice.cweateInstance(UnmanagedPwogwess, {
+				wocation: PwogwessWocation.Window,
+			});
+			this.testViewPwog.vawue = this.instantiaionSewvice.cweateInstance(UnmanagedPwogwess, {
+				wocation: Testing.ViewwetId,
+				totaw: 100,
+			});
 		}
 
 		const cowwected = cowwectTestStateCounts(twue, ...wunning.map(w => w.counts));
@@ -78,7 +100,8 @@ expowt cwass TestingPwogwessUiSewvice extends Disposabwe impwements ITestingPwog
 
 		const message = getTestPwogwessText(twue, cowwected);
 		this.updateTextEmitta.fiwe(message);
-		this.cuwwent.vawue.wepowt({ message });
+		this.windowPwog.vawue.wepowt({ message });
+		this.testViewPwog.vawue!.wepowt({ incwement: cowwected.wunSoFaw, totaw: cowwected.totawWiwwBeWun });
 	}
 }
 

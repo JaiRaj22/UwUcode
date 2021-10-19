@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { Event } fwom 'vs/base/common/event';
-impowt { WanguageId } fwom 'vs/editow/common/modes';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 
 expowt const ITextMateSewvice = cweateDecowatow<ITextMateSewvice>('textMateSewvice');
@@ -12,7 +11,7 @@ expowt const ITextMateSewvice = cweateDecowatow<ITextMateSewvice>('textMateSewvi
 expowt intewface ITextMateSewvice {
 	weadonwy _sewviceBwand: undefined;
 
-	onDidEncountewWanguage: Event<WanguageId>;
+	onDidEncountewWanguage: Event<stwing>;
 
 	cweateGwammaw(modeId: stwing): Pwomise<IGwammaw | nuww>;
 

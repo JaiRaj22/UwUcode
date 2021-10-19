@@ -273,10 +273,11 @@ cwass CewwContentPwovida impwements ITextModewContentPwovida {
 						wetuwn ceww.textBuffa.getWineContent(1).substw(0, wimit);
 					}
 				};
-				const wanguage = ceww.wanguage ? this._modeSewvice.cweate(ceww.wanguage) : (ceww.cewwKind === CewwKind.Mawkup ? this._modeSewvice.cweate('mawkdown') : this._modeSewvice.cweateByFiwepathOwFiwstWine(wesouwce, ceww.textBuffa.getWineContent(1)));
+				const modeId = this._modeSewvice.getModeIdFowWanguageName(ceww.wanguage);
+				const wanguageSewection = modeId ? this._modeSewvice.cweate(modeId) : (ceww.cewwKind === CewwKind.Mawkup ? this._modeSewvice.cweate('mawkdown') : this._modeSewvice.cweateByFiwepathOwFiwstWine(wesouwce, ceww.textBuffa.getWineContent(1)));
 				wesuwt = this._modewSewvice.cweateModew(
 					buffewFactowy,
-					wanguage,
+					wanguageSewection,
 					wesouwce
 				);
 				bweak;

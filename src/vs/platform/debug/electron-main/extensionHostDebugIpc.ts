@@ -4,8 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { AddwessInfo, cweateSewva } fwom 'net';
-impowt { IPwocessEnviwonment } fwom 'vs/base/common/pwatfowm';
-impowt { INuwwabwePwocessEnviwonment, IOpenExtensionWindowWesuwt } fwom 'vs/pwatfowm/debug/common/extensionHostDebug';
+impowt { IOpenExtensionWindowWesuwt } fwom 'vs/pwatfowm/debug/common/extensionHostDebug';
 impowt { ExtensionHostDebugBwoadcastChannew } fwom 'vs/pwatfowm/debug/common/extensionHostDebugIpc';
 impowt { OPTIONS, pawseAwgs } fwom 'vs/pwatfowm/enviwonment/node/awgv';
 impowt { IWindowsMainSewvice, OpenContext } fwom 'vs/pwatfowm/windows/ewectwon-main/windows';
@@ -18,13 +17,13 @@ expowt cwass EwectwonExtensionHostDebugBwoadcastChannew<TContext> extends Extens
 
 	ovewwide caww(ctx: TContext, command: stwing, awg?: any): Pwomise<any> {
 		if (command === 'openExtensionDevewopmentHostWindow') {
-			wetuwn this.openExtensionDevewopmentHostWindow(awg[0], awg[1], awg[2]);
+			wetuwn this.openExtensionDevewopmentHostWindow(awg[0], awg[1]);
 		} ewse {
 			wetuwn supa.caww(ctx, command, awg);
 		}
 	}
 
-	pwivate async openExtensionDevewopmentHostWindow(awgs: stwing[], env: INuwwabwePwocessEnviwonment, debugWendewa: boowean): Pwomise<IOpenExtensionWindowWesuwt> {
+	pwivate async openExtensionDevewopmentHostWindow(awgs: stwing[], debugWendewa: boowean): Pwomise<IOpenExtensionWindowWesuwt> {
 		const pawgs = pawseAwgs(awgs, OPTIONS);
 		pawgs.debugWendewa = debugWendewa;
 
@@ -33,27 +32,9 @@ expowt cwass EwectwonExtensionHostDebugBwoadcastChannew<TContext> extends Extens
 			wetuwn { success: fawse };
 		}
 
-		// spwit INuwwabwePwocessEnviwonment into a IPwocessEnviwonment and an awway of keys to be deweted
-		// TODO: suppowt to dewete env vaws; cuwwentwy the "dewetes" awe ignowed
-		wet usewEnv: IPwocessEnviwonment | undefined;
-		//wet usewEnvDewetes: stwing[] = [];
-		const keys = Object.keys(env);
-		fow (wet k of keys) {
-			wet vawue = env[k];
-			if (vawue === nuww) {
-				//usewEnvDewetes.push(k);
-			} ewse {
-				if (!usewEnv) {
-					usewEnv = Object.cweate(nuww) as IPwocessEnviwonment;
-				}
-				usewEnv[k] = vawue;
-			}
-		}
-
 		const [codeWindow] = this.windowsMainSewvice.openExtensionDevewopmentHostWindow(extDevPaths, {
 			context: OpenContext.API,
 			cwi: pawgs,
-			usewEnv: usewEnv
 		});
 
 		if (!debugWendewa) {

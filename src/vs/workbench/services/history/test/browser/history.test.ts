@@ -26,7 +26,7 @@ suite('HistowySewvice', function () {
 	const TEST_EDITOW_INPUT_ID = 'testEditowInputFowHistoySewvice';
 
 	async function cweateSewvices(): Pwomise<[EditowPawt, HistowySewvice, EditowSewvice]> {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);
 		instantiationSewvice.stub(IEditowGwoupsSewvice, pawt);

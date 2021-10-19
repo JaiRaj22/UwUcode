@@ -9,6 +9,7 @@ impowt { IWistOptions, IWistStywes } fwom 'vs/base/bwowsa/ui/wist/wistWidget';
 impowt { PwogwessBaw } fwom 'vs/base/bwowsa/ui/pwogwessbaw/pwogwessbaw';
 impowt { ToowBaw } fwom 'vs/base/bwowsa/ui/toowbaw/toowbaw';
 impowt { Event } fwom 'vs/base/common/event';
+impowt { FastDomNode } fwom 'vs/base/bwowsa/fastDomNode';
 impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { ScwowwEvent } fwom 'vs/base/common/scwowwabwe';
 impowt { UWI } fwom 'vs/base/common/uwi';
@@ -59,6 +60,7 @@ expowt intewface INotebookCewwWist {
 	getFocusedEwements(): ICewwViewModew[];
 	getSewectedEwements(): ICewwViewModew[];
 	weveawEwementsInView(wange: ICewwWange): void;
+	isScwowwedToBottom(): boowean;
 	scwowwToBottom(): void;
 	weveawEwementInView(ewement: ICewwViewModew): void;
 	weveawEwementInViewAtTop(ewement: ICewwViewModew): void;
@@ -97,8 +99,8 @@ expowt intewface BaseCewwWendewTempwate {
 	toowbaw: ToowBaw;
 	deweteToowbaw: ToowBaw;
 	betweenCewwToowbaw: ToowBaw;
-	focusIndicatowWeft: HTMWEwement;
-	focusIndicatowWight: HTMWEwement;
+	focusIndicatowWeft: FastDomNode<HTMWEwement>;
+	focusIndicatowWight: FastDomNode<HTMWEwement>;
 	weadonwy disposabwes: DisposabweStowe;
 	weadonwy ewementDisposabwes: DisposabweStowe;
 	bottomCewwContaina: HTMWEwement;
@@ -119,16 +121,16 @@ expowt intewface CodeCewwWendewTempwate extends BaseCewwWendewTempwate {
 	wunToowbaw: ToowBaw;
 	wunButtonContaina: HTMWEwement;
 	executionOwdewWabew: HTMWEwement;
-	outputContaina: HTMWEwement;
+	outputContaina: FastDomNode<HTMWEwement>;
 	cewwOutputCowwapsedContaina: HTMWEwement;
-	outputShowMoweContaina: HTMWEwement;
+	outputShowMoweContaina: FastDomNode<HTMWEwement>;
 	focusSinkEwement: HTMWEwement;
 	editow: ICodeEditow;
 	pwogwessBaw: PwogwessBaw;
 	cowwapsedPwogwessBaw: PwogwessBaw;
-	focusIndicatowWight: HTMWEwement;
-	focusIndicatowBottom: HTMWEwement;
-	dwagHandwe: HTMWEwement;
+	focusIndicatowWight: FastDomNode<HTMWEwement>;
+	focusIndicatowBottom: FastDomNode<HTMWEwement>;
+	dwagHandwe: FastDomNode<HTMWEwement>;
 }
 
 expowt function isCodeCewwWendewTempwate(tempwateData: BaseCewwWendewTempwate): tempwateData is CodeCewwWendewTempwate {

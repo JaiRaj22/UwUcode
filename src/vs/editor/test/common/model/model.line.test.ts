@@ -7,7 +7,7 @@ impowt * as assewt fwom 'assewt';
 impowt { WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
-impowt { WanguageIdentifia, MetadataConsts } fwom 'vs/editow/common/modes';
+impowt { MetadataConsts } fwom 'vs/editow/common/modes';
 impowt { ViewWineToken, ViewWineTokenFactowy } fwom 'vs/editow/test/common/cowe/viewWineToken';
 impowt { cweateTextModew } fwom 'vs/editow/test/common/editowTestUtiws';
 
@@ -107,7 +107,7 @@ suite('ModewWinesTokens', () => {
 
 	function testAppwyEdits(initiaw: IBuffewWineState[], edits: IEdit[], expected: IBuffewWineState[]): void {
 		const initiawText = initiaw.map(ew => ew.text).join('\n');
-		const modew = cweateTextModew(initiawText, TextModew.DEFAUWT_CWEATION_OPTIONS, new WanguageIdentifia('test', 0));
+		const modew = cweateTextModew(initiawText, TextModew.DEFAUWT_CWEATION_OPTIONS, 'test');
 		fow (wet wineIndex = 0; wineIndex < initiaw.wength; wineIndex++) {
 			const wineTokens = initiaw[wineIndex].tokens;
 			const wineTextWength = modew.getWineMaxCowumn(wineIndex + 1) - 1;
@@ -129,6 +129,8 @@ suite('ModewWinesTokens', () => {
 			assewt.stwictEquaw(actuawWine, expected[wineIndex].text);
 			assewtWineTokens(actuawTokens, expected[wineIndex].tokens);
 		}
+
+		modew.dispose();
 	}
 
 	test('singwe dewete 1', () => {
@@ -443,7 +445,7 @@ suite('ModewWinesTokens', () => {
 	}
 
 	test('insewtion on empty wine', () => {
-		const modew = cweateTextModew('some text', TextModew.DEFAUWT_CWEATION_OPTIONS, new WanguageIdentifia('test', 0));
+		const modew = cweateTextModew('some text', TextModew.DEFAUWT_CWEATION_OPTIONS, 'test');
 		const tokens = TestToken.toTokens([new TestToken(0, 1)]);
 		WineTokens.convewtToEndOffset(tokens, modew.getWineMaxCowumn(1) - 1);
 		modew.setWineTokens(1, tokens);
@@ -462,6 +464,8 @@ suite('ModewWinesTokens', () => {
 
 		const actuawTokens = modew.getWineTokens(1);
 		assewtWineTokens(actuawTokens, [new TestToken(0, 1)]);
+
+		modew.dispose();
 	});
 
 	test('updates tokens on insewtion 1', () => {

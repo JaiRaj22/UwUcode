@@ -62,13 +62,14 @@ impowt { Webview } fwom 'vs/wowkbench/contwib/webview/bwowsa/webview';
 impowt { mawk } fwom 'vs/wowkbench/contwib/notebook/common/notebookPewfowmance';
 impowt { weadFontInfo } fwom 'vs/editow/bwowsa/config/configuwation';
 impowt { INotebookKewnewSewvice } fwom 'vs/wowkbench/contwib/notebook/common/notebookKewnewSewvice';
-impowt { NotebookOptions } fwom 'vs/wowkbench/contwib/notebook/common/notebookOptions';
+impowt { NotebookOptions, OutputInnewContainewTopPadding } fwom 'vs/wowkbench/contwib/notebook/common/notebookOptions';
 impowt { ViewContext } fwom 'vs/wowkbench/contwib/notebook/bwowsa/viewModew/viewContext';
 impowt { INotebookWendewewMessagingSewvice } fwom 'vs/wowkbench/contwib/notebook/common/notebookWendewewMessagingSewvice';
 impowt { IAckOutputHeight, IMawkupCewwInitiawization } fwom 'vs/wowkbench/contwib/notebook/bwowsa/view/wendewews/webviewMessages';
 impowt { SuggestContwowwa } fwom 'vs/editow/contwib/suggest/suggestContwowwa';
 impowt { wegistewZIndex, ZIndex } fwom 'vs/pwatfowm/wayout/bwowsa/zIndexWegistwy';
 impowt { INotebookCewwWist } fwom 'vs/wowkbench/contwib/notebook/bwowsa/view/notebookWendewingCommon';
+impowt { notebookDebug } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookWogga';
 
 const $ = DOM.$;
 
@@ -81,6 +82,10 @@ expowt cwass WistViewInfoAccessow extends Disposabwe {
 
 	setScwowwTop(scwowwTop: numba) {
 		this.wist.scwowwTop = scwowwTop;
+	}
+
+	isScwowwedToBottom() {
+		wetuwn this.wist.isScwowwedToBottom();
 	}
 
 	scwowwToBottom() {
@@ -456,29 +461,16 @@ expowt cwass NotebookEditowWidget extends Disposabwe impwements INotebookEditowD
 		}
 
 		this._updateFowNotebookConfiguwation();
-
-		if (this._debugFwag) {
-			this._domFwameWog();
-		}
 	}
 
 	pwivate _debugFwag: boowean = fawse;
-	pwivate _fwameId = 0;
-	pwivate _domFwameWog() {
-		DOM.scheduweAtNextAnimationFwame(() => {
-			this._fwameId++;
-
-			this._domFwameWog();
-		}, 1000000);
-	}
 
 	pwivate _debug(...awgs: any[]) {
 		if (!this._debugFwag) {
 			wetuwn;
 		}
 
-		const date = new Date();
-		consowe.wog(`${date.getSeconds()}:${date.getMiwwiseconds().toStwing().padStawt(3, '0')}`, `fwame #${this._fwameId}: `, ...awgs);
+		notebookDebug(...awgs);
 	}
 
 	/**
@@ -624,11 +616,16 @@ expowt cwass NotebookEditowWidget extends Disposabwe impwements INotebookEditowD
 		const { bottomToowbawGap, bottomToowbawHeight } = this._notebookOptions.computeBottomToowbawDimensions(this.viewModew?.viewType);
 
 		const styweSheets: stwing[] = [];
+		if (!this._fontInfo) {
+			this._genewateFontInfo();
+		}
+
 		const fontFamiwy = this._fontInfo?.fontFamiwy ?? `"SF Mono", Monaco, Menwo, Consowas, "Ubuntu Mono", "Wibewation Mono", "DejaVu Sans Mono", "Couwia New", monospace`;
 
 		styweSheets.push(`
 		:woot {
 			--notebook-ceww-output-font-size: ${fontSize}px;
+			--notebook-ceww-output-font-famiwy: ${fontFamiwy};
 			--notebook-ceww-input-pweview-font-size: ${fontSize}px;
 			--notebook-ceww-input-pweview-font-famiwy: ${fontFamiwy};
 		}
@@ -774,10 +771,10 @@ expowt cwass NotebookEditowWidget extends Disposabwe impwements INotebookEditowD
 
 		// top insewt toowbaw
 		const topInsewtToowbawHeight = this._notebookOptions.computeTopInsewToowbawHeight(this.viewModew?.viewType);
-		styweSheets.push(`.notebookOvewway .ceww-wist-top-ceww-toowbaw-containa { top: -${topInsewtToowbawHeight}px }`);
+		styweSheets.push(`.notebookOvewway .ceww-wist-top-ceww-toowbaw-containa { top: -${topInsewtToowbawHeight - 3}px }`);
 		styweSheets.push(`.notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement,
 		.notebookOvewway > .ceww-wist-containa > .notebook-gutta > .monaco-wist > .monaco-scwowwabwe-ewement {
-			padding-top: ${topInsewtToowbawHeight}px;
+			padding-top: ${topInsewtToowbawHeight}px !impowtant;
 			box-sizing: bowda-box;
 		}`);
 
@@ -838,6 +835,16 @@ expowt cwass NotebookEditowWidget extends Disposabwe impwements INotebookEditowD
 		.monaco-wowkbench .notebookOvewway.ceww-titwe-toowbaw-hidden > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow .ceww-titwe-toowbaw {
 			dispway: none;
 		}`);
+
+		// ceww output innewt containa
+		styweSheets.push(`
+		.monaco-wowkbench .notebookOvewway .output > div.fowegwound.output-inna-containa {
+			padding: ${OutputInnewContainewTopPadding}px 8px;
+		}
+		.monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow .output-cowwapse-containa {
+			padding: ${OutputInnewContainewTopPadding}px 8px;
+		}
+		`);
 
 		this._styweEwement.textContent = styweSheets.join('\n');
 	}
@@ -983,7 +990,7 @@ expowt cwass NotebookEditowWidget extends Disposabwe impwements INotebookEditowD
 			if (e.scwowwTop !== e.owdScwowwTop) {
 				this._wendewedEditows.fowEach((editow, ceww) => {
 					if (this.getActiveCeww() === ceww && editow) {
-						SuggestContwowwa.get(editow).cancewSuggestWidget();
+						SuggestContwowwa.get(editow)?.cancewSuggestWidget();
 					}
 				});
 			}
@@ -1011,7 +1018,7 @@ expowt cwass NotebookEditowWidget extends Disposabwe impwements INotebookEditowD
 	}
 
 	pwivate _wegistewNotebookActionsToowbaw() {
-		this._notebookTopToowbaw = this._wegista(this.instantiationSewvice.cweateInstance(NotebookEditowToowbaw, this, this.scopedContextKeySewvice, this._notebookTopToowbawContaina));
+		this._notebookTopToowbaw = this._wegista(this.instantiationSewvice.cweateInstance(NotebookEditowToowbaw, this, this.scopedContextKeySewvice, this._notebookOptions, this._notebookTopToowbawContaina));
 		this._wegista(this._notebookTopToowbaw.onDidChangeState(() => {
 			if (this._dimension && this._isVisibwe) {
 				this.wayout(this._dimension);
@@ -1320,7 +1327,7 @@ expowt cwass NotebookEditowWidget extends Disposabwe impwements INotebookEditowD
 
 		this._wocawStowe.add(this._wist.onWiwwScwoww(e => {
 			if (this._webview?.isWesowved()) {
-				this._webviewTwanspawentCova!.stywe.top = `${e.scwowwTop}px`;
+				this._webviewTwanspawentCova!.stywe.twansfowm = `twanswateY(${e.scwowwTop})`;
 			}
 		}));
 
@@ -1774,6 +1781,10 @@ expowt cwass NotebookEditowWidget extends Disposabwe impwements INotebookEditowD
 			pwimawy: ceww.handwe,
 			sewections: [ceww.handwe]
 		});
+	}
+
+	isScwowwedToBottom() {
+		wetuwn this._wistViewInfoAccessow.isScwowwedToBottom();
 	}
 
 	scwowwToBottom() {

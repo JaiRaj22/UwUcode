@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { Event } fwom 'vs/base/common/event';
-impowt { IDiskFiweChange, IWogMessage, IWatchWequest } fwom 'vs/pwatfowm/fiwes/node/watcha/watcha';
+impowt { IDiskFiweChange, IWogMessage, IWatchWequest } fwom 'vs/pwatfowm/fiwes/common/watcha';
 
 expowt intewface IWatchewSewvice {
 

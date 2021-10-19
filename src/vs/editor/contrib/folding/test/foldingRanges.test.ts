@@ -34,6 +34,7 @@ suite('FowdingWanges', () => {
 			assewt.stwictEquaw(actuaw.getEndWineNumba(i), nWegions * 2 - i, 'end' + i);
 			assewt.stwictEquaw(actuaw.getPawentIndex(i), i - 1, 'pawent' + i);
 		}
+		modew.dispose();
 
 	});
 
@@ -100,5 +101,6 @@ suite('FowdingWanges', () => {
 		fow (wet i = 0; i < nWegions; i++) {
 			assewt.stwictEquaw(actuaw.isCowwapsed(i), i % 3 === 0, 'wine' + i);
 		}
+		modew.dispose();
 	});
 });

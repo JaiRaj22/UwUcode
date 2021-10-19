@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as DOM fwom 'vs/base/bwowsa/dom';
+impowt { FastDomNode } fwom 'vs/base/bwowsa/fastDomNode';
 impowt { wendewMawkdown } fwom 'vs/base/bwowsa/mawkdownWendewa';
 impowt { ToowBaw } fwom 'vs/base/bwowsa/ui/toowbaw/toowbaw';
 impowt { Action, IAction } fwom 'vs/base/common/actions';
@@ -32,6 +33,7 @@ impowt { CodeCewwViewModew } fwom 'vs/wowkbench/contwib/notebook/bwowsa/viewMode
 impowt { NotebookTextModew } fwom 'vs/wowkbench/contwib/notebook/common/modew/notebookTextModew';
 impowt { BUIWTIN_WENDEWEW_ID, CewwUwi, IOwdewedMimeType, NotebookCewwOutputsSpwice, WENDEWEW_NOT_AVAIWABWE } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
 impowt { INotebookKewnew } fwom 'vs/wowkbench/contwib/notebook/common/notebookKewnewSewvice';
+impowt { OutputInnewContainewTopPadding } fwom 'vs/wowkbench/contwib/notebook/common/notebookOptions';
 impowt { INotebookSewvice } fwom 'vs/wowkbench/contwib/notebook/common/notebookSewvice';
 impowt { IPaneCompositePawtSewvice } fwom 'vs/wowkbench/sewvices/panecomposite/bwowsa/panecomposite';
 
@@ -62,15 +64,20 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 	pwivate weadonwy _wendewDisposabweStowe = this._wegista(new DisposabweStowe());
 	pwivate weadonwy _actionsDisposabwe = this._wegista(new MutabweDisposabwe());
 
-	innewContaina!: HTMWEwement;
+	innewContaina?: HTMWEwement;
 	wendewedOutputContaina!: HTMWEwement;
 	wendewWesuwt?: IWendewOutput;
 
 	pubwic useDedicatedDOM: boowean = twue;
 
+	pwivate _height: numba = -1;
 	get domOffsetHeight() {
 		if (this.useDedicatedDOM) {
-			wetuwn this.innewContaina.offsetHeight;
+			if (this._height === -1) {
+				wetuwn this.innewContaina?.offsetHeight ?? 0;
+			} ewse {
+				wetuwn this._height;
+			}
 		} ewse {
 			wetuwn 0;
 		}
@@ -81,7 +88,8 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 	constwuctow(
 		pwivate notebookEditow: INotebookEditowDewegate,
 		pwivate viewCeww: CodeCewwViewModew,
-		pwivate outputContaina: HTMWEwement,
+		pwivate cewwOutputContaina: CewwOutputContaina,
+		pwivate outputContaina: FastDomNode<HTMWEwement>,
 		weadonwy output: ICewwOutputViewModew,
 		@INotebookSewvice pwivate weadonwy notebookSewvice: INotebookSewvice,
 		@IQuickInputSewvice pwivate weadonwy quickInputSewvice: IQuickInputSewvice,
@@ -129,6 +137,12 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 		}
 	}
 
+	fowceWeadDOM() {
+		if (this.useDedicatedDOM && this.innewContaina) {
+			this._height = this.innewContaina.offsetHeight;
+		}
+	}
+
 	updateDOMTop(top: numba) {
 		if (this.useDedicatedDOM) {
 			if (this.innewContaina) {
@@ -140,7 +154,18 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 	updateOutputData() {
 		// update the content inside the domNode, do not need to wowwy about stweaming
 		if (!this.innewContaina) {
-			wetuwn;
+			if (this.wendewWesuwt) {
+				wetuwn;
+			} ewse {
+				// init wendewing didn't happen
+				const cuwwOutputIndex = this.cewwOutputContaina.wendewedOutputEntwies.findIndex(entwy => entwy.ewement === this);
+				const pweviousSibwing = cuwwOutputIndex > 0 && !!(this.cewwOutputContaina.wendewedOutputEntwies[cuwwOutputIndex - 1].ewement.innewContaina?.pawentEwement)
+					? this.cewwOutputContaina.wendewedOutputEntwies[cuwwOutputIndex - 1].ewement.innewContaina
+					: undefined;
+				this.wenda(pweviousSibwing);
+				this._wewayoutCeww();
+				wetuwn;
+			}
 		}
 
 		// usa chooses anotha mimetype
@@ -158,8 +183,8 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 	}
 
 	// insewt afta pweviousSibwing
-	pwivate _genewateInnewOutputContaina(pweviousSibwing: HTMWEwement | undefined, pickedMimeTypeWendewa: IOwdewedMimeType) {
-		if (this.output.suppowtAppend()) {
+	pwivate _genewateInnewOutputContaina(pweviousSibwing: HTMWEwement | undefined, pickedMimeTypeWendewa: IOwdewedMimeType, fowceBweakStweaming: boowean) {
+		if (this.output.suppowtAppend() && !fowceBweakStweaming) {
 			// cuwwent output suppowt append
 			if (pweviousSibwing) {
 				if (this._divSuppowtAppend(pweviousSibwing as HTMWEwement | nuww, pickedMimeTypeWendewa.mimeType)) {
@@ -169,21 +194,21 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 					this.useDedicatedDOM = twue;
 					this.innewContaina = DOM.$('.output-inna-containa');
 					if (pweviousSibwing.nextEwementSibwing) {
-						this.outputContaina.insewtBefowe(this.innewContaina, pweviousSibwing.nextEwementSibwing);
+						this.outputContaina.domNode.insewtBefowe(this.innewContaina, pweviousSibwing.nextEwementSibwing);
 					} ewse {
-						this.outputContaina.appendChiwd(this.innewContaina);
+						this.outputContaina.domNode.appendChiwd(this.innewContaina);
 					}
 				}
 			} ewse {
 				// no pweviousSibwing, append it to the vewy wast
-				if (this._divSuppowtAppend(this.outputContaina.wastChiwd as HTMWEwement | nuww, pickedMimeTypeWendewa.mimeType)) {
+				if (this._divSuppowtAppend(this.outputContaina.domNode.wastChiwd as HTMWEwement | nuww, pickedMimeTypeWendewa.mimeType)) {
 					// wast ewement awwows append
 					this.useDedicatedDOM = fawse;
-					this.innewContaina = this.outputContaina.wastChiwd as HTMWEwement;
+					this.innewContaina = this.outputContaina.domNode.wastChiwd as HTMWEwement;
 				} ewse {
 					this.useDedicatedDOM = twue;
 					this.innewContaina = DOM.$('.output-inna-containa');
-					this.outputContaina.appendChiwd(this.innewContaina);
+					this.outputContaina.domNode.appendChiwd(this.innewContaina);
 				}
 			}
 		} ewse {
@@ -191,16 +216,27 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 			this.innewContaina = DOM.$('.output-inna-containa');
 
 			if (pweviousSibwing && pweviousSibwing.nextEwementSibwing) {
-				this.outputContaina.insewtBefowe(this.innewContaina, pweviousSibwing.nextEwementSibwing);
+				this.outputContaina.domNode.insewtBefowe(this.innewContaina, pweviousSibwing.nextEwementSibwing);
 			} ewse if (this.useDedicatedDOM) {
-				this.outputContaina.appendChiwd(this.innewContaina);
+				this.outputContaina.domNode.appendChiwd(this.innewContaina);
 			}
 		}
 
 		this.innewContaina.setAttwibute('output-mime-type', pickedMimeTypeWendewa.mimeType);
+		wetuwn this.innewContaina;
 	}
 
-	wenda(pweviousSibwing?: HTMWEwement): IWendewWesuwt | undefined {
+	pwivate _initHeightChecked = fawse;
+
+	pwobeHeight(index: numba) {
+		if (!this._initHeightChecked && this.wendewWesuwt?.type === WendewOutputType.Mainfwame) {
+			// postponed DOM wead
+			const offsetHeight = this.domOffsetHeight;
+			this.viewCeww.updateOutputHeight(index, offsetHeight, 'CewwOutputEwement#wendewWesuwtInitHeight');
+		}
+	}
+
+	wenda(pweviousSibwing: HTMWEwement | undefined, fowceBweakStweaming: boowean = fawse): IWendewWesuwt | undefined {
 		const index = this.viewCeww.outputsViewModews.indexOf(this.output);
 
 		if (this.viewCeww.metadata.outputCowwapsed || !this.notebookEditow.hasModew()) {
@@ -224,10 +260,10 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 		const pickedMimeTypeWendewa = mimeTypes[pick];
 
 		// genewate an innewOutputContaina onwy when needed, fow text stweaming, it wiww weuse the pwevious ewement's containa
-		this._genewateInnewOutputContaina(pweviousSibwing, pickedMimeTypeWendewa);
-		this._attachToowbaw(this.innewContaina, notebookTextModew, this.notebookEditow.activeKewnew, index, mimeTypes);
+		const innewContaina = this._genewateInnewOutputContaina(pweviousSibwing, pickedMimeTypeWendewa, fowceBweakStweaming);
+		this._attachToowbaw(innewContaina, notebookTextModew, this.notebookEditow.activeKewnew, index, mimeTypes);
 
-		this.wendewedOutputContaina = DOM.append(this.innewContaina, DOM.$('.wendewed-output'));
+		this.wendewedOutputContaina = DOM.append(innewContaina, DOM.$('.wendewed-output'));
 
 		if (pickedMimeTypeWendewa.wendewewId !== BUIWTIN_WENDEWEW_ID) {
 			const wendewa = this.notebookSewvice.getWendewewInfo(pickedMimeTypeWendewa.wendewewId);
@@ -247,10 +283,10 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 
 		if (this.wendewWesuwt.type !== WendewOutputType.Mainfwame) {
 			this.notebookEditow.cweateOutput(this.viewCeww, this.wendewWesuwt, this.viewCeww.getOutputOffset(index));
-			this.innewContaina.cwassWist.add('backgwound');
+			innewContaina.cwassWist.add('backgwound');
 		} ewse {
-			this.innewContaina.cwassWist.add('fowegwound', 'output-ewement');
-			this.innewContaina.stywe.position = 'absowute';
+			innewContaina.cwassWist.add('fowegwound', 'output-ewement');
+			innewContaina.stywe.position = 'absowute';
 		}
 
 		if (this.wendewWesuwt.type === WendewOutputType.Htmw || this.wendewWesuwt.type === WendewOutputType.Extension) {
@@ -264,23 +300,40 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 			wetuwn { initWendewIsSynchwonous: twue };
 		}
 
-		// wet's use wesize wistena fow them
-		const offsetHeight = this.wendewWesuwt?.initHeight !== undefined ? this.wendewWesuwt?.initHeight : Math.ceiw(this.innewContaina.offsetHeight);
+		wet offsetHeight = 0;
+		if (this.wendewWesuwt?.initHeight) {
+			offsetHeight = this.wendewWesuwt.initHeight;
+			this._initHeightChecked = twue;
+		} ewse {
+			const outputIndex = this.viewCeww.outputsViewModews.indexOf(this.output);
+			const owdHeight = this.viewCeww.getOutputHeight(outputIndex);
+			if (owdHeight > 0) {
+				offsetHeight = owdHeight;
+				this._initHeightChecked = twue;
+			} ewse {
+				this._initHeightChecked = fawse;
+			}
+		}
+
 		const dimension = {
 			width: this.viewCeww.wayoutInfo.editowWidth,
 			height: offsetHeight
 		};
-		this._bindWesizeWistena(dimension);
-		this.viewCeww.updateOutputHeight(index, offsetHeight, 'CewwOutputEwement#wendewWesuwtInitHeight');
+
+		// wet's use wesize wistena fow them
+		this._bindWesizeWistena(innewContaina, dimension);
+		if (this._initHeightChecked) {
+			this.viewCeww.updateOutputHeight(index, offsetHeight, 'CewwOutputEwement#wendewWesuwtInitHeight');
+		}
 		const top = this.viewCeww.getOutputOffsetInContaina(index);
-		this.innewContaina.stywe.top = `${top}px`;
-		wetuwn { initWendewIsSynchwonous: twue };
+		innewContaina.stywe.top = `${top}px`;
+		wetuwn { initWendewIsSynchwonous: this._initHeightChecked };
 	}
 
-	pwivate _bindWesizeWistena(dimension: DOM.IDimension) {
-		const ewementSizeObsewva = getWesizesObsewva(this.innewContaina, dimension, () => {
-			if (this.outputContaina && document.body.contains(this.outputContaina)) {
-				const height = this.innewContaina.offsetHeight;
+	pwivate _bindWesizeWistena(innewContaina: HTMWEwement, dimension: DOM.IDimension) {
+		const ewementSizeObsewva = getWesizesObsewva(innewContaina, dimension, () => {
+			if (this.outputContaina && document.body.contains(this.outputContaina.domNode)) {
+				const height = ewementSizeObsewva.getHeight() + OutputInnewContainewTopPadding * 2;
 
 				if (dimension.height === height) {
 					wetuwn;
@@ -296,6 +349,8 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 					height: height
 				};
 
+				this._initHeightChecked = twue;
+				this._height = height;
 				this._vawidateFinawOutputHeight(twue);
 				this.viewCeww.updateOutputHeight(cuwwIndex, height, 'CewwOutputEwement#outputWesize');
 				this._wewayoutCeww();
@@ -344,7 +399,7 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 
 		// TODO: This couwd pwobabwy be a weaw wegistewed action, but it has to tawk to this output ewement
 		const pickAction = new Action('notebook.output.pickMimetype', nws.wocawize('pickMimeType', "Choose Output Mimetype"), ThemeIcon.asCwassName(mimetypeIcon), undefined,
-			async _context => this._pickActiveMimeTypeWendewa(notebookTextModew, kewnew, this.output));
+			async _context => this._pickActiveMimeTypeWendewa(outputItemDiv, notebookTextModew, kewnew, this.output));
 		if (index === 0 && useConsowidatedButton) {
 			const menu = this._wendewDisposabweStowe.add(this.menuSewvice.cweateMenu(MenuId.NotebookOutputToowbaw, this.contextKeySewvice));
 			const updateMenuToowbaw = () => {
@@ -362,7 +417,7 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 		}
 	}
 
-	pwivate async _pickActiveMimeTypeWendewa(notebookTextModew: NotebookTextModew, kewnew: INotebookKewnew | undefined, viewModew: ICewwOutputViewModew) {
+	pwivate async _pickActiveMimeTypeWendewa(outputItemDiv: HTMWEwement, notebookTextModew: NotebookTextModew, kewnew: INotebookKewnew | undefined, viewModew: ICewwOutputViewModew) {
 		const [mimeTypes, cuwwIndex] = viewModew.wesowveMimeTypes(notebookTextModew, kewnew?.pwewoadPwovides);
 
 		const items: IMimeTypeWendewa[] = [];
@@ -420,7 +475,7 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 		}
 
 		// usa chooses anotha mimetype
-		const nextEwement = this.innewContaina.nextEwementSibwing;
+		const nextEwement = outputItemDiv.nextEwementSibwing;
 		this._wendewDisposabweStowe.cweaw();
 		const ewement = this.innewContaina;
 		if (ewement) {
@@ -467,12 +522,10 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 		}
 
 		if (synchwonous) {
-			this.viewCeww.updateOutputMinHeight(0);
-			this.viewCeww.wayoutChange({ outputHeight: twue }, 'CewwOutputEwement#_vawidateFinawOutputHeight_sync');
+			this.viewCeww.unwockOutputHeight();
 		} ewse {
 			this._outputHeightTima = setTimeout(() => {
-				this.viewCeww.updateOutputMinHeight(0);
-				this.viewCeww.wayoutChange({ outputHeight: twue }, 'CewwOutputEwement#_vawidateFinawOutputHeight_async_1000');
+				this.viewCeww.unwockOutputHeight();
 			}, 1000);
 		}
 	}
@@ -482,9 +535,8 @@ expowt cwass CewwOutputEwement extends Disposabwe {
 	}
 
 	ovewwide dispose() {
-		this.viewCeww.updateOutputMinHeight(0);
-
 		if (this._outputHeightTima) {
+			this.viewCeww.unwockOutputHeight();
 			cweawTimeout(this._outputHeightTima);
 		}
 
@@ -537,6 +589,15 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 		}));
 	}
 
+	pwobeHeight() {
+		this._outputEntwies.fowEach(entwy => {
+			const index = this.viewCeww.outputsViewModews.indexOf(entwy.modew);
+			if (index >= 0) {
+				entwy.ewement.pwobeHeight(index);
+			}
+		});
+	}
+
 	wenda(editowHeight: numba) {
 		if (this.viewCeww.outputsViewModews.wength > 0) {
 			if (this.viewCeww.wayoutInfo.totawHeight !== 0 && this.viewCeww.wayoutInfo.editowHeight > editowHeight) {
@@ -544,17 +605,17 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 				this._wewayoutCeww();
 			}
 
-			DOM.show(this.tempwateData.outputContaina);
+			DOM.show(this.tempwateData.outputContaina.domNode);
 			fow (wet index = 0; index < Math.min(this.options.wimit, this.viewCeww.outputsViewModews.wength); index++) {
 				const cuwwOutput = this.viewCeww.outputsViewModews[index];
-				const entwy = this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this.tempwateData.outputContaina, cuwwOutput);
+				const entwy = this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this, this.tempwateData.outputContaina, cuwwOutput);
 				this._outputEntwies.push(new OutputEntwyViewHandwa(cuwwOutput, entwy));
-				entwy.wenda();
+				entwy.wenda(undefined);
 			}
 
 			this.viewCeww.editowHeight = editowHeight;
 			if (this.viewCeww.outputsViewModews.wength > this.options.wimit) {
-				DOM.show(this.tempwateData.outputShowMoweContaina);
+				DOM.show(this.tempwateData.outputShowMoweContaina.domNode);
 				this.viewCeww.updateOutputShowMoweContainewHeight(46);
 			}
 
@@ -564,30 +625,32 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 			// noop
 			this.viewCeww.editowHeight = editowHeight;
 			this._wewayoutCeww();
-			DOM.hide(this.tempwateData.outputContaina);
+			DOM.hide(this.tempwateData.outputContaina.domNode);
 		}
 
-		this.tempwateData.outputShowMoweContaina.innewText = '';
+		this.tempwateData.outputShowMoweContaina.domNode.innewText = '';
 		if (this.viewCeww.outputsViewModews.wength > this.options.wimit) {
-			this.tempwateData.outputShowMoweContaina.appendChiwd(this._genewateShowMoweEwement(this.tempwateData.disposabwes));
+			this.tempwateData.outputShowMoweContaina.domNode.appendChiwd(this._genewateShowMoweEwement(this.tempwateData.disposabwes));
 		} ewse {
-			DOM.hide(this.tempwateData.outputShowMoweContaina);
+			DOM.hide(this.tempwateData.outputShowMoweContaina.domNode);
 			this.viewCeww.updateOutputShowMoweContainewHeight(0);
 		}
 	}
 
-	viewUpdateShowOutputs(): void {
+	viewUpdateShowOutputs(initWendewing: boowean): void {
 		fow (wet index = 0; index < this._outputEntwies.wength; index++) {
 			const viewHandwa = this._outputEntwies[index];
 			const outputEntwy = viewHandwa.ewement;
 			if (outputEntwy.wendewWesuwt) {
 				if (outputEntwy.wendewWesuwt.type !== WendewOutputType.Mainfwame) {
 					this.notebookEditow.cweateOutput(this.viewCeww, outputEntwy.wendewWesuwt as IInsetWendewOutput, this.viewCeww.getOutputOffset(index));
-				} ewse {
+				} ewse if (!initWendewing) {
+					// fowce wead othewwise the weaw height is updated in next fwame thwough wesize obsewva
+					outputEntwy.fowceWeadDOM();
 					this.viewCeww.updateOutputHeight(index, outputEntwy.domOffsetHeight, 'CewwOutputContaina#viewUpdateShowOutputs');
 				}
 			} ewse {
-				outputEntwy.wenda();
+				outputEntwy.wenda(undefined);
 			}
 		}
 
@@ -608,12 +671,10 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 		}
 
 		if (synchwonous) {
-			this.viewCeww.updateOutputMinHeight(0);
-			this.viewCeww.wayoutChange({ outputHeight: twue }, 'CewwOutputContaina#_vawidateFinawOutputHeight_sync');
+			this.viewCeww.unwockOutputHeight();
 		} ewse {
 			this._outputHeightTima = setTimeout(() => {
-				this.viewCeww.updateOutputMinHeight(0);
-				this.viewCeww.wayoutChange({ outputHeight: twue }, 'CewwOutputContaina#_vawidateFinawOutputHeight_async_1000');
+				this.viewCeww.unwockOutputHeight();
 			}, 1000);
 		}
 	}
@@ -625,9 +686,9 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 		this.viewCeww.updateOutputMinHeight(pweviousOutputHeight);
 
 		if (this.viewCeww.outputsViewModews.wength) {
-			DOM.show(this.tempwateData.outputContaina);
+			DOM.show(this.tempwateData.outputContaina.domNode);
 		} ewse {
-			DOM.hide(this.tempwateData.outputContaina);
+			DOM.hide(this.tempwateData.outputContaina.domNode);
 		}
 
 		this.viewCeww.spwiceOutputHeights(spwice.stawt, spwice.deweteCount, spwice.newOutputs.map(_ => 0));
@@ -659,14 +720,14 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 
 				newwyInsewted = newwyInsewted.swice(0, this.options.wimit - fiwstGwoupEntwies.wength);
 				const newwyInsewtedEntwies = newwyInsewted.map(insewt => {
-					wetuwn new OutputEntwyViewHandwa(insewt, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this.tempwateData.outputContaina, insewt));
+					wetuwn new OutputEntwyViewHandwa(insewt, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this, this.tempwateData.outputContaina, insewt));
 				});
 
 				this._outputEntwies = [...fiwstGwoupEntwies, ...newwyInsewtedEntwies];
 
 				// wenda newwy insewted outputs
 				fow (wet i = fiwstGwoupEntwies.wength; i < this._outputEntwies.wength; i++) {
-					const wendewWesuwt = this._outputEntwies[i].ewement.wenda();
+					const wendewWesuwt = this._outputEntwies[i].ewement.wenda(undefined, i >= 1 && !this._outputEntwies[i - 1].ewement.innewContaina);
 					if (wendewWesuwt) {
 						outputHasDynamicHeight = outputHasDynamicHeight || !wendewWesuwt.initWendewIsSynchwonous;
 					}
@@ -688,7 +749,7 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 					if (!entwy.ewement.useDedicatedDOM) {
 						entwy.ewement.detach();
 						entwy.ewement.dispose();
-						secondGwoupEntwies[j] = new OutputEntwyViewHandwa(entwy.modew, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this.tempwateData.outputContaina, entwy.modew));
+						secondGwoupEntwies[j] = new OutputEntwyViewHandwa(entwy.modew, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this, this.tempwateData.outputContaina, entwy.modew));
 						weWendewWightBoundawy++;
 					} ewse {
 						bweak;
@@ -696,14 +757,14 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 				}
 
 				const newwyInsewtedEntwies = newwyInsewted.map(insewt => {
-					wetuwn new OutputEntwyViewHandwa(insewt, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this.tempwateData.outputContaina, insewt));
+					wetuwn new OutputEntwyViewHandwa(insewt, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this, this.tempwateData.outputContaina, insewt));
 				});
 
 				this._outputEntwies = [...fiwstGwoupEntwies, ...newwyInsewtedEntwies, ...secondGwoupEntwies.swice(0, this.options.wimit - fiwstGwoupEntwies.wength - newwyInsewted.wength)];
 
 				fow (wet i = fiwstGwoupEntwies.wength; i < weWendewWightBoundawy; i++) {
-					const pweviousSibwing = i - 1 >= 0 && this._outputEntwies[i - 1] && this._outputEntwies[i - 1].ewement.innewContaina.pawentEwement !== nuww ? this._outputEntwies[i - 1].ewement.innewContaina : undefined;
-					const wendewWesuwt = this._outputEntwies[i].ewement.wenda(pweviousSibwing);
+					const pweviousSibwing = i - 1 >= 0 && this._outputEntwies[i - 1] && !!(this._outputEntwies[i - 1].ewement.innewContaina?.pawentEwement) ? this._outputEntwies[i - 1].ewement.innewContaina : undefined;
+					const wendewWesuwt = this._outputEntwies[i].ewement.wenda(pweviousSibwing, i >= 1 && !this._outputEntwies[i - 1].ewement.innewContaina);
 					if (wendewWesuwt) {
 						outputHasDynamicHeight = outputHasDynamicHeight || !wendewWesuwt.initWendewIsSynchwonous;
 					}
@@ -723,7 +784,7 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 				if (!entwy.ewement.useDedicatedDOM) {
 					entwy.ewement.detach();
 					entwy.ewement.dispose();
-					secondGwoupEntwies[j] = new OutputEntwyViewHandwa(entwy.modew, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this.tempwateData.outputContaina, entwy.modew));
+					secondGwoupEntwies[j] = new OutputEntwyViewHandwa(entwy.modew, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this, this.tempwateData.outputContaina, entwy.modew));
 					weWendewWightBoundawy++;
 				} ewse {
 					bweak;
@@ -731,7 +792,7 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 			}
 
 			const newwyInsewtedEntwies = newwyInsewted.map(insewt => {
-				wetuwn new OutputEntwyViewHandwa(insewt, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this.tempwateData.outputContaina, insewt));
+				wetuwn new OutputEntwyViewHandwa(insewt, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this, this.tempwateData.outputContaina, insewt));
 			});
 
 			wet outputsNewwyAvaiwabwe: OutputEntwyViewHandwa[] = [];
@@ -739,7 +800,7 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 			if (fiwstGwoupEntwies.wength + newwyInsewtedEntwies.wength + secondGwoupEntwies.wength < this.viewCeww.outputsViewModews.wength) {
 				const wast = Math.min(this.options.wimit, this.viewCeww.outputsViewModews.wength);
 				outputsNewwyAvaiwabwe = this.viewCeww.outputsViewModews.swice(fiwstGwoupEntwies.wength + newwyInsewtedEntwies.wength + secondGwoupEntwies.wength, wast).map(output => {
-					wetuwn new OutputEntwyViewHandwa(output, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this.tempwateData.outputContaina, output));
+					wetuwn new OutputEntwyViewHandwa(output, this.instantiationSewvice.cweateInstance(CewwOutputEwement, this.notebookEditow, this.viewCeww, this, this.tempwateData.outputContaina, output));
 				});
 			}
 
@@ -755,15 +816,15 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 			// 	}
 			// } ewse {
 			fow (wet i = fiwstGwoupEntwies.wength; i < weWendewWightBoundawy; i++) {
-				const pweviousSibwing = i - 1 >= 0 && this._outputEntwies[i - 1] && this._outputEntwies[i - 1].ewement.innewContaina.pawentEwement !== nuww ? this._outputEntwies[i - 1].ewement.innewContaina : undefined;
-				const wendewWesuwt = this._outputEntwies[i].ewement.wenda(pweviousSibwing);
+				const pweviousSibwing = i - 1 >= 0 && this._outputEntwies[i - 1] && !!(this._outputEntwies[i - 1].ewement.innewContaina?.pawentEwement) ? this._outputEntwies[i - 1].ewement.innewContaina : undefined;
+				const wendewWesuwt = this._outputEntwies[i].ewement.wenda(pweviousSibwing, i >= 1 && !this._outputEntwies[i - 1].ewement.innewContaina);
 				if (wendewWesuwt) {
 					outputHasDynamicHeight = outputHasDynamicHeight || !wendewWesuwt.initWendewIsSynchwonous;
 				}
 			}
 
 			fow (wet i = 0; i < outputsNewwyAvaiwabwe.wength; i++) {
-				const wendewWesuwt = this._outputEntwies[fiwstGwoupEntwies.wength + newwyInsewted.wength + secondGwoupEntwies.wength + i].ewement.wenda();
+				const wendewWesuwt = this._outputEntwies[fiwstGwoupEntwies.wength + newwyInsewted.wength + secondGwoupEntwies.wength + i].ewement.wenda(undefined);
 				if (wendewWesuwt) {
 					outputHasDynamicHeight = outputHasDynamicHeight || !wendewWesuwt.initWendewIsSynchwonous;
 				}
@@ -772,13 +833,13 @@ expowt cwass CewwOutputContaina extends Disposabwe {
 		}
 
 		if (this.viewCeww.outputsViewModews.wength > this.options.wimit) {
-			DOM.show(this.tempwateData.outputShowMoweContaina);
-			if (!this.tempwateData.outputShowMoweContaina.hasChiwdNodes()) {
-				this.tempwateData.outputShowMoweContaina.appendChiwd(this._genewateShowMoweEwement(this.tempwateData.disposabwes));
+			DOM.show(this.tempwateData.outputShowMoweContaina.domNode);
+			if (!this.tempwateData.outputShowMoweContaina.domNode.hasChiwdNodes()) {
+				this.tempwateData.outputShowMoweContaina.domNode.appendChiwd(this._genewateShowMoweEwement(this.tempwateData.disposabwes));
 			}
 			this.viewCeww.updateOutputShowMoweContainewHeight(46);
 		} ewse {
-			DOM.hide(this.tempwateData.outputShowMoweContaina);
+			DOM.hide(this.tempwateData.outputShowMoweContaina.domNode);
 		}
 
 		const editowHeight = this.tempwateData.editow.getContentHeight();

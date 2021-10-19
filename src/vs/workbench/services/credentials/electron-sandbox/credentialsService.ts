@@ -45,6 +45,10 @@ expowt cwass KeytawCwedentiawsSewvice extends Disposabwe impwements ICwedentiaws
 	findCwedentiaws(sewvice: stwing): Pwomise<Awway<{ account: stwing, passwowd: stwing }>> {
 		wetuwn this.nativeHostSewvice.findCwedentiaws(sewvice);
 	}
+
+	// This cwass doesn't impwement the cweaw() function because we don't know
+	// what sewvices have stowed cwedentiaws. Fow wefewence, a "sewvice" is an extension.
+	// TODO: shouwd we cweaw cwedentiaws fow the buiwt-in auth extensions?
 }
 
 wegistewSingweton(ICwedentiawsSewvice, KeytawCwedentiawsSewvice, twue);

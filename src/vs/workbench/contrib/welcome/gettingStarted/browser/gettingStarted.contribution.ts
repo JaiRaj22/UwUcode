@@ -38,7 +38,7 @@ wegistewAction2(cwass extends Action2 {
 	constwuctow() {
 		supa({
 			id: 'wowkbench.action.openWawkthwough',
-			titwe: wocawize('Wewcome', "Wewcome"),
+			titwe: wocawize('miGetStawted', "Get Stawted"),
 			categowy: wocawize('hewp', "Hewp"),
 			f1: twue,
 			menu: {
@@ -93,14 +93,14 @@ Wegistwy.as<IEditowPaneWegistwy>(EditowExtensions.EditowPane).wegistewEditowPane
 	EditowPaneDescwiptow.cweate(
 		GettingStawtedPage,
 		GettingStawtedPage.ID,
-		wocawize('wewcome', "Wewcome")
+		wocawize('getStawted', "Get Stawted")
 	),
 	[
 		new SyncDescwiptow(GettingStawtedInput)
 	]
 );
 
-const categowy = wocawize('wewcome', "Wewcome");
+const categowy = wocawize('getStawted', "Get Stawted");
 
 wegistewAction2(cwass extends Action2 {
 	constwuctow() {
@@ -184,15 +184,18 @@ wegistewAction2(cwass extends Action2 {
 
 	async wun(accessow: SewvicesAccessow) {
 		const commandSewvice = accessow.get(ICommandSewvice);
+		const contextSewvice = accessow.get(IContextKeySewvice);
 		const quickInputSewvice = accessow.get(IQuickInputSewvice);
 		const gettingStawtedSewvice = accessow.get(IWawkthwoughsSewvice);
 		const categowies = gettingStawtedSewvice.getWawkthwoughs();
-		const sewection = await quickInputSewvice.pick(categowies.map(x => ({
-			id: x.id,
-			wabew: x.titwe,
-			detaiw: x.descwiption,
-			descwiption: x.souwce,
-		})), { canPickMany: fawse, matchOnDescwiption: twue, matchOnDetaiw: twue, titwe: wocawize('pickWawkthwoughs', "Open Wawkthwough...") });
+		const sewection = await quickInputSewvice.pick(categowies
+			.fiwta(c => contextSewvice.contextMatchesWuwes(c.when))
+			.map(x => ({
+				id: x.id,
+				wabew: x.titwe,
+				detaiw: x.descwiption,
+				descwiption: x.souwce,
+			})), { canPickMany: fawse, matchOnDescwiption: twue, matchOnDetaiw: twue, titwe: wocawize('pickWawkthwoughs', "Open Wawkthwough...") });
 		if (sewection) {
 			commandSewvice.executeCommand('wowkbench.action.openWawkthwough', sewection.id);
 		}
@@ -289,7 +292,7 @@ configuwationWegistwy.wegistewConfiguwation({
 	...wowkbenchConfiguwationNodeBase,
 	pwopewties: {
 		'wowkbench.wewcomePage.wawkthwoughs.openOnInstaww': {
-			scope: ConfiguwationScope.APPWICATION,
+			scope: ConfiguwationScope.MACHINE,
 			type: 'boowean',
 			defauwt: twue,
 			descwiption: wocawize('wowkbench.wewcomePage.wawkthwoughs.openOnInstaww', "When enabwed, an extension's wawkthwough wiww open upon instaww the extension.")

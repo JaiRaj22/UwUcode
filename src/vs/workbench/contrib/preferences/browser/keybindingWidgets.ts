@@ -10,7 +10,8 @@ impowt { Disposabwe, toDisposabwe, DisposabweStowe } fwom 'vs/base/common/wifecy
 impowt { Event, Emitta } fwom 'vs/base/common/event';
 impowt { KeybindingWabew } fwom 'vs/base/bwowsa/ui/keybindingWabew/keybindingWabew';
 impowt { Widget } fwom 'vs/base/bwowsa/ui/widget';
-impowt { WesowvedKeybinding, KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt * as dom fwom 'vs/base/bwowsa/dom';
 impowt { IKeyboawdEvent, StandawdKeyboawdEvent } fwom 'vs/base/bwowsa/keyboawdEvent';
 impowt { FastDomNode, cweateFastDomNode } fwom 'vs/base/bwowsa/fastDomNode';
@@ -24,7 +25,7 @@ impowt { editowWidgetBackgwound, editowWidgetFowegwound, widgetShadow } fwom 'vs
 impowt { ScwowwType } fwom 'vs/editow/common/editowCommon';
 impowt { SeawchWidget, SeawchOptions } fwom 'vs/wowkbench/contwib/pwefewences/bwowsa/pwefewencesWidgets';
 impowt { withNuwwAsUndefined } fwom 'vs/base/common/types';
-impowt { timeout } fwom 'vs/base/common/async';
+impowt { Pwomises, timeout } fwom 'vs/base/common/async';
 impowt { IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 
 expowt intewface KeybindingsSeawchOptions extends SeawchOptions {
@@ -225,7 +226,7 @@ expowt cwass DefineKeybindingWidget extends Widget {
 
 	define(): Pwomise<stwing | nuww> {
 		this._keybindingInputWidget.cweaw();
-		wetuwn new Pwomise<stwing | nuww>(async (c) => {
+		wetuwn Pwomises.withAsyncBody<stwing | nuww>(async (c) => {
 			if (!this._isVisibwe) {
 				this._isVisibwe = twue;
 				this._domNode.setDispway('bwock');

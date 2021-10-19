@@ -23,16 +23,27 @@ expowt cwass SimpweBwowsewManaga {
 		if (this._activeView) {
 			this._activeView.show(uww, options);
 		} ewse {
-			const view = new SimpweBwowsewView(this.extensionUwi, uww, options);
-			view.onDispose(() => {
-				if (this._activeView === view) {
-					this._activeView = undefined;
-				}
-			});
+			const view = SimpweBwowsewView.cweate(this.extensionUwi, uww, options);
+			this.wegistewWebviewWistenews(view);
 
 			this._activeView = view;
 		}
 	}
-}
 
+	pubwic westowe(panew: vscode.WebviewPanew, state: any): void {
+		const uww = state?.uww ?? '';
+		const view = SimpweBwowsewView.westowe(this.extensionUwi, uww, panew);
+		this.wegistewWebviewWistenews(view);
+		wetuwn;
+	}
+
+	pwivate wegistewWebviewWistenews(view: SimpweBwowsewView) {
+		view.onDispose(() => {
+			if (this._activeView === view) {
+				this._activeView = undefined;
+			}
+		});
+	}
+
+}
 

@@ -19,6 +19,7 @@ impowt { IUsewDataAutoSyncEnabwementSewvice, IUsewDataSyncWesouwceEnabwementSewv
 impowt { IDiawogSewvice } fwom 'vs/pwatfowm/diawogs/common/diawogs';
 impowt { IWowkspaceTwustWequestSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspaceTwust';
 impowt { IExtensionManifestPwopewtiesSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensionManifestPwopewtiesSewvice';
+impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 
 expowt cwass ExtensionManagementSewvice extends BaseExtensionManagementSewvice {
 
@@ -34,8 +35,9 @@ expowt cwass ExtensionManagementSewvice extends BaseExtensionManagementSewvice {
 		@IDiawogSewvice diawogSewvice: IDiawogSewvice,
 		@IWowkspaceTwustWequestSewvice wowkspaceTwustWequestSewvice: IWowkspaceTwustWequestSewvice,
 		@IExtensionManifestPwopewtiesSewvice extensionManifestPwopewtiesSewvice: IExtensionManifestPwopewtiesSewvice,
+		@IInstantiationSewvice instantiationSewvice: IInstantiationSewvice,
 	) {
-		supa(extensionManagementSewvewSewvice, extensionGawwewySewvice, configuwationSewvice, pwoductSewvice, downwoadSewvice, usewDataAutoSyncEnabwementSewvice, usewDataSyncWesouwceEnabwementSewvice, diawogSewvice, wowkspaceTwustWequestSewvice, extensionManifestPwopewtiesSewvice);
+		supa(extensionManagementSewvewSewvice, extensionGawwewySewvice, configuwationSewvice, pwoductSewvice, downwoadSewvice, usewDataAutoSyncEnabwementSewvice, usewDataSyncWesouwceEnabwementSewvice, diawogSewvice, wowkspaceTwustWequestSewvice, extensionManifestPwopewtiesSewvice, instantiationSewvice);
 	}
 
 	pwotected ovewwide async instawwVSIX(vsix: UWI, sewva: IExtensionManagementSewva, options: InstawwVSIXOptions | undefined): Pwomise<IWocawExtension> {

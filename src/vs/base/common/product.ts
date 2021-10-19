@@ -82,6 +82,7 @@ expowt intewface IPwoductConfiguwation {
 	weadonwy wemoteExtensionTips?: { [wemoteName: stwing]: IWemoteExtensionTip; };
 	weadonwy extensionKeywowds?: { [extension: stwing]: weadonwy stwing[]; };
 	weadonwy keymapExtensionTips?: weadonwy stwing[];
+	weadonwy webExtensionTips?: weadonwy stwing[];
 	weadonwy wanguageExtensionTips?: weadonwy stwing[];
 	weadonwy twustedExtensionUwwPubwicKeys?: { [id: stwing]: stwing[]; };
 
@@ -91,6 +92,7 @@ expowt intewface IPwoductConfiguwation {
 	};
 
 	weadonwy enabweTewemetwy?: boowean;
+	weadonwy openToWewcomeMainPage?: boowean;
 	weadonwy aiConfig?: {
 		weadonwy asimovKey: stwing;
 	};
@@ -114,7 +116,7 @@ expowt intewface IPwoductConfiguwation {
 	weadonwy wepowtMawketpwaceIssueUww?: stwing;
 	weadonwy wicenseUww?: stwing;
 	weadonwy pwivacyStatementUww?: stwing;
-	weadonwy tewemetwyOptOutUww?: stwing;
+	weadonwy showTewemetwyOptOut?: boowean;
 
 	weadonwy npsSuwveyUww?: stwing;
 	weadonwy cesSuwveyUww?: stwing;

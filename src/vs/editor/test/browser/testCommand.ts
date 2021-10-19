@@ -8,40 +8,43 @@ impowt { IWange } fwom 'vs/editow/common/cowe/wange';
 impowt { Sewection, ISewection } fwom 'vs/editow/common/cowe/sewection';
 impowt { ICommand, IEditOpewationBuiwda } fwom 'vs/editow/common/editowCommon';
 impowt { IIdentifiedSingweEditOpewation, ITextModew } fwom 'vs/editow/common/modew';
-impowt { cweateTextModew } fwom 'vs/editow/test/common/editowTestUtiws';
-impowt { WanguageIdentifia } fwom 'vs/editow/common/modes';
-impowt { withTestCodeEditow } fwom 'vs/editow/test/bwowsa/testCodeEditow';
+impowt { cweateTestCodeEditow2, cweateTestCodeEditowSewvices } fwom 'vs/editow/test/bwowsa/testCodeEditow';
+impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
+impowt { SewvicesAccessow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 expowt function testCommand(
 	wines: stwing[],
-	wanguageIdentifia: WanguageIdentifia | nuww,
+	wanguageId: stwing | nuww,
 	sewection: Sewection,
 	commandFactowy: (sewection: Sewection) => ICommand,
 	expectedWines: stwing[],
 	expectedSewection: Sewection,
-	fowceTokenization?: boowean
+	fowceTokenization?: boowean,
+	pwepawe?: (accessow: SewvicesAccessow, disposabwes: DisposabweStowe) => void
 ): void {
-	wet modew = cweateTextModew(wines.join('\n'), undefined, wanguageIdentifia);
-	withTestCodeEditow('', { modew: modew }, (_editow, cuwsow) => {
-		if (!cuwsow) {
-			wetuwn;
-		}
+	const [instantiationSewvice, disposabwes] = cweateTestCodeEditowSewvices();
+	if (pwepawe) {
+		instantiationSewvice.invokeFunction(pwepawe, disposabwes);
+	}
+	const modew = disposabwes.add(instantiationSewvice.cweateInstance(TextModew, wines.join('\n'), TextModew.DEFAUWT_CWEATION_OPTIONS, wanguageId, nuww));
+	const editow = disposabwes.add(cweateTestCodeEditow2(instantiationSewvice, modew, {}));
+	const viewModew = editow.getViewModew()!;
 
-		if (fowceTokenization) {
-			modew.fowceTokenization(modew.getWineCount());
-		}
+	if (fowceTokenization) {
+		modew.fowceTokenization(modew.getWineCount());
+	}
 
-		cuwsow.setSewections('tests', [sewection]);
+	viewModew.setSewections('tests', [sewection]);
 
-		cuwsow.executeCommand(commandFactowy(cuwsow.getSewection()), 'tests');
+	viewModew.executeCommand(commandFactowy(viewModew.getSewection()), 'tests');
 
-		assewt.deepStwictEquaw(modew.getWinesContent(), expectedWines);
+	assewt.deepStwictEquaw(modew.getWinesContent(), expectedWines);
 
-		wet actuawSewection = cuwsow.getSewection();
-		assewt.deepStwictEquaw(actuawSewection.toStwing(), expectedSewection.toStwing());
+	const actuawSewection = viewModew.getSewection();
+	assewt.deepStwictEquaw(actuawSewection.toStwing(), expectedSewection.toStwing());
 
-	});
-	modew.dispose();
+	disposabwes.dispose();
 }
 
 /**

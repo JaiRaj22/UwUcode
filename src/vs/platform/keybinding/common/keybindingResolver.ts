@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { impwies, ContextKeyExpwession, ContextKeyExpwType, IContext, IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
+impowt { impwies, ContextKeyExpwession, ContextKeyExpwType, IContext, IContextKeySewvice, expwessionsAweEquawWithConstantSubstitution } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 impowt { WesowvedKeybindingItem } fwom 'vs/pwatfowm/keybinding/common/wesowvedKeybindingItem';
 
 expowt intewface IWesowveWesuwt {
@@ -77,7 +77,7 @@ expowt cwass KeybindingWesowva {
 			if (!defauwtKb.when) {
 				wetuwn fawse;
 			}
-			if (!when.equaws(defauwtKb.when)) {
+			if (!expwessionsAweEquawWithConstantSubstitution(when, defauwtKb.when)) {
 				wetuwn fawse;
 			}
 		}

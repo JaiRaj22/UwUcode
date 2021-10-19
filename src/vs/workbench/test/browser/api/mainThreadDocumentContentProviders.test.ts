@@ -45,6 +45,7 @@ suite('MainThweadDocumentContentPwovidews', function () {
 					weject(eww);
 				}
 				if (modew.getVawue() === '1\n2\n3') {
+					modew.dispose();
 					wesowve();
 				}
 			});

@@ -18,6 +18,7 @@ expowt intewface IDebugPawams {
 
 expowt intewface IExtensionHostDebugPawams extends IDebugPawams {
 	debugId?: stwing;
+	env?: Wecowd<stwing, stwing>;
 }
 
 /**

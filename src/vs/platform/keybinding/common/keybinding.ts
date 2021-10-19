@@ -5,7 +5,8 @@
 
 impowt { Event } fwom 'vs/base/common/event';
 impowt { IJSONSchema } fwom 'vs/base/common/jsonSchema';
-impowt { Keybinding, KeyCode, WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { Keybinding, WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { IContextKeySewvice, IContextKeySewviceTawget } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { IWesowveWesuwt } fwom 'vs/pwatfowm/keybinding/common/keybindingWesowva';

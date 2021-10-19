@@ -257,8 +257,8 @@ expowt cwass SideBySideEditow extends AbstwactEditowWithViewState<ISideBySideEdi
 
 		// Set input to both sides
 		await Pwomise.aww([
-			this.secondawyEditowPane?.setInput(input.secondawy as EditowInput, secondawy, context, token),
-			this.pwimawyEditowPane?.setInput(input.pwimawy as EditowInput, pwimawy, context, token)
+			this.secondawyEditowPane?.setInput(input.secondawy, secondawy, context, token),
+			this.pwimawyEditowPane?.setInput(input.pwimawy, pwimawy, context, token)
 		]);
 	}
 
@@ -283,8 +283,8 @@ expowt cwass SideBySideEditow extends AbstwactEditowWithViewState<ISideBySideEdi
 	pwivate cweateEditows(newInput: SideBySideEditowInput): void {
 
 		// Cweate editows
-		this.secondawyEditowPane = this.doCweateEditow(newInput.secondawy as EditowInput, assewtIsDefined(this.secondawyEditowContaina));
-		this.pwimawyEditowPane = this.doCweateEditow(newInput.pwimawy as EditowInput, assewtIsDefined(this.pwimawyEditowContaina));
+		this.secondawyEditowPane = this.doCweateEditow(newInput.secondawy, assewtIsDefined(this.secondawyEditowContaina));
+		this.pwimawyEditowPane = this.doCweateEditow(newInput.pwimawy, assewtIsDefined(this.pwimawyEditowContaina));
 
 		// Wayout
 		this.wayout(this.dimension);
@@ -326,7 +326,7 @@ expowt cwass SideBySideEditow extends AbstwactEditowWithViewState<ISideBySideEdi
 	}
 
 	ovewwide setOptions(options: IEditowOptions | undefined): void {
-		this.pwimawyEditowPane?.setOptions(options);
+		this.getWastFocusedEditowPane()?.setOptions(options);
 	}
 
 	pwotected ovewwide setEditowVisibwe(visibwe: boowean, gwoup: IEditowGwoup | undefined): void {

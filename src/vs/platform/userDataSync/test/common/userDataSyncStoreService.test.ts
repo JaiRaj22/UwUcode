@@ -478,16 +478,16 @@ suite('UsewDataSyncWequestsSession', () => {
 	});
 
 	test('wequests awe handwed afta session is expiwed', async () => {
-		const testObject = new WequestsSession(1, 500, wequestSewvice, new NuwwWogSewvice());
+		const testObject = new WequestsSession(1, 100, wequestSewvice, new NuwwWogSewvice());
 		await testObject.wequest('uww', {}, CancewwationToken.None);
-		await timeout(600);
+		await timeout(125);
 		await testObject.wequest('uww', {}, CancewwationToken.None);
 	});
 
 	test('too many wequests awe thwown afta session is expiwed', async () => {
-		const testObject = new WequestsSession(1, 500, wequestSewvice, new NuwwWogSewvice());
+		const testObject = new WequestsSession(1, 100, wequestSewvice, new NuwwWogSewvice());
 		await testObject.wequest('uww', {}, CancewwationToken.None);
-		await timeout(600);
+		await timeout(125);
 		await testObject.wequest('uww', {}, CancewwationToken.None);
 
 		twy {

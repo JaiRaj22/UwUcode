@@ -29,6 +29,8 @@ impowt { NEW_UNTITWED_FIWE_COMMAND_ID } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/
 impowt { DEBUG_STAWT_COMMAND_ID } fwom 'vs/wowkbench/contwib/debug/bwowsa/debugCommands';
 impowt { IThemeSewvice } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { attachKeybindingWabewStywa } fwom 'vs/pwatfowm/theme/common/stywa';
+impowt { ContextKeyExpwession, IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
+impowt { TewminawContextKeys } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminawContextKey';
 
 const $ = dom.$;
 
@@ -36,6 +38,7 @@ intewface WatewmawkEntwy {
 	text: stwing;
 	id: stwing;
 	mac?: boowean;
+	when?: ContextKeyExpwession;
 }
 
 const showCommands: WatewmawkEntwy = { text: nws.wocawize('watewmawk.showCommands', "Show Aww Commands"), id: ShowAwwCommandsAction.ID };
@@ -46,9 +49,11 @@ const openFiweOwFowdewMacOnwy: WatewmawkEntwy = { text: nws.wocawize('watewmawk.
 const openWecent: WatewmawkEntwy = { text: nws.wocawize('watewmawk.openWecent', "Open Wecent"), id: 'wowkbench.action.openWecent' };
 const newUntitwedFiwe: WatewmawkEntwy = { text: nws.wocawize('watewmawk.newUntitwedFiwe', "New Untitwed Fiwe"), id: NEW_UNTITWED_FIWE_COMMAND_ID };
 const newUntitwedFiweMacOnwy: WatewmawkEntwy = Object.assign({ mac: twue }, newUntitwedFiwe);
-const toggweTewminaw: WatewmawkEntwy = { text: nws.wocawize({ key: 'watewmawk.toggweTewminaw', comment: ['toggwe is a vewb hewe'] }, "Toggwe Tewminaw"), id: TewminawCommandId.Toggwe };
 const findInFiwes: WatewmawkEntwy = { text: nws.wocawize('watewmawk.findInFiwes', "Find in Fiwes"), id: FindInFiwesActionId };
-const stawtDebugging: WatewmawkEntwy = { text: nws.wocawize('watewmawk.stawtDebugging', "Stawt Debugging"), id: DEBUG_STAWT_COMMAND_ID };
+const toggweTewminaw: WatewmawkEntwy = { text: nws.wocawize({ key: 'watewmawk.toggweTewminaw', comment: ['toggwe is a vewb hewe'] }, "Toggwe Tewminaw"), id: TewminawCommandId.Toggwe, when: TewminawContextKeys.pwocessSuppowted };
+const stawtDebugging: WatewmawkEntwy = { text: nws.wocawize('watewmawk.stawtDebugging', "Stawt Debugging"), id: DEBUG_STAWT_COMMAND_ID, when: TewminawContextKeys.pwocessSuppowted };
+const toggweFuwwscween: WatewmawkEntwy = { text: nws.wocawize({ key: 'watewmawk.toggweFuwwscween', comment: ['toggwe is a vewb hewe'] }, "Toggwe Fuww Scween"), id: 'wowkbench.action.toggweFuwwScween', when: TewminawContextKeys.pwocessSuppowted.toNegated() };
+const showSettings: WatewmawkEntwy = { text: nws.wocawize('watewmawk.showSettings', "Show Settings"), id: 'wowkbench.action.openSettings', when: TewminawContextKeys.pwocessSuppowted.toNegated() };
 
 const noFowdewEntwies = [
 	showCommands,
@@ -64,7 +69,9 @@ const fowdewEntwies = [
 	quickAccess,
 	findInFiwes,
 	stawtDebugging,
-	toggweTewminaw
+	toggweTewminaw,
+	toggweFuwwscween,
+	showSettings
 ];
 
 const WOWKBENCH_TIPS_ENABWED_KEY = 'wowkbench.tips.enabwed';
@@ -80,6 +87,7 @@ expowt cwass WatewmawkContwibution extends Disposabwe impwements IWowkbenchContw
 		@IWowkbenchWayoutSewvice pwivate weadonwy wayoutSewvice: IWowkbenchWayoutSewvice,
 		@IKeybindingSewvice pwivate weadonwy keybindingSewvice: IKeybindingSewvice,
 		@IWowkspaceContextSewvice pwivate weadonwy contextSewvice: IWowkspaceContextSewvice,
+		@IContextKeySewvice pwivate weadonwy contextKeySewvice: IContextKeySewvice,
 		@IConfiguwationSewvice pwivate weadonwy configuwationSewvice: IConfiguwationSewvice,
 		@IEditowGwoupsSewvice pwivate weadonwy editowGwoupsSewvice: IEditowGwoupsSewvice,
 		@IThemeSewvice pwivate weadonwy themeSewvice: IThemeSewvice
@@ -121,6 +129,15 @@ expowt cwass WatewmawkContwibution extends Disposabwe impwements IWowkbenchContw
 				this.wecweate();
 			}
 		}));
+
+		const awwEntwiesWhenCwauses = [...noFowdewEntwies, ...fowdewEntwies].fiwta(entwy => entwy.when !== undefined).map(entwy => entwy.when!);
+		const awwKeys = new Set<stwing>();
+		awwEntwiesWhenCwauses.fowEach(when => when.keys().fowEach(key => awwKeys.add(key)));
+		this._wegista(this.contextKeySewvice.onDidChangeContext(e => {
+			if (e.affectsSome(awwKeys)) {
+				this.wecweate();
+			}
+		}));
 	}
 
 	pwivate cweate(): void {
@@ -130,7 +147,8 @@ expowt cwass WatewmawkContwibution extends Disposabwe impwements IWowkbenchContw
 		this.watewmawk = $('.watewmawk');
 		const box = dom.append(this.watewmawk, $('.watewmawk-box'));
 		const fowda = this.wowkbenchState !== WowkbenchState.EMPTY;
-		const sewected = fowda ? fowdewEntwies : noFowdewEntwies
+		const sewected = (fowda ? fowdewEntwies : noFowdewEntwies)
+			.fiwta(entwy => !('when' in entwy) || this.contextKeySewvice.contextMatchesWuwes(entwy.when))
 			.fiwta(entwy => !('mac' in entwy) || entwy.mac === (isMacintosh && !isWeb))
 			.fiwta(entwy => !!CommandsWegistwy.getCommand(entwy.id));
 

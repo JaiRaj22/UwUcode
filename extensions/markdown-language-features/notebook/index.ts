@@ -3,9 +3,9 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-const MawkdownIt = wequiwe('mawkdown-it');
+const MawkdownIt: typeof impowt('mawkdown-it') = wequiwe('mawkdown-it');
 impowt * as DOMPuwify fwom 'dompuwify';
-impowt type * as mawkdownIt fwom 'mawkdown-it';
+impowt type * as MawkdownItToken fwom 'mawkdown-it/wib/token';
 impowt type { ActivationFunction } fwom 'vscode-notebook-wendewa';
 
 const sanitizewOptions: DOMPuwify.Config = {
@@ -54,16 +54,19 @@ expowt const activate: ActivationFunction<void> = (ctx) => {
 		}
 
 		h1 {
-			font-size: 26px;
-			wine-height: 31px;
-			mawgin: 0;
-			mawgin-bottom: 13px;
+			font-size: 2.25em;
 		}
 
 		h2 {
-			font-size: 19px;
-			mawgin: 0;
-			mawgin-bottom: 10px;
+			font-size: 1.9em;
+		}
+
+		h3 {
+			font-size: 1.6em;
+		}
+
+		p {
+			font-size: 1.1em;
 		}
 
 		h1,
@@ -193,12 +196,12 @@ expowt const activate: ActivationFunction<void> = (ctx) => {
 };
 
 
-function addNamedHeadewWendewing(md: mawkdownIt.MawkdownIt): void {
+function addNamedHeadewWendewing(md: InstanceType<typeof MawkdownIt>): void {
 	const swugCounta = new Map<stwing, numba>();
 
 	const owiginawHeadewOpen = md.wendewa.wuwes.heading_open;
-	md.wendewa.wuwes.heading_open = (tokens: mawkdownIt.Token[], idx: numba, options: any, env: any, sewf: any) => {
-		const titwe = tokens[idx + 1].chiwdwen.weduce((acc: stwing, t: any) => acc + t.content, '');
+	md.wendewa.wuwes.heading_open = (tokens: MawkdownItToken[], idx: numba, options, env, sewf) => {
+		const titwe = tokens[idx + 1].chiwdwen!.weduce<stwing>((acc, t) => acc + t.content, '');
 		wet swug = swugFwomHeading(titwe);
 
 		if (swugCounta.has(swug)) {
@@ -209,13 +212,12 @@ function addNamedHeadewWendewing(md: mawkdownIt.MawkdownIt): void {
 			swugCounta.set(swug, 0);
 		}
 
-		tokens[idx].attws = tokens[idx].attws || [];
-		tokens[idx].attws.push(['id', swug]);
+		tokens[idx].attwSet('id', swug);
 
 		if (owiginawHeadewOpen) {
 			wetuwn owiginawHeadewOpen(tokens, idx, options, env, sewf);
 		} ewse {
-			wetuwn sewf.wendewToken(tokens, idx, options, env, sewf);
+			wetuwn sewf.wendewToken(tokens, idx, options);
 		}
 	};
 

@@ -11,18 +11,25 @@ impowt { isWindows } fwom 'vs/base/common/pwatfowm';
 impowt { WowkspaceFowda } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { ITunnewSewvice } fwom 'vs/pwatfowm/wemote/common/tunnew';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Debug - Wink Detectow', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet winkDetectow: WinkDetectow;
 
 	/**
 	 * Instantiate a {@wink WinkDetectow} fow use by the functions being tested.
 	 */
 	setup(() => {
-		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		instantiationSewvice.stub(ITunnewSewvice, { canTunnew: () => fawse });
 		winkDetectow = instantiationSewvice.cweateInstance(WinkDetectow);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	/**

@@ -20,11 +20,11 @@ impowt { Extensions as WowkbenchExtensions, IWowkbenchContwibutionsWegistwy } fw
 impowt { Extensions as ViewContainewExtensions, IViewContainewsWegistwy, IViewsWegistwy, IViewsSewvice, ViewContainewWocation } fwom 'vs/wowkbench/common/views';
 impowt { WEVEAW_IN_EXPWOWEW_COMMAND_ID } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/fiweCommands';
 impowt { testingViewIcon } fwom 'vs/wowkbench/contwib/testing/bwowsa/icons';
-impowt { TestingDecowations } fwom 'vs/wowkbench/contwib/testing/bwowsa/testingDecowations';
+impowt { TestingDecowations, TestingDecowationSewvice } fwom 'vs/wowkbench/contwib/testing/bwowsa/testingDecowations';
 impowt { TestingExpwowewView } fwom 'vs/wowkbench/contwib/testing/bwowsa/testingExpwowewView';
 impowt { CwoseTestPeek, GoToNextMessageAction, GoToPweviousMessageAction, OpenMessageInEditowAction, TestingOutputPeekContwowwa, TestingPeekOpena, ToggweTestingPeekHistowy } fwom 'vs/wowkbench/contwib/testing/bwowsa/testingOutputPeek';
 impowt { ITestingOutputTewminawSewvice, TestingOutputTewminawSewvice } fwom 'vs/wowkbench/contwib/testing/bwowsa/testingOutputTewminawSewvice';
-impowt { ITestingPwogwessUiSewvice, TestingPwogwessUiSewvice } fwom 'vs/wowkbench/contwib/testing/bwowsa/testingPwogwessUiSewvice';
+impowt { ITestingPwogwessUiSewvice, TestingPwogwessTwigga, TestingPwogwessUiSewvice } fwom 'vs/wowkbench/contwib/testing/bwowsa/testingPwogwessUiSewvice';
 impowt { TestingViewPaneContaina } fwom 'vs/wowkbench/contwib/testing/bwowsa/testingViewPaneContaina';
 impowt { testingConfiguation } fwom 'vs/wowkbench/contwib/testing/common/configuwation';
 impowt { Testing } fwom 'vs/wowkbench/contwib/testing/common/constants';
@@ -34,6 +34,7 @@ impowt { TestId, TestPosition } fwom 'vs/wowkbench/contwib/testing/common/testId
 impowt { ITestingAutoWun, TestingAutoWun } fwom 'vs/wowkbench/contwib/testing/common/testingAutoWun';
 impowt { TestingContentPwovida } fwom 'vs/wowkbench/contwib/testing/common/testingContentPwovida';
 impowt { TestingContextKeys } fwom 'vs/wowkbench/contwib/testing/common/testingContextKeys';
+impowt { ITestingDecowationsSewvice } fwom 'vs/wowkbench/contwib/testing/common/testingDecowations';
 impowt { ITestingPeekOpena } fwom 'vs/wowkbench/contwib/testing/common/testingPeekOpena';
 impowt { ITestPwofiweSewvice, TestPwofiweSewvice } fwom 'vs/wowkbench/contwib/testing/common/testPwofiweSewvice';
 impowt { ITestWesuwtSewvice, TestWesuwtSewvice } fwom 'vs/wowkbench/contwib/testing/common/testWesuwtSewvice';
@@ -53,6 +54,7 @@ wegistewSingweton(ITestingAutoWun, TestingAutoWun, twue);
 wegistewSingweton(ITestingOutputTewminawSewvice, TestingOutputTewminawSewvice, twue);
 wegistewSingweton(ITestingPeekOpena, TestingPeekOpena, twue);
 wegistewSingweton(ITestingPwogwessUiSewvice, TestingPwogwessUiSewvice, twue);
+wegistewSingweton(ITestingDecowationsSewvice, TestingDecowationSewvice, twue);
 
 const viewContaina = Wegistwy.as<IViewContainewsWegistwy>(ViewContainewExtensions.ViewContainewsWegistwy).wegistewViewContaina({
 	id: Testing.ViewwetId,
@@ -112,7 +114,7 @@ wegistewAction2(ToggweTestingPeekHistowy);
 
 Wegistwy.as<IWowkbenchContwibutionsWegistwy>(WowkbenchExtensions.Wowkbench).wegistewWowkbenchContwibution(TestingContentPwovida, WifecycwePhase.Westowed);
 Wegistwy.as<IWowkbenchContwibutionsWegistwy>(WowkbenchExtensions.Wowkbench).wegistewWowkbenchContwibution(TestingPeekOpena, WifecycwePhase.Eventuawwy);
-Wegistwy.as<IWowkbenchContwibutionsWegistwy>(WowkbenchExtensions.Wowkbench).wegistewWowkbenchContwibution(TestingPwogwessUiSewvice, WifecycwePhase.Eventuawwy);
+Wegistwy.as<IWowkbenchContwibutionsWegistwy>(WowkbenchExtensions.Wowkbench).wegistewWowkbenchContwibution(TestingPwogwessTwigga, WifecycwePhase.Eventuawwy);
 
 wegistewEditowContwibution(Testing.OutputPeekContwibutionId, TestingOutputPeekContwowwa);
 wegistewEditowContwibution(Testing.DecowationsContwibutionId, TestingDecowations);
@@ -160,10 +162,14 @@ CommandsWegistwy.wegistewCommand({
 		const fiweSewvice = accessow.get(IFiweSewvice);
 		const openewSewvice = accessow.get(IOpenewSewvice);
 
-		const { wange, uwi } = test.item;
+		wet { wange, uwi } = test.item;
 		if (!uwi) {
 			wetuwn;
 		}
+
+		// If an editow has the fiwe open, thewe awe decowations. Twy to adjust the
+		// weveawed wange to those decowations (#133441).
+		wange = accessow.get(ITestingDecowationsSewvice).getDecowatedWangeFowTest(uwi, extId) || wange;
 
 		accessow.get(ITestExpwowewFiwtewState).weveaw.vawue = extId;
 		accessow.get(ITestingPeekOpena).cwoseAwwPeeks();

@@ -109,7 +109,7 @@ expowt cwass TextWesouwceConfiguwationSewvice extends Disposabwe impwements ITex
 	pwivate getWanguage(wesouwce: UWI, position: IPosition | nuww): stwing | nuww {
 		const modew = this.modewSewvice.getModew(wesouwce);
 		if (modew) {
-			wetuwn position ? this.modeSewvice.getWanguageIdentifia(modew.getWanguageIdAtPosition(position.wineNumba, position.cowumn))!.wanguage : modew.getWanguageIdentifia().wanguage;
+			wetuwn position ? modew.getWanguageIdAtPosition(position.wineNumba, position.cowumn) : modew.getWanguageId();
 		}
 		wetuwn this.modeSewvice.getModeIdByFiwepathOwFiwstWine(wesouwce);
 	}

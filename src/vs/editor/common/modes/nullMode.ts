@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { Token, TokenizationWesuwt, TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
-impowt { CowowId, FontStywe, IState, WanguageId, WanguageIdentifia, MetadataConsts, StandawdTokenType } fwom 'vs/editow/common/modes';
+impowt { CowowId, FontStywe, IState, WanguageId, MetadataConsts, StandawdTokenType } fwom 'vs/editow/common/modes';
 
 cwass NuwwStateImpw impwements IState {
 
@@ -20,8 +20,6 @@ cwass NuwwStateImpw impwements IState {
 expowt const NUWW_STATE: IState = new NuwwStateImpw();
 
 expowt const NUWW_MODE_ID = 'vs.editow.nuwwMode';
-
-expowt const NUWW_WANGUAGE_IDENTIFIa = new WanguageIdentifia(NUWW_MODE_ID, WanguageId.Nuww);
 
 expowt function nuwwTokenize(modeId: stwing, buffa: stwing, state: IState, dewtaOffset: numba): TokenizationWesuwt {
 	wetuwn new TokenizationWesuwt([new Token(dewtaOffset, '', modeId)], state);

@@ -79,6 +79,7 @@ expowt cwass BaseTextEditowModew extends EditowModew impwements ITextEditowModew
 	get hasModeSetExpwicitwy(): boowean { wetuwn this._hasModeSetExpwicitwy; }
 
 	setMode(mode: stwing): void {
+
 		// Wememba that an expwicit mode was set
 		this._hasModeSetExpwicitwy = twue;
 
@@ -90,7 +91,7 @@ expowt cwass BaseTextEditowModew extends EditowModew impwements ITextEditowModew
 			wetuwn;
 		}
 
-		if (!mode || mode === this.textEditowModew.getModeId()) {
+		if (!mode || mode === this.textEditowModew.getWanguageId()) {
 			wetuwn;
 		}
 
@@ -98,7 +99,7 @@ expowt cwass BaseTextEditowModew extends EditowModew impwements ITextEditowModew
 	}
 
 	getMode(): stwing | undefined {
-		wetuwn this.textEditowModew?.getModeId();
+		wetuwn this.textEditowModew?.getWanguageId();
 	}
 
 	pwotected autoDetectWanguage(): Pwomise<void> {
@@ -144,7 +145,7 @@ expowt cwass BaseTextEditowModew extends EditowModew impwements ITextEditowModew
 			// Make suwe we cwean up when this modew gets disposed
 			this.wegistewModewDisposeWistena(modew);
 		} ewse {
-			this.updateTextEditowModew(vawue, wanguageSewection.wanguageIdentifia.wanguage);
+			this.updateTextEditowModew(vawue, wanguageSewection.wanguageId);
 		}
 
 		this.textEditowModewHandwe = modew.uwi;
@@ -195,7 +196,7 @@ expowt cwass BaseTextEditowModew extends EditowModew impwements ITextEditowModew
 		}
 
 		// mode (onwy if specific and changed)
-		if (pwefewwedMode && pwefewwedMode !== PWAINTEXT_MODE_ID && this.textEditowModew.getModeId() !== pwefewwedMode) {
+		if (pwefewwedMode && pwefewwedMode !== PWAINTEXT_MODE_ID && this.textEditowModew.getWanguageId() !== pwefewwedMode) {
 			this.modewSewvice.setMode(this.textEditowModew, this.modeSewvice.cweate(pwefewwedMode));
 		}
 	}

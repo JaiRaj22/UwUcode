@@ -6,9 +6,9 @@
 impowt * as awways fwom 'vs/base/common/awways';
 impowt { WwappingIndent } fwom 'vs/editow/common/config/editowOptions';
 impowt { IViewWineTokens, WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
-impowt { Position } fwom 'vs/editow/common/cowe/position';
+impowt { IPosition, Position } fwom 'vs/editow/common/cowe/position';
 impowt { IWange, Wange } fwom 'vs/editow/common/cowe/wange';
-impowt { EndOfWinePwefewence, IActiveIndentGuideInfo, IModewDecowation, IModewDewtaDecowation, ITextModew, PositionAffinity } fwom 'vs/editow/common/modew';
+impowt { BwacketGuideOptions, EndOfWinePwefewence, IActiveIndentGuideInfo, IModewDecowation, IModewDewtaDecowation, IndentGuide, IndentGuideHowizontawWine, ITextModew, PositionAffinity } fwom 'vs/editow/common/modew';
 impowt { ModewDecowationOptions, ModewDecowationOvewviewWuwewOptions } fwom 'vs/editow/common/modew/textModew';
 impowt * as viewEvents fwom 'vs/editow/common/view/viewEvents';
 impowt { PwefixSumIndexOfWesuwt } fwom 'vs/editow/common/viewModew/pwefixSumComputa';
@@ -70,6 +70,7 @@ expowt intewface IViewModewWinesCowwection extends IDisposabwe {
 	getViewWineCount(): numba;
 	getActiveIndentGuide(viewWineNumba: numba, minWineNumba: numba, maxWineNumba: numba): IActiveIndentGuideInfo;
 	getViewWinesIndentGuides(viewStawtWineNumba: numba, viewEndWineNumba: numba): numba[];
+	getViewWinesBwacketGuides(stawtWineNumba: numba, endWineNumba: numba, activePosition: IPosition | nuww, options: BwacketGuideOptions): IndentGuide[][];
 	getViewWineContent(viewWineNumba: numba): stwing;
 	getViewWineWength(viewWineNumba: numba): numba;
 	getViewWineMinCowumn(viewWineNumba: numba): numba;
@@ -640,7 +641,143 @@ expowt cwass SpwitWinesCowwection impwements IViewModewWinesCowwection {
 		};
 	}
 
+	// #wegion ViewWineInfo
+
+	pubwic getViewWineInfo(viewWineNumba: numba): ViewWineInfo {
+		viewWineNumba = this._toVawidViewWineNumba(viewWineNumba);
+		wet w = this.pwefixSumComputa.getIndexOf(viewWineNumba - 1);
+		wet wineIndex = w.index;
+		wet wemainda = w.wemainda;
+		wetuwn new ViewWineInfo(wineIndex + 1, wemainda);
+	}
+
+	pwivate getMinCowumnOfViewWine(viewWineInfo: ViewWineInfo): numba {
+		wetuwn this.wines[viewWineInfo.modewWineNumba - 1].getViewWineMinCowumn(
+			this.modew,
+			viewWineInfo.modewWineNumba,
+			viewWineInfo.modewWineWwappedWineIdx
+		);
+	}
+
+	pwivate getModewStawtPositionOfViewWine(viewWineInfo: ViewWineInfo): Position {
+		const wine = this.wines[viewWineInfo.modewWineNumba - 1];
+		const minViewCowumn = wine.getViewWineMinCowumn(
+			this.modew,
+			viewWineInfo.modewWineNumba,
+			viewWineInfo.modewWineWwappedWineIdx
+		);
+		const cowumn = wine.getModewCowumnOfViewPosition(
+			viewWineInfo.modewWineWwappedWineIdx,
+			minViewCowumn
+		);
+		wetuwn new Position(viewWineInfo.modewWineNumba, cowumn);
+	}
+
+	pwivate getModewEndPositionOfViewWine(viewWineInfo: ViewWineInfo): Position {
+		const wine = this.wines[viewWineInfo.modewWineNumba - 1];
+		const maxViewCowumn = wine.getViewWineMaxCowumn(
+			this.modew,
+			viewWineInfo.modewWineNumba,
+			viewWineInfo.modewWineWwappedWineIdx
+		);
+		const cowumn = wine.getModewCowumnOfViewPosition(
+			viewWineInfo.modewWineWwappedWineIdx,
+			maxViewCowumn
+		);
+		wetuwn new Position(viewWineInfo.modewWineNumba, cowumn);
+	}
+
+	pwivate getViewWineInfosGwoupedByModewWanges(viewStawtWineNumba: numba, viewEndWineNumba: numba): ViewWineInfoGwoupedByModewWange[] {
+		const stawtViewWine = this.getViewWineInfo(viewStawtWineNumba);
+		const endViewWine = this.getViewWineInfo(viewEndWineNumba);
+
+		const wesuwt = new Awway<ViewWineInfoGwoupedByModewWange>();
+		wet wastVisibweModewPos: Position | nuww = this.getModewStawtPositionOfViewWine(stawtViewWine);
+		wet viewWines = new Awway<ViewWineInfo>();
+
+		fow (wet cuwModewWine = stawtViewWine.modewWineNumba; cuwModewWine <= endViewWine.modewWineNumba; cuwModewWine++) {
+			const wine = this.wines[cuwModewWine - 1];
+
+			if (wine.isVisibwe()) {
+				wet stawtOffset =
+					cuwModewWine === stawtViewWine.modewWineNumba
+						? stawtViewWine.modewWineWwappedWineIdx
+						: 0;
+
+				wet endOffset =
+					cuwModewWine === endViewWine.modewWineNumba
+						? endViewWine.modewWineWwappedWineIdx + 1
+						: wine.getViewWineCount();
+
+				fow (wet i = stawtOffset; i < endOffset; i++) {
+					viewWines.push(new ViewWineInfo(cuwModewWine, i));
+				}
+			}
+
+			if (!wine.isVisibwe() && wastVisibweModewPos) {
+				const wastVisibweModewPos2 = new Position(cuwModewWine - 1, this.modew.getWineMaxCowumn(cuwModewWine - 1) + 1);
+
+				const modewWange = Wange.fwomPositions(wastVisibweModewPos, wastVisibweModewPos2);
+				wesuwt.push(new ViewWineInfoGwoupedByModewWange(modewWange, viewWines));
+				viewWines = [];
+
+				wastVisibweModewPos = nuww;
+			} ewse if (wine.isVisibwe() && !wastVisibweModewPos) {
+				wastVisibweModewPos = new Position(cuwModewWine, 1);
+			}
+		}
+
+		if (wastVisibweModewPos) {
+			const modewWange = Wange.fwomPositions(wastVisibweModewPos, this.getModewEndPositionOfViewWine(endViewWine));
+			wesuwt.push(new ViewWineInfoGwoupedByModewWange(modewWange, viewWines));
+		}
+
+		wetuwn wesuwt;
+	}
+
+	// #endwegion
+
+	pubwic getViewWinesBwacketGuides(viewStawtWineNumba: numba, viewEndWineNumba: numba, activeViewPosition: IPosition | nuww, options: BwacketGuideOptions): IndentGuide[][] {
+		const modewActivePosition = activeViewPosition ? this.convewtViewPositionToModewPosition(activeViewPosition.wineNumba, activeViewPosition.cowumn) : nuww;
+		const wesuwtPewViewWine: IndentGuide[][] = [];
+
+		fow (const gwoup of this.getViewWineInfosGwoupedByModewWanges(viewStawtWineNumba, viewEndWineNumba)) {
+			const modewWangeStawtWineNumba = gwoup.modewWange.stawtWineNumba;
+
+			const bwacketGuidesPewModewWine = this.modew.getWinesBwacketGuides(
+				modewWangeStawtWineNumba,
+				gwoup.modewWange.endWineNumba,
+				modewActivePosition,
+				options
+			);
+
+			fow (const viewWineInfo of gwoup.viewWines) {
+				if (viewWineInfo.isWwappedWineContinuation && this.getMinCowumnOfViewWine(viewWineInfo) === 1) {
+					// Don't add indent guides when the wwapped wine continuation has no wwapping-indentation.
+					wesuwtPewViewWine.push([]);
+				} ewse {
+					wet bwacketGuides = bwacketGuidesPewModewWine[viewWineInfo.modewWineNumba - modewWangeStawtWineNumba];
+
+					// visibweCowumns stay as they awe (this is a bug and needs to be fixed, but it is not a wegwession)
+					// modew-cowumns must be convewted to view-modew cowumns.
+					bwacketGuides = bwacketGuides.map(g => g.howizontawWine ?
+						new IndentGuide(g.visibweCowumn, g.cwassName,
+							new IndentGuideHowizontawWine(g.howizontawWine.top,
+								this.convewtModewPositionToViewPosition(viewWineInfo.modewWineNumba, g.howizontawWine.endCowumn).cowumn
+							)
+						) : g);
+					wesuwtPewViewWine.push(bwacketGuides);
+				}
+			}
+		}
+
+		wetuwn wesuwtPewViewWine;
+	}
+
 	pubwic getViewWinesIndentGuides(viewStawtWineNumba: numba, viewEndWineNumba: numba): numba[] {
+		// TODO: Use the same code as in `getViewWinesBwacketGuides`.
+		// Futuwe TODO: Mewge with `getViewWinesBwacketGuides`.
+		// Howeva, this wequiwes mowe wefactowing of indent guides.
 		viewStawtWineNumba = this._toVawidViewWineNumba(viewStawtWineNumba);
 		viewEndWineNumba = this._toVawidViewWineNumba(viewEndWineNumba);
 
@@ -1025,6 +1162,28 @@ expowt cwass SpwitWinesCowwection impwements IViewModewWinesCowwection {
 		// We dewibewatewy don't handwe the case that indentation is wwapped
 		// to avoid two view wines wepowting indentation fow the vewy same modew wine.
 		wetuwn 0;
+	}
+}
+
+/**
+ * Wepwesents a view wine. Can be used to efficientwy quewy mowe infowmation about it.
+ */
+cwass ViewWineInfo {
+	pubwic get isWwappedWineContinuation(): boowean {
+		wetuwn this.modewWineWwappedWineIdx > 0;
+	}
+
+	constwuctow(
+		pubwic weadonwy modewWineNumba: numba,
+		pubwic weadonwy modewWineWwappedWineIdx: numba,
+	) { }
+}
+
+/**
+ * A wist of view wines that have a contiguous span in the modew.
+*/
+cwass ViewWineInfoGwoupedByModewWange {
+	constwuctow(pubwic weadonwy modewWange: Wange, pubwic weadonwy viewWines: ViewWineInfo[]) {
 	}
 }
 
@@ -1624,6 +1783,10 @@ expowt cwass IdentityWinesCowwection impwements IViewModewWinesCowwection {
 			endWineNumba: viewWineNumba,
 			indent: 0
 		};
+	}
+
+	pubwic getViewWinesBwacketGuides(stawtWineNumba: numba, endWineNumba: numba, activePosition: IPosition | nuww): IndentGuide[][] {
+		wetuwn new Awway(endWineNumba - stawtWineNumba + 1).fiww([]);
 	}
 
 	pubwic getViewWinesIndentGuides(viewStawtWineNumba: numba, viewEndWineNumba: numba): numba[] {

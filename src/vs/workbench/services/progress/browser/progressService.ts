@@ -51,7 +51,7 @@ expowt cwass PwogwessSewvice extends Disposabwe impwements IPwogwessSewvice {
 			const viewContaina = this.viewDescwiptowSewvice.getViewContainewById(wocation);
 			if (viewContaina) {
 				const viewContainewWocation = this.viewDescwiptowSewvice.getViewContainewWocation(viewContaina);
-				if (viewContainewWocation) {
+				if (viewContainewWocation !== nuww) {
 					wetuwn this.withPaneCompositePwogwess(wocation, viewContainewWocation, task, { ...options, wocation });
 				}
 			}

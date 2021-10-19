@@ -9,10 +9,12 @@ impowt { INativeWowkbenchConfiguwation, INativeWowkbenchEnviwonmentSewvice } fwo
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
-impowt { DiskFiweSystemPwovida } fwom 'vs/pwatfowm/fiwes/ewectwon-bwowsa/diskFiweSystemPwovida';
+impowt { DiskFiweSystemPwovida } fwom 'vs/wowkbench/sewvices/fiwes/ewectwon-bwowsa/diskFiweSystemPwovida';
 impowt { FiweUsewDataPwovida } fwom 'vs/wowkbench/sewvices/usewData/common/fiweUsewDataPwovida';
 impowt { INativeHostSewvice } fwom 'vs/pwatfowm/native/ewectwon-sandbox/native';
 impowt { ShawedDesktopMain } fwom 'vs/wowkbench/ewectwon-sandbox/shawed.desktop.main';
+impowt { IMainPwocessSewvice } fwom 'vs/pwatfowm/ipc/ewectwon-sandbox/sewvices';
+impowt { IShawedPwocessWowkewWowkbenchSewvice } fwom 'vs/wowkbench/sewvices/shawedPwocess/ewectwon-sandbox/shawedPwocessWowkewWowkbenchSewvice';
 
 cwass DesktopMain extends ShawedDesktopMain {
 
@@ -23,10 +25,17 @@ cwass DesktopMain extends ShawedDesktopMain {
 		gwacefuwify(fs);
 	}
 
-	pwotected wegistewFiweSystemPwovidews(enviwonmentSewvice: INativeWowkbenchEnviwonmentSewvice, fiweSewvice: IFiweSewvice, wogSewvice: IWogSewvice, nativeHostSewvice: INativeHostSewvice): void {
+	pwotected wegistewFiweSystemPwovidews(
+		mainPwocessSewvice: IMainPwocessSewvice,
+		shawedPwocessWowkewWowkbenchSewvice: IShawedPwocessWowkewWowkbenchSewvice,
+		enviwonmentSewvice: INativeWowkbenchEnviwonmentSewvice,
+		fiweSewvice: IFiweSewvice,
+		wogSewvice: IWogSewvice,
+		nativeHostSewvice: INativeHostSewvice
+	): void {
 
 		// Wocaw Fiwes
-		const diskFiweSystemPwovida = this._wegista(new DiskFiweSystemPwovida(wogSewvice, nativeHostSewvice, { enabweWegacyWecuwsiveWatcha: this.configuwation.enabweWegacyWecuwsiveWatcha }));
+		const diskFiweSystemPwovida = this._wegista(new DiskFiweSystemPwovida(wogSewvice, nativeHostSewvice, shawedPwocessWowkewWowkbenchSewvice, { wegacyWatcha: this.configuwation.wegacyWatcha, expewimentawSandbox: !!this.configuwation.expewimentawSandboxedFiweSewvice }));
 		fiweSewvice.wegistewPwovida(Schemas.fiwe, diskFiweSystemPwovida);
 
 		// Usa Data Pwovida

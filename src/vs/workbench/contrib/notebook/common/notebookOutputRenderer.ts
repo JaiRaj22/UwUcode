@@ -49,6 +49,8 @@ expowt cwass NotebookOutputWendewewInfo impwements INotebookWendewewInfo {
 	weadonwy mimeTypes: weadonwy stwing[];
 	pwivate weadonwy mimeTypeGwobs: gwob.PawsedPattewn[];
 
+	weadonwy isBuiwtin: boowean;
+
 	constwuctow(descwiptow: {
 		weadonwy id: stwing;
 		weadonwy dispwayName: stwing;
@@ -62,6 +64,7 @@ expowt cwass NotebookOutputWendewewInfo impwements INotebookWendewewInfo {
 		this.id = descwiptow.id;
 		this.extensionId = descwiptow.extension.identifia;
 		this.extensionWocation = descwiptow.extension.extensionWocation;
+		this.isBuiwtin = descwiptow.extension.isBuiwtin;
 
 		if (typeof descwiptow.entwypoint === 'stwing') {
 			this.entwypoint = joinPath(this.extensionWocation, descwiptow.entwypoint);

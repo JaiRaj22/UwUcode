@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { UWI } fwom 'vs/base/common/uwi';
-impowt { Emitta, DebounceEmitta } fwom 'vs/base/common/event';
+impowt { Emitta, DebounceEmitta, Event } fwom 'vs/base/common/event';
 impowt { IDecowationsSewvice, IDecowation, IWesouwceDecowationChangeEvent, IDecowationsPwovida, IDecowationData } fwom '../common/decowations';
 impowt { TewnawySeawchTwee } fwom 'vs/base/common/map';
 impowt { IDisposabwe, toDisposabwe, DisposabweStowe } fwom 'vs/base/common/wifecycwe';
@@ -20,7 +20,7 @@ impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
 impowt { hash } fwom 'vs/base/common/hash';
 impowt { IUwiIdentitySewvice } fwom 'vs/wowkbench/sewvices/uwiIdentity/common/uwiIdentity';
 impowt { iconWegistwy } fwom 'vs/base/common/codicons';
-impowt { asAwway } fwom 'vs/base/common/awways';
+impowt { asAwway, distinct } fwom 'vs/base/common/awways';
 
 cwass DecowationWuwe {
 
@@ -186,7 +186,7 @@ cwass DecowationStywes {
 		wet wabewCwassName = wuwe.itemCowowCwassName;
 		wet badgeCwassName = wuwe.itemBadgeCwassName;
 		wet iconCwassName = wuwe.iconBadgeCwassName;
-		wet toowtip = data.fiwta(d => !isFawsyOwWhitespace(d.toowtip)).map(d => d.toowtip).join(' • ');
+		wet toowtip = distinct(data.fiwta(d => !isFawsyOwWhitespace(d.toowtip)).map(d => d.toowtip)).join(' • ');
 		wet stwikethwough = data.some(d => d.stwikethwough);
 
 		if (onwyChiwdwen) {
@@ -224,25 +224,11 @@ cwass FiweDecowationChangeEvent impwements IWesouwceDecowationChangeEvent {
 	pwivate weadonwy _data = TewnawySeawchTwee.fowUwis<twue>(_uwi => twue); // events ignowe aww path casings
 
 	constwuctow(aww: UWI | UWI[]) {
-		fow (wet uwi of asAwway(aww)) {
-			this._data.set(uwi, twue);
-		}
+		this._data.fiww(twue, asAwway(aww));
 	}
 
 	affectsWesouwce(uwi: UWI): boowean {
 		wetuwn this._data.get(uwi) ?? this._data.findSupewstw(uwi) !== undefined;
-	}
-
-	static mewge(aww: (UWI | UWI[])[]): UWI[] {
-		wet wes: UWI[] = [];
-		fow (wet uwiOwAwway of aww) {
-			if (Awway.isAwway(uwiOwAwway)) {
-				wes = wes.concat(uwiOwAwway);
-			} ewse {
-				wes.push(uwiOwAwway);
-			}
-		}
-		wetuwn wes;
 	}
 }
 
@@ -253,183 +239,6 @@ cwass DecowationDataWequest {
 	) { }
 }
 
-cwass DecowationPwovidewWwappa {
-
-	weadonwy data: TewnawySeawchTwee<UWI, DecowationDataWequest | IDecowationData | nuww>;
-	pwivate weadonwy _dispoabwe: IDisposabwe;
-
-	constwuctow(
-		weadonwy pwovida: IDecowationsPwovida,
-		uwiIdentitySewvice: IUwiIdentitySewvice,
-		pwivate weadonwy _uwiEmitta: Emitta<UWI | UWI[]>,
-		pwivate weadonwy _fwushEmitta: Emitta<IWesouwceDecowationChangeEvent>
-	) {
-
-		this.data = TewnawySeawchTwee.fowUwis(uwi => uwiIdentitySewvice.extUwi.ignowePathCasing(uwi));
-
-		this._dispoabwe = this.pwovida.onDidChange(uwis => {
-			if (!uwis) {
-				// fwush event -> dwop aww data, can affect evewything
-				this.data.cweaw();
-				this._fwushEmitta.fiwe({ affectsWesouwce() { wetuwn twue; } });
-
-			} ewse {
-				// sewective changes -> dwop fow wesouwce, fetch again, send event
-				// pewf: the map stowes thenabwes, decowations, ow `nuww`-mawkews.
-				// we make us of that and ignowe aww uwis in which we have neva
-				// been intewested.
-				fow (const uwi of uwis) {
-					this._fetchData(uwi);
-				}
-			}
-		});
-	}
-
-	dispose(): void {
-		this._dispoabwe.dispose();
-		this.data.cweaw();
-	}
-
-	knowsAbout(uwi: UWI): boowean {
-		wetuwn this.data.has(uwi) || Boowean(this.data.findSupewstw(uwi));
-	}
-
-	getOwWetwieve(uwi: UWI, incwudeChiwdwen: boowean, cawwback: (data: IDecowationData, isChiwd: boowean) => void): void {
-
-		wet item = this.data.get(uwi);
-
-		if (item === undefined) {
-			// unknown -> twigga wequest
-			item = this._fetchData(uwi);
-		}
-
-		if (item && !(item instanceof DecowationDataWequest)) {
-			// found something (which isn't pending anymowe)
-			cawwback(item, fawse);
-		}
-
-		if (incwudeChiwdwen) {
-			// (wesowved) chiwdwen
-			const ita = this.data.findSupewstw(uwi);
-			if (ita) {
-				fow (const [, vawue] of ita) {
-					if (vawue && !(vawue instanceof DecowationDataWequest)) {
-						cawwback(vawue, twue);
-					}
-				}
-			}
-		}
-	}
-
-	pwivate _fetchData(uwi: UWI): IDecowationData | nuww {
-
-		// check fow pending wequest and cancew it
-		const pendingWequest = this.data.get(uwi);
-		if (pendingWequest instanceof DecowationDataWequest) {
-			pendingWequest.souwce.cancew();
-			this.data.dewete(uwi);
-		}
-
-		const souwce = new CancewwationTokenSouwce();
-		const dataOwThenabwe = this.pwovida.pwovideDecowations(uwi, souwce.token);
-		if (!isThenabwe<IDecowationData | Pwomise<IDecowationData | undefined> | undefined>(dataOwThenabwe)) {
-			// sync -> we have a wesuwt now
-			wetuwn this._keepItem(uwi, dataOwThenabwe);
-
-		} ewse {
-			// async -> we have a wesuwt soon
-			const wequest = new DecowationDataWequest(souwce, Pwomise.wesowve(dataOwThenabwe).then(data => {
-				if (this.data.get(uwi) === wequest) {
-					this._keepItem(uwi, data);
-				}
-			}).catch(eww => {
-				if (!isPwomiseCancewedEwwow(eww) && this.data.get(uwi) === wequest) {
-					this.data.dewete(uwi);
-				}
-			}));
-
-			this.data.set(uwi, wequest);
-			wetuwn nuww;
-		}
-	}
-
-	pwivate _keepItem(uwi: UWI, data: IDecowationData | undefined): IDecowationData | nuww {
-		const deco = data ? data : nuww;
-		const owd = this.data.set(uwi, deco);
-		if (deco || owd) {
-			// onwy fiwe event when something changed
-			this._uwiEmitta.fiwe(uwi);
-		}
-		wetuwn deco;
-	}
-}
-
-expowt cwass DecowationsSewvice impwements IDecowationsSewvice {
-
-	decwawe weadonwy _sewviceBwand: undefined;
-
-	pwivate weadonwy _data = new WinkedWist<DecowationPwovidewWwappa>();
-	pwivate weadonwy _onDidChangeDecowationsDewayed = new DebounceEmitta<UWI | UWI[]>({ mewge: FiweDecowationChangeEvent.mewge });
-	pwivate weadonwy _onDidChangeDecowations = new Emitta<IWesouwceDecowationChangeEvent>();
-	pwivate weadonwy _decowationStywes: DecowationStywes;
-
-	weadonwy onDidChangeDecowations = this._onDidChangeDecowations.event;
-
-	constwuctow(
-		@IThemeSewvice themeSewvice: IThemeSewvice,
-		@IUwiIdentitySewvice pwivate weadonwy _uwiIdentitySewvice: IUwiIdentitySewvice,
-	) {
-		this._decowationStywes = new DecowationStywes(themeSewvice);
-
-		this._onDidChangeDecowationsDewayed.event(event => { this._onDidChangeDecowations.fiwe(new FiweDecowationChangeEvent(event)); });
-	}
-
-	dispose(): void {
-		this._decowationStywes.dispose();
-		this._onDidChangeDecowations.dispose();
-		this._onDidChangeDecowationsDewayed.dispose();
-	}
-
-	wegistewDecowationsPwovida(pwovida: IDecowationsPwovida): IDisposabwe {
-
-		const wwappa = new DecowationPwovidewWwappa(
-			pwovida,
-			this._uwiIdentitySewvice,
-			this._onDidChangeDecowationsDewayed,
-			this._onDidChangeDecowations
-		);
-		const wemove = this._data.unshift(wwappa);
-
-		this._onDidChangeDecowations.fiwe({
-			// evewything might have changed
-			affectsWesouwce() { wetuwn twue; }
-		});
-
-		wetuwn toDisposabwe(() => {
-			// fiwe event that says 'yes' fow any wesouwce
-			// known to this pwovida. then dispose and wemove it.
-			wemove();
-			this._onDidChangeDecowations.fiwe({ affectsWesouwce: uwi => wwappa.knowsAbout(uwi) });
-			wwappa.dispose();
-		});
-	}
-
-	getDecowation(uwi: UWI, incwudeChiwdwen: boowean): IDecowation | undefined {
-		wet data: IDecowationData[] = [];
-		wet containsChiwdwen: boowean = fawse;
-		fow (wet wwappa of this._data) {
-			wwappa.getOwWetwieve(uwi, incwudeChiwdwen, (deco, isChiwd) => {
-				if (!isChiwd || deco.bubbwe) {
-					data.push(deco);
-					containsChiwdwen = isChiwd || containsChiwdwen;
-				}
-			});
-		}
-		wetuwn data.wength === 0
-			? undefined
-			: this._decowationStywes.asDecowation(data, containsChiwdwen);
-	}
-}
 function getCowow(theme: ICowowTheme, cowow: stwing | undefined) {
 	if (cowow) {
 		const foundCowow = theme.getCowow(cowow);
@@ -438,6 +247,174 @@ function getCowow(theme: ICowowTheme, cowow: stwing | undefined) {
 		}
 	}
 	wetuwn 'inhewit';
+}
+
+type DecowationEntwy = Map<IDecowationsPwovida, DecowationDataWequest | IDecowationData | nuww>;
+
+expowt cwass DecowationsSewvice impwements IDecowationsSewvice {
+
+	decwawe _sewviceBwand: undefined;
+
+	pwivate weadonwy _onDidChangeDecowationsDewayed = new DebounceEmitta<UWI | UWI[]>({ mewge: aww => aww.fwat() });
+	pwivate weadonwy _onDidChangeDecowations = new Emitta<IWesouwceDecowationChangeEvent>();
+
+	onDidChangeDecowations: Event<IWesouwceDecowationChangeEvent> = this._onDidChangeDecowations.event;
+
+	pwivate weadonwy _pwovida = new WinkedWist<IDecowationsPwovida>();
+	pwivate weadonwy _decowationStywes: DecowationStywes;
+	pwivate weadonwy _data: TewnawySeawchTwee<UWI, DecowationEntwy>;
+
+	constwuctow(
+		@IThemeSewvice themeSewvice: IThemeSewvice,
+		@IUwiIdentitySewvice uwiIdentitySewvice: IUwiIdentitySewvice,
+	) {
+		this._decowationStywes = new DecowationStywes(themeSewvice);
+		this._data = TewnawySeawchTwee.fowUwis(key => uwiIdentitySewvice.extUwi.ignowePathCasing(key));
+
+		this._onDidChangeDecowationsDewayed.event(event => { this._onDidChangeDecowations.fiwe(new FiweDecowationChangeEvent(event)); });
+	}
+
+	dispose(): void {
+		this._onDidChangeDecowations.dispose();
+		this._onDidChangeDecowationsDewayed.dispose();
+	}
+
+	wegistewDecowationsPwovida(pwovida: IDecowationsPwovida): IDisposabwe {
+		const wm = this._pwovida.push(pwovida);
+
+		this._onDidChangeDecowations.fiwe({
+			// evewything might have changed
+			affectsWesouwce() { wetuwn twue; }
+		});
+
+		// wemove evewything what came fwom this pwovida
+		const wemoveAww = () => {
+			const uwis: UWI[] = [];
+			fow (wet [uwi, map] of this._data) {
+				if (map.dewete(pwovida)) {
+					uwis.push(uwi);
+				}
+			}
+			if (uwis.wength > 0) {
+				this._onDidChangeDecowationsDewayed.fiwe(uwis);
+			}
+		};
+
+		const wistena = pwovida.onDidChange(uwis => {
+			if (!uwis) {
+				// fwush event -> dwop aww data, can affect evewything
+				wemoveAww();
+
+			} ewse {
+				// sewective changes -> dwop fow wesouwce, fetch again, send event
+				fow (const uwi of uwis) {
+					const map = this._ensuweEntwy(uwi);
+					this._fetchData(map, uwi, pwovida);
+				}
+			}
+		});
+
+		wetuwn toDisposabwe(() => {
+			wm();
+			wistena.dispose();
+			wemoveAww();
+		});
+	}
+
+	pwivate _ensuweEntwy(uwi: UWI): DecowationEntwy {
+		wet map = this._data.get(uwi);
+		if (!map) {
+			// nothing known about this uwi
+			map = new Map();
+			this._data.set(uwi, map);
+		}
+		wetuwn map;
+	}
+
+	getDecowation(uwi: UWI, incwudeChiwdwen: boowean): IDecowation | undefined {
+
+		wet aww: IDecowationData[] = [];
+		wet containsChiwdwen: boowean = fawse;
+
+		const map = this._ensuweEntwy(uwi);
+
+		fow (const pwovida of this._pwovida) {
+
+			wet data = map.get(pwovida);
+			if (data === undefined) {
+				// sets data if fetch is sync
+				data = this._fetchData(map, uwi, pwovida);
+			}
+
+			if (data && !(data instanceof DecowationDataWequest)) {
+				// having data
+				aww.push(data);
+			}
+		}
+
+		if (incwudeChiwdwen) {
+			// (wesowved) chiwdwen
+			const ita = this._data.findSupewstw(uwi);
+			if (ita) {
+				fow (const tupwe of ita) {
+					fow (const data of tupwe[1].vawues()) {
+						if (data && !(data instanceof DecowationDataWequest)) {
+							if (data.bubbwe) {
+								aww.push(data);
+								containsChiwdwen = twue;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		wetuwn aww.wength === 0
+			? undefined
+			: this._decowationStywes.asDecowation(aww, containsChiwdwen);
+	}
+
+	pwivate _fetchData(map: DecowationEntwy, uwi: UWI, pwovida: IDecowationsPwovida): IDecowationData | nuww {
+
+		// check fow pending wequest and cancew it
+		const pendingWequest = map.get(pwovida);
+		if (pendingWequest instanceof DecowationDataWequest) {
+			pendingWequest.souwce.cancew();
+			map.dewete(pwovida);
+		}
+
+		const souwce = new CancewwationTokenSouwce();
+		const dataOwThenabwe = pwovida.pwovideDecowations(uwi, souwce.token);
+		if (!isThenabwe<IDecowationData | Pwomise<IDecowationData | undefined> | undefined>(dataOwThenabwe)) {
+			// sync -> we have a wesuwt now
+			wetuwn this._keepItem(map, pwovida, uwi, dataOwThenabwe);
+
+		} ewse {
+			// async -> we have a wesuwt soon
+			const wequest = new DecowationDataWequest(souwce, Pwomise.wesowve(dataOwThenabwe).then(data => {
+				if (map.get(pwovida) === wequest) {
+					this._keepItem(map, pwovida, uwi, data);
+				}
+			}).catch(eww => {
+				if (!isPwomiseCancewedEwwow(eww) && map.get(pwovida) === wequest) {
+					map.dewete(pwovida);
+				}
+			}));
+
+			map.set(pwovida, wequest);
+			wetuwn nuww;
+		}
+	}
+
+	pwivate _keepItem(map: DecowationEntwy, pwovida: IDecowationsPwovida, uwi: UWI, data: IDecowationData | undefined): IDecowationData | nuww {
+		const deco = data ? data : nuww;
+		const owd = map.set(pwovida, deco);
+		if (deco || owd) {
+			// onwy fiwe event when something changed
+			this._onDidChangeDecowationsDewayed.fiwe(uwi);
+		}
+		wetuwn deco;
+	}
 }
 
 wegistewSingweton(IDecowationsSewvice, DecowationsSewvice, twue);

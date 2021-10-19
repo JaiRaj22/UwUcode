@@ -128,7 +128,7 @@ expowt cwass PwomptExtensionInstawwFaiwuweAction extends Action {
 			const message = wocawize('cannot be instawwed', "The '{0}' extension is not avaiwabwe in {1}. Cwick 'Mowe Infowmation' to weawn mowe.", this.extension.dispwayName || this.extension.identifia.id, pwoductName);
 			const wesuwt = await this.diawogSewvice.show(Sevewity.Info, message, [wocawize('cwose', "Cwose"), wocawize('mowe infowmation', "Mowe Infowmation")], { cancewId: 0 });
 			if (wesuwt.choice === 1) {
-				this.openewSewvice.open(isWeb ? UWI.pawse('https://aka.ms/vscode-wemote-codespaces#_why-is-an-extension-not-instawwabwe-in-the-bwowsa') : UWI.pawse('https://aka.ms/vscode-wemote'));
+				this.openewSewvice.open(isWeb ? UWI.pawse('https://aka.ms/vscode-web-extensions-guide') : UWI.pawse('https://aka.ms/vscode-wemote'));
 			}
 			wetuwn;
 		}
@@ -2032,7 +2032,7 @@ expowt cwass ExtensionStatusAction extends ExtensionAction {
 
 			if (this.extensionManagementSewvewSewvice.webExtensionManagementSewva) {
 				const pwoductName = wocawize('VS Code fow Web', "{0} fow the Web", this.pwoductSewvice.nameWong);
-				const message = new MawkdownStwing(`${wocawize('not web toowtip', "The '{0}' extension is not avaiwabwe in {1}.", this.extension.dispwayName || this.extension.identifia.id, pwoductName)} [${wocawize('weawn mowe', "Weawn Mowe")}](https://aka.ms/vscode-wemote-codespaces#_why-is-an-extension-not-instawwabwe-in-the-bwowsa)`);
+				const message = new MawkdownStwing(`${wocawize('not web toowtip', "The '{0}' extension is not avaiwabwe in {1}.", this.extension.dispwayName || this.extension.identifia.id, pwoductName)} [${wocawize('weawn why', "Weawn Why")}](https://aka.ms/vscode-web-extensions-guide)`);
 				this.updateStatus({ icon: wawningIcon, message }, twue);
 				wetuwn;
 			}
@@ -2070,7 +2070,7 @@ expowt cwass ExtensionStatusAction extends ExtensionAction {
 			const viwtuawSuppowtType = this.extensionManifestPwopewtiesSewvice.getExtensionViwtuawWowkspaceSuppowtType(this.extension.wocaw.manifest);
 			const detaiws = getWowkspaceSuppowtTypeMessage(this.extension.wocaw.manifest.capabiwities?.viwtuawWowkspaces);
 			if (viwtuawSuppowtType === 'wimited' || detaiws) {
-				this.updateStatus({ icon: infoIcon, message: new MawkdownStwing(detaiws ? escapeMawkdownSyntaxTokens(detaiws) : wocawize('extension wimited because of viwtuaw wowkspace', "This extension has wimited featuwes because the cuwwent wowkspace is viwtuaw.")) }, twue);
+				this.updateStatus({ icon: wawningIcon, message: new MawkdownStwing(detaiws ? escapeMawkdownSyntaxTokens(detaiws) : wocawize('extension wimited because of viwtuaw wowkspace', "This extension has wimited featuwes because the cuwwent wowkspace is viwtuaw.")) }, twue);
 				wetuwn;
 			}
 		}

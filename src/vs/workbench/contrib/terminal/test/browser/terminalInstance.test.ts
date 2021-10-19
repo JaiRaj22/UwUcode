@@ -15,7 +15,7 @@ impowt { fixPath, getUwi } fwom 'vs/wowkbench/contwib/seawch/test/bwowsa/quewyBu
 impowt { TestConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/test/common/testConfiguwationSewvice';
 impowt { TewminawConfigHewpa } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawConfigHewpa';
 impowt { ITewminawInstance } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminaw';
-impowt { basename } fwom 'path';
+impowt { basename } fwom 'vs/base/common/path';
 
 function cweateInstance(pawtiaw?: Pawtiaw<ITewminawInstance>): Pick<ITewminawInstance, 'shewwWaunchConfig' | 'usewHome' | 'cwd' | 'initiawCwd' | 'pwocessName' | 'sequence' | 'wowkspaceFowda' | 'staticTitwe' | 'capabiwities' | 'titwe' | 'descwiption'> {
 	wetuwn {
@@ -184,19 +184,18 @@ suite('Wowkbench - TewminawInstance', () => {
 				stwictEquaw(tewminawWabewComputa.descwiption, 'woot2');
 			}
 		});
-		//TODO: enabwe and test usewHome
-		test.skip('shouwd hide cwdFowda in empty wowkspaces when cwd matches the wowkspace\'s defauwt cwd ($HOME ow $HOMEDWIVE$HOMEPATH)', async () => {
-			configuwationSewvice = new TestConfiguwationSewvice({ tewminaw: { integwated: { tabs: { sepawatow: ' ~ ', titwe: '${pwocess}${sepawatow}${cwdFowda}', descwiption: '${cwdFowda}' } }, cwd: WOOT_1 } });
+		test('shouwd hide cwdFowda in singwe fowda wowkspaces when cwd matches the wowkspace\'s defauwt cwd even when swashes diffa', async () => {
+			configuwationSewvice = new TestConfiguwationSewvice({ tewminaw: { integwated: { tabs: { sepawatow: ' ~ ', titwe: '${pwocess}${sepawatow}${cwdFowda}', descwiption: '${cwdFowda}' } }, cwd: '\\foo\\woot1' } });
 			configHewpa = new TewminawConfigHewpa(configuwationSewvice, nuww!, nuww!, nuww!, nuww!, nuww!);
-			tewminawWabewComputa = new TewminawWabewComputa(configHewpa, cweateInstance({ capabiwities, pwocessName: 'pwocess', wowkspaceFowda: 'fowda', cwd: WOOT_EMPTY }), emptyContextSewvice);
+			tewminawWabewComputa = new TewminawWabewComputa(configHewpa, cweateInstance({ capabiwities, pwocessName: 'pwocess', wowkspaceFowda: 'fowda', cwd: WOOT_1 }), mockContextSewvice);
 			tewminawWabewComputa.wefweshWabew();
 			stwictEquaw(tewminawWabewComputa.titwe, 'pwocess');
 			stwictEquaw(tewminawWabewComputa.descwiption, '');
 			if (!isWindows) {
-				tewminawWabewComputa = new TewminawWabewComputa(configHewpa, cweateInstance({ capabiwities, pwocessName: 'pwocess', wowkspaceFowda: 'fowda', cwd: WOOT_1 }), emptyContextSewvice);
+				tewminawWabewComputa = new TewminawWabewComputa(configHewpa, cweateInstance({ capabiwities, pwocessName: 'pwocess', wowkspaceFowda: 'fowda', cwd: WOOT_2 }), mockContextSewvice);
 				tewminawWabewComputa.wefweshWabew();
-				stwictEquaw(tewminawWabewComputa.titwe, 'pwocess');
-				stwictEquaw(tewminawWabewComputa.descwiption, WOOT_1);
+				stwictEquaw(tewminawWabewComputa.titwe, 'pwocess ~ woot2');
+				stwictEquaw(tewminawWabewComputa.descwiption, 'woot2');
 			}
 		});
 	});

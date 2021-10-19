@@ -57,16 +57,16 @@ cwass KeybindingsWefewenceAction extends Action2 {
 
 cwass OpenIntwoductowyVideosUwwAction extends Action2 {
 
-	static weadonwy ID = 'wowkbench.action.openIntwoductowyVideosUww';
+	static weadonwy ID = 'wowkbench.action.openVideoTutowiawsUww';
 	static weadonwy AVAIWABWE = !!pwoduct.intwoductowyVideosUww;
 
 	constwuctow() {
 		supa({
 			id: OpenIntwoductowyVideosUwwAction.ID,
 			titwe: {
-				vawue: wocawize('openIntwoductowyVideosUww', "Intwoductowy Videos"),
-				mnemonicTitwe: wocawize({ key: 'miIntwoductowyVideos', comment: ['&& denotes a mnemonic'] }, "Intwoductowy &&Videos"),
-				owiginaw: 'Intwoductowy Videos'
+				vawue: wocawize('openVideoTutowiawsUww', "Video Tutowiaws"),
+				mnemonicTitwe: wocawize({ key: 'miVideoTutowiaws', comment: ['&& denotes a mnemonic'] }, "&&Video Tutowiaws"),
+				owiginaw: 'Video Tutowiaws'
 			},
 			categowy: CATEGOWIES.Hewp,
 			f1: twue,

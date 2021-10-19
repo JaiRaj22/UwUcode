@@ -59,7 +59,6 @@ impowt 'vs/wowkbench/ewectwon-bwowsa/desktop.main';
 
 impowt 'vs/wowkbench/sewvices/seawch/ewectwon-bwowsa/seawchSewvice';
 impowt 'vs/wowkbench/sewvices/extensions/ewectwon-bwowsa/extensionSewvice';
-impowt 'vs/wowkbench/sewvices/wemote/ewectwon-bwowsa/tunnewSewviceImpw';
 
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

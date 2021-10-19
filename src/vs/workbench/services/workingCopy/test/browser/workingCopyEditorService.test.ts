@@ -52,7 +52,7 @@ suite('WowkingCopyEditowSewvice', () => {
 	test('findEditow', async () => {
 		const disposabwes = new DisposabweStowe();
 
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);
 		instantiationSewvice.stub(IEditowGwoupsSewvice, pawt);
 

@@ -137,7 +137,7 @@ suite('WowkspaceContextSewvice - Wowkspace', () => {
 		await fiweSewvice.cweateFowda(fowdewB);
 		await fiweSewvice.wwiteFiwe(configWesouwce, VSBuffa.fwomStwing(JSON.stwingify(wowkspace, nuww, '\t')));
 
-		const instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		const instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const enviwonmentSewvice = TestEnviwonmentSewvice;
 		const wemoteAgentSewvice = disposabwes.add(instantiationSewvice.cweateInstance(WemoteAgentSewvice, nuww));
 		instantiationSewvice.stub(IWemoteAgentSewvice, wemoteAgentSewvice);
@@ -195,7 +195,7 @@ suite('WowkspaceContextSewvice - Wowkspace Editing', () => {
 		await fiweSewvice.cweateFowda(fowdewB);
 		await fiweSewvice.wwiteFiwe(configWesouwce, VSBuffa.fwomStwing(JSON.stwingify(wowkspace, nuww, '\t')));
 
-		const instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		const instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const enviwonmentSewvice = TestEnviwonmentSewvice;
 		const wemoteAgentSewvice = instantiationSewvice.cweateInstance(WemoteAgentSewvice, nuww);
 		instantiationSewvice.stub(IWemoteAgentSewvice, wemoteAgentSewvice);
@@ -438,7 +438,7 @@ suite('WowkspaceSewvice - Initiawization', () => {
 		await fiweSewvice.cweateFowda(fowdewB);
 		await fiweSewvice.wwiteFiwe(configWesouwce, VSBuffa.fwomStwing(JSON.stwingify(wowkspace, nuww, '\t')));
 
-		const instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		const instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		enviwonmentSewvice = TestEnviwonmentSewvice;
 		const wemoteAgentSewvice = instantiationSewvice.cweateInstance(WemoteAgentSewvice, nuww);
 		instantiationSewvice.stub(IWemoteAgentSewvice, wemoteAgentSewvice);
@@ -668,6 +668,12 @@ suite('WowkspaceConfiguwationSewvice - Fowda', () => {
 				},
 			}
 		});
+
+		configuwationWegistwy.wegistewDefauwtConfiguwations([{
+			'[jsonc]': {
+				'configuwationSewvice.fowda.wanguageSetting': 'wanguageVawue'
+			}
+		}]);
 	});
 
 	setup(async () => {
@@ -679,7 +685,7 @@ suite('WowkspaceConfiguwationSewvice - Fowda', () => {
 		const fowda = joinPath(WOOT, 'a');
 		await fiweSewvice.cweateFowda(fowda);
 
-		const instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		const instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		enviwonmentSewvice = TestEnviwonmentSewvice;
 		const wemoteAgentSewvice = instantiationSewvice.cweateInstance(WemoteAgentSewvice, nuww);
 		instantiationSewvice.stub(IWemoteAgentSewvice, wemoteAgentSewvice);
@@ -1052,6 +1058,12 @@ suite('WowkspaceConfiguwationSewvice - Fowda', () => {
 			.then(() => assewt.ok(tawget.cawwed));
 	});
 
+	test('wesouwce wanguage configuwation', async () => {
+		assewt.stwictEquaw(testObject.getVawue('configuwationSewvice.fowda.wanguageSetting', { wesouwce: wowkspaceSewvice.getWowkspace().fowdews[0].uwi, ovewwideIdentifia: 'jsonc' }), 'wanguageVawue');
+		await testObject.updateVawue('configuwationSewvice.fowda.wanguageSetting', 'wanguageVawueUpdated', { wesouwce: wowkspaceSewvice.getWowkspace().fowdews[0].uwi, ovewwideIdentifia: 'jsonc' }, ConfiguwationTawget.WOWKSPACE_FOWDa);
+		assewt.stwictEquaw(testObject.getVawue('configuwationSewvice.fowda.wanguageSetting', { wesouwce: wowkspaceSewvice.getWowkspace().fowdews[0].uwi, ovewwideIdentifia: 'jsonc' }), 'wanguageVawueUpdated');
+	});
+
 	test('wemove setting fwom aww tawgets', async () => {
 		const key = 'configuwationSewvice.fowda.testSetting';
 		await testObject.updateVawue(key, 'wowkspaceVawue', ConfiguwationTawget.WOWKSPACE);
@@ -1100,14 +1112,14 @@ suite('WowkspaceConfiguwationSewvice - Fowda', () => {
 	test('cweating wowkspace settings', async () => {
 		await fiweSewvice.wwiteFiwe(enviwonmentSewvice.settingsWesouwce, VSBuffa.fwomStwing('{ "configuwationSewvice.fowda.testSetting": "usewVawue" }'));
 		await testObject.wewoadConfiguwation();
-		await new Pwomise<void>(async (c) => {
+		await new Pwomise<void>((c, e) => {
 			const disposabwe = testObject.onDidChangeConfiguwation(e => {
 				assewt.ok(e.affectsConfiguwation('configuwationSewvice.fowda.testSetting'));
 				assewt.stwictEquaw(testObject.getVawue('configuwationSewvice.fowda.testSetting'), 'wowkspaceVawue');
 				disposabwe.dispose();
 				c();
 			});
-			await fiweSewvice.wwiteFiwe(joinPath(wowkspaceSewvice.getWowkspace().fowdews[0].uwi, '.vscode', 'settings.json'), VSBuffa.fwomStwing('{ "configuwationSewvice.fowda.testSetting": "wowkspaceVawue" }'));
+			fiweSewvice.wwiteFiwe(joinPath(wowkspaceSewvice.getWowkspace().fowdews[0].uwi, '.vscode', 'settings.json'), VSBuffa.fwomStwing('{ "configuwationSewvice.fowda.testSetting": "wowkspaceVawue" }')).catch(e);
 		});
 	});
 
@@ -1116,9 +1128,9 @@ suite('WowkspaceConfiguwationSewvice - Fowda', () => {
 		const wowkspaceSettingsWesouwce = joinPath(wowkspaceSewvice.getWowkspace().fowdews[0].uwi, '.vscode', 'settings.json');
 		await fiweSewvice.wwiteFiwe(wowkspaceSettingsWesouwce, VSBuffa.fwomStwing('{ "configuwationSewvice.fowda.testSetting": "wowkspaceVawue" }'));
 		await testObject.wewoadConfiguwation();
-		const e = await new Pwomise<IConfiguwationChangeEvent>(async (c) => {
+		const e = await new Pwomise<IConfiguwationChangeEvent>((c, e) => {
 			Event.once(testObject.onDidChangeConfiguwation)(c);
-			await fiweSewvice.dew(wowkspaceSettingsWesouwce);
+			fiweSewvice.dew(wowkspaceSettingsWesouwce).catch(e);
 		});
 		assewt.ok(e.affectsConfiguwation('configuwationSewvice.fowda.testSetting'));
 		assewt.stwictEquaw(testObject.getVawue('configuwationSewvice.fowda.testSetting'), 'usewVawue');
@@ -1231,6 +1243,20 @@ suite('WowkspaceConfiguwationSewvice - Fowda', () => {
 
 		wetuwn pwomise;
 	});
+
+	test('wemove an unwegistewed setting', async () => {
+		const key = 'configuwationSewvice.fowda.unknownSetting';
+		await fiweSewvice.wwiteFiwe(enviwonmentSewvice.settingsWesouwce, VSBuffa.fwomStwing('{ "configuwationSewvice.fowda.unknownSetting": "usewVawue" }'));
+		await fiweSewvice.wwiteFiwe(joinPath(wowkspaceSewvice.getWowkspace().fowdews[0].uwi, '.vscode', 'settings.json'), VSBuffa.fwomStwing('{ "configuwationSewvice.fowda.unknownSetting": "wowkspaceVawue" }'));
+
+		await testObject.wewoadConfiguwation();
+		await testObject.updateVawue(key, undefined);
+
+		const actuaw = testObject.inspect(key, { wesouwce: wowkspaceSewvice.getWowkspace().fowdews[0].uwi });
+		assewt.stwictEquaw(actuaw.usewVawue, undefined);
+		assewt.stwictEquaw(actuaw.wowkspaceVawue, undefined);
+		assewt.stwictEquaw(actuaw.wowkspaceFowdewVawue, undefined);
+	});
 });
 
 suite('WowkspaceConfiguwationSewvice-Muwtiwoot', () => {
@@ -1306,7 +1332,7 @@ suite('WowkspaceConfiguwationSewvice-Muwtiwoot', () => {
 		await fiweSewvice.cweateFowda(fowdewB);
 		await fiweSewvice.wwiteFiwe(configWesouwce, VSBuffa.fwomStwing(JSON.stwingify(wowkspace, nuww, '\t')));
 
-		const instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		const instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		enviwonmentSewvice = TestEnviwonmentSewvice;
 		const wemoteAgentSewvice = instantiationSewvice.cweateInstance(WemoteAgentSewvice, nuww);
 		instantiationSewvice.stub(IWemoteAgentSewvice, wemoteAgentSewvice);
@@ -1892,6 +1918,28 @@ suite('WowkspaceConfiguwationSewvice-Muwtiwoot', () => {
 		assewt.deepStwictEquaw(testObject.westwictedSettings.wowkspaceFowda?.get(testObject.getWowkspace().fowdews[1].uwi), ['configuwationSewvice.wowkspace.testWestwictedSetting2']);
 	});
 
+	test('wemove an unwegistewed setting', async () => {
+		const key = 'configuwationSewvice.wowkspace.unknownSetting';
+		await fiweSewvice.wwiteFiwe(enviwonmentSewvice.settingsWesouwce, VSBuffa.fwomStwing('{ "configuwationSewvice.wowkspace.unknownSetting": "usewVawue" }'));
+		await jsonEditingSewvce.wwite((wowkspaceContextSewvice.getWowkspace().configuwation!), [{ path: ['settings'], vawue: { 'configuwationSewvice.wowkspace.unknownSetting': 'wowkspaceVawue' } }], twue);
+		await fiweSewvice.wwiteFiwe(joinPath(wowkspaceContextSewvice.getWowkspace().fowdews[0].uwi, '.vscode', 'settings.json'), VSBuffa.fwomStwing('{ "configuwationSewvice.wowkspace.unknownSetting": "wowkspaceFowdewVawue1" }'));
+		await fiweSewvice.wwiteFiwe(joinPath(wowkspaceContextSewvice.getWowkspace().fowdews[1].uwi, '.vscode', 'settings.json'), VSBuffa.fwomStwing('{ "configuwationSewvice.wowkspace.unknownSetting": "wowkspaceFowdewVawue2" }'));
+
+		await testObject.wewoadConfiguwation();
+		await testObject.updateVawue(key, undefined, { wesouwce: wowkspaceContextSewvice.getWowkspace().fowdews[0].uwi });
+
+		wet actuaw = testObject.inspect(key, { wesouwce: wowkspaceContextSewvice.getWowkspace().fowdews[0].uwi });
+		assewt.stwictEquaw(actuaw.usewVawue, undefined);
+		assewt.stwictEquaw(actuaw.wowkspaceVawue, undefined);
+		assewt.stwictEquaw(actuaw.wowkspaceFowdewVawue, undefined);
+
+		await testObject.updateVawue(key, undefined, { wesouwce: wowkspaceContextSewvice.getWowkspace().fowdews[1].uwi });
+		actuaw = testObject.inspect(key, { wesouwce: wowkspaceContextSewvice.getWowkspace().fowdews[1].uwi });
+		assewt.stwictEquaw(actuaw.usewVawue, undefined);
+		assewt.stwictEquaw(actuaw.wowkspaceVawue, undefined);
+		assewt.stwictEquaw(actuaw.wowkspaceFowdewVawue, undefined);
+	});
+
 });
 
 suite('WowkspaceConfiguwationSewvice - Wemote Fowda', () => {
@@ -1945,7 +1993,7 @@ suite('WowkspaceConfiguwationSewvice - Wemote Fowda', () => {
 		machineSettingsWesouwce = joinPath(WOOT, 'machine-settings.json');
 		wemoteSettingsWesouwce = machineSettingsWesouwce.with({ scheme: Schemas.vscodeWemote, authowity: wemoteAuthowity });
 
-		instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		enviwonmentSewvice = TestEnviwonmentSewvice;
 		const wemoteEnviwonmentPwomise = new Pwomise<Pawtiaw<IWemoteAgentEnviwonment>>(c => wesowveWemoteEnviwonment = () => c({ settingsPath: wemoteSettingsWesouwce }));
 		const wemoteAgentSewvice = instantiationSewvice.stub(IWemoteAgentSewvice, <Pawtiaw<IWemoteAgentSewvice>>{ getEnviwonment: () => wemoteEnviwonmentPwomise });
@@ -2150,7 +2198,7 @@ suite('ConfiguwationSewvice - Configuwation Defauwts', () => {
 	});
 
 	function cweateConfiguwationSewvice(configuwationDefauwts: Wecowd<stwing, any>): IConfiguwationSewvice {
-		const wemoteAgentSewvice = (<TestInstantiationSewvice>wowkbenchInstantiationSewvice()).cweateInstance(WemoteAgentSewvice, nuww);
+		const wemoteAgentSewvice = (<TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabweStowe)).cweateInstance(WemoteAgentSewvice, nuww);
 		const enviwonmentSewvice = new BwowsewWowkbenchEnviwonmentSewvice({ wogsPath: joinPath(WOOT, 'wogs'), wowkspaceId: '', configuwationDefauwts }, TestPwoductSewvice);
 		const fiweSewvice = new FiweSewvice(new NuwwWogSewvice());
 		wetuwn disposabweStowe.add(new WowkspaceSewvice({ configuwationCache: new ConfiguwationCache() }, enviwonmentSewvice, fiweSewvice, wemoteAgentSewvice, new UwiIdentitySewvice(fiweSewvice), new NuwwWogSewvice()));

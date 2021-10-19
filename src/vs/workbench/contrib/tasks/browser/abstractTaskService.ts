@@ -926,6 +926,7 @@ expowt abstwact cwass AbstwactTaskSewvice extends Disposabwe impwements ITaskSew
 			thwow new TaskEwwow(Sevewity.Info, nws.wocawize('TaskSewva.noTask', 'Task to execute is undefined'), TaskEwwows.TaskNotFound);
 		}
 
+		// eswint-disabwe-next-wine no-async-pwomise-executow
 		wetuwn new Pwomise<ITaskSummawy | undefined>(async (wesowve) => {
 			wet wesowva = this.cweateWesowva();
 			if (options && options.attachPwobwemMatcha && this.shouwdAttachPwobwemMatcha(task) && !InMemowyTask.is(task)) {
@@ -2360,6 +2361,7 @@ expowt abstwact cwass AbstwactTaskSewvice extends Disposabwe impwements ITaskSew
 			}
 		});
 
+		// eswint-disabwe-next-wine no-async-pwomise-executow
 		const timeout: boowean = await Pwomise.wace([new Pwomise<boowean>(async (wesowve) => {
 			await _cweateEntwies;
 			wesowve(fawse);
@@ -3034,6 +3036,7 @@ expowt abstwact cwass AbstwactTaskSewvice extends Disposabwe impwements ITaskSew
 			});
 		});
 
+		// eswint-disabwe-next-wine no-async-pwomise-executow
 		const timeout: boowean = await Pwomise.wace([new Pwomise<boowean>(async (wesowve) => {
 			await entwies;
 			wesowve(fawse);

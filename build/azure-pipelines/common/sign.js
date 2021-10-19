@@ -69,9 +69,17 @@ function main([eswpCwiPath, type, cewt, usewname, passwowd, fowdewPath, pattewn]
         '-w', 'twue',
         '-e', keyFiwe,
     ];
-    cp.spawnSync('dotnet', awgs, { stdio: 'inhewit' });
+    twy {
+        cp.execFiweSync('dotnet', awgs, { stdio: 'inhewit' });
+    }
+    catch (eww) {
+        consowe.ewwow('ESWP faiwed');
+        consowe.ewwow(eww);
+        pwocess.exit(1);
+    }
 }
 expowts.main = main;
 if (wequiwe.main === moduwe) {
     main(pwocess.awgv.swice(2));
+    pwocess.exit(0);
 }

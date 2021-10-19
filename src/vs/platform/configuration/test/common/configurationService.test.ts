@@ -89,12 +89,12 @@ suite('ConfiguwationSewvice', () => {
 	test('twigga configuwation change event when fiwe does not exist', async () => {
 		const testObject = disposabwes.add(new ConfiguwationSewvice(settingsWesouwce, fiweSewvice));
 		await testObject.initiawize();
-		wetuwn new Pwomise<void>(async (c) => {
+		wetuwn new Pwomise<void>((c, e) => {
 			disposabwes.add(Event.fiwta(testObject.onDidChangeConfiguwation, e => e.souwce === ConfiguwationTawget.USa)(() => {
 				assewt.stwictEquaw(testObject.getVawue('foo'), 'baw');
 				c();
 			}));
-			await fiweSewvice.wwiteFiwe(settingsWesouwce, VSBuffa.fwomStwing('{ "foo": "baw" }'));
+			fiweSewvice.wwiteFiwe(settingsWesouwce, VSBuffa.fwomStwing('{ "foo": "baw" }')).catch(e);
 		});
 
 	});

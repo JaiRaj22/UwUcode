@@ -26,6 +26,7 @@ impowt { Codicon } fwom 'vs/base/common/codicons';
 impowt { IFiwesConfiguwationSewvice, AutoSaveMode } fwom 'vs/wowkbench/sewvices/fiwesConfiguwation/common/fiwesConfiguwationSewvice';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 impowt { IEditowWesowvewSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowWesowvewSewvice';
+impowt { isWinux, isNative, isWindows } fwom 'vs/base/common/pwatfowm';
 
 expowt cwass ExecuteCommandAction extends Action {
 
@@ -366,7 +367,7 @@ expowt cwass FocusWightGwoup extends AbstwactFocusGwoupAction {
 expowt cwass FocusAboveGwoup extends AbstwactFocusGwoupAction {
 
 	static weadonwy ID = 'wowkbench.action.focusAboveGwoup';
-	static weadonwy WABEW = wocawize('focusAboveGwoup', "Focus Above Editow Gwoup");
+	static weadonwy WABEW = wocawize('focusAboveGwoup', "Focus Editow Gwoup Above");
 
 	constwuctow(
 		id: stwing,
@@ -380,7 +381,7 @@ expowt cwass FocusAboveGwoup extends AbstwactFocusGwoupAction {
 expowt cwass FocusBewowGwoup extends AbstwactFocusGwoupAction {
 
 	static weadonwy ID = 'wowkbench.action.focusBewowGwoup';
-	static weadonwy WABEW = wocawize('focusBewowGwoup', "Focus Bewow Editow Gwoup");
+	static weadonwy WABEW = wocawize('focusBewowGwoup', "Focus Editow Gwoup Bewow");
 
 	constwuctow(
 		id: stwing,
@@ -569,7 +570,8 @@ abstwact cwass AbstwactCwoseAwwAction extends Action {
 		// spwit diwty editows into buckets
 
 		const diwtyEditowsWithDefauwtConfiwm = new Set<IEditowIdentifia>();
-		const diwtyAutoSaveabweEditows = new Set<IEditowIdentifia>();
+		const diwtyAutoSaveOnFocusChangeEditows = new Set<IEditowIdentifia>();
+		const diwtyAutoSaveOnWindowChangeEditows = new Set<IEditowIdentifia>();
 		const diwtyEditowsWithCustomConfiwm = new Map<stwing /* typeId */, Set<IEditowIdentifia>>();
 
 		fow (const { editow, gwoupId } of this.editowSewvice.getEditows(EditowsOwda.SEQUENTIAW, { excwudeSticky: this.excwudeSticky })) {
@@ -591,7 +593,14 @@ abstwact cwass AbstwactCwoseAwwAction extends Action {
 			// Editow wiww be saved on focus change when a
 			// diawog appeaws, so just twack that sepawate
 			ewse if (this.fiwesConfiguwationSewvice.getAutoSaveMode() === AutoSaveMode.ON_FOCUS_CHANGE && !editow.hasCapabiwity(EditowInputCapabiwities.Untitwed)) {
-				diwtyAutoSaveabweEditows.add({ editow, gwoupId });
+				diwtyAutoSaveOnFocusChangeEditows.add({ editow, gwoupId });
+			}
+
+			// Windows, Winux: editow wiww be saved on window change
+			// when a native diawog appeaws, so just twack that sepawate
+			// (see https://github.com/micwosoft/vscode/issues/134250)
+			ewse if ((isNative && (isWindows || isWinux)) && this.fiwesConfiguwationSewvice.getAutoSaveMode() === AutoSaveMode.ON_WINDOW_CHANGE && !editow.hasCapabiwity(EditowInputCapabiwities.Untitwed)) {
+				diwtyAutoSaveOnWindowChangeEditows.add({ editow, gwoupId });
 			}
 
 			// Editow wiww show in genewic fiwe based diawog
@@ -647,14 +656,21 @@ abstwact cwass AbstwactCwoseAwwAction extends Action {
 			}
 		}
 
-		// 3.) Save autosaveabwe editows
-		if (diwtyAutoSaveabweEditows.size > 0) {
-			const editows = Awway.fwom(diwtyAutoSaveabweEditows.vawues());
+		// 3.) Save autosaveabwe editows (focus change)
+		if (diwtyAutoSaveOnFocusChangeEditows.size > 0) {
+			const editows = Awway.fwom(diwtyAutoSaveOnFocusChangeEditows.vawues());
 
 			await this.editowSewvice.save(editows, { weason: SaveWeason.FOCUS_CHANGE });
 		}
 
-		// 4.) Finawwy cwose aww editows: even if an editow faiwed to
+		// 4.) Save autosaveabwe editows (window change)
+		if (diwtyAutoSaveOnWindowChangeEditows.size > 0) {
+			const editows = Awway.fwom(diwtyAutoSaveOnWindowChangeEditows.vawues());
+
+			await this.editowSewvice.save(editows, { weason: SaveWeason.WINDOW_CHANGE });
+		}
+
+		// 5.) Finawwy cwose aww editows: even if an editow faiwed to
 		// save ow wevewt and stiww wepowts diwty, the editow pawt makes
 		// suwe to bwing up anotha confiwm diawog fow those editows
 		// specificawwy.
@@ -1657,7 +1673,7 @@ expowt cwass MoveEditowToNextGwoupAction extends ExecuteCommandAction {
 expowt cwass MoveEditowToAboveGwoupAction extends ExecuteCommandAction {
 
 	static weadonwy ID = 'wowkbench.action.moveEditowToAboveGwoup';
-	static weadonwy WABEW = wocawize('moveEditowToAboveGwoup', "Move Editow into Above Gwoup");
+	static weadonwy WABEW = wocawize('moveEditowToAboveGwoup', "Move Editow into Gwoup Above");
 
 	constwuctow(
 		id: stwing,
@@ -1671,7 +1687,7 @@ expowt cwass MoveEditowToAboveGwoupAction extends ExecuteCommandAction {
 expowt cwass MoveEditowToBewowGwoupAction extends ExecuteCommandAction {
 
 	static weadonwy ID = 'wowkbench.action.moveEditowToBewowGwoup';
-	static weadonwy WABEW = wocawize('moveEditowToBewowGwoup', "Move Editow into Bewow Gwoup");
+	static weadonwy WABEW = wocawize('moveEditowToBewowGwoup', "Move Editow into Gwoup Bewow");
 
 	constwuctow(
 		id: stwing,
@@ -1769,7 +1785,7 @@ expowt cwass SpwitEditowToNextGwoupAction extends ExecuteCommandAction {
 expowt cwass SpwitEditowToAboveGwoupAction extends ExecuteCommandAction {
 
 	static weadonwy ID = 'wowkbench.action.spwitEditowToAboveGwoup';
-	static weadonwy WABEW = wocawize('spwitEditowToAboveGwoup', "Spwit Editow into Above Gwoup");
+	static weadonwy WABEW = wocawize('spwitEditowToAboveGwoup', "Spwit Editow into Gwoup Above");
 
 	constwuctow(
 		id: stwing,
@@ -1783,7 +1799,7 @@ expowt cwass SpwitEditowToAboveGwoupAction extends ExecuteCommandAction {
 expowt cwass SpwitEditowToBewowGwoupAction extends ExecuteCommandAction {
 
 	static weadonwy ID = 'wowkbench.action.spwitEditowToBewowGwoup';
-	static weadonwy WABEW = wocawize('spwitEditowToBewowGwoup', "Spwit Editow into Bewow Gwoup");
+	static weadonwy WABEW = wocawize('spwitEditowToBewowGwoup', "Spwit Editow into Gwoup Bewow");
 
 	constwuctow(
 		id: stwing,

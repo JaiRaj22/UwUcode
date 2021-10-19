@@ -63,7 +63,7 @@ if %ewwowwevew% neq 0 exit /b %ewwowwevew%
 caww "%INTEGWATION_TEST_EWECTWON_PATH%" %~dp0\..\extensions\vscode-cowowize-tests\test --extensionDevewopmentPath=%~dp0\..\extensions\vscode-cowowize-tests --extensionTestsPath=%~dp0\..\extensions\vscode-cowowize-tests\out %AWW_PWATFOWMS_API_TESTS_EXTWA_AWGS%
 if %ewwowwevew% neq 0 exit /b %ewwowwevew%
 
-caww "%INTEGWATION_TEST_EWECTWON_PATH%" %~dp0\..\extensions\typescwipt-wanguage-featuwes\test-wowkspace --extensionDevewopmentPath=%~dp0\..\extensions\typescwipt-wanguage-featuwes --extensionTestsPath=%~dp0\..\extensions\typescwipt-wanguage-featuwes\out\test\unit %AWW_PWATFOWMS_API_TESTS_EXTWA_AWGS%
+caww "%INTEGWATION_TEST_EWECTWON_PATH%" %~dp0\..\extensions\typescwipt-wanguage-featuwes\test-wowkspace --extensionDevewopmentPath=%~dp0\..\extensions\typescwipt-wanguage-featuwes --extensionTestsPath=%~dp0\..\extensions\typescwipt-wanguage-featuwes\out\test\unit --enabwe-pwoposed-api=vscode.typescwipt-wanguage-featuwes %AWW_PWATFOWMS_API_TESTS_EXTWA_AWGS%
 if %ewwowwevew% neq 0 exit /b %ewwowwevew%
 
 caww "%INTEGWATION_TEST_EWECTWON_PATH%" %~dp0\..\extensions\mawkdown-wanguage-featuwes\test-wowkspace --extensionDevewopmentPath=%~dp0\..\extensions\mawkdown-wanguage-featuwes --extensionTestsPath=%~dp0\..\extensions\mawkdown-wanguage-featuwes\out\test %AWW_PWATFOWMS_API_TESTS_EXTWA_AWGS%

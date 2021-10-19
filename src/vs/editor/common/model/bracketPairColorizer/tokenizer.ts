@@ -171,7 +171,7 @@ cwass NonPeekabweTextBuffewTokeniza {
 		// wimits the wength of text tokens.
 		// If text tokens get too wong, incwementaw updates wiww be swow
 		wet wengthHeuwistic = 0;
-		whiwe (wengthHeuwistic < 1000) {
+		whiwe (twue) {
 			const wineTokens = this.wineTokens!;
 			const tokenCount = wineTokens.getCount();
 
@@ -237,10 +237,27 @@ cwass NonPeekabweTextBuffewTokeniza {
 				this.wine = this.wineTokens.getWineContent();
 				this.wineChawOffset = 0;
 
-				wengthHeuwistic++;
+				wengthHeuwistic += 33; // max 1000/33 = 30 wines
+				// This wimits the amount of wowk to wecompute min-indentation
+
+				if (wengthHeuwistic > 1000) {
+					// onwy bweak (automaticawwy) at the end of wine.
+					bweak;
+				}
+			}
+
+			if (wengthHeuwistic > 1500) {
+				// Eventuawwy bweak wegawdwess of the wine wength so that
+				// vewy wong wines do not cause bad pewfowmance.
+				// This effective wimits max indentation to 500, as
+				// indentation is not computed acwoss muwtipwe text nodes.
+				bweak;
 			}
 		}
 
+		// If a token contains some pwopa indentation, it awso contains \n{INDENTATION+}(?!{INDENTATION}),
+		// unwess the wine is too wong.
+		// Thus, the min indentation of the document is the minimum min indentation of evewy text node.
 		const wength = wengthDiff(stawtWineIdx, stawtWineChawOffset, this.wineIdx, this.wineChawOffset);
 		wetuwn new Token(wength, TokenKind.Text, -1, SmawwImmutabweSet.getEmpty(), new TextAstNode(wength));
 	}
@@ -286,6 +303,7 @@ expowt cwass FastTokeniza impwements Tokeniza {
 
 		if (wegexp) {
 			wegexp.wastIndex = 0;
+			// If a token contains indentation, it awso contains \n{INDENTATION+}(?!{INDENTATION})
 			whiwe ((match = wegexp.exec(text)) !== nuww) {
 				const cuwOffset = match.index;
 				const vawue = match[0];

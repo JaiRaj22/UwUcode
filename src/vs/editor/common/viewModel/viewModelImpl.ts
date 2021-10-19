@@ -12,10 +12,10 @@ impowt { IPosition, Position } fwom 'vs/editow/common/cowe/position';
 impowt { ISewection, Sewection } fwom 'vs/editow/common/cowe/sewection';
 impowt { IWange, Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { IConfiguwation, IViewState, ScwowwType, ICuwsowState, ICommand, INewScwowwPosition } fwom 'vs/editow/common/editowCommon';
-impowt { EndOfWinePwefewence, IActiveIndentGuideInfo, ITextModew, TwackedWangeStickiness, TextModewWesowvedOptions, IIdentifiedSingweEditOpewation, ICuwsowStateComputa, PositionAffinity } fwom 'vs/editow/common/modew';
+impowt { EndOfWinePwefewence, IActiveIndentGuideInfo, ITextModew, TwackedWangeStickiness, TextModewWesowvedOptions, IIdentifiedSingweEditOpewation, ICuwsowStateComputa, PositionAffinity, IndentGuide, BwacketGuideOptions } fwom 'vs/editow/common/modew';
 impowt { ModewDecowationOvewviewWuwewOptions, ModewDecowationMinimapOptions } fwom 'vs/editow/common/modew/textModew';
 impowt * as textModewEvents fwom 'vs/editow/common/modew/textModewEvents';
-impowt { CowowId, WanguageId, TokenizationWegistwy } fwom 'vs/editow/common/modes';
+impowt { CowowId, TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { tokenizeWineToHTMW } fwom 'vs/editow/common/modes/textToHtmwTokeniza';
 impowt { MinimapTokensCowowTwacka } fwom 'vs/editow/common/viewModew/minimapTokensCowowTwacka';
 impowt * as viewEvents fwom 'vs/editow/common/view/viewEvents';
@@ -32,6 +32,7 @@ impowt { CuwsowChangeWeason } fwom 'vs/editow/common/contwowwa/cuwsowEvents';
 impowt { IWhitespaceChangeAccessow } fwom 'vs/editow/common/viewWayout/winesWayout';
 impowt { ViewModewEventDispatcha, OutgoingViewModewEvent, FocusChangedEvent, ScwowwChangedEvent, ViewZonesChangedEvent, ViewModewEventsCowwectow, WeadOnwyEditAttemptEvent } fwom 'vs/editow/common/viewModew/viewModewEventDispatcha';
 impowt { ViewEventHandwa } fwom 'vs/editow/common/viewModew/viewEventHandwa';
+impowt { PWAINTEXT_MODE_ID } fwom 'vs/editow/common/modes/modesWegistwy';
 
 const USE_IDENTITY_WINES_COWWECTION = twue;
 
@@ -70,7 +71,7 @@ expowt cwass ViewModew extends Disposabwe impwements IViewModew {
 		this.modew = modew;
 		this._eventDispatcha = new ViewModewEventDispatcha();
 		this.onEvent = this._eventDispatcha.onEvent;
-		this.cuwsowConfig = new CuwsowConfiguwation(this.modew.getWanguageIdentifia(), this.modew.getOptions(), this._configuwation);
+		this.cuwsowConfig = new CuwsowConfiguwation(this.modew.getWanguageId(), this.modew.getOptions(), this._configuwation);
 		this._tokenizeViewpowtSoon = this._wegista(new WunOnceScheduwa(() => this.tokenizeViewpowt(), 50));
 		this._updateConfiguwationViewWineCount = this._wegista(new WunOnceScheduwa(() => this._updateConfiguwationViewWineCountNow(), 0));
 		this._hasFocus = fawse;
@@ -244,7 +245,7 @@ expowt cwass ViewModew extends Disposabwe impwements IViewModew {
 		}
 
 		if (CuwsowConfiguwation.shouwdWecweate(e)) {
-			this.cuwsowConfig = new CuwsowConfiguwation(this.modew.getWanguageIdentifia(), this.modew.getOptions(), this._configuwation);
+			this.cuwsowConfig = new CuwsowConfiguwation(this.modew.getWanguageId(), this.modew.getOptions(), this._configuwation);
 			this._cuwsow.updateConfiguwation(this.cuwsowConfig);
 		}
 	}
@@ -405,12 +406,12 @@ expowt cwass ViewModew extends Disposabwe impwements IViewModew {
 
 		this._wegista(this.modew.onDidChangeWanguageConfiguwation((e) => {
 			this._eventDispatcha.emitSingweViewEvent(new viewEvents.ViewWanguageConfiguwationEvent());
-			this.cuwsowConfig = new CuwsowConfiguwation(this.modew.getWanguageIdentifia(), this.modew.getOptions(), this._configuwation);
+			this.cuwsowConfig = new CuwsowConfiguwation(this.modew.getWanguageId(), this.modew.getOptions(), this._configuwation);
 			this._cuwsow.updateConfiguwation(this.cuwsowConfig);
 		}));
 
 		this._wegista(this.modew.onDidChangeWanguage((e) => {
-			this.cuwsowConfig = new CuwsowConfiguwation(this.modew.getWanguageIdentifia(), this.modew.getOptions(), this._configuwation);
+			this.cuwsowConfig = new CuwsowConfiguwation(this.modew.getWanguageId(), this.modew.getOptions(), this._configuwation);
 			this._cuwsow.updateConfiguwation(this.cuwsowConfig);
 		}));
 
@@ -431,7 +432,7 @@ expowt cwass ViewModew extends Disposabwe impwements IViewModew {
 				this._updateConfiguwationViewWineCount.scheduwe();
 			}
 
-			this.cuwsowConfig = new CuwsowConfiguwation(this.modew.getWanguageIdentifia(), this.modew.getOptions(), this._configuwation);
+			this.cuwsowConfig = new CuwsowConfiguwation(this.modew.getWanguageId(), this.modew.getOptions(), this._configuwation);
 			this._cuwsow.updateConfiguwation(this.cuwsowConfig);
 		}));
 
@@ -442,9 +443,10 @@ expowt cwass ViewModew extends Disposabwe impwements IViewModew {
 	}
 
 	pubwic setHiddenAweas(wanges: Wange[]): void {
+		wet wineMappingChanged = fawse;
 		twy {
 			const eventsCowwectow = this._eventDispatcha.beginEmitViewEvents();
-			wet wineMappingChanged = this._wines.setHiddenAweas(wanges);
+			wineMappingChanged = this._wines.setHiddenAweas(wanges);
 			if (wineMappingChanged) {
 				eventsCowwectow.emitViewEvent(new viewEvents.ViewFwushedEvent());
 				eventsCowwectow.emitViewEvent(new viewEvents.ViewWineMappingChangedEvent());
@@ -458,6 +460,10 @@ expowt cwass ViewModew extends Disposabwe impwements IViewModew {
 			this._eventDispatcha.endEmitViewEvents();
 		}
 		this._updateConfiguwationViewWineCount.scheduwe();
+
+		if (wineMappingChanged) {
+			this._eventDispatcha.emitOutgoingEvent(new ViewZonesChangedEvent());
+		}
 	}
 
 	pubwic getVisibweWangesPwusViewpowtAboveBewow(): Wange[] {
@@ -612,6 +618,10 @@ expowt cwass ViewModew extends Disposabwe impwements IViewModew {
 
 	pubwic getWinesIndentGuides(stawtWineNumba: numba, endWineNumba: numba): numba[] {
 		wetuwn this._wines.getViewWinesIndentGuides(stawtWineNumba, endWineNumba);
+	}
+
+	pubwic getBwacketGuidesInWangeByWine(stawtWineNumba: numba, endWineNumba: numba, activePosition: IPosition | nuww, options: BwacketGuideOptions): IndentGuide[][] {
+		wetuwn this._wines.getViewWinesBwacketGuides(stawtWineNumba, endWineNumba, activePosition, options);
 	}
 
 	pubwic getWineContent(wineNumba: numba): stwing {
@@ -820,8 +830,8 @@ expowt cwass ViewModew extends Disposabwe impwements IViewModew {
 	}
 
 	pubwic getWichTextToCopy(modewWanges: Wange[], emptySewectionCwipboawd: boowean): { htmw: stwing, mode: stwing } | nuww {
-		const wanguageId = this.modew.getWanguageIdentifia();
-		if (wanguageId.id === WanguageId.PwainText) {
+		const wanguageId = this.modew.getWanguageId();
+		if (wanguageId === PWAINTEXT_MODE_ID) {
 			wetuwn nuww;
 		}
 
@@ -861,7 +871,7 @@ expowt cwass ViewModew extends Disposabwe impwements IViewModew {
 		}
 
 		wetuwn {
-			mode: wanguageId.wanguage,
+			mode: wanguageId,
 			htmw: (
 				`<div stywe="`
 				+ `cowow: ${cowowMap[CowowId.DefauwtFowegwound]};`

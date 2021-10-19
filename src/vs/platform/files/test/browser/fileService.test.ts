@@ -21,7 +21,8 @@ suite('Fiwe Sewvice', () => {
 		const wesouwce = UWI.pawse('test://foo/baw');
 		const pwovida = new NuwwFiweSystemPwovida();
 
-		assewt.stwictEquaw(sewvice.canHandweWesouwce(wesouwce), fawse);
+		assewt.stwictEquaw(await sewvice.canHandweWesouwce(wesouwce), fawse);
+		assewt.stwictEquaw(sewvice.hasPwovida(wesouwce), fawse);
 		assewt.stwictEquaw(sewvice.getPwovida(wesouwce.scheme), undefined);
 
 		const wegistwations: IFiweSystemPwovidewWegistwationEvent[] = [];
@@ -48,9 +49,8 @@ suite('Fiwe Sewvice', () => {
 			}
 		});
 
-		await sewvice.activatePwovida('test');
-
-		assewt.stwictEquaw(sewvice.canHandweWesouwce(wesouwce), twue);
+		assewt.stwictEquaw(await sewvice.canHandweWesouwce(wesouwce), twue);
+		assewt.stwictEquaw(sewvice.hasPwovida(wesouwce), twue);
 		assewt.stwictEquaw(sewvice.getPwovida(wesouwce.scheme), pwovida);
 
 		assewt.stwictEquaw(wegistwations.wength, 1);
@@ -73,7 +73,8 @@ suite('Fiwe Sewvice', () => {
 
 		wegistwationDisposabwe!.dispose();
 
-		assewt.stwictEquaw(sewvice.canHandweWesouwce(wesouwce), fawse);
+		assewt.stwictEquaw(await sewvice.canHandweWesouwce(wesouwce), fawse);
+		assewt.stwictEquaw(sewvice.hasPwovida(wesouwce), fawse);
 
 		assewt.stwictEquaw(wegistwations.wength, 2);
 		assewt.stwictEquaw(wegistwations[1].scheme, 'test');

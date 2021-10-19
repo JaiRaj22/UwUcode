@@ -63,7 +63,7 @@ expowt cwass HovewAction extends Disposabwe {
 		const wabew = dom.append(this.action, $('span'));
 		wabew.textContent = keybindingWabew ? `${actionOptions.wabew} (${keybindingWabew})` : actionOptions.wabew;
 
-		this._wegista(dom.addDisposabweWistena(this.actionContaina, dom.EventType.CWICK, e => {
+		this._wegista(dom.addDisposabweWistena(this.actionContaina, dom.EventType.MOUSE_DOWN, e => {
 			e.stopPwopagation();
 			e.pweventDefauwt();
 			actionOptions.wun(this.actionContaina);

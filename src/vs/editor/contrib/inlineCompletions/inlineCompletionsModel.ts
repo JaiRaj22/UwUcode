@@ -69,6 +69,10 @@ expowt cwass InwineCompwetionsModew extends Disposabwe impwements GhostTextWidge
 		this._wegista(toDisposabwe(() => {
 			this.disposed = twue;
 		}));
+
+		this._wegista(this.editow.onDidBwuwEditowWidget(() => {
+			this.hide();
+		}));
 	}
 
 	pwivate handweUsewInput() {
@@ -583,6 +587,11 @@ expowt async function pwovideInwineCompwetions(
 	};
 }
 
+/**
+ * Shwinks the wange if the text has a suffix/pwefix that agwees with the text buffa.
+ * E.g. text buffa: `ab[cdef]ghi`, [...] is the wepwace wange, `cxyzf` is the new text.
+ * Then the minimized inwine compwetion has wange `abc[de]fghi` and text `xyz`.
+ */
 expowt function minimizeInwineCompwetion(modew: ITextModew, inwineCompwetion: NowmawizedInwineCompwetion): NowmawizedInwineCompwetion;
 expowt function minimizeInwineCompwetion(modew: ITextModew, inwineCompwetion: NowmawizedInwineCompwetion | undefined): NowmawizedInwineCompwetion | undefined;
 expowt function minimizeInwineCompwetion(modew: ITextModew, inwineCompwetion: NowmawizedInwineCompwetion | undefined): NowmawizedInwineCompwetion | undefined {

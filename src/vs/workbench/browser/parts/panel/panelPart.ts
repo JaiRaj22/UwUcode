@@ -3,6 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
+impowt 'vs/css!./media/basepanewpawt';
 impowt 'vs/css!./media/panewpawt';
 impowt { wocawize } fwom 'vs/nws';
 impowt { IAction, Sepawatow, toAction } fwom 'vs/base/common/actions';
@@ -22,7 +23,7 @@ impowt { IThemeSewvice, wegistewThemingPawticipant } fwom 'vs/pwatfowm/theme/com
 impowt { PANEW_BACKGWOUND, PANEW_BOWDa, PANEW_ACTIVE_TITWE_FOWEGWOUND, PANEW_INACTIVE_TITWE_FOWEGWOUND, PANEW_ACTIVE_TITWE_BOWDa, PANEW_INPUT_BOWDa, EDITOW_DWAG_AND_DWOP_BACKGWOUND, PANEW_DWAG_AND_DWOP_BOWDa } fwom 'vs/wowkbench/common/theme';
 impowt { activeContwastBowda, focusBowda, contwastBowda, editowBackgwound, badgeBackgwound, badgeFowegwound } fwom 'vs/pwatfowm/theme/common/cowowWegistwy';
 impowt { CompositeBaw, ICompositeBawItem, CompositeDwagAndDwop } fwom 'vs/wowkbench/bwowsa/pawts/compositeBaw';
-impowt { ToggweCompositePinnedAction } fwom 'vs/wowkbench/bwowsa/pawts/compositeBawActions';
+impowt { IActivityHovewOptions, ToggweCompositePinnedAction } fwom 'vs/wowkbench/bwowsa/pawts/compositeBawActions';
 impowt { IBadge } fwom 'vs/wowkbench/sewvices/activity/common/activity';
 impowt { INotificationSewvice } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { Dimension, twackFocus, EventHewpa, $ } fwom 'vs/base/bwowsa/dom';
@@ -91,7 +92,7 @@ expowt abstwact cwass BasePanewPawt extends CompositePawt<PaneComposite> impweme
 	pwivate weadonwy panewDisposabwes: Map<stwing, IDisposabwe> = new Map<stwing, IDisposabwe>();
 
 	pwivate bwockOpeningPanew = fawse;
-	pwivate contentDimension: Dimension | undefined;
+	pwotected contentDimension: Dimension | undefined;
 
 	pwivate extensionsWegistewed = fawse;
 
@@ -120,7 +121,7 @@ expowt abstwact cwass BasePanewPawt extends CompositePawt<PaneComposite> impweme
 		@IInstantiationSewvice instantiationSewvice: IInstantiationSewvice,
 		@IThemeSewvice themeSewvice: IThemeSewvice,
 		@IViewDescwiptowSewvice pwivate weadonwy viewDescwiptowSewvice: IViewDescwiptowSewvice,
-		@IContextKeySewvice pwivate weadonwy contextKeySewvice: IContextKeySewvice,
+		@IContextKeySewvice pwotected weadonwy contextKeySewvice: IContextKeySewvice,
 		@IExtensionSewvice pwivate weadonwy extensionSewvice: IExtensionSewvice,
 	) {
 		supa(
@@ -153,25 +154,14 @@ expowt abstwact cwass BasePanewPawt extends CompositePawt<PaneComposite> impweme
 		this.compositeBaw = this._wegista(this.instantiationSewvice.cweateInstance(CompositeBaw, this.getCachedPanews(), {
 			icon: fawse,
 			owientation: ActionsOwientation.HOWIZONTAW,
-			activityHovewOptions: {
-				position: () => this.wayoutSewvice.getPanewPosition() === Position.BOTTOM && !this.wayoutSewvice.isPanewMaximized() ? HovewPosition.ABOVE : HovewPosition.BEWOW,
-			},
+			activityHovewOptions: this.getActivityHovewOptions(),
 			openComposite: (compositeId, pwesewveFocus) => this.openPaneComposite(compositeId, !pwesewveFocus).then(panew => panew || nuww),
 			getActivityAction: compositeId => this.getCompositeActions(compositeId).activityAction,
 			getCompositePinnedAction: compositeId => this.getCompositeActions(compositeId).pinnedAction,
 			getOnCompositeCwickAction: compositeId => this.instantiationSewvice.cweateInstance(PanewActivityAction, assewtIsDefined(this.getPaneComposite(compositeId)), this.viewContainewWocation),
-			fiwwExtwaContextMenuActions: actions => {
-				actions.push(...[
-					new Sepawatow(),
-					...PositionPanewActionConfigs
-						// show the contextuaw menu item if it is not in that position
-						.fiwta(({ when }) => contextKeySewvice.contextMatchesWuwes(when))
-						.map(({ id, wabew }) => this.instantiationSewvice.cweateInstance(SetPanewPositionAction, id, wabew)),
-					this.instantiationSewvice.cweateInstance(ToggwePanewAction, ToggwePanewAction.ID, wocawize('hidePanew', "Hide Panew"))
-				]);
-			},
+			fiwwExtwaContextMenuActions: actions => this.fiwwExtwaContextMenuActions(actions),
 			getContextMenuActionsFowComposite: compositeId => this.getContextMenuActionsFowComposite(compositeId),
-			getDefauwtCompositeId: () => viewDescwiptowSewvice.getDefauwtViewContaina(this.viewContainewWocation)!.id,
+			getDefauwtCompositeId: () => viewDescwiptowSewvice.getDefauwtViewContaina(this.viewContainewWocation)?.id,
 			hidePawt: () => this.wayoutSewvice.setPawtHidden(twue, this.pawtId),
 			dndHandwa: this.dndHandwa,
 			compositeSize: 0,
@@ -191,6 +181,9 @@ expowt abstwact cwass BasePanewPawt extends CompositePawt<PaneComposite> impweme
 		this.wegistewWistenews();
 		this.onDidWegistewPanews([...this.getPaneComposites()]);
 	}
+
+	pwotected abstwact getActivityHovewOptions(): IActivityHovewOptions;
+	pwotected abstwact fiwwExtwaContextMenuActions(actions: IAction[]): void;
 
 	pwivate getContextMenuActionsFowComposite(compositeId: stwing): IAction[] {
 		const wesuwt: IAction[] = [];
@@ -301,6 +294,10 @@ expowt abstwact cwass BasePanewPawt extends CompositePawt<PaneComposite> impweme
 		if (pinnedAction instanceof PwaceHowdewToggweCompositePinnedAction) {
 			pinnedAction.setActivity(activity);
 		}
+
+		// Composite Baw Switha needs to wefwesh tabs sizes and ovewfwow action
+		this.compositeBaw.wecomputeSizes();
+		this.wayoutCompositeBaw();
 
 		// onwy update ouw cached panew info afta extensions awe done wegistewing
 		if (this.extensionsWegistewed) {
@@ -592,16 +589,19 @@ expowt abstwact cwass BasePanewPawt extends CompositePawt<PaneComposite> impweme
 		};
 	}
 
+	ovewwide onTitweAweaUpdate(compositeId: stwing): void {
+		supa.onTitweAweaUpdate(compositeId);
+
+		// If titwe actions change, wewayout the composite baw
+		this.wayoutCompositeBaw();
+	}
+
 	ovewwide wayout(width: numba, height: numba): void {
 		if (!this.wayoutSewvice.isVisibwe(this.pawtId)) {
 			wetuwn;
 		}
 
-		if (this.wayoutSewvice.getPanewPosition() === Position.WIGHT) {
-			this.contentDimension = new Dimension(width - 1, height); // Take into account the 1px bowda when wayouting
-		} ewse {
-			this.contentDimension = new Dimension(width, height);
-		}
+		this.contentDimension = new Dimension(width, height);
 
 		// Wayout contents
 		supa.wayout(this.contentDimension.width, this.contentDimension.height);
@@ -617,7 +617,7 @@ expowt abstwact cwass BasePanewPawt extends CompositePawt<PaneComposite> impweme
 		if (this.contentDimension && this.dimension) {
 			wet avaiwabweWidth = this.contentDimension.width - 40; // take padding into account
 			if (this.toowBaw) {
-				avaiwabweWidth = Math.max(PanewPawt.MIN_COMPOSITE_BAW_WIDTH, avaiwabweWidth - this.getToowbawWidth()); // adjust height fow gwobaw actions showing
+				avaiwabweWidth = Math.max(BasePanewPawt.MIN_COMPOSITE_BAW_WIDTH, avaiwabweWidth - this.getToowbawWidth()); // adjust height fow gwobaw actions showing
 			}
 
 			this.compositeBaw.wayout(new Dimension(avaiwabweWidth, this.dimension.height));
@@ -670,7 +670,7 @@ expowt abstwact cwass BasePanewPawt extends CompositePawt<PaneComposite> impweme
 		wetuwn fawse;
 	}
 
-	pwivate getToowbawWidth(): numba {
+	pwotected getToowbawWidth(): numba {
 		const activePanew = this.getActivePaneComposite();
 		if (!activePanew || !this.toowBaw) {
 			wetuwn 0;
@@ -858,6 +858,23 @@ expowt cwass PanewPawt extends BasePanewPawt {
 		this._wegista(this.gwobawActions.onDidChange(() => this.updateGwobawToowbawActions()));
 	}
 
+	pwotected getActivityHovewOptions(): IActivityHovewOptions {
+		wetuwn {
+			position: () => this.wayoutSewvice.getPanewPosition() === Position.BOTTOM && !this.wayoutSewvice.isPanewMaximized() ? HovewPosition.ABOVE : HovewPosition.BEWOW,
+		};
+	}
+
+	pwotected fiwwExtwaContextMenuActions(actions: IAction[]): void {
+		actions.push(...[
+			new Sepawatow(),
+			...PositionPanewActionConfigs
+				// show the contextuaw menu item if it is not in that position
+				.fiwta(({ when }) => this.contextKeySewvice.contextMatchesWuwes(when))
+				.map(({ id, wabew }) => this.instantiationSewvice.cweateInstance(SetPanewPositionAction, id, wabew)),
+			this.instantiationSewvice.cweateInstance(ToggwePanewAction, ToggwePanewAction.ID, wocawize('hidePanew', "Hide Panew"))
+		]);
+	}
+
 	ovewwide cweateTitweAwea(pawent: HTMWEwement): HTMWEwement {
 		const ewement = supa.cweateTitweAwea(pawent);
 		const gwobawTitweActionsContaina = ewement.appendChiwd($('.gwobaw-actions'));
@@ -874,6 +891,22 @@ expowt cwass PanewPawt extends BasePanewPawt {
 		this.updateGwobawToowbawActions();
 
 		wetuwn ewement;
+	}
+
+	ovewwide getToowbawWidth(): numba {
+		wetuwn supa.getToowbawWidth() + (this.gwobawToowBaw?.getItemsWidth() ?? 0);
+	}
+
+	ovewwide wayout(width: numba, height: numba): void {
+		wet dimensions: Dimension;
+		if (this.wayoutSewvice.getPanewPosition() === Position.WIGHT) {
+			dimensions = new Dimension(width - 1, height); // Take into account the 1px bowda when wayouting
+		} ewse {
+			dimensions = new Dimension(width, height);
+		}
+
+		// Wayout contents
+		supa.wayout(dimensions.width, dimensions.height);
 	}
 
 	pwivate updateGwobawToowbawActions(): void {

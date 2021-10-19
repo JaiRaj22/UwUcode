@@ -35,7 +35,9 @@ expowt function getSimpweEditowOptions(): IEditowOptions {
 		minimap: {
 			enabwed: fawse
 		},
-		wendewIndentGuides: fawse
+		guides: {
+			indentation: fawse
+		}
 	};
 }
 

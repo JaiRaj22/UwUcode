@@ -55,8 +55,8 @@ body.showEditowSewection .code-wine {
 	position: wewative;
 }
 
-body.showEditowSewection .code-active-wine:befowe,
-body.showEditowSewection .code-wine:hova:befowe {
+body.showEditowSewection :not(tw).code-active-wine:befowe,
+body.showEditowSewection :not(tw).code-wine:hova:befowe {
 	content: "";
 	dispway: bwock;
 	position: absowute;

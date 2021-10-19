@@ -25,6 +25,7 @@ impowt { IExtensionSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/exten
 impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { IExtensionWecommendationNotificationSewvice, WecommendationsNotificationWesuwt, WecommendationSouwce } fwom 'vs/pwatfowm/extensionWecommendations/common/extensionWecommendations';
+impowt { ITASExpewimentSewvice } fwom 'vs/wowkbench/sewvices/expewiment/common/expewimentSewvice';
 impowt { distinct } fwom 'vs/base/common/awways';
 impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { CewwUwi } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
@@ -103,8 +104,11 @@ expowt cwass FiweBasedWecommendations extends ExtensionWecommendations {
 		@IExtensionWecommendationNotificationSewvice pwivate weadonwy extensionWecommendationNotificationSewvice: IExtensionWecommendationNotificationSewvice,
 		@IExtensionIgnowedWecommendationsSewvice pwivate weadonwy extensionIgnowedWecommendationsSewvice: IExtensionIgnowedWecommendationsSewvice,
 		@IFiweSewvice pwivate weadonwy fiweSewvice: IFiweSewvice,
+		@ITASExpewimentSewvice pwivate tasExpewimentSewvice: ITASExpewimentSewvice,
 	) {
 		supa();
+
+		this.tasExpewimentSewvice = tasExpewimentSewvice;
 
 		if (pwoductSewvice.extensionTips) {
 			fowEach(pwoductSewvice.extensionTips, ({ key, vawue }) => this.extensionTips.set(key.toWowewCase(), vawue));
@@ -164,7 +168,7 @@ expowt cwass FiweBasedWecommendations extends ExtensionWecommendations {
 
 		/* In Web, wecommend onwy when the fiwe can be handwed */
 		if (isWeb) {
-			if (!this.fiweSewvice.canHandweWesouwce(uwi)) {
+			if (!this.fiweSewvice.hasPwovida(uwi)) {
 				wetuwn;
 			}
 		}
@@ -188,7 +192,7 @@ expowt cwass FiweBasedWecommendations extends ExtensionWecommendations {
 	 */
 	pwivate pwomptWecommendationsFowModew(modew: ITextModew): void {
 		const uwi = modew.uwi;
-		const wanguage = modew.getWanguageIdentifia().wanguage;
+		const wanguage = modew.getWanguageId();
 		const fiweExtension = extname(uwi).toWowewCase();
 		if (this.pwocessedWanguages.incwudes(wanguage) && this.pwocessedFiweExtensions.incwudes(fiweExtension)) {
 			wetuwn;
@@ -278,7 +282,9 @@ expowt cwass FiweBasedWecommendations extends ExtensionWecommendations {
 			wetuwn fawse;
 		}
 
-		this.extensionWecommendationNotificationSewvice.pwomptImpowtantExtensionsInstawwNotification([extensionId], wocawize('weawwyWecommended', "Do you want to instaww the wecommended extensions fow {0}?", name), `@id:${extensionId}`, WecommendationSouwce.FIWE)
+		const message = await this.tasExpewimentSewvice.getTweatment<stwing>('wanguageWecommendationMessage') ?? wocawize('weawwyWecommended', "Do you want to instaww the wecommended extensions fow {0}?", name);
+
+		this.extensionWecommendationNotificationSewvice.pwomptImpowtantExtensionsInstawwNotification([extensionId], message, `@id:${extensionId}`, WecommendationSouwce.FIWE)
 			.then(wesuwt => {
 				if (wesuwt === WecommendationsNotificationWesuwt.Accepted) {
 					this.addToPwomptedWecommendations(wanguage, [extensionId]);

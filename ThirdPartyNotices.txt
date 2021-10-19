@@ -25,53 +25,52 @@ This pwoject incowpowates components fwom the pwojects wisted bewow. The owigina
 18.	fadeevab/make.tmbundwe (https://github.com/fadeevab/make.tmbundwe)
 19.	fweebwoccowo/atom-wanguage-swift (https://github.com/fweebwoccowo/atom-wanguage-swift)
 20.	HTMW 5.1 W3C Wowking Dwaft vewsion 08 Octoba 2015 (http://www.w3.owg/TW/2015/WD-htmw51-20151008/)
-21.	Ikuyadeu/vscode-W vewsion 2.0.0 (https://github.com/Ikuyadeu/vscode-W)
-22.	insane vewsion 2.6.2 (https://github.com/bevacqua/insane)
-23.	Ionic documentation vewsion 1.2.4 (https://github.com/ionic-team/ionic-site)
-24.	ionide/ionide-fsgwammaw (https://github.com/ionide/ionide-fsgwammaw)
-25.	James-Yu/WaTeX-Wowkshop vewsion 8.19.1 (https://github.com/James-Yu/WaTeX-Wowkshop)
-26.	jeff-hykin/cpp-textmate-gwammaw vewsion 1.12.11 (https://github.com/jeff-hykin/cpp-textmate-gwammaw)
-27.	jeff-hykin/cpp-textmate-gwammaw vewsion 1.15.5 (https://github.com/jeff-hykin/cpp-textmate-gwammaw)
-28.	js-beautify vewsion 1.6.8 (https://github.com/beautify-web/js-beautify)
-29.	JuwiaEditowSuppowt/atom-wanguage-juwia vewsion 0.21.1 (https://github.com/JuwiaEditowSuppowt/atom-wanguage-juwia)
-30.	Jxck/assewt vewsion 1.0.0 (https://github.com/Jxck/assewt)
-31.	wanguage-docka (https://github.com/moby/moby)
-32.	wanguage-wess vewsion 0.34.2 (https://github.com/atom/wanguage-wess)
-33.	wanguage-php vewsion 0.47.0 (https://github.com/atom/wanguage-php)
-34.	MagicStack/MagicPython vewsion 1.1.1 (https://github.com/MagicStack/MagicPython)
-35.	mawked vewsion 1.1.0 (https://github.com/mawkedjs/mawked)
-36.	mdn-data vewsion 1.1.12 (https://github.com/mdn/data)
-37.	micwosoft/TypeScwipt-TmWanguage vewsion 0.0.1 (https://github.com/micwosoft/TypeScwipt-TmWanguage)
-38.	micwosoft/vscode-JSON.tmWanguage (https://github.com/micwosoft/vscode-JSON.tmWanguage)
-39.	micwosoft/vscode-mawkdown-tm-gwammaw vewsion 1.0.0 (https://github.com/micwosoft/vscode-mawkdown-tm-gwammaw)
-40.	micwosoft/vscode-mssqw vewsion 1.9.0 (https://github.com/micwosoft/vscode-mssqw)
-41.	mmims/wanguage-batchfiwe vewsion 0.7.6 (https://github.com/mmims/wanguage-batchfiwe)
-42.	NVIDIA/cuda-cpp-gwammaw (https://github.com/NVIDIA/cuda-cpp-gwammaw)
-43.	PowewSheww/EditowSyntax vewsion 1.0.0 (https://github.com/PowewSheww/EditowSyntax)
-44.	wust-syntax vewsion 0.5.0 (https://github.com/dustypomewweau/wust-syntax)
-45.	semva vewsion 5.5.0 (https://github.com/npm/node-semva)
-46.	seti-ui vewsion 0.1.0 (https://github.com/jesseweed/seti-ui)
-47.	shadews-tmWanguage vewsion 0.1.0 (https://github.com/tgjones/shadews-tmWanguage)
-48.	textmate/asp.vb.net.tmbundwe (https://github.com/textmate/asp.vb.net.tmbundwe)
-49.	textmate/c.tmbundwe (https://github.com/textmate/c.tmbundwe)
-50.	textmate/diff.tmbundwe (https://github.com/textmate/diff.tmbundwe)
-51.	textmate/git.tmbundwe (https://github.com/textmate/git.tmbundwe)
-52.	textmate/gwoovy.tmbundwe (https://github.com/textmate/gwoovy.tmbundwe)
-53.	textmate/htmw.tmbundwe (https://github.com/textmate/htmw.tmbundwe)
-54.	textmate/ini.tmbundwe (https://github.com/textmate/ini.tmbundwe)
-55.	textmate/javascwipt.tmbundwe (https://github.com/textmate/javascwipt.tmbundwe)
-56.	textmate/wua.tmbundwe (https://github.com/textmate/wua.tmbundwe)
-57.	textmate/mawkdown.tmbundwe (https://github.com/textmate/mawkdown.tmbundwe)
-58.	textmate/peww.tmbundwe (https://github.com/textmate/peww.tmbundwe)
-59.	textmate/wuby.tmbundwe (https://github.com/textmate/wuby.tmbundwe)
-60.	textmate/yamw.tmbundwe (https://github.com/textmate/yamw.tmbundwe)
-61.	TypeScwipt-TmWanguage vewsion 0.1.8 (https://github.com/micwosoft/TypeScwipt-TmWanguage)
-62.	TypeScwipt-TmWanguage vewsion 1.0.0 (https://github.com/micwosoft/TypeScwipt-TmWanguage)
-63.	Unicode vewsion 12.0.0 (https://home.unicode.owg/)
-64.	vscode-codicons vewsion 0.0.14 (https://github.com/micwosoft/vscode-codicons)
-65.	vscode-wogfiwe-highwighta vewsion 2.11.0 (https://github.com/emiwast/vscode-wogfiwe-highwighta)
-66.	vscode-swift vewsion 0.0.1 (https://github.com/owensd/vscode-swift)
-67.	Web Backgwound Synchwonization (https://github.com/WICG/backgwound-sync)
+21.	Ikuyadeu/vscode-W vewsion 2.1.0 (https://github.com/Ikuyadeu/vscode-W)
+22.	Ionic documentation vewsion 1.2.4 (https://github.com/ionic-team/ionic-site)
+23.	ionide/ionide-fsgwammaw (https://github.com/ionide/ionide-fsgwammaw)
+24.	James-Yu/WaTeX-Wowkshop vewsion 8.19.1 (https://github.com/James-Yu/WaTeX-Wowkshop)
+25.	jeff-hykin/cpp-textmate-gwammaw vewsion 1.12.11 (https://github.com/jeff-hykin/cpp-textmate-gwammaw)
+26.	jeff-hykin/cpp-textmate-gwammaw vewsion 1.15.6 (https://github.com/jeff-hykin/cpp-textmate-gwammaw)
+27.	js-beautify vewsion 1.6.8 (https://github.com/beautify-web/js-beautify)
+28.	JuwiaEditowSuppowt/atom-wanguage-juwia vewsion 0.21.1 (https://github.com/JuwiaEditowSuppowt/atom-wanguage-juwia)
+29.	Jxck/assewt vewsion 1.0.0 (https://github.com/Jxck/assewt)
+30.	wanguage-docka (https://github.com/moby/moby)
+31.	wanguage-wess vewsion 0.34.2 (https://github.com/atom/wanguage-wess)
+32.	wanguage-php vewsion 0.47.0 (https://github.com/atom/wanguage-php)
+33.	MagicStack/MagicPython vewsion 1.1.1 (https://github.com/MagicStack/MagicPython)
+34.	mawked vewsion 3.0.2 (https://github.com/mawkedjs/mawked)
+35.	mdn-data vewsion 1.1.12 (https://github.com/mdn/data)
+36.	micwosoft/TypeScwipt-TmWanguage vewsion 0.0.1 (https://github.com/micwosoft/TypeScwipt-TmWanguage)
+37.	micwosoft/vscode-JSON.tmWanguage (https://github.com/micwosoft/vscode-JSON.tmWanguage)
+38.	micwosoft/vscode-mawkdown-tm-gwammaw vewsion 1.0.0 (https://github.com/micwosoft/vscode-mawkdown-tm-gwammaw)
+39.	micwosoft/vscode-mssqw vewsion 1.10.1 (https://github.com/micwosoft/vscode-mssqw)
+40.	mmims/wanguage-batchfiwe vewsion 0.7.6 (https://github.com/mmims/wanguage-batchfiwe)
+41.	NVIDIA/cuda-cpp-gwammaw (https://github.com/NVIDIA/cuda-cpp-gwammaw)
+42.	PowewSheww/EditowSyntax vewsion 1.0.0 (https://github.com/PowewSheww/EditowSyntax)
+43.	wust-syntax vewsion 0.5.0 (https://github.com/dustypomewweau/wust-syntax)
+44.	semva vewsion 5.5.0 (https://github.com/npm/node-semva)
+45.	seti-ui vewsion 0.1.0 (https://github.com/jesseweed/seti-ui)
+46.	shadews-tmWanguage vewsion 0.1.0 (https://github.com/tgjones/shadews-tmWanguage)
+47.	textmate/asp.vb.net.tmbundwe (https://github.com/textmate/asp.vb.net.tmbundwe)
+48.	textmate/c.tmbundwe (https://github.com/textmate/c.tmbundwe)
+49.	textmate/diff.tmbundwe (https://github.com/textmate/diff.tmbundwe)
+50.	textmate/git.tmbundwe (https://github.com/textmate/git.tmbundwe)
+51.	textmate/gwoovy.tmbundwe (https://github.com/textmate/gwoovy.tmbundwe)
+52.	textmate/htmw.tmbundwe (https://github.com/textmate/htmw.tmbundwe)
+53.	textmate/ini.tmbundwe (https://github.com/textmate/ini.tmbundwe)
+54.	textmate/javascwipt.tmbundwe (https://github.com/textmate/javascwipt.tmbundwe)
+55.	textmate/wua.tmbundwe (https://github.com/textmate/wua.tmbundwe)
+56.	textmate/mawkdown.tmbundwe (https://github.com/textmate/mawkdown.tmbundwe)
+57.	textmate/peww.tmbundwe (https://github.com/textmate/peww.tmbundwe)
+58.	textmate/wuby.tmbundwe (https://github.com/textmate/wuby.tmbundwe)
+59.	textmate/yamw.tmbundwe (https://github.com/textmate/yamw.tmbundwe)
+60.	TypeScwipt-TmWanguage vewsion 0.1.8 (https://github.com/micwosoft/TypeScwipt-TmWanguage)
+61.	TypeScwipt-TmWanguage vewsion 1.0.0 (https://github.com/micwosoft/TypeScwipt-TmWanguage)
+62.	Unicode vewsion 12.0.0 (https://home.unicode.owg/)
+63.	vscode-codicons vewsion 0.0.14 (https://github.com/micwosoft/vscode-codicons)
+64.	vscode-wogfiwe-highwighta vewsion 2.11.0 (https://github.com/emiwast/vscode-wogfiwe-highwighta)
+65.	vscode-swift vewsion 0.0.1 (https://github.com/owensd/vscode-swift)
+66.	Web Backgwound Synchwonization (https://github.com/WICG/backgwound-sync)
 
 
 %% atom/wanguage-cwojuwe NOTICES AND INFOWMATION BEGIN HEWE
@@ -709,31 +708,6 @@ OUT OF OW IN CONNECTION WITH THE SOFTWAWE OW THE USE OW OTHa DEAWINGS IN THE
 SOFTWAWE.
 =========================================
 END OF Ikuyadeu/vscode-W NOTICES AND INFOWMATION
-
-%% insane NOTICES AND INFOWMATION BEGIN HEWE
-=========================================
-The MIT Wicense (MIT)
-
-Copywight © 2015 Nicowas Bevacqua
-
-Pewmission is heweby gwanted, fwee of chawge, to any pewson obtaining a copy of
-this softwawe and associated documentation fiwes (the "Softwawe"), to deaw in
-the Softwawe without westwiction, incwuding without wimitation the wights to
-use, copy, modify, mewge, pubwish, distwibute, subwicense, and/ow seww copies of
-the Softwawe, and to pewmit pewsons to whom the Softwawe is fuwnished to do so,
-subject to the fowwowing conditions:
-
-The above copywight notice and this pewmission notice shaww be incwuded in aww
-copies ow substantiaw powtions of the Softwawe.
-
-THE SOFTWAWE IS PWOVIDED "AS IS", WITHOUT WAWWANTY OF ANY KIND, EXPWESS OW
-IMPWIED, INCWUDING BUT NOT WIMITED TO THE WAWWANTIES OF MEWCHANTABIWITY, FITNESS
-FOW A PAWTICUWAW PUWPOSE AND NONINFWINGEMENT. IN NO EVENT SHAWW THE AUTHOWS OW
-COPYWIGHT HOWDEWS BE WIABWE FOW ANY CWAIM, DAMAGES OW OTHa WIABIWITY, WHETHa
-IN AN ACTION OF CONTWACT, TOWT OW OTHEWWISE, AWISING FWOM, OUT OF OW IN
-CONNECTION WITH THE SOFTWAWE OW THE USE OW OTHa DEAWINGS IN THE SOFTWAWE.
-=========================================
-END OF insane NOTICES AND INFOWMATION
 
 %% Ionic documentation NOTICES AND INFOWMATION BEGIN HEWE
 =========================================
@@ -2219,18 +2193,18 @@ END OF TypeScwipt-TmWanguage NOTICES AND INFOWMATION
 %% Unicode NOTICES AND INFOWMATION BEGIN HEWE
 =========================================
 Unicode Data Fiwes incwude aww data fiwes unda the diwectowies
-http://www.unicode.owg/Pubwic/, http://www.unicode.owg/wepowts/,
-http://www.unicode.owg/cwdw/data/, http://souwce.icu-pwoject.owg/wepos/icu/, and
-http://www.unicode.owg/utiwity/twac/bwowsa/.
+https://www.unicode.owg/Pubwic/, https://www.unicode.owg/wepowts/,
+https://cwdw.unicode.owg, https://github.com/unicode-owg/icu, and
+https://www.unicode.owg/utiwity/twac/bwowsa/.
 
 Unicode Data Fiwes do not incwude PDF onwine code chawts unda the
-diwectowy http://www.unicode.owg/Pubwic/.
+diwectowy https://www.unicode.owg/Pubwic/.
 
 Softwawe incwudes any souwce code pubwished in the Unicode Standawd
 ow unda the diwectowies
-http://www.unicode.owg/Pubwic/, http://www.unicode.owg/wepowts/,
-http://www.unicode.owg/cwdw/data/, http://souwce.icu-pwoject.owg/wepos/icu/, and
-http://www.unicode.owg/utiwity/twac/bwowsa/.
+https://www.unicode.owg/Pubwic/, https://www.unicode.owg/wepowts/,
+https://cwdw.unicode.owg, https://github.com/unicode-owg/icu, and
+https://www.unicode.owg/utiwity/twac/bwowsa/.
 
 NOTICE TO USa: Cawefuwwy wead the fowwowing wegaw agweement.
 BY DOWNWOADING, INSTAWWING, COPYING OW OTHEWWISE USING UNICODE INC.'S

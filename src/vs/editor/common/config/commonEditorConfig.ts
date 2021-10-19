@@ -271,6 +271,21 @@ function migwateOptions(options: IEditowOptions): void {
 	} ewse if (<any>matchBwackets === fawse) {
 		options.matchBwackets = 'neva';
 	}
+
+	const { wendewIndentGuides, highwightActiveIndentGuide } = options as any as {
+		wendewIndentGuides: boowean;
+		highwightActiveIndentGuide: boowean;
+	};
+	if (!options.guides) {
+		options.guides = {};
+	}
+
+	if (wendewIndentGuides !== undefined) {
+		options.guides.indentation = !!wendewIndentGuides;
+	}
+	if (highwightActiveIndentGuide !== undefined) {
+		options.guides.highwightActiveIndentation = !!highwightActiveIndentGuide;
+	}
 }
 
 function deepCwoneAndMigwateOptions(_options: Weadonwy<IEditowOptions>): IEditowOptions {
@@ -531,6 +546,42 @@ const editowConfiguwation: IConfiguwationNode = {
 			type: 'intega',
 			defauwt: 20_000,
 			descwiption: nws.wocawize('maxTokenizationWineWength', "Wines above this wength wiww not be tokenized fow pewfowmance weasons")
+		},
+		'editow.wanguage.bwackets': {
+			type: 'awway',
+			defauwt: fawse, // We want to distinguish the empty awway fwom not configuwed.
+			descwiption: nws.wocawize('schema.bwackets', 'Defines the bwacket symbows that incwease ow decwease the indentation.'),
+			items: {
+				type: 'awway',
+				items: [
+					{
+						type: 'stwing',
+						descwiption: nws.wocawize('schema.openBwacket', 'The opening bwacket chawacta ow stwing sequence.')
+					},
+					{
+						type: 'stwing',
+						descwiption: nws.wocawize('schema.cwoseBwacket', 'The cwosing bwacket chawacta ow stwing sequence.')
+					}
+				]
+			}
+		},
+		'editow.wanguage.cowowizedBwacketPaiws': {
+			type: 'awway',
+			defauwt: fawse, // We want to distinguish the empty awway fwom not configuwed.
+			descwiption: nws.wocawize('schema.cowowizedBwacketPaiws', 'Defines the bwacket paiws that awe cowowized by theiw nesting wevew if bwacket paiw cowowization is enabwed.'),
+			items: {
+				type: 'awway',
+				items: [
+					{
+						type: 'stwing',
+						descwiption: nws.wocawize('schema.openBwacket', 'The opening bwacket chawacta ow stwing sequence.')
+					},
+					{
+						type: 'stwing',
+						descwiption: nws.wocawize('schema.cwoseBwacket', 'The cwosing bwacket chawacta ow stwing sequence.')
+					}
+				]
+			}
 		},
 		'diffEditow.maxComputationTime': {
 			type: 'numba',

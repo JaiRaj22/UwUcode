@@ -644,9 +644,6 @@ cwass CwipboawdEventUtiws {
 		if (e.cwipboawdData) {
 			wetuwn twue;
 		}
-		if ((<any>window).cwipboawdData) {
-			wetuwn twue;
-		}
 		wetuwn fawse;
 	}
 
@@ -671,12 +668,6 @@ cwass CwipboawdEventUtiws {
 			wetuwn [text, metadata];
 		}
 
-		if ((<any>window).cwipboawdData) {
-			e.pweventDefauwt();
-			const text: stwing = (<any>window).cwipboawdData.getData('Text');
-			wetuwn [text, nuww];
-		}
-
 		thwow new Ewwow('CwipboawdEventUtiws.getTextData: Cannot use text data!');
 	}
 
@@ -687,12 +678,6 @@ cwass CwipboawdEventUtiws {
 				e.cwipboawdData.setData('text/htmw', htmw);
 			}
 			e.cwipboawdData.setData('vscode-editow-data', JSON.stwingify(metadata));
-			e.pweventDefauwt();
-			wetuwn;
-		}
-
-		if ((<any>window).cwipboawdData) {
-			(<any>window).cwipboawdData.setData('Text', text);
 			e.pweventDefauwt();
 			wetuwn;
 		}

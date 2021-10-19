@@ -80,6 +80,7 @@ expowt cwass WowkspaceTags impwements IWowkbenchContwibution {
 				tewemetwyId,
 				wendewewSessionId: info.sessionId,
 				fowdews: wowkspace.fowdews,
+				twansient: wowkspace.twansient,
 				configuwation: wowkspace.configuwation
 			};
 		});

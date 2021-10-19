@@ -3,6 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
+impowt { Modifiews } fwom 'vs/base/common/keybindings';
 impowt { OpewatingSystem } fwom 'vs/base/common/pwatfowm';
 impowt * as nws fwom 'vs/nws';
 
@@ -12,13 +13,6 @@ expowt intewface ModifiewWabews {
 	weadonwy awtKey: stwing;
 	weadonwy metaKey: stwing;
 	weadonwy sepawatow: stwing;
-}
-
-expowt intewface Modifiews {
-	weadonwy ctwwKey: boowean;
-	weadonwy shiftKey: boowean;
-	weadonwy awtKey: boowean;
-	weadonwy metaKey: boowean;
 }
 
 expowt intewface KeyWabewPwovida<T extends Modifiews> {

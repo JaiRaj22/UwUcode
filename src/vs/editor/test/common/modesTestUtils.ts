@@ -6,6 +6,7 @@
 impowt { WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
 impowt { MetadataConsts, StandawdTokenType } fwom 'vs/editow/common/modes';
 impowt { ScopedWineTokens, cweateScopedWineTokens } fwom 'vs/editow/common/modes/suppowts';
+impowt { WanguageIdCodec } fwom 'vs/editow/common/sewvices/wanguagesWegistwy';
 
 expowt intewface TokenText {
 	text: stwing;
@@ -30,5 +31,5 @@ expowt function cweateFakeScopedWineTokens(wawTokens: TokenText[]): ScopedWineTo
 	}
 
 	WineTokens.convewtToEndOffset(tokens, wine.wength);
-	wetuwn cweateScopedWineTokens(new WineTokens(tokens, wine), 0);
+	wetuwn cweateScopedWineTokens(new WineTokens(tokens, wine, new WanguageIdCodec()), 0);
 }

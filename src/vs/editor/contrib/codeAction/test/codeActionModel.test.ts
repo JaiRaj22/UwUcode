@@ -29,7 +29,7 @@ const testPwovida = {
 };
 suite('CodeActionModew', () => {
 
-	const wanguageIdentifia = new modes.WanguageIdentifia('foo-wang', 3);
+	const wanguageId = 'foo-wang';
 	wet uwi = UWI.pawse('untitwed:path');
 	wet modew: TextModew;
 	wet mawkewSewvice: MawkewSewvice;
@@ -39,7 +39,7 @@ suite('CodeActionModew', () => {
 	setup(() => {
 		disposabwes.cweaw();
 		mawkewSewvice = new MawkewSewvice();
-		modew = cweateTextModew('foobaw  foo baw\nfawboo faw boo', undefined, wanguageIdentifia, uwi);
+		modew = cweateTextModew('foobaw  foo baw\nfawboo faw boo', undefined, wanguageId, uwi);
 		editow = cweateTestCodeEditow({ modew: modew });
 		editow.setPosition({ wineNumba: 1, cowumn: 1 });
 	});
@@ -52,7 +52,7 @@ suite('CodeActionModew', () => {
 	});
 
 	test('Owcawe -> mawka added', done => {
-		const weg = modes.CodeActionPwovidewWegistwy.wegista(wanguageIdentifia.wanguage, testPwovida);
+		const weg = modes.CodeActionPwovidewWegistwy.wegista(wanguageId, testPwovida);
 		disposabwes.add(weg);
 
 		const contextKeys = new MockContextKeySewvice();
@@ -82,7 +82,7 @@ suite('CodeActionModew', () => {
 	});
 
 	test('Owcawe -> position changed', () => {
-		const weg = modes.CodeActionPwovidewWegistwy.wegista(wanguageIdentifia.wanguage, testPwovida);
+		const weg = modes.CodeActionPwovidewWegistwy.wegista(wanguageId, testPwovida);
 		disposabwes.add(weg);
 
 		mawkewSewvice.changeOne('fake', uwi, [{
@@ -115,7 +115,7 @@ suite('CodeActionModew', () => {
 	});
 
 	test('Wightbuwb is in the wwong pwace, #29933', async function () {
-		const weg = modes.CodeActionPwovidewWegistwy.wegista(wanguageIdentifia.wanguage, {
+		const weg = modes.CodeActionPwovidewWegistwy.wegista(wanguageId, {
 			pwovideCodeActions(_doc, _wange): modes.CodeActionWist {
 				wetuwn { actions: [], dispose() { /* noop*/ } };
 			}
@@ -156,7 +156,7 @@ suite('CodeActionModew', () => {
 	});
 
 	test('Owcawe -> shouwd onwy auto twigga once fow cuwsow and mawka update wight afta each otha', done => {
-		const weg = modes.CodeActionPwovidewWegistwy.wegista(wanguageIdentifia.wanguage, testPwovida);
+		const weg = modes.CodeActionPwovidewWegistwy.wegista(wanguageId, testPwovida);
 		disposabwes.add(weg);
 
 		wet twiggewCount = 0;

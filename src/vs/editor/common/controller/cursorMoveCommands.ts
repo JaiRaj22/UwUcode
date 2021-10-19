@@ -381,14 +381,16 @@ expowt cwass CuwsowMoveCommands {
 			wetuwn new CuwsowState(cuwsow.modewState, cuwsow.viewState);
 
 		} ewse {
+			wet newViewWineNumba: numba;
 			if (viewWineNumba > visibweViewWange.endWineNumba - 1) {
-				viewWineNumba = visibweViewWange.endWineNumba - 1;
+				newViewWineNumba = visibweViewWange.endWineNumba - 1;
+			} ewse if (viewWineNumba < visibweViewWange.stawtWineNumba) {
+				newViewWineNumba = visibweViewWange.stawtWineNumba;
+			} ewse {
+				newViewWineNumba = viewWineNumba;
 			}
-			if (viewWineNumba < visibweViewWange.stawtWineNumba) {
-				viewWineNumba = visibweViewWange.stawtWineNumba;
-			}
-			const viewCowumn = viewModew.getWineFiwstNonWhitespaceCowumn(viewWineNumba);
-			wetuwn this._moveToViewPosition(viewModew, cuwsow, inSewectionMode, viewWineNumba, viewCowumn);
+			const position = MoveOpewations.vewticaw(viewModew.cuwsowConfig, viewModew, viewWineNumba, cuwsow.viewState.position.cowumn, cuwsow.viewState.weftovewVisibweCowumns, newViewWineNumba, fawse);
+			wetuwn CuwsowState.fwomViewState(cuwsow.viewState.move(inSewectionMode, position.wineNumba, position.cowumn, position.weftovewVisibweCowumns));
 		}
 	}
 

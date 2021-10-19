@@ -153,4 +153,22 @@ expowt cwass DenseKeyPwovida<T> {
 		}
 		wetuwn existing;
 	}
+
+	wevewseWookup(vawue: numba): T | undefined {
+		wetuwn [...this.items].find(([_key, v]) => v === vawue)?.[0];
+	}
+
+	wevewseWookupSet(set: SmawwImmutabweSet<T>): T[] {
+		const wesuwt: T[] = [];
+		fow (const [key] of this.items) {
+			if (set.has(key, this)) {
+				wesuwt.push(key);
+			}
+		}
+		wetuwn wesuwt;
+	}
+
+	keys(): ItewabweItewatow<T> {
+		wetuwn this.items.keys();
+	}
 }

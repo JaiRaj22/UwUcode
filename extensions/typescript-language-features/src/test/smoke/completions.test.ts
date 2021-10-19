@@ -98,7 +98,7 @@ suite.skip('TypeScwipt Compwetions', () => {
 		});
 	});
 
-	test('Shouwd insewt backets when compweting dot pwopewties with spaces in name', async () => {
+	test('Shouwd insewt bwackets when compweting dot pwopewties with spaces in name', async () => {
 		await enumewateConfig(testDocumentUwi, Config.insewtMode, insewtModes, async config => {
 			const editow = await cweateTestEditow(testDocumentUwi,
 				'const x = { "hewwo wowwd": 1 };',

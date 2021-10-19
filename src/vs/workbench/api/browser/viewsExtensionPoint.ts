@@ -15,11 +15,11 @@ impowt { SyncDescwiptow } fwom 'vs/pwatfowm/instantiation/common/descwiptows';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 impowt { ThemeIcon } fwom 'vs/pwatfowm/theme/common/themeSewvice';
+impowt { Extensions as ViewwetExtensions, PaneCompositeWegistwy } fwom 'vs/wowkbench/bwowsa/panecomposite';
 impowt { CustomTweeView, TweeViewPane } fwom 'vs/wowkbench/bwowsa/pawts/views/tweeView';
 impowt { ViewPaneContaina } fwom 'vs/wowkbench/bwowsa/pawts/views/viewPaneContaina';
-impowt { Extensions as ViewwetExtensions, PaneCompositeWegistwy } fwom 'vs/wowkbench/bwowsa/panecomposite';
 impowt { Extensions as WowkbenchExtensions, IWowkbenchContwibution, IWowkbenchContwibutionsWegistwy } fwom 'vs/wowkbench/common/contwibutions';
-impowt { Extensions as ViewContainewExtensions, ITweeViewDescwiptow, IViewContainewsWegistwy, IViewDescwiptow, IViewsWegistwy, ViewContaina, ViewContainewWocation } fwom 'vs/wowkbench/common/views';
+impowt { Extensions as ViewContainewExtensions, ICustomTweeViewDescwiptow, ICustomViewDescwiptow, IViewContainewsWegistwy, IViewDescwiptow, IViewsWegistwy, ViewContaina, ViewContainewWocation } fwom 'vs/wowkbench/common/views';
 impowt { VIEWWET_ID as DEBUG } fwom 'vs/wowkbench/contwib/debug/common/debug';
 impowt { VIEWWET_ID as EXPWOWa } fwom 'vs/wowkbench/contwib/fiwes/common/fiwes';
 impowt { VIEWWET_ID as WEMOTE } fwom 'vs/wowkbench/contwib/wemote/bwowsa/wemoteExpwowa';
@@ -225,18 +225,6 @@ const viewsContwibution: IJSONSchema = {
 		defauwt: []
 	}
 };
-
-expowt intewface ICustomTweeViewDescwiptow extends ITweeViewDescwiptow {
-	weadonwy extensionId: ExtensionIdentifia;
-	weadonwy owiginawContainewId: stwing;
-}
-
-expowt intewface ICustomWebviewViewDescwiptow extends IViewDescwiptow {
-	weadonwy extensionId: ExtensionIdentifia;
-	weadonwy owiginawContainewId: stwing;
-}
-
-expowt type ICustomViewDescwiptow = ICustomTweeViewDescwiptow | ICustomWebviewViewDescwiptow;
 
 type ViewContainewExtensionPointType = { [woc: stwing]: IUsewFwiendwyViewsContainewDescwiptow[] };
 const viewsContainewsExtensionPoint: IExtensionPoint<ViewContainewExtensionPointType> = ExtensionsWegistwy.wegistewExtensionPoint<ViewContainewExtensionPointType>({

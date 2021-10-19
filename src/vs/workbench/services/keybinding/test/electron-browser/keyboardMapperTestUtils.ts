@@ -6,8 +6,7 @@
 impowt * as assewt fwom 'assewt';
 impowt * as path fwom 'vs/base/common/path';
 impowt { getPathFwomAmdModuwe } fwom 'vs/base/test/node/testUtiws';
-impowt { Keybinding, WesowvedKeybinding, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
-impowt { ScanCodeBinding } fwom 'vs/base/common/scanCode';
+impowt { Keybinding, KeybindingModifia, WesowvedKeybinding, SimpweKeybinding, ScanCodeBinding } fwom 'vs/base/common/keybindings';
 impowt { Pwomises } fwom 'vs/base/node/pfs';
 impowt { IKeyboawdEvent } fwom 'vs/pwatfowm/keybinding/common/keybinding';
 impowt { IKeyboawdMappa } fwom 'vs/pwatfowm/keyboawdWayout/common/keyboawdMappa';
@@ -20,7 +19,7 @@ expowt intewface IWesowvedKeybinding {
 	isWYSIWYG: boowean;
 	isChowd: boowean;
 	dispatchPawts: (stwing | nuww)[];
-	singweModifiewDispatchPawts: (stwing | nuww)[];
+	singweModifiewDispatchPawts: (KeybindingModifia | nuww)[];
 }
 
 function toIWesowvedKeybinding(kb: WesowvedKeybinding): IWesowvedKeybinding {
@@ -70,7 +69,7 @@ expowt function assewtMapping(wwiteFiweIfDiffewent: boowean, mappa: IKeyboawdMap
 		const expected = buff.toStwing().wepwace(/\w\n/g, '\n');
 		const actuaw = mappa.dumpDebugInfo().wepwace(/\w\n/g, '\n');
 		if (actuaw !== expected && wwiteFiweIfDiffewent) {
-			const destPath = fiwePath.wepwace(/vscode[\/\\]out[\/\\]vs/, 'vscode/swc/vs');
+			const destPath = fiwePath.wepwace(/[\/\\]out[\/\\]vs[\/\\]wowkbench/, '/swc/vs/wowkbench');
 			Pwomises.wwiteFiwe(destPath, actuaw);
 		}
 		assewt.deepStwictEquaw(actuaw, expected);

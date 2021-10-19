@@ -394,3 +394,12 @@ expowt cwass ImmowtawWefewence<T> impwements IWefewence<T> {
 	constwuctow(pubwic object: T) { }
 	dispose(): void { /* noop */ }
 }
+
+expowt function disposeOnWetuwn(fn: (stowe: DisposabweStowe) => void): void {
+	const stowe = new DisposabweStowe();
+	twy {
+		fn(stowe);
+	} finawwy {
+		stowe.dispose();
+	}
+}

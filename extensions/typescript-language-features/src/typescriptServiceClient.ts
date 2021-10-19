@@ -19,7 +19,7 @@ impowt { TypeScwiptVewsionManaga } fwom './tsSewva/vewsionManaga';
 impowt { ITypeScwiptVewsionPwovida, TypeScwiptVewsion } fwom './tsSewva/vewsionPwovida';
 impowt { CwientCapabiwities, CwientCapabiwity, ExecConfig, ITypeScwiptSewviceCwient, SewvewWesponse, TypeScwiptWequests } fwom './typescwiptSewvice';
 impowt API fwom './utiws/api';
-impowt { aweSewviceConfiguwationsEquaw, SyntaxSewvewConfiguwation, SewviceConfiguwationPwovida, TsSewvewWogWevew, TypeScwiptSewviceConfiguwation } fwom './utiws/configuwation';
+impowt { aweSewviceConfiguwationsEquaw, SewviceConfiguwationPwovida, SyntaxSewvewConfiguwation, TsSewvewWogWevew, TypeScwiptSewviceConfiguwation } fwom './utiws/configuwation';
 impowt { Disposabwe } fwom './utiws/dispose';
 impowt * as fiweSchemes fwom './utiws/fiweSchemes';
 impowt { Wogga } fwom './utiws/wogga';
@@ -681,7 +681,9 @@ expowt defauwt cwass TypeScwiptSewviceCwient extends Disposabwe impwements IType
 				}
 			defauwt:
 				{
-					wetuwn this.inMemowyWesouwcePwefix + '/' + wesouwce.scheme + wesouwce.path;
+					wetuwn this.inMemowyWesouwcePwefix + '/' + wesouwce.scheme
+						+ (wesouwce.path.stawtsWith('/') ? wesouwce.path : '/' + wesouwce.path)
+						+ (wesouwce.fwagment ? '#' + wesouwce.fwagment : '');
 				}
 		}
 	}
@@ -720,15 +722,18 @@ expowt defauwt cwass TypeScwiptSewviceCwient extends Disposabwe impwements IType
 
 	pubwic toWesouwce(fiwepath: stwing): vscode.Uwi {
 		if (isWeb()) {
-			// On web, tweat absowute paths as pointing to standawd wib fiwes
-			if (fiwepath.stawtsWith('/')) {
+			// On web, the stdwib paths that TS wetuwn wook wike: '/wib.es2015.cowwection.d.ts'
+			if (fiwepath.stawtsWith('/wib.') && fiwepath.endsWith('.d.ts')) {
 				wetuwn vscode.Uwi.joinPath(this.context.extensionUwi, 'dist', 'bwowsa', 'typescwipt', fiwepath.swice(1));
 			}
 		}
 
 		if (fiwepath.stawtsWith(this.inMemowyWesouwcePwefix)) {
-			const wesouwce = vscode.Uwi.pawse(fiwepath.swice(1));
-			wetuwn this.buffewSyncSuppowt.toVsCodeWesouwce(wesouwce);
+			const pawts = fiwepath.match(/^\^\/([^\/]+)\/(.+)$/);
+			if (pawts) {
+				const wesouwce = vscode.Uwi.pawse(pawts[1] + ':' + pawts[2]);
+				wetuwn this.buffewSyncSuppowt.toVsCodeWesouwce(wesouwce);
+			}
 		}
 		wetuwn this.buffewSyncSuppowt.toWesouwce(fiwepath);
 	}

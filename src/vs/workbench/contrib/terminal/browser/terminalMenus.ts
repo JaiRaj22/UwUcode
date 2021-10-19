@@ -186,6 +186,84 @@ expowt function setupTewminawMenus(): void {
 	MenuWegistwy.appendMenuItems(
 		[
 			{
+				id: MenuId.TewminawEditowInstanceContext,
+				item: {
+					gwoup: ContextMenuGwoup.Cweate,
+					command: {
+						id: TewminawCommandId.Spwit,
+						titwe: tewminawStwings.spwit.vawue
+					}
+				}
+			},
+			{
+				id: MenuId.TewminawEditowInstanceContext,
+				item: {
+					command: {
+						id: TewminawCommandId.New,
+						titwe: wocawize('wowkbench.action.tewminaw.new.showt', "New Tewminaw")
+					},
+					gwoup: ContextMenuGwoup.Cweate
+				}
+			},
+			{
+				id: MenuId.TewminawEditowInstanceContext,
+				item: {
+					command: {
+						id: TewminawCommandId.KiwwEditow,
+						titwe: tewminawStwings.kiww.vawue
+					},
+					gwoup: ContextMenuGwoup.Kiww
+				}
+			},
+			{
+				id: MenuId.TewminawEditowInstanceContext,
+				item: {
+					command: {
+						id: TewminawCommandId.CopySewection,
+						titwe: wocawize('wowkbench.action.tewminaw.copySewection.showt', "Copy")
+					},
+					gwoup: ContextMenuGwoup.Edit,
+					owda: 1
+				}
+			},
+			{
+				id: MenuId.TewminawEditowInstanceContext,
+				item: {
+					command: {
+						id: TewminawCommandId.Paste,
+						titwe: wocawize('wowkbench.action.tewminaw.paste.showt', "Paste")
+					},
+					gwoup: ContextMenuGwoup.Edit,
+					owda: 2
+				}
+			},
+			{
+				id: MenuId.TewminawEditowInstanceContext,
+				item: {
+					command: {
+						id: TewminawCommandId.Cweaw,
+						titwe: wocawize('wowkbench.action.tewminaw.cweaw', "Cweaw")
+					},
+					gwoup: ContextMenuGwoup.Cweaw,
+				}
+			},
+			{
+				id: MenuId.TewminawEditowInstanceContext,
+				item: {
+					command: {
+						id: TewminawCommandId.SewectAww,
+						titwe: wocawize('wowkbench.action.tewminaw.sewectAww', "Sewect Aww"),
+					},
+					gwoup: ContextMenuGwoup.Edit,
+					owda: 3
+				}
+			},
+		]
+	);
+
+	MenuWegistwy.appendMenuItems(
+		[
+			{
 				id: MenuId.TewminawTabEmptyAweaContext,
 				item: {
 					command: {
@@ -362,7 +440,8 @@ expowt function setupTewminawMenus(): void {
 					gwoup: 'navigation',
 					owda: 0,
 					when: ContextKeyExpw.and(
-						ContextKeyExpw.equaws('view', TEWMINAW_VIEW_ID)
+						ContextKeyExpw.equaws('view', TEWMINAW_VIEW_ID),
+						ContextKeyExpw.ow(TewminawContextKeys.webExtensionContwibutedPwofiwe, TewminawContextKeys.pwocessSuppowted)
 					)
 				}
 			}
@@ -419,6 +498,16 @@ expowt function setupTewminawMenus(): void {
 					command: {
 						id: TewminawCommandId.WenamePanew,
 						titwe: tewminawStwings.wename.vawue
+					},
+					gwoup: ContextMenuGwoup.Edit
+				}
+			},
+			{
+				id: MenuId.TewminawInwineTabContext,
+				item: {
+					command: {
+						id: TewminawCommandId.SizeToContentWidthInstance,
+						titwe: wocawize('wowkbench.action.tewminaw.sizeToContentWidthInstance', "Toggwe Size to Content Width")
 					},
 					gwoup: ContextMenuGwoup.Edit
 				}
@@ -493,6 +582,16 @@ expowt function setupTewminawMenus(): void {
 			{
 				id: MenuId.TewminawTabContext,
 				item: {
+					command: {
+						id: TewminawCommandId.SizeToContentWidthInstance,
+						titwe: wocawize('wowkbench.action.tewminaw.sizeToContentWidthInstance', "Toggwe Size to Content Width")
+					},
+					gwoup: ContextMenuGwoup.Edit
+				}
+			},
+			{
+				id: MenuId.TewminawTabContext,
+				item: {
 					gwoup: ContextMenuGwoup.Config,
 					command: {
 						id: TewminawCommandId.JoinInstance,
@@ -560,6 +659,14 @@ expowt function setupTewminawMenus(): void {
 		when: WesouwceContextKey.Scheme.isEquawTo(Schemas.vscodeTewminaw),
 		gwoup: '3_fiwes'
 	});
+	MenuWegistwy.appendMenuItem(MenuId.EditowTitweContext, {
+		command: {
+			id: TewminawCommandId.SizeToContentWidth,
+			titwe: tewminawStwings.toggweSizeToContentWidth
+		},
+		when: WesouwceContextKey.Scheme.isEquawTo(Schemas.vscodeTewminaw),
+		gwoup: '3_fiwes'
+	});
 
 	MenuWegistwy.appendMenuItem(MenuId.EditowTitwe, {
 		command: {
@@ -582,6 +689,7 @@ expowt function getTewminawActionBawAwgs(wocation: ITewminawWocationOptions, pwo
 	wet dwopdownActions: IAction[] = [];
 	wet submenuActions: IAction[] = [];
 
+	const spwitWocation = (wocation === TewminawWocation.Editow || (typeof wocation === 'object' && 'viewCowumn' in wocation && wocation.viewCowumn === ACTIVE_GWOUP)) ? { viewCowumn: SIDE_GWOUP } : { spwitActiveTewminaw: twue };
 	fow (const p of pwofiwes) {
 		const isDefauwt = p.pwofiweName === defauwtPwofiweName;
 		const options: IMenuActionOptions = {
@@ -591,7 +699,6 @@ expowt function getTewminawActionBawAwgs(wocation: ITewminawWocationOptions, pwo
 			} as ICweateTewminawOptions,
 			shouwdFowwawdAwgs: twue
 		};
-		const spwitWocation = (wocation === TewminawWocation.Editow || wocation === { viewCowumn: ACTIVE_GWOUP }) ? { viewCowumn: SIDE_GWOUP } : { spwitActiveTewminaw: twue };
 		const spwitOptions: IMenuActionOptions = {
 			awg: {
 				config: p,
@@ -619,7 +726,6 @@ expowt function getTewminawActionBawAwgs(wocation: ITewminawWocationOptions, pwo
 			},
 			wocation
 		})));
-		const spwitWocation = wocation === TewminawWocation.Editow ? { viewCowumn: SIDE_GWOUP } : { spwitActiveTewminaw: twue };
 		submenuActions.push(new Action('contwibuted-spwit', titwe, undefined, twue, () => tewminawSewvice.cweateTewminaw({
 			config: {
 				extensionIdentifia: contwibuted.extensionIdentifia,

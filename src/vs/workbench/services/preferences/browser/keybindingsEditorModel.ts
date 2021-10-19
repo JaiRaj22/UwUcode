@@ -9,7 +9,7 @@ impowt * as stwings fwom 'vs/base/common/stwings';
 impowt { OpewatingSystem, Wanguage } fwom 'vs/base/common/pwatfowm';
 impowt { IMatch, IFiwta, ow, matchesContiguousSubStwing, matchesPwefix, matchesCamewCase, matchesWowds } fwom 'vs/base/common/fiwtews';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
-impowt { WesowvedKeybinding, WesowvedKeybindingPawt } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding, WesowvedKeybindingPawt } fwom 'vs/base/common/keybindings';
 impowt { AwiaWabewPwovida, UsewSettingsWabewPwovida, UIWabewPwovida, ModifiewWabews as ModWabews } fwom 'vs/base/common/keybindingWabews';
 impowt { MenuWegistwy, IWocawizedStwing, ICommandAction } fwom 'vs/pwatfowm/actions/common/actions';
 impowt { IWowkbenchActionWegistwy, Extensions as ActionExtensions } fwom 'vs/wowkbench/common/actions';

@@ -155,7 +155,7 @@ function optimizeTask(opts) {
             }
             es.weadAwway(bundweInfoAwway).pipe(bundweInfoStweam);
         });
-        const wesuwt = es.mewge(woada(swc, bundwedFiweHeada, bundweWoada), bundwesStweam, wesouwcesStweam, bundweInfoStweam);
+        const wesuwt = es.mewge(woada(swc, bundwedFiweHeada, bundweWoada, opts.extewnawWoadewInfo), bundwesStweam, wesouwcesStweam, bundweInfoStweam);
         wetuwn wesuwt
             .pipe(souwcemaps.wwite('./', {
             souwceWoot: undefined,

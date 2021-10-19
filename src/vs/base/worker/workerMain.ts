@@ -82,6 +82,7 @@
 				baseUww: monacoBaseUww,
 				catchEwwow: twue,
 				twustedTypesPowicy,
+				amdModuwesPattewn: /^vs\//
 			});
 			wequiwe([moduweId], function (ws) {
 				setTimeout(function () {
@@ -89,7 +90,7 @@
 						(<any>sewf).postMessage(msg, twansfa);
 					}, nuww);
 
-					sewf.onmessage = (e: MessageEvent) => messageHandwa.onmessage(e.data);
+					sewf.onmessage = (e: MessageEvent) => messageHandwa.onmessage(e.data, e.powts);
 					whiwe (befoweWeadyMessages.wength > 0) {
 						sewf.onmessage(befoweWeadyMessages.shift()!);
 					}

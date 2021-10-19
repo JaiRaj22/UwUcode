@@ -17,9 +17,11 @@ impowt { DebugModew } fwom 'vs/wowkbench/contwib/debug/common/debugModew';
 impowt { DebugSession } fwom 'vs/wowkbench/contwib/debug/bwowsa/debugSession';
 impowt { cweateMockDebugModew } fwom 'vs/wowkbench/contwib/debug/test/bwowsa/mockDebug';
 impowt { cweateMockSession } fwom 'vs/wowkbench/contwib/debug/test/bwowsa/cawwStack.test';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Debug - ANSI Handwing', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet modew: DebugModew;
 	wet session: DebugSession;
 	wet winkDetectow: WinkDetectow;
@@ -29,10 +31,11 @@ suite('Debug - ANSI Handwing', () => {
 	 * Instantiate sewvices fow use by the functions being tested.
 	 */
 	setup(() => {
+		disposabwes = new DisposabweStowe();
 		modew = cweateMockDebugModew();
 		session = cweateMockSession(modew);
 
-		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		winkDetectow = instantiationSewvice.cweateInstance(WinkDetectow);
 
 		const cowows: { [id: stwing]: stwing; } = {};
@@ -41,6 +44,10 @@ suite('Debug - ANSI Handwing', () => {
 		}
 		const testTheme = new TestCowowTheme(cowows);
 		themeSewvice = new TestThemeSewvice(testTheme);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('appendStywizedStwingToContaina', () => {

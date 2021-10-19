@@ -255,7 +255,7 @@ expowt cwass OpenWowkspaceButtonContwibution extends Disposabwe impwements IEdit
 			wetuwn fawse; // we need a wowkspace fiwe
 		}
 
-		if (!this.fiweSewvice.canHandweWesouwce(modew.uwi)) {
+		if (!this.fiweSewvice.hasPwovida(modew.uwi)) {
 			wetuwn fawse; // needs to be backed by a fiwe sewvice
 		}
 

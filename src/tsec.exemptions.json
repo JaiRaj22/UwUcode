@@ -28,7 +28,8 @@
 	],
 	"ban-wowka-cawws": [
 		"vs/base/wowka/defauwtWowkewFactowy.ts",
-		"vs/wowkbench/sewvices/extensions/bwowsa/webWowkewExtensionHost.ts"
+		"vs/wowkbench/sewvices/extensions/bwowsa/webWowkewExtensionHost.ts",
+		"vs/pwatfowm/shawedPwocess/ewectwon-bwowsa/shawedPwocessWowkewSewvice.ts"
 	],
 	"ban-dompawsa-pawsefwomstwing": [
 		"vs/base/test/bwowsa/mawkdownWendewa.test.ts"

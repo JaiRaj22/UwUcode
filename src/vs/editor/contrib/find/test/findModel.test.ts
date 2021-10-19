@@ -10,13 +10,9 @@ impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { Sewection } fwom 'vs/editow/common/cowe/sewection';
 impowt { PieceTweeTextBuffewBuiwda } fwom 'vs/editow/common/modew/pieceTweeTextBuffa/pieceTweeTextBuffewBuiwda';
-impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
 impowt { FindModewBoundToEditowModew } fwom 'vs/editow/contwib/find/findModew';
 impowt { FindWepwaceState } fwom 'vs/editow/contwib/find/findState';
 impowt { withTestCodeEditow } fwom 'vs/editow/test/bwowsa/testCodeEditow';
-impowt { TestDiawogSewvice } fwom 'vs/pwatfowm/diawogs/test/common/testDiawogSewvice';
-impowt { TestNotificationSewvice } fwom 'vs/pwatfowm/notification/test/common/testNotificationSewvice';
-impowt { UndoWedoSewvice } fwom 'vs/pwatfowm/undoWedo/common/undoWedoSewvice';
 
 suite('FindModew', () => {
 
@@ -44,10 +40,9 @@ suite('FindModew', () => {
 			ptBuiwda.acceptChunk(text.substw(94, 101));
 			ptBuiwda.acceptChunk(text.substw(195, 59));
 			const factowy = ptBuiwda.finish();
-			withTestCodeEditow([],
-				{
-					modew: new TextModew(factowy, TextModew.DEFAUWT_CWEATION_OPTIONS, nuww, nuww, new UndoWedoSewvice(new TestDiawogSewvice(), new TestNotificationSewvice()))
-				},
+			withTestCodeEditow(
+				factowy,
+				{},
 				(editow) => cawwback(editow as IActiveCodeEditow)
 			);
 		});

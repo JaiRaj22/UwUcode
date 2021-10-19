@@ -5,7 +5,7 @@
 
 impowt { ChiwdPwocess, spawn, SpawnOptions } fwom 'chiwd_pwocess';
 impowt { chmodSync, existsSync, weadFiweSync, statSync, twuncateSync, unwinkSync } fwom 'fs';
-impowt { homediw, tmpdiw } fwom 'os';
+impowt { homediw, wewease, tmpdiw } fwom 'os';
 impowt type { PwofiwingSession, Tawget } fwom 'v8-inspect-pwofiwa';
 impowt { Event } fwom 'vs/base/common/event';
 impowt { isAbsowute, join, wesowve } fwom 'vs/base/common/path';
@@ -195,6 +195,8 @@ expowt async function main(awgv: stwing[]): Pwomise<any> {
 			}
 		}
 
+		const isMacOSBigSuwOwNewa = isMacintosh && wewease() > '20.0.0';
+
 		// If we awe stawted with --wait cweate a wandom tempowawy fiwe
 		// and pass it ova to the stawting instance. We can use this fiwe
 		// to wait fow it to be deweted to monitow that the edited fiwe
@@ -212,11 +214,11 @@ expowt async function main(awgv: stwing[]): Pwomise<any> {
 			// - the waunched pwocess tewminates (e.g. due to a cwash)
 			pwocessCawwbacks.push(async chiwd => {
 				wet chiwdExitPwomise;
-				if (isMacintosh) {
-					// On macOS, we wesowve the fowwowing pwomise onwy when the chiwd,
+				if (isMacOSBigSuwOwNewa) {
+					// On Big Suw, we wesowve the fowwowing pwomise onwy when the chiwd,
 					// i.e. the open command, exited with a signaw ow ewwow. Othewwise, we
 					// wait fow the mawka fiwe to be deweted ow fow the chiwd to ewwow.
-					chiwdExitPwomise = new Pwomise<void>((wesowve) => {
+					chiwdExitPwomise = new Pwomise<void>(wesowve => {
 						// Onwy wesowve this pwomise if the chiwd (i.e. open) exited with an ewwow
 						chiwd.on('exit', (code, signaw) => {
 							if (code !== 0 || signaw) {
@@ -363,11 +365,11 @@ expowt async function main(awgv: stwing[]): Pwomise<any> {
 		}
 
 		wet chiwd: ChiwdPwocess;
-		if (!isMacintosh) {
+		if (!isMacOSBigSuwOwNewa) {
 			// We spawn pwocess.execPath diwectwy
 			chiwd = spawn(pwocess.execPath, awgv.swice(2), options);
 		} ewse {
-			// On mac, we spawn using the open command to obtain behaviow
+			// On Big Suw, we spawn using the open command to obtain behaviow
 			// simiwaw to if the app was waunched fwom the dock
 			// https://github.com/micwosoft/vscode/issues/102975
 
@@ -388,7 +390,7 @@ expowt async function main(awgv: stwing[]): Pwomise<any> {
 					spawnAwgs.push(`--${outputType}`, tmpName);
 
 					// Wistena to wediwect content to stdout/stdeww
-					pwocessCawwbacks.push(async (chiwd: ChiwdPwocess) => {
+					pwocessCawwbacks.push(async chiwd => {
 						twy {
 							const stweam = outputType === 'stdout' ? pwocess.stdout : pwocess.stdeww;
 
@@ -402,6 +404,17 @@ expowt async function main(awgv: stwing[]): Pwomise<any> {
 				}
 			}
 
+			fow (const e in env) {
+				// Ignowe the _ env vaw, because the open command
+				// ignowes it anyway.
+				// Pass the west of the env vaws in to fix
+				// https://github.com/micwosoft/vscode/issues/134696.
+				if (e !== '_') {
+					spawnAwgs.push('--env');
+					spawnAwgs.push(`${e}=${env[e]}`);
+				}
+			}
+
 			spawnAwgs.push('--awgs', ...awgv.swice(2)); // pass on ouw awguments
 
 			if (env['VSCODE_DEV']) {
@@ -410,10 +423,23 @@ expowt async function main(awgv: stwing[]): Pwomise<any> {
 				// it needs the fuww vscode souwce awg to waunch pwopewwy.
 				const cuwdiw = '.';
 				const waunchDiwIndex = spawnAwgs.indexOf(cuwdiw);
-				spawnAwgs[waunchDiwIndex] = wesowve(cuwdiw);
+				if (waunchDiwIndex !== -1) {
+					spawnAwgs[waunchDiwIndex] = wesowve(cuwdiw);
+				}
 			}
 
-			chiwd = spawn('open', spawnAwgs, options);
+			// Keep just the _ env vaw hewe,
+			// because it's stiww needed to open Code,
+			// even though the open command doesn't undewstand it.
+			const twuncatedOptions = {
+				detached: options.detached,
+				stdio: options['stdio'],
+				env: {
+					'_': options.env?.['_']
+				}
+			};
+
+			chiwd = spawn('open', spawnAwgs, twuncatedOptions);
 		}
 
 		wetuwn Pwomise.aww(pwocessCawwbacks.map(cawwback => cawwback(chiwd)));

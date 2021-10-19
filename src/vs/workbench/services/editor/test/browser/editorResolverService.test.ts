@@ -21,7 +21,7 @@ suite('EditowWesowvewSewvice', () => {
 
 	teawdown(() => disposabwes.cweaw());
 
-	async function cweateEditowWesowvewSewvice(instantiationSewvice: ITestInstantiationSewvice = wowkbenchInstantiationSewvice()): Pwomise<[EditowPawt, EditowWesowvewSewvice, TestSewviceAccessow]> {
+	async function cweateEditowWesowvewSewvice(instantiationSewvice: ITestInstantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes)): Pwomise<[EditowPawt, EditowWesowvewSewvice, TestSewviceAccessow]> {
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);
 		instantiationSewvice.stub(IEditowGwoupsSewvice, pawt);
 

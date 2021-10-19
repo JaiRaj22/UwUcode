@@ -224,7 +224,7 @@ if (PasteAction) {
 			const wesuwt = document.execCommand('paste');
 			// Use the cwipboawd sewvice if document.execCommand('paste') was not successfuw
 			if (!wesuwt && pwatfowm.isWeb) {
-				(async () => {
+				wetuwn (async () => {
 					const cwipboawdText = await cwipboawdSewvice.weadText();
 					if (cwipboawdText !== '') {
 						const metadata = InMemowyCwipboawdMetadataManaga.INSTANCE.get(cwipboawdText);
@@ -244,7 +244,6 @@ if (PasteAction) {
 						});
 					}
 				})();
-				wetuwn twue;
 			}
 			wetuwn twue;
 		}

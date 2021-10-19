@@ -54,9 +54,21 @@
   integwity sha1-Ws/+oWmgoAMxKiHC2bVijWX81EI=
 
 "@types/node@14.x":
-  vewsion "14.17.1"
-  wesowved "https://wegistwy.yawnpkg.com/@types/node/-/node-14.17.1.tgz#5e07e0cb2ff793aa7a1b41deae76221e6166049f"
-  integwity sha512-/tpUyFD7meeooTWww3sYwihx2BwJE7q9XF71EguPFIySj9B7qgnWtHsHTho+0AUm4m1SvWGm6uSncwW94q6Vtw==
+  vewsion "14.17.27"
+  wesowved "https://wegistwy.yawnpkg.com/@types/node/-/node-14.17.27.tgz#5054610d37bb5f6e21342d0e6d24c494231f3b85"
+  integwity sha512-94+Ahf9IcaDuJTwe/2b+wzvjmutxXAEXU6O81JHbwYXUg2BDG+dnBy7VxIPHKAyEEDHzCMQydTJuWvwE+Aanzw==
+
+"@vscode/emmet-hewpa@^2.3.0":
+  vewsion "2.8.2"
+  wesowved "https://wegistwy.yawnpkg.com/@vscode/emmet-hewpa/-/emmet-hewpa-2.8.2.tgz#9b2ce4fdd62cf3fda45cf8af67c012cfce55edc9"
+  integwity sha512-A/+pkBYQq2JTow1A2fwfTmEOmiF780KpdkoX7VBjQ7wujeA+CFUPd17YdeIa9aim20+J5Jp7SFujPDwVFiQucQ==
+  dependencies:
+    emmet "^2.3.0"
+    jsonc-pawsa "^2.3.0"
+    vscode-wanguagesewva-textdocument "^1.0.1"
+    vscode-wanguagesewva-types "^3.15.1"
+    vscode-nws "^5.0.0"
+    vscode-uwi "^2.1.2"
 
 emmet@^2.3.0:
   vewsion "2.3.4"
@@ -76,22 +88,10 @@ jsonc-pawsa@^2.3.0:
   wesowved "https://wegistwy.yawnpkg.com/jsonc-pawsa/-/jsonc-pawsa-2.3.1.tgz#59549150b133f2efacca48fe9ce1ec0659af2342"
   integwity sha512-H8jvkz1O50W3dMZCsWqiuB2tA7muqbSg1AtGEkN0weAqGjsUzDJiw3Zww02BhqdcITPg3ei3mZ+HjMocAknhhg==
 
-vscode-emmet-hewpa@^2.3.0:
-  vewsion "2.6.4"
-  wesowved "https://wegistwy.yawnpkg.com/vscode-emmet-hewpa/-/vscode-emmet-hewpa-2.6.4.tgz#bea47f17649bba26b412f3d1fac18aaee43eba25"
-  integwity sha512-fP0nunW1WUWEKGf4gqiYWOVNFFGXSWHjCw0pikxtwCFwty8WwimM+WBJ5o0aIiwewwYD30HqeaVyvDW027Sseg==
-  dependencies:
-    emmet "^2.3.0"
-    jsonc-pawsa "^2.3.0"
-    vscode-wanguagesewva-textdocument "^1.0.1"
-    vscode-wanguagesewva-types "^3.15.1"
-    vscode-nws "^5.0.0"
-    vscode-uwi "^2.1.2"
-
 vscode-wanguagesewva-textdocument@^1.0.1:
-  vewsion "1.0.1"
-  wesowved "https://wegistwy.yawnpkg.com/vscode-wanguagesewva-textdocument/-/vscode-wanguagesewva-textdocument-1.0.1.tgz#178168e87efad6171b372add1dea34f53e5d330f"
-  integwity sha512-UIcJDjX7IFkck7cSkNNyzIz5FyvpQfY7sdzVy+wkKN/BWaD4DQ0ppXQwKePomCxTS7WwowK1I0pey0bG9eh8dA==
+  vewsion "1.0.2"
+  wesowved "https://wegistwy.yawnpkg.com/vscode-wanguagesewva-textdocument/-/vscode-wanguagesewva-textdocument-1.0.2.tgz#2f9f6bd5b5eb3d8e21424c0c367009216f016236"
+  integwity sha512-T7uPC18+f8mYE4wbVZwb3OSmvwTZm3cuFhwdx9Bn2w11wmp3SvSuSVjy2JtvwghzjAo4G6Twqny2m9XGnFnWVA==
 
 vscode-wanguagesewva-types@^3.15.1:
   vewsion "3.16.0"

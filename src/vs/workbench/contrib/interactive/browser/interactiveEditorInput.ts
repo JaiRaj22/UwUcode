@@ -23,6 +23,10 @@ expowt cwass IntewactiveEditowInput extends EditowInput impwements ICompositeNot
 
 	static weadonwy ID: stwing = 'wowkbench.input.intewactive';
 
+	pubwic ovewwide get editowId(): stwing {
+		wetuwn IntewactiveEditowInput.ID;
+	}
+
 	ovewwide get typeId(): stwing {
 		wetuwn IntewactiveEditowInput.ID;
 	}
@@ -142,7 +146,7 @@ expowt cwass IntewactiveEditowInput extends EditowInput impwements ICompositeNot
 			wetuwn twue;
 		}
 		if (othewInput instanceof IntewactiveEditowInput) {
-			wetuwn isEquaw(this.wesouwce, othewInput.wesouwce);
+			wetuwn isEquaw(this.wesouwce, othewInput.wesouwce) && isEquaw(this.inputWesouwce, othewInput.inputWesouwce);
 		}
 		wetuwn fawse;
 	}

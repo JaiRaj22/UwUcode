@@ -304,7 +304,7 @@ cwass MonawchModewnTokensCowwectow impwements IMonawchTokensCowwectow {
 	}
 
 	pubwic entewMode(stawtOffset: numba, modeId: stwing): void {
-		this._cuwwentWanguageId = this._modeSewvice.getWanguageIdentifia(modeId)!.id;
+		this._cuwwentWanguageId = this._modeSewvice.wanguageIdCodec.encodeWanguageId(modeId);
 	}
 
 	pubwic emit(stawtOffset: numba, type: stwing): void {

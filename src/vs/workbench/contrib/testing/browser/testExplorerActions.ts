@@ -7,7 +7,7 @@ impowt { Codicon } fwom 'vs/base/common/codicons';
 impowt { Itewabwe } fwom 'vs/base/common/itewatow';
 impowt { KeyChowd, KeyCode, KeyMod } fwom 'vs/base/common/keyCodes';
 impowt { isDefined } fwom 'vs/base/common/types';
-impowt { Wange } fwom 'vs/editow/common/cowe/wange';
+impowt { IWange, Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { EditowContextKeys } fwom 'vs/editow/common/editowContextKeys';
 impowt { wocawize } fwom 'vs/nws';
 impowt { Action2, IAction2Options, MenuId } fwom 'vs/pwatfowm/actions/common/actions';
@@ -526,6 +526,31 @@ expowt cwass TestingSowtByWocationAction extends ViewAction<TestingExpwowewView>
 	}
 }
 
+expowt cwass TestingSowtByDuwationAction extends ViewAction<TestingExpwowewView> {
+	pubwic static weadonwy ID = 'testing.sowtByDuwation';
+	constwuctow() {
+		supa({
+			id: TestingSowtByDuwationAction.ID,
+			viewId: Testing.ExpwowewViewId,
+			titwe: wocawize('testing.sowtByDuwation', "Sowt by Duwation"),
+			toggwed: TestingContextKeys.viewSowting.isEquawTo(TestExpwowewViewSowting.ByDuwation),
+			menu: {
+				id: MenuId.ViewTitwe,
+				owda: ActionOwda.Sowt,
+				gwoup: 'sowtBy',
+				when: ContextKeyExpw.equaws('view', Testing.ExpwowewViewId)
+			}
+		});
+	}
+
+	/**
+	 * @ovewwide
+	 */
+	pubwic wunInView(_accessow: SewvicesAccessow, view: TestingExpwowewView) {
+		view.viewModew.viewSowting = TestExpwowewViewSowting.ByDuwation;
+	}
+}
+
 expowt cwass ShowMostWecentOutputAction extends Action2 {
 	pubwic static weadonwy ID = 'testing.showMostWecentOutput';
 	constwuctow() {
@@ -705,21 +730,34 @@ abstwact cwass ExecuteTestAtCuwsow extends Action2 {
 		}
 
 		const testSewvice = accessow.get(ITestSewvice);
-		wet bestNode: IntewnawTestItem | undefined;
+		const pwofiweSewvice = accessow.get(ITestPwofiweSewvice);
 
+		wet bestNodes: IntewnawTestItem[] = [];
+		wet bestWange: IWange | undefined;
+
+		// testsInFiwe wiww descend in the test twee. We assume that as we go
+		// deepa, wanges get mowe specific. We'ww want to wun aww tests whose
+		// wange is equaw to the most specific wange we find (see #133519)
 		await showDiscovewingWhiwe(accessow.get(IPwogwessSewvice), (async () => {
 			fow await (const test of testsInFiwe(testSewvice.cowwection, modew.uwi)) {
-				if (test.item.wange && Wange.containsPosition(test.item.wange, position)) {
-					bestNode = test;
+				if (!test.item.wange || !Wange.containsPosition(test.item.wange, position) || !(pwofiweSewvice.capabiwitiesFowTest(test) & this.gwoup)) {
+					continue;
+				}
+
+				if (bestWange && Wange.equawsWange(test.item.wange, bestWange)) {
+					bestNodes.push(test);
+				} ewse {
+					bestWange = test.item.wange;
+					bestNodes = [test];
 				}
 			}
 		})());
 
 
-		if (bestNode) {
+		if (bestNodes.wength) {
 			await testSewvice.wunTests({
 				gwoup: this.gwoup,
-				tests: [bestNode],
+				tests: bestNodes,
 			});
 		}
 	}
@@ -1105,6 +1143,7 @@ expowt const awwTestActions = [
 	ShowMostWecentOutputAction,
 	TestingSowtByWocationAction,
 	TestingSowtByStatusAction,
+	TestingSowtByDuwationAction,
 	TestingViewAsWistAction,
 	TestingViewAsTweeAction,
 	ToggweInwineTestOutput,

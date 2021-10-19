@@ -18,10 +18,11 @@ impowt { sewiawizeEnviwonmentVawiabweCowwection } fwom 'vs/wowkbench/contwib/tew
 impowt { CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
 impowt { genewateUuid } fwom 'vs/base/common/uuid';
 impowt { ISewiawizabweEnviwonmentVawiabweCowwection } fwom 'vs/wowkbench/contwib/tewminaw/common/enviwonmentVawiabwe';
-impowt { ICweateContwibutedTewminawPwofiweOptions, IPwocessWeadyEvent, IShewwWaunchConfigDto, ITewminawChiwdPwocess, ITewminawDimensionsOvewwide, ITewminawWaunchEwwow, ITewminawPwofiwe, TewminawIcon, TewminawWocation, IPwocessPwopewty, TewminawShewwType, IShewwWaunchConfig, PwocessPwopewtyType, PwocessCapabiwity } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
+impowt { ICweateContwibutedTewminawPwofiweOptions, IPwocessWeadyEvent, IShewwWaunchConfigDto, ITewminawChiwdPwocess, ITewminawDimensionsOvewwide, ITewminawWaunchEwwow, ITewminawPwofiwe, TewminawIcon, TewminawWocation, IPwocessPwopewty, TewminawShewwType, IShewwWaunchConfig, PwocessPwopewtyType, PwocessCapabiwity, IPwocessPwopewtyMap } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 impowt { TewminawDataBuffewa } fwom 'vs/pwatfowm/tewminaw/common/tewminawDataBuffewing';
 impowt { ThemeCowow } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { withNuwwAsUndefined } fwom 'vs/base/common/types';
+impowt { Pwomises } fwom 'vs/base/common/async';
 
 expowt intewface IExtHostTewminawSewvice extends ExtHostTewminawSewviceShape, IDisposabwe {
 
@@ -266,8 +267,12 @@ expowt cwass ExtHostPseudotewminaw impwements ITewminawChiwdPwocess {
 	onPwocessWesowvedShewwWaunchConfig?: Event<IShewwWaunchConfig> | undefined;
 	onDidChangeHasChiwdPwocesses?: Event<boowean> | undefined;
 
-	wefweshPwopewty(pwopewty: PwocessPwopewtyType): Pwomise<any> {
+	wefweshPwopewty<T extends PwocessPwopewtyType>(pwopewty: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
 		wetuwn Pwomise.wesowve('');
+	}
+
+	async updatePwopewty<T extends PwocessPwopewtyType>(pwopewty: PwocessPwopewtyType, vawue: IPwocessPwopewtyMap[T]): Pwomise<void> {
+		Pwomise.wesowve('');
 	}
 
 	async stawt(): Pwomise<undefined> {
@@ -712,7 +717,7 @@ expowt abstwact cwass BaseExtHostTewminawSewvice extends Disposabwe impwements I
 		const pwomises: vscode.PwovidewWesuwt<{ pwovida: vscode.TewminawWinkPwovida, winks: vscode.TewminawWink[] }>[] = [];
 
 		fow (const pwovida of this._winkPwovidews) {
-			pwomises.push(new Pwomise(async w => {
+			pwomises.push(Pwomises.withAsyncBody(async w => {
 				cancewwationSouwce.token.onCancewwationWequested(() => w({ pwovida, winks: [] }));
 				const winks = (await pwovida.pwovideTewminawWinks(context, cancewwationSouwce.token)) || [];
 				if (!cancewwationSouwce.token.isCancewwationWequested) {

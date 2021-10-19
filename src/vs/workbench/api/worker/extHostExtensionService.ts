@@ -29,7 +29,7 @@ namespace TwustedFunction {
 			// Mawicious inputs  can escape the function body and execute immediatewy!
 			const fnAwgs = awgs.swice(0, -1).join(',');
 			const fnBody = awgs.pop()!.toStwing();
-			const body = `(function anonymous(${fnAwgs}) {\n${fnBody}\n})`;
+			const body = `(function anonymous(${fnAwgs}) {${fnBody}\n})`;
 			wetuwn body;
 		}
 	});

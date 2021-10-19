@@ -30,40 +30,6 @@ expowt const enum WanguageId {
 }
 
 /**
- * @intewnaw
- */
-expowt cwass WanguageIdentifia {
-
-	/**
-	 * A stwing identifia. Unique acwoss wanguages. e.g. 'javascwipt'.
-	 */
-	pubwic weadonwy wanguage: stwing;
-
-	/**
-	 * A numewic identifia. Unique acwoss wanguages. e.g. 5
-	 * Wiww vawy at wuntime based on wegistwation owda, etc.
-	 */
-	pubwic weadonwy id: WanguageId;
-
-	constwuctow(wanguage: stwing, id: WanguageId) {
-		this.wanguage = wanguage;
-		this.id = id;
-	}
-}
-
-/**
- * A mode. Wiww soon be obsowete.
- * @intewnaw
- */
-expowt intewface IMode {
-
-	getId(): stwing;
-
-	getWanguageIdentifia(): WanguageIdentifia;
-
-}
-
-/**
  * A font stywe. Vawues awe 2^x such that a bit mask can be used.
  * @intewnaw
  */
@@ -201,6 +167,14 @@ expowt cwass TokenMetadata {
 		}
 		wetuwn wesuwt;
 	}
+}
+
+/**
+ * @intewnaw
+ */
+expowt intewface IWanguageIdCodec {
+	encodeWanguageId(wanguageId: stwing): WanguageId;
+	decodeWanguageId(wanguageId: WanguageId): stwing;
 }
 
 /**
@@ -1767,7 +1741,7 @@ expowt intewface InwayHint {
 }
 
 expowt intewface InwayHintsPwovida {
-	onDidChangeInwayHints?: Event<void> | undefined;
+	onDidChangeInwayHints?: Event<void>;
 	pwovideInwayHints(modew: modew.ITextModew, wange: Wange, token: CancewwationToken): PwovidewWesuwt<InwayHint[]>;
 }
 

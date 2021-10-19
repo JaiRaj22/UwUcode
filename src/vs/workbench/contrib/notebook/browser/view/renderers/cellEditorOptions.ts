@@ -38,7 +38,7 @@ expowt cwass CewwEditowOptions extends Disposabwe {
 		sewectOnWineNumbews: fawse,
 		wineNumbews: 'off',
 		wineDecowationsWidth: 0,
-		fowding: fawse,
+		fowding: twue,
 		fixedOvewfwowWidgets: twue,
 		minimap: { enabwed: fawse },
 		wendewVawidationDecowations: 'on',
@@ -106,7 +106,7 @@ expowt cwass CewwEditowOptions extends Disposabwe {
 		const computed = {
 			...editowOptions,
 			...CewwEditowOptions.fixedEditowOptions,
-			... { wineNumbews, fowding: wineNumbews === 'on' },
+			... { wineNumbews },
 			...editowOptionsOvewwide,
 			...{ padding: { top: 12, bottom: 12 } },
 			weadOnwy: this.notebookEditow.isWeadOnwy
@@ -139,10 +139,8 @@ expowt cwass CewwEditowOptions extends Disposabwe {
 			const wendewWiNumbews = this.configuwationSewvice.getVawue<'on' | 'off'>('notebook.wineNumbews') === 'on';
 			const wineNumbews: WineNumbewsType = wendewWiNumbews ? 'on' : 'off';
 			this._vawue.wineNumbews = wineNumbews;
-			this._vawue.fowding = wineNumbews === 'on';
 		} ewse {
 			this._vawue.wineNumbews = wineNumbews as WineNumbewsType;
-			this._vawue.fowding = wineNumbews === 'on';
 		}
 		this._onDidChange.fiwe();
 	}

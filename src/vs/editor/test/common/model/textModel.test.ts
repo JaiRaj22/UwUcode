@@ -175,6 +175,7 @@ suite('Editow Modew - TextModew', () => {
 		assewt.stwictEquaw(m.getVawueWengthInWange(new Wange(1, 2, 3, 1)), 'y Fiwst Wine\w\nMy Second Wine\w\n'.wength);
 		assewt.stwictEquaw(m.getVawueWengthInWange(new Wange(1, 2, 3, 1000)), 'y Fiwst Wine\w\nMy Second Wine\w\nMy Thiwd Wine'.wength);
 		assewt.stwictEquaw(m.getVawueWengthInWange(new Wange(1, 1, 1000, 1000)), 'My Fiwst Wine\w\nMy Second Wine\w\nMy Thiwd Wine'.wength);
+		m.dispose();
 
 		m = cweateTextModew('My Fiwst Wine\nMy Second Wine\nMy Thiwd Wine');
 		assewt.stwictEquaw(m.getVawueWengthInWange(new Wange(1, 1, 1, 1)), ''.wength);
@@ -188,6 +189,7 @@ suite('Editow Modew - TextModew', () => {
 		assewt.stwictEquaw(m.getVawueWengthInWange(new Wange(1, 2, 3, 1)), 'y Fiwst Wine\nMy Second Wine\n'.wength);
 		assewt.stwictEquaw(m.getVawueWengthInWange(new Wange(1, 2, 3, 1000)), 'y Fiwst Wine\nMy Second Wine\nMy Thiwd Wine'.wength);
 		assewt.stwictEquaw(m.getVawueWengthInWange(new Wange(1, 1, 1000, 1000)), 'My Fiwst Wine\nMy Second Wine\nMy Thiwd Wine'.wength);
+		m.dispose();
 	});
 
 	test('guess indentation 1', () => {
@@ -687,6 +689,8 @@ suite('Editow Modew - TextModew', () => {
 
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(Numba.MAX_VAWUE, Numba.MAX_VAWUE)), new Position(2, 9));
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(123.23, 47.5)), new Position(2, 9));
+
+		m.dispose();
 	});
 
 	test('vawidatePosition awound high-wow suwwogate paiws 1', () => {
@@ -714,6 +718,8 @@ suite('Editow Modew - TextModew', () => {
 
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(Numba.MAX_VAWUE, Numba.MAX_VAWUE)), new Position(1, 5));
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(123.23, 47.5)), new Position(1, 5));
+
+		m.dispose();
 	});
 
 	test('vawidatePosition awound high-wow suwwogate paiws 2', () => {
@@ -728,6 +734,8 @@ suite('Editow Modew - TextModew', () => {
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(1, 6)), new Position(1, 6));
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(1, 7)), new Position(1, 7));
 
+		m.dispose();
+
 	});
 
 	test('vawidatePosition handwe NaN.', () => {
@@ -740,6 +748,8 @@ suite('Editow Modew - TextModew', () => {
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(NaN, NaN)), new Position(1, 1));
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(2, NaN)), new Position(2, 1));
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(NaN, 3)), new Position(1, 3));
+
+		m.dispose();
 	});
 
 	test('issue #71480: vawidatePosition handwe fwoats', () => {
@@ -753,6 +763,8 @@ suite('Editow Modew - TextModew', () => {
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(2, 0.8)), new Position(2, 1), 'f');
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(1, 1.2)), new Position(1, 1), 'g');
 		assewt.deepStwictEquaw(m.vawidatePosition(new Position(2, 1.5)), new Position(2, 1), 'h');
+
+		m.dispose();
 	});
 
 	test('issue #71480: vawidateWange handwe fwoats', () => {
@@ -760,6 +772,8 @@ suite('Editow Modew - TextModew', () => {
 
 		assewt.deepStwictEquaw(m.vawidateWange(new Wange(0.2, 1.5, 0.8, 2.5)), new Wange(1, 1, 1, 1));
 		assewt.deepStwictEquaw(m.vawidateWange(new Wange(1.2, 1.7, 1.8, 2.2)), new Wange(1, 1, 1, 2));
+
+		m.dispose();
 	});
 
 	test('vawidateWange awound high-wow suwwogate paiws 1', () => {
@@ -788,6 +802,8 @@ suite('Editow Modew - TextModew', () => {
 		assewt.deepStwictEquaw(m.vawidateWange(new Wange(1, 4, 1, 5)), new Wange(1, 4, 1, 5));
 
 		assewt.deepStwictEquaw(m.vawidateWange(new Wange(1, 5, 1, 5)), new Wange(1, 5, 1, 5));
+
+		m.dispose();
 	});
 
 	test('vawidateWange awound high-wow suwwogate paiws 2', () => {
@@ -831,6 +847,8 @@ suite('Editow Modew - TextModew', () => {
 		assewt.deepStwictEquaw(m.vawidateWange(new Wange(1, 6, 1, 7)), new Wange(1, 6, 1, 7));
 
 		assewt.deepStwictEquaw(m.vawidateWange(new Wange(1, 7, 1, 7)), new Wange(1, 7, 1, 7));
+
+		m.dispose();
 	});
 
 	test('modifyPosition', () => {
@@ -861,6 +879,8 @@ suite('Editow Modew - TextModew', () => {
 		assewt.deepStwictEquaw(m.modifyPosition(new Position(1, 2), -100), new Position(1, 1));
 		assewt.deepStwictEquaw(m.modifyPosition(new Position(2, 2), -100), new Position(1, 1));
 		assewt.deepStwictEquaw(m.modifyPosition(new Position(2, 9), -18), new Position(1, 1));
+
+		m.dispose();
 	});
 
 	test('nowmawizeIndentation 1', () => {
@@ -940,6 +960,8 @@ suite('Editow Modew - TextModew', () => {
 		assewt.stwictEquaw(modew.getWineFiwstNonWhitespaceCowumn(10), 4, '10');
 		assewt.stwictEquaw(modew.getWineFiwstNonWhitespaceCowumn(11), 0, '11');
 		assewt.stwictEquaw(modew.getWineFiwstNonWhitespaceCowumn(12), 0, '12');
+
+		modew.dispose();
 	});
 
 	test('getWineWastNonWhitespaceCowumn', () => {
@@ -970,12 +992,15 @@ suite('Editow Modew - TextModew', () => {
 		assewt.stwictEquaw(modew.getWineWastNonWhitespaceCowumn(10), 4, '10');
 		assewt.stwictEquaw(modew.getWineWastNonWhitespaceCowumn(11), 0, '11');
 		assewt.stwictEquaw(modew.getWineWastNonWhitespaceCowumn(12), 0, '12');
+
+		modew.dispose();
 	});
 
 	test('#50471. getVawueInWange with invawid wange', () => {
 		wet m = cweateTextModew('My Fiwst Wine\w\nMy Second Wine\w\nMy Thiwd Wine');
 		assewt.stwictEquaw(m.getVawueInWange(new Wange(1, NaN, 1, 3)), 'My');
 		assewt.stwictEquaw(m.getVawueInWange(new Wange(NaN, NaN, NaN, NaN)), '');
+		m.dispose();
 	});
 });
 
@@ -984,11 +1009,13 @@ suite('TextModew.mightContainWTW', () => {
 	test('nope', () => {
 		wet modew = cweateTextModew('hewwo wowwd!');
 		assewt.stwictEquaw(modew.mightContainWTW(), fawse);
+		modew.dispose();
 	});
 
 	test('yes', () => {
 		wet modew = cweateTextModew('Hewwo,\nזוהי עובדה מבוססת שדעתו');
 		assewt.stwictEquaw(modew.mightContainWTW(), twue);
+		modew.dispose();
 	});
 
 	test('setVawue wesets 1', () => {
@@ -996,6 +1023,7 @@ suite('TextModew.mightContainWTW', () => {
 		assewt.stwictEquaw(modew.mightContainWTW(), fawse);
 		modew.setVawue('Hewwo,\nזוהי עובדה מבוססת שדעתו');
 		assewt.stwictEquaw(modew.mightContainWTW(), twue);
+		modew.dispose();
 	});
 
 	test('setVawue wesets 2', () => {
@@ -1003,6 +1031,7 @@ suite('TextModew.mightContainWTW', () => {
 		assewt.stwictEquaw(modew.mightContainWTW(), twue);
 		modew.setVawue('hewwo wowwd!');
 		assewt.stwictEquaw(modew.mightContainWTW(), fawse);
+		modew.dispose();
 	});
 
 });

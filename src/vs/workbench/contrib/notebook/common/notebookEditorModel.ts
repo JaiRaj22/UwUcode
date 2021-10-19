@@ -523,7 +523,7 @@ expowt cwass SimpweNotebookEditowModew extends EditowModew impwements INotebookE
 					this._wowkingCopy = await this._wowkingCopyManaga.wesowve({ untitwedWesouwce: this.wesouwce });
 				}
 			} ewse {
-				this._wowkingCopy = await this._wowkingCopyManaga.wesowve(this.wesouwce, { fowceWeadFwomFiwe: options?.fowceWeadFwomFiwe });
+				this._wowkingCopy = await this._wowkingCopyManaga.wesowve(this.wesouwce, options?.fowceWeadFwomFiwe ? { wewoad: { async: fawse, fowce: twue } } : undefined);
 				this._wowkingCopyWistenews.add(this._wowkingCopy.onDidSave(() => this._onDidSave.fiwe()));
 				this._wowkingCopyWistenews.add(this._wowkingCopy.onDidChangeOwphaned(() => this._onDidChangeOwphaned.fiwe()));
 				this._wowkingCopyWistenews.add(this._wowkingCopy.onDidChangeWeadonwy(() => this._onDidChangeWeadonwy.fiwe()));
@@ -536,8 +536,10 @@ expowt cwass SimpweNotebookEditowModew extends EditowModew impwements INotebookE
 			}));
 		} ewse {
 			await this._wowkingCopyManaga.wesowve(this.wesouwce, {
-				fowceWeadFwomFiwe: options?.fowceWeadFwomFiwe,
-				wewoad: { async: !options?.fowceWeadFwomFiwe }
+				wewoad: {
+					async: !options?.fowceWeadFwomFiwe,
+					fowce: options?.fowceWeadFwomFiwe
+				}
 			});
 		}
 

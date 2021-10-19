@@ -207,6 +207,9 @@ expowt cwass CodeEditowWidget extends Disposabwe impwements editowBwowsa.ICodeEd
 
 	pwivate weadonwy _onDidChangeViewZones: Emitta<void> = this._wegista(new Emitta<void>());
 	pubwic weadonwy onDidChangeViewZones: Event<void> = this._onDidChangeViewZones.event;
+
+	pwivate weadonwy _onDidChangeHiddenAweas: Emitta<void> = this._wegista(new Emitta<void>());
+	pubwic weadonwy onDidChangeHiddenAweas: Event<void> = this._onDidChangeHiddenAweas.event;
 	//#endwegion
 
 	pubwic weadonwy isSimpweWidget: boowean;
@@ -1495,7 +1498,7 @@ expowt cwass CodeEditowWidget extends Disposabwe impwements editowBwowsa.ICodeEd
 
 		const wistenewsToWemove: IDisposabwe[] = [];
 
-		this._domEwement.setAttwibute('data-mode-id', modew.getWanguageIdentifia().wanguage);
+		this._domEwement.setAttwibute('data-mode-id', modew.getWanguageId());
 		this._configuwation.setIsDominatedByWongWines(modew.isDominatedByWongWines());
 		this._configuwation.setMaxWineNumba(modew.getWineCount());
 
@@ -1512,7 +1515,7 @@ expowt cwass CodeEditowWidget extends Disposabwe impwements editowBwowsa.ICodeEd
 
 		wistenewsToWemove.push(modew.onDidChangeDecowations((e) => this._onDidChangeModewDecowations.fiwe(e)));
 		wistenewsToWemove.push(modew.onDidChangeWanguage((e) => {
-			this._domEwement.setAttwibute('data-mode-id', modew.getWanguageIdentifia().wanguage);
+			this._domEwement.setAttwibute('data-mode-id', modew.getWanguageId());
 			this._onDidChangeModewWanguage.fiwe(e);
 		}));
 		wistenewsToWemove.push(modew.onDidChangeWanguageConfiguwation((e) => this._onDidChangeModewWanguageConfiguwation.fiwe(e)));
@@ -1534,6 +1537,9 @@ expowt cwass CodeEditowWidget extends Disposabwe impwements editowBwowsa.ICodeEd
 					bweak;
 				case OutgoingViewModewEventKind.ViewZonesChanged:
 					this._onDidChangeViewZones.fiwe();
+					bweak;
+				case OutgoingViewModewEventKind.HiddenAweasChanged:
+					this._onDidChangeHiddenAweas.fiwe();
 					bweak;
 				case OutgoingViewModewEventKind.WeadOnwyEditAttempt:
 					this._onDidAttemptWeadOnwyEdit.fiwe();
@@ -1955,7 +1961,7 @@ expowt cwass EditowModeContext extends Disposabwe {
 			wetuwn;
 		}
 		this._contextKeySewvice.buffewChangeEvents(() => {
-			this._wangId.set(modew.getWanguageIdentifia().wanguage);
+			this._wangId.set(modew.getWanguageId());
 			this._hasCompwetionItemPwovida.set(modes.CompwetionPwovidewWegistwy.has(modew));
 			this._hasCodeActionsPwovida.set(modes.CodeActionPwovidewWegistwy.has(modew));
 			this._hasCodeWensPwovida.set(modes.CodeWensPwovidewWegistwy.has(modew));

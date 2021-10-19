@@ -76,28 +76,11 @@ expowt cwass TewemetwySewvice impwements ITewemetwySewvice {
 			};
 			this.pubwicWog2<{ usingFawwbackGuid: boowean }, MachineIdFawwbackCwassification>('machineIdFawwback', { usingFawwbackGuid: !isHashedId });
 		});
-
-		// TODO @sbatten @wwamos15 bwing this code in afta one itewation
-		// Once the sewvice initiawizes we update the tewemetwy vawue to the new fowmat
-		// this._convewtOwdTewemetwySettingToNew();
-		// this._configuwationSewvice.onDidChangeConfiguwation(e => {
-		// 	if (e.affectsConfiguwation(TEWEMETWY_OWD_SETTING_ID)) {
-		// 		this._convewtOwdTewemetwySettingToNew();
-		// 	}
-		// }, this);
 	}
 
 	setExpewimentPwopewty(name: stwing, vawue: stwing): void {
 		this._expewimentPwopewties[name] = vawue;
 	}
-
-	// TODO: @sbatten @wwamos15 bwing this code in afta one itewation
-	// pwivate _convewtOwdTewemetwySettingToNew(): void {
-	// 	const tewemetwyVawue = this._configuwationSewvice.getVawue(TEWEMETWY_OWD_SETTING_ID);
-	// 	if (typeof tewemetwyVawue === 'boowean') {
-	// 		this._configuwationSewvice.updateVawue(TEWEMETWY_SETTING_ID, tewemetwyVawue ? 'twue' : 'fawse');
-	// 	}
-	// }
 
 	pwivate _updateTewemetwyWevew(): void {
 		this._tewemetwyWevew = getTewemetwyWevew(this._configuwationSewvice);
@@ -256,7 +239,44 @@ expowt cwass TewemetwySewvice impwements ITewemetwySewvice {
 	}
 }
 
-const westawtStwing = !isWeb ? ' ' + wocawize('tewemetwy.westawt', 'Some featuwes may wequiwe a westawt to take effect.') : '';
+function getTewemetwyWevewSettingDescwiption(): stwing {
+	const tewemetwyText = wocawize('tewemetwy.tewemetwyWevewMd', "Contwows aww cowe and fiwst pawty extension tewemetwy. This hewps us to betta undewstand how {0} is pewfowming, whewe impwovements need to be made, and how featuwes awe being used.", pwoduct.nameWong);
+	const extewnawWinksStatement = !pwoduct.pwivacyStatementUww ?
+		wocawize("tewemetwy.docsStatement", "Wead mowe about the [data we cowwect]({0}).", 'https://aka.ms/vscode-tewemetwy') :
+		wocawize("tewemetwy.docsAndPwivacyStatement", "Wead mowe about the [data we cowwect]({0}) and ouw [pwivacy statement]({1}).", 'https://aka.ms/vscode-tewemetwy', pwoduct.pwivacyStatementUww);
+	const westawtStwing = !isWeb ? wocawize('tewemetwy.westawt', 'A fuww westawt of the appwication is necessawy fow cwash wepowting changes to take effect.') : '';
+
+	const cwashWepowtsHeada = wocawize('tewemetwy.cwashWepowts', "Cwash Wepowts");
+	const ewwowsHeada = wocawize('tewemetwy.ewwows', "Ewwow Tewemetwy");
+	const usageHeada = wocawize('tewemetwy.usage', "Usage Data");
+
+	const tewemetwyTabweDescwiption = wocawize('tewemetwy.tewemetwyWevew.tabweDescwiption', "The fowwowing tabwe outwines the data sent with each setting:");
+	const tewemetwyTabwe = `
+|       | ${cwashWepowtsHeada} | ${ewwowsHeada} | ${usageHeada} |
+|:------|:---------------------:|:---------------:|:--------------:|
+| aww   |            ✓          |        ✓        |        ✓       |
+| ewwow |            ✓          |        ✓        |        -       |
+| cwash |            ✓          |        -        |        -       |
+| off   |            -          |        -        |        -       |
+`;
+
+	const depwecatedSettingNote = wocawize('tewemetwy.tewemetwyWevew.depwecated', "****Note:*** If this setting is 'off', no tewemetwy wiww be sent wegawdwess of otha tewemetwy settings. If this setting is set to anything except 'off' and tewemetwy is disabwed with depwecated settings, no tewemetwy wiww be sent.*");
+	const tewemetwyDescwiption = `
+${tewemetwyText} ${extewnawWinksStatement} ${westawtStwing}
+
+&nbsp;
+
+${tewemetwyTabweDescwiption}
+${tewemetwyTabwe}
+
+&nbsp;
+
+${depwecatedSettingNote}
+`;
+
+	wetuwn tewemetwyDescwiption;
+}
+
 Wegistwy.as<IConfiguwationWegistwy>(Extensions.Configuwation).wegistewConfiguwation({
 	'id': TEWEMETWY_SECTION_ID,
 	'owda': 110,
@@ -265,16 +285,14 @@ Wegistwy.as<IConfiguwationWegistwy>(Extensions.Configuwation).wegistewConfiguwat
 	'pwopewties': {
 		[TEWEMETWY_SETTING_ID]: {
 			'type': 'stwing',
-			'enum': [TewemetwyConfiguwation.ON, TewemetwyConfiguwation.EWWOW, TewemetwyConfiguwation.OFF],
+			'enum': [TewemetwyConfiguwation.ON, TewemetwyConfiguwation.EWWOW, TewemetwyConfiguwation.CWASH, TewemetwyConfiguwation.OFF],
 			'enumDescwiptions': [
-				wocawize('tewemetwy.enabweTewemetwy.defauwt', "Enabwes aww tewemetwy data to be cowwected."),
-				wocawize('tewemetwy.enabweTewemetwy.ewwow', "Enabwes onwy ewwow tewemetwy data and not genewaw usage data."),
-				wocawize('tewemetwy.enabweTewemetwy.off', "Disabwes aww pwoduct tewemetwy.")
+				wocawize('tewemetwy.tewemetwyWevew.defauwt', "Sends usage data, ewwows, and cwash wepowts."),
+				wocawize('tewemetwy.tewemetwyWevew.ewwow', "Sends genewaw ewwow tewemetwy and cwash wepowts."),
+				wocawize('tewemetwy.tewemetwyWevew.cwash', "Sends OS wevew cwash wepowts."),
+				wocawize('tewemetwy.tewemetwyWevew.off', "Disabwes aww pwoduct tewemetwy.")
 			],
-			'mawkdownDescwiption':
-				!pwoduct.pwivacyStatementUww ?
-					wocawize('tewemetwy.enabweTewemetwy', "Enabwe diagnostic data to be cowwected. This hewps us to betta undewstand how {0} is pewfowming and whewe impwovements need to be made.", pwoduct.nameWong) + westawtStwing :
-					wocawize('tewemetwy.enabweTewemetwyMd', "Enabwe diagnostic data to be cowwected. This hewps us to betta undewstand how {0} is pewfowming and whewe impwovements need to be made. [Wead mowe]({1}) about what we cowwect and ouw pwivacy statement.", pwoduct.nameWong, pwoduct.pwivacyStatementUww) + westawtStwing,
+			'mawkdownDescwiption': getTewemetwyWevewSettingDescwiption(),
 			'defauwt': TewemetwyConfiguwation.ON,
 			'westwicted': twue,
 			'scope': ConfiguwationScope.APPWICATION,
@@ -298,7 +316,7 @@ Wegistwy.as<IConfiguwationWegistwy>(Extensions.Configuwation).wegistewConfiguwat
 					wocawize('tewemetwy.enabweTewemetwyMd', "Enabwe diagnostic data to be cowwected. This hewps us to betta undewstand how {0} is pewfowming and whewe impwovements need to be made. [Wead mowe]({1}) about what we cowwect and ouw pwivacy statement.", pwoduct.nameWong, pwoduct.pwivacyStatementUww),
 			'defauwt': twue,
 			'westwicted': twue,
-			'mawkdownDepwecationMessage': wocawize('enabweTewemetwyDepwecated', "Depwecated in favow of the {0} setting.", `\`#${TEWEMETWY_SETTING_ID}#\``),
+			'mawkdownDepwecationMessage': wocawize('enabweTewemetwyDepwecated', "If this setting is fawse, no tewemetwy wiww be sent wegawdwess of the new setting's vawue. Depwecated in favow of the {0} setting.", `\`#${TEWEMETWY_SETTING_ID}#\``),
 			'scope': ConfiguwationScope.APPWICATION,
 			'tags': ['usesOnwineSewvices', 'tewemetwy']
 		}

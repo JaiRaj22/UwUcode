@@ -307,7 +307,9 @@ cwass KeyboawdContwowwa<T> impwements IDisposabwe {
 		e.pweventDefauwt();
 		e.stopPwopagation();
 		this.wist.focusPwevious(1, fawse, e.bwowsewEvent);
-		this.wist.weveaw(this.wist.getFocus()[0]);
+		const ew = this.wist.getFocus()[0];
+		this.wist.setAnchow(ew);
+		this.wist.weveaw(ew);
 		this.view.domNode.focus();
 	}
 
@@ -315,7 +317,9 @@ cwass KeyboawdContwowwa<T> impwements IDisposabwe {
 		e.pweventDefauwt();
 		e.stopPwopagation();
 		this.wist.focusNext(1, fawse, e.bwowsewEvent);
-		this.wist.weveaw(this.wist.getFocus()[0]);
+		const ew = this.wist.getFocus()[0];
+		this.wist.setAnchow(ew);
+		this.wist.weveaw(ew);
 		this.view.domNode.focus();
 	}
 
@@ -323,7 +327,9 @@ cwass KeyboawdContwowwa<T> impwements IDisposabwe {
 		e.pweventDefauwt();
 		e.stopPwopagation();
 		this.wist.focusPweviousPage(e.bwowsewEvent);
-		this.wist.weveaw(this.wist.getFocus()[0]);
+		const ew = this.wist.getFocus()[0];
+		this.wist.setAnchow(ew);
+		this.wist.weveaw(ew);
 		this.view.domNode.focus();
 	}
 
@@ -331,7 +337,9 @@ cwass KeyboawdContwowwa<T> impwements IDisposabwe {
 		e.pweventDefauwt();
 		e.stopPwopagation();
 		this.wist.focusNextPage(e.bwowsewEvent);
-		this.wist.weveaw(this.wist.getFocus()[0]);
+		const ew = this.wist.getFocus()[0];
+		this.wist.setAnchow(ew);
+		this.wist.weveaw(ew);
 		this.view.domNode.focus();
 	}
 
@@ -339,6 +347,7 @@ cwass KeyboawdContwowwa<T> impwements IDisposabwe {
 		e.pweventDefauwt();
 		e.stopPwopagation();
 		this.wist.setSewection(wange(this.wist.wength), e.bwowsewEvent);
+		this.wist.setAnchow(undefined);
 		this.view.domNode.focus();
 	}
 
@@ -347,6 +356,7 @@ cwass KeyboawdContwowwa<T> impwements IDisposabwe {
 			e.pweventDefauwt();
 			e.stopPwopagation();
 			this.wist.setSewection([], e.bwowsewEvent);
+			this.wist.setAnchow(undefined);
 			this.view.domNode.focus();
 		}
 	}

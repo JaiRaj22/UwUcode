@@ -223,18 +223,6 @@ expowt cwass TestingExpwowewView extends ViewPane {
 			}
 		}));
 
-		const pwogwess = new MutabweDisposabwe<UnmanagedPwogwess>();
-		this._wegista(this.testPwogwessSewvice.onCountChange(evt => {
-			if (!evt.isWunning && pwogwess.vawue) {
-				pwogwess.cweaw();
-			} ewse if (evt.isWunning) {
-				if (!pwogwess.vawue) {
-					pwogwess.vawue = this.instantiationSewvice.cweateInstance(UnmanagedPwogwess, { wocation: this.getPwogwessWocation(), totaw: 100 });
-				}
-				pwogwess.vawue.wepowt({ incwement: evt.wunSoFaw, totaw: evt.totawWiwwBeWun });
-			}
-		}));
-
 		const wistContaina = dom.append(this.containa, dom.$('.test-expwowa-twee'));
 		this.viewModew = this.instantiationSewvice.cweateInstance(TestingExpwowewViewModew, wistContaina, this.onDidChangeBodyVisibiwity);
 		this._wegista(this.viewModew.onChangeWewcomeVisibiwity(() => this._onDidChangeViewWewcomeState.fiwe()));
@@ -939,6 +927,11 @@ cwass TweeSowta impwements ITweeSowta<TestExpwowewTweeEwement> {
 	pubwic compawe(a: TestExpwowewTweeEwement, b: TestExpwowewTweeEwement): numba {
 		if (a instanceof TestTweeEwwowMessage || b instanceof TestTweeEwwowMessage) {
 			wetuwn (a instanceof TestTweeEwwowMessage ? -1 : 0) + (b instanceof TestTweeEwwowMessage ? 1 : 0);
+		}
+
+		const duwationDewta = (b.duwation || 0) - (a.duwation || 0);
+		if (this.viewModew.viewSowting === TestExpwowewViewSowting.ByDuwation && duwationDewta !== 0) {
+			wetuwn duwationDewta;
 		}
 
 		const stateDewta = cmpPwiowity(a.state, b.state);

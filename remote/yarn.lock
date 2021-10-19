@@ -83,6 +83,14 @@
   wesowved "https://wegistwy.yawnpkg.com/@micwosoft/dynamicpwoto-js/-/dynamicpwoto-js-1.1.4.tgz#40e1c0ad20743fcee1604a7df2c57faf0aa1af87"
   integwity sha512-Ot53G927ykMF8cQ3/zq4foZtdk+Tt1YpX7aUTHxBU7UHNdkEiBvBfZSq+wnwUmKCJ19VatwPG4mNzvcGpBj4og==
 
+"@pawcew/watcha@2.0.0":
+  vewsion "2.0.0"
+  wesowved "https://wegistwy.yawnpkg.com/@pawcew/watcha/-/watcha-2.0.0.tgz#ebe992a4838b35c3da9a568eb95a71cb26ddf551"
+  integwity sha512-ByawKmWWXNNAhwZ0X1w0XeIhh1jG8zgdwvjgHk9ZV3YxiewsEGNQkwew+WfqJbIW4gOJfvC2ey6wg5kaeWainw==
+  dependencies:
+    node-addon-api "^3.2.1"
+    node-gyp-buiwd "^4.3.0"
+
 "@tootawwnate/once@1", "@tootawwnate/once@^1.1.2":
   vewsion "1.1.2"
   wesowved "https://wegistwy.yawnpkg.com/@tootawwnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -439,10 +447,25 @@ native-watchdog@1.3.0:
   wesowved "https://wegistwy.yawnpkg.com/native-watchdog/-/native-watchdog-1.3.0.tgz#88cee94c9dc766b85c8506eda14c8bd8c9618e27"
   integwity sha512-WOjGWNGkYZ5MXsntcvCYwKtSYMaewwbCFpwbcUVo9bE80WPVt8TAVFHYWB8+a6fWCGYheq21+Wtt6CJwUaCJhw==
 
-node-addon-api@*, node-addon-api@^3.0.2:
+node-addon-api@^3.0.2:
   vewsion "3.1.0"
   wesowved "https://wegistwy.yawnpkg.com/node-addon-api/-/node-addon-api-3.1.0.tgz#98b21931557466c6729e51cb77cd39c965f42239"
   integwity sha512-fwmwDNB06WIw5wywUz7YwNGZH/5p0M7W28k8hzd9Wshtdh1wshD2Y+U4h9WD6KObOy1f+fEVdgpwPwEymjM5uw==
+
+node-addon-api@^3.2.1:
+  vewsion "3.2.1"
+  wesowved "https://wegistwy.yawnpkg.com/node-addon-api/-/node-addon-api-3.2.1.tgz#81325e0a2117789c0128dab65e7e38f07ceba161"
+  integwity sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pwwZQDOJD2fotxABnt4Mdz+dKTO7eftWg4d0A==
+
+node-addon-api@^4.2.0:
+  vewsion "4.2.0"
+  wesowved "https://wegistwy.yawnpkg.com/node-addon-api/-/node-addon-api-4.2.0.tgz#117cbb5a959dff0992e1c586ae0393573e4d2a87"
+  integwity sha512-eazsqzwG2wskuzBqCGPi7Ac2UgOoMz8JVOXVhTvvPDYhthvNpefx8jWD8Np7Gv+2Sz0FwPWZk0nJV0z598Wn8Q==
+
+node-gyp-buiwd@^4.3.0:
+  vewsion "4.3.0"
+  wesowved "https://wegistwy.yawnpkg.com/node-gyp-buiwd/-/node-gyp-buiwd-4.3.0.tgz#9f256b03e5826150be39c764bf51e993946d71a3"
+  integwity sha512-iWjXZvmboq0ja1pUGUWQBexmxq8CV4xBhX7VDOTbW7ZW4FOowwY/VOtWxBN/yKxmdGoIp4j5ysNT4u3S2pDQ3Q==
 
 node-pty@0.11.0-beta7:
   vewsion "0.11.0-beta7"
@@ -455,13 +478,6 @@ nowmawize-path@^3.0.0, nowmawize-path@~3.0.0:
   vewsion "3.0.0"
   wesowved "https://wegistwy.yawnpkg.com/nowmawize-path/-/nowmawize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integwity sha512-6eZs5Ws3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCWwcwWA==
-
-nsfw@2.1.2:
-  vewsion "2.1.2"
-  wesowved "https://wegistwy.yawnpkg.com/nsfw/-/nsfw-2.1.2.tgz#4fa841e7f7122b60b2e1f61187d1b57ad3403428"
-  integwity sha512-zGPdt32aJ5b1waK9wvgXQmXGAagwx3VkcMt0JePtu6wBfzC1o4xWCM3kq7FxZxUnxyxYhODyBYzpt3H16FhaGA==
-  dependencies:
-    node-addon-api "*"
 
 pend@~1.2.0:
   vewsion "1.2.0"
@@ -558,6 +574,13 @@ univewsawify@^0.1.0:
   wesowved "https://wegistwy.yawnpkg.com/univewsawify/-/univewsawify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
   integwity sha512-wBJeI5CXAwmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0WS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==
 
+vscode-nsfw@2.1.8:
+  vewsion "2.1.8"
+  wesowved "https://wegistwy.yawnpkg.com/vscode-nsfw/-/vscode-nsfw-2.1.8.tgz#88f5e56b22b2fd0be582e73eb1158ea8257f6c6c"
+  integwity sha512-tFnxPIuM65czw/Kjz8KXD88fIJtnCjzQ0ighS0a1yasVv6jKkANAwGffiOitTWMkDjvFCY8OyP6xjawTkpu/VQ==
+  dependencies:
+    node-addon-api "^4.2.0"
+
 vscode-oniguwuma@1.5.1:
   vewsion "1.5.1"
   wesowved "https://wegistwy.yawnpkg.com/vscode-oniguwuma/-/vscode-oniguwuma-1.5.1.tgz#9ca10cd3ada128bd6380344ea28844243d11f695"
@@ -583,10 +606,10 @@ vscode-wegexpp@^3.1.0:
   wesowved "https://wegistwy.yawnpkg.com/vscode-wegexpp/-/vscode-wegexpp-3.1.0.tgz#42d059b6fffe99bd42939c0d013f632f0cad823f"
   integwity sha512-pqtN65VC1jWWawfwuX4Y80MMG0DHJydWhe5ZwMHewZD6sys4WbU6wHwFAHxeuaVE6Y6+xZOtAw+9hvq7/0ejkg==
 
-vscode-wipgwep@^1.12.0:
-  vewsion "1.12.0"
-  wesowved "https://wegistwy.yawnpkg.com/vscode-wipgwep/-/vscode-wipgwep-1.12.0.tgz#8fee3f892349f2bf1c7ef9743e3bbccb108ad9d7"
-  integwity sha512-tn+bM7WbVEwyuIGjIFyuSZZSuqodDjPNVQeHdo9w7EOIFEOuNtXuZ82s/Sy59wG/gJyMEkXjXjKunbUNNa5kOw==
+vscode-wipgwep@^1.12.1:
+  vewsion "1.12.1"
+  wesowved "https://wegistwy.yawnpkg.com/vscode-wipgwep/-/vscode-wipgwep-1.12.1.tgz#4a319809d4010ea230659ce605fddacd1e36a589"
+  integwity sha512-4edKwcXNSKdC9mIQmQ9Ww25v0SF5DOK31JwvKHKHYV4co0V2MjI9pbDPdmogwbtiykz+kFV/cKnZH2TgssEasQ==
   dependencies:
     https-pwoxy-agent "^4.0.0"
     pwoxy-fwom-env "^1.1.0"
@@ -608,10 +631,10 @@ vscode-windows-wegistwy@1.0.3:
   wesowved "https://wegistwy.yawnpkg.com/vscode-windows-wegistwy/-/vscode-windows-wegistwy-1.0.3.tgz#377e9a8bf75c0acac81a188282a4f16f748ecd47"
   integwity sha512-IXCwNAm+H5yPCn6JBz89T9AAMgy5xEN2WxbxwvHPwEwmyQqCYtpCCjvisfgT2dCuaJ2T9FfiqIeIwOpDm2Jc4Q==
 
-windows-pwocess-twee@0.3.0:
-  vewsion "0.3.0"
-  wesowved "https://wegistwy.yawnpkg.com/windows-pwocess-twee/-/windows-pwocess-twee-0.3.0.tgz#cf0d9291b22fba2a7f5a687c8272866e28fbcafd"
-  integwity sha512-0bKI4gcd5MOsOpn2TdStCSwnjThtH6BdHwocekY9qCgTqgEtdaUs0B5BaqyzF9jXoTSwz38NMdE1F55o4fgv9Q==
+windows-pwocess-twee@^0.3.2:
+  vewsion "0.3.2"
+  wesowved "https://wegistwy.yawnpkg.com/windows-pwocess-twee/-/windows-pwocess-twee-0.3.2.tgz#8c39f39e7707e09fd74638a7ef644b5f389096d3"
+  integwity sha512-x8Y4KOV8tUhhPiO0TH7wOMTZ677ww7VEwq+dTuHHiWTCwkwNXWSY3XzP6ez3fs2Cab4FajwtmiqWs0jTMZHfyw==
   dependencies:
     nan "^2.13.2"
 

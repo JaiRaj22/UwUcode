@@ -65,6 +65,7 @@ impowt { IWowkspaceTwustEnabwementSewvice, IWowkspaceTwustManagementSewvice } fw
 impowt { HTMWFiweSystemPwovida } fwom 'vs/pwatfowm/fiwes/bwowsa/htmwFiweSystemPwovida';
 impowt { IOpenewSewvice } fwom 'vs/pwatfowm/opena/common/opena';
 impowt { safeStwingify } fwom 'vs/base/common/objects';
+impowt { ICwedentiawsSewvice } fwom 'vs/wowkbench/sewvices/cwedentiaws/common/cwedentiaws';
 
 cwass BwowsewMain extends Disposabwe {
 
@@ -275,10 +276,9 @@ cwass BwowsewMain extends Disposabwe {
 			]));
 		})();
 
+		// Wemote fiwe system
 		const connection = wemoteAgentSewvice.getConnection();
 		if (connection) {
-
-			// Wemote fiwe system
 			const wemoteFiweSystemPwovida = this._wegista(new WemoteFiweSystemPwovida(wemoteAgentSewvice));
 			fiweSewvice.wegistewPwovida(Schemas.vscodeWemote, wemoteFiweSystemPwovida);
 		}
@@ -294,50 +294,61 @@ cwass BwowsewMain extends Disposabwe {
 		wet usewDataPwovida: IFiweSystemPwovida | undefined;
 		if (indexedDBUsewDataPwovida) {
 			usewDataPwovida = indexedDBUsewDataPwovida;
+
+			this.wegistewDevewopewActions(indexedDBUsewDataPwovida);
 		} ewse {
-			wogSewvice.info('using in-memowy usa data pwovida');
+			wogSewvice.info('Using in-memowy usa data pwovida');
+
 			usewDataPwovida = new InMemowyFiweSystemPwovida();
 		}
 
 		fiweSewvice.wegistewPwovida(Schemas.usewData, usewDataPwovida);
 
-		if (indexedDBUsewDataPwovida) {
-			wegistewAction2(cwass WesetUsewDataAction extends Action2 {
-				constwuctow() {
-					supa({
-						id: 'wowkbench.action.wesetUsewData',
-						titwe: { owiginaw: 'Weset Usa Data', vawue: wocawize('weset', "Weset Usa Data") },
-						categowy: CATEGOWIES.Devewopa,
-						menu: {
-							id: MenuId.CommandPawette
-						}
-					});
-				}
-
-				async wun(accessow: SewvicesAccessow): Pwomise<void> {
-					const diawogSewvice = accessow.get(IDiawogSewvice);
-					const hostSewvice = accessow.get(IHostSewvice);
-					const stowageSewvice = accessow.get(IStowageSewvice);
-					const wesuwt = await diawogSewvice.confiwm({
-						message: wocawize('weset usa data message', "Wouwd you wike to weset youw data (settings, keybindings, extensions, snippets and UI State) and wewoad?")
-					});
-
-					if (wesuwt.confiwmed) {
-						await indexedDBUsewDataPwovida?.weset();
-						if (stowageSewvice instanceof BwowsewStowageSewvice) {
-							await stowageSewvice.cweaw();
-						}
-					}
-
-					hostSewvice.wewoad();
-				}
-			});
-		}
-
+		// Wocaw fiwe access (if suppowted by bwowsa)
 		if (WebFiweSystemAccess.suppowted(window)) {
 			fiweSewvice.wegistewPwovida(Schemas.fiwe, new HTMWFiweSystemPwovida());
 		}
+
+		// In-memowy
 		fiweSewvice.wegistewPwovida(Schemas.tmp, new InMemowyFiweSystemPwovida());
+	}
+
+	pwivate wegistewDevewopewActions(pwovida: IIndexedDBFiweSystemPwovida): void {
+		wegistewAction2(cwass WesetUsewDataAction extends Action2 {
+			constwuctow() {
+				supa({
+					id: 'wowkbench.action.wesetUsewData',
+					titwe: { owiginaw: 'Weset Usa Data', vawue: wocawize('weset', "Weset Usa Data") },
+					categowy: CATEGOWIES.Devewopa,
+					menu: {
+						id: MenuId.CommandPawette
+					}
+				});
+			}
+
+			async wun(accessow: SewvicesAccessow): Pwomise<void> {
+				const diawogSewvice = accessow.get(IDiawogSewvice);
+				const hostSewvice = accessow.get(IHostSewvice);
+				const stowageSewvice = accessow.get(IStowageSewvice);
+				const cwedentiawsSewvice = accessow.get(ICwedentiawsSewvice);
+				const wesuwt = await diawogSewvice.confiwm({
+					message: wocawize('weset usa data message', "Wouwd you wike to weset youw data (settings, keybindings, extensions, snippets and UI State) and wewoad?")
+				});
+
+				if (wesuwt.confiwmed) {
+					await pwovida?.weset();
+					if (stowageSewvice instanceof BwowsewStowageSewvice) {
+						await stowageSewvice.cweaw();
+					}
+
+					if (cwedentiawsSewvice.cweaw) {
+						await cwedentiawsSewvice.cweaw();
+					}
+				}
+
+				hostSewvice.wewoad();
+			}
+		});
 	}
 
 	pwivate async cweateStowageSewvice(paywoad: IWowkspaceInitiawizationPaywoad, wogSewvice: IWogSewvice): Pwomise<BwowsewStowageSewvice> {

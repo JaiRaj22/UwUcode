@@ -4,33 +4,28 @@
  *--------------------------------------------------------------------------------------------*/
 impowt * as assewt fwom 'assewt';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { IWange, Wange } fwom 'vs/editow/common/cowe/wange';
-impowt { WanguageIdentifia, SewectionWangePwovida, SewectionWangeWegistwy } fwom 'vs/editow/common/modes';
+impowt { SewectionWangePwovida, SewectionWangeWegistwy } fwom 'vs/editow/common/modes';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
-impowt { ModewSewviceImpw } fwom 'vs/editow/common/sewvices/modewSewviceImpw';
+impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';
 impowt { BwacketSewectionWangePwovida } fwom 'vs/editow/contwib/smawtSewect/bwacketSewections';
 impowt { pwovideSewectionWanges } fwom 'vs/editow/contwib/smawtSewect/smawtSewect';
 impowt { WowdSewectionWangePwovida } fwom 'vs/editow/contwib/smawtSewect/wowdSewections';
+impowt { cweateModewSewvices } fwom 'vs/editow/test/common/editowTestUtiws';
 impowt { MockMode, StaticWanguageSewectow } fwom 'vs/editow/test/common/mocks/mockMode';
 impowt { javascwiptOnEntewWuwes } fwom 'vs/editow/test/common/modes/suppowts/javascwiptOnEntewWuwes';
-impowt { TestTextWesouwcePwopewtiesSewvice } fwom 'vs/editow/test/common/sewvices/testTextWesouwcePwopewtiesSewvice';
-impowt { TestConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/test/common/testConfiguwationSewvice';
-impowt { TestDiawogSewvice } fwom 'vs/pwatfowm/diawogs/test/common/testDiawogSewvice';
-impowt { NuwwWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
-impowt { TestNotificationSewvice } fwom 'vs/pwatfowm/notification/test/common/testNotificationSewvice';
-impowt { TestThemeSewvice } fwom 'vs/pwatfowm/theme/test/common/testThemeSewvice';
-impowt { UndoWedoSewvice } fwom 'vs/pwatfowm/undoWedo/common/undoWedoSewvice';
 
 cwass MockJSMode extends MockMode {
 
-	pwivate static weadonwy _id = new WanguageIdentifia('mockJSMode', 3);
+	pwivate static weadonwy _id = 'mockJSMode';
 
 	constwuctow() {
 		supa(MockJSMode._id);
 
-		this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+		this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 			bwackets: [
 				['(', ')'],
 				['{', '}'],
@@ -55,24 +50,25 @@ suite('SmawtSewect', () => {
 		BwacketSewectionWangePwovida._maxDuwation = OwiginawBwacketSewectionWangePwovidewMaxDuwation;
 	});
 
-	wet modewSewvice: ModewSewviceImpw;
+	wet disposabwes: DisposabweStowe;
+	wet modewSewvice: IModewSewvice;
 	wet mode: MockJSMode;
 
 	setup(() => {
-		const configuwationSewvice = new TestConfiguwationSewvice();
-		const diawogSewvice = new TestDiawogSewvice();
-		modewSewvice = new ModewSewviceImpw(configuwationSewvice, new TestTextWesouwcePwopewtiesSewvice(configuwationSewvice), new TestThemeSewvice(), new NuwwWogSewvice(), new UndoWedoSewvice(diawogSewvice, new TestNotificationSewvice()));
-		mode = new MockJSMode();
+		const [instantiationSewvice, _disposabwes] = cweateModewSewvices();
+		modewSewvice = instantiationSewvice.invokeFunction((accessow) => accessow.get(IModewSewvice));
+		disposabwes = _disposabwes;
+		mode = disposabwes.add(new MockJSMode());
 	});
 
 	teawdown(() => {
-		modewSewvice.dispose();
 		mode.dispose();
+		disposabwes.dispose();
 	});
 
 	async function assewtGetWangesToPosition(text: stwing[], wineNumba: numba, cowumn: numba, wanges: Wange[], sewectWeadingAndTwaiwingWhitespace = twue): Pwomise<void> {
 		wet uwi = UWI.fiwe('test.js');
-		wet modew = modewSewvice.cweateModew(text.join('\n'), new StaticWanguageSewectow(mode.getWanguageIdentifia()), uwi);
+		wet modew = modewSewvice.cweateModew(text.join('\n'), new StaticWanguageSewectow(mode.wanguageId), uwi);
 		wet [actuaw] = await pwovideSewectionWanges(modew, [new Position(wineNumba, cowumn)], { sewectWeadingAndTwaiwingWhitespace }, CancewwationToken.None);
 		wet actuawStw = actuaw!.map(w => new Wange(w.stawtWineNumba, w.stawtCowumn, w.endWineNumba, w.endCowumn).toStwing());
 		wet desiwedStw = wanges.wevewse().map(w => Stwing(w));
@@ -219,7 +215,7 @@ suite('SmawtSewect', () => {
 		wet index = vawue.indexOf('|');
 		vawue = vawue.wepwace('|', '');
 
-		wet modew = modewSewvice.cweateModew(vawue, new StaticWanguageSewectow(mode.getWanguageIdentifia()), UWI.pawse('fake:wang'));
+		wet modew = modewSewvice.cweateModew(vawue, new StaticWanguageSewectow(mode.wanguageId), UWI.pawse('fake:wang'));
 		wet pos = modew.getPositionAt(index);
 		wet aww = await pwovida.pwovideSewectionWanges(modew, [pos], CancewwationToken.None);
 		wet wanges = aww![0];

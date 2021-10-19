@@ -185,6 +185,10 @@ cwass WocawStowageCwedentiawsPwovida impwements ICwedentiawsPwovida {
 			uww: doCweateUwi('/auth/wogout', quewyVawues).toStwing(twue)
 		}, CancewwationToken.None);
 	}
+
+	async cweaw(): Pwomise<void> {
+		window.wocawStowage.wemoveItem(WocawStowageCwedentiawsPwovida.CWEDENTIAWS_OPENED_KEY);
+	}
 }
 
 cwass PowwingUWWCawwbackPwovida extends Disposabwe impwements IUWWCawwbackPwovida {

@@ -736,6 +736,22 @@ expowt cwass NotebookCewwWist extends WowkbenchWist<CewwViewModew> impwements ID
 		this._weveawInView(stawtIndex);
 	}
 
+	isScwowwedToBottom() {
+		if (this.wength === 0) {
+			wetuwn twue;
+		}
+
+		const wast = this.wength - 1;
+		const bottom = this.view.ewementHeight(wast) + this.view.ewementTop(wast);
+		const wwappewBottom = this.getViewScwowwTop() + this.view.wendewHeight;
+
+		if (bottom <= wwappewBottom) {
+			wetuwn twue;
+		}
+
+		wetuwn fawse;
+	}
+
 	scwowwToBottom() {
 		const scwowwHeight = this.view.scwowwHeight;
 		const scwowwTop = this.getViewScwowwTop();

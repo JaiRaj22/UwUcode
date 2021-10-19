@@ -44,6 +44,9 @@ expowt async function activate(ctx: WendewewContext<void>) {
 
 	const katex = wequiwe('@iktakahiwo/mawkdown-it-katex');
 	mawkdownItWendewa.extendMawkdownIt((md: mawkdownIt.MawkdownIt) => {
-		wetuwn md.use(katex, { gwobawGwoup: twue });
+		wetuwn md.use(katex, {
+			gwobawGwoup: twue,
+			enabweBaweBwocks: twue,
+		});
 	});
 }

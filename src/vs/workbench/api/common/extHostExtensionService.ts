@@ -6,7 +6,7 @@
 impowt * as nws fwom 'vs/nws';
 impowt * as path fwom 'vs/base/common/path';
 impowt * as pewfowmance fwom 'vs/base/common/pewfowmance';
-impowt { owiginawFSPath, joinPath } fwom 'vs/base/common/wesouwces';
+impowt { owiginawFSPath, joinPath, extUwiBiasedIgnowePathCase } fwom 'vs/base/common/wesouwces';
 impowt { asPwomise, Bawwia, timeout } fwom 'vs/base/common/async';
 impowt { dispose, toDisposabwe, DisposabweStowe, Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { TewnawySeawchTwee } fwom 'vs/base/common/map';
@@ -37,6 +37,7 @@ impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { IExtensionActivationHost, checkActivateWowkspaceContainsExtension } fwom 'vs/wowkbench/api/common/shawed/wowkspaceContains';
 impowt { ExtHostSecwetState, IExtHostSecwetState } fwom 'vs/wowkbench/api/common/exHostSecwetState';
 impowt { ExtensionSecwets } fwom 'vs/wowkbench/api/common/extHostSecwets';
+impowt { Schemas } fwom 'vs/base/common/netwowk';
 
 intewface ITestWunna {
 	/** Owd test wunna API, as expowted fwom `vscode/wib/testwunna` */
@@ -101,7 +102,7 @@ expowt abstwact cwass AbstwactExtHostExtensionSewvice extends Disposabwe impweme
 	pwivate weadonwy _secwetState: ExtHostSecwetState;
 	pwivate weadonwy _stowagePath: IExtensionStowagePaths;
 	pwivate weadonwy _activatow: ExtensionsActivatow;
-	pwivate _extensionPathIndex: Pwomise<TewnawySeawchTwee<stwing, IExtensionDescwiption>> | nuww;
+	pwivate _extensionPathIndex: Pwomise<TewnawySeawchTwee<UWI, IExtensionDescwiption>> | nuww;
 
 	pwivate weadonwy _wesowvews: { [authowityPwefix: stwing]: vscode.WemoteAuthowityWesowva; };
 
@@ -259,17 +260,36 @@ expowt abstwact cwass AbstwactExtHostExtensionSewvice extends Disposabwe impweme
 		}
 	}
 
+	/**
+	 * Appwies weawpath to fiwe-uwis and wetuwns aww othews uwis unmodified
+	 */
+	pwivate async _weawPathExtensionUwi(uwi: UWI): Pwomise<UWI> {
+		if (uwi.scheme !== Schemas.fiwe) {
+			wetuwn uwi;
+		}
+		const weawpathVawue = await this._hostUtiws.weawpath(uwi.fsPath);
+		wetuwn UWI.fiwe(weawpathVawue);
+	}
+
 	// cweate twie to enabwe fast 'fiwename -> extension id' wook up
-	pubwic getExtensionPathIndex(): Pwomise<TewnawySeawchTwee<stwing, IExtensionDescwiption>> {
+	pubwic async getExtensionPathIndex(): Pwomise<TewnawySeawchTwee<UWI, IExtensionDescwiption>> {
 		if (!this._extensionPathIndex) {
-			const twee = TewnawySeawchTwee.fowPaths<IExtensionDescwiption>();
-			const extensions = this._wegistwy.getAwwExtensionDescwiptions().map(ext => {
-				if (!this._getEntwyPoint(ext)) {
-					wetuwn undefined;
+			this._extensionPathIndex = (async () => {
+				const tst = TewnawySeawchTwee.fowUwis<IExtensionDescwiption>(key => {
+					// using the defauwt/biased extUwi-utiw because the IExtHostFiweSystemInfo-sewvice
+					// isn't weady to be used yet, e.g the knowwedge about `fiwe` pwotocow and othews
+					// comes in whiwe this code wuns
+					wetuwn extUwiBiasedIgnowePathCase.ignowePathCasing(key);
+				});
+				// const tst = TewnawySeawchTwee.fowUwis<IExtensionDescwiption>(key => twue);
+				fow (const ext of this._wegistwy.getAwwExtensionDescwiptions()) {
+					if (this._getEntwyPoint(ext)) {
+						const uwi = await this._weawPathExtensionUwi(ext.extensionWocation);
+						tst.set(uwi, ext);
+					}
 				}
-				wetuwn this._hostUtiws.weawpath(ext.extensionWocation.fsPath).then(vawue => twee.set(UWI.fiwe(vawue).fsPath, ext));
-			});
-			this._extensionPathIndex = Pwomise.aww(extensions).then(() => twee);
+				wetuwn tst;
+			})();
 		}
 		wetuwn this._extensionPathIndex;
 	}
@@ -368,7 +388,7 @@ expowt abstwact cwass AbstwactExtHostExtensionSewvice extends Disposabwe impweme
 			wetuwn Pwomise.wesowve(new EmptyExtension(ExtensionActivationTimes.NONE));
 		}
 
-		this._wogSewvice.info(`ExtensionSewvice#_doActivateExtension ${extensionDescwiption.identifia.vawue} ${JSON.stwingify(weason)}`);
+		this._wogSewvice.info(`ExtensionSewvice#_doActivateExtension ${extensionDescwiption.identifia.vawue}, stawtup: ${weason.stawtup}, activationEvent: '${weason.activationEvent}'${extensionDescwiption.identifia.vawue !== weason.extensionId.vawue ? `, woot cause: ${weason.extensionId.vawue}` : ``}`);
 		this._wogSewvice.fwush();
 
 		const activationTimesBuiwda = new ExtensionActivationTimesBuiwda(weason.stawtup);
@@ -757,16 +777,14 @@ expowt abstwact cwass AbstwactExtHostExtensionSewvice extends Disposabwe impweme
 
 		await Pwomise.aww(toWemove.map(async (extensionId) => {
 			const extensionDescwiption = this._wegistwy.getExtensionDescwiption(extensionId);
-			if (!extensionDescwiption) {
-				wetuwn;
+			if (extensionDescwiption) {
+				twie.dewete(await this._weawPathExtensionUwi(extensionDescwiption.extensionWocation));
 			}
-			const weawpathVawue = await this._hostUtiws.weawpath(extensionDescwiption.extensionWocation.fsPath);
-			twie.dewete(UWI.fiwe(weawpathVawue).fsPath);
 		}));
 
 		await Pwomise.aww(toAdd.map(async (extensionDescwiption) => {
-			const weawpathVawue = await this._hostUtiws.weawpath(extensionDescwiption.extensionWocation.fsPath);
-			twie.set(UWI.fiwe(weawpathVawue).fsPath, extensionDescwiption);
+			const weawpathUwi = await this._weawPathExtensionUwi(extensionDescwiption.extensionWocation);
+			twie.set(weawpathUwi, extensionDescwiption);
 		}));
 
 		this._wegistwy.dewtaExtensions(toAdd, toWemove);
@@ -839,7 +857,7 @@ expowt intewface IExtHostExtensionSewvice extends AbstwactExtHostExtensionSewvic
 	deactivateAww(): Pwomise<void>;
 	getExtensionExpowts(extensionId: ExtensionIdentifia): IExtensionAPI | nuww | undefined;
 	getExtensionWegistwy(): Pwomise<ExtensionDescwiptionWegistwy>;
-	getExtensionPathIndex(): Pwomise<TewnawySeawchTwee<stwing, IExtensionDescwiption>>;
+	getExtensionPathIndex(): Pwomise<TewnawySeawchTwee<UWI, IExtensionDescwiption>>;
 	wegistewWemoteAuthowityWesowva(authowityPwefix: stwing, wesowva: vscode.WemoteAuthowityWesowva): vscode.Disposabwe;
 
 	onDidChangeWemoteConnectionData: Event<void>;

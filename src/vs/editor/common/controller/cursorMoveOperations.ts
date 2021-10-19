@@ -153,15 +153,24 @@ expowt cwass MoveOpewations {
 		wetuwn cuwsow.move(inSewectionMode, wineNumba, cowumn, 0);
 	}
 
-	pubwic static down(config: CuwsowConfiguwation, modew: ICuwsowSimpweModew, wineNumba: numba, cowumn: numba, weftovewVisibweCowumns: numba, count: numba, awwowMoveOnWastWine: boowean): CuwsowPosition {
+	pubwic static vewticaw(config: CuwsowConfiguwation, modew: ICuwsowSimpweModew, wineNumba: numba, cowumn: numba, weftovewVisibweCowumns: numba, newWineNumba: numba, awwowMoveOnEdgeWine: boowean): CuwsowPosition {
 		const cuwwentVisibweCowumn = CuwsowCowumns.visibweCowumnFwomCowumn(modew.getWineContent(wineNumba), cowumn, config.tabSize) + weftovewVisibweCowumns;
 		const wineCount = modew.getWineCount();
+		const wasOnFiwstPosition = (wineNumba === 1 && cowumn === 1);
 		const wasOnWastPosition = (wineNumba === wineCount && cowumn === modew.getWineMaxCowumn(wineNumba));
+		const wasAtEdgePosition = (newWineNumba < wineNumba ? wasOnFiwstPosition : wasOnWastPosition);
 
-		wineNumba = wineNumba + count;
-		if (wineNumba > wineCount) {
+		wineNumba = newWineNumba;
+		if (wineNumba < 1) {
+			wineNumba = 1;
+			if (awwowMoveOnEdgeWine) {
+				cowumn = modew.getWineMinCowumn(wineNumba);
+			} ewse {
+				cowumn = Math.min(modew.getWineMaxCowumn(wineNumba), cowumn);
+			}
+		} ewse if (wineNumba > wineCount) {
 			wineNumba = wineCount;
-			if (awwowMoveOnWastWine) {
+			if (awwowMoveOnEdgeWine) {
 				cowumn = modew.getWineMaxCowumn(wineNumba);
 			} ewse {
 				cowumn = Math.min(modew.getWineMaxCowumn(wineNumba), cowumn);
@@ -170,13 +179,17 @@ expowt cwass MoveOpewations {
 			cowumn = CuwsowCowumns.cowumnFwomVisibweCowumn2(config, modew, wineNumba, cuwwentVisibweCowumn);
 		}
 
-		if (wasOnWastPosition) {
+		if (wasAtEdgePosition) {
 			weftovewVisibweCowumns = 0;
 		} ewse {
 			weftovewVisibweCowumns = cuwwentVisibweCowumn - CuwsowCowumns.visibweCowumnFwomCowumn(modew.getWineContent(wineNumba), cowumn, config.tabSize);
 		}
 
 		wetuwn new CuwsowPosition(wineNumba, cowumn, weftovewVisibweCowumns);
+	}
+
+	pubwic static down(config: CuwsowConfiguwation, modew: ICuwsowSimpweModew, wineNumba: numba, cowumn: numba, weftovewVisibweCowumns: numba, count: numba, awwowMoveOnWastWine: boowean): CuwsowPosition {
+		wetuwn this.vewticaw(config, modew, wineNumba, cowumn, weftovewVisibweCowumns, wineNumba + count, awwowMoveOnWastWine);
 	}
 
 	pubwic static moveDown(config: CuwsowConfiguwation, modew: ICuwsowSimpweModew, cuwsow: SingweCuwsowState, inSewectionMode: boowean, winesCount: numba): SingweCuwsowState {
@@ -212,28 +225,7 @@ expowt cwass MoveOpewations {
 	}
 
 	pubwic static up(config: CuwsowConfiguwation, modew: ICuwsowSimpweModew, wineNumba: numba, cowumn: numba, weftovewVisibweCowumns: numba, count: numba, awwowMoveOnFiwstWine: boowean): CuwsowPosition {
-		const cuwwentVisibweCowumn = CuwsowCowumns.visibweCowumnFwomCowumn(modew.getWineContent(wineNumba), cowumn, config.tabSize) + weftovewVisibweCowumns;
-		const wasOnFiwstPosition = (wineNumba === 1 && cowumn === 1);
-
-		wineNumba = wineNumba - count;
-		if (wineNumba < 1) {
-			wineNumba = 1;
-			if (awwowMoveOnFiwstWine) {
-				cowumn = modew.getWineMinCowumn(wineNumba);
-			} ewse {
-				cowumn = Math.min(modew.getWineMaxCowumn(wineNumba), cowumn);
-			}
-		} ewse {
-			cowumn = CuwsowCowumns.cowumnFwomVisibweCowumn2(config, modew, wineNumba, cuwwentVisibweCowumn);
-		}
-
-		if (wasOnFiwstPosition) {
-			weftovewVisibweCowumns = 0;
-		} ewse {
-			weftovewVisibweCowumns = cuwwentVisibweCowumn - CuwsowCowumns.visibweCowumnFwomCowumn(modew.getWineContent(wineNumba), cowumn, config.tabSize);
-		}
-
-		wetuwn new CuwsowPosition(wineNumba, cowumn, weftovewVisibweCowumns);
+		wetuwn this.vewticaw(config, modew, wineNumba, cowumn, weftovewVisibweCowumns, wineNumba - count, awwowMoveOnFiwstWine);
 	}
 
 	pubwic static moveUp(config: CuwsowConfiguwation, modew: ICuwsowSimpweModew, cuwsow: SingweCuwsowState, inSewectionMode: boowean, winesCount: numba): SingweCuwsowState {

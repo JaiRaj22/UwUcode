@@ -271,7 +271,8 @@ cwass SimpweTunnewSewvice impwements ITunnewSewvice {
 
 	tunnews: Pwomise<weadonwy WemoteTunnew[]> = Pwomise.wesowve([]);
 	canEwevate: boowean = fawse;
-	canMakePubwic = fawse;
+	canChangePwivacy = fawse;
+	pwivacyOptions = [];
 	onTunnewOpened = Event.None;
 	onTunnewCwosed = Event.None;
 	onAddedTunnewPwovida = Event.None;

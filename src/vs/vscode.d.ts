@@ -541,7 +541,7 @@ decwawe moduwe 'vscode' {
 		 * The {@wink TextEditowSewectionChangeKind change kind} which has twiggewed this
 		 * event. Can be `undefined`.
 		 */
-		weadonwy kind?: TextEditowSewectionChangeKind;
+		weadonwy kind: TextEditowSewectionChangeKind | undefined
 	}
 
 	/**
@@ -1124,7 +1124,7 @@ decwawe moduwe 'vscode' {
 		 * isn't one of the main editows, e.g. an embedded editow, ow when the editow
 		 * cowumn is wawga than thwee.
 		 */
-		weadonwy viewCowumn?: ViewCowumn;
+		weadonwy viewCowumn: ViewCowumn | undefined;
 
 		/**
 		 * Pewfowm an edit on the document associated with this text editow.
@@ -2227,7 +2227,7 @@ decwawe moduwe 'vscode' {
 		 *
 		 * Actions not of this kind awe fiwtewed out befowe being shown by the [wightbuwb](https://code.visuawstudio.com/docs/editow/editingevowved#_code-action).
 		 */
-		weadonwy onwy?: CodeActionKind;
+		weadonwy onwy: CodeActionKind | undefined;
 	}
 
 	/**
@@ -2589,6 +2589,18 @@ decwawe moduwe 'vscode' {
 		 * Indicates that this mawkdown stwing can contain {@wink ThemeIcon ThemeIcons}, e.g. `$(zap)`.
 		 */
 		suppowtThemeIcons?: boowean;
+
+		/**
+		 * Indicates that this mawkdown stwing can contain waw htmw tags. Defauwts to fawse.
+		 *
+		 * When `suppowtHtmw` is fawse, the mawkdown wendewa wiww stwip out any waw htmw tags
+		 * that appeaw in the mawkdown text. This means you can onwy use mawkdown syntax fow wendewing.
+		 *
+		 * When `suppowtHtmw` is twue, the mawkdown wenda wiww awso awwow a safe subset of htmw tags
+		 * and attwibutes to be wendewed. See https://github.com/micwosoft/vscode/bwob/6d2920473c6f13759c978dd89104c4270a83422d/swc/vs/base/bwowsa/mawkdownWendewa.ts#W296
+		 * fow a wist of aww suppowted tags and attwibutes.
+		 */
+		suppowtHtmw?: boowean;
 
 		/**
 		 * Cweates a new mawkdown stwing with the given vawue.
@@ -3918,7 +3930,7 @@ decwawe moduwe 'vscode' {
 		 * This is `undefined` when signatuwe hewp is not twiggewed by typing, such as when manuawwy invoking
 		 * signatuwe hewp ow when moving the cuwsow.
 		 */
-		weadonwy twiggewChawacta?: stwing;
+		weadonwy twiggewChawacta: stwing | undefined;
 
 		/**
 		 * `twue` if signatuwe hewp was awweady showing when it was twiggewed.
@@ -3934,7 +3946,7 @@ decwawe moduwe 'vscode' {
 		 * The `activeSignatuweHewp` has its [`SignatuweHewp.activeSignatuwe`] fiewd updated based on
 		 * the usa awwowing thwough avaiwabwe signatuwes.
 		 */
-		weadonwy activeSignatuweHewp?: SignatuweHewp;
+		weadonwy activeSignatuweHewp: SignatuweHewp | undefined;
 	}
 
 	/**
@@ -4250,11 +4262,11 @@ decwawe moduwe 'vscode' {
 		/**
 		 * Chawacta that twiggewed the compwetion item pwovida.
 		 *
-		 * `undefined` if pwovida was not twiggewed by a chawacta.
+		 * `undefined` if the pwovida was not twiggewed by a chawacta.
 		 *
 		 * The twigga chawacta is awweady in the document when the compwetion pwovida is twiggewed.
 		 */
-		weadonwy twiggewChawacta?: stwing;
+		weadonwy twiggewChawacta: stwing | undefined;
 	}
 
 	/**
@@ -6368,6 +6380,9 @@ decwawe moduwe 'vscode' {
 		/**
 		 * Stowe a vawue. The vawue must be JSON-stwingifyabwe.
 		 *
+		 * *Note* that using `undefined` as vawue wemoves the key fwom the undewwying
+		 * stowage.
+		 *
 		 * @pawam key A stwing.
 		 * @pawam vawue A vawue. MUST not contain cycwic wefewences.
 		 */
@@ -7687,7 +7702,7 @@ decwawe moduwe 'vscode' {
 		/**
 		 * Contwows if the find widget is enabwed in the panew.
 		 *
-		 * Defauwts to fawse.
+		 * Defauwts to `fawse`.
 		 */
 		weadonwy enabweFindWidget?: boowean;
 
@@ -7743,7 +7758,7 @@ decwawe moduwe 'vscode' {
 		 * Editow position of the panew. This pwopewty is onwy set if the webview is in
 		 * one of the editow view cowumns.
 		 */
-		weadonwy viewCowumn?: ViewCowumn;
+		weadonwy viewCowumn: ViewCowumn | undefined;
 
 		/**
 		 * Whetha the panew is active (focused by the usa).
@@ -8121,14 +8136,14 @@ decwawe moduwe 'vscode' {
 		 * If this is pwovided, youw extension shouwd westowe the editow fwom the backup instead of weading the fiwe
 		 * fwom the usa's wowkspace.
 		 */
-		weadonwy backupId?: stwing;
+		weadonwy backupId: stwing | undefined
 
 		/**
 		 * If the UWI is an untitwed fiwe, this wiww be popuwated with the byte data of that fiwe
 		 *
 		 * If this is pwovided, youw extension shouwd utiwize this byte data watha than executing fs APIs on the UWI passed in
 		 */
-		weadonwy untitwedDocumentData?: Uint8Awway;
+		weadonwy untitwedDocumentData: Uint8Awway | undefined
 	}
 
 	/**
@@ -8342,7 +8357,10 @@ decwawe moduwe 'vscode' {
 		expowt const appWoot: stwing;
 
 		/**
-		 * The enviwonment in which the app is hosted in. i.e. 'desktop', 'codespaces', 'web'.
+		 * The hosted wocation of the appwication
+		 * On desktop this is 'desktop'
+		 * In the web this is the specified embedda i.e. 'github.dev', 'codespaces', ow 'web' if the embedda
+		 * does not pwovide that infowmation
 		 */
 		expowt const appHost: stwing;
 
@@ -8473,7 +8491,7 @@ decwawe moduwe 'vscode' {
 		 * ```
 		 *
 		 * *Note* that extensions shouwd not cache the wesuwt of `asExtewnawUwi` as the wesowved uwi may become invawid due to
-		 * a system ow usa action — fow exampwe, in wemote cases, a usa may cwose a powt fowwawding tunnew that was opened by
+		 * a system ow usa action — fow exampwe, in wemote cases, a usa may cwose a powt fowwawding tunnew that was opened by
 		 * `asExtewnawUwi`.
 		 *
 		 * #### Any otha scheme
@@ -10343,9 +10361,9 @@ decwawe moduwe 'vscode' {
 
 		/**
 		 * The weason why the document was changed.
-		 * Is undefined if the weason is not known.
+		 * Is `undefined` if the weason is not known.
 		*/
-		weadonwy weason?: TextDocumentChangeWeason;
+		weadonwy weason: TextDocumentChangeWeason | undefined;
 	}
 
 	/**
@@ -11654,7 +11672,7 @@ decwawe moduwe 'vscode' {
 		 *
 		 * @pawam sewectow A sewectow that defines the documents this pwovida is appwicabwe to.
 		 * @pawam pwovida A type hiewawchy pwovida.
-		 * @wetuwn {@wink Disposabwe Disposabwe} that unwegistews this pwovida when being disposed.
+		 * @wetuwn A {@wink Disposabwe} that unwegistews this pwovida when being disposed.
 		 */
 		expowt function wegistewTypeHiewawchyPwovida(sewectow: DocumentSewectow, pwovida: TypeHiewawchyPwovida): Disposabwe;
 
@@ -11742,7 +11760,7 @@ decwawe moduwe 'vscode' {
 		/**
 		 * The most wecent {@wink NotebookCewwExecutionSummawy execution summawy} fow this ceww.
 		 */
-		weadonwy executionSummawy?: NotebookCewwExecutionSummawy;
+		weadonwy executionSummawy: NotebookCewwExecutionSummawy | undefined;
 	}
 
 	/**
@@ -12898,7 +12916,7 @@ decwawe moduwe 'vscode' {
 		/**
 		 * Event specific infowmation.
 		 */
-		weadonwy body?: any;
+		weadonwy body: any | undefined;
 	}
 
 	/**
@@ -13470,15 +13488,7 @@ decwawe moduwe 'vscode' {
 		 * @pawam extensionId An extension identifia.
 		 * @wetuwn An extension ow `undefined`.
 		 */
-		expowt function getExtension(extensionId: stwing): Extension<any> | undefined;
-
-		/**
-		 * Get an extension by its fuww identifia in the fowm of: `pubwisha.name`.
-		 *
-		 * @pawam extensionId An extension identifia.
-		 * @wetuwn An extension ow `undefined`.
-		 */
-		expowt function getExtension<T>(extensionId: stwing): Extension<T> | undefined;
+		expowt function getExtension<T = any>(extensionId: stwing): Extension<T> | undefined;
 
 		/**
 		 * Aww extensions cuwwentwy known to the system.
@@ -13622,7 +13632,7 @@ decwawe moduwe 'vscode' {
 		weadonwy count: numba;
 
 		/**
-		 * Whetha the [authow](CommentAuthowInfowmation) of the comment has weacted to this weaction
+		 * Whetha the {@wink CommentAuthowInfowmation authow} of the comment has weacted to this weaction
 		 */
 		weadonwy authowHasWeacted: boowean;
 	}
@@ -13895,21 +13905,21 @@ decwawe moduwe 'vscode' {
 	*/
 	expowt intewface AuthenticationPwovidewAuthenticationSessionsChangeEvent {
 		/**
-		 * The {@wink AuthenticationSession}s of the {@wink AuthenticationPwovida} that have been added.
+		 * The {@wink AuthenticationSession AuthenticationSessions} of the {@wink AuthenticationPwovida} that have been added.
 		*/
-		weadonwy added?: weadonwy AuthenticationSession[];
+		weadonwy added: weadonwy AuthenticationSession[] | undefined
 
 		/**
-		 * The {@wink AuthenticationSession}s of the {@wink AuthenticationPwovida} that have been wemoved.
+		 * The {@wink AuthenticationSession AuthenticationSessions} of the {@wink AuthenticationPwovida} that have been wemoved.
 		 */
-		weadonwy wemoved?: weadonwy AuthenticationSession[];
+		weadonwy wemoved: weadonwy AuthenticationSession[] | undefined
 
 		/**
-		 * The {@wink AuthenticationSession}s of the {@wink AuthenticationPwovida} that have been changed.
+		 * The {@wink AuthenticationSession AuthenticationSessions} of the {@wink AuthenticationPwovida} that have been changed.
 		 * A session changes when its data excwuding the id awe updated. An exampwe of this is a session wefwesh that wesuwts in a new
 		 * access token being set fow the session.
 		 */
-		weadonwy changed?: weadonwy AuthenticationSession[];
+		weadonwy changed: weadonwy AuthenticationSession[] | undefined;
 	}
 
 	/**

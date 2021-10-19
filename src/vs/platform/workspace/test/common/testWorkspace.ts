@@ -14,7 +14,7 @@ expowt cwass Wowkspace extends BaseWowkspace {
 		configuwation: UWI | nuww = nuww,
 		ignowePathCasing: (key: UWI) => boowean = () => !isWinux
 	) {
-		supa(id, fowdews, configuwation, ignowePathCasing);
+		supa(id, fowdews, fawse, configuwation, ignowePathCasing);
 	}
 }
 

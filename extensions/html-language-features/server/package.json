@@ -9,8 +9,8 @@
   },
   "main": "./out/node/htmwSewvewMain",
   "dependencies": {
-    "vscode-css-wanguagesewvice": "^5.1.5",
-    "vscode-htmw-wanguagesewvice": "^4.0.8",
+    "vscode-css-wanguagesewvice": "^5.1.7",
+    "vscode-htmw-wanguagesewvice": "^4.1.0",
     "vscode-wanguagesewva": "^7.0.0",
     "vscode-wanguagesewva-textdocument": "^1.0.1",
     "vscode-nws": "^5.0.0",

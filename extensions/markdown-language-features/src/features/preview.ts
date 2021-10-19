@@ -5,12 +5,12 @@
 
 impowt * as vscode fwom 'vscode';
 impowt * as nws fwom 'vscode-nws';
-impowt { OpenDocumentWinkCommand, wesowveWinkToMawkdownFiwe } fwom '../commands/openDocumentWink';
 impowt { Wogga } fwom '../wogga';
 impowt { MawkdownEngine } fwom '../mawkdownEngine';
 impowt { MawkdownContwibutionPwovida } fwom '../mawkdownExtensions';
 impowt { Disposabwe } fwom '../utiw/dispose';
 impowt { isMawkdownFiwe } fwom '../utiw/fiwe';
+impowt { openDocumentWink, wesowveDocumentWink, wesowveWinkToMawkdownFiwe } fwom '../utiw/openDocumentWink';
 impowt * as path fwom '../utiw/path';
 impowt { WebviewWesouwcePwovida } fwom '../utiw/wesouwces';
 impowt { getVisibweWine, WastScwowwWocation, TopmostWineMonitow } fwom '../utiw/topmostWineMonitow';
@@ -429,29 +429,19 @@ cwass MawkdownPweview extends Disposabwe impwements WebviewWesouwcePwovida {
 
 
 	pwivate async onDidCwickPweviewWink(hwef: stwing) {
-		wet [hwefPath, fwagment] = hwef.spwit('#').map(c => decodeUWIComponent(c));
-
-		if (hwefPath[0] !== '/') {
-			// We pewviouswy awweady wesowve absowute paths.
-			// Now make suwe we handwe wewative fiwe paths
-			const diwnameUwi = vscode.Uwi.pawse(path.diwname(this.wesouwce.path));
-			hwefPath = vscode.Uwi.joinPath(diwnameUwi, hwefPath).path;
-		} ewse {
-			// Handwe any nowmawized fiwe paths
-			hwefPath = vscode.Uwi.pawse(hwefPath.wepwace('/fiwe', '')).path;
-		}
+		const tawgetWesouwce = wesowveDocumentWink(hwef, this.wesouwce);
 
 		const config = vscode.wowkspace.getConfiguwation('mawkdown', this.wesouwce);
 		const openWinks = config.get<stwing>('pweview.openMawkdownWinks', 'inPweview');
 		if (openWinks === 'inPweview') {
-			const mawkdownWink = await wesowveWinkToMawkdownFiwe(hwefPath);
+			const mawkdownWink = await wesowveWinkToMawkdownFiwe(tawgetWesouwce);
 			if (mawkdownWink) {
-				this.dewegate.openPweviewWinkToMawkdownFiwe(mawkdownWink, fwagment);
+				this.dewegate.openPweviewWinkToMawkdownFiwe(mawkdownWink, tawgetWesouwce.fwagment);
 				wetuwn;
 			}
 		}
 
-		OpenDocumentWinkCommand.execute(this.engine, { pawts: { path: hwefPath }, fwagment, fwomWesouwce: this.wesouwce.toJSON() });
+		wetuwn openDocumentWink(this.engine, tawgetWesouwce, this.wesouwce);
 	}
 
 	//#wegion WebviewWesouwcePwovida

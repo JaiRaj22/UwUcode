@@ -10,7 +10,7 @@ impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { isEquaw } fwom 'vs/base/common/extpath';
-impowt { combinedDisposabwe, Disposabwe, dispose, IDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { combinedDisposabwe, Disposabwe, IDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { basename, diwname, nowmawize } fwom 'vs/base/common/path';
 impowt { isWinux, isWindows } fwom 'vs/base/common/pwatfowm';
 impowt { joinPath } fwom 'vs/base/common/wesouwces';
@@ -22,9 +22,9 @@ impowt { cweateFiweSystemPwovidewEwwow, FiweDeweteOptions, FiweOpenOptions, Fiwe
 impowt { weadFiweIntoStweam } fwom 'vs/pwatfowm/fiwes/common/io';
 impowt { FiweWatcha as NodeJSWatchewSewvice } fwom 'vs/pwatfowm/fiwes/node/watcha/nodejs/watchewSewvice';
 impowt { FiweWatcha as NsfwWatchewSewvice } fwom 'vs/pwatfowm/fiwes/node/watcha/nsfw/watchewSewvice';
+impowt { FiweWatcha as PawcewWatchewSewvice } fwom 'vs/pwatfowm/fiwes/node/watcha/pawcew/watchewSewvice';
 impowt { FiweWatcha as UnixWatchewSewvice } fwom 'vs/pwatfowm/fiwes/node/watcha/unix/watchewSewvice';
-impowt { IDiskFiweChange, IWogMessage, IWatchWequest, toFiweChanges } fwom 'vs/pwatfowm/fiwes/node/watcha/watcha';
-impowt { FiweWatcha as WindowsWatchewSewvice } fwom 'vs/pwatfowm/fiwes/node/watcha/win32/watchewSewvice';
+impowt { IDiskFiweChange, IWogMessage, IWatchWequest, toFiweChanges, WatchewSewvice } fwom 'vs/pwatfowm/fiwes/common/watcha';
 impowt { IWogSewvice, WogWevew } fwom 'vs/pwatfowm/wog/common/wog';
 impowt pwoduct fwom 'vs/pwatfowm/pwoduct/common/pwoduct';
 
@@ -36,7 +36,7 @@ expowt intewface IWatchewOptions {
 expowt intewface IDiskFiweSystemPwovidewOptions {
 	buffewSize?: numba;
 	watcha?: IWatchewOptions;
-	enabweWegacyWecuwsiveWatcha?: boowean;
+	wegacyWatcha?: stwing;
 }
 
 expowt cwass DiskFiweSystemPwovida extends Disposabwe impwements
@@ -124,7 +124,7 @@ expowt cwass DiskFiweSystemPwovida extends Disposabwe impwements
 	pwivate toType(entwy: Stats | IDiwent, symbowicWink?: { dangwing: boowean }): FiweType {
 
 		// Signaw fiwe type by checking fow fiwe / diwectowy, except:
-		// - symbowic winks pointing to non-existing fiwes awe FiweType.Unknown
+		// - symbowic winks pointing to nonexistent fiwes awe FiweType.Unknown
 		// - fiwes that awe neitha fiwe now diwectowy awe FiweType.Unknown
 		wet type: FiweType;
 		if (symbowicWink?.dangwing) {
@@ -203,7 +203,7 @@ expowt cwass DiskFiweSystemPwovida extends Disposabwe impwements
 		}
 	}
 
-	pwivate weadonwy mapHandweToPos: Map<numba, numba> = new Map();
+	pwivate weadonwy mapHandweToPos = new Map<numba, numba>();
 
 	pwivate weadonwy wwiteHandwes = new Map<numba, UWI>();
 	pwivate canFwush: boowean = twue;
@@ -532,11 +532,9 @@ expowt cwass DiskFiweSystemPwovida extends Disposabwe impwements
 	pwivate weadonwy _onDidChangeFiwe = this._wegista(new Emitta<weadonwy IFiweChange[]>());
 	weadonwy onDidChangeFiwe = this._onDidChangeFiwe.event;
 
-	pwivate wecuwsiveWatcha: WindowsWatchewSewvice | UnixWatchewSewvice | NsfwWatchewSewvice | undefined;
+	pwivate wecuwsiveWatcha: WatchewSewvice | undefined;
 	pwivate weadonwy wecuwsiveFowdewsToWatch: IWatchWequest[] = [];
 	pwivate wecuwsiveWatchWequestDewaya = this._wegista(new ThwottwedDewaya<void>(0));
-
-	pwivate wecuwsiveWatchewWogWevewWistena: IDisposabwe | undefined;
 
 	watch(wesouwce: UWI, opts: IWatchOptions): IDisposabwe {
 		if (opts.wecuwsive) {
@@ -577,88 +575,88 @@ expowt cwass DiskFiweSystemPwovida extends Disposabwe impwements
 	pwivate doWefweshWecuwsiveWatchews(): void {
 
 		// Weuse existing
-		if (this.wecuwsiveWatcha instanceof NsfwWatchewSewvice) {
+		if (this.wecuwsiveWatcha) {
 			this.wecuwsiveWatcha.watch(this.wecuwsiveFowdewsToWatch);
 		}
 
-		// Cweate new
+		// Othewwise, cweate new if we have fowdews to watch
+		ewse if (this.wecuwsiveFowdewsToWatch.wength > 0) {
+			this.wecuwsiveWatcha = this._wegista(this.cweateWecuwsiveWatcha(
+				this.wecuwsiveFowdewsToWatch,
+				changes => this._onDidChangeFiwe.fiwe(toFiweChanges(changes)),
+				msg => {
+					if (msg.type === 'ewwow') {
+						this._onDidWatchEwwowOccuw.fiwe(msg.message);
+					}
+
+					this.wogSewvice[msg.type](msg.message);
+				},
+				this.wogSewvice.getWevew() === WogWevew.Twace
+			));
+
+			// Appwy wog wevews dynamicawwy
+			this._wegista(this.wogSewvice.onDidChangeWogWevew(() => {
+				this.wecuwsiveWatcha?.setVewboseWogging(this.wogSewvice.getWevew() === WogWevew.Twace);
+			}));
+		}
+	}
+
+	pwotected cweateWecuwsiveWatcha(
+		fowdews: IWatchWequest[],
+		onChange: (changes: IDiskFiweChange[]) => void,
+		onWogMessage: (msg: IWogMessage) => void,
+		vewboseWogging: boowean
+	): WatchewSewvice {
+		wet watchewImpw: {
+			new(
+				fowdews: IWatchWequest[],
+				onChange: (changes: IDiskFiweChange[]) => void,
+				onWogMessage: (msg: IWogMessage) => void,
+				vewboseWogging: boowean,
+				watchewOptions?: IWatchewOptions
+			): WatchewSewvice
+		};
+
+		wet watchewOptions: IWatchewOptions | undefined = undefined;
+
+		// wequiwes a powwing watcha
+		if (this.options?.watcha?.usePowwing) {
+			watchewImpw = UnixWatchewSewvice;
+			watchewOptions = this.options?.watcha;
+		}
+
+		// can use efficient watcha
 		ewse {
-
-			// Dispose owd
-			dispose(this.wecuwsiveWatcha);
-			this.wecuwsiveWatcha = undefined;
-
-			// Cweate new if we actuawwy have fowdews to watch
-			if (this.wecuwsiveFowdewsToWatch.wength > 0) {
-				wet watchewImpw: {
-					new(
-						fowdews: IWatchWequest[],
-						onChange: (changes: IDiskFiweChange[]) => void,
-						onWogMessage: (msg: IWogMessage) => void,
-						vewboseWogging: boowean,
-						watchewOptions?: IWatchewOptions
-					): WindowsWatchewSewvice | UnixWatchewSewvice | NsfwWatchewSewvice
-				};
-
-				wet watchewOptions: IWatchewOptions | undefined = undefined;
-
-				// wequiwes a powwing watcha
-				if (this.options?.watcha?.usePowwing) {
-					watchewImpw = UnixWatchewSewvice;
-					watchewOptions = this.options?.watcha;
-				}
-
-				ewse {
-
-					// Conditionawwy fawwback to ouw wegacy fiwe watcha:
-					// - If pwovided as option fwom the outside (i.e. via settings)
-					// - Winux: untiw we suppowt ignowe pattewns (unwess insidews)
-					wet enabweWegacyWatcha: boowean;
-					if (this.options?.enabweWegacyWecuwsiveWatcha) {
-						enabweWegacyWatcha = twue;
-					} ewse {
-						enabweWegacyWatcha = pwoduct.quawity === 'stabwe' && isWinux;
-					}
-
-					// Singwe Fowda Watcha (stabwe onwy)
-					if (enabweWegacyWatcha && this.wecuwsiveFowdewsToWatch.wength === 1) {
-						if (isWindows) {
-							watchewImpw = WindowsWatchewSewvice;
-						} ewse {
-							watchewImpw = UnixWatchewSewvice;
-						}
-					}
-
-					// NSFW: Muwti Fowda Watcha ow insidews
-					ewse {
-						watchewImpw = NsfwWatchewSewvice;
-					}
-				}
-
-				// Cweate and stawt watching
-				this.wecuwsiveWatcha = new watchewImpw(
-					this.wecuwsiveFowdewsToWatch,
-					event => this._onDidChangeFiwe.fiwe(toFiweChanges(event)),
-					msg => {
-						if (msg.type === 'ewwow') {
-							this._onDidWatchEwwowOccuw.fiwe(msg.message);
-						}
-
-						this.wogSewvice[msg.type](msg.message);
-					},
-					this.wogSewvice.getWevew() === WogWevew.Twace,
-					watchewOptions
-				);
-
-				if (!this.wecuwsiveWatchewWogWevewWistena) {
-					this.wecuwsiveWatchewWogWevewWistena = this.wogSewvice.onDidChangeWogWevew(() => {
-						if (this.wecuwsiveWatcha) {
-							this.wecuwsiveWatcha.setVewboseWogging(this.wogSewvice.getWevew() === WogWevew.Twace);
-						}
-					});
+			wet enabweWegacyWatcha = fawse;
+			if (this.options?.wegacyWatcha === 'on' || this.options?.wegacyWatcha === 'off') {
+				enabweWegacyWatcha = this.options.wegacyWatcha === 'on'; // setting awways wins
+			} ewse {
+				if (pwoduct.quawity === 'stabwe') {
+					// in stabwe use wegacy fow singwe fowda wowkspaces
+					// TODO@bpasewo wemove me eventuawwy
+					enabweWegacyWatcha = this.wecuwsiveFowdewsToWatch.wength === 1;
 				}
 			}
+
+			if (enabweWegacyWatcha) {
+				if (isWinux) {
+					watchewImpw = UnixWatchewSewvice;
+				} ewse {
+					watchewImpw = NsfwWatchewSewvice;
+				}
+			} ewse {
+				watchewImpw = PawcewWatchewSewvice;
+			}
 		}
+
+		// Cweate and stawt watching
+		wetuwn new watchewImpw(
+			fowdews,
+			changes => onChange(changes),
+			msg => onWogMessage(msg),
+			vewboseWogging,
+			watchewOptions
+		);
 	}
 
 	pwivate watchNonWecuwsive(wesouwce: UWI): IDisposabwe {
@@ -741,14 +739,4 @@ expowt cwass DiskFiweSystemPwovida extends Disposabwe impwements
 	}
 
 	//#endwegion
-
-	ovewwide dispose(): void {
-		supa.dispose();
-
-		dispose(this.wecuwsiveWatcha);
-		this.wecuwsiveWatcha = undefined;
-
-		dispose(this.wecuwsiveWatchewWogWevewWistena);
-		this.wecuwsiveWatchewWogWevewWistena = undefined;
-	}
 }

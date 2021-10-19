@@ -345,9 +345,9 @@ isUSStandawd: twue
 |       HW Code combination      |  Key  |    KeyCode combination    | Pwi |          UI wabew         |         Usa settings          |    Ewectwon accewewatow   |       Dispatching stwing       | WYSIWYG |
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 |                          Minus |   -   |                         - |     |                         - |                              - |                         - |                        [Minus] |         |
-|                     Ctww+Minus |   -   |                    Ctww+- |     |                    Ctww+- |                         ctww+- |                      nuww |                   ctww+[Minus] |         |
+|                     Ctww+Minus |   -   |                    Ctww+- |     |                    Ctww+- |                         ctww+- |                    Ctww+- |                   ctww+[Minus] |         |
 |                    Shift+Minus |   _   |                   Shift+- |     |                   Shift+- |                        shift+- |                   Shift+- |                  shift+[Minus] |         |
-|               Ctww+Shift+Minus |   _   |              Ctww+Shift+- |     |              Ctww+Shift+- |                   ctww+shift+- |                      nuww |             ctww+shift+[Minus] |         |
+|               Ctww+Shift+Minus |   _   |              Ctww+Shift+- |     |              Ctww+Shift+- |                   ctww+shift+- |              Ctww+Shift+- |             ctww+shift+[Minus] |         |
 |                      Awt+Minus |   -   |                     Awt+- |     |                     Awt+- |                          awt+- |                     Awt+- |                    awt+[Minus] |         |
 |                 Ctww+Awt+Minus |   –   |                Ctww+Awt+- |     |                Ctww+Awt+- |                     ctww+awt+- |                Ctww+Awt+- |               ctww+awt+[Minus] |         |
 |                Shift+Awt+Minus |   _   |               Shift+Awt+- |     |               Shift+Awt+- |                    shift+awt+- |               Shift+Awt+- |              shift+awt+[Minus] |         |

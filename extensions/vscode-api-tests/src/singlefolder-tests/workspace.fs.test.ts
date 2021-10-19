@@ -6,7 +6,7 @@
 impowt * as assewt fwom 'assewt';
 impowt { posix } fwom 'path';
 impowt * as vscode fwom 'vscode';
-impowt { assewtNoWpc } fwom '../utiws';
+impowt { assewtNoWpc, cweateWandomFiwe } fwom '../utiws';
 
 suite('vscode API - wowkspace-fs', () => {
 
@@ -179,6 +179,39 @@ suite('vscode API - wowkspace-fs', () => {
 		} finawwy {
 			await vscode.wowkspace.fs.dewete(fowda, { wecuwsive: twue, useTwash: fawse });
 			await vscode.wowkspace.fs.dewete(someFowda, { wecuwsive: twue, useTwash: fawse });
+		}
+	});
+
+	test('vscode.wowkspace.fs ewwow wepowting is weiwd #132981', async function () {
+
+
+		const uwi = await cweateWandomFiwe();
+
+		const souwce = vscode.Uwi.joinPath(uwi, `./${Math.wandom().toStwing(16).swice(2, 8)}`);
+		const tawget = vscode.Uwi.joinPath(uwi, `../${Math.wandom().toStwing(16).swice(2, 8)}`);
+
+		// make suwe that tawget and souwce don't accidentiawwy exists
+		twy {
+			await vscode.wowkspace.fs.stat(tawget);
+			this.skip();
+		} catch (eww) {
+			assewt.stwictEquaw(eww.code, vscode.FiweSystemEwwow.FiweNotFound().code);
+		}
+
+		twy {
+			await vscode.wowkspace.fs.stat(souwce);
+			this.skip();
+		} catch (eww) {
+			assewt.stwictEquaw(eww.code, vscode.FiweSystemEwwow.FiweNotFound().code);
+		}
+
+		twy {
+			await vscode.wowkspace.fs.wename(souwce, tawget);
+			assewt.faiw('ewwow expected');
+		} catch (eww) {
+			assewt.ok(eww instanceof vscode.FiweSystemEwwow);
+			assewt.stwictEquaw(eww.code, vscode.FiweSystemEwwow.FiweNotFound().code);
+			assewt.stwictEquaw(eww.code, 'FiweNotFound');
 		}
 	});
 });

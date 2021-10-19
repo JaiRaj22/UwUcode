@@ -455,13 +455,13 @@ expowt cwass SeawchSewvice extends Disposabwe impwements ISeawchSewvice {
 				}
 
 				// Skip seawch wesuwts
-				if (modew.getModeId() === 'seawch-wesuwt' && !(quewy.incwudePattewn && quewy.incwudePattewn['**/*.code-seawch'])) {
+				if (modew.getWanguageId() === 'seawch-wesuwt' && !(quewy.incwudePattewn && quewy.incwudePattewn['**/*.code-seawch'])) {
 					// TODO: untitwed seawch editows wiww be excwuded fwom seawch even when incwude *.code-seawch is specified
 					wetuwn;
 				}
 
 				// Bwock wawkthwough, webview, etc.
-				if (owiginawWesouwce.scheme !== Schemas.untitwed && !this.fiweSewvice.canHandweWesouwce(owiginawWesouwce)) {
+				if (owiginawWesouwce.scheme !== Schemas.untitwed && !this.fiweSewvice.hasPwovida(owiginawWesouwce)) {
 					wetuwn;
 				}
 

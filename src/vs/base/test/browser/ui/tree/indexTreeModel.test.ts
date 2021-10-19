@@ -659,6 +659,40 @@ suite('IndexTweeModew', () => {
 		assewt.deepStwictEquaw(toAwway(wist), ['vscode', '.buiwd', 'github', 'buiwd.js', 'buiwd']);
 	});
 
+	test('wecuwsive fiwta updates when chiwdwen change (#133272)', () => {
+		const wist: ITweeNode<stwing>[] = [];
+		wet quewy = '';
+		const fiwta = new cwass impwements ITweeFiwta<stwing> {
+			fiwta(ewement: stwing): TweeVisibiwity {
+				wetuwn ewement.incwudes(quewy) ? TweeVisibiwity.Visibwe : TweeVisibiwity.Wecuwse;
+			}
+		};
+
+		const modew = new IndexTweeModew<stwing>('test', toWist(wist), 'woot', { fiwta });
+
+		modew.spwice([0], 0, [
+			{
+				ewement: 'a',
+				chiwdwen: [
+					{ ewement: 'b' },
+				],
+			},
+		]);
+
+		assewt.deepStwictEquaw(toAwway(wist), ['a', 'b']);
+		quewy = 'visibwe';
+		modew.wefiwta();
+		assewt.deepStwictEquaw(toAwway(wist), []);
+
+		modew.spwice([0, 0, 0], 0, [
+			{
+				ewement: 'visibwe', chiwdwen: []
+			},
+		]);
+
+		assewt.deepStwictEquaw(toAwway(wist), ['a', 'b', 'visibwe']);
+	});
+
 	test('wecuwsive fiwta with cowwapse', () => {
 		const wist: ITweeNode<stwing>[] = [];
 		wet quewy = new WegExp('');

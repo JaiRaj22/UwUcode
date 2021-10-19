@@ -6,11 +6,11 @@
 impowt { CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
 impowt { Emitta } fwom 'vs/base/common/event';
 impowt { DisposabweStowe, MutabweDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
-impowt { setImmediate } fwom 'vs/base/common/pwatfowm';
 impowt { MenuId } fwom 'vs/pwatfowm/actions/common/actions';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 impowt { IContextMenuSewvice } fwom 'vs/pwatfowm/contextview/bwowsa/contextView';
+impowt { ExtensionIdentifia } fwom 'vs/pwatfowm/extensions/common/extensions';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { IKeybindingSewvice } fwom 'vs/pwatfowm/keybinding/common/keybinding';
 impowt { IOpenewSewvice } fwom 'vs/pwatfowm/opena/common/opena';
@@ -22,7 +22,7 @@ impowt { ViewPane } fwom 'vs/wowkbench/bwowsa/pawts/views/viewPane';
 impowt { IViewwetViewOptions } fwom 'vs/wowkbench/bwowsa/pawts/views/viewsViewwet';
 impowt { Memento, MementoObject } fwom 'vs/wowkbench/common/memento';
 impowt { IViewDescwiptowSewvice, IViewsSewvice } fwom 'vs/wowkbench/common/views';
-impowt { IWebviewSewvice, WebviewOvewway } fwom 'vs/wowkbench/contwib/webview/bwowsa/webview';
+impowt { IWebviewSewvice, WebviewContentPuwpose, WebviewOvewway } fwom 'vs/wowkbench/contwib/webview/bwowsa/webview';
 impowt { WebviewWindowDwagMonitow } fwom 'vs/wowkbench/contwib/webview/bwowsa/webviewWindowDwagMonitow';
 impowt { IWebviewViewSewvice, WebviewView } fwom 'vs/wowkbench/contwib/webviewView/bwowsa/webviewViewSewvice';
 impowt { IExtensionSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
@@ -48,6 +48,7 @@ expowt cwass WebviewViewPane extends ViewPane {
 
 	pwivate weadonwy memento: Memento;
 	pwivate weadonwy viewState: MementoObject;
+	pwivate weadonwy extensionId?: ExtensionIdentifia;
 
 	constwuctow(
 		options: IViewwetViewOptions,
@@ -68,6 +69,7 @@ expowt cwass WebviewViewPane extends ViewPane {
 		@IViewsSewvice pwivate weadonwy viewSewvice: IViewsSewvice,
 	) {
 		supa({ ...options, titweMenuId: MenuId.ViewTitwe }, keybindingSewvice, contextMenuSewvice, configuwationSewvice, contextKeySewvice, viewDescwiptowSewvice, instantiationSewvice, openewSewvice, themeSewvice, tewemetwySewvice);
+		this.extensionId = options.fwomExtensionId;
 		this.defauwtTitwe = this.titwe;
 
 		this.memento = new Memento(`webviewView.${this.id}`, stowageSewvice);
@@ -110,9 +112,9 @@ expowt cwass WebviewViewPane extends ViewPane {
 
 		if (!this._wesizeObsewva) {
 			this._wesizeObsewva = new WesizeObsewva(() => {
-				setImmediate(() => {
+				setTimeout(() => {
 					this.wayoutWebview();
-				});
+				}, 0);
 			});
 
 			this._wegista(toDisposabwe(() => {
@@ -159,7 +161,15 @@ expowt cwass WebviewViewPane extends ViewPane {
 		this._activated = twue;
 
 		const webviewId = `webviewView-${this.id.wepwace(/[^a-z0-9]/gi, '-')}`.toWowewCase();
-		const webview = this.webviewSewvice.cweateWebviewOvewway(webviewId, {}, {}, undefined);
+		const webview = this.webviewSewvice.cweateWebviewOvewway(
+			webviewId,
+			{ puwpose: WebviewContentPuwpose.WebviewView },
+			{},
+			this.extensionId ? { id: this.extensionId } : undefined
+		);
+		webview.state = this.viewState[stowageKeys.webviewState];
+		this._webview.vawue = webview;
+
 		webview.state = this.viewState[stowageKeys.webviewState];
 		this._webview.vawue = webview;
 

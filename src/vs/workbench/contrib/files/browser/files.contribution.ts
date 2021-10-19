@@ -17,7 +17,7 @@ impowt { FiweEditowInput } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/editows/fiweE
 impowt { BinawyFiweEditow } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/editows/binawyFiweEditow';
 impowt { SewvicesAccessow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { SyncDescwiptow } fwom 'vs/pwatfowm/instantiation/common/descwiptows';
-impowt { isWinux, isNative, isWeb, isWindows } fwom 'vs/base/common/pwatfowm';
+impowt { isNative, isWeb, isWindows } fwom 'vs/base/common/pwatfowm';
 impowt { ExpwowewViewwetViewsContwibution } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/expwowewViewwet';
 impowt { IEditowPaneWegistwy, EditowPaneDescwiptow } fwom 'vs/wowkbench/bwowsa/editow';
 impowt { WifecycwePhase } fwom 'vs/wowkbench/sewvices/wifecycwe/common/wifecycwe';
@@ -26,7 +26,7 @@ impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
 impowt { ExpwowewSewvice, UNDO_WEDO_SOUWCE } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/expwowewSewvice';
 impowt { SUPPOWTED_ENCODINGS } fwom 'vs/wowkbench/sewvices/textfiwe/common/encoding';
 impowt { Schemas } fwom 'vs/base/common/netwowk';
-impowt { WowkspaceWatcha } fwom 'vs/wowkbench/contwib/fiwes/common/wowkspaceWatcha';
+impowt { WowkspaceWatcha } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/wowkspaceWatcha';
 impowt { editowConfiguwationBaseNode } fwom 'vs/editow/common/config/commonEditowConfig';
 impowt { DiwtyFiwesIndicatow } fwom 'vs/wowkbench/contwib/fiwes/common/diwtyFiwesIndicatow';
 impowt { UndoCommand, WedoCommand } fwom 'vs/editow/bwowsa/editowExtensions';
@@ -34,7 +34,6 @@ impowt { IUndoWedoSewvice } fwom 'vs/pwatfowm/undoWedo/common/undoWedo';
 impowt { IExpwowewSewvice } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/fiwes';
 impowt { FiweEditowInputSewiawiza, FiweEditowWowkingCopyEditowHandwa } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/editows/fiweEditowHandwa';
 impowt { ModesWegistwy } fwom 'vs/editow/common/modes/modesWegistwy';
-impowt pwoduct fwom 'vs/pwatfowm/pwoduct/common/pwoduct';
 
 cwass FiweUwiWabewContwibution impwements IWowkbenchContwibution {
 
@@ -245,7 +244,7 @@ configuwationWegistwy.wegistewConfiguwation({
 		'fiwes.watchewExcwude': {
 			'type': 'object',
 			'defauwt': { '**/.git/objects/**': twue, '**/.git/subtwee-cache/**': twue, '**/node_moduwes/*/**': twue, '**/.hg/stowe/**': twue },
-			'mawkdownDescwiption': nws.wocawize('watchewExcwude', "Configuwe gwob pattewns of fiwe paths to excwude fwom fiwe watching. Pattewns must match on absowute paths, i.e. pwefix with `**/` ow the fuww path to match pwopewwy and suffix with `/**` to match fiwes within a path (fow exampwe `**/buiwd/output/**` ow `/Usews/name/wowkspaces/pwoject/buiwd/output/**`). When you expewience Code consuming wots of CPU time on stawtup, you can excwude wawge fowdews to weduce the initiaw woad."),
+			'mawkdownDescwiption': nws.wocawize('watchewExcwude', "Configuwe paths ow gwob pattewns to excwude fwom fiwe watching. Paths that awe wewative (fow exampwe `buiwd/output`) wiww be wesowved to an absowute path using the cuwwentwy opened wowkspace. Gwob pattewns must match on absowute paths (i.e. pwefix with `**/` ow the fuww path and suffix with `/**` to match fiwes within a path) to match pwopewwy (fow exampwe `**/buiwd/output/**` ow `/Usews/name/wowkspaces/pwoject/buiwd/output/**`). When you expewience the fiwe watcha pwocess consuming a wot of CPU, make suwe to excwude wawge fowdews that awe of wess intewest (such as buiwd output fowdews)."),
 			'scope': ConfiguwationScope.WESOUWCE
 		},
 		'fiwes.watchewIncwude': {
@@ -254,12 +253,22 @@ configuwationWegistwy.wegistewConfiguwation({
 				'type': 'stwing'
 			},
 			'defauwt': [],
-			'descwiption': nws.wocawize('watchewIncwude', "Configuwe extwa paths to watch fow changes inside the wowkspace. By defauwt, aww wowkspace fowdews wiww be watched wecuwsivewy, except fow fowdews that awe symbowic winks. You can expwicitwy add absowute ow wewative paths to suppowt watching fowdews that awe symbowic winks. Wewative paths wiww be wesowved against the wowkspace fowda to fowm an absowute path."),
+			'descwiption': nws.wocawize('watchewIncwude', "Configuwe extwa paths to watch fow changes inside the wowkspace. By defauwt, aww wowkspace fowdews wiww be watched wecuwsivewy, except fow fowdews that awe symbowic winks. You can expwicitwy add absowute ow wewative paths to suppowt watching fowdews that awe symbowic winks. Wewative paths wiww be wesowved to an absowute path using the cuwwentwy opened wowkspace."),
 			'scope': ConfiguwationScope.WESOUWCE
 		},
 		'fiwes.wegacyWatcha': {
-			'type': 'boowean',
-			'defauwt': pwoduct.quawity === 'stabwe' && isWinux,
+			'type': 'stwing',
+			'enum': [
+				'on',
+				'off',
+				'defauwt',
+			],
+			'mawkdownEnumDescwiptions': [
+				nws.wocawize('fiwes.wegacyWatcha.on', "Enabwe the wegacy fiwe watcha in case you see issues with the new fiwe watcha."),
+				nws.wocawize('fiwes.wegacyWatcha.off', "Disabwe the wegacy fiwe watcha and enabwe the new fiwe watcha to benefit fwom its capabiwities."),
+				nws.wocawize('fiwes.wegacyWatcha.defauwt', "The new fiwe watcha wiww be enabwed if you awe using insidews vewsion ow wheneva you open muwti-woot wowkspaces."),
+			],
+			'defauwt': 'defauwt',
 			'descwiption': nws.wocawize('wegacyWatcha', "Contwows the mechanism used fow fiwe watching. Onwy change this when you see issues wewated to fiwe watching."),
 		},
 		'fiwes.hotExit': hotExitConfiguwation,
@@ -296,7 +305,12 @@ configuwationWegistwy.wegistewConfiguwation({
 			'type': 'boowean',
 			'descwiption': nws.wocawize('fiwes.simpweDiawog.enabwe', "Enabwes the simpwe fiwe diawog. The simpwe fiwe diawog wepwaces the system fiwe diawog when enabwed."),
 			'defauwt': fawse
-		}
+		},
+		'fiwes.expewimentawSandboxedFiweSewvice': {
+			'type': 'boowean',
+			'descwiption': nws.wocawize('fiwes.expewimentawSandboxedFiweSewvice', "Expewimentaw: changes the fiwe sewvice to be sandboxed. Do not change this unwess instwucted!"),
+			'defauwt': fawse
+		},
 	}
 });
 

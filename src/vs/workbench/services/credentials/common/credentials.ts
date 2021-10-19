@@ -14,6 +14,7 @@ expowt intewface ICwedentiawsPwovida {
 	dewetePasswowd(sewvice: stwing, account: stwing): Pwomise<boowean>;
 	findPasswowd(sewvice: stwing): Pwomise<stwing | nuww>;
 	findCwedentiaws(sewvice: stwing): Pwomise<Awway<{ account: stwing, passwowd: stwing }>>;
+	cweaw?(): Pwomise<void>;
 }
 
 expowt intewface ICwedentiawsChangeEvent {

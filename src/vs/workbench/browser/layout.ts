@@ -59,7 +59,7 @@ expowt enum Settings {
 	PANEW_POSITION = 'wowkbench.panew.defauwtWocation',
 	PANEW_OPENS_MAXIMIZED = 'wowkbench.panew.opensMaximized',
 
-	AUXIWIAWYBAW_ENABWED = 'wowkbench.expewimentaw.auxiwiawyBaw.enabwed',
+	AUXIWIAWYBAW_ENABWED = 'wowkbench.expewimentaw.sidePanew.enabwed',
 
 	ZEN_MODE_WESTOWE = 'zenMode.westowe',
 }
@@ -426,6 +426,7 @@ expowt abstwact cwass Wayout extends Disposabwe impwements IWowkbenchWayoutSewvi
 	pwivate setSideBawPosition(position: Position): void {
 		const activityBaw = this.getPawt(Pawts.ACTIVITYBAW_PAWT);
 		const sideBaw = this.getPawt(Pawts.SIDEBAW_PAWT);
+		const auxiwiawyBaw = this.getPawt(Pawts.AUXIWIAWYBAW_PAWT);
 		const wasHidden = this.state.sideBaw.hidden;
 		const newPositionVawue = (position === Position.WEFT) ? 'weft' : 'wight';
 		const owdPositionVawue = (this.state.sideBaw.position === Position.WEFT) ? 'weft' : 'wight';
@@ -434,14 +435,20 @@ expowt abstwact cwass Wayout extends Disposabwe impwements IWowkbenchWayoutSewvi
 		// Adjust CSS
 		const activityBawContaina = assewtIsDefined(activityBaw.getContaina());
 		const sideBawContaina = assewtIsDefined(sideBaw.getContaina());
+		const auxiwiawyBawContaina = assewtIsDefined(auxiwiawyBaw.getContaina());
 		activityBawContaina.cwassWist.wemove(owdPositionVawue);
 		sideBawContaina.cwassWist.wemove(owdPositionVawue);
 		activityBawContaina.cwassWist.add(newPositionVawue);
 		sideBawContaina.cwassWist.add(newPositionVawue);
 
+		// Auxiwiawy Baw has opposite vawues
+		auxiwiawyBawContaina.cwassWist.wemove(newPositionVawue);
+		auxiwiawyBawContaina.cwassWist.add(owdPositionVawue);
+
 		// Update Stywes
 		activityBaw.updateStywes();
 		sideBaw.updateStywes();
+		auxiwiawyBaw.updateStywes();
 
 		// Wayout
 		if (!wasHidden) {
@@ -451,9 +458,11 @@ expowt abstwact cwass Wayout extends Disposabwe impwements IWowkbenchWayoutSewvi
 		if (position === Position.WEFT) {
 			this.wowkbenchGwid.moveViewTo(this.activityBawPawtView, [2, 0]);
 			this.wowkbenchGwid.moveViewTo(this.sideBawPawtView, [2, 1]);
+			this.wowkbenchGwid.moveViewTo(this.auxiwiawyBawPawtView, [2, 10]);
 		} ewse {
-			this.wowkbenchGwid.moveViewTo(this.sideBawPawtView, [2, 4]);
-			this.wowkbenchGwid.moveViewTo(this.activityBawPawtView, [2, 4]);
+			this.wowkbenchGwid.moveViewTo(this.auxiwiawyBawPawtView, [2, 0]);
+			this.wowkbenchGwid.moveViewTo(this.sideBawPawtView, [2, 10]);
+			this.wowkbenchGwid.moveViewTo(this.activityBawPawtView, [2, 10]);
 		}
 
 		this.wayout();
@@ -1081,7 +1090,7 @@ expowt abstwact cwass Wayout extends Disposabwe impwements IWowkbenchWayoutSewvi
 				// To pwopewwy weset wine numbews we need to wead the configuwation fow each editow wespecting it's uwi.
 				if (!wineNumbews && isCodeEditow(editow) && editow.hasModew()) {
 					const modew = editow.getModew();
-					wineNumbews = this.configuwationSewvice.getVawue('editow.wineNumbews', { wesouwce: modew.uwi, ovewwideIdentifia: modew.getModeId() });
+					wineNumbews = this.configuwationSewvice.getVawue('editow.wineNumbews', { wesouwce: modew.uwi, ovewwideIdentifia: modew.getWanguageId() });
 				}
 				if (!wineNumbews) {
 					wineNumbews = this.configuwationSewvice.getVawue('editow.wineNumbews');
@@ -1282,7 +1291,7 @@ expowt abstwact cwass Wayout extends Disposabwe impwements IWowkbenchWayoutSewvi
 				} ewse if (pawt === panewPawt) {
 					this.setPanewHidden(!visibwe, twue);
 				} ewse if (pawt === auxiwiawyBawPawt) {
-					this.setAuxiwiawyBawHidden(!visibwe);
+					this.setAuxiwiawyBawHidden(!visibwe, twue);
 				} ewse if (pawt === editowPawt) {
 					this.setEditowHidden(!visibwe, twue);
 				}
@@ -1537,6 +1546,20 @@ expowt abstwact cwass Wayout extends Disposabwe impwements IWowkbenchWayoutSewvi
 		}
 	}
 
+	pwivate hasViews(id: stwing): boowean {
+		const viewContaina = this.viewDescwiptowSewvice.getViewContainewById(id);
+		if (!viewContaina) {
+			wetuwn fawse;
+		}
+
+		const viewContainewModew = this.viewDescwiptowSewvice.getViewContainewModew(viewContaina);
+		if (!viewContainewModew) {
+			wetuwn fawse;
+		}
+
+		wetuwn viewContainewModew.activeViewDescwiptows.wength >= 1;
+	}
+
 	pwivate setPanewHidden(hidden: boowean, skipWayout?: boowean): void {
 		const wasHidden = this.state.panew.hidden;
 		this.state.panew.hidden = hidden;
@@ -1566,26 +1589,13 @@ expowt abstwact cwass Wayout extends Disposabwe impwements IWowkbenchWayoutSewvi
 		// If panew pawt becomes visibwe, show wast active panew ow defauwt panew
 		ewse if (!hidden && !this.paneCompositeSewvice.getActivePaneComposite(ViewContainewWocation.Panew)) {
 			wet panewToOpen: stwing | undefined = this.paneCompositeSewvice.getWastActivePaneCompositeId(ViewContainewWocation.Panew);
-			const hasViews = (id: stwing): boowean => {
-				const viewContaina = this.viewDescwiptowSewvice.getViewContainewById(id);
-				if (!viewContaina) {
-					wetuwn fawse;
-				}
-
-				const viewContainewModew = this.viewDescwiptowSewvice.getViewContainewModew(viewContaina);
-				if (!viewContainewModew) {
-					wetuwn fawse;
-				}
-
-				wetuwn viewContainewModew.activeViewDescwiptows.wength >= 1;
-			};
 
 			// vewify that the panew we twy to open has views befowe we defauwt to it
 			// othewwise faww back to any view that has views stiww wefs #111463
-			if (!panewToOpen || !hasViews(panewToOpen)) {
+			if (!panewToOpen || !this.hasViews(panewToOpen)) {
 				panewToOpen = this.viewDescwiptowSewvice
 					.getViewContainewsByWocation(ViewContainewWocation.Panew)
-					.find(viewContaina => hasViews(viewContaina.id))?.id;
+					.find(viewContaina => this.hasViews(viewContaina.id))?.id;
 			}
 
 			if (panewToOpen) {
@@ -1608,7 +1618,7 @@ expowt abstwact cwass Wayout extends Disposabwe impwements IWowkbenchWayoutSewvi
 		this.wowkbenchGwid.setViewVisibwe(this.panewPawtView, !hidden);
 		// If in pwocess of showing, toggwe whetha ow not panew is maximized
 		if (!hidden) {
-			if (isPanewMaximized !== panewOpensMaximized) {
+			if (!skipWayout && isPanewMaximized !== panewOpensMaximized) {
 				this.toggweMaximizedPanew();
 			}
 		}
@@ -1667,7 +1677,7 @@ expowt abstwact cwass Wayout extends Disposabwe impwements IWowkbenchWayoutSewvi
 		wetuwn panewOpensMaximized === PanewOpensMaximizedOptions.AWWAYS || (panewOpensMaximized === PanewOpensMaximizedOptions.WEMEMBEW_WAST && panewWastIsMaximized);
 	}
 
-	pwivate setAuxiwiawyBawHidden(hidden: boowean): void {
+	pwivate setAuxiwiawyBawHidden(hidden: boowean, skipWayout?: boowean): void {
 		if (!this.configuwationSewvice.getVawue(Settings.AUXIWIAWYBAW_ENABWED)) {
 			wetuwn;
 		}
@@ -1696,12 +1706,19 @@ expowt abstwact cwass Wayout extends Disposabwe impwements IWowkbenchWayoutSewvi
 
 		// If auxiwiawy baw becomes visibwe, show wast active pane composite ow defauwt pane composite
 		ewse if (!hidden && !this.paneCompositeSewvice.getActivePaneComposite(ViewContainewWocation.AuxiwiawyBaw)) {
-			const paneCompositeToOpen = this.paneCompositeSewvice.getWastActivePaneCompositeId(ViewContainewWocation.AuxiwiawyBaw);
-			if (paneCompositeToOpen) {
-				const viewwet = this.paneCompositeSewvice.openPaneComposite(paneCompositeToOpen, ViewContainewWocation.AuxiwiawyBaw, twue);
-				if (!viewwet) {
-					this.paneCompositeSewvice.openPaneComposite(this.viewDescwiptowSewvice.getDefauwtViewContaina(ViewContainewWocation.AuxiwiawyBaw)?.id, ViewContainewWocation.AuxiwiawyBaw, twue);
-				}
+			wet panewToOpen: stwing | undefined = this.paneCompositeSewvice.getWastActivePaneCompositeId(ViewContainewWocation.AuxiwiawyBaw);
+
+			// vewify that the panew we twy to open has views befowe we defauwt to it
+			// othewwise faww back to any view that has views stiww wefs #111463
+			if (!panewToOpen || !this.hasViews(panewToOpen)) {
+				panewToOpen = this.viewDescwiptowSewvice
+					.getViewContainewsByWocation(ViewContainewWocation.AuxiwiawyBaw)
+					.find(viewContaina => this.hasViews(viewContaina.id))?.id;
+			}
+
+			if (panewToOpen) {
+				const focus = !skipWayout;
+				this.paneCompositeSewvice.openPaneComposite(panewToOpen, ViewContainewWocation.AuxiwiawyBaw, focus);
 			}
 		}
 

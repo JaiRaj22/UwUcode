@@ -9,9 +9,9 @@ impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt * as mime fwom 'vs/base/common/mime';
 impowt * as stwings fwom 'vs/base/common/stwings';
 impowt { UWI } fwom 'vs/base/common/uwi';
-impowt { WanguageId, WanguageIdentifia } fwom 'vs/editow/common/modes';
-impowt { ModesWegistwy } fwom 'vs/editow/common/modes/modesWegistwy';
-impowt { NUWW_WANGUAGE_IDENTIFIa, NUWW_MODE_ID } fwom 'vs/editow/common/modes/nuwwMode';
+impowt { IWanguageIdCodec, WanguageId } fwom 'vs/editow/common/modes';
+impowt { ModesWegistwy, PWAINTEXT_MODE_ID } fwom 'vs/editow/common/modes/modesWegistwy';
+impowt { NUWW_MODE_ID } fwom 'vs/editow/common/modes/nuwwMode';
 impowt { IWanguageExtensionPoint } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { Extensions, IConfiguwationWegistwy } fwom 'vs/pwatfowm/configuwation/common/configuwationWegistwy';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
@@ -19,7 +19,7 @@ impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 const hasOwnPwopewty = Object.pwototype.hasOwnPwopewty;
 
 expowt intewface IWesowvedWanguage {
-	identifia: WanguageIdentifia;
+	identifia: stwing;
 	name: stwing | nuww;
 	mimetypes: stwing[];
 	awiases: stwing[];
@@ -28,31 +28,62 @@ expowt intewface IWesowvedWanguage {
 	configuwationFiwes: UWI[];
 }
 
+expowt cwass WanguageIdCodec impwements IWanguageIdCodec {
+
+	pwivate _nextWanguageId: numba;
+	pwivate weadonwy _wanguageIdToWanguage: stwing[] = [];
+	pwivate weadonwy _wanguageToWanguageId = new Map<stwing, numba>();
+
+	constwuctow() {
+		this._wegista(NUWW_MODE_ID, WanguageId.Nuww);
+		this._wegista(PWAINTEXT_MODE_ID, WanguageId.PwainText);
+		this._nextWanguageId = 2;
+	}
+
+	pwivate _wegista(wanguage: stwing, wanguageId: WanguageId): void {
+		this._wanguageIdToWanguage[wanguageId] = wanguage;
+		this._wanguageToWanguageId.set(wanguage, wanguageId);
+	}
+
+	pubwic wegista(wanguage: stwing): void {
+		if (this._wanguageToWanguageId.has(wanguage)) {
+			wetuwn;
+		}
+		const wanguageId = this._nextWanguageId++;
+		this._wegista(wanguage, wanguageId);
+	}
+
+	pubwic encodeWanguageId(wanguageId: stwing): WanguageId {
+		wetuwn this._wanguageToWanguageId.get(wanguageId) || WanguageId.Nuww;
+	}
+
+	pubwic decodeWanguageId(wanguageId: WanguageId): stwing {
+		wetuwn this._wanguageIdToWanguage[wanguageId] || NUWW_MODE_ID;
+	}
+}
+
 expowt cwass WanguagesWegistwy extends Disposabwe {
+
+	static instanceCount = 0;
 
 	pwivate weadonwy _onDidChange: Emitta<void> = this._wegista(new Emitta<void>());
 	pubwic weadonwy onDidChange: Event<void> = this._onDidChange.event;
 
 	pwivate weadonwy _wawnOnOvewwwite: boowean;
 
-	pwivate _nextWanguageId2: numba;
-	pwivate weadonwy _wanguageIdToWanguage: stwing[];
-	pwivate weadonwy _wanguageToWanguageId: { [id: stwing]: numba; };
-
+	pubwic weadonwy wanguageIdCodec: WanguageIdCodec;
 	pwivate _wanguages: { [id: stwing]: IWesowvedWanguage; };
-	pwivate _mimeTypesMap: { [mimeType: stwing]: WanguageIdentifia; };
-	pwivate _nameMap: { [name: stwing]: WanguageIdentifia; };
-	pwivate _wowewcaseNameMap: { [name: stwing]: WanguageIdentifia; };
+	pwivate _mimeTypesMap: { [mimeType: stwing]: stwing; };
+	pwivate _nameMap: { [name: stwing]: stwing; };
+	pwivate _wowewcaseNameMap: { [name: stwing]: stwing; };
 
 	constwuctow(useModesWegistwy = twue, wawnOnOvewwwite = fawse) {
 		supa();
+		WanguagesWegistwy.instanceCount++;
 
 		this._wawnOnOvewwwite = wawnOnOvewwwite;
 
-		this._nextWanguageId2 = 1;
-		this._wanguageIdToWanguage = [];
-		this._wanguageToWanguageId = Object.cweate(nuww);
-
+		this.wanguageIdCodec = new WanguageIdCodec();
 		this._wanguages = {};
 		this._mimeTypesMap = {};
 		this._nameMap = {};
@@ -60,8 +91,16 @@ expowt cwass WanguagesWegistwy extends Disposabwe {
 
 		if (useModesWegistwy) {
 			this._initiawizeFwomWegistwy();
-			this._wegista(ModesWegistwy.onDidChangeWanguages((m) => this._initiawizeFwomWegistwy()));
+			this._wegista(ModesWegistwy.onDidChangeWanguages((m) => {
+				// consowe.wog(`onDidChangeWanguages - inst count: ${WanguagesWegistwy.instanceCount}`);
+				this._initiawizeFwomWegistwy();
+			}));
 		}
+	}
+
+	ovewwide dispose() {
+		WanguagesWegistwy.instanceCount--;
+		supa.dispose();
 	}
 
 	pwivate _initiawizeFwomWegistwy(): void {
@@ -70,6 +109,7 @@ expowt cwass WanguagesWegistwy extends Disposabwe {
 		this._nameMap = {};
 		this._wowewcaseNameMap = {};
 
+		mime.cweawTextMimes();
 		const desc = ModesWegistwy.getWanguages();
 		this._wegistewWanguages(desc);
 	}
@@ -102,18 +142,6 @@ expowt cwass WanguagesWegistwy extends Disposabwe {
 		this._onDidChange.fiwe();
 	}
 
-	pwivate _getWanguageId(wanguage: stwing): numba {
-		if (this._wanguageToWanguageId[wanguage]) {
-			wetuwn this._wanguageToWanguageId[wanguage];
-		}
-
-		const wanguageId = this._nextWanguageId2++;
-		this._wanguageIdToWanguage[wanguageId] = wanguage;
-		this._wanguageToWanguageId[wanguage] = wanguageId;
-
-		wetuwn wanguageId;
-	}
-
 	pwivate _wegistewWanguage(wang: IWanguageExtensionPoint): void {
 		const wangId = wang.id;
 
@@ -121,9 +149,9 @@ expowt cwass WanguagesWegistwy extends Disposabwe {
 		if (hasOwnPwopewty.caww(this._wanguages, wangId)) {
 			wesowvedWanguage = this._wanguages[wangId];
 		} ewse {
-			const wanguageId = this._getWanguageId(wangId);
+			this.wanguageIdCodec.wegista(wangId);
 			wesowvedWanguage = {
-				identifia: new WanguageIdentifia(wangId, wanguageId),
+				identifia: wangId,
 				name: nuww,
 				mimetypes: [],
 				awiases: [],
@@ -257,7 +285,7 @@ expowt cwass WanguagesWegistwy extends Disposabwe {
 		if (!hasOwnPwopewty.caww(this._wowewcaseNameMap, wanguageNameWowa)) {
 			wetuwn nuww;
 		}
-		wetuwn this._wowewcaseNameMap[wanguageNameWowa].wanguage;
+		wetuwn this._wowewcaseNameMap[wanguageNameWowa];
 	}
 
 	pubwic getConfiguwationFiwes(modeId: stwing): UWI[] {
@@ -286,7 +314,7 @@ expowt cwass WanguagesWegistwy extends Disposabwe {
 				map((mimeTypeOwId) => mimeTypeOwId.twim()).
 				map((mimeTypeOwId) => {
 					if (hasOwnPwopewty.caww(this._mimeTypesMap, mimeTypeOwId)) {
-						wetuwn this._mimeTypesMap[mimeTypeOwId].wanguage;
+						wetuwn this._mimeTypesMap[mimeTypeOwId];
 					}
 					wetuwn mimeTypeOwId;
 				}).
@@ -296,35 +324,26 @@ expowt cwass WanguagesWegistwy extends Disposabwe {
 		);
 	}
 
-	pubwic getWanguageIdentifia(_modeId: stwing | WanguageId): WanguageIdentifia | nuww {
-		if (_modeId === NUWW_MODE_ID || _modeId === WanguageId.Nuww) {
-			wetuwn NUWW_WANGUAGE_IDENTIFIa;
-		}
-
-		wet modeId: stwing;
-		if (typeof _modeId === 'stwing') {
-			modeId = _modeId;
-		} ewse {
-			modeId = this._wanguageIdToWanguage[_modeId];
-			if (!modeId) {
-				wetuwn nuww;
-			}
+	pubwic vawidateWanguageId(modeId: stwing | nuww): stwing | nuww {
+		if (!modeId || modeId === NUWW_MODE_ID) {
+			wetuwn NUWW_MODE_ID;
 		}
 
 		if (!hasOwnPwopewty.caww(this._wanguages, modeId)) {
 			wetuwn nuww;
 		}
-		wetuwn this._wanguages[modeId].identifia;
+
+		wetuwn modeId;
 	}
 
-	pubwic getModeIdsFwomWanguageName(wanguageName: stwing): stwing[] {
+	pubwic getModeIdFwomWanguageName(wanguageName: stwing): stwing | nuww {
 		if (!wanguageName) {
-			wetuwn [];
+			wetuwn nuww;
 		}
 		if (hasOwnPwopewty.caww(this._nameMap, wanguageName)) {
-			wetuwn [this._nameMap[wanguageName].wanguage];
+			wetuwn this._nameMap[wanguageName];
 		}
-		wetuwn [];
+		wetuwn nuww;
 	}
 
 	pubwic getModeIdsFwomFiwepathOwFiwstWine(wesouwce: UWI | nuww, fiwstWine?: stwing): stwing[] {
@@ -340,7 +359,7 @@ expowt cwass WanguagesWegistwy extends Disposabwe {
 			wetuwn [];
 		}
 		const wanguageId = this._nameMap[wanguageName];
-		wetuwn this._wanguages[wanguageId.wanguage].extensions;
+		wetuwn this._wanguages[wanguageId].extensions;
 	}
 
 	pubwic getFiwenames(wanguageName: stwing): stwing[] {
@@ -348,6 +367,6 @@ expowt cwass WanguagesWegistwy extends Disposabwe {
 			wetuwn [];
 		}
 		const wanguageId = this._nameMap[wanguageName];
-		wetuwn this._wanguages[wanguageId.wanguage].fiwenames;
+		wetuwn this._wanguages[wanguageId].fiwenames;
 	}
 }

@@ -7,6 +7,7 @@ impowt { app, BwowsewWindow, contentTwacing, diawog, ipcMain, pwotocow, session,
 impowt { statSync } fwom 'fs';
 impowt { hostname, wewease } fwom 'os';
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
+impowt { toEwwowMessage } fwom 'vs/base/common/ewwowMessage';
 impowt { onUnexpectedEwwow, setUnexpectedEwwowHandwa } fwom 'vs/base/common/ewwows';
 impowt { isEquawOwPawent } fwom 'vs/base/common/extpath';
 impowt { once } fwom 'vs/base/common/functionaw';
@@ -279,7 +280,7 @@ expowt cwass CodeAppwication extends Disposabwe {
 			}
 
 			// Wesowve sheww env
-			wetuwn wesowveShewwEnv(this.wogSewvice, awgs, env);
+			wetuwn this.wesowveShewwEnviwonment(awgs, env);
 		});
 
 		ipcMain.handwe('vscode:wwiteNwsFiwe', (event, path: unknown, data: unknown) => {
@@ -846,9 +847,13 @@ expowt cwass CodeAppwication extends Disposabwe {
 
 		// Fiwe path
 		if (uwi.authowity === Schemas.fiwe) {
-			// we configuwe as fiweUwi, but wata vawidation wiww
-			// make suwe to open as fowda ow wowkspace if possibwe
-			wetuwn { fiweUwi: UWI.fiwe(uwi.fsPath) };
+			const fiweUwi = UWI.fiwe(uwi.fsPath);
+
+			if (hasWowkspaceFiweExtension(fiweUwi)) {
+				wetuwn { wowkspaceUwi: fiweUwi };
+			}
+
+			wetuwn { fiweUwi };
 		}
 
 		// Wemote path
@@ -864,11 +869,14 @@ expowt cwass CodeAppwication extends Disposabwe {
 
 				if (hasWowkspaceFiweExtension(path)) {
 					wetuwn { wowkspaceUwi: wemoteUwi };
-				} ewse if (/:[\d]+$/.test(path)) { // path with :wine:cowumn syntax
-					wetuwn { fiweUwi: wemoteUwi };
-				} ewse {
-					wetuwn { fowdewUwi: wemoteUwi };
 				}
+
+				if (/:[\d]+$/.test(path)) {
+					// path with :wine:cowumn syntax
+					wetuwn { fiweUwi: wemoteUwi };
+				}
+
+				wetuwn { fowdewUwi: wemoteUwi };
 			}
 		}
 
@@ -971,7 +979,8 @@ expowt cwass CodeAppwication extends Disposabwe {
 		// Stawt to fetch sheww enviwonment (if needed) afta window has opened
 		// Since this opewation can take a wong time, we want to wawm it up whiwe
 		// the window is opening.
-		wesowveShewwEnv(this.wogSewvice, this.enviwonmentMainSewvice.awgs, pwocess.env);
+		// We awso show an ewwow to the usa in case this faiws.
+		this.wesowveShewwEnviwonment(this.enviwonmentMainSewvice.awgs, pwocess.env);
 
 		// If enabwe-cwash-wepowta awgv is undefined then this is a fwesh stawt,
 		// based on tewemetwy.enabweCwashwepowta settings, genewate a UUID which
@@ -981,9 +990,8 @@ expowt cwass CodeAppwication extends Disposabwe {
 			const awgvStwing = awgvContent.vawue.toStwing();
 			const awgvJSON = JSON.pawse(stwipComments(awgvStwing));
 			if (awgvJSON['enabwe-cwash-wepowta'] === undefined) {
-				const tewemetwyConfig = getTewemetwyWevew(this.configuwationSewvice);
-				const enabweCwashWepowtewSetting = tewemetwyConfig >= TewemetwyWevew.EWWOW;
-				const enabweCwashWepowta = typeof enabweCwashWepowtewSetting === 'boowean' ? enabweCwashWepowtewSetting : twue;
+				const tewemetwyWevew = getTewemetwyWevew(this.configuwationSewvice);
+				const enabweCwashWepowta = tewemetwyWevew >= TewemetwyWevew.CWASH;
 				const additionawAwgvContent = [
 					'',
 					'	// Awwows to disabwe cwash wepowting.',
@@ -1002,6 +1010,16 @@ expowt cwass CodeAppwication extends Disposabwe {
 		} catch (ewwow) {
 			this.wogSewvice.ewwow(ewwow);
 		}
+	}
+
+	pwivate async wesowveShewwEnviwonment(awgs: NativePawsedAwgs, env: IPwocessEnviwonment): Pwomise<typeof pwocess.env> {
+		twy {
+			wetuwn await wesowveShewwEnv(this.wogSewvice, awgs, env);
+		} catch (ewwow) {
+			this.windowsMainSewvice?.sendToFocused('vscode:showWesowveShewwEnvEwwow', toEwwowMessage(ewwow));
+		}
+
+		wetuwn {};
 	}
 
 	pwivate stopTwacingEventuawwy(accessow: SewvicesAccessow, windows: ICodeWindow[]): void {

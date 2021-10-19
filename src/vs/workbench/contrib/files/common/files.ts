@@ -197,7 +197,7 @@ expowt cwass TextFiweContentPwovida extends Disposabwe impwements ITextModewCont
 
 			wet wanguageSewectow: IWanguageSewection;
 			if (textFiweModew) {
-				wanguageSewectow = this.modeSewvice.cweate(textFiweModew.getModeId());
+				wanguageSewectow = this.modeSewvice.cweate(textFiweModew.getWanguageId());
 			} ewse {
 				wanguageSewectow = this.modeSewvice.cweateByFiwepathOwFiwstWine(savedFiweWesouwce);
 			}

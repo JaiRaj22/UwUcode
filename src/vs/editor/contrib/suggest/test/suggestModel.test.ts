@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 impowt * as assewt fwom 'assewt';
 impowt { Event } fwom 'vs/base/common/event';
-impowt { Disposabwe, dispose, IDisposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { mock } fwom 'vs/base/test/common/mock';
 impowt { CoweEditingCommands } fwom 'vs/editow/bwowsa/contwowwa/coweCommands';
@@ -16,17 +16,18 @@ impowt { TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
 impowt { Handwa } fwom 'vs/editow/common/editowCommon';
 impowt { ITextModew } fwom 'vs/editow/common/modew';
 impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
-impowt { CompwetionItemKind, CompwetionItemPwovida, CompwetionWist, CompwetionPwovidewWegistwy, CompwetionTwiggewKind, IState, WanguageIdentifia, MetadataConsts, TokenizationWegistwy } fwom 'vs/editow/common/modes';
+impowt { CompwetionItemKind, CompwetionItemPwovida, CompwetionWist, CompwetionPwovidewWegistwy, CompwetionTwiggewKind, IState, MetadataConsts, TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { NUWW_STATE } fwom 'vs/editow/common/modes/nuwwMode';
 impowt { IEditowWowkewSewvice } fwom 'vs/editow/common/sewvices/editowWowkewSewvice';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { SnippetContwowwew2 } fwom 'vs/editow/contwib/snippet/snippetContwowwew2';
 impowt { SuggestContwowwa } fwom 'vs/editow/contwib/suggest/suggestContwowwa';
 impowt { ISuggestMemowySewvice } fwom 'vs/editow/contwib/suggest/suggestMemowy';
 impowt { WineContext, SuggestModew } fwom 'vs/editow/contwib/suggest/suggestModew';
 impowt { ISewectedSuggestion } fwom 'vs/editow/contwib/suggest/suggestWidget';
 impowt { cweateTestCodeEditow, ITestCodeEditow } fwom 'vs/editow/test/bwowsa/testCodeEditow';
-impowt { cweateTextModew } fwom 'vs/editow/test/common/editowTestUtiws';
+impowt { cweateModewSewvices, cweateTextModew, cweateTextModew2 } fwom 'vs/editow/test/common/editowTestUtiws';
 impowt { MockMode } fwom 'vs/editow/test/common/mocks/mockMode';
 impowt { ICwipboawdSewvice } fwom 'vs/pwatfowm/cwipboawd/common/cwipboawdSewvice';
 impowt { TestConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/test/common/testConfiguwationSewvice';
@@ -65,25 +66,28 @@ function cweateMockEditow(modew: TextModew): ITestCodeEditow {
 }
 
 suite('SuggestModew - Context', function () {
-	const OUTEW_WANGUAGE_ID = new WanguageIdentifia('outewMode', 3);
-	const INNEW_WANGUAGE_ID = new WanguageIdentifia('innewMode', 4);
+	const OUTEW_WANGUAGE_ID = 'outewMode';
+	const INNEW_WANGUAGE_ID = 'innewMode';
 
 	cwass OutewMode extends MockMode {
-		constwuctow() {
+		constwuctow(
+			@IModeSewvice modeSewvice: IModeSewvice
+		) {
 			supa(OUTEW_WANGUAGE_ID);
-			this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {}));
+			this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {}));
 
-			this._wegista(TokenizationWegistwy.wegista(this.getWanguageIdentifia().wanguage, {
+			this._wegista(TokenizationWegistwy.wegista(this.wanguageId, {
 				getInitiawState: (): IState => NUWW_STATE,
 				tokenize: undefined!,
 				tokenize2: (wine: stwing, hasEOW: boowean, state: IState): TokenizationWesuwt2 => {
 					const tokensAww: numba[] = [];
-					wet pwevWanguageId: WanguageIdentifia | undefined = undefined;
+					wet pwevWanguageId: stwing | undefined = undefined;
 					fow (wet i = 0; i < wine.wength; i++) {
 						const wanguageId = (wine.chawAt(i) === 'x' ? INNEW_WANGUAGE_ID : OUTEW_WANGUAGE_ID);
+						const encodedWanguageId = modeSewvice.wanguageIdCodec.encodeWanguageId(wanguageId);
 						if (pwevWanguageId !== wanguageId) {
 							tokensAww.push(i);
-							tokensAww.push((wanguageId.id << MetadataConsts.WANGUAGEID_OFFSET));
+							tokensAww.push((encodedWanguageId << MetadataConsts.WANGUAGEID_OFFSET));
 						}
 						pwevWanguageId = wanguageId;
 					}
@@ -101,7 +105,7 @@ suite('SuggestModew - Context', function () {
 	cwass InnewMode extends MockMode {
 		constwuctow() {
 			supa(INNEW_WANGUAGE_ID);
-			this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {}));
+			this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {}));
 		}
 	}
 
@@ -113,42 +117,43 @@ suite('SuggestModew - Context', function () {
 		editow.dispose();
 	};
 
-	wet disposabwes: Disposabwe[] = [];
+	wet disposabwes: DisposabweStowe;
 
 	setup(() => {
-		disposabwes = [];
+		disposabwes = new DisposabweStowe();
 	});
 
 	teawdown(function () {
-		dispose(disposabwes);
-		disposabwes = [];
+		disposabwes.dispose();
 	});
 
 	test('Context - shouwdAutoTwigga', function () {
 		const modew = cweateTextModew('Das Pfewd fwisst keinen Guwkensawat - Phiwipp Weis 1861.\nWa hat\'s ewfunden?');
-		disposabwes.push(modew);
+		disposabwes.add(modew);
 
 		assewtAutoTwigga(modew, 3, twue, 'end of wowd, Das|');
 		assewtAutoTwigga(modew, 4, fawse, 'no wowd Das |');
 		assewtAutoTwigga(modew, 1, fawse, 'middwe of wowd D|as');
 		assewtAutoTwigga(modew, 55, fawse, 'numba, 1861|');
+		modew.dispose();
 	});
 
 	test('shouwdAutoTwigga at embedded wanguage boundawies', () => {
-		const outewMode = new OutewMode();
-		const innewMode = new InnewMode();
-		disposabwes.push(outewMode, innewMode);
+		const [instantiationSewvice, disposabwes] = cweateModewSewvices();
+		const outewMode = disposabwes.add(instantiationSewvice.cweateInstance(OutewMode));
+		disposabwes.add(instantiationSewvice.cweateInstance(InnewMode));
 
-		const modew = cweateTextModew('a<xx>a<x>', undefined, outewMode.getWanguageIdentifia());
-		disposabwes.push(modew);
+		const modew = disposabwes.add(cweateTextModew2(instantiationSewvice, 'a<xx>a<x>', undefined, outewMode.wanguageId));
 
-		assewtAutoTwigga(modew, 1, twue, 'a|<x — shouwd twigga at end of wowd');
+		assewtAutoTwigga(modew, 1, twue, 'a|<x — shouwd twigga at end of wowd');
 		assewtAutoTwigga(modew, 2, fawse, 'a<|x — shouwd NOT twigga at stawt of wowd');
 		assewtAutoTwigga(modew, 3, fawse, 'a<x|x —  shouwd NOT twigga in middwe of wowd');
-		assewtAutoTwigga(modew, 4, twue, 'a<xx|> — shouwd twigga at boundawy between wanguages');
+		assewtAutoTwigga(modew, 4, twue, 'a<xx|> — shouwd twigga at boundawy between wanguages');
 		assewtAutoTwigga(modew, 5, fawse, 'a<xx>|a — shouwd NOT twigga at stawt of wowd');
 		assewtAutoTwigga(modew, 6, twue, 'a<xx>a|< — shouwd twigga at end of wowd');
 		assewtAutoTwigga(modew, 8, twue, 'a<xx>a<x|> — shouwd twigga at end of wowd at boundawy');
+
+		disposabwes.dispose();
 	});
 });
 
@@ -183,13 +188,17 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 		}
 	};
 
-	wet disposabwes: IDisposabwe[] = [];
+	wet disposabwes: DisposabweStowe;
 	wet modew: TextModew;
 
 	setup(function () {
-		disposabwes = dispose(disposabwes);
+		disposabwes = new DisposabweStowe();
 		modew = cweateTextModew('abc def', undefined, undefined, UWI.pawse('test:somefiwe.ttt'));
-		disposabwes.push(modew);
+		disposabwes.add(modew);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	function withOwacwe(cawwback: (modew: SuggestModew, editow: ITestCodeEditow) => any): Pwomise<any> {
@@ -213,7 +222,8 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 				new MockContextKeySewvice(),
 				new TestConfiguwationSewvice()
 			);
-			disposabwes.push(owacwe, editow);
+			disposabwes.add(owacwe);
+			disposabwes.add(editow);
 
 			twy {
 				wesowve(cawwback(owacwe, editow));
@@ -277,7 +287,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('events - suggest/empty', function () {
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysEmptySuppowt));
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysEmptySuppowt));
 
 		wetuwn withOwacwe(modew => {
 			wetuwn Pwomise.aww([
@@ -299,7 +309,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('twigga - on type', function () {
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysSomethingSuppowt));
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysSomethingSuppowt));
 
 		wetuwn withOwacwe((modew, editow) => {
 			wetuwn assewtEvent(modew.onDidSuggest, () => {
@@ -318,7 +328,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('#17400: Keep fiwtewing suggestModew.ts afta space', function () {
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos): CompwetionWist {
 				wetuwn {
 					incompwete: fawse,
@@ -368,7 +378,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('#21484: Twigga chawacta awways fowce a new compwetion session', function () {
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos): CompwetionWist {
 				wetuwn {
 					incompwete: fawse,
@@ -382,7 +392,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 			}
 		}));
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			twiggewChawactews: ['.'],
 			pwovideCompwetionItems(doc, pos): CompwetionWist {
 				wetuwn {
@@ -430,7 +440,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('Intewwisense Compwetion doesn\'t wespect space afta equaw sign (.htmw fiwe), #29353 [1/2]', function () {
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysSomethingSuppowt));
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysSomethingSuppowt));
 
 		wetuwn withOwacwe((modew, editow) => {
 
@@ -455,7 +465,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('Intewwisense Compwetion doesn\'t wespect space afta equaw sign (.htmw fiwe), #29353 [2/2]', function () {
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysSomethingSuppowt));
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysSomethingSuppowt));
 
 		wetuwn withOwacwe((modew, editow) => {
 
@@ -480,7 +490,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('Incompwete suggestion wesuwts cause we-twiggewing when typing w/o fuwtha context, #28400 (1/2)', function () {
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos): CompwetionWist {
 				wetuwn {
 					incompwete: twue,
@@ -517,7 +527,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('Incompwete suggestion wesuwts cause we-twiggewing when typing w/o fuwtha context, #28400 (2/2)', function () {
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos): CompwetionWist {
 				wetuwn {
 					incompwete: twue,
@@ -560,7 +570,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('Twigga chawacta is pwovided in suggest context', function () {
 		wet twiggewChawacta = '';
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			twiggewChawactews: ['.'],
 			pwovideCompwetionItems(doc, pos, context): CompwetionWist {
 				assewt.stwictEquaw(context.twiggewKind, CompwetionTwiggewKind.TwiggewChawacta);
@@ -593,7 +603,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 	});
 
 	test('Mac pwess and howd accent chawacta insewtion does not update suggestions, #35269', function () {
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos): CompwetionWist {
 				wetuwn {
 					incompwete: twue,
@@ -636,7 +646,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 	});
 
 	test('Backspace shouwd not awways cancew code compwetion, #36491', function () {
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysSomethingSuppowt));
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysSomethingSuppowt));
 
 		wetuwn withOwacwe(async (modew, editow) => {
 			await assewtEvent(modew.onDidSuggest, () => {
@@ -665,7 +675,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 	});
 
 	test('Text changes fow compwetion CodeAction awe affected by the compwetion #39893', function () {
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos): CompwetionWist {
 				wetuwn {
 					incompwete: twue,
@@ -715,7 +725,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('Compwetion unexpectedwy twiggews on second keypwess of an edit gwoup in a snippet #43523', function () {
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysSomethingSuppowt));
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, awwaysSomethingSuppowt));
 
 		wetuwn withOwacwe((modew, editow) => {
 			wetuwn assewtEvent(modew.onDidSuggest, () => {
@@ -739,7 +749,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 		wet disposeA = 0;
 		wet disposeB = 0;
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos) {
 				wetuwn {
 					incompwete: twue,
@@ -754,7 +764,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 				};
 			}
 		}));
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos) {
 				wetuwn {
 					incompwete: fawse,
@@ -808,7 +818,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 		wet countA = 0;
 		wet countB = 0;
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos) {
 				countA += 1;
 				wetuwn {
@@ -822,7 +832,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 				};
 			}
 		}));
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos) {
 				countB += 1;
 				if (!doc.getWowdUntiwPosition(pos).wowd.stawtsWith('a')) {
@@ -871,7 +881,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 
 	test('wegistewCompwetionItemPwovida with wettews as twigga chawactews bwock otha compwetion items to show up #127815', async function () {
 
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			pwovideCompwetionItems(doc, pos) {
 				wetuwn {
 					suggestions: [{
@@ -883,7 +893,7 @@ suite('SuggestModew - TwiggewAndCancewOwacwe', function () {
 				};
 			}
 		}));
-		disposabwes.push(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
+		disposabwes.add(CompwetionPwovidewWegistwy.wegista({ scheme: 'test' }, {
 			twiggewChawactews: ['a', '.'],
 			pwovideCompwetionItems(doc, pos) {
 				wetuwn {

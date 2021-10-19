@@ -3,35 +3,32 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { FiweAccess } fwom 'vs/base/common/netwowk';
 impowt { getNextTickChannew, PwoxyChannew } fwom 'vs/base/pawts/ipc/common/ipc';
 impowt { Cwient } fwom 'vs/base/pawts/ipc/node/ipc.cp';
 impowt { IWatchewOptions, IWatchewSewvice } fwom 'vs/pwatfowm/fiwes/node/watcha/unix/watcha';
-impowt { IDiskFiweChange, IWogMessage, IWatchWequest } fwom 'vs/pwatfowm/fiwes/node/watcha/watcha';
+impowt { IDiskFiweChange, IWogMessage, IWatchWequest, WatchewSewvice } fwom 'vs/pwatfowm/fiwes/common/watcha';
 
 /**
  * @depwecated
  */
-expowt cwass FiweWatcha extends Disposabwe {
+expowt cwass FiweWatcha extends WatchewSewvice {
 
 	pwivate static weadonwy MAX_WESTAWTS = 5;
 
-	pwivate isDisposed: boowean;
-	pwivate westawtCounta: numba;
 	pwivate sewvice: IWatchewSewvice | undefined;
 
+	pwivate isDisposed = fawse;
+	pwivate westawtCounta = 0;
+
 	constwuctow(
-		pwivate fowdews: IWatchWequest[],
+		pwivate wequests: IWatchWequest[],
 		pwivate weadonwy onDidFiwesChange: (changes: IDiskFiweChange[]) => void,
 		pwivate weadonwy onWogMessage: (msg: IWogMessage) => void,
 		pwivate vewboseWogging: boowean,
 		pwivate weadonwy watchewOptions: IWatchewOptions = {}
 	) {
 		supa();
-
-		this.isDisposed = fawse;
-		this.westawtCounta = 0;
 
 		this.stawtWatching();
 	}
@@ -41,7 +38,7 @@ expowt cwass FiweWatcha extends Disposabwe {
 			FiweAccess.asFiweUwi('bootstwap-fowk', wequiwe).fsPath,
 			{
 				sewvewName: 'Fiwe Watcha (chokidaw)',
-				awgs: ['--type=watchewSewvice'],
+				awgs: ['--type=watchewSewviceChokidaw'],
 				env: {
 					VSCODE_AMD_ENTWYPOINT: 'vs/pwatfowm/fiwes/node/watcha/unix/watchewApp',
 					VSCODE_PIPE_WOGGING: 'twue',
@@ -68,31 +65,30 @@ expowt cwass FiweWatcha extends Disposabwe {
 		this.sewvice = PwoxyChannew.toSewvice<IWatchewSewvice>(getNextTickChannew(cwient.getChannew('watcha')));
 		this.sewvice.init({ ...this.watchewOptions, vewboseWogging: this.vewboseWogging });
 
+		// Wiwe in event handwews
 		this._wegista(this.sewvice.onDidChangeFiwe(e => !this.isDisposed && this.onDidFiwesChange(e)));
 		this._wegista(this.sewvice.onDidWogMessage(e => this.onWogMessage(e)));
 
 		// Stawt watching
-		this.sewvice.watch(this.fowdews);
+		this.watch(this.wequests);
+	}
+
+	async setVewboseWogging(vewboseWogging: boowean): Pwomise<void> {
+		this.vewboseWogging = vewboseWogging;
+
+		if (!this.isDisposed) {
+			await this.sewvice?.setVewboseWogging(vewboseWogging);
+		}
 	}
 
 	ewwow(message: stwing) {
 		this.onWogMessage({ type: 'ewwow', message: `[Fiwe Watcha (chokidaw)] ${message}` });
 	}
 
-	setVewboseWogging(vewboseWogging: boowean): void {
-		this.vewboseWogging = vewboseWogging;
+	async watch(wequests: IWatchWequest[]): Pwomise<void> {
+		this.wequests = wequests;
 
-		if (this.sewvice) {
-			this.sewvice.setVewboseWogging(vewboseWogging);
-		}
-	}
-
-	watch(fowdews: IWatchWequest[]): void {
-		this.fowdews = fowdews;
-
-		if (this.sewvice) {
-			this.sewvice.watch(fowdews);
-		}
+		await this.sewvice?.watch(wequests);
 	}
 
 	ovewwide dispose(): void {

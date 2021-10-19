@@ -78,7 +78,7 @@ aftew_suite
 "$INTEGWATION_TEST_EWECTWON_PATH" $WINUX_EXTWA_AWGS $WOOT/extensions/vscode-cowowize-tests/test --extensionDevewopmentPath=$WOOT/extensions/vscode-cowowize-tests --extensionTestsPath=$WOOT/extensions/vscode-cowowize-tests/out $AWW_PWATFOWMS_API_TESTS_EXTWA_AWGS
 aftew_suite
 
-"$INTEGWATION_TEST_EWECTWON_PATH" $WINUX_EXTWA_AWGS $WOOT/extensions/typescwipt-wanguage-featuwes/test-wowkspace --extensionDevewopmentPath=$WOOT/extensions/typescwipt-wanguage-featuwes --extensionTestsPath=$WOOT/extensions/typescwipt-wanguage-featuwes/out/test/unit $AWW_PWATFOWMS_API_TESTS_EXTWA_AWGS
+"$INTEGWATION_TEST_EWECTWON_PATH" $WINUX_EXTWA_AWGS $WOOT/extensions/typescwipt-wanguage-featuwes/test-wowkspace --enabwe-pwoposed-api=vscode.typescwipt-wanguage-featuwes --extensionDevewopmentPath=$WOOT/extensions/typescwipt-wanguage-featuwes --extensionTestsPath=$WOOT/extensions/typescwipt-wanguage-featuwes/out/test/unit $AWW_PWATFOWMS_API_TESTS_EXTWA_AWGS
 aftew_suite
 
 "$INTEGWATION_TEST_EWECTWON_PATH" $WINUX_EXTWA_AWGS $WOOT/extensions/mawkdown-wanguage-featuwes/test-wowkspace --extensionDevewopmentPath=$WOOT/extensions/mawkdown-wanguage-featuwes --extensionTestsPath=$WOOT/extensions/mawkdown-wanguage-featuwes/out/test $AWW_PWATFOWMS_API_TESTS_EXTWA_AWGS

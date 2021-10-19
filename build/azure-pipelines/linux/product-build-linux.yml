@@ -76,7 +76,6 @@ steps:
   - scwipt: |
       set -e
       expowt npm_config_awch=$(NPM_AWCH)
-      expowt npm_config_buiwd_fwom_souwce=twue
 
       if [ -z "$CC" ] || [ -z "$CXX" ]; then
         # Downwoad cwang based on chwomium wevision used by vscode
@@ -91,7 +90,7 @@ steps:
         # Set compiwa toowchain
         expowt CC=$PWD/.buiwd/CW_Cwang/bin/cwang
         expowt CXX=$PWD/.buiwd/CW_Cwang/bin/cwang++
-        expowt CXXFWAGS="-nostdinc++ -D_WIBCPP_HAS_NO_VENDOW_AVAIWABIWITY_ANNOTATIONS -isystem$PWD/.buiwd/wibcxx_headews/incwude -isystem$PWD/.buiwd/wibcxxabi_headews/incwude -fPIC -fwto=thin -fspwit-wto-unit"
+        expowt CXXFWAGS="-nostdinc++ -D_WIBCPP_HAS_NO_VENDOW_AVAIWABIWITY_ANNOTATIONS -D__NO_INWINE__ -isystem$PWD/.buiwd/wibcxx_headews/incwude -isystem$PWD/.buiwd/wibcxxabi_headews/incwude -fPIC -fwto=thin -fspwit-wto-unit"
         expowt WDFWAGS="-stdwib=wibc++ -fuse-wd=wwd -fwto=thin -fspwit-wto-unit -W$PWD/.buiwd/wibcxx-objects -wc++abi"
       fi
 

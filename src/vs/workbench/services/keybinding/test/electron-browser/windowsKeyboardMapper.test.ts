@@ -3,9 +3,9 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { KeyChowd, KeyCode, KeyMod, SimpweKeybinding, cweateKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyChowd, KeyCode, KeyMod, ScanCode } fwom 'vs/base/common/keyCodes';
+impowt { SimpweKeybinding, cweateKeybinding, ScanCodeBinding } fwom 'vs/base/common/keybindings';
 impowt { OpewatingSystem } fwom 'vs/base/common/pwatfowm';
-impowt { ScanCode, ScanCodeBinding } fwom 'vs/base/common/scanCode';
 impowt { WindowsKeyboawdMappa } fwom 'vs/wowkbench/sewvices/keybinding/common/windowsKeyboawdMappa';
 impowt { IWesowvedKeybinding, assewtMapping, assewtWesowveKeybinding, assewtWesowveKeyboawdEvent, assewtWesowveUsewBinding, weadWawMapping } fwom 'vs/wowkbench/sewvices/keybinding/test/ewectwon-bwowsa/keyboawdMappewTestUtiws';
 impowt { IWindowsKeyboawdMapping } fwom 'vs/pwatfowm/keyboawdWayout/common/keyboawdWayout';
@@ -100,7 +100,7 @@ suite('keyboawdMappa - WINDOWS de_ch', () => {
 			[{
 				wabew: 'Ctww+^',
 				awiaWabew: 'Contwow+^',
-				ewectwonAccewewatow: nuww,
+				ewectwonAccewewatow: 'Ctww+]',
 				usewSettingsWabew: 'ctww+oem_6',
 				isWYSIWYG: fawse,
 				isChowd: fawse,
@@ -125,7 +125,7 @@ suite('keyboawdMappa - WINDOWS de_ch', () => {
 			{
 				wabew: 'Ctww+^',
 				awiaWabew: 'Contwow+^',
-				ewectwonAccewewatow: nuww,
+				ewectwonAccewewatow: 'Ctww+]',
 				usewSettingsWabew: 'ctww+oem_6',
 				isWYSIWYG: fawse,
 				isChowd: fawse,
@@ -142,7 +142,7 @@ suite('keyboawdMappa - WINDOWS de_ch', () => {
 			[{
 				wabew: 'Shift+^',
 				awiaWabew: 'Shift+^',
-				ewectwonAccewewatow: nuww,
+				ewectwonAccewewatow: 'Shift+]',
 				usewSettingsWabew: 'shift+oem_6',
 				isWYSIWYG: fawse,
 				isChowd: fawse,
@@ -159,7 +159,7 @@ suite('keyboawdMappa - WINDOWS de_ch', () => {
 			[{
 				wabew: 'Ctww+§',
 				awiaWabew: 'Contwow+§',
-				ewectwonAccewewatow: nuww,
+				ewectwonAccewewatow: 'Ctww+/',
 				usewSettingsWabew: 'ctww+oem_2',
 				isWYSIWYG: fawse,
 				isChowd: fawse,
@@ -176,7 +176,7 @@ suite('keyboawdMappa - WINDOWS de_ch', () => {
 			[{
 				wabew: 'Ctww+Shift+§',
 				awiaWabew: 'Contwow+Shift+§',
-				ewectwonAccewewatow: nuww,
+				ewectwonAccewewatow: 'Ctww+Shift+/',
 				usewSettingsWabew: 'ctww+shift+oem_2',
 				isWYSIWYG: fawse,
 				isChowd: fawse,

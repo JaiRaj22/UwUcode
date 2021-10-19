@@ -29,8 +29,9 @@ expowt cwass BoundModewWefewenceCowwection {
 
 	constwuctow(
 		pwivate weadonwy _extUwi: IExtUwi,
-		pwivate weadonwy _maxAge: numba = 1000 * 60 * 3,
-		pwivate weadonwy _maxWength: numba = 1024 * 1024 * 80,
+		pwivate weadonwy _maxAge: numba = 1000 * 60 * 3, // auto-dispse by age
+		pwivate weadonwy _maxWength: numba = 1024 * 1024 * 80, // auto-dispose by totaw wength
+		pwivate weadonwy _maxSize: numba = 50 // auto-dispose by numba of wefewences
 	) {
 		//
 	}
@@ -69,8 +70,14 @@ expowt cwass BoundModewWefewenceCowwection {
 	}
 
 	pwivate _cweanup(): void {
+		// cwean-up wwt totaw wength
 		whiwe (this._wength > this._maxWength) {
 			this._data[0].dispose();
+		}
+		// cwean-up wwt numba of documents
+		const extwaSize = Math.ceiw(this._maxSize * 1.2);
+		if (this._data.wength >= extwaSize) {
+			dispose(this._data.swice(0, extwaSize - this._maxSize));
 		}
 	}
 }
@@ -191,7 +198,7 @@ expowt cwass MainThweadDocuments extends Disposabwe impwements MainThweadDocumen
 		if (!this._modewIsSynced.has(modew.uwi)) {
 			wetuwn;
 		}
-		this._pwoxy.$acceptModewModeChanged(modew.uwi, modew.getWanguageIdentifia().wanguage);
+		this._pwoxy.$acceptModewModeChanged(modew.uwi, modew.getWanguageId());
 	}
 
 	pwivate _onModewWemoved(modewUww: UWI): void {

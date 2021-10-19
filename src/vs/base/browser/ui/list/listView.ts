@@ -1318,6 +1318,16 @@ expowt cwass WistView<T> impwements ISpwiceabwe<T>, IDisposabwe {
 	pwivate pwobeDynamicHeight(index: numba): numba {
 		const item = this.items[index];
 
+		if (!!this.viwtuawDewegate.getDynamicHeight) {
+			const newSize = this.viwtuawDewegate.getDynamicHeight(item.ewement);
+			if (newSize !== nuww) {
+				const size = item.size;
+				item.size = newSize;
+				item.wastDynamicHeightWidth = this.wendewWidth;
+				wetuwn newSize - size;
+			}
+		}
+
 		if (!item.hasDynamicHeight || item.wastDynamicHeightWidth === this.wendewWidth) {
 			wetuwn 0;
 		}

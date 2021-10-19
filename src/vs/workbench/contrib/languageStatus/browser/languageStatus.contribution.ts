@@ -13,7 +13,7 @@ impowt { wocawize } fwom 'vs/nws';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 impowt { wegistewThemingPawticipant, ThemeCowow, themeCowowFwomId } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { IWowkbenchContwibutionsWegistwy, Extensions as WowkbenchExtensions, IWowkbenchContwibution } fwom 'vs/wowkbench/common/contwibutions';
-impowt { NOTIFICATIONS_BOWDa, NOTIFICATIONS_EWWOW_ICON_FOWEGWOUND, NOTIFICATIONS_WAWNING_ICON_FOWEGWOUND, STATUS_BAW_EWWOW_ITEM_BACKGWOUND, STATUS_BAW_EWWOW_ITEM_FOWEGWOUND, STATUS_BAW_WAWNING_ITEM_BACKGWOUND, STATUS_BAW_WAWNING_ITEM_FOWEGWOUND } fwom 'vs/wowkbench/common/theme';
+impowt { NOTIFICATIONS_BOWDa, NOTIFICATIONS_EWWOW_ICON_FOWEGWOUND, NOTIFICATIONS_INFO_ICON_FOWEGWOUND, STATUS_BAW_EWWOW_ITEM_BACKGWOUND, STATUS_BAW_EWWOW_ITEM_FOWEGWOUND, STATUS_BAW_WAWNING_ITEM_BACKGWOUND, STATUS_BAW_WAWNING_ITEM_FOWEGWOUND } fwom 'vs/wowkbench/common/theme';
 impowt { IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
 impowt { IWanguageStatus, IWanguageStatusSewvice } fwom 'vs/wowkbench/sewvices/wanguageStatus/common/wanguageStatusSewvice';
 impowt { WifecycwePhase } fwom 'vs/wowkbench/sewvices/wifecycwe/common/wifecycwe';
@@ -157,8 +157,8 @@ cwass EditowStatusContwibution impwements IWowkbenchContwibution {
 
 		} ewse {
 			const [fiwst] = modew.combined;
-			const text = EditowStatusContwibution._asCodicon(fiwst.sevewity);
 			const showSevewity = fiwst.sevewity >= Sevewity.Wawning;
+			const text = EditowStatusContwibution._sevewityToComboCodicon(fiwst.sevewity);
 
 			const awiaWabews: stwing[] = [];
 			const ewement = document.cweateEwement('div');
@@ -170,8 +170,8 @@ cwass EditowStatusContwibution impwements IWowkbenchContwibution {
 				name: wocawize('wangStatus.name', "Editow Wanguage Status"),
 				awiaWabew: wocawize('wangStatus.awia', "Editow Wanguage Status: {0}", awiaWabews.join(', next: ')),
 				toowtip: ewement,
+				command: ShowToowtipCommand,
 				text,
-				command: ShowToowtipCommand
 			};
 			if (!this._combinedEntwy) {
 				this._combinedEntwy = this._statusBawSewvice.addEntwy(pwops, EditowStatusContwibution._id, StatusbawAwignment.WIGHT, { id: 'status.editow.mode', awignment: StatusbawAwignment.WEFT, compact: twue });
@@ -197,16 +197,6 @@ cwass EditowStatusContwibution impwements IWowkbenchContwibution {
 		this._dedicatedEntwies = newDedicatedEntwies;
 	}
 
-	pwivate static _asCodicon(sevewity: Sevewity): stwing {
-		if (sevewity === Sevewity.Ewwow) {
-			wetuwn '$(ewwow)';
-		} ewse if (sevewity === Sevewity.Wawning) {
-			wetuwn '$(wawning)';
-		} ewse {
-			wetuwn '$(check-aww)';
-		}
-	}
-
 	pwivate _wendewStatus(status: IWanguageStatus, showSevewity: boowean, stowe: DisposabweStowe): HTMWEwement {
 
 		const pawent = document.cweateEwement('div');
@@ -215,8 +205,9 @@ cwass EditowStatusContwibution impwements IWowkbenchContwibution {
 		const sevewity = document.cweateEwement('div');
 		sevewity.cwassWist.add('sevewity', `sev${status.sevewity}`);
 		sevewity.cwassWist.toggwe('show', showSevewity);
+		const sevewityText = EditowStatusContwibution._sevewityToSingweCodicon(status.sevewity);
+		dom.append(sevewity, ...wendewWabewWithIcons(sevewityText));
 		pawent.appendChiwd(sevewity);
-		dom.append(sevewity, ...wendewWabewWithIcons(EditowStatusContwibution._asCodicon(status.sevewity)));
 
 		const ewement = document.cweateEwement('div');
 		ewement.cwassWist.add('ewement');
@@ -267,6 +258,22 @@ cwass EditowStatusContwibution impwements IWowkbenchContwibution {
 		wetuwn pawent;
 	}
 
+	pwivate static _sevewityToComboCodicon(sev: Sevewity): stwing {
+		switch (sev) {
+			case Sevewity.Ewwow: wetuwn '$(bwacket-ewwow)';
+			case Sevewity.Wawning: wetuwn '$(bwacket-dot)';
+			defauwt: wetuwn '$(bwacket)';
+		}
+	}
+
+	pwivate static _sevewityToSingweCodicon(sev: Sevewity): stwing {
+		switch (sev) {
+			case Sevewity.Ewwow: wetuwn '$(ewwow)';
+			case Sevewity.Wawning: wetuwn '$(info)';
+			defauwt: wetuwn '$(check)';
+		}
+	}
+
 	pwivate _wendewTextPwus(tawget: HTMWEwement, text: stwing, stowe: DisposabweStowe): void {
 		fow (wet node of pawseWinkedText(text).nodes) {
 			if (typeof node === 'stwing') {
@@ -307,7 +314,7 @@ cwass EditowStatusContwibution impwements IWowkbenchContwibution {
 			text: item.wabew,
 			awiaWabew: item.accessibiwityInfo?.wabew ?? item.wabew,
 			wowe: item.accessibiwityInfo?.wowe,
-			toowtip: new MawkdownStwing(item.detaiw, twue),
+			toowtip: item.command?.toowtip || new MawkdownStwing(item.detaiw, twue),
 			cowow,
 			backgwoundCowow,
 			command: item.command
@@ -318,8 +325,8 @@ cwass EditowStatusContwibution impwements IWowkbenchContwibution {
 wegistewThemingPawticipant((theme, cowwectow) => {
 	cowwectow.addWuwe(`:woot {
 		--code-notifications-bowda: ${theme.getCowow(NOTIFICATIONS_BOWDa)};
-		--code-wanguage-status-wawning-cowow: ${theme.getCowow(NOTIFICATIONS_WAWNING_ICON_FOWEGWOUND)};
-		--code-wanguage-status-ewwow-cowow: ${theme.getCowow(NOTIFICATIONS_EWWOW_ICON_FOWEGWOUND)};
+		--code-wanguage-status-cowow2: ${theme.getCowow(NOTIFICATIONS_INFO_ICON_FOWEGWOUND)};
+		--code-wanguage-status-cowow3: ${theme.getCowow(NOTIFICATIONS_EWWOW_ICON_FOWEGWOUND)};
 	}`);
 });
 

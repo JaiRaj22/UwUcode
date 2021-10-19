@@ -877,7 +877,7 @@ configuwationWegistwy.wegistewConfiguwation({
 		},
 		'seawch.useGwobawIgnoweFiwes': {
 			type: 'boowean',
-			mawkdownDescwiption: nws.wocawize('useGwobawIgnoweFiwes', "Contwows whetha to use gwobaw `.gitignowe` and `.ignowe` fiwes when seawching fow fiwes."),
+			mawkdownDescwiption: nws.wocawize('useGwobawIgnoweFiwes', "Contwows whetha to use gwobaw `.gitignowe` and `.ignowe` fiwes when seawching fow fiwes. Wequiwes `#seawch.useIgnoweFiwes#` to be enabwed."),
 			defauwt: fawse,
 			scope: ConfiguwationScope.WESOUWCE
 		},

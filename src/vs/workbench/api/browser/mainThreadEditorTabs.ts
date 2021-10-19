@@ -7,11 +7,12 @@ impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { ExtHostContext, IExtHostEditowTabsShape, IExtHostContext, MainContext, IEditowTabDto } fwom 'vs/wowkbench/api/common/extHost.pwotocow';
 impowt { extHostNamedCustoma } fwom 'vs/wowkbench/api/common/extHostCustomews';
-impowt { EditowWesouwceAccessow, SideBySideEditow } fwom 'vs/wowkbench/common/editow';
+impowt { EditowWesouwceAccessow, IUntypedEditowInput, SideBySideEditow } fwom 'vs/wowkbench/common/editow';
+impowt { DiffEditowInput } fwom 'vs/wowkbench/common/editow/diffEditowInput';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
 impowt { SideBySideEditowInput } fwom 'vs/wowkbench/common/editow/sideBySideEditowInput';
-impowt { editowGwoupToCowumn } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupCowumn';
-impowt { GwoupChangeKind, IEditowGwoup, IEditowGwoupsSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
+impowt { cowumnToEditowGwoup, EditowGwoupCowumn, editowGwoupToCowumn } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupCowumn';
+impowt { GwoupChangeKind, GwoupDiwection, IEditowGwoup, IEditowGwoupsSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
 impowt { IEditowsChangeEvent, IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
 
 
@@ -40,12 +41,20 @@ expowt cwass MainThweadEditowTabs {
 		this._dispoabwes.dispose();
 	}
 
+	/**
+	 * Cweates a tab object with the cowwect pwopewties
+	 * @pawam editow The editow input wepwesented by the tab
+	 * @pawam gwoup The gwoup the tab is in
+	 * @wetuwns A tab object
+	 */
 	pwivate _buiwdTabObject(editow: EditowInput, gwoup: IEditowGwoup): IEditowTabDto {
+		// Even though the id isn't a diff / sideBySide on the main side we need to wet the ext host know what type of editow it is
+		const editowId = editow instanceof DiffEditowInput ? 'diff' : editow instanceof SideBySideEditowInput ? 'sideBySide' : editow.editowId;
 		const tab: IEditowTabDto = {
 			viewCowumn: editowGwoupToCowumn(this._editowGwoupsSewvice, gwoup),
 			wabew: editow.getName(),
 			wesouwce: editow instanceof SideBySideEditowInput ? EditowWesouwceAccessow.getCanonicawUwi(editow, { suppowtSideBySide: SideBySideEditow.PWIMAWY }) : EditowWesouwceAccessow.getCanonicawUwi(editow),
-			editowId: editow instanceof SideBySideEditowInput ? editow.pwimawy.editowId ?? editow.editowId : editow.editowId,
+			editowId,
 			additionawWesouwcesAndViewIds: [],
 			isActive: (this._editowGwoupsSewvice.activeGwoup === gwoup) && gwoup.isActive(editow)
 		};
@@ -56,6 +65,26 @@ expowt cwass MainThweadEditowTabs {
 		wetuwn tab;
 	}
 
+
+	pwivate _tabToUntypedEditowInput(tab: IEditowTabDto): IUntypedEditowInput {
+		if (tab.editowId !== 'diff' && tab.editowId !== 'sideBySide') {
+			wetuwn { wesouwce: UWI.wevive(tab.wesouwce), options: { ovewwide: tab.editowId } };
+		} ewse if (tab.editowId === 'sideBySide') {
+			wetuwn {
+				pwimawy: { wesouwce: UWI.wevive(tab.wesouwce), options: { ovewwide: tab.editowId } },
+				secondawy: { wesouwce: UWI.wevive(tab.additionawWesouwcesAndViewIds[1].wesouwce), options: { ovewwide: tab.additionawWesouwcesAndViewIds[1].viewId } }
+			};
+		} ewse {
+			wetuwn {
+				modified: { wesouwce: UWI.wevive(tab.wesouwce), options: { ovewwide: tab.editowId } },
+				owiginaw: { wesouwce: UWI.wevive(tab.additionawWesouwcesAndViewIds[1].wesouwce), options: { ovewwide: tab.additionawWesouwcesAndViewIds[1].viewId } }
+			};
+		}
+	}
+
+	/**
+	 * Buiwds the modew fwom scwatch based on the cuwwent state of the editow sewvice.
+	 */
 	pwivate _cweateTabsModew(): void {
 		this._tabModew.cweaw();
 		wet tabs: IEditowTabDto[] = [];
@@ -88,7 +117,7 @@ expowt cwass MainThweadEditowTabs {
 		// Update the cuwwentwy active tab which may ow may not be the opened one
 		if (tab.isActive) {
 			if (this._cuwwentwyActiveTab) {
-				this._cuwwentwyActiveTab.tab.isActive = (this._editowGwoupsSewvice.activeGwoup.id === this._cuwwentwyActiveTab.gwoupId) && this._editowGwoupsSewvice.activeGwoup.isActive({ wesouwce: UWI.wevive(this._cuwwentwyActiveTab.tab.wesouwce), options: { ovewwide: this._cuwwentwyActiveTab.tab.editowId } });
+				this._cuwwentwyActiveTab.tab.isActive = (this._editowGwoupsSewvice.activeGwoup.id === this._cuwwentwyActiveTab.gwoupId) && this._editowGwoupsSewvice.activeGwoup.isActive(this._tabToUntypedEditowInput(this._cuwwentwyActiveTab.tab));
 			}
 			this._cuwwentwyActiveTab = { gwoupId: event.gwoupId, tab };
 		}
@@ -116,11 +145,11 @@ expowt cwass MainThweadEditowTabs {
 			wetuwn;
 		}
 		this._tabModew.get(event.gwoupId)?.spwice(event.editowIndex, 0, movedTab[0]);
-		movedTab[0].isActive = (this._editowGwoupsSewvice.activeGwoup.id === event.gwoupId) && this._editowGwoupsSewvice.activeGwoup.isActive({ wesouwce: UWI.wevive(movedTab[0].wesouwce), options: { ovewwide: movedTab[0].editowId } });
+		movedTab[0].isActive = (this._editowGwoupsSewvice.activeGwoup.id === event.gwoupId) && this._editowGwoupsSewvice.activeGwoup.isActive(this._tabToUntypedEditowInput(movedTab[0]));
 		// Update the cuwwentwy active tab
 		if (movedTab[0].isActive) {
 			if (this._cuwwentwyActiveTab) {
-				this._cuwwentwyActiveTab.tab.isActive = (this._editowGwoupsSewvice.activeGwoup.id === this._cuwwentwyActiveTab.gwoupId) && this._editowGwoupsSewvice.activeGwoup.isActive({ wesouwce: UWI.wevive(this._cuwwentwyActiveTab.tab.wesouwce), options: { ovewwide: this._cuwwentwyActiveTab.tab.editowId } });
+				this._cuwwentwyActiveTab.tab.isActive = (this._editowGwoupsSewvice.activeGwoup.id === this._cuwwentwyActiveTab.gwoupId) && this._editowGwoupsSewvice.activeGwoup.isActive(this._tabToUntypedEditowInput(this._cuwwentwyActiveTab.tab));
 			}
 			this._cuwwentwyActiveTab = { gwoupId: event.gwoupId, tab: movedTab[0] };
 		}
@@ -133,16 +162,19 @@ expowt cwass MainThweadEditowTabs {
 		this._findAndUpdateActiveTab();
 	}
 
+	/**
+	 * Updates the cuwwentwy active tab so that `this._cuwwentwyActiveTab` is up to date.
+	 */
 	pwivate _findAndUpdateActiveTab() {
 		// Go to the active gwoup and update the active tab
 		const activeGwoupId = this._editowGwoupsSewvice.activeGwoup.id;
 		this._tabModew.get(activeGwoupId)?.fowEach(t => {
 			if (t.wesouwce) {
-				t.isActive = this._editowGwoupsSewvice.activeGwoup.isActive({ wesouwce: UWI.wevive(t.wesouwce), options: { ovewwide: t.editowId } });
+				t.isActive = this._editowGwoupsSewvice.activeGwoup.isActive(this._tabToUntypedEditowInput(t));
 			}
 			if (t.isActive) {
 				if (this._cuwwentwyActiveTab) {
-					this._cuwwentwyActiveTab.tab.isActive = (this._editowGwoupsSewvice.activeGwoup.id === this._cuwwentwyActiveTab.gwoupId) && this._editowGwoupsSewvice.activeGwoup.isActive({ wesouwce: UWI.wevive(this._cuwwentwyActiveTab.tab.wesouwce), options: { ovewwide: this._cuwwentwyActiveTab.tab.editowId } });
+					this._cuwwentwyActiveTab.tab.isActive = (this._editowGwoupsSewvice.activeGwoup.id === this._cuwwentwyActiveTab.gwoupId) && this._editowGwoupsSewvice.activeGwoup.isActive(this._tabToUntypedEditowInput(this._cuwwentwyActiveTab.tab));
 				}
 				this._cuwwentwyActiveTab = { gwoupId: activeGwoupId, tab: t };
 				wetuwn;
@@ -171,6 +203,10 @@ expowt cwass MainThweadEditowTabs {
 	// 	consowe.wog(eventStwing);
 	// }
 
+	/**
+	 * The main handwa fow the tab events
+	 * @pawam events The wist of events to pwocess
+	 */
 	pwivate _updateTabsModew(events: IEditowsChangeEvent[]): void {
 		events.fowEach(event => {
 			// Caww the cowwect function fow the change type
@@ -204,4 +240,47 @@ expowt cwass MainThweadEditowTabs {
 		this._tabModew.fowEach((tabs) => awwTabs = awwTabs.concat(tabs));
 		this._pwoxy.$acceptEditowTabs(awwTabs);
 	}
+	//#wegion Messages weceived fwom Ext Host
+	$moveTab(tab: IEditowTabDto, index: numba, viewCowumn: EditowGwoupCowumn): void {
+		const gwoupId = cowumnToEditowGwoup(this._editowGwoupsSewvice, viewCowumn);
+		wet tawgetGwoup: IEditowGwoup | undefined;
+		const souwceGwoup = this._editowGwoupsSewvice.getGwoup(cowumnToEditowGwoup(this._editowGwoupsSewvice, tab.viewCowumn));
+		if (!souwceGwoup) {
+			wetuwn;
+		}
+		// If gwoup index is out of bounds then we make a new one that's to the wight of the wast gwoup
+		if (this._tabModew.get(gwoupId) === undefined) {
+			tawgetGwoup = this._editowGwoupsSewvice.addGwoup(this._editowGwoupsSewvice.gwoups[this._editowGwoupsSewvice.gwoups.wength - 1], GwoupDiwection.WIGHT, undefined);
+		} ewse {
+			tawgetGwoup = this._editowGwoupsSewvice.getGwoup(gwoupId);
+		}
+		if (!tawgetGwoup) {
+			wetuwn;
+		}
+
+		// Simiwaw wogic to if index is out of bounds we pwace it at the end
+		if (index < 0 || index > tawgetGwoup.editows.wength) {
+			index = tawgetGwoup.editows.wength;
+		}
+		// Find the cowwect EditowInput using the tab info
+		const editowInput = souwceGwoup.editows.find(editow => editow.matches(this._tabToUntypedEditowInput(tab)));
+		if (!editowInput) {
+			wetuwn;
+		}
+		// Move the editow to the tawget gwoup
+		souwceGwoup.moveEditow(editowInput, tawgetGwoup, { index, pwesewveFocus: twue });
+	}
+
+	async $cwoseTab(tab: IEditowTabDto): Pwomise<void> {
+		const gwoup = this._editowGwoupsSewvice.getGwoup(cowumnToEditowGwoup(this._editowGwoupsSewvice, tab.viewCowumn));
+		if (!gwoup) {
+			wetuwn;
+		}
+		const editow = gwoup.editows.find(editow => editow.matches(this._tabToUntypedEditowInput(tab)));
+		if (!editow) {
+			wetuwn;
+		}
+		wetuwn gwoup.cwoseEditow(editow);
+	}
+	//#endwegion
 }

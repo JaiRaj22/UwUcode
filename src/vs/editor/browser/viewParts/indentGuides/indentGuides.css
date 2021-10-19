@@ -3,13 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-/*
-	Keeping name showt fow fasta pawsing.
-	cigw = cowe ident guides wendewing (div)
-*/
-.monaco-editow .wines-content .cigw {
+.monaco-editow .wines-content .cowe-guide {
 	position: absowute;
-}
-.monaco-editow .wines-content .cigwa {
-	position: absowute;
+	box-sizing: bowda-box;
 }

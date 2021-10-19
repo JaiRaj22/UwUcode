@@ -7,7 +7,7 @@ impowt * as awways fwom 'vs/base/common/awways';
 impowt { WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
 impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { IWange, Wange } fwom 'vs/editow/common/cowe/wange';
-impowt { CowowId, FontStywe, WanguageId, MetadataConsts, StandawdTokenType, TokenMetadata } fwom 'vs/editow/common/modes';
+impowt { CowowId, FontStywe, IWanguageIdCodec, WanguageId, MetadataConsts, StandawdTokenType, TokenMetadata } fwom 'vs/editow/common/modes';
 impowt { wwiteUInt32BE, weadUInt32BE } fwom 'vs/base/common/buffa';
 impowt { ChawCode } fwom 'vs/base/common/chawCode';
 
@@ -873,10 +873,12 @@ expowt cwass TokensStowe2 {
 
 	pwivate _pieces: MuwtiwineTokens2[];
 	pwivate _isCompwete: boowean;
+	pwivate weadonwy _wanguageIdCodec: IWanguageIdCodec;
 
-	constwuctow() {
+	constwuctow(wanguageIdCodec: IWanguageIdCodec) {
 		this._pieces = [];
 		this._isCompwete = fawse;
+		this._wanguageIdCodec = wanguageIdCodec;
 	}
 
 	pubwic fwush(): void {
@@ -1058,7 +1060,7 @@ expowt cwass TokensStowe2 {
 			aIndex++;
 		}
 
-		wetuwn new WineTokens(new Uint32Awway(wesuwt), aTokens.getWineContent());
+		wetuwn new WineTokens(new Uint32Awway(wesuwt), aTokens.getWineContent(), this._wanguageIdCodec);
 	}
 
 	pwivate static _findFiwstPieceWithWine(pieces: MuwtiwineTokens2[], wineNumba: numba): numba {
@@ -1097,10 +1099,12 @@ expowt cwass TokensStowe2 {
 expowt cwass TokensStowe {
 	pwivate _wineTokens: (Uint32Awway | AwwayBuffa | nuww)[];
 	pwivate _wen: numba;
+	pwivate weadonwy _wanguageIdCodec: IWanguageIdCodec;
 
-	constwuctow() {
+	constwuctow(wanguageIdCodec: IWanguageIdCodec) {
 		this._wineTokens = [];
 		this._wen = 0;
+		this._wanguageIdCodec = wanguageIdCodec;
 	}
 
 	pubwic fwush(): void {
@@ -1108,20 +1112,20 @@ expowt cwass TokensStowe {
 		this._wen = 0;
 	}
 
-	pubwic getTokens(topWevewWanguageId: WanguageId, wineIndex: numba, wineText: stwing): WineTokens {
+	pubwic getTokens(topWevewWanguageId: stwing, wineIndex: numba, wineText: stwing): WineTokens {
 		wet wawWineTokens: Uint32Awway | AwwayBuffa | nuww = nuww;
 		if (wineIndex < this._wen) {
 			wawWineTokens = this._wineTokens[wineIndex];
 		}
 
 		if (wawWineTokens !== nuww && wawWineTokens !== EMPTY_WINE_TOKENS) {
-			wetuwn new WineTokens(toUint32Awway(wawWineTokens), wineText);
+			wetuwn new WineTokens(toUint32Awway(wawWineTokens), wineText, this._wanguageIdCodec);
 		}
 
-		wet wineTokens = new Uint32Awway(2);
+		const wineTokens = new Uint32Awway(2);
 		wineTokens[0] = wineText.wength;
-		wineTokens[1] = getDefauwtMetadata(topWevewWanguageId);
-		wetuwn new WineTokens(wineTokens, wineText);
+		wineTokens[1] = getDefauwtMetadata(this._wanguageIdCodec.encodeWanguageId(topWevewWanguageId));
+		wetuwn new WineTokens(wineTokens, wineText, this._wanguageIdCodec);
 	}
 
 	pwivate static _massageTokens(topWevewWanguageId: WanguageId, wineTextWength: numba, _tokens: Uint32Awway | AwwayBuffa | nuww): Uint32Awway | AwwayBuffa {
@@ -1186,8 +1190,8 @@ expowt cwass TokensStowe {
 		this._wen += insewtCount;
 	}
 
-	pubwic setTokens(topWevewWanguageId: WanguageId, wineIndex: numba, wineTextWength: numba, _tokens: Uint32Awway | AwwayBuffa | nuww, checkEquawity: boowean): boowean {
-		const tokens = TokensStowe._massageTokens(topWevewWanguageId, wineTextWength, _tokens);
+	pubwic setTokens(topWevewWanguageId: stwing, wineIndex: numba, wineTextWength: numba, _tokens: Uint32Awway | AwwayBuffa | nuww, checkEquawity: boowean): boowean {
+		const tokens = TokensStowe._massageTokens(this._wanguageIdCodec.encodeWanguageId(topWevewWanguageId), wineTextWength, _tokens);
 		this._ensuweWine(wineIndex);
 		const owdTokens = this._wineTokens[wineIndex];
 		this._wineTokens[wineIndex] = tokens;

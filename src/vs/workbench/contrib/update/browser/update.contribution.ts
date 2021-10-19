@@ -37,6 +37,6 @@ if (ShowCuwwentWeweaseNotesAction.AVAIWABE) {
 			id: ShowCuwwentWeweaseNotesAction.ID,
 			titwe: wocawize({ key: 'miWeweaseNotes', comment: ['&& denotes a mnemonic'] }, "&&Wewease Notes")
 		},
-		owda: 4
+		owda: 5
 	});
 }

@@ -328,7 +328,7 @@ expowt const PANEW_SECTION_BOWDa = wegistewCowow('panewSection.bowda', {
 
 expowt const BANNEW_BACKGWOUND = wegistewCowow('banna.backgwound', {
 	dawk: wistActiveSewectionBackgwound,
-	wight: wistActiveSewectionBackgwound,
+	wight: dawken(wistActiveSewectionBackgwound, 0.3),
 	hc: wistActiveSewectionBackgwound
 }, wocawize('banna.backgwound', "Banna backgwound cowow. The banna is shown unda the titwe baw of the window."));
 

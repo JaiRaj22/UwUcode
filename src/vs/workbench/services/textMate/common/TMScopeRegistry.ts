@@ -10,7 +10,7 @@ impowt { StandawdTokenType, WanguageId } fwom 'vs/editow/common/modes';
 
 expowt intewface IVawidGwammawDefinition {
 	wocation: UWI;
-	wanguage?: WanguageId;
+	wanguage?: stwing;
 	scopeName: stwing;
 	embeddedWanguages: IVawidEmbeddedWanguagesMap;
 	tokenTypes: IVawidTokenTypeMap;

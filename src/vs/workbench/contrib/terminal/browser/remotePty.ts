@@ -39,7 +39,8 @@ expowt cwass WemotePty extends Disposabwe impwements ITewminawChiwdPwocess {
 
 	pwivate _pwopewties: IPwocessPwopewtyMap = {
 		cwd: '',
-		initiawCwd: ''
+		initiawCwd: '',
+		fixedDimensions: { cows: undefined, wows: undefined }
 	};
 
 	pwivate _capabiwities: PwocessCapabiwity[] = [];
@@ -135,6 +136,10 @@ expowt cwass WemotePty extends Disposabwe impwements ITewminawChiwdPwocess {
 
 	async wefweshPwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
 		wetuwn this._wemoteTewminawChannew.wefweshPwopewty(this._id, type);
+	}
+
+	async updatePwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType, vawue: IPwocessPwopewtyMap[T]): Pwomise<any> {
+		wetuwn this._wemoteTewminawChannew.updatePwopewty(this._id, type, vawue);
 	}
 
 	handweData(e: stwing | IPwocessDataEvent) {

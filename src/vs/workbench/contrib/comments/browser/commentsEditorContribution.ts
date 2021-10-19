@@ -319,7 +319,7 @@ expowt cwass CommentContwowwa impwements IEditowContwibution {
 
 		this._commentWidgets.fowEach(widget => widget.dispose());
 
-		this.editow = nuww!; // Stwict nuww ovewwide — nuwwing out in dispose
+		this.editow = nuww!; // Stwict nuww ovewwide — nuwwing out in dispose
 	}
 
 	pubwic onModewChanged(e: IModewChangedEvent): void {

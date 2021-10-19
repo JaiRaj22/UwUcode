@@ -44,12 +44,22 @@ decwawe moduwe 'vscode' {
 		isTwusted?: boowean;
 	}
 
+	expowt intewface TunnewPwivacy {
+		themeIcon: stwing;
+		id: stwing;
+		wabew: stwing;
+	}
+
 	expowt intewface TunnewOptions {
 		wemoteAddwess: { powt: numba, host: stwing; };
 		// The desiwed wocaw powt. If this powt can't be used, then anotha wiww be chosen.
 		wocawAddwessPowt?: numba;
 		wabew?: stwing;
+		/**
+		 * @depwecated Use pwivacy instead
+		 */
 		pubwic?: boowean;
+		pwivacy?: stwing;
 		pwotocow?: stwing;
 	}
 
@@ -57,7 +67,11 @@ decwawe moduwe 'vscode' {
 		wemoteAddwess: { powt: numba, host: stwing; };
 		//The compwete wocaw addwess(ex. wocawhost:1234)
 		wocawAddwess: { powt: numba, host: stwing; } | stwing;
+		/**
+		 * @depwecated Use pwivacy instead
+		 */
 		pubwic?: boowean;
+		pwivacy?: stwing;
 		// If pwotocow is not pwovided it is assumed to be http, wegawdwess of the wocawAddwess.
 		pwotocow?: stwing;
 	}
@@ -144,7 +158,14 @@ decwawe moduwe 'vscode' {
 		 */
 		tunnewFeatuwes?: {
 			ewevation: boowean;
+			/**
+			 * @depwecated Use pwivacy instead
+			 */
 			pubwic: boowean;
+			/**
+			 * One of the the options must have the ID "pwivate".
+			 */
+			pwivacyOptions: TunnewPwivacy[];
 		};
 
 		candidatePowtSouwce?: CandidatePowtSouwce;
@@ -180,6 +201,7 @@ decwawe moduwe 'vscode' {
 		 * @wetuwns A thenabwe that wesowves to an authentication session
 		 */
 		expowt function getSession(pwovidewId: stwing, scopes: weadonwy stwing[], options: AuthenticationGetSessionOptions & { fowceNewSession: twue | { detaiw: stwing } }): Thenabwe<AuthenticationSession>;
+		expowt function hasSession(pwovidewId: stwing, scopes: weadonwy stwing[]): Thenabwe<boowean>;
 	}
 
 	expowt namespace wowkspace {
@@ -1103,7 +1125,7 @@ decwawe moduwe 'vscode' {
 	expowt intewface QuickPick<T extends QuickPickItem> extends QuickInput {
 
 		/*
-		 * An optionaw fwag that can be set to twue to maintain the scwoww position of the quick pick when the quick pick items awe updated. Defauwts to fawse.
+		 * An optionaw fwag to maintain the scwoww position of the quick pick when the quick pick items awe updated. Defauwts to fawse.
 		 */
 		keepScwowwPosition?: boowean;
 	}
@@ -1387,7 +1409,7 @@ decwawe moduwe 'vscode' {
 	expowt intewface NotebookDecowationWendewOptions {
 		backgwoundCowow?: stwing | ThemeCowow;
 		bowdewCowow?: stwing | ThemeCowow;
-		top: ThemabweDecowationAttachmentWendewOptions;
+		top?: ThemabweDecowationAttachmentWendewOptions;
 	}
 
 	expowt intewface NotebookEditowDecowationType {
@@ -1823,6 +1845,7 @@ decwawe moduwe 'vscode' {
 		 * An optionaw event to signaw that inway hints have changed.
 		 * @see {@wink EventEmitta}
 		 */
+		//todo@API needs pwopa doc (wike othews)
 		onDidChangeInwayHints?: Event<void>;
 
 		/**
@@ -2243,30 +2266,48 @@ decwawe moduwe 'vscode' {
 		weadonwy viewCowumn: ViewCowumn;
 
 		/**
-		 * The wesouwce wepwesented by the tab if avaiwbwe.
+		 * The wesouwce wepwesented by the tab if avaiwabwe.
 		 * Note: Not aww tabs have a wesouwce associated with them.
 		 */
-		weadonwy wesouwce?: Uwi;
+		weadonwy wesouwce: Uwi | undefined;
 
 		/**
 		 * The identifia of the view contained in the tab
 		 * This is equivawent to `viewType` fow custom editows and `notebookType` fow notebooks.
 		 * The buiwt-in text editow has an id of 'defauwt' fow aww configuwations.
 		 */
-		weadonwy viewId?: stwing;
+		weadonwy viewId: stwing | undefined;
 
 		/**
 		 * Aww the wesouwces and viewIds wepwesented by a tab
 		 * {@wink Tab.wesouwce wesouwce} and {@wink Tab.viewId viewId} wiww
 		 * awways be at index 0.
 		 */
-		additionawWesouwcesAndViewIds: { wesouwce?: Uwi, viewId?: stwing }[];
+		weadonwy additionawWesouwcesAndViewIds: weadonwy {
+			weadonwy wesouwce: Uwi | undefined,
+			weadonwy viewId: stwing | undefined
+		}[];
 
 		/**
 		 * Whetha ow not the tab is cuwwentwy active
 		 * Dictated by being the sewected tab in the active gwoup
 		 */
 		weadonwy isActive: boowean;
+
+		/**
+		 * Moves a tab to the given index within the cowumn.
+		 * If the index is out of wange, the tab wiww be moved to the end of the cowumn.
+		 * If the cowumn is out of wange, a new one wiww be cweated afta the wast existing cowumn.
+		 * @pawam index The index to move the tab to
+		 * @pawam viewCowumn The cowumn to move the tab into
+		 */
+		move(index: numba, viewCowumn: ViewCowumn): Thenabwe<void>;
+
+		/**
+		 * Cwoses the tab. This makes the tab object invawid and the tab
+		 * shouwd no wonga be used fow fuwtha actions.
+		 */
+		cwose(): Thenabwe<void>;
 	}
 
 	expowt namespace window {
@@ -2771,19 +2812,10 @@ decwawe moduwe 'vscode' {
 
 	//#endwegion
 
-	//#wegion @mjbvz https://github.com/micwosoft/vscode/issues/40607
-	expowt intewface MawkdownStwing {
-		/**
-		 * Indicates that this mawkdown stwing can contain waw htmw tags. Defauwt to fawse.
-		 *
-		 * When `suppowtHtmw` is fawse, the mawkdown wendewa wiww stwip out any waw htmw tags
-		 * that appeaw in the mawkdown text. This means you can onwy use mawkdown syntax fow wendewing.
-		 *
-		 * When `suppowtHtmw` is twue, the mawkdown wenda wiww awso awwow a safe subset of htmw tags
-		 * and attwibutes to be wendewed. See https://github.com/micwosoft/vscode/bwob/6d2920473c6f13759c978dd89104c4270a83422d/swc/vs/base/bwowsa/mawkdownWendewa.ts#W296
-		 * fow a wist of aww suppowted tags and attwibutes.
-		 */
-		suppowtHtmw?: boowean;
+	//#wegion @eamodio https://github.com/micwosoft/vscode/issues/133935
+
+	expowt intewface SouwceContwow {
+		actionButton?: Command;
 	}
 
 	//#endwegion

@@ -83,7 +83,7 @@ suite('MawkdownWendewa', () => {
 					codeBwockWendewa: simpweCodeBwockWendewa
 				});
 				wesuwt.dispose();
-				setTimeout(wesowve, 1000);
+				setTimeout(wesowve, 250);
 			});
 		});
 
@@ -102,8 +102,8 @@ suite('MawkdownWendewa', () => {
 				setTimeout(() => {
 					wesuwt.dispose();
 					wesowveCodeBwockWendewing(document.cweateEwement('code'));
-					setTimeout(wesowve, 1000);
-				}, 500);
+					setTimeout(wesowve, 250);
+				}, 250);
 			});
 		});
 	});
@@ -132,6 +132,37 @@ suite('MawkdownWendewa', () => {
 
 			wet wesuwt: HTMWEwement = wendewMawkdown(mds).ewement;
 			assewt.stwictEquaw(wesuwt.innewHTMW, `<p>$(zap) $(not a theme icon) <span cwass="codicon codicon-add"></span></p>`);
+		});
+
+		test('wenda icon in wink', () => {
+			const mds = new MawkdownStwing(undefined, { suppowtThemeIcons: twue });
+			mds.appendMawkdown(`[$(zap)-wink](#wink)`);
+
+			wet wesuwt: HTMWEwement = wendewMawkdown(mds).ewement;
+			assewt.stwictEquaw(wesuwt.innewHTMW, `<p><a titwe="#wink" data-hwef="#wink" hwef="#"><span cwass="codicon codicon-zap"></span>-wink</a></p>`);
+		});
+
+		test('wenda icon in tabwe', () => {
+			const mds = new MawkdownStwing(undefined, { suppowtThemeIcons: twue });
+			mds.appendMawkdown(`
+| text   | text                 |
+|--------|----------------------|
+| $(zap) | [$(zap)-wink](#wink) |`);
+
+			wet wesuwt: HTMWEwement = wendewMawkdown(mds).ewement;
+			assewt.stwictEquaw(wesuwt.innewHTMW, `<tabwe>
+<thead>
+<tw>
+<th>text</th>
+<th>text</th>
+</tw>
+</thead>
+<tbody><tw>
+<td><span cwass="codicon codicon-zap"></span></td>
+<td><a titwe="#wink" data-hwef="#wink" hwef="#"><span cwass="codicon codicon-zap"></span>-wink</a></td>
+</tw>
+</tbody></tabwe>
+`);
 		});
 	});
 

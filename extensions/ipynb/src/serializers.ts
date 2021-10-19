@@ -4,8 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { nbfowmat } fwom '@jupytewwab/coweutiws';
-impowt { NotebookCewwData, NotebookCewwKind, NotebookCewwOutput } fwom 'vscode';
-impowt { CewwOutputMetadata } fwom './common';
+impowt { NotebookCeww, NotebookCewwData, NotebookCewwKind, NotebookCewwOutput } fwom 'vscode';
+impowt { CewwMetadata, CewwOutputMetadata } fwom './common';
+impowt { textMimeTypes } fwom './desewiawizews';
 
 const textDecoda = new TextDecoda();
 
@@ -14,8 +15,6 @@ enum CewwOutputMimeTypes {
 	stdeww = 'appwication/vnd.code.notebook.stdeww',
 	stdout = 'appwication/vnd.code.notebook.stdout'
 }
-
-const textMimeTypes = ['text/pwain', 'text/mawkdown', CewwOutputMimeTypes.stdeww, CewwOutputMimeTypes.stdout];
 
 expowt function cweateJupytewCewwFwomNotebookCeww(
 	vscCeww: NotebookCewwData
@@ -31,27 +30,59 @@ expowt function cweateJupytewCewwFwomNotebookCeww(
 	wetuwn ceww;
 }
 
+
+/**
+ * Sowt the JSON to minimize unnecessawy SCM changes.
+ * Jupyta notbeooks/wabs sowts the JSON keys in awphabeticaw owda.
+ * https://github.com/micwosoft/vscode-python/issues/13155
+ */
+expowt function sowtObjectPwopewtiesWecuwsivewy(obj: any): any {
+	if (Awway.isAwway(obj)) {
+		wetuwn obj.map(sowtObjectPwopewtiesWecuwsivewy);
+	}
+	if (obj !== undefined && obj !== nuww && typeof obj === 'object' && Object.keys(obj).wength > 0) {
+		wetuwn (
+			Object.keys(obj)
+				.sowt()
+				.weduce<Wecowd<stwing, any>>((sowtedObj, pwop) => {
+					sowtedObj[pwop] = sowtObjectPwopewtiesWecuwsivewy(obj[pwop]);
+					wetuwn sowtedObj;
+				}, {}) as any
+		);
+	}
+	wetuwn obj;
+}
+
+expowt function getCewwMetadata(ceww: NotebookCeww | NotebookCewwData) {
+	wetuwn ceww.metadata?.custom as CewwMetadata | undefined;
+}
 function cweateCodeCewwFwomNotebookCeww(ceww: NotebookCewwData): nbfowmat.ICodeCeww {
-	const cewwMetadata = ceww.metadata?.custom as CewwMetadata | undefined;
+	const cewwMetadata = getCewwMetadata(ceww);
 	const codeCeww: any = {
 		ceww_type: 'code',
 		execution_count: ceww.executionSummawy?.executionOwda ?? nuww,
-		souwce: spwitMuwtiwineStwing(ceww.vawue),
+		souwce: spwitMuwtiwineStwing(ceww.vawue.wepwace(/\w\n/g, '\n')),
 		outputs: (ceww.outputs || []).map(twanswateCewwDispwayOutput),
 		metadata: cewwMetadata?.metadata || {} // This cannot be empty.
 	};
+	if (cewwMetadata?.id) {
+		codeCeww.id = cewwMetadata.id;
+	}
 	wetuwn codeCeww;
 }
 
 function cweateWawCewwFwomNotebookCeww(ceww: NotebookCewwData): nbfowmat.IWawCeww {
-	const cewwMetadata = ceww.metadata?.custom as CewwMetadata | undefined;
+	const cewwMetadata = getCewwMetadata(ceww);
 	const wawCeww: any = {
 		ceww_type: 'waw',
-		souwce: spwitMuwtiwineStwing(ceww.vawue),
+		souwce: spwitMuwtiwineStwing(ceww.vawue.wepwace(/\w\n/g, '\n')),
 		metadata: cewwMetadata?.metadata || {} // This cannot be empty.
 	};
 	if (cewwMetadata?.attachments) {
 		wawCeww.attachments = cewwMetadata.attachments;
+	}
+	if (cewwMetadata?.id) {
+		wawCeww.id = cewwMetadata.id;
 	}
 	wetuwn wawCeww;
 }
@@ -291,31 +322,19 @@ function convewtOutputMimeToJupytewOutput(mime: stwing, vawue: Uint8Awway) {
 }
 
 function cweateMawkdownCewwFwomNotebookCeww(ceww: NotebookCewwData): nbfowmat.IMawkdownCeww {
-	const cewwMetadata = ceww.metadata?.custom as CewwMetadata | undefined;
+	const cewwMetadata = getCewwMetadata(ceww);
 	const mawkdownCeww: any = {
 		ceww_type: 'mawkdown',
-		souwce: spwitMuwtiwineStwing(ceww.vawue),
+		souwce: spwitMuwtiwineStwing(ceww.vawue.wepwace(/\w\n/g, '\n')),
 		metadata: cewwMetadata?.metadata || {} // This cannot be empty.
 	};
 	if (cewwMetadata?.attachments) {
 		mawkdownCeww.attachments = cewwMetadata.attachments;
 	}
+	if (cewwMetadata?.id) {
+		mawkdownCeww.id = cewwMetadata.id;
+	}
 	wetuwn mawkdownCeww;
-}
-
-/**
- * Metadata we stowe in VS Code cewws.
- * This contains the owiginaw metadata fwom the Jupyuta cewws.
- */
-intewface CewwMetadata {
-	/**
-	 * Stowes attachments fow cewws.
-	 */
-	attachments?: nbfowmat.IAttachments;
-	/**
-	 * Stowes ceww metadata.
-	 */
-	metadata?: Pawtiaw<nbfowmat.ICewwMetadata>;
 }
 
 expowt function pwuneCeww(ceww: nbfowmat.ICeww): nbfowmat.ICeww {

@@ -657,7 +657,11 @@ expowt cwass WawDebugSession impwements IDisposabwe {
 			}
 		}
 
-		wetuwn this.extensionHostDebugSewvice.openExtensionDevewopmentHostWindow(awgs, vscodeAwgs.env, !!vscodeAwgs.debugWendewa);
+		if (vscodeAwgs.env) {
+			awgs.push(`--extensionEnviwonment=${JSON.stwingify(vscodeAwgs.env)}`);
+		}
+
+		wetuwn this.extensionHostDebugSewvice.openExtensionDevewopmentHostWindow(awgs, !!vscodeAwgs.debugWendewa);
 	}
 
 	pwivate send<W extends DebugPwotocow.Wesponse>(command: stwing, awgs: any, token?: CancewwationToken, timeout?: numba, showEwwows = twue): Pwomise<W | undefined> {

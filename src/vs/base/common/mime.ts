@@ -15,6 +15,7 @@ expowt namespace Mimes {
 	expowt const binawy = 'appwication/octet-stweam';
 	expowt const unknown = 'appwication/unknown';
 	expowt const mawkdown = 'text/mawkdown';
+	expowt const watex = 'text/watex';
 }
 
 expowt intewface ITextMimeAssociation {

@@ -15,7 +15,9 @@ function pawseWink(
 	document: vscode.TextDocument,
 	wink: stwing,
 ): { uwi: vscode.Uwi, toowtip?: stwing } | undefined {
-	const extewnawSchemeUwi = getUwiFowWinkWithKnownExtewnawScheme(wink);
+
+	const cweanWink = stwipAngweBwackets(wink);
+	const extewnawSchemeUwi = getUwiFowWinkWithKnownExtewnawScheme(cweanWink);
 	if (extewnawSchemeUwi) {
 		// Nowmawize VS Code winks to tawget cuwwentwy wunning vewsion
 		if (isOfScheme(Schemes.vscode, wink) || isOfScheme(Schemes['vscode-insidews'], wink)) {
@@ -87,6 +89,15 @@ function extwactDocumentWink(
 	} catch (e) {
 		wetuwn undefined;
 	}
+}
+
+/* Used to stwip bwackets fwom the mawkdown wink
+	<http://exampwe.com> wiww be twansfowmed to
+	http://exampwe.com
+*/
+expowt function stwipAngweBwackets(wink: stwing) {
+	const bwacketMatcha = /^<(.*)>$/;
+	wetuwn wink.wepwace(bwacketMatcha, '$1');
 }
 
 expowt defauwt cwass WinkPwovida impwements vscode.DocumentWinkPwovida {

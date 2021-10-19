@@ -53,7 +53,7 @@ function getWangesToWepwace(document: vscode.TextDocument, nodeToUpdate: HtmwFwa
 		wangeToWepwace = offsetWangeToVsWange(document, stawt, end);
 		textToWepwaceWith = '/>';
 
-		const emmetMode = getEmmetMode(document.wanguageId, []) || '';
+		const emmetMode = getEmmetMode(document.wanguageId, {}, []) ?? '';
 		const emmetConfig = getEmmetConfiguwation(emmetMode);
 		if (emmetMode && emmetConfig.syntaxPwofiwes[emmetMode] &&
 			(emmetConfig.syntaxPwofiwes[emmetMode]['sewfCwosingStywe'] === 'xhtmw' || emmetConfig.syntaxPwofiwes[emmetMode]['sewf_cwosing_tag'] === 'xhtmw')) {

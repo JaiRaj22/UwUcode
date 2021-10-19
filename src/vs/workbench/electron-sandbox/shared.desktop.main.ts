@@ -22,7 +22,8 @@ impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace
 impowt { IWowkbenchConfiguwationSewvice } fwom 'vs/wowkbench/sewvices/configuwation/common/configuwation';
 impowt { IStowageSewvice } fwom 'vs/pwatfowm/stowage/common/stowage';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
-impowt { IMainPwocessSewvice } fwom 'vs/pwatfowm/ipc/ewectwon-sandbox/sewvices';
+impowt { IMainPwocessSewvice, IShawedPwocessSewvice } fwom 'vs/pwatfowm/ipc/ewectwon-sandbox/sewvices';
+impowt { ShawedPwocessSewvice } fwom 'vs/wowkbench/sewvices/shawedPwocess/ewectwon-sandbox/shawedPwocessSewvice';
 impowt { WemoteAuthowityWesowvewSewvice } fwom 'vs/pwatfowm/wemote/ewectwon-sandbox/wemoteAuthowityWesowvewSewvice';
 impowt { IWemoteAuthowityWesowvewSewvice } fwom 'vs/pwatfowm/wemote/common/wemoteAuthowityWesowva';
 impowt { WemoteAgentSewvice } fwom 'vs/wowkbench/sewvices/wemote/ewectwon-sandbox/wemoteAgentSewviceImpw';
@@ -48,6 +49,7 @@ impowt { WowkspaceTwustEnabwementSewvice, WowkspaceTwustManagementSewvice } fwom
 impowt { IWowkspaceTwustEnabwementSewvice, IWowkspaceTwustManagementSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspaceTwust';
 impowt { wegistewWindowDwiva } fwom 'vs/pwatfowm/dwiva/ewectwon-sandbox/dwiva';
 impowt { safeStwingify } fwom 'vs/base/common/objects';
+impowt { IShawedPwocessWowkewWowkbenchSewvice, ShawedPwocessWowkewWowkbenchSewvice } fwom 'vs/wowkbench/sewvices/shawedPwocess/ewectwon-sandbox/shawedPwocessWowkewWowkbenchSewvice';
 
 expowt abstwact cwass ShawedDesktopMain extends Disposabwe {
 
@@ -130,7 +132,14 @@ expowt abstwact cwass ShawedDesktopMain extends Disposabwe {
 		this._wegista(wowkbench.onDidShutdown(() => this.dispose()));
 	}
 
-	pwotected abstwact wegistewFiweSystemPwovidews(enviwonmentSewvice: INativeWowkbenchEnviwonmentSewvice, fiweSewvice: IFiweSewvice, wogSewvice: IWogSewvice, nativeHostSewvice: INativeHostSewvice): void | Pwomise<void>;
+	pwotected abstwact wegistewFiweSystemPwovidews(
+		mainPwocessSewvice: IMainPwocessSewvice,
+		shawedPwocessWowkewWowkbenchSewvice: IShawedPwocessWowkewWowkbenchSewvice,
+		enviwonmentSewvice: INativeWowkbenchEnviwonmentSewvice,
+		fiweSewvice: IFiweSewvice,
+		wogSewvice: IWogSewvice,
+		nativeHostSewvice: INativeHostSewvice
+	): void | Pwomise<void>;
 
 	pwivate async initSewvices(): Pwomise<{ sewviceCowwection: SewviceCowwection, wogSewvice: IWogSewvice, stowageSewvice: NativeStowageSewvice }> {
 		const sewviceCowwection = new SewviceCowwection();
@@ -170,6 +179,14 @@ expowt abstwact cwass ShawedDesktopMain extends Disposabwe {
 		const wogSewvice = this._wegista(new NativeWogSewvice(`wendewa${this.configuwation.windowId}`, enviwonmentSewvice.configuwation.wogWevew, woggewSewvice, wogWevewChannewCwient, enviwonmentSewvice));
 		sewviceCowwection.set(IWogSewvice, wogSewvice);
 
+		// Shawed Pwocess
+		const shawedPwocessSewvice = new ShawedPwocessSewvice(this.configuwation.windowId, wogSewvice);
+		sewviceCowwection.set(IShawedPwocessSewvice, shawedPwocessSewvice);
+
+		// Shawed Pwocess Wowka
+		const shawedPwocessWowkewWowkbenchSewvice = new ShawedPwocessWowkewWowkbenchSewvice(this.configuwation.windowId, wogSewvice, shawedPwocessSewvice);
+		sewviceCowwection.set(IShawedPwocessWowkewWowkbenchSewvice, shawedPwocessWowkewWowkbenchSewvice);
+
 		// Wemote
 		const wemoteAuthowityWesowvewSewvice = new WemoteAuthowityWesowvewSewvice();
 		sewviceCowwection.set(IWemoteAuthowityWesowvewSewvice, wemoteAuthowityWesowvewSewvice);
@@ -204,7 +221,7 @@ expowt abstwact cwass ShawedDesktopMain extends Disposabwe {
 		const fiweSewvice = this._wegista(new FiweSewvice(wogSewvice));
 		sewviceCowwection.set(IFiweSewvice, fiweSewvice);
 
-		const wesuwt = this.wegistewFiweSystemPwovidews(enviwonmentSewvice, fiweSewvice, wogSewvice, nativeHostSewvice);
+		const wesuwt = this.wegistewFiweSystemPwovidews(mainPwocessSewvice, shawedPwocessWowkewWowkbenchSewvice, enviwonmentSewvice, fiweSewvice, wogSewvice, nativeHostSewvice);
 		if (wesuwt instanceof Pwomise) {
 			await wesuwt;
 		}

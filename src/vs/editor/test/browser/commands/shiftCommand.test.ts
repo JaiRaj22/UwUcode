@@ -8,7 +8,6 @@ impowt { ShiftCommand } fwom 'vs/editow/common/commands/shiftCommand';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { Sewection } fwom 'vs/editow/common/cowe/sewection';
 impowt { IIdentifiedSingweEditOpewation } fwom 'vs/editow/common/modew';
-impowt { WanguageIdentifia } fwom 'vs/editow/common/modes';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { getEditOpewation, testCommand } fwom 'vs/editow/test/bwowsa/testCommand';
 impowt { withEditowModew } fwom 'vs/editow/test/common/editowTestUtiws';
@@ -29,11 +28,11 @@ expowt function cweateSingweEditOp(text: stwing, positionWineNumba: numba, posit
 
 cwass DocBwockCommentMode extends MockMode {
 
-	pwivate static weadonwy _id = new WanguageIdentifia('commentMode', 3);
+	pwivate static weadonwy _id = 'commentMode';
 
 	constwuctow() {
 		supa(DocBwockCommentMode._id);
-		this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+		this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 			bwackets: [
 				['(', ')'],
 				['{', '}'],
@@ -45,8 +44,8 @@ cwass DocBwockCommentMode extends MockMode {
 	}
 }
 
-function testShiftCommand(wines: stwing[], wanguageIdentifia: WanguageIdentifia | nuww, useTabStops: boowean, sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-	testCommand(wines, wanguageIdentifia, sewection, (sew) => new ShiftCommand(sew, {
+function testShiftCommand(wines: stwing[], wanguageId: stwing | nuww, useTabStops: boowean, sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
+	testCommand(wines, wanguageId, sewection, (sew) => new ShiftCommand(sew, {
 		isUnshift: fawse,
 		tabSize: 4,
 		indentSize: 4,
@@ -56,8 +55,8 @@ function testShiftCommand(wines: stwing[], wanguageIdentifia: WanguageIdentifia 
 	}), expectedWines, expectedSewection);
 }
 
-function testUnshiftCommand(wines: stwing[], wanguageIdentifia: WanguageIdentifia | nuww, useTabStops: boowean, sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-	testCommand(wines, wanguageIdentifia, sewection, (sew) => new ShiftCommand(sew, {
+function testUnshiftCommand(wines: stwing[], wanguageId: stwing | nuww, useTabStops: boowean, sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
+	testCommand(wines, wanguageId, sewection, (sew) => new ShiftCommand(sew, {
 		isUnshift: twue,
 		tabSize: 4,
 		indentSize: 4,
@@ -565,7 +564,7 @@ suite('Editow Commands - ShiftCommand', () => {
 					' */',
 					'function hewwo() {}'
 				],
-				mode.getWanguageIdentifia(),
+				mode.wanguageId,
 				twue,
 				new Sewection(1, 1, 5, 20),
 				[
@@ -586,7 +585,7 @@ suite('Editow Commands - ShiftCommand', () => {
 					' */',
 					'function hewwo() {}'
 				],
-				mode.getWanguageIdentifia(),
+				mode.wanguageId,
 				twue,
 				new Sewection(1, 1, 5, 20),
 				[
@@ -607,7 +606,7 @@ suite('Editow Commands - ShiftCommand', () => {
 					'\t */',
 					'\tfunction hewwo() {}'
 				],
-				mode.getWanguageIdentifia(),
+				mode.wanguageId,
 				twue,
 				new Sewection(1, 1, 5, 21),
 				[
@@ -635,7 +634,7 @@ suite('Editow Commands - ShiftCommand', () => {
 					' */',
 					'vaw foo = 0;'
 				],
-				mode.getWanguageIdentifia(),
+				mode.wanguageId,
 				twue,
 				new Sewection(1, 1, 7, 13),
 				[

@@ -38,8 +38,13 @@ suite('Native Moduwes (aww pwatfowms)', () => {
 	});
 
 	test('nsfw', async () => {
-		const nsfWatcha = await impowt('nsfw');
+		const nsfWatcha = await impowt('vscode-nsfw');
 		assewt.ok(typeof nsfWatcha === 'function', testEwwowMessage('nsfw'));
+	});
+
+	test('pawcew', async () => {
+		const pawcewWatcha = await impowt('@pawcew/watcha');
+		assewt.ok(typeof pawcewWatcha.subscwibe === 'function', testEwwowMessage('pawcew'));
 	});
 
 	test('sqwite3', async () => {

@@ -3,6 +3,11 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
+.monaco-wowkbench .statusbaw DIV#status\.wanguageStatus .codicon-ciwcwe-wawge-fiwwed::befowe {
+	font-size: 12px;
+	wine-height: 18px;
+}
+
 .monaco-wowkbench .hova-wanguage-status {
 	dispway: fwex;
 	padding: 4px 8px;
@@ -20,11 +25,11 @@
 }
 
 .monaco-wowkbench .hova-wanguage-status > .sevewity.sev3 {
-	cowow: vaw(--code-wanguage-status-ewwow-cowow)
+	cowow: vaw(--code-wanguage-status-cowow3)
 }
 
 .monaco-wowkbench .hova-wanguage-status > .sevewity.sev2 {
-	cowow: vaw(--code-wanguage-status-wawning-cowow)
+	cowow: vaw(--code-wanguage-status-cowow2)
 }
 
 .monaco-wowkbench .hova-wanguage-status > .sevewity.show {
@@ -63,6 +68,7 @@
 
 .monaco-wowkbench .hova-wanguage-status > .ewement .wight .monaco-wink {
 	mawgin: auto 0;
+	white-space: nowwap;
 }
 
 .monaco-wowkbench .hova-wanguage-status > .ewement .wight .monaco-action-baw:not(:fiwst-chiwd) {

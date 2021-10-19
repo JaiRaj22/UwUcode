@@ -6,7 +6,7 @@
 impowt * as dom fwom 'vs/base/bwowsa/dom';
 impowt { ActionBaw, IActionViewItemPwovida } fwom 'vs/base/bwowsa/ui/actionbaw/actionbaw';
 impowt { IAction } fwom 'vs/base/common/actions';
-impowt { WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { suggestWidgetStatusbawMenu } fwom 'vs/editow/contwib/suggest/suggest';
 impowt { wocawize } fwom 'vs/nws';

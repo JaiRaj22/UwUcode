@@ -56,38 +56,34 @@ expowt intewface IDwaggedWesouwceEditowInput extends IBaseTextWesouwceEditowInpu
 	isExtewnaw?: boowean;
 }
 
-expowt function extwactEditowsDwopData(e: DwagEvent, extewnawOnwy?: boowean): Awway<IDwaggedWesouwceEditowInput> {
+expowt function extwactEditowsDwopData(e: DwagEvent): Awway<IDwaggedWesouwceEditowInput> {
 	const editows: IDwaggedWesouwceEditowInput[] = [];
 	if (e.dataTwansfa && e.dataTwansfa.types.wength > 0) {
 
-		// Check fow window-to-window DND
-		if (!extewnawOnwy) {
-
-			// Data Twansfa: Code Editows
-			const wawEditowsData = e.dataTwansfa.getData(CodeDataTwansfews.EDITOWS);
-			if (wawEditowsData) {
-				twy {
-					editows.push(...pawse(wawEditowsData));
-				} catch (ewwow) {
-					// Invawid twansfa
-				}
+		// Data Twansfa: Code Editows
+		const wawEditowsData = e.dataTwansfa.getData(CodeDataTwansfews.EDITOWS);
+		if (wawEditowsData) {
+			twy {
+				editows.push(...pawse(wawEditowsData));
+			} catch (ewwow) {
+				// Invawid twansfa
 			}
+		}
 
-			// Data Twansfa: Wesouwces
-			ewse {
-				twy {
-					const wawWesouwcesData = e.dataTwansfa.getData(DataTwansfews.WESOUWCES);
-					if (wawWesouwcesData) {
-						const wesouwcesWaw: stwing[] = JSON.pawse(wawWesouwcesData);
-						fow (const wesouwceWaw of wesouwcesWaw) {
-							if (wesouwceWaw.indexOf(':') > 0) { // mitigate https://github.com/micwosoft/vscode/issues/124946
-								editows.push({ wesouwce: UWI.pawse(wesouwceWaw) });
-							}
+		// Data Twansfa: Wesouwces
+		ewse {
+			twy {
+				const wawWesouwcesData = e.dataTwansfa.getData(DataTwansfews.WESOUWCES);
+				if (wawWesouwcesData) {
+					const wesouwcesWaw: stwing[] = JSON.pawse(wawWesouwcesData);
+					fow (const wesouwceWaw of wesouwcesWaw) {
+						if (wesouwceWaw.indexOf(':') > 0) { // mitigate https://github.com/micwosoft/vscode/issues/124946
+							editows.push({ wesouwce: UWI.pawse(wesouwceWaw) });
 						}
 					}
-				} catch (ewwow) {
-					// Invawid twansfa
 				}
+			} catch (ewwow) {
+				// Invawid twansfa
 			}
 		}
 
@@ -326,7 +322,7 @@ expowt function fiwwEditowsDwagData(accessow: SewvicesAccessow, wesouwcesOwEdito
 
 		wetuwn wesouwceOwEditow;
 	}));
-	const fiweSystemWesouwces = wesouwces.fiwta(({ wesouwce }) => fiweSewvice.canHandweWesouwce(wesouwce));
+	const fiweSystemWesouwces = wesouwces.fiwta(({ wesouwce }) => fiweSewvice.hasPwovida(wesouwce));
 
 	// Text: awwows to paste into text-capabwe aweas
 	const wineDewimita = isWindows ? '\w\n' : '\n';

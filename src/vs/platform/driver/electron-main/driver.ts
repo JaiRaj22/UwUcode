@@ -6,10 +6,10 @@
 impowt { timeout } fwom 'vs/base/common/async';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { KeybindingPawsa } fwom 'vs/base/common/keybindingPawsa';
-impowt { KeyCode, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { SimpweKeybinding, ScanCodeBinding } fwom 'vs/base/common/keybindings';
 impowt { combinedDisposabwe, IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { OS } fwom 'vs/base/common/pwatfowm';
-impowt { ScanCodeBinding } fwom 'vs/base/common/scanCode';
 impowt { IPCSewva, StaticWouta } fwom 'vs/base/pawts/ipc/common/ipc';
 impowt { sewve as sewveNet } fwom 'vs/base/pawts/ipc/node/ipc.net';
 impowt { IDwiva, IDwivewOptions, IEwement, IWocaweInfo, IWocawizedStwings, IWindowDwiva, IWindowDwivewWegistwy } fwom 'vs/pwatfowm/dwiva/common/dwiva';

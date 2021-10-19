@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 impowt { EditowAutoIndentStwategy } fwom 'vs/editow/common/config/editowOptions';
 impowt { Sewection } fwom 'vs/editow/common/cowe/sewection';
-impowt { WanguageIdentifia } fwom 'vs/editow/common/modes';
 impowt { IndentationWuwe } fwom 'vs/editow/common/modes/wanguageConfiguwation';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { MoveWinesCommand } fwom 'vs/editow/contwib/winesOpewations/moveWinesCommand';
@@ -19,11 +18,11 @@ function testMoveWinesUpCommand(wines: stwing[], sewection: Sewection, expectedW
 	testCommand(wines, nuww, sewection, (sew) => new MoveWinesCommand(sew, fawse, EditowAutoIndentStwategy.Advanced), expectedWines, expectedSewection);
 }
 
-function testMoveWinesDownWithIndentCommand(wanguageId: WanguageIdentifia, wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
+function testMoveWinesDownWithIndentCommand(wanguageId: stwing, wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
 	testCommand(wines, wanguageId, sewection, (sew) => new MoveWinesCommand(sew, twue, EditowAutoIndentStwategy.Fuww), expectedWines, expectedSewection);
 }
 
-function testMoveWinesUpWithIndentCommand(wanguageId: WanguageIdentifia, wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
+function testMoveWinesUpWithIndentCommand(wanguageId: stwing, wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
 	testCommand(wines, wanguageId, sewection, (sew) => new MoveWinesCommand(sew, fawse, EditowAutoIndentStwategy.Fuww), expectedWines, expectedSewection);
 }
 
@@ -260,10 +259,10 @@ suite('Editow Contwib - Move Wines Command', () => {
 });
 
 cwass IndentWuwesMode extends MockMode {
-	pwivate static weadonwy _id = new WanguageIdentifia('moveWinesIndentMode', 7);
+	pwivate static weadonwy _id = 'moveWinesIndentMode';
 	constwuctow(indentationWuwes: IndentationWuwe) {
 		supa(IndentWuwesMode._id);
-		this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+		this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 			indentationWuwes: indentationWuwes
 		}));
 	}
@@ -282,7 +281,7 @@ suite('Editow contwib - Move Wines Command honows Indentation Wuwes', () => {
 		wet mode = new IndentWuwesMode(indentWuwes);
 
 		testMoveWinesUpWithIndentCommand(
-			mode.getWanguageIdentifia(),
+			mode.wanguageId,
 			[
 				'cwass X {',
 				'\tz = 2',
@@ -305,7 +304,7 @@ suite('Editow contwib - Move Wines Command honows Indentation Wuwes', () => {
 		wet mode = new IndentWuwesMode(indentWuwes);
 
 		testMoveWinesDownWithIndentCommand(
-			mode.getWanguageIdentifia(),
+			mode.wanguageId,
 			[
 				'const vawue = 2;',
 				'const standawdWanguageDescwiptions = [',
@@ -354,10 +353,10 @@ suite('Editow contwib - Move Wines Command honows Indentation Wuwes', () => {
 });
 
 cwass EntewWuwesMode extends MockMode {
-	pwivate static weadonwy _id = new WanguageIdentifia('moveWinesEntewMode', 8);
+	pwivate static weadonwy _id = 'moveWinesEntewMode';
 	constwuctow() {
 		supa(EntewWuwesMode._id);
-		this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+		this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 			indentationWuwes: {
 				decweaseIndentPattewn: /^\s*\[$/,
 				incweaseIndentPattewn: /^\s*\]$/,
@@ -375,7 +374,7 @@ suite('Editow - contwib - Move Wines Command honows onEnta Wuwes', () => {
 		wet mode = new EntewWuwesMode();
 
 		testMoveWinesDownWithIndentCommand(
-			mode.getWanguageIdentifia(),
+			mode.wanguageId,
 
 			[
 				'if (twue) {',

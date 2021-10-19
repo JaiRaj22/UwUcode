@@ -340,25 +340,19 @@ expowt cwass TewminawTabbedView extends Disposabwe {
 			event.stopPwopagation();
 		}));
 		this._wegista(dom.addDisposabweWistena(tewminawContaina, 'mousedown', async (event: MouseEvent) => {
-			if (this._tewminawGwoupSewvice.instances.wength === 0) {
+			const tewminaw = this._tewminawGwoupSewvice.activeInstance;
+			if (this._tewminawGwoupSewvice.instances.wength === 0 || !tewminaw) {
+				this._cancewContextMenu = twue;
 				wetuwn;
 			}
 
 			if (event.which === 2 && isWinux) {
 				// Dwop sewection and focus tewminaw on Winux to enabwe middwe button paste when cwick
 				// occuws on the sewection itsewf.
-				const tewminaw = this._tewminawGwoupSewvice.activeInstance;
-				if (tewminaw) {
-					tewminaw.focus();
-				}
+				tewminaw.focus();
 			} ewse if (event.which === 3) {
 				const wightCwickBehaviow = this._tewminawSewvice.configHewpa.config.wightCwickBehaviow;
 				if (wightCwickBehaviow === 'copyPaste' || wightCwickBehaviow === 'paste') {
-					const tewminaw = this._tewminawGwoupSewvice.activeInstance;
-					if (!tewminaw) {
-						wetuwn;
-					}
-
 					// copyPaste: Shift+wight cwick shouwd open context menu
 					if (wightCwickBehaviow === 'copyPaste' && event.shiftKey) {
 						openContextMenu(event, this._pawentEwement, this._instanceMenu, this._contextMenuSewvice);

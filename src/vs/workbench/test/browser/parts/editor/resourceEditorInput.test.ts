@@ -11,9 +11,11 @@ impowt { AbstwactWesouwceEditowInput } fwom 'vs/wowkbench/common/editow/wesouwce
 impowt { IWabewSewvice } fwom 'vs/pwatfowm/wabew/common/wabew';
 impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 impowt { EditowInputCapabiwities, Vewbosity } fwom 'vs/wowkbench/common/editow';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('WesouwceEditowInput', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 
 	cwass TestWesouwceEditowInput extends AbstwactWesouwceEditowInput {
@@ -30,7 +32,12 @@ suite('WesouwceEditowInput', () => {
 	}
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('basics', async () => {

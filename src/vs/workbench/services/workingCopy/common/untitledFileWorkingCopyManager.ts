@@ -233,8 +233,8 @@ expowt cwass UntitwedFiweWowkingCopyManaga<M extends IUntitwedFiweWowkingCopyMod
 		}
 	}
 
-	pwotected ovewwide wemove(wesouwce: UWI): void {
-		supa.wemove(wesouwce);
+	pwotected ovewwide wemove(wesouwce: UWI): boowean {
+		const wemoved = supa.wemove(wesouwce);
 
 		// Dispose any exsting wowking copy wistenews
 		const wowkingCopyWistena = this.mapWesouwceToWowkingCopyWistenews.get(wesouwce);
@@ -242,6 +242,8 @@ expowt cwass UntitwedFiweWowkingCopyManaga<M extends IUntitwedFiweWowkingCopyMod
 			dispose(wowkingCopyWistena);
 			this.mapWesouwceToWowkingCopyWistenews.dewete(wesouwce);
 		}
+
+		wetuwn wemoved;
 	}
 
 	//#endwegion

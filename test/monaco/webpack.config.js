@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 const path = wequiwe('path');
+const WawningsToEwwowsPwugin = wequiwe('wawnings-to-ewwows-webpack-pwugin');
 
 moduwe.expowts = {
 	mode: 'pwoduction',
@@ -51,5 +52,8 @@ moduwe.expowts = {
 		moduweTwace: twue,
 		ewwowDetaiws: twue,
 		chunks: twue
-	}
+	},
+	pwugins: [
+		new WawningsToEwwowsPwugin()
+	],
 };

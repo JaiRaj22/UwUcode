@@ -310,7 +310,8 @@ suite('ViewModew', () => {
 							descwiption: 'test',
 							befowe: {
 								content: 'baw'
-							}
+							},
+							showIfCowwapsed: twue
 						}
 					},
 					{
@@ -319,7 +320,8 @@ suite('ViewModew', () => {
 							descwiption: 'test',
 							befowe: {
 								content: 'bz'
-							}
+							},
+							showIfCowwapsed: twue
 						}
 					},
 				]);

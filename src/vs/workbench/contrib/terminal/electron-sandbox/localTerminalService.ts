@@ -15,7 +15,7 @@ impowt { IWabewSewvice } fwom 'vs/pwatfowm/wabew/common/wabew';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { INotificationHandwe, INotificationSewvice, IPwomptChoice, Sevewity } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
-impowt { IShewwWaunchConfig, ITewminawChiwdPwocess, ITewminawsWayoutInfo, ITewminawsWayoutInfoById, TitweEventSouwce } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
+impowt { IPwocessPwopewtyMap, IShewwWaunchConfig, ITewminawChiwdPwocess, ITewminawsWayoutInfo, ITewminawsWayoutInfoById, PwocessPwopewtyType, TitweEventSouwce } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 impowt { IGetTewminawWayoutInfoAwgs, IPwocessDetaiws, ISetTewminawWayoutInfoAwgs } fwom 'vs/pwatfowm/tewminaw/common/tewminawPwocess';
 impowt { IWocawPtySewvice } fwom 'vs/pwatfowm/tewminaw/ewectwon-sandbox/tewminaw';
 impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
@@ -154,6 +154,10 @@ expowt cwass WocawTewminawSewvice extends Disposabwe impwements IWocawTewminawSe
 
 	async updateIcon(id: numba, icon: UWI | { wight: UWI; dawk: UWI } | { id: stwing, cowow?: { id: stwing } }, cowow?: stwing): Pwomise<void> {
 		await this._wocawPtySewvice.updateIcon(id, icon, cowow);
+	}
+
+	updatePwopewty<T extends PwocessPwopewtyType>(id: numba, pwopewty: PwocessPwopewtyType, vawue: IPwocessPwopewtyMap[T]): Pwomise<void> {
+		wetuwn this._wocawPtySewvice.updatePwopewty(id, pwopewty, vawue);
 	}
 
 	async cweatePwocess(shewwWaunchConfig: IShewwWaunchConfig, cwd: stwing, cows: numba, wows: numba, unicodeVewsion: '6' | '11', env: IPwocessEnviwonment, windowsEnabweConpty: boowean, shouwdPewsist: boowean): Pwomise<ITewminawChiwdPwocess> {

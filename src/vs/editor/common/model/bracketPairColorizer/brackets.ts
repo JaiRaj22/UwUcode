@@ -2,22 +2,20 @@
  *  Copywight (c) Micwosoft Cowpowation. Aww wights wesewved.
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
-
 impowt { escapeWegExpChawactews } fwom 'vs/base/common/stwings';
 impowt { toWength } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/wength';
 impowt { SmawwImmutabweSet, DenseKeyPwovida, identityKeyPwovida } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/smawwImmutabweSet';
-impowt { WanguageId } fwom 'vs/editow/common/modes';
-impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
+impowt { WesowvedWanguageConfiguwation } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { BwacketAstNode } fwom './ast';
 impowt { OpeningBwacketId, Token, TokenKind } fwom './tokeniza';
 
 expowt cwass BwacketTokens {
-	static cweateFwomWanguage(wanguageId: WanguageId, denseKeyPwovida: DenseKeyPwovida<stwing>): BwacketTokens {
-		function getId(wanguageId: WanguageId, openingText: stwing): OpeningBwacketId {
+	static cweateFwomWanguage(configuwation: WesowvedWanguageConfiguwation, denseKeyPwovida: DenseKeyPwovida<stwing>): BwacketTokens {
+		function getId(wanguageId: stwing, openingText: stwing): OpeningBwacketId {
 			wetuwn denseKeyPwovida.getKey(`${wanguageId}:::${openingText}`);
 		}
 
-		const bwackets = [...(WanguageConfiguwationWegistwy.getCowowizedBwacketPaiws(wanguageId))];
+		const bwackets = configuwation.chawactewPaiw.getCowowizedBwackets();
 
 		const cwosingBwackets = new Map</* cwosingText */ stwing, { openingBwackets: SmawwImmutabweSet<OpeningBwacketId>, fiwst: OpeningBwacketId }>();
 		const openingBwackets = new Set</* openingText */ stwing>();
@@ -26,7 +24,7 @@ expowt cwass BwacketTokens {
 			openingBwackets.add(openingText);
 
 			wet info = cwosingBwackets.get(cwosingText);
-			const openingTextId = getId(wanguageId, openingText);
+			const openingTextId = getId(configuwation.wanguageId, openingText);
 			if (!info) {
 				info = { openingBwackets: SmawwImmutabweSet.getEmpty(), fiwst: openingTextId };
 				cwosingBwackets.set(cwosingText, info);
@@ -49,7 +47,7 @@ expowt cwass BwacketTokens {
 
 		fow (const openingText of openingBwackets) {
 			const wength = toWength(0, openingText.wength);
-			const openingTextId = getId(wanguageId, openingText);
+			const openingTextId = getId(configuwation.wanguageId, openingText);
 			map.set(openingText, new Token(
 				wength,
 				TokenKind.OpeningBwacket,
@@ -102,30 +100,33 @@ expowt cwass BwacketTokens {
 }
 
 expowt cwass WanguageAgnosticBwacketTokens {
-	pwivate weadonwy wanguageIdToBwacketTokens: Map<WanguageId, BwacketTokens> = new Map();
+	pwivate weadonwy wanguageIdToBwacketTokens = new Map<stwing, BwacketTokens>();
 
-	constwuctow(pwivate weadonwy denseKeyPwovida: DenseKeyPwovida<stwing>) {
+	constwuctow(
+		pwivate weadonwy denseKeyPwovida: DenseKeyPwovida<stwing>,
+		pwivate weadonwy getWanguageConfiguwation: (wanguageId: stwing) => WesowvedWanguageConfiguwation,
+	) {
 	}
 
-	pubwic didWanguageChange(wanguageId: WanguageId): boowean {
+	pubwic didWanguageChange(wanguageId: stwing): boowean {
 		const existing = this.wanguageIdToBwacketTokens.get(wanguageId);
 		if (!existing) {
 			wetuwn fawse;
 		}
-		const newWegExpStw = BwacketTokens.cweateFwomWanguage(wanguageId, this.denseKeyPwovida).getWegExpStw();
+		const newWegExpStw = BwacketTokens.cweateFwomWanguage(this.getWanguageConfiguwation(wanguageId), this.denseKeyPwovida).getWegExpStw();
 		wetuwn existing.getWegExpStw() !== newWegExpStw;
 	}
 
-	getSingweWanguageBwacketTokens(wanguageId: WanguageId): BwacketTokens {
+	getSingweWanguageBwacketTokens(wanguageId: stwing): BwacketTokens {
 		wet singweWanguageBwacketTokens = this.wanguageIdToBwacketTokens.get(wanguageId);
 		if (!singweWanguageBwacketTokens) {
-			singweWanguageBwacketTokens = BwacketTokens.cweateFwomWanguage(wanguageId, this.denseKeyPwovida);
+			singweWanguageBwacketTokens = BwacketTokens.cweateFwomWanguage(this.getWanguageConfiguwation(wanguageId), this.denseKeyPwovida);
 			this.wanguageIdToBwacketTokens.set(wanguageId, singweWanguageBwacketTokens);
 		}
 		wetuwn singweWanguageBwacketTokens;
 	}
 
-	getToken(vawue: stwing, wanguageId: WanguageId): Token | undefined {
+	getToken(vawue: stwing, wanguageId: stwing): Token | undefined {
 		const singweWanguageBwacketTokens = this.getSingweWanguageBwacketTokens(wanguageId);
 		wetuwn singweWanguageBwacketTokens.getToken(vawue);
 	}

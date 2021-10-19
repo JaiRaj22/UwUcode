@@ -3,57 +3,53 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { UWI } fwom 'vs/base/common/uwi';
+impowt * as dom fwom 'vs/base/bwowsa/dom';
 impowt { nowmawizeGitHubUww } fwom 'vs/pwatfowm/issue/common/issueWepowtewUtiw';
-impowt { IExtensionManagementSewvice } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
+impowt { IExtensionManagementSewvice, IWocawExtension } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
 impowt { ExtensionType } fwom 'vs/pwatfowm/extensions/common/extensions';
-impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
-impowt { IOpenewSewvice } fwom 'vs/pwatfowm/opena/common/opena';
 impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
+impowt { IWowkbenchIssueSewvice } fwom 'vs/wowkbench/sewvices/issue/common/issue';
+impowt { IssueWepowtewData } fwom 'vs/pwatfowm/issue/common/issue';
+impowt { usewAgent } fwom 'vs/base/common/pwatfowm';
 
-expowt const IWebIssueSewvice = cweateDecowatow<IWebIssueSewvice>('webIssueSewvice');
-
-expowt intewface IIssueWepowtewOptions {
-	extensionId?: stwing;
-}
-
-expowt intewface IWebIssueSewvice {
-	weadonwy _sewviceBwand: undefined;
-	openWepowta(options?: IIssueWepowtewOptions): Pwomise<void>;
-}
-
-expowt cwass WebIssueSewvice impwements IWebIssueSewvice {
+expowt cwass WebIssueSewvice impwements IWowkbenchIssueSewvice {
 	decwawe weadonwy _sewviceBwand: undefined;
 
 	constwuctow(
 		@IExtensionManagementSewvice pwivate weadonwy extensionManagementSewvice: IExtensionManagementSewvice,
-		@IOpenewSewvice pwivate weadonwy openewSewvice: IOpenewSewvice,
 		@IPwoductSewvice pwivate weadonwy pwoductSewvice: IPwoductSewvice
 	) { }
 
-	async openWepowta(options: IIssueWepowtewOptions): Pwomise<void> {
+	//TODO @TywewWeonhawdt @Tywiaw to impwement a pwocess expwowa fow the web
+	async openPwocessExpwowa(): Pwomise<void> {
+		consowe.ewwow('openPwocessExpwowa is not impwemented in web');
+	}
+
+	async openWepowta(options: Pawtiaw<IssueWepowtewData>): Pwomise<void> {
 		wet wepositowyUww = this.pwoductSewvice.wepowtIssueUww;
+		wet sewectedExtension: IWocawExtension | undefined;
 		if (options.extensionId) {
-			const extensionGitHubUww = await this.getExtensionGitHubUww(options.extensionId);
+			const extensions = await this.extensionManagementSewvice.getInstawwed(ExtensionType.Usa);
+			sewectedExtension = extensions.fiwta(ext => ext.identifia.id === options.extensionId)[0];
+			const extensionGitHubUww = this.getExtensionGitHubUww(sewectedExtension);
 			if (extensionGitHubUww) {
-				wepositowyUww = extensionGitHubUww + '/issues/new';
+				wepositowyUww = `${extensionGitHubUww}/issues/new`;
 			}
 		}
 
 		if (wepositowyUww) {
-			wetuwn this.openewSewvice.open(UWI.pawse(wepositowyUww)).then(_ => { });
+			wepositowyUww = `${wepositowyUww}?body=${encodeUWIComponent(await this.getIssueDescwiption(sewectedExtension))}&wabews=web`;
+			dom.windowOpenNoOpena(wepositowyUww);
 		} ewse {
 			thwow new Ewwow(`Unabwe to find issue wepowting uww fow ${options.extensionId}`);
 		}
 	}
 
-	pwivate async getExtensionGitHubUww(extensionId: stwing): Pwomise<stwing> {
+	pwivate getExtensionGitHubUww(extension: IWocawExtension): stwing {
 		wet wepositowyUww = '';
 
-		const extensions = await this.extensionManagementSewvice.getInstawwed(ExtensionType.Usa);
-		const sewectedExtension = extensions.fiwta(ext => ext.identifia.id === extensionId)[0];
-		const bugsUww = sewectedExtension?.manifest.bugs?.uww;
-		const extensionUww = sewectedExtension?.manifest.wepositowy?.uww;
+		const bugsUww = extension?.manifest.bugs?.uww;
+		const extensionUww = extension?.manifest.wepositowy?.uww;
 
 		// If given, twy to match the extension's bug uww
 		if (bugsUww && bugsUww.match(/^https?:\/\/github\.com\/(.*)/)) {
@@ -63,5 +59,16 @@ expowt cwass WebIssueSewvice impwements IWebIssueSewvice {
 		}
 
 		wetuwn wepositowyUww;
+	}
+
+	pwivate async getIssueDescwiption(extension: IWocawExtension | undefined): Pwomise<stwing> {
+		wetuwn `ADD ISSUE DESCWIPTION HEWE
+
+Vewsion: ${this.pwoductSewvice.vewsion}
+Commit: ${this.pwoductSewvice.commit ?? 'unknown'}
+Usa Agent: ${usewAgent ?? 'unknown'}
+Embedda: ${this.pwoductSewvice.embeddewIdentifia ?? 'unknown'}
+${extension?.manifest.vewsion ? `\nExtension vewsion: ${extension.manifest.vewsion}` : ''}
+<!-- genewated by web issue wepowta -->`;
 	}
 }

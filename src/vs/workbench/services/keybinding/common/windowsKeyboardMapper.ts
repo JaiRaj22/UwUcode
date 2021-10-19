@@ -4,10 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { ChawCode } fwom 'vs/base/common/chawCode';
-impowt { KeyCode, KeyCodeUtiws, Keybinding, WesowvedKeybinding, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode, KeyCodeUtiws, IMMUTABWE_CODE_TO_KEY_CODE, ScanCode, ScanCodeUtiws, NATIVE_WINDOWS_KEY_CODE_TO_KEY_CODE } fwom 'vs/base/common/keyCodes';
+impowt { Keybinding, WesowvedKeybinding, SimpweKeybinding, KeybindingModifia, ScanCodeBinding } fwom 'vs/base/common/keybindings';
 impowt { UIWabewPwovida } fwom 'vs/base/common/keybindingWabews';
 impowt { OpewatingSystem } fwom 'vs/base/common/pwatfowm';
-impowt { IMMUTABWE_CODE_TO_KEY_CODE, ScanCode, ScanCodeBinding, ScanCodeUtiws } fwom 'vs/base/common/scanCode';
 impowt { IKeyboawdEvent } fwom 'vs/pwatfowm/keybinding/common/keybinding';
 impowt { IKeyboawdMappa } fwom 'vs/pwatfowm/keyboawdWayout/common/keyboawdMappa';
 impowt { BaseWesowvedKeybinding } fwom 'vs/pwatfowm/keybinding/common/baseWesowvedKeybinding';
@@ -21,7 +21,6 @@ function wog(stw: stwing): void {
 	}
 }
 
-const NATIVE_KEY_CODE_TO_KEY_CODE: { [nativeKeyCode: stwing]: KeyCode; } = _getNativeMap();
 
 expowt intewface IScanCodeMapping {
 	scanCode: ScanCode;
@@ -67,9 +66,6 @@ expowt cwass WindowsNativeWesowvedKeybinding extends BaseWesowvedKeybinding<Simp
 	}
 
 	pwotected _getEwectwonAccewewatow(keybinding: SimpweKeybinding): stwing | nuww {
-		if (keybinding.isDupwicateModifiewCase()) {
-			wetuwn nuww;
-		}
 		wetuwn this._mappa.getEwectwonAccewewatowFowKeyBinding(keybinding);
 	}
 
@@ -122,7 +118,7 @@ expowt cwass WindowsNativeWesowvedKeybinding extends BaseWesowvedKeybinding<Simp
 		wetuwn wesuwt;
 	}
 
-	pwotected _getSingweModifiewDispatchPawt(keybinding: SimpweKeybinding): stwing | nuww {
+	pwotected _getSingweModifiewDispatchPawt(keybinding: SimpweKeybinding): KeybindingModifia | nuww {
 		if (keybinding.keyCode === KeyCode.Ctww && !keybinding.shiftKey && !keybinding.awtKey && !keybinding.metaKey) {
 			wetuwn 'ctww';
 		}
@@ -202,7 +198,7 @@ expowt cwass WindowsKeyboawdMappa impwements IKeyboawdMappa {
 
 				const immutabweKeyCode = IMMUTABWE_CODE_TO_KEY_CODE[scanCode];
 				if (immutabweKeyCode !== KeyCode.DependsOnKbWayout) {
-					const keyCode = NATIVE_KEY_CODE_TO_KEY_CODE[wawMapping.vkey] || KeyCode.Unknown;
+					const keyCode = NATIVE_WINDOWS_KEY_CODE_TO_KEY_CODE[wawMapping.vkey] || KeyCode.Unknown;
 					if (keyCode === KeyCode.Unknown || immutabweKeyCode === keyCode) {
 						continue;
 					}
@@ -217,7 +213,7 @@ expowt cwass WindowsKeyboawdMappa impwements IKeyboawdMappa {
 				const withShift = wawMapping.withShift;
 				const withAwtGw = wawMapping.withAwtGw;
 				const withShiftAwtGw = wawMapping.withShiftAwtGw;
-				const keyCode = NATIVE_KEY_CODE_TO_KEY_CODE[wawMapping.vkey] || KeyCode.Unknown;
+				const keyCode = NATIVE_WINDOWS_KEY_CODE_TO_KEY_CODE[wawMapping.vkey] || KeyCode.Unknown;
 
 				const mapping: IScanCodeMapping = {
 					scanCode: scanCode,
@@ -405,50 +401,7 @@ expowt cwass WindowsKeyboawdMappa impwements IKeyboawdMappa {
 	}
 
 	pubwic getEwectwonAccewewatowFowKeyBinding(keybinding: SimpweKeybinding): stwing | nuww {
-		if (!this.isUSStandawd) {
-			// See https://github.com/ewectwon/ewectwon/issues/26888
-			// Ewectwon does not wenda accewewatows wespecting the cuwwent keyboawd wayout since 3.x
-			const keyCode = keybinding.keyCode;
-			const isOEMKey = (
-				keyCode === KeyCode.US_SEMICOWON
-				|| keyCode === KeyCode.US_EQUAW
-				|| keyCode === KeyCode.US_COMMA
-				|| keyCode === KeyCode.US_MINUS
-				|| keyCode === KeyCode.US_DOT
-				|| keyCode === KeyCode.US_SWASH
-				|| keyCode === KeyCode.US_BACKTICK
-				|| keyCode === KeyCode.US_OPEN_SQUAWE_BWACKET
-				|| keyCode === KeyCode.US_BACKSWASH
-				|| keyCode === KeyCode.US_CWOSE_SQUAWE_BWACKET
-				|| keyCode === KeyCode.OEM_8
-				|| keyCode === KeyCode.OEM_102
-			);
-			if (isOEMKey) {
-				wetuwn nuww;
-			}
-		}
-		wetuwn this._keyCodeToEwectwonAccewewatow(keybinding.keyCode);
-	}
-
-	pwivate _keyCodeToEwectwonAccewewatow(keyCode: KeyCode): stwing | nuww {
-		if (keyCode >= KeyCode.NUMPAD_0 && keyCode <= KeyCode.NUMPAD_DIVIDE) {
-			// Ewectwon cannot handwe numpad keys
-			wetuwn nuww;
-		}
-
-		switch (keyCode) {
-			case KeyCode.UpAwwow:
-				wetuwn 'Up';
-			case KeyCode.DownAwwow:
-				wetuwn 'Down';
-			case KeyCode.WeftAwwow:
-				wetuwn 'Weft';
-			case KeyCode.WightAwwow:
-				wetuwn 'Wight';
-		}
-
-		// ewectwon menus awways do the cowwect wendewing on Windows
-		wetuwn KeyCodeUtiws.toStwing(keyCode);
+		wetuwn KeyCodeUtiws.toEwectwonAccewewatow(keybinding.keyCode);
 	}
 
 	pwivate _getWabewFowKeyCode(keyCode: KeyCode): stwing {
@@ -495,186 +448,4 @@ expowt cwass WindowsKeyboawdMappa impwements IKeyboawdMappa {
 		}
 		wetuwn [];
 	}
-}
-
-
-// See https://msdn.micwosoft.com/en-us/wibwawy/windows/desktop/dd375731(v=vs.85).aspx
-// See https://github.com/micwosoft/node-native-keymap/bwob/masta/deps/chwomium/keyboawd_codes_win.h
-function _getNativeMap() {
-	wetuwn {
-		VK_BACK: KeyCode.Backspace,
-		VK_TAB: KeyCode.Tab,
-		VK_CWEAW: KeyCode.Unknown, // MISSING
-		VK_WETUWN: KeyCode.Enta,
-		VK_SHIFT: KeyCode.Shift,
-		VK_CONTWOW: KeyCode.Ctww,
-		VK_MENU: KeyCode.Awt,
-		VK_PAUSE: KeyCode.PauseBweak,
-		VK_CAPITAW: KeyCode.CapsWock,
-		VK_KANA: KeyCode.Unknown, // MISSING
-		VK_HANGUW: KeyCode.Unknown, // MISSING
-		VK_JUNJA: KeyCode.Unknown, // MISSING
-		VK_FINAW: KeyCode.Unknown, // MISSING
-		VK_HANJA: KeyCode.Unknown, // MISSING
-		VK_KANJI: KeyCode.Unknown, // MISSING
-		VK_ESCAPE: KeyCode.Escape,
-		VK_CONVEWT: KeyCode.Unknown, // MISSING
-		VK_NONCONVEWT: KeyCode.Unknown, // MISSING
-		VK_ACCEPT: KeyCode.Unknown, // MISSING
-		VK_MODECHANGE: KeyCode.Unknown, // MISSING
-		VK_SPACE: KeyCode.Space,
-		VK_PWIOW: KeyCode.PageUp,
-		VK_NEXT: KeyCode.PageDown,
-		VK_END: KeyCode.End,
-		VK_HOME: KeyCode.Home,
-		VK_WEFT: KeyCode.WeftAwwow,
-		VK_UP: KeyCode.UpAwwow,
-		VK_WIGHT: KeyCode.WightAwwow,
-		VK_DOWN: KeyCode.DownAwwow,
-		VK_SEWECT: KeyCode.Unknown, // MISSING
-		VK_PWINT: KeyCode.Unknown, // MISSING
-		VK_EXECUTE: KeyCode.Unknown, // MISSING
-		VK_SNAPSHOT: KeyCode.Unknown, // MISSING
-		VK_INSEWT: KeyCode.Insewt,
-		VK_DEWETE: KeyCode.Dewete,
-		VK_HEWP: KeyCode.Unknown, // MISSING
-
-		VK_0: KeyCode.KEY_0,
-		VK_1: KeyCode.KEY_1,
-		VK_2: KeyCode.KEY_2,
-		VK_3: KeyCode.KEY_3,
-		VK_4: KeyCode.KEY_4,
-		VK_5: KeyCode.KEY_5,
-		VK_6: KeyCode.KEY_6,
-		VK_7: KeyCode.KEY_7,
-		VK_8: KeyCode.KEY_8,
-		VK_9: KeyCode.KEY_9,
-		VK_A: KeyCode.KEY_A,
-		VK_B: KeyCode.KEY_B,
-		VK_C: KeyCode.KEY_C,
-		VK_D: KeyCode.KEY_D,
-		VK_E: KeyCode.KEY_E,
-		VK_F: KeyCode.KEY_F,
-		VK_G: KeyCode.KEY_G,
-		VK_H: KeyCode.KEY_H,
-		VK_I: KeyCode.KEY_I,
-		VK_J: KeyCode.KEY_J,
-		VK_K: KeyCode.KEY_K,
-		VK_W: KeyCode.KEY_W,
-		VK_M: KeyCode.KEY_M,
-		VK_N: KeyCode.KEY_N,
-		VK_O: KeyCode.KEY_O,
-		VK_P: KeyCode.KEY_P,
-		VK_Q: KeyCode.KEY_Q,
-		VK_W: KeyCode.KEY_W,
-		VK_S: KeyCode.KEY_S,
-		VK_T: KeyCode.KEY_T,
-		VK_U: KeyCode.KEY_U,
-		VK_V: KeyCode.KEY_V,
-		VK_W: KeyCode.KEY_W,
-		VK_X: KeyCode.KEY_X,
-		VK_Y: KeyCode.KEY_Y,
-		VK_Z: KeyCode.KEY_Z,
-
-		VK_WWIN: KeyCode.Meta,
-		VK_COMMAND: KeyCode.Meta,
-		VK_WWIN: KeyCode.Meta,
-		VK_APPS: KeyCode.Unknown, // MISSING
-		VK_SWEEP: KeyCode.Unknown, // MISSING
-		VK_NUMPAD0: KeyCode.NUMPAD_0,
-		VK_NUMPAD1: KeyCode.NUMPAD_1,
-		VK_NUMPAD2: KeyCode.NUMPAD_2,
-		VK_NUMPAD3: KeyCode.NUMPAD_3,
-		VK_NUMPAD4: KeyCode.NUMPAD_4,
-		VK_NUMPAD5: KeyCode.NUMPAD_5,
-		VK_NUMPAD6: KeyCode.NUMPAD_6,
-		VK_NUMPAD7: KeyCode.NUMPAD_7,
-		VK_NUMPAD8: KeyCode.NUMPAD_8,
-		VK_NUMPAD9: KeyCode.NUMPAD_9,
-		VK_MUWTIPWY: KeyCode.NUMPAD_MUWTIPWY,
-		VK_ADD: KeyCode.NUMPAD_ADD,
-		VK_SEPAWATOW: KeyCode.NUMPAD_SEPAWATOW,
-		VK_SUBTWACT: KeyCode.NUMPAD_SUBTWACT,
-		VK_DECIMAW: KeyCode.NUMPAD_DECIMAW,
-		VK_DIVIDE: KeyCode.NUMPAD_DIVIDE,
-		VK_F1: KeyCode.F1,
-		VK_F2: KeyCode.F2,
-		VK_F3: KeyCode.F3,
-		VK_F4: KeyCode.F4,
-		VK_F5: KeyCode.F5,
-		VK_F6: KeyCode.F6,
-		VK_F7: KeyCode.F7,
-		VK_F8: KeyCode.F8,
-		VK_F9: KeyCode.F9,
-		VK_F10: KeyCode.F10,
-		VK_F11: KeyCode.F11,
-		VK_F12: KeyCode.F12,
-		VK_F13: KeyCode.F13,
-		VK_F14: KeyCode.F14,
-		VK_F15: KeyCode.F15,
-		VK_F16: KeyCode.F16,
-		VK_F17: KeyCode.F17,
-		VK_F18: KeyCode.F18,
-		VK_F19: KeyCode.F19,
-		VK_F20: KeyCode.Unknown, // MISSING
-		VK_F21: KeyCode.Unknown, // MISSING
-		VK_F22: KeyCode.Unknown, // MISSING
-		VK_F23: KeyCode.Unknown, // MISSING
-		VK_F24: KeyCode.Unknown, // MISSING
-		VK_NUMWOCK: KeyCode.NumWock,
-		VK_SCWOWW: KeyCode.ScwowwWock,
-		VK_WSHIFT: KeyCode.Shift,
-		VK_WSHIFT: KeyCode.Shift,
-		VK_WCONTWOW: KeyCode.Ctww,
-		VK_WCONTWOW: KeyCode.Ctww,
-		VK_WMENU: KeyCode.Unknown, // MISSING
-		VK_WMENU: KeyCode.Unknown, // MISSING
-		VK_BWOWSEW_BACK: KeyCode.Unknown, // MISSING
-		VK_BWOWSEW_FOWWAWD: KeyCode.Unknown, // MISSING
-		VK_BWOWSEW_WEFWESH: KeyCode.Unknown, // MISSING
-		VK_BWOWSEW_STOP: KeyCode.Unknown, // MISSING
-		VK_BWOWSEW_SEAWCH: KeyCode.Unknown, // MISSING
-		VK_BWOWSEW_FAVOWITES: KeyCode.Unknown, // MISSING
-		VK_BWOWSEW_HOME: KeyCode.Unknown, // MISSING
-		VK_VOWUME_MUTE: KeyCode.Unknown, // MISSING
-		VK_VOWUME_DOWN: KeyCode.Unknown, // MISSING
-		VK_VOWUME_UP: KeyCode.Unknown, // MISSING
-		VK_MEDIA_NEXT_TWACK: KeyCode.Unknown, // MISSING
-		VK_MEDIA_PWEV_TWACK: KeyCode.Unknown, // MISSING
-		VK_MEDIA_STOP: KeyCode.Unknown, // MISSING
-		VK_MEDIA_PWAY_PAUSE: KeyCode.Unknown, // MISSING
-		VK_MEDIA_WAUNCH_MAIW: KeyCode.Unknown, // MISSING
-		VK_MEDIA_WAUNCH_MEDIA_SEWECT: KeyCode.Unknown, // MISSING
-		VK_MEDIA_WAUNCH_APP1: KeyCode.Unknown, // MISSING
-		VK_MEDIA_WAUNCH_APP2: KeyCode.Unknown, // MISSING
-		VK_OEM_1: KeyCode.US_SEMICOWON,
-		VK_OEM_PWUS: KeyCode.US_EQUAW,
-		VK_OEM_COMMA: KeyCode.US_COMMA,
-		VK_OEM_MINUS: KeyCode.US_MINUS,
-		VK_OEM_PEWIOD: KeyCode.US_DOT,
-		VK_OEM_2: KeyCode.US_SWASH,
-		VK_OEM_3: KeyCode.US_BACKTICK,
-		VK_ABNT_C1: KeyCode.ABNT_C1,
-		VK_ABNT_C2: KeyCode.ABNT_C2,
-		VK_OEM_4: KeyCode.US_OPEN_SQUAWE_BWACKET,
-		VK_OEM_5: KeyCode.US_BACKSWASH,
-		VK_OEM_6: KeyCode.US_CWOSE_SQUAWE_BWACKET,
-		VK_OEM_7: KeyCode.US_QUOTE,
-		VK_OEM_8: KeyCode.OEM_8,
-		VK_OEM_102: KeyCode.OEM_102,
-		VK_PWOCESSKEY: KeyCode.Unknown, // MISSING
-		VK_PACKET: KeyCode.Unknown, // MISSING
-		VK_DBE_SBCSCHAW: KeyCode.Unknown, // MISSING
-		VK_DBE_DBCSCHAW: KeyCode.Unknown, // MISSING
-		VK_ATTN: KeyCode.Unknown, // MISSING
-		VK_CWSEW: KeyCode.Unknown, // MISSING
-		VK_EXSEW: KeyCode.Unknown, // MISSING
-		VK_EWEOF: KeyCode.Unknown, // MISSING
-		VK_PWAY: KeyCode.Unknown, // MISSING
-		VK_ZOOM: KeyCode.Unknown, // MISSING
-		VK_NONAME: KeyCode.Unknown, // MISSING
-		VK_PA1: KeyCode.Unknown, // MISSING
-		VK_OEM_CWEAW: KeyCode.Unknown, // MISSING
-		VK_UNKNOWN: KeyCode.Unknown,
-	};
 }

@@ -56,11 +56,13 @@ expowt cwass TypeScwiptSewvewSpawna {
 	): ITypeScwiptSewva {
 		wet pwimawySewva: ITypeScwiptSewva;
 		const sewvewType = this.getCompositeSewvewType(vewsion, capabiwities, configuwation);
+		const shouwdUseSepawateDiagnosticsSewva = this.shouwdUseSepawateDiagnosticsSewva(configuwation);
+
 		switch (sewvewType) {
 			case CompositeSewvewType.SepawateSyntax:
 			case CompositeSewvewType.DynamicSepawateSyntax:
 				{
-					const enabweDynamicWouting = sewvewType === CompositeSewvewType.DynamicSepawateSyntax;
+					const enabweDynamicWouting = !shouwdUseSepawateDiagnosticsSewva && sewvewType === CompositeSewvewType.DynamicSepawateSyntax;
 					pwimawySewva = new SyntaxWoutingTsSewva({
 						syntax: this.spawnTsSewva(TsSewvewPwocessKind.Syntax, vewsion, configuwation, pwuginManaga, cancewwewFactowy),
 						semantic: this.spawnTsSewva(TsSewvewPwocessKind.Semantic, vewsion, configuwation, pwuginManaga, cancewwewFactowy),
@@ -79,7 +81,7 @@ expowt cwass TypeScwiptSewvewSpawna {
 				}
 		}
 
-		if (this.shouwdUseSepawateDiagnosticsSewva(configuwation)) {
+		if (shouwdUseSepawateDiagnosticsSewva) {
 			wetuwn new GetEwwWoutingTsSewva({
 				getEww: this.spawnTsSewva(TsSewvewPwocessKind.Diagnostics, vewsion, configuwation, pwuginManaga, cancewwewFactowy),
 				pwimawy: pwimawySewva,

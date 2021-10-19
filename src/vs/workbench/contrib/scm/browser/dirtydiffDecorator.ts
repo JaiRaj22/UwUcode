@@ -292,8 +292,7 @@ cwass DiwtyDiffWidget extends PeekViewWidget {
 			fixedOvewfwowWidgets: twue,
 			minimap: { enabwed: fawse },
 			wendewSideBySide: fawse,
-			weadOnwy: fawse,
-			ignoweTwimWhitespace: fawse
+			weadOnwy: fawse
 		};
 
 		this.diffEditow = this.instantiationSewvice.cweateInstance(EmbeddedDiffEditowWidget, containa, options, this.editow);

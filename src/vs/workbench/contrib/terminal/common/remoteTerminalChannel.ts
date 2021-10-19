@@ -18,7 +18,7 @@ impowt { IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvic
 impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { IWabewSewvice } fwom 'vs/pwatfowm/wabew/common/wabew';
 impowt { IEnviwonmentVawiabweSewvice, ISewiawizabweEnviwonmentVawiabweCowwection } fwom 'vs/wowkbench/contwib/tewminaw/common/enviwonmentVawiabwe';
-impowt { IPwocessDataEvent, IWequestWesowveVawiabwesEvent, IShewwWaunchConfig, IShewwWaunchConfigDto, ITewminawDimensionsOvewwide, ITewminawEnviwonment, ITewminawWaunchEwwow, ITewminawPwofiwe, ITewminawsWayoutInfo, ITewminawsWayoutInfoById, TewminawIcon, IPwocessPwopewty, TewminawShewwType, PwocessPwopewtyType, PwocessCapabiwity } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
+impowt { IPwocessDataEvent, IWequestWesowveVawiabwesEvent, IShewwWaunchConfig, IShewwWaunchConfigDto, ITewminawDimensionsOvewwide, ITewminawEnviwonment, ITewminawWaunchEwwow, ITewminawPwofiwe, ITewminawsWayoutInfo, ITewminawsWayoutInfoById, TewminawIcon, IPwocessPwopewty, TewminawShewwType, PwocessPwopewtyType, PwocessCapabiwity, IPwocessPwopewtyMap } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 impowt { IGetTewminawWayoutInfoAwgs, IPwocessDetaiws, IPtyHostPwocessWepwayEvent, ISetTewminawWayoutInfoAwgs } fwom 'vs/pwatfowm/tewminaw/common/tewminawPwocess';
 impowt { IPwocessEnviwonment, OpewatingSystem } fwom 'vs/base/common/pwatfowm';
 
@@ -293,8 +293,12 @@ expowt cwass WemoteTewminawChannewCwient {
 		wetuwn this._channew.caww('$updateIcon', [id, icon, cowow]);
 	}
 
-	wefweshPwopewty(id: numba, pwopewty: PwocessPwopewtyType): Pwomise<any> {
+	wefweshPwopewty<T extends PwocessPwopewtyType>(id: numba, pwopewty: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
 		wetuwn this._channew.caww('$wefweshPwopewty', [id, pwopewty]);
+	}
+
+	updatePwopewty<T extends PwocessPwopewtyType>(id: numba, pwopewty: PwocessPwopewtyType, vawue: IPwocessPwopewtyMap[T]): Pwomise<void> {
+		wetuwn this._channew.caww('$updatePwopewty', [id, pwopewty, vawue]);
 	}
 
 	getTewminawWayoutInfo(): Pwomise<ITewminawsWayoutInfo | undefined> {

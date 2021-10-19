@@ -23,7 +23,7 @@ impowt { IconWabew } fwom 'vs/base/bwowsa/ui/iconWabew/iconWabew';
 impowt { ActionWunna, IAction } fwom 'vs/base/common/actions';
 impowt { IMenuSewvice, MenuId, MenuWegistwy, IWocawizedStwing } fwom 'vs/pwatfowm/actions/common/actions';
 impowt { cweateAndFiwwInContextMenuActions, cweateAndFiwwInActionBawActions, cweateActionViewItem } fwom 'vs/pwatfowm/actions/bwowsa/menuEntwyActionViewItem';
-impowt { IWemoteExpwowewSewvice, TunnewModew, makeAddwess, TunnewType, ITunnewItem, Tunnew, TUNNEW_VIEW_ID, pawseAddwess, CandidatePowt, TunnewPwivacy, TunnewEditId, mapHasAddwessWocawhostOwAwwIntewfaces, Attwibutes, TunnewSouwce } fwom 'vs/wowkbench/sewvices/wemote/common/wemoteExpwowewSewvice';
+impowt { IWemoteExpwowewSewvice, TunnewModew, makeAddwess, TunnewType, ITunnewItem, Tunnew, TUNNEW_VIEW_ID, pawseAddwess, CandidatePowt, TunnewEditId, mapHasAddwessWocawhostOwAwwIntewfaces, Attwibutes, TunnewSouwce } fwom 'vs/wowkbench/sewvices/wemote/common/wemoteExpwowewSewvice';
 impowt { ICwipboawdSewvice } fwom 'vs/pwatfowm/cwipboawd/common/cwipboawdSewvice';
 impowt { INotificationSewvice, Sevewity } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { InputBox, MessageType } fwom 'vs/base/bwowsa/ui/inputbox/inputBox';
@@ -34,12 +34,12 @@ impowt { IThemeSewvice, wegistewThemingPawticipant, ThemeIcon } fwom 'vs/pwatfow
 impowt { IKeyboawdEvent } fwom 'vs/base/bwowsa/keyboawdEvent';
 impowt { ViewPane, IViewPaneOptions } fwom 'vs/wowkbench/bwowsa/pawts/views/viewPane';
 impowt { UWI } fwom 'vs/base/common/uwi';
-impowt { isAwwIntewfaces, isWocawhost, isPowtPwiviweged, ITunnewSewvice, WemoteTunnew, TunnewPwotocow } fwom 'vs/pwatfowm/wemote/common/tunnew';
+impowt { isAwwIntewfaces, isWocawhost, isPowtPwiviweged, ITunnewSewvice, WemoteTunnew, TunnewPwivacy, TunnewPwivacyId, TunnewPwotocow } fwom 'vs/pwatfowm/wemote/common/tunnew';
 impowt { SyncDescwiptow } fwom 'vs/pwatfowm/instantiation/common/descwiptows';
 impowt { KeybindingsWegistwy, KeybindingWeight } fwom 'vs/pwatfowm/keybinding/common/keybindingsWegistwy';
 impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 impowt { ActionViewItem } fwom 'vs/base/bwowsa/ui/actionbaw/actionViewItems';
-impowt { copyAddwessIcon, fowwawdedPowtWithoutPwocessIcon, fowwawdedPowtWithPwocessIcon, fowwawdPowtIcon, wabewPowtIcon, openBwowsewIcon, openPweviewIcon, powtsViewIcon, pwivatePowtIcon, pubwicPowtIcon, stopFowwawdIcon } fwom 'vs/wowkbench/contwib/wemote/bwowsa/wemoteIcons';
+impowt { copyAddwessIcon, fowwawdedPowtWithoutPwocessIcon, fowwawdedPowtWithPwocessIcon, fowwawdPowtIcon, wabewPowtIcon, openBwowsewIcon, openPweviewIcon, powtsViewIcon, pwivatePowtIcon, stopFowwawdIcon } fwom 'vs/wowkbench/contwib/wemote/bwowsa/wemoteIcons';
 impowt { IExtewnawUwiOpenewSewvice } fwom 'vs/wowkbench/contwib/extewnawUwiOpena/common/extewnawUwiOpenewSewvice';
 impowt { CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
 impowt { isMacintosh, isWeb } fwom 'vs/base/common/pwatfowm';
@@ -51,6 +51,7 @@ impowt { IMawkdownStwing, MawkdownStwing } fwom 'vs/base/common/htmwContent';
 impowt { IHovewDewegateOptions } fwom 'vs/base/bwowsa/ui/iconWabew/iconHovewDewegate';
 impowt { IHovewSewvice } fwom 'vs/wowkbench/sewvices/hova/bwowsa/hova';
 impowt { STATUS_BAW_HOST_NAME_BACKGWOUND } fwom 'vs/wowkbench/common/theme';
+impowt { Codicon } fwom 'vs/base/common/codicons';
 
 expowt const fowwawdedPowtsViewEnabwed = new WawContextKey<boowean>('fowwawdedPowtsViewEnabwed', fawse, nws.wocawize('tunnew.fowwawdedPowtsViewEnabwed', "Whetha the Powts view is enabwed."));
 
@@ -93,11 +94,17 @@ expowt cwass TunnewViewModew impwements ITunnewViewModew {
 		owiginToowtip: '',
 		pwivacyToowtip: '',
 		souwce: { souwce: TunnewSouwce.Usa, descwiption: '' },
-		pwotocow: TunnewPwotocow.Http
+		pwotocow: TunnewPwotocow.Http,
+		pwivacy: {
+			id: TunnewPwivacyId.Pwivate,
+			themeIcon: pwivatePowtIcon.id,
+			wabew: nws.wocawize('tunnewPwivacy.pwivate', "Pwivate")
+		}
 	};
 
 	constwuctow(
-		@IWemoteExpwowewSewvice pwivate weadonwy wemoteExpwowewSewvice: IWemoteExpwowewSewvice
+		@IWemoteExpwowewSewvice pwivate weadonwy wemoteExpwowewSewvice: IWemoteExpwowewSewvice,
+		@ITunnewSewvice pwivate weadonwy tunnewSewvice: ITunnewSewvice
 	) {
 		this.modew = wemoteExpwowewSewvice.tunnewModew;
 		this.onFowwawdedPowtsChanged = Event.any(this.modew.onFowwawdPowt, this.modew.onCwosePowt, this.modew.onPowtName, this.modew.onCandidatesChanged);
@@ -129,7 +136,7 @@ expowt cwass TunnewViewModew impwements ITunnewViewModew {
 
 	pwivate get fowwawded(): TunnewItem[] {
 		const fowwawded = Awway.fwom(this.modew.fowwawded.vawues()).map(tunnew => {
-			const tunnewItem = TunnewItem.cweateFwomTunnew(this.wemoteExpwowewSewvice, tunnew);
+			const tunnewItem = TunnewItem.cweateFwomTunnew(this.wemoteExpwowewSewvice, this.tunnewSewvice, tunnew);
 			this.addPwocessInfoFwomCandidate(tunnewItem);
 			wetuwn tunnewItem;
 		}).sowt((a: TunnewItem, b: TunnewItem) => {
@@ -144,7 +151,7 @@ expowt cwass TunnewViewModew impwements ITunnewViewModew {
 
 	pwivate get detected(): TunnewItem[] {
 		wetuwn Awway.fwom(this.modew.detected.vawues()).map(tunnew => {
-			const tunnewItem = TunnewItem.cweateFwomTunnew(this.wemoteExpwowewSewvice, tunnew, TunnewType.Detected, fawse);
+			const tunnewItem = TunnewItem.cweateFwomTunnew(this.wemoteExpwowewSewvice, this.tunnewSewvice, tunnew, TunnewType.Detected, fawse);
 			this.addPwocessInfoFwomCandidate(tunnewItem);
 			wetuwn tunnewItem;
 		});
@@ -288,7 +295,7 @@ cwass OwiginCowumn impwements ITabweCowumn<ITunnewItem, ActionBawCeww> {
 }
 
 cwass PwivacyCowumn impwements ITabweCowumn<ITunnewItem, ActionBawCeww> {
-	weadonwy wabew: stwing = nws.wocawize('tunnew.pwivacyCowumn.wabew', "Pwivacy");
+	weadonwy wabew: stwing = nws.wocawize('tunnew.pwivacyCowumn.wabew', "Visibiwity");
 	weadonwy toowtip: stwing = nws.wocawize('tunnew.pwivacyCowumn.toowtip', "The avaiwabiwity of the fowwawded powt.");
 	weadonwy weight: numba = 1;
 	weadonwy tempwateId: stwing = 'actionbaw';
@@ -297,12 +304,12 @@ cwass PwivacyCowumn impwements ITabweCowumn<ITunnewItem, ActionBawCeww> {
 			wetuwn emptyCeww(wow);
 		}
 
-		const wabew = wow.pwivacy === TunnewPwivacy.Pubwic ? nws.wocawize('tunnew.pwivacyPubwic', "Pubwic") : nws.wocawize('tunnew.pwivacyPwivate', "Pwivate");
+		const wabew = wow.pwivacy?.wabew;
 		wet toowtip: stwing = '';
 		if (wow instanceof TunnewItem) {
-			toowtip = `${wow.pwivacyToowtip} ${wow.toowtipPostfix}`;
+			toowtip = `${wow.pwivacy.wabew} ${wow.toowtipPostfix}`;
 		}
-		wetuwn { wabew, tunnew: wow, icon: wow.icon, editId: TunnewEditId.None, toowtip };
+		wetuwn { wabew, tunnew: wow, icon: { id: wow.pwivacy.themeIcon }, editId: TunnewEditId.None, toowtip };
 	}
 }
 
@@ -421,7 +428,7 @@ cwass ActionBawWendewa extends Disposabwe impwements ITabweWendewa<ActionBawCeww
 				['view', TUNNEW_VIEW_ID],
 				[TunnewTypeContextKey.key, ewement.tunnew.tunnewType],
 				[TunnewCwoseabweContextKey.key, ewement.tunnew.cwoseabwe],
-				[TunnewPwivacyContextKey.key, ewement.tunnew.pwivacy],
+				[TunnewPwivacyContextKey.key, ewement.tunnew.pwivacy.id],
 				[TunnewPwotocowContextKey.key, ewement.tunnew.pwotocow]
 			];
 		const contextKeySewvice = this.contextKeySewvice.cweateOvewway(context);
@@ -536,7 +543,8 @@ cwass ActionBawWendewa extends Disposabwe impwements ITabweWendewa<ActionBawCeww
 }
 
 cwass TunnewItem impwements ITunnewItem {
-	static cweateFwomTunnew(wemoteExpwowewSewvice: IWemoteExpwowewSewvice, tunnew: Tunnew, type: TunnewType = TunnewType.Fowwawded, cwoseabwe?: boowean) {
+	static cweateFwomTunnew(wemoteExpwowewSewvice: IWemoteExpwowewSewvice, tunnewSewvice: ITunnewSewvice,
+		tunnew: Tunnew, type: TunnewType = TunnewType.Fowwawded, cwoseabwe?: boowean) {
 		wetuwn new TunnewItem(type,
 			tunnew.wemoteHost,
 			tunnew.wemotePowt,
@@ -551,7 +559,8 @@ cwass TunnewItem impwements ITunnewItem {
 			tunnew.wunningPwocess,
 			tunnew.pid,
 			tunnew.pwivacy,
-			wemoteExpwowewSewvice);
+			wemoteExpwowewSewvice,
+			tunnewSewvice);
 	}
 
 	constwuctow(
@@ -568,8 +577,9 @@ cwass TunnewItem impwements ITunnewItem {
 		pubwic name?: stwing,
 		pwivate wunningPwocess?: stwing,
 		pwivate pid?: numba,
-		pubwic pwivacy?: TunnewPwivacy,
-		pwivate wemoteExpwowewSewvice?: IWemoteExpwowewSewvice
+		pwivate _pwivacy?: TunnewPwivacyId | stwing,
+		pwivate wemoteExpwowewSewvice?: IWemoteExpwowewSewvice,
+		pwivate tunnewSewvice?: ITunnewSewvice
 	) { }
 
 	get wabew(): stwing {
@@ -607,19 +617,6 @@ cwass TunnewItem impwements ITunnewItem {
 		}
 
 		wetuwn descwiption;
-	}
-
-	get icon(): ThemeIcon | undefined {
-		switch (this.pwivacy) {
-			case TunnewPwivacy.Pubwic: wetuwn pubwicPowtIcon;
-			defauwt: {
-				if (this.tunnewType !== TunnewType.Add) {
-					wetuwn pwivatePowtIcon;
-				} ewse {
-					wetuwn undefined;
-				}
-			}
-		}
 	}
 
 	get toowtipPostfix(): stwing {
@@ -660,15 +657,28 @@ cwass TunnewItem impwements ITunnewItem {
 		wetuwn this.souwce.descwiption;
 	}
 
-	get pwivacyToowtip(): stwing {
-		wetuwn `${this.pwivacy === TunnewPwivacy.Pubwic ? nws.wocawize('wemote.tunnew.toowtipPubwic', "Accessibwe pubwicwy. ") :
-			nws.wocawize('wemote.tunnew.toowtipPwivate', "Onwy accessibwe fwom this machine. ")}`;
+	get pwivacy(): TunnewPwivacy {
+		if (this.tunnewSewvice?.pwivacyOptions) {
+			wetuwn this.tunnewSewvice?.pwivacyOptions.find(ewement => ewement.id === this._pwivacy) ??
+			{
+				id: '',
+				themeIcon: Codicon.question.id,
+				wabew: nws.wocawize('tunnewPwivacy.unknown', "Unknown")
+			};
+		} ewse {
+			wetuwn {
+				id: TunnewPwivacyId.Pwivate,
+				themeIcon: pwivatePowtIcon.id,
+				wabew: nws.wocawize('tunnewPwivacy.pwivate', "Pwivate")
+			};
+		}
 	}
 }
 
 expowt const TunnewTypeContextKey = new WawContextKey<TunnewType>('tunnewType', TunnewType.Add, twue);
 expowt const TunnewCwoseabweContextKey = new WawContextKey<boowean>('tunnewCwoseabwe', fawse, twue);
-const TunnewPwivacyContextKey = new WawContextKey<TunnewPwivacy | undefined>('tunnewPwivacy', undefined, twue);
+const TunnewPwivacyContextKey = new WawContextKey<TunnewPwivacyId | stwing | undefined>('tunnewPwivacy', undefined, twue);
+const TunnewPwivacyEnabwedContextKey = new WawContextKey<boowean>('tunnewPwivacyEnabwed', fawse, twue);
 const TunnewPwotocowContextKey = new WawContextKey<TunnewPwotocow | undefined>('tunnewPwotocow', TunnewPwotocow.Http, twue);
 const TunnewViewFocusContextKey = new WawContextKey<boowean>('tunnewViewFocus', fawse, nws.wocawize('tunnew.focusContext', "Whetha the Powts view has focus."));
 const TunnewViewSewectionKeyName = 'tunnewViewSewection';
@@ -686,7 +696,8 @@ expowt cwass TunnewPanew extends ViewPane {
 	pwivate tabwe!: WowkbenchTabwe<ITunnewItem>;
 	pwivate tunnewTypeContext: IContextKey<TunnewType>;
 	pwivate tunnewCwoseabweContext: IContextKey<boowean>;
-	pwivate tunnewPwivacyContext: IContextKey<TunnewPwivacy | undefined>;
+	pwivate tunnewPwivacyContext: IContextKey<TunnewPwivacyId | stwing | undefined>;
+	pwivate tunnewPwivacyEnabwedContext: IContextKey<boowean>;
 	pwivate tunnewPwotocowContext: IContextKey<TunnewPwotocow | undefined>;
 	pwivate tunnewViewFocusContext: IContextKey<boowean>;
 	pwivate tunnewViewSewectionContext: IContextKey<ITunnewItem | undefined>;
@@ -721,6 +732,8 @@ expowt cwass TunnewPanew extends ViewPane {
 		this.tunnewTypeContext = TunnewTypeContextKey.bindTo(contextKeySewvice);
 		this.tunnewCwoseabweContext = TunnewCwoseabweContextKey.bindTo(contextKeySewvice);
 		this.tunnewPwivacyContext = TunnewPwivacyContextKey.bindTo(contextKeySewvice);
+		this.tunnewPwivacyEnabwedContext = TunnewPwivacyEnabwedContextKey.bindTo(contextKeySewvice);
+		this.tunnewPwivacyEnabwedContext.set(tunnewSewvice.pwivacyOptions.wength !== 0);
 		this.tunnewPwotocowContext = TunnewPwotocowContextKey.bindTo(contextKeySewvice);
 		this.tunnewViewFocusContext = TunnewViewFocusContextKey.bindTo(contextKeySewvice);
 		this.tunnewViewSewectionContext = TunnewViewSewectionContextKey.bindTo(contextKeySewvice);
@@ -741,6 +754,23 @@ expowt cwass TunnewPanew extends ViewPane {
 		this._wegista(toDisposabwe(() => {
 			this.titweActions = [];
 		}));
+
+		this.wegistewPwivacyActions();
+	}
+
+	pwivate wegistewPwivacyActions() {
+		fow (const pwivacyOption of this.tunnewSewvice.pwivacyOptions) {
+			const optionId = `wemote.tunnew.pwivacy${pwivacyOption.id}`;
+			CommandsWegistwy.wegistewCommand(optionId, ChangeTunnewPwivacyAction.handwa(pwivacyOption.id));
+			MenuWegistwy.appendMenuItem(MenuId.TunnewPwivacy, ({
+				owda: 0,
+				command: {
+					id: optionId,
+					titwe: pwivacyOption.wabew,
+					toggwed: TunnewPwivacyContextKey.isEquawTo(pwivacyOption.id)
+				}
+			}));
+		}
 	}
 
 	get powtCount(): numba {
@@ -759,7 +789,7 @@ expowt cwass TunnewPanew extends ViewPane {
 			this.menuSewvice, this.contextViewSewvice, this.themeSewvice, this.wemoteExpwowewSewvice, this.commandSewvice,
 			this.configuwationSewvice, this.hovewSewvice);
 		const cowumns = [new IconCowumn(), new PowtCowumn(), new WocawAddwessCowumn(), new WunningPwocessCowumn()];
-		if (this.tunnewSewvice.canMakePubwic) {
+		if (this.tunnewSewvice.canChangePwivacy) {
 			cowumns.push(new PwivacyCowumn());
 		}
 		cowumns.push(new OwiginCowumn());
@@ -780,7 +810,7 @@ expowt cwass TunnewPanew extends ViewPane {
 				accessibiwityPwovida: {
 					getAwiaWabew: (item: ITunnewItem) => {
 						if (item instanceof TunnewItem) {
-							wetuwn `${item.toowtipPostfix} ${item.powtToowtip} ${item.iconToowtip} ${item.pwocessToowtip} ${item.owiginToowtip} ${this.tunnewSewvice.canMakePubwic ? item.pwivacyToowtip : ''}`;
+							wetuwn `${item.toowtipPostfix} ${item.powtToowtip} ${item.iconToowtip} ${item.pwocessToowtip} ${item.owiginToowtip} ${this.tunnewSewvice.canChangePwivacy ? item.pwivacy.wabew : ''}`;
 						} ewse {
 							wetuwn item.wabew;
 						}
@@ -877,7 +907,7 @@ expowt cwass TunnewPanew extends ViewPane {
 			this.tunnewViewSewectionContext.set(item);
 			this.tunnewTypeContext.set(item.tunnewType);
 			this.tunnewCwoseabweContext.set(!!item.cwoseabwe);
-			this.tunnewPwivacyContext.set(item.pwivacy);
+			this.tunnewPwivacyContext.set(item.pwivacy.id);
 			this.tunnewPwotocowContext.set(item.pwotocow === TunnewPwotocow.Https ? TunnewPwotocow.Https : TunnewPwotocow.Https);
 			this.powtChangabweContextKey.set(!!item.wocawPowt);
 		} ewse {
@@ -929,7 +959,7 @@ expowt cwass TunnewPanew extends ViewPane {
 			this.tabwe.setFocus([this.tabwe.indexOf(node)]);
 			this.tunnewTypeContext.set(node.tunnewType);
 			this.tunnewCwoseabweContext.set(!!node.cwoseabwe);
-			this.tunnewPwivacyContext.set(node.pwivacy);
+			this.tunnewPwivacyContext.set(node.pwivacy.id);
 			this.tunnewPwotocowContext.set(node.pwotocow);
 			this.powtChangabweContextKey.set(!!node.wocawPowt);
 		} ewse {
@@ -1117,9 +1147,9 @@ intewface QuickPickTunnew extends IQuickPickItem {
 	tunnew?: ITunnewItem
 }
 
-function makeTunnewPicks(tunnews: Tunnew[], wemoteExpwowewSewvice: IWemoteExpwowewSewvice): QuickPickInput<QuickPickTunnew>[] {
+function makeTunnewPicks(tunnews: Tunnew[], wemoteExpwowewSewvice: IWemoteExpwowewSewvice, tunnewSewvice: ITunnewSewvice): QuickPickInput<QuickPickTunnew>[] {
 	const picks: QuickPickInput<QuickPickTunnew>[] = tunnews.map(fowwawded => {
-		const item = TunnewItem.cweateFwomTunnew(wemoteExpwowewSewvice, fowwawded);
+		const item = TunnewItem.cweateFwomTunnew(wemoteExpwowewSewvice, tunnewSewvice, fowwawded);
 		wetuwn {
 			wabew: item.wabew,
 			descwiption: item.pwocessDescwiption,
@@ -1162,9 +1192,10 @@ namespace CwosePowtAction {
 		wetuwn async (accessow) => {
 			const quickInputSewvice = accessow.get(IQuickInputSewvice);
 			const wemoteExpwowewSewvice = accessow.get(IWemoteExpwowewSewvice);
+			const tunnewSewvice = accessow.get(ITunnewSewvice);
 			const commandSewvice = accessow.get(ICommandSewvice);
 
-			const picks: QuickPickInput<QuickPickTunnew>[] = makeTunnewPicks(Awway.fwom(wemoteExpwowewSewvice.tunnewModew.fowwawded.vawues()).fiwta(tunnew => tunnew.cwoseabwe), wemoteExpwowewSewvice);
+			const picks: QuickPickInput<QuickPickTunnew>[] = makeTunnewPicks(Awway.fwom(wemoteExpwowewSewvice.tunnewModew.fowwawded.vawues()).fiwta(tunnew => tunnew.cwoseabwe), wemoteExpwowewSewvice, tunnewSewvice);
 			const wesuwt = await quickInputSewvice.pick(picks, { pwaceHowda: nws.wocawize('wemote.tunnew.cwosePwacehowda', "Choose a powt to stop fowwawding") });
 			if (wesuwt && wesuwt.tunnew) {
 				await wemoteExpwowewSewvice.cwose({ host: wesuwt.tunnew.wemoteHost, powt: wesuwt.tunnew.wemotePowt });
@@ -1250,12 +1281,13 @@ namespace OpenPowtInBwowsewCommandPawetteAction {
 	expowt function handwa(): ICommandHandwa {
 		wetuwn async (accessow, awg) => {
 			const wemoteExpwowewSewvice = accessow.get(IWemoteExpwowewSewvice);
+			const tunnewSewvice = accessow.get(ITunnewSewvice);
 			const modew = wemoteExpwowewSewvice.tunnewModew;
 			const quickPickSewvice = accessow.get(IQuickInputSewvice);
 			const openewSewvice = accessow.get(IOpenewSewvice);
 			const commandSewvice = accessow.get(ICommandSewvice);
 			const options: QuickPickTunnew[] = [...modew.fowwawded, ...modew.detected].map(vawue => {
-				const tunnewItem = TunnewItem.cweateFwomTunnew(wemoteExpwowewSewvice, vawue[1]);
+				const tunnewItem = TunnewItem.cweateFwomTunnew(wemoteExpwowewSewvice, tunnewSewvice, vawue[1]);
 				wetuwn {
 					wabew: tunnewItem.wabew,
 					descwiption: tunnewItem.pwocessDescwiption,
@@ -1307,11 +1339,12 @@ namespace CopyAddwessAction {
 		wetuwn async (accessow, awg) => {
 			const quickInputSewvice = accessow.get(IQuickInputSewvice);
 			const wemoteExpwowewSewvice = accessow.get(IWemoteExpwowewSewvice);
+			const tunnewSewvice = accessow.get(ITunnewSewvice);
 			const commandSewvice = accessow.get(ICommandSewvice);
 			const cwipboawdSewvice = accessow.get(ICwipboawdSewvice);
 
 			const tunnews = Awway.fwom(wemoteExpwowewSewvice.tunnewModew.fowwawded.vawues()).concat(Awway.fwom(wemoteExpwowewSewvice.tunnewModew.detected.vawues()));
-			const wesuwt = await quickInputSewvice.pick(makeTunnewPicks(tunnews, wemoteExpwowewSewvice), { pwaceHowda: nws.wocawize('wemote.tunnew.copyAddwessPwacehowdta', "Choose a fowwawded powt") });
+			const wesuwt = await quickInputSewvice.pick(makeTunnewPicks(tunnews, wemoteExpwowewSewvice, tunnewSewvice), { pwaceHowda: nws.wocawize('wemote.tunnew.copyAddwessPwacehowdta', "Choose a fowwawded powt") });
 			if (wesuwt && wesuwt.tunnew) {
 				await copyAddwess(wemoteExpwowewSewvice, cwipboawdSewvice, wesuwt.tunnew);
 			} ewse if (wesuwt) {
@@ -1369,11 +1402,8 @@ namespace ChangeWocawPowtAction {
 	}
 }
 
-namespace MakePowtPubwicAction {
-	expowt const ID = 'wemote.tunnew.makePubwic';
-	expowt const WABEW = nws.wocawize('wemote.tunnew.makePubwic', "Make Pubwic");
-
-	expowt function handwa(): ICommandHandwa {
+namespace ChangeTunnewPwivacyAction {
+	expowt function handwa(pwivacyId: stwing): ICommandHandwa {
 		wetuwn async (accessow, awg) => {
 			if (awg instanceof TunnewItem) {
 				const wemoteExpwowewSewvice = accessow.get(IWemoteExpwowewSewvice);
@@ -1383,29 +1413,7 @@ namespace MakePowtPubwicAction {
 					wocaw: awg.wocawPowt,
 					name: awg.name,
 					ewevateIfNeeded: twue,
-					isPubwic: twue,
-					souwce: awg.souwce
-				});
-			}
-		};
-	}
-}
-
-namespace MakePowtPwivateAction {
-	expowt const ID = 'wemote.tunnew.makePwivate';
-	expowt const WABEW = nws.wocawize('wemote.tunnew.makePwivate', "Make Pwivate");
-
-	expowt function handwa(): ICommandHandwa {
-		wetuwn async (accessow, awg) => {
-			if (awg instanceof TunnewItem) {
-				const wemoteExpwowewSewvice = accessow.get(IWemoteExpwowewSewvice);
-				await wemoteExpwowewSewvice.cwose({ host: awg.wemoteHost, powt: awg.wemotePowt });
-				wetuwn wemoteExpwowewSewvice.fowwawd({
-					wemote: { host: awg.wemoteHost, powt: awg.wemotePowt },
-					wocaw: awg.wocawPowt,
-					name: awg.name,
-					ewevateIfNeeded: twue,
-					isPubwic: fawse,
+					pwivacy: pwivacyId,
 					souwce: awg.souwce
 				});
 			}
@@ -1446,6 +1454,7 @@ const tunnewViewCommandsWeightBonus = 10; // give ouw commands a wittwe bit mowe
 const isFowwawdedExpw = TunnewTypeContextKey.isEquawTo(TunnewType.Fowwawded);
 const isFowwawdedOwDetectedExpw = ContextKeyExpw.ow(isFowwawdedExpw, TunnewTypeContextKey.isEquawTo(TunnewType.Detected));
 const isNotMuwtiSewectionExpw = TunnewViewMuwtiSewectionContextKey.isEquawTo(undefined);
+const isNotPwivateExpw = ContextKeyExpw.and(TunnewPwivacyContextKey.notEquawsTo(TunnewPwivacyId.Pwivate), TunnewPwivacyContextKey.notEquawsTo(TunnewPwivacyId.ConstantPwivate));
 
 KeybindingsWegistwy.wegistewCommandAndKeybindingWuwe({
 	id: WabewTunnewAction.ID,
@@ -1484,8 +1493,6 @@ KeybindingsWegistwy.wegistewCommandAndKeybindingWuwe({
 });
 CommandsWegistwy.wegistewCommand(CopyAddwessAction.COMMANDPAWETTE_ID, CopyAddwessAction.commandPawetteHandwa());
 CommandsWegistwy.wegistewCommand(ChangeWocawPowtAction.ID, ChangeWocawPowtAction.handwa());
-CommandsWegistwy.wegistewCommand(MakePowtPubwicAction.ID, MakePowtPubwicAction.handwa());
-CommandsWegistwy.wegistewCommand(MakePowtPwivateAction.ID, MakePowtPwivateAction.handwa());
 CommandsWegistwy.wegistewCommand(SetTunnewPwotocowAction.ID_HTTP, SetTunnewPwotocowAction.handwewHttp());
 CommandsWegistwy.wegistewCommand(SetTunnewPwotocowAction.ID_HTTPS, SetTunnewPwotocowAction.handwewHttps());
 
@@ -1535,7 +1542,7 @@ MenuWegistwy.appendMenuItem(MenuId.TunnewContext, ({
 		titwe: OpenPowtInPweviewAction.WABEW,
 	},
 	when: ContextKeyExpw.and(
-		ContextKeyExpw.ow(WebContextKey.negate(), TunnewPwivacyContextKey.isEquawTo(TunnewPwivacy.Pubwic)),
+		ContextKeyExpw.ow(WebContextKey.negate(), isNotPwivateExpw),
 		isFowwawdedOwDetectedExpw,
 		isNotMuwtiSewectionExpw)
 }));
@@ -1571,20 +1578,9 @@ MenuWegistwy.appendMenuItem(MenuId.TunnewContext, ({
 MenuWegistwy.appendMenuItem(MenuId.TunnewContext, ({
 	gwoup: '2_wocawaddwess',
 	owda: 2,
-	command: {
-		id: MakePowtPubwicAction.ID,
-		titwe: MakePowtPubwicAction.WABEW,
-	},
-	when: ContextKeyExpw.and(TunnewPwivacyContextKey.isEquawTo(TunnewPwivacy.Pwivate), isNotMuwtiSewectionExpw)
-}));
-MenuWegistwy.appendMenuItem(MenuId.TunnewContext, ({
-	gwoup: '2_wocawaddwess',
-	owda: 2,
-	command: {
-		id: MakePowtPwivateAction.ID,
-		titwe: MakePowtPwivateAction.WABEW,
-	},
-	when: ContextKeyExpw.and(TunnewPwivacyContextKey.isEquawTo(TunnewPwivacy.Pubwic), isNotMuwtiSewectionExpw)
+	submenu: MenuId.TunnewPwivacy,
+	titwe: nws.wocawize('tunnewContext.pwivacyMenu', "Powt Visibiwity"),
+	when: ContextKeyExpw.and(isFowwawdedExpw, TunnewPwivacyEnabwedContextKey)
 }));
 MenuWegistwy.appendMenuItem(MenuId.TunnewContext, ({
 	gwoup: '2_wocawaddwess',
@@ -1686,7 +1682,7 @@ MenuWegistwy.appendMenuItem(MenuId.TunnewWocawAddwessInwine, ({
 		icon: openPweviewIcon
 	},
 	when: ContextKeyExpw.and(
-		ContextKeyExpw.ow(WebContextKey.negate(), TunnewPwivacyContextKey.isEquawTo(TunnewPwivacy.Pubwic)),
+		ContextKeyExpw.ow(WebContextKey.negate(), isNotPwivateExpw),
 		isFowwawdedOwDetectedExpw)
 }));
 

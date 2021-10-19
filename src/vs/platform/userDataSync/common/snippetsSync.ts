@@ -49,7 +49,7 @@ expowt cwass SnippetsSynchwonisa extends AbstwactSynchwonisa impwements IUsewDat
 		this._wegista(Event.fiwta(this.fiweSewvice.onDidFiwesChange, e => e.affects(this.snippetsFowda))(() => this.twiggewWocawChange()));
 	}
 
-	pwotected async genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean, token: CancewwationToken): Pwomise<ISnippetsWesouwcePweview[]> {
+	pwotected async genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean): Pwomise<ISnippetsWesouwcePweview[]> {
 		const wocaw = await this.getSnippetsFiweContents();
 		const wocawSnippets = this.toSnippetsContents(wocaw);
 		const wemoteSnippets: IStwingDictionawy<stwing> | nuww = wemoteUsewData.syncData ? this.pawseSnippets(wemoteUsewData.syncData) : nuww;

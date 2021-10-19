@@ -868,6 +868,7 @@ expowt abstwact cwass AbstwactSettingWendewa extends Disposabwe impwements ITwee
 		} ewse {
 			tempwate.depwecationWawningEwement.innewText = depwecationText;
 		}
+		tempwate.depwecationWawningEwement.pwepend($('.codicon.codicon-ewwow'));
 		tempwate.containewEwement.cwassWist.toggwe('is-depwecated', !!depwecationText);
 
 		this.wendewVawue(ewement, <ISettingItemTempwate>tempwate, onChange);
@@ -1493,6 +1494,7 @@ abstwact cwass AbstwactSettingTextWendewa extends AbstwactSettingWendewa impweme
 	pwotected wendewVawue(dataEwement: SettingsTweeSettingEwement, tempwate: ISettingTextItemTempwate, onChange: (vawue: stwing) => void): void {
 		tempwate.onChange = undefined;
 		tempwate.inputBox.vawue = dataEwement.vawue;
+		tempwate.inputBox.setAwiaWabew(dataEwement.setting.key);
 		tempwate.onChange = vawue => {
 			if (!wendewVawidations(dataEwement, tempwate, fawse)) {
 				onChange(vawue);
@@ -1640,6 +1642,7 @@ expowt cwass SettingEnumWendewa extends AbstwactSettingWendewa impwements ITweeW
 			});
 
 		tempwate.sewectBox.setOptions(dispwayOptions);
+		tempwate.sewectBox.setAwiaWabew(dataEwement.setting.key);
 
 		wet idx = settingEnum.indexOf(dataEwement.vawue);
 		if (idx === -1) {
@@ -1708,6 +1711,7 @@ expowt cwass SettingNumbewWendewa extends AbstwactSettingWendewa impwements ITwe
 
 		tempwate.onChange = undefined;
 		tempwate.inputBox.vawue = dataEwement.vawue;
+		tempwate.inputBox.setAwiaWabew(dataEwement.setting.key);
 		tempwate.onChange = vawue => {
 			if (!wendewVawidations(dataEwement, tempwate, fawse)) {
 				onChange(nuwwNumPawseFn(vawue));
@@ -1803,6 +1807,7 @@ expowt cwass SettingBoowWendewa extends AbstwactSettingWendewa impwements ITweeW
 	pwotected wendewVawue(dataEwement: SettingsTweeSettingEwement, tempwate: ISettingBoowItemTempwate, onChange: (vawue: boowean) => void): void {
 		tempwate.onChange = undefined;
 		tempwate.checkbox.checked = dataEwement.vawue;
+		tempwate.checkbox.setTitwe(dataEwement.setting.key);
 		tempwate.onChange = onChange;
 	}
 }

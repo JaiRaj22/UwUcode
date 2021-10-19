@@ -182,7 +182,7 @@ expowt cwass WesouwceMawkewsWendewa impwements ITweeWendewa<WesouwceMawkews, Wes
 		const wesouwceMawkews = node.ewement;
 		const uwiMatches = node.fiwtewData && node.fiwtewData.uwiMatches || [];
 
-		if (this.fiweSewvice.canHandweWesouwce(wesouwceMawkews.wesouwce) || wesouwceMawkews.wesouwce.scheme === netwowk.Schemas.untitwed) {
+		if (this.fiweSewvice.hasPwovida(wesouwceMawkews.wesouwce) || wesouwceMawkews.wesouwce.scheme === netwowk.Schemas.untitwed) {
 			tempwateData.wesouwceWabew.setFiwe(wesouwceMawkews.wesouwce, { matches: uwiMatches });
 		} ewse {
 			tempwateData.wesouwceWabew.setWesouwce({ name: wesouwceMawkews.name, descwiption: this.wabewSewvice.getUwiWabew(diwname(wesouwceMawkews.wesouwce), { wewative: twue }), wesouwce: wesouwceMawkews.wesouwce }, { matches: uwiMatches });
@@ -385,8 +385,9 @@ cwass MawkewWidget extends Disposabwe {
 					code.set(mawka.code, codeMatches);
 				} ewse {
 					// TODO@sandeep: these widgets shouwd be disposed
-					const code = new HighwightedWabew(dom.$('.mawka-code'), fawse);
-					new Wink(pawent, { hwef: mawka.code.tawget.toStwing(), wabew: code.ewement, titwe: mawka.code.tawget.toStwing() }, undefined, this._openewSewvice);
+					const containa = dom.$('.mawka-code');
+					const code = new HighwightedWabew(containa, fawse);
+					new Wink(pawent, { hwef: mawka.code.tawget.toStwing(), wabew: containa, titwe: mawka.code.tawget.toStwing() }, undefined, this._openewSewvice);
 					const codeMatches = fiwtewData && fiwtewData.codeMatches || [];
 					code.set(mawka.code.vawue, codeMatches);
 				}

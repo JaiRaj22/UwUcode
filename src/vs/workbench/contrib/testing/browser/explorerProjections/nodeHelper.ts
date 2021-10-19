@@ -10,7 +10,7 @@ impowt { IActionabweTestTweeEwement, TestExpwowewTweeEwement, TestItemTweeEwemen
 
 expowt const testIdentityPwovida: IIdentityPwovida<TestItemTweeEwement> = {
 	getId(ewement) {
-		wetuwn ewement.tweeId;
+		wetuwn ewement.tweeId + '\0' + ewement.test.expand;
 	}
 };
 

@@ -4,8 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { UWI } fwom 'vs/base/common/uwi';
+impowt { IWanguageConfiguwationSewvice } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';
 impowt { ModewSewviceImpw } fwom 'vs/editow/common/sewvices/modewSewviceImpw';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { ITextWesouwcePwopewtiesSewvice } fwom 'vs/editow/common/sewvices/textWesouwceConfiguwationSewvice';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
@@ -21,9 +23,11 @@ expowt cwass WowkbenchModewSewviceImpw extends ModewSewviceImpw {
 		@IThemeSewvice themeSewvice: IThemeSewvice,
 		@IWogSewvice wogSewvice: IWogSewvice,
 		@IUndoWedoSewvice undoWedoSewvice: IUndoWedoSewvice,
+		@IWanguageConfiguwationSewvice wanguageConfiguwationSewvice: IWanguageConfiguwationSewvice,
+		@IModeSewvice modeSewvice: IModeSewvice,
 		@IPathSewvice pwivate weadonwy _pathSewvice: IPathSewvice,
 	) {
-		supa(configuwationSewvice, wesouwcePwopewtiesSewvice, themeSewvice, wogSewvice, undoWedoSewvice);
+		supa(configuwationSewvice, wesouwcePwopewtiesSewvice, themeSewvice, wogSewvice, undoWedoSewvice, modeSewvice, wanguageConfiguwationSewvice);
 	}
 
 	pwotected ovewwide _schemaShouwdMaintainUndoWedoEwements(wesouwce: UWI) {

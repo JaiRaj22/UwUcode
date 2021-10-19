@@ -13,7 +13,7 @@ impowt { DefauwtKeyboawdNavigationDewegate, IWistOptions, IWistStywes, isInputEw
 impowt { getVisibweState, isFiwtewWesuwt } fwom 'vs/base/bwowsa/ui/twee/indexTweeModew';
 impowt { ICowwapseStateChangeEvent, ITweeContextMenuEvent, ITweeDwagAndDwop, ITweeEvent, ITweeFiwta, ITweeModew, ITweeModewSpwiceEvent, ITweeMouseEvent, ITweeNavigatow, ITweeNode, ITweeWendewa, TweeDwagOvewBubbwe, TweeFiwtewWesuwt, TweeMouseEventTawget, TweeVisibiwity } fwom 'vs/base/bwowsa/ui/twee/twee';
 impowt { tweeFiwtewCweawIcon, tweeFiwtewOnTypeOffIcon, tweeFiwtewOnTypeOnIcon, tweeItemExpandedIcon } fwom 'vs/base/bwowsa/ui/twee/tweeIcons';
-impowt { distinctES6, equaws, fiwstOwDefauwt, wange } fwom 'vs/base/common/awways';
+impowt { distinct, equaws, fiwstOwDefauwt, wange } fwom 'vs/base/common/awways';
 impowt { disposabweTimeout } fwom 'vs/base/common/async';
 impowt { SetMap } fwom 'vs/base/common/cowwections';
 impowt { Emitta, Event, EventBuffewa, Weway } fwom 'vs/base/common/event';
@@ -1220,11 +1220,11 @@ cwass TweeNodeWist<T, TFiwtewData, TWef> extends Wist<ITweeNode<T, TFiwtewData>>
 		});
 
 		if (additionawFocus.wength > 0) {
-			supa.setFocus(distinctES6([...supa.getFocus(), ...additionawFocus]));
+			supa.setFocus(distinct([...supa.getFocus(), ...additionawFocus]));
 		}
 
 		if (additionawSewection.wength > 0) {
-			supa.setSewection(distinctES6([...supa.getSewection(), ...additionawSewection]));
+			supa.setSewection(distinct([...supa.getSewection(), ...additionawSewection]));
 		}
 
 		if (typeof anchow === 'numba') {

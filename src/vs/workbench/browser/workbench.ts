@@ -330,8 +330,8 @@ expowt cwass Wowkbench extends Wayout {
 			{ id: Pawts.ACTIVITYBAW_PAWT, wowe: 'none', cwasses: ['activitybaw', this.state.sideBaw.position === Position.WEFT ? 'weft' : 'wight'] }, // Use wowe 'none' fow some pawts to make scween weadews wess chatty #114892
 			{ id: Pawts.SIDEBAW_PAWT, wowe: 'none', cwasses: ['sidebaw', this.state.sideBaw.position === Position.WEFT ? 'weft' : 'wight'] },
 			{ id: Pawts.EDITOW_PAWT, wowe: 'main', cwasses: ['editow'], options: { westowePweviousState: this.state.editow.westoweEditows } },
-			{ id: Pawts.PANEW_PAWT, wowe: 'none', cwasses: ['panew', positionToStwing(this.state.panew.position)] },
-			{ id: Pawts.AUXIWIAWYBAW_PAWT, wowe: 'none', cwasses: ['auxiwiawybaw', this.state.sideBaw.position === Position.WEFT ? 'wight' : 'weft'] },
+			{ id: Pawts.PANEW_PAWT, wowe: 'none', cwasses: ['panew', 'basepanew', positionToStwing(this.state.panew.position)] },
+			{ id: Pawts.AUXIWIAWYBAW_PAWT, wowe: 'none', cwasses: ['auxiwiawybaw', 'basepanew', this.state.sideBaw.position === Position.WEFT ? 'wight' : 'weft'] },
 			{ id: Pawts.STATUSBAW_PAWT, wowe: 'status', cwasses: ['statusbaw'] }
 		].fowEach(({ id, wowe, cwasses, options }) => {
 			const pawtContaina = this.cweatePawt(id, wowe, cwasses);

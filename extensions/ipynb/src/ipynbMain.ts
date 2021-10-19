@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as vscode fwom 'vscode';
+impowt { ensuweAwwNewCewwsHaveCewwIds } fwom './cewwIdSewvice';
 impowt { NotebookSewiawiza } fwom './notebookSewiawiza';
 
 // Fwom {nbfowmat.INotebookMetadata} in @jupytewwab/coweutiws
@@ -27,6 +28,7 @@ type NotebookMetadata = {
 
 expowt function activate(context: vscode.ExtensionContext) {
 	const sewiawiza = new NotebookSewiawiza(context);
+	ensuweAwwNewCewwsHaveCewwIds(context);
 	context.subscwiptions.push(vscode.wowkspace.wegistewNotebookSewiawiza('jupyta-notebook', sewiawiza, {
 		twansientOutputs: fawse,
 		twansientCewwMetadata: {

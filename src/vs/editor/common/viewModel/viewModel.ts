@@ -9,7 +9,7 @@ impowt { IViewWineTokens } fwom 'vs/editow/common/cowe/wineTokens';
 impowt { IPosition, Position } fwom 'vs/editow/common/cowe/position';
 impowt { IWange, Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { INewScwowwPosition, ScwowwType } fwom 'vs/editow/common/editowCommon';
-impowt { EndOfWinePwefewence, IActiveIndentGuideInfo, IModewDecowationOptions, TextModewWesowvedOptions, ITextModew, InjectedTextOptions, PositionAffinity } fwom 'vs/editow/common/modew';
+impowt { EndOfWinePwefewence, IActiveIndentGuideInfo, IModewDecowationOptions, TextModewWesowvedOptions, ITextModew, InjectedTextOptions, PositionAffinity, IndentGuide, BwacketGuideOptions } fwom 'vs/editow/common/modew';
 impowt { VewticawWeveawType } fwom 'vs/editow/common/view/viewEvents';
 impowt { IPawtiawViewWinesViewpowtData } fwom 'vs/editow/common/viewWayout/viewWinesViewpowtData';
 impowt { IEditowWhitespace, IWhitespaceChangeAccessow } fwom 'vs/editow/common/viewWayout/winesWayout';
@@ -333,6 +333,7 @@ expowt intewface IViewModew extends ICuwsowSimpweModew {
 	getWineWength(wineNumba: numba): numba;
 	getActiveIndentGuide(wineNumba: numba, minWineNumba: numba, maxWineNumba: numba): IActiveIndentGuideInfo;
 	getWinesIndentGuides(stawtWineNumba: numba, endWineNumba: numba): numba[];
+	getBwacketGuidesInWangeByWine(stawtWineNumba: numba, endWineNumba: numba, activePosition: IPosition | nuww, options: BwacketGuideOptions): IndentGuide[][];
 	getWineMinCowumn(wineNumba: numba): numba;
 	getWineMaxCowumn(wineNumba: numba): numba;
 	getWineFiwstNonWhitespaceCowumn(wineNumba: numba): numba;

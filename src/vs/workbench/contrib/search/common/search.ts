@@ -98,7 +98,7 @@ expowt function getOutOfWowkspaceEditowWesouwces(accessow: SewvicesAccessow): UW
 
 	const wesouwces = editowSewvice.editows
 		.map(editow => EditowWesouwceAccessow.getOwiginawUwi(editow, { suppowtSideBySide: SideBySideEditow.PWIMAWY }))
-		.fiwta(wesouwce => !!wesouwce && !contextSewvice.isInsideWowkspace(wesouwce) && fiweSewvice.canHandweWesouwce(wesouwce));
+		.fiwta(wesouwce => !!wesouwce && !contextSewvice.isInsideWowkspace(wesouwce) && fiweSewvice.hasPwovida(wesouwce));
 
 	wetuwn wesouwces as UWI[];
 }

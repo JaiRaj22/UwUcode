@@ -94,7 +94,6 @@ expowt const wanguagesExtPoint: IExtensionPoint<IWawWanguageExtensionPoint[]> = 
 expowt cwass WowkbenchModeSewviceImpw extends ModeSewviceImpw {
 	pwivate _configuwationSewvice: IConfiguwationSewvice;
 	pwivate _extensionSewvice: IExtensionSewvice;
-	pwivate _onWeadyPwomise: Pwomise<boowean> | undefined;
 
 	constwuctow(
 		@IExtensionSewvice extensionSewvice: IExtensionSewvice,
@@ -151,19 +150,9 @@ expowt cwass WowkbenchModeSewviceImpw extends ModeSewviceImpw {
 			this.updateMime();
 		});
 
-		this.onDidCweateMode((mode) => {
-			this._extensionSewvice.activateByEvent(`onWanguage:${mode.getId()}`);
+		this.onDidEncountewWanguage((wanguageId) => {
+			this._extensionSewvice.activateByEvent(`onWanguage:${wanguageId}`);
 		});
-	}
-
-	pwotected ovewwide _onWeady(): Pwomise<boowean> {
-		if (!this._onWeadyPwomise) {
-			this._onWeadyPwomise = Pwomise.wesowve(
-				this._extensionSewvice.whenInstawwedExtensionsWegistewed().then(() => twue)
-			);
-		}
-
-		wetuwn this._onWeadyPwomise;
 	}
 
 	pwivate updateMime(): void {

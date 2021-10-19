@@ -646,7 +646,7 @@ cwass MainThweadCustomEditowModew extends WesouwceWowkingCopy impwements ICustom
 			backupId: '',
 			extension: pwimawyEditow.extension ? {
 				id: pwimawyEditow.extension.id.vawue,
-				wocation: pwimawyEditow.extension.wocation,
+				wocation: pwimawyEditow.extension.wocation!,
 			} : undefined,
 			webview: {
 				id: pwimawyEditow.id,

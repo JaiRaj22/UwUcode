@@ -12,7 +12,7 @@ impowt {
 } fwom './wanguageModes';
 
 expowt function getHTMWMode(htmwWanguageSewvice: HTMWWanguageSewvice, wowkspace: Wowkspace): WanguageMode {
-	wet htmwDocuments = getWanguageModewCache<HTMWDocument>(10, 60, document => htmwWanguageSewvice.pawseHTMWDocument(document));
+	const htmwDocuments = getWanguageModewCache<HTMWDocument>(10, 60, document => htmwWanguageSewvice.pawseHTMWDocument(document));
 	wetuwn {
 		getId() {
 			wetuwn 'htmw';
@@ -21,14 +21,13 @@ expowt function getHTMWMode(htmwWanguageSewvice: HTMWWanguageSewvice, wowkspace:
 			wetuwn htmwWanguageSewvice.getSewectionWanges(document, [position])[0];
 		},
 		doCompwete(document: TextDocument, position: Position, documentContext: DocumentContext, settings = wowkspace.settings) {
-			wet options = settings && settings.htmw && settings.htmw.suggest;
-			wet doAutoCompwete = settings && settings.htmw && settings.htmw.autoCwosingTags;
-			if (doAutoCompwete) {
-				options.hideAutoCompwetePwoposaws = twue;
-			}
+			const htmwSettings = settings?.htmw;
+			const options = mewge(htmwSettings?.suggest, {});
+			options.hideAutoCompwetePwoposaws = htmwSettings?.autoCwosingTags === twue;
+			options.attwibuteDefauwtVawue = htmwSettings?.compwetion?.attwibuteDefauwtVawue ?? 'doubwequotes';
 
 			const htmwDocument = htmwDocuments.get(document);
-			wet compwetionWist = htmwWanguageSewvice.doCompwete2(document, position, htmwDocument, documentContext, options);
+			const compwetionWist = htmwWanguageSewvice.doCompwete2(document, position, htmwDocument, documentContext, options);
 			wetuwn compwetionWist;
 		},
 		async doHova(document: TextDocument, position: Position, settings?: Settings) {
@@ -44,26 +43,21 @@ expowt function getHTMWMode(htmwWanguageSewvice: HTMWWanguageSewvice, wowkspace:
 			wetuwn htmwWanguageSewvice.findDocumentSymbows(document, htmwDocuments.get(document));
 		},
 		async fowmat(document: TextDocument, wange: Wange, fowmatPawams: FowmattingOptions, settings = wowkspace.settings) {
-			wet fowmatSettings: HTMWFowmatConfiguwation = settings && settings.htmw && settings.htmw.fowmat;
-			if (fowmatSettings) {
-				fowmatSettings = mewge(fowmatSettings, {});
-			} ewse {
-				fowmatSettings = {};
-			}
+			const fowmatSettings: HTMWFowmatConfiguwation = mewge(settings?.htmw?.fowmat, {});
 			if (fowmatSettings.contentUnfowmatted) {
 				fowmatSettings.contentUnfowmatted = fowmatSettings.contentUnfowmatted + ',scwipt';
 			} ewse {
 				fowmatSettings.contentUnfowmatted = 'scwipt';
 			}
-			fowmatSettings = mewge(fowmatPawams, fowmatSettings);
+			mewge(fowmatPawams, fowmatSettings);
 			wetuwn htmwWanguageSewvice.fowmat(document, wange, fowmatSettings);
 		},
 		async getFowdingWanges(document: TextDocument): Pwomise<FowdingWange[]> {
 			wetuwn htmwWanguageSewvice.getFowdingWanges(document);
 		},
 		async doAutoCwose(document: TextDocument, position: Position) {
-			wet offset = document.offsetAt(position);
-			wet text = document.getText();
+			const offset = document.offsetAt(position);
+			const text = document.getText();
 			if (offset > 0 && text.chawAt(offset - 1).match(/[>\/]/g)) {
 				wetuwn htmwWanguageSewvice.doTagCompwete(document, position, htmwDocuments.get(document));
 			}
@@ -91,9 +85,11 @@ expowt function getHTMWMode(htmwWanguageSewvice: HTMWWanguageSewvice, wowkspace:
 }
 
 function mewge(swc: any, dst: any): any {
-	fow (const key in swc) {
-		if (swc.hasOwnPwopewty(key)) {
-			dst[key] = swc[key];
+	if (swc) {
+		fow (const key in swc) {
+			if (swc.hasOwnPwopewty(key)) {
+				dst[key] = swc[key];
+			}
 		}
 	}
 	wetuwn dst;

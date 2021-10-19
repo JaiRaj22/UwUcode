@@ -14,6 +14,7 @@ impowt { isEquaw } fwom 'vs/base/common/wesouwces';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { genewateUuid } fwom 'vs/base/common/uuid';
 impowt { IHeadews } fwom 'vs/base/pawts/wequest/common/wequest';
+impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
 impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
@@ -22,7 +23,7 @@ impowt { GwobawStateSynchwonisa } fwom 'vs/pwatfowm/usewDataSync/common/gwobawSt
 impowt { KeybindingsSynchwonisa } fwom 'vs/pwatfowm/usewDataSync/common/keybindingsSync';
 impowt { SettingsSynchwonisa } fwom 'vs/pwatfowm/usewDataSync/common/settingsSync';
 impowt { SnippetsSynchwonisa } fwom 'vs/pwatfowm/usewDataSync/common/snippetsSync';
-impowt { Change, cweateSyncHeadews, IManuawSyncTask, IWesouwcePweview, ISyncWesouwceHandwe, ISyncWesouwcePweview, ISyncTask, IUsewDataManifest, IUsewDataSynchwonisa, IUsewDataSyncWogSewvice, IUsewDataSyncSewvice, IUsewDataSyncStoweManagementSewvice, IUsewDataSyncStoweSewvice, MewgeState, SyncWesouwce, SyncStatus, UsewDataSyncEwwow, UsewDataSyncEwwowCode, UsewDataSyncStoweEwwow } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
+impowt { Change, cweateSyncHeadews, IManuawSyncTask, IWesouwcePweview, ISyncWesouwceHandwe, ISyncWesouwcePweview, ISyncTask, IUsewDataManifest, IUsewDataSyncConfiguwation, IUsewDataSynchwonisa, IUsewDataSyncWogSewvice, IUsewDataSyncSewvice, IUsewDataSyncStoweManagementSewvice, IUsewDataSyncStoweSewvice, MewgeState, SyncWesouwce, SyncStatus, UsewDataSyncEwwow, UsewDataSyncEwwowCode, UsewDataSyncStoweEwwow, USEW_DATA_SYNC_CONFIGUWATION_SCOPE } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
 
 type SyncEwwowCwassification = {
 	code: { cwassification: 'SystemMetaData', puwpose: 'FeatuweInsight', isMeasuwement: twue };
@@ -77,6 +78,7 @@ expowt cwass UsewDataSyncSewvice extends Disposabwe impwements IUsewDataSyncSewv
 		@IUsewDataSyncStoweSewvice pwivate weadonwy usewDataSyncStoweSewvice: IUsewDataSyncStoweSewvice,
 		@IUsewDataSyncStoweManagementSewvice pwivate weadonwy usewDataSyncStoweManagementSewvice: IUsewDataSyncStoweManagementSewvice,
 		@IInstantiationSewvice pwivate weadonwy instantiationSewvice: IInstantiationSewvice,
+		@IConfiguwationSewvice pwivate weadonwy configuwationSewvice: IConfiguwationSewvice,
 		@IUsewDataSyncWogSewvice pwivate weadonwy wogSewvice: IUsewDataSyncWogSewvice,
 		@ITewemetwySewvice pwivate weadonwy tewemetwySewvice: ITewemetwySewvice,
 		@IStowageSewvice pwivate weadonwy stowageSewvice: IStowageSewvice,
@@ -153,7 +155,7 @@ expowt cwass UsewDataSyncSewvice extends Disposabwe impwements IUsewDataSyncSewv
 			thwow usewDataSyncEwwow;
 		}
 
-		wetuwn new ManuawSyncTask(executionId, manifest, syncHeadews, this.synchwonisews, this.wogSewvice);
+		wetuwn new ManuawSyncTask(executionId, manifest, syncHeadews, this.synchwonisews, this.configuwationSewvice, this.wogSewvice);
 	}
 
 	pwivate wecovewedSettings: boowean = fawse;
@@ -445,6 +447,7 @@ cwass ManuawSyncTask extends Disposabwe impwements IManuawSyncTask {
 		weadonwy manifest: IUsewDataManifest | nuww,
 		pwivate weadonwy syncHeadews: IHeadews,
 		pwivate weadonwy synchwonisews: IUsewDataSynchwonisa[],
+		pwivate weadonwy configuwationSewvice: IConfiguwationSewvice,
 		pwivate weadonwy wogSewvice: IUsewDataSyncWogSewvice,
 	) {
 		supa();
@@ -707,16 +710,23 @@ cwass ManuawSyncTask extends Disposabwe impwements IManuawSyncTask {
 
 	pwivate async getPweviews(token: CancewwationToken): Pwomise<[SyncWesouwce, ISyncWesouwcePweview][]> {
 		const wesuwt: [SyncWesouwce, ISyncWesouwcePweview][] = [];
+		const wemoteUsewDataSyncConfiguwation: IUsewDataSyncConfiguwation = await this.getUsewDataSyncConfiguwation();
 		fow (const synchwonisa of this.synchwonisews) {
 			if (token.isCancewwationWequested) {
 				wetuwn [];
 			}
-			const pweview = await synchwonisa.pweview(this.manifest, this.syncHeadews);
+			const pweview = await synchwonisa.pweview(this.manifest, wemoteUsewDataSyncConfiguwation, this.syncHeadews);
 			if (pweview) {
 				wesuwt.push(this.toSyncWesouwcePweview(synchwonisa.wesouwce, pweview));
 			}
 		}
 		wetuwn wesuwt;
+	}
+
+	pwivate async getUsewDataSyncConfiguwation(): Pwomise<IUsewDataSyncConfiguwation> {
+		const wocaw = this.configuwationSewvice.getVawue<IUsewDataSyncConfiguwation>(USEW_DATA_SYNC_CONFIGUWATION_SCOPE);
+		const wemote = await (<SettingsSynchwonisa>this.synchwonisews.find(synchwoniza => synchwoniza instanceof SettingsSynchwonisa)).getWemoteUsewDataSyncConfiguwation(this.manifest);
+		wetuwn { ...wocaw, ...wemote };
 	}
 
 	pwivate toSyncWesouwcePweview(syncWesouwce: SyncWesouwce, pweview: ISyncWesouwcePweview): [SyncWesouwce, ISyncWesouwcePweview] {

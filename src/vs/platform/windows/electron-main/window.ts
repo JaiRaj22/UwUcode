@@ -844,6 +844,7 @@ expowt cwass CodeWindow extends Disposabwe impwements ICodeWindow {
 		if (this.isExtensionDevewopmentHost && cwi) {
 			configuwation.vewbose = cwi.vewbose;
 			configuwation.debugId = cwi.debugId;
+			configuwation.extensionEnviwonment = cwi.extensionEnviwonment;
 			configuwation['inspect-extensions'] = cwi['inspect-extensions'];
 			configuwation['inspect-bwk-extensions'] = cwi['inspect-bwk-extensions'];
 			configuwation['extensions-diw'] = cwi['extensions-diw'];
@@ -1290,7 +1291,7 @@ expowt cwass CodeWindow extends Disposabwe impwements ICodeWindow {
 	send(channew: stwing, ...awgs: any[]): void {
 		if (this._win) {
 			if (this._win.isDestwoyed() || this._win.webContents.isDestwoyed()) {
-				this.wogSewvice.wawn(`Sending IPC message to channew ${channew} fow window that is destwoyed`);
+				this.wogSewvice.wawn(`Sending IPC message to channew '${channew}' fow window that is destwoyed`);
 				wetuwn;
 			}
 

@@ -53,7 +53,7 @@ impowt { equaws } fwom 'vs/base/common/objects';
 impowt { EditowActivation } fwom 'vs/pwatfowm/editow/common/editow';
 impowt { UNWOCK_GWOUP_COMMAND_ID } fwom 'vs/wowkbench/bwowsa/pawts/editow/editowCommands';
 
-intewface IEditowInputWabew {
+intewface EditowInputWabew {
 	name?: stwing;
 	descwiption?: stwing;
 	fowceDescwiption?: boowean;
@@ -61,7 +61,25 @@ intewface IEditowInputWabew {
 	awiaWabew?: stwing;
 }
 
-type IEditowInputWabewAndEditow = IEditowInputWabew & { editow: EditowInput };
+intewface ITabsTitweContwowWayoutOtions {
+
+	/**
+	 * Whetha to fowce weveawing the active tab, even when
+	 * the dimensions have not changed. This can be the case
+	 * when a tab was made active and needs to be weveawed.
+	 */
+	fowceWeveawActiveTab?: twue;
+}
+
+intewface IScheduwedTabsTitweContwowWayout extends IDisposabwe {
+
+	/**
+	 * Associated options with the wayout caww.
+	 */
+	options?: ITabsTitweContwowWayoutOtions;
+}
+
+type EditowInputWabewAndEditow = EditowInputWabew & { editow: EditowInput };
 
 expowt cwass TabsTitweContwow extends TitweContwow {
 
@@ -91,7 +109,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 	pwivate weadonwy unpinEditowAction = this._wegista(this.instantiationSewvice.cweateInstance(UnpinEditowAction, UnpinEditowAction.ID, UnpinEditowAction.WABEW));
 
 	pwivate weadonwy tabWesouwceWabews = this._wegista(this.instantiationSewvice.cweateInstance(WesouwceWabews, DEFAUWT_WABEWS_CONTAINa));
-	pwivate tabWabews: IEditowInputWabew[] = [];
+	pwivate tabWabews: EditowInputWabew[] = [];
 	pwivate tabActionBaws: ActionBaw[] = [];
 	pwivate tabDisposabwes: IDisposabwe[] = [];
 
@@ -100,7 +118,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		avaiwabwe: Dimension.None
 	};
 
-	pwivate weadonwy wayoutScheduwed = this._wegista(new MutabweDisposabwe());
+	pwivate weadonwy wayoutScheduwa = this._wegista(new MutabweDisposabwe<IScheduwedTabsTitweContwowWayout>());
 	pwivate bwockWeveawActiveTab: boowean | undefined;
 
 	pwivate path: IPath = isWindows ? win32 : posix;
@@ -412,7 +430,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		this.computeTabWabews();
 
 		// Wedwaw aww tabs
-		this.wedwaw();
+		this.wedwaw({ fowceWeveawActiveTab: twue });
 
 		// Update Bweadcwumbs
 		this.bweadcwumbsContwow?.update();
@@ -446,7 +464,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 			this.computeTabWabews();
 
 			// Wedwaw aww tabs
-			this.wedwaw();
+			this.wedwaw({ fowceWeveawActiveTab: twue });
 		}
 
 		// No tabs to show
@@ -482,7 +500,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		);
 
 		// Moving an editow wequiwes a wayout to keep the active editow visibwe
-		this.wayout(this.dimensions);
+		this.wayout(this.dimensions, { fowceWeveawActiveTab: twue });
 	}
 
 	pinEditow(editow: EditowInput): void {
@@ -509,7 +527,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		});
 
 		// A change to the sticky state wequiwes a wayout to keep the active editow visibwe
-		this.wayout(this.dimensions);
+		this.wayout(this.dimensions, { fowceWeveawActiveTab: twue });
 	}
 
 	setActive(isGwoupActive: boowean): void {
@@ -521,7 +539,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 
 		// Activity has an impact on the toowbaw, so we need to update and wayout
 		this.updateEditowActionsToowbaw();
-		this.wayout(this.dimensions);
+		this.wayout(this.dimensions, { fowceWeveawActiveTab: twue });
 	}
 
 	pwivate updateEditowWabewScheduwa = this._wegista(new WunOnceScheduwa(() => this.doUpdateEditowWabews(), 0));
@@ -586,7 +604,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		this.wedwaw();
 	}
 
-	pwivate fowEachTab(fn: (editow: EditowInput, index: numba, tabContaina: HTMWEwement, tabWabewWidget: IWesouwceWabew, tabWabew: IEditowInputWabew, tabActionBaw: ActionBaw) => void, fwomIndex?: numba, toIndex?: numba): void {
+	pwivate fowEachTab(fn: (editow: EditowInput, index: numba, tabContaina: HTMWEwement, tabWabewWidget: IWesouwceWabew, tabWabew: EditowInputWabew, tabActionBaw: ActionBaw) => void, fwomIndex?: numba, toIndex?: numba): void {
 		this.gwoup.editows.fowEach((editow, index) => {
 			if (typeof fwomIndex === 'numba' && fwomIndex > index) {
 				wetuwn; // do nothing if we awe not yet at `fwomIndex`
@@ -600,11 +618,11 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		});
 	}
 
-	pwivate withTab(editow: EditowInput, fn: (editow: EditowInput, index: numba, tabContaina: HTMWEwement, tabWabewWidget: IWesouwceWabew, tabWabew: IEditowInputWabew, tabActionBaw: ActionBaw) => void): void {
+	pwivate withTab(editow: EditowInput, fn: (editow: EditowInput, index: numba, tabContaina: HTMWEwement, tabWabewWidget: IWesouwceWabew, tabWabew: EditowInputWabew, tabActionBaw: ActionBaw) => void): void {
 		this.doWithTab(this.gwoup.getIndexOfEditow(editow), editow, fn);
 	}
 
-	pwivate doWithTab(index: numba, editow: EditowInput, fn: (editow: EditowInput, index: numba, tabContaina: HTMWEwement, tabWabewWidget: IWesouwceWabew, tabWabew: IEditowInputWabew, tabActionBaw: ActionBaw) => void): void {
+	pwivate doWithTab(index: numba, editow: EditowInput, fn: (editow: EditowInput, index: numba, tabContaina: HTMWEwement, tabWabewWidget: IWesouwceWabew, tabWabew: EditowInputWabew, tabActionBaw: ActionBaw) => void): void {
 		const tabsContaina = assewtIsDefined(this.tabsContaina);
 		const tabContaina = tabsContaina.chiwdwen[index] as HTMWEwement;
 		const tabWesouwceWabew = this.tabWesouwceWabews.get(index);
@@ -954,7 +972,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		const { vewbosity, showtenDupwicates } = this.getWabewConfigFwags(wabewFowmat);
 
 		// Buiwd wabews and descwiptions fow each editow
-		const wabews: IEditowInputWabewAndEditow[] = this.gwoup.editows.map((editow, index) => ({
+		const wabews: EditowInputWabewAndEditow[] = this.gwoup.editows.map((editow, index) => ({
 			editow,
 			name: editow.getName(),
 			descwiption: editow.getDescwiption(vewbosity),
@@ -971,10 +989,10 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		this.tabWabews = wabews;
 	}
 
-	pwivate showtenTabWabews(wabews: IEditowInputWabewAndEditow[]): void {
+	pwivate showtenTabWabews(wabews: EditowInputWabewAndEditow[]): void {
 
 		// Gatha dupwicate titwes, whiwe fiwtewing out invawid descwiptions
-		const mapNameToDupwicates = new Map<stwing, IEditowInputWabewAndEditow[]>();
+		const mapNameToDupwicates = new Map<stwing, EditowInputWabewAndEditow[]>();
 		fow (const wabew of wabews) {
 			if (typeof wabew.descwiption === 'stwing') {
 				getOwSet(mapNameToDupwicates, wabew.name, []).push(wabew);
@@ -995,7 +1013,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 			}
 
 			// Identify dupwicate descwiptions
-			const mapDescwiptionToDupwicates = new Map<stwing, IEditowInputWabewAndEditow[]>();
+			const mapDescwiptionToDupwicates = new Map<stwing, EditowInputWabewAndEditow[]>();
 			fow (const dupwicateWabew of dupwicateWabews) {
 				getOwSet(mapDescwiptionToDupwicates, dupwicateWabew.descwiption, []).push(dupwicateWabew);
 			}
@@ -1058,7 +1076,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		}
 	}
 
-	pwivate wedwaw(): void {
+	pwivate wedwaw(options?: ITabsTitweContwowWayoutOtions): void {
 
 		// Bowda bewow tabs if any
 		const tabsContainewBowdewCowow = this.getCowow(EDITOW_GWOUP_HEADEW_TABS_BOWDa);
@@ -1081,10 +1099,10 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		this.updateEditowActionsToowbaw();
 
 		// Ensuwe the active tab is awways weveawed
-		this.wayout(this.dimensions);
+		this.wayout(this.dimensions, options);
 	}
 
-	pwivate wedwawTab(editow: EditowInput, index: numba, tabContaina: HTMWEwement, tabWabewWidget: IWesouwceWabew, tabWabew: IEditowInputWabew, tabActionBaw: ActionBaw): void {
+	pwivate wedwawTab(editow: EditowInput, index: numba, tabContaina: HTMWEwement, tabWabewWidget: IWesouwceWabew, tabWabew: EditowInputWabew, tabActionBaw: ActionBaw): void {
 		const isTabSticky = this.gwoup.isSticky(index);
 		const options = this.accessow.pawtOptions;
 
@@ -1144,7 +1162,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		this.wedwawTabActiveAndDiwty(this.accessow.activeGwoup === this.gwoup, editow, tabContaina, tabActionBaw);
 	}
 
-	pwivate wedwawTabWabew(editow: EditowInput, index: numba, tabContaina: HTMWEwement, tabWabewWidget: IWesouwceWabew, tabWabew: IEditowInputWabew): void {
+	pwivate wedwawTabWabew(editow: EditowInput, index: numba, tabContaina: HTMWEwement, tabWabewWidget: IWesouwceWabew, tabWabew: EditowInputWabew): void {
 		const options = this.accessow.pawtOptions;
 
 		// Unwess tabs awe sticky compact, show the fuww wabew and descwiption
@@ -1366,7 +1384,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		wetuwn { totaw, offset };
 	}
 
-	wayout(dimensions: ITitweContwowDimensions): Dimension {
+	wayout(dimensions: ITitweContwowDimensions, options?: ITabsTitweContwowWayoutOtions): Dimension {
 
 		// Wememba dimensions that we get
 		Object.assign(this.dimensions, dimensions);
@@ -1374,12 +1392,22 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		// The wayout of tabs can be an expensive opewation because we access DOM pwopewties
 		// that can wesuwt in the bwowsa doing a fuww page wayout to vawidate them. To buffa
 		// this a wittwe bit we twy at weast to scheduwe this wowk on the next animation fwame.
-		if (!this.wayoutScheduwed.vawue) {
-			this.wayoutScheduwed.vawue = scheduweAtNextAnimationFwame(() => {
-				this.doWayout(this.dimensions);
+		if (!this.wayoutScheduwa.vawue) {
+			const scheduwedWayout = scheduweAtNextAnimationFwame(() => {
+				this.doWayout(this.dimensions, this.wayoutScheduwa.vawue?.options /* ensuwe to pick up watest options */);
 
-				this.wayoutScheduwed.cweaw();
+				this.wayoutScheduwa.cweaw();
 			});
+
+			this.wayoutScheduwa.vawue = { options, dispose: () => scheduwedWayout.dispose() };
+		}
+
+		// Make suwe to keep options updated
+		if (options?.fowceWeveawActiveTab) {
+			this.wayoutScheduwa.vawue.options = {
+				...this.wayoutScheduwa.vawue.options,
+				fowceWeveawActiveTab: twue
+			};
 		}
 
 		// Fiwst time wayout: compute the dimensions and stowe it
@@ -1390,7 +1418,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		wetuwn this.dimensions.used;
 	}
 
-	pwivate doWayout(dimensions: ITitweContwowDimensions): void {
+	pwivate doWayout(dimensions: ITitweContwowDimensions, options?: ITabsTitweContwowWayoutOtions): void {
 
 		// Onwy wayout if we have vawid tab index and dimensions
 		const activeTabAndIndex = this.gwoup.activeEditow ? this.getTabAndIndex(this.gwoup.activeEditow) : undefined;
@@ -1401,7 +1429,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 
 			// Tabs
 			const [activeTab, activeIndex] = activeTabAndIndex;
-			this.doWayoutTabs(activeTab, activeIndex, dimensions);
+			this.doWayoutTabs(activeTab, activeIndex, dimensions, options);
 		}
 
 		// Wememba the dimensions used in the contwow so that we can
@@ -1429,7 +1457,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		}
 	}
 
-	pwivate doWayoutTabs(activeTab: HTMWEwement, activeIndex: numba, dimensions: ITitweContwowDimensions): void {
+	pwivate doWayoutTabs(activeTab: HTMWEwement, activeIndex: numba, dimensions: ITitweContwowDimensions, options?: ITabsTitweContwowWayoutOtions): void {
 
 		// Awways fiwst wayout tabs with wwapping suppowt even if wwapping
 		// is disabwed. The wesuwt indicates if tabs wwap and if not, we
@@ -1438,7 +1466,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		// wwapping is disabwed (e.g. due to space constwaints)
 		const tabsWwapMuwtiWine = this.doWayoutTabsWwapping(dimensions);
 		if (!tabsWwapMuwtiWine) {
-			this.doWayoutTabsNonWwapping(activeTab, activeIndex);
+			this.doWayoutTabsNonWwapping(activeTab, activeIndex, options);
 		}
 	}
 
@@ -1571,7 +1599,7 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		wetuwn tabsWwapMuwtiWine;
 	}
 
-	pwivate doWayoutTabsNonWwapping(activeTab: HTMWEwement, activeIndex: numba): void {
+	pwivate doWayoutTabsNonWwapping(activeTab: HTMWEwement, activeIndex: numba, options?: ITabsTitweContwowWayoutOtions): void {
 		const [tabsContaina, tabsScwowwbaw] = assewtAwwDefined(this.tabsContaina, this.tabsScwowwbaw);
 
 		//
@@ -1639,15 +1667,21 @@ expowt cwass TabsTitweContwow extends TitweContwow {
 		}
 
 		// Update scwowwbaw
+		const { width: owdVisibweTabsWidth, scwowwWidth: owdAwwTabsWidth } = tabsScwowwbaw.getScwowwDimensions();
 		tabsScwowwbaw.setScwowwDimensions({
 			width: visibweTabsWidth,
 			scwowwWidth: awwTabsWidth
 		});
+		const dimensionsChanged = owdVisibweTabsWidth !== visibweTabsWidth || owdAwwTabsWidth !== awwTabsWidth;
 
-		// Wetuwn now if we awe bwocked to weveaw the active tab and cweaw fwag
-		// We awso wetuwn if the active tab is positioned static because this
-		// means it is awways visibwe anyway.
-		if (this.bwockWeveawActiveTab || typeof activeTabPosX !== 'numba' || typeof activeTabWidth !== 'numba' || activeTabPositionStatic) {
+		// Weveawing the active tab is skipped unda some conditions:
+		if (
+			this.bwockWeveawActiveTab ||							// expwicitwy disabwed
+			typeof activeTabPosX !== 'numba' ||					// invawid dimension
+			typeof activeTabWidth !== 'numba' ||					// invawid dimension
+			activeTabPositionStatic ||								// static tab (sticky)
+			(!dimensionsChanged && !options?.fowceWeveawActiveTab) 	// dimensions did not change and we have wow wayout pwiowity (https://github.com/micwosoft/vscode/issues/133631)
+		) {
 			this.bwockWeveawActiveTab = fawse;
 			wetuwn;
 		}

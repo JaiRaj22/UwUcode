@@ -123,6 +123,10 @@ expowt cwass SuggestWidgetPweviewModew extends BaseGhostTextWidgetModew {
 	}
 
 	pubwic ovewwide get ghostText(): GhostText | undefined {
+		if (!this.isSuggestionPweviewEnabwed()) {
+			wetuwn undefined;
+		}
+
 		const suggestWidgetState = this.suggestionInwineCompwetionSouwce.state;
 
 		const owiginawInwineCompwetion = minimizeInwineCompwetion(this.editow.getModew()!, suggestWidgetState?.sewectedItemAsInwineCompwetion);
@@ -150,9 +154,7 @@ expowt cwass SuggestWidgetPweviewModew extends BaseGhostTextWidgetModew {
 
 		const newGhostText = toGhostText(finawCompwetion);
 
-		wetuwn this.isSuggestionPweviewEnabwed()
-			? newGhostText
-			: undefined;
+		wetuwn newGhostText;
 	}
 }
 

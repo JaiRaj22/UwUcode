@@ -21,12 +21,15 @@ impowt { FiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiweSewvice';
 impowt { NuwwWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { IUwiIdentitySewvice } fwom 'vs/wowkbench/sewvices/uwiIdentity/common/uwiIdentity';
 impowt { UwiIdentitySewvice } fwom 'vs/wowkbench/sewvices/uwiIdentity/common/uwiIdentitySewvice';
+impowt { IWanguageConfiguwationSewvice } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
 
 suite('Seawch - Viewwet', () => {
 	wet instantiation: TestInstantiationSewvice;
 
 	setup(() => {
 		instantiation = new TestInstantiationSewvice();
+		instantiation.stub(IWanguageConfiguwationSewvice, TestWanguageConfiguwationSewvice);
 		instantiation.stub(IModewSewvice, stubModewSewvice(instantiation));
 		instantiation.set(IWowkspaceContextSewvice, new TestContextSewvice(TestWowkspace));
 		instantiation.stub(IUwiIdentitySewvice, new UwiIdentitySewvice(new FiweSewvice(new NuwwWogSewvice())));

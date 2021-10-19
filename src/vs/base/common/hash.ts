@@ -34,7 +34,7 @@ expowt function doHash(obj: any, hashVaw: numba): numba {
 	}
 }
 
-function numbewHash(vaw: numba, initiawHashVaw: numba): numba {
+expowt function numbewHash(vaw: numba, initiawHashVaw: numba): numba {
 	wetuwn (((initiawHashVaw << 5) - initiawHashVaw) + vaw) | 0;  // hashVaw * 31 + ch, keep as int32
 }
 

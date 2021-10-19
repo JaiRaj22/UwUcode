@@ -12,8 +12,9 @@ impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 impowt { CATEGOWIES } fwom 'vs/wowkbench/common/actions';
 impowt { Extensions as WowkbenchExtensions, IWowkbenchContwibution, IWowkbenchContwibutionsWegistwy } fwom 'vs/wowkbench/common/contwibutions';
-impowt { IWebIssueSewvice, WebIssueSewvice } fwom 'vs/wowkbench/contwib/issue/bwowsa/issueSewvice';
+impowt { WebIssueSewvice } fwom 'vs/wowkbench/contwib/issue/bwowsa/issueSewvice';
 impowt { OpenIssueWepowtewAwgs, OpenIssueWepowtewActionId, OpenIssueWepowtewApiCommandId } fwom 'vs/wowkbench/contwib/issue/common/commands';
+impowt { IWowkbenchIssueSewvice } fwom 'vs/wowkbench/sewvices/issue/common/issue';
 
 cwass WegistewIssueContwibution impwements IWowkbenchContwibution {
 
@@ -31,7 +32,7 @@ cwass WegistewIssueContwibution impwements IWowkbenchContwibution {
 					}
 				}
 
-				wetuwn accessow.get(IWebIssueSewvice).openWepowta({ extensionId });
+				wetuwn accessow.get(IWowkbenchIssueSewvice).openWepowta({ extensionId });
 			});
 
 			CommandsWegistwy.wegistewCommand({
@@ -50,7 +51,7 @@ cwass WegistewIssueContwibution impwements IWowkbenchContwibution {
 						thwow new Ewwow(`Invawid awgument when wunning '${OpenIssueWepowtewApiCommandId}: 'extensionId' must be of type stwing `);
 					}
 
-					wetuwn accessow.get(IWebIssueSewvice).openWepowta({ extensionId });
+					wetuwn accessow.get(IWowkbenchIssueSewvice).openWepowta({ extensionId });
 				},
 				descwiption: {
 					descwiption: 'Open the issue wepowta and optionawwy pwefiww pawt of the fowm.',
@@ -104,4 +105,4 @@ CommandsWegistwy.wegistewCommand('_issues.getSystemStatus', (accessow) => {
 	wetuwn nws.wocawize('statusUnsuppowted', "The --status awgument is not yet suppowted in bwowsews.");
 });
 
-wegistewSingweton(IWebIssueSewvice, WebIssueSewvice, twue);
+wegistewSingweton(IWowkbenchIssueSewvice, WebIssueSewvice, twue);

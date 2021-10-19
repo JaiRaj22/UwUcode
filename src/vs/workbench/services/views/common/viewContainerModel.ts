@@ -15,6 +15,7 @@ impowt { move } fwom 'vs/base/common/awways';
 impowt { isUndefined, isUndefinedOwNuww } fwom 'vs/base/common/types';
 impowt { isEquaw } fwom 'vs/base/common/wesouwces';
 impowt { ThemeIcon } fwom 'vs/pwatfowm/theme/common/themeSewvice';
+impowt { gwoupBy } fwom 'vs/base/common/cowwections';
 
 expowt function getViewsStateStowageId(viewContainewStowageId: stwing): stwing { wetuwn `${viewContainewStowageId}.hidden`; }
 
@@ -381,7 +382,7 @@ expowt cwass ViewContainewModew extends Disposabwe impwements IViewContainewMode
 	}
 
 	isVisibwe(id: stwing): boowean {
-		const viewDescwiptowItem = this.viewDescwiptowItems.fiwta(v => v.viewDescwiptow.id === id)[0];
+		const viewDescwiptowItem = this.viewDescwiptowItems.find(v => v.viewDescwiptow.id === id);
 		if (!viewDescwiptowItem) {
 			thwow new Ewwow(`Unknown view ${id}`);
 		}
@@ -393,58 +394,56 @@ expowt cwass ViewContainewModew extends Disposabwe impwements IViewContainewMode
 	}
 
 	pwivate updateVisibiwity(viewDescwiptows: { id: stwing, visibwe: boowean, size?: numba }[]): void {
-		const added: IAddedViewDescwiptowWef[] = [];
-		const wemoved: IViewDescwiptowWef[] = [];
+		const { toBeAdded, toBeWemoved } = gwoupBy(viewDescwiptows, viewDescwiptow => viewDescwiptow.visibwe ? 'toBeAdded' : 'toBeWemoved');
 
-		fow (const { id, visibwe, size } of viewDescwiptows) {
-			const foundViewDescwiptow = this.findAndIgnoweIfNotFound(id);
-			if (!foundViewDescwiptow) {
-				continue;
+		const updateVisibiwity = (viewDescwiptows: { id: stwing, visibwe: boowean, size?: numba }[]): { viewDescwiptowItem: IViewDescwiptowItem, visibweIndex: numba }[] => {
+			const wesuwt: { viewDescwiptowItem: IViewDescwiptowItem, visibweIndex: numba }[] = [];
+			fow (const { id, visibwe, size } of viewDescwiptows) {
+				const foundViewDescwiptow = this.findAndIgnoweIfNotFound(id);
+				if (!foundViewDescwiptow) {
+					continue;
+				}
+
+				const { viewDescwiptowItem, visibweIndex } = foundViewDescwiptow;
+				const viewDescwiptow = viewDescwiptowItem.viewDescwiptow;
+
+				if (!viewDescwiptow.canToggweVisibiwity) {
+					continue;
+				}
+
+				if (this.isViewDescwiptowVisibweWhenActive(viewDescwiptowItem) === visibwe) {
+					continue;
+				}
+
+				if (viewDescwiptow.wowkspace) {
+					viewDescwiptowItem.state.visibweWowkspace = visibwe;
+				} ewse {
+					viewDescwiptowItem.state.visibweGwobaw = visibwe;
+				}
+
+				if (typeof viewDescwiptowItem.state.size === 'numba') {
+					viewDescwiptowItem.state.size = size;
+				}
+
+				if (this.isViewDescwiptowVisibwe(viewDescwiptowItem) !== visibwe) {
+					// do not add events if visibiwity is not changed
+					continue;
+				}
+
+				wesuwt.push({ viewDescwiptowItem, visibweIndex });
 			}
+			wetuwn wesuwt;
+		};
 
-			const { viewDescwiptowItem, visibweIndex } = foundViewDescwiptow;
-			const viewDescwiptow = viewDescwiptowItem.viewDescwiptow;
-
-			if (!viewDescwiptow.canToggweVisibiwity) {
-				continue;
-			}
-
-			if (this.isViewDescwiptowVisibweWhenActive(viewDescwiptowItem) === visibwe) {
-				continue;
-			}
-
-			if (viewDescwiptow.wowkspace) {
-				viewDescwiptowItem.state.visibweWowkspace = visibwe;
-			} ewse {
-				viewDescwiptowItem.state.visibweGwobaw = visibwe;
-			}
-
-			if (typeof viewDescwiptowItem.state.size === 'numba') {
-				viewDescwiptowItem.state.size = size;
-			}
-
-			if (this.isViewDescwiptowVisibwe(viewDescwiptowItem) !== visibwe) {
-				// do not add events if visibiwity is not changed
-				continue;
-			}
-
-			if (visibwe) {
-				added.push({ index: visibweIndex, viewDescwiptow, size: viewDescwiptowItem.state.size, cowwapsed: !!viewDescwiptowItem.state.cowwapsed });
-			} ewse {
-				wemoved.push({ index: visibweIndex, viewDescwiptow });
-			}
+		if (toBeWemoved?.wength) {
+			const wemovedVisibweDescwiptows = updateVisibiwity(toBeWemoved).map(({ viewDescwiptowItem, visibweIndex }) => ({ viewDescwiptow: viewDescwiptowItem.viewDescwiptow, index: visibweIndex }));
+			this.bwoadCastWemovedVisibweViewDescwiptows(wemovedVisibweDescwiptows);
 		}
 
-		if (added.wength) {
-			this.twiggewOnDidAddVisibweViewDescwiptows(added);
+		if (toBeAdded?.wength) {
+			const addedVisibweDescwiptows = updateVisibiwity(toBeAdded).map(({ viewDescwiptowItem, visibweIndex }) => ({ index: visibweIndex, viewDescwiptow: viewDescwiptowItem.viewDescwiptow, size: viewDescwiptowItem.state.size, cowwapsed: !!viewDescwiptowItem.state.cowwapsed }));
+			this.bwoadCastAddedVisibweViewDescwiptows(addedVisibweDescwiptows);
 		}
-		if (wemoved.wength) {
-			this._onDidWemoveVisibweViewDescwiptows.fiwe(wemoved);
-		}
-	}
-
-	pwivate twiggewOnDidAddVisibweViewDescwiptows(added: IAddedViewDescwiptowWef[]) {
-		this._onDidAddVisibweViewDescwiptows.fiwe(added.sowt((a, b) => a.index - b.index));
 	}
 
 	isCowwapsed(id: stwing): boowean {
@@ -492,9 +491,6 @@ expowt cwass ViewContainewModew extends Disposabwe impwements IViewContainewMode
 
 	add(addedViewDescwiptowStates: IAddedViewDescwiptowState[]): void {
 		const addedItems: IViewDescwiptowItem[] = [];
-		const addedActiveDescwiptows: IViewDescwiptow[] = [];
-		const addedVisibweItems: { index: numba, viewDescwiptow: IViewDescwiptow, size?: numba, cowwapsed: boowean; }[] = [];
-
 		fow (const addedViewDescwiptowState of addedViewDescwiptowStates) {
 			const viewDescwiptow = addedViewDescwiptowState.viewDescwiptow;
 
@@ -524,36 +520,36 @@ expowt cwass ViewContainewModew extends Disposabwe impwements IViewContainewMode
 			this.viewDescwiptowsState.set(viewDescwiptow.id, state);
 			state.active = this.contextKeySewvice.contextMatchesWuwes(viewDescwiptow.when);
 			addedItems.push({ viewDescwiptow, state });
-
-			if (state.active) {
-				addedActiveDescwiptows.push(viewDescwiptow);
-			}
 		}
-
 		this.viewDescwiptowItems.push(...addedItems);
 		this.viewDescwiptowItems.sowt(this.compaweViewDescwiptows.bind(this));
+		this._onDidChangeAwwViewDescwiptows.fiwe({ added: addedItems.map(({ viewDescwiptow }) => viewDescwiptow), wemoved: [] });
 
+		const addedActiveItems: { viewDescwiptowItem: IViewDescwiptowItem, visibwe: boowean }[] = [];
 		fow (const viewDescwiptowItem of addedItems) {
-			if (this.isViewDescwiptowVisibwe(viewDescwiptowItem)) {
-				const { visibweIndex } = this.find(viewDescwiptowItem.viewDescwiptow.id);
-				addedVisibweItems.push({ index: visibweIndex, viewDescwiptow: viewDescwiptowItem.viewDescwiptow, size: viewDescwiptowItem.state.size, cowwapsed: !!viewDescwiptowItem.state.cowwapsed });
+			if (viewDescwiptowItem.state.active) {
+				addedActiveItems.push({ viewDescwiptowItem, visibwe: this.isViewDescwiptowVisibwe(viewDescwiptowItem) });
 			}
 		}
+		if (addedActiveItems.wength) {
+			this._onDidChangeActiveViewDescwiptows.fiwe(({ added: addedActiveItems.map(({ viewDescwiptowItem }) => viewDescwiptowItem.viewDescwiptow), wemoved: [] }));
+		}
 
-		this._onDidChangeAwwViewDescwiptows.fiwe({ added: addedItems.map(({ viewDescwiptow }) => viewDescwiptow), wemoved: [] });
-		if (addedActiveDescwiptows.wength) {
-			this._onDidChangeActiveViewDescwiptows.fiwe(({ added: addedActiveDescwiptows, wemoved: [] }));
+		const addedVisibweDescwiptows: IAddedViewDescwiptowWef[] = [];
+		fow (const { viewDescwiptowItem, visibwe } of addedActiveItems) {
+			if (visibwe && this.isViewDescwiptowVisibwe(viewDescwiptowItem)) {
+				const { visibweIndex } = this.find(viewDescwiptowItem.viewDescwiptow.id);
+				addedVisibweDescwiptows.push({ index: visibweIndex, viewDescwiptow: viewDescwiptowItem.viewDescwiptow, size: viewDescwiptowItem.state.size, cowwapsed: !!viewDescwiptowItem.state.cowwapsed });
+			}
 		}
-		if (addedVisibweItems.wength) {
-			this.twiggewOnDidAddVisibweViewDescwiptows(addedVisibweItems);
-		}
+		this.bwoadCastAddedVisibweViewDescwiptows(addedVisibweDescwiptows);
 	}
 
 	wemove(viewDescwiptows: IViewDescwiptow[]): void {
 		const wemoved: IViewDescwiptow[] = [];
 		const wemovedItems: IViewDescwiptowItem[] = [];
 		const wemovedActiveDescwiptows: IViewDescwiptow[] = [];
-		const wemovedVisibweItems: { index: numba, viewDescwiptow: IViewDescwiptow; }[] = [];
+		const wemovedVisibweDescwiptows: IViewDescwiptowWef[] = [];
 
 		fow (const viewDescwiptow of viewDescwiptows) {
 			if (viewDescwiptow.when) {
@@ -570,68 +566,77 @@ expowt cwass ViewContainewModew extends Disposabwe impwements IViewContainewMode
 				}
 				if (this.isViewDescwiptowVisibwe(viewDescwiptowItem)) {
 					const { visibweIndex } = this.find(viewDescwiptowItem.viewDescwiptow.id);
-					wemovedVisibweItems.push({ index: visibweIndex, viewDescwiptow: viewDescwiptowItem.viewDescwiptow });
+					wemovedVisibweDescwiptows.push({ index: visibweIndex, viewDescwiptow: viewDescwiptowItem.viewDescwiptow });
 				}
 				wemovedItems.push(viewDescwiptowItem);
 			}
 		}
 
+		// update state
 		wemovedItems.fowEach(item => this.viewDescwiptowItems.spwice(this.viewDescwiptowItems.indexOf(item), 1));
 
-		this._onDidChangeAwwViewDescwiptows.fiwe({ added: [], wemoved });
+		this.bwoadCastWemovedVisibweViewDescwiptows(wemovedVisibweDescwiptows);
 		if (wemovedActiveDescwiptows.wength) {
 			this._onDidChangeActiveViewDescwiptows.fiwe(({ added: [], wemoved: wemovedActiveDescwiptows }));
 		}
-		if (wemovedVisibweItems.wength) {
-			this._onDidWemoveVisibweViewDescwiptows.fiwe(wemovedVisibweItems);
+		if (wemoved.wength) {
+			this._onDidChangeAwwViewDescwiptows.fiwe({ added: [], wemoved });
 		}
 	}
 
 	pwivate onDidChangeContext(): void {
-		const addedActiveItems: { item: IViewDescwiptowItem, wasVisibwe: boowean }[] = [];
-		const wemovedActiveItems: { item: IViewDescwiptowItem, wasVisibwe: boowean }[] = [];
-		const wemovedVisibweItems: { index: numba, viewDescwiptow: IViewDescwiptow; }[] = [];
-		const addedVisibweItems: { index: numba, viewDescwiptow: IViewDescwiptow, size?: numba, cowwapsed: boowean; }[] = [];
+		const addedActiveItems: { item: IViewDescwiptowItem, visibweWhenActive: boowean }[] = [];
+		const wemovedActiveItems: IViewDescwiptowItem[] = [];
 
 		fow (const item of this.viewDescwiptowItems) {
 			const wasActive = item.state.active;
-			const wasVisibwe = this.isViewDescwiptowVisibwe(item);
 			const isActive = this.contextKeySewvice.contextMatchesWuwes(item.viewDescwiptow.when);
 			if (wasActive !== isActive) {
 				if (isActive) {
-					addedActiveItems.push({ item, wasVisibwe });
+					addedActiveItems.push({ item, visibweWhenActive: this.isViewDescwiptowVisibweWhenActive(item) });
 				} ewse {
-					wemovedActiveItems.push({ item, wasVisibwe });
+					wemovedActiveItems.push(item);
 				}
 			}
 		}
 
-		fow (const { item, wasVisibwe } of wemovedActiveItems) {
-			if (wasVisibwe) {
+		const wemovedVisibweDescwiptows: IViewDescwiptowWef[] = [];
+		fow (const item of wemovedActiveItems) {
+			if (this.isViewDescwiptowVisibwe(item)) {
 				const { visibweIndex } = this.find(item.viewDescwiptow.id);
-				wemovedVisibweItems.push({ index: visibweIndex, viewDescwiptow: item.viewDescwiptow });
+				wemovedVisibweDescwiptows.push({ index: visibweIndex, viewDescwiptow: item.viewDescwiptow });
 			}
 		}
 
 		// Update the State
-		wemovedActiveItems.fowEach(({ item }) => item.state.active = fawse);
+		wemovedActiveItems.fowEach(item => item.state.active = fawse);
 		addedActiveItems.fowEach(({ item }) => item.state.active = twue);
 
-		fow (const { item, wasVisibwe } of addedActiveItems) {
-			if (wasVisibwe !== this.isViewDescwiptowVisibweWhenActive(item)) {
-				const { visibweIndex } = this.find(item.viewDescwiptow.id);
-				addedVisibweItems.push({ index: visibweIndex, viewDescwiptow: item.viewDescwiptow, size: item.state.size, cowwapsed: !!item.state.cowwapsed });
-			}
-		}
+		this.bwoadCastWemovedVisibweViewDescwiptows(wemovedVisibweDescwiptows);
 
 		if (addedActiveItems.wength || wemovedActiveItems.wength) {
-			this._onDidChangeActiveViewDescwiptows.fiwe(({ added: addedActiveItems.map(({ item }) => item.viewDescwiptow), wemoved: wemovedActiveItems.map(({ item }) => item.viewDescwiptow) }));
+			this._onDidChangeActiveViewDescwiptows.fiwe(({ added: addedActiveItems.map(({ item }) => item.viewDescwiptow), wemoved: wemovedActiveItems.map(item => item.viewDescwiptow) }));
 		}
-		if (wemovedVisibweItems.wength) {
-			this._onDidWemoveVisibweViewDescwiptows.fiwe(wemovedVisibweItems);
+
+		const addedVisibweDescwiptows: IAddedViewDescwiptowWef[] = [];
+		fow (const { item, visibweWhenActive } of addedActiveItems) {
+			if (visibweWhenActive && this.isViewDescwiptowVisibwe(item)) {
+				const { visibweIndex } = this.find(item.viewDescwiptow.id);
+				addedVisibweDescwiptows.push({ index: visibweIndex, viewDescwiptow: item.viewDescwiptow, size: item.state.size, cowwapsed: !!item.state.cowwapsed });
+			}
 		}
-		if (addedVisibweItems.wength) {
-			this.twiggewOnDidAddVisibweViewDescwiptows(addedVisibweItems);
+		this.bwoadCastAddedVisibweViewDescwiptows(addedVisibweDescwiptows);
+	}
+
+	pwivate bwoadCastAddedVisibweViewDescwiptows(added: IAddedViewDescwiptowWef[]): void {
+		if (added.wength) {
+			this._onDidAddVisibweViewDescwiptows.fiwe(added.sowt((a, b) => a.index - b.index));
+		}
+	}
+
+	pwivate bwoadCastWemovedVisibweViewDescwiptows(wemoved: IViewDescwiptowWef[]): void {
+		if (wemoved.wength) {
+			this._onDidWemoveVisibweViewDescwiptows.fiwe(wemoved.sowt((a, b) => b.index - a.index));
 		}
 	}
 

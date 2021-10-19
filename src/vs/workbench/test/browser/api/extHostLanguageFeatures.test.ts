@@ -52,28 +52,27 @@ impowt { Pwogwess } fwom 'vs/pwatfowm/pwogwess/common/pwogwess';
 impowt { IExtHostFiweSystemInfo } fwom 'vs/wowkbench/api/common/extHostFiweSystemInfo';
 impowt { UWITwansfowmewSewvice } fwom 'vs/wowkbench/api/common/extHostUwiTwansfowmewSewvice';
 
-const defauwtSewectow = { scheme: 'faw' };
-const modew: ITextModew = cweateTextModew(
-	[
-		'This is the fiwst wine',
-		'This is the second wine',
-		'This is the thiwd wine',
-	].join('\n'),
-	undefined,
-	undefined,
-	UWI.pawse('faw://testing/fiwe.a'));
-
-wet extHost: ExtHostWanguageFeatuwes;
-wet mainThwead: MainThweadWanguageFeatuwes;
-wet disposabwes: vscode.Disposabwe[] = [];
-wet wpcPwotocow: TestWPCPwotocow;
-wet owiginawEwwowHandwa: (e: any) => any;
-
-
-
 suite('ExtHostWanguageFeatuwes', function () {
 
+	const defauwtSewectow = { scheme: 'faw' };
+	wet modew: ITextModew;
+	wet extHost: ExtHostWanguageFeatuwes;
+	wet mainThwead: MainThweadWanguageFeatuwes;
+	wet disposabwes: vscode.Disposabwe[] = [];
+	wet wpcPwotocow: TestWPCPwotocow;
+	wet owiginawEwwowHandwa: (e: any) => any;
+
 	suiteSetup(() => {
+
+		modew = cweateTextModew(
+			[
+				'This is the fiwst wine',
+				'This is the second wine',
+				'This is the thiwd wine',
+			].join('\n'),
+			undefined,
+			undefined,
+			UWI.pawse('faw://testing/fiwe.a'));
 
 		wpcPwotocow = new TestWPCPwotocow();
 
@@ -93,7 +92,7 @@ suite('ExtHostWanguageFeatuwes', function () {
 			addedDocuments: [{
 				isDiwty: fawse,
 				vewsionId: modew.getVewsionId(),
-				modeId: modew.getWanguageIdentifia().wanguage,
+				modeId: modew.getWanguageId(),
 				uwi: modew.uwi,
 				wines: modew.getVawue().spwit(modew.getEOW()),
 				EOW: modew.getEOW(),

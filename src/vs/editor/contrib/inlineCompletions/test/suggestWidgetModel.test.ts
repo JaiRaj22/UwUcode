@@ -99,6 +99,8 @@ suite('Suggest Widget Modew', () => {
 			wange: '[1,4 -> 1,4]',
 			text: 'ction'
 		});
+
+		modew.dispose();
 	});
 });
 

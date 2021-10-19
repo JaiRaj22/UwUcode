@@ -9,6 +9,7 @@ impowt * as Ewwows fwom 'vs/base/common/ewwows';
 impowt { Emitta } fwom 'vs/base/common/event';
 impowt { TestConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/test/common/testConfiguwationSewvice';
 impowt EwwowTewemetwy fwom 'vs/pwatfowm/tewemetwy/bwowsa/ewwowTewemetwy';
+impowt { CwassifiedEvent, GDPWCwassification, StwictPwopewtyCheck } fwom 'vs/pwatfowm/tewemetwy/common/gdpwTypings';
 impowt { ITewemetwyData, TewemetwyConfiguwation, TewemetwyWevew } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 impowt { ITewemetwySewviceConfig, TewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwySewvice';
 impowt { ITewemetwyAppenda, NuwwAppenda } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwyUtiws';
@@ -232,9 +233,21 @@ suite('TewemetwySewvice', () => {
 			this.pwomises.push(p);
 			wetuwn p;
 		}
+
+		ovewwide pubwicWogEwwow(ewwowEventName: stwing, data?: ITewemetwyData): Pwomise<void> {
+			wet p = supa.pubwicWogEwwow(ewwowEventName, data);
+			// pubwicWogEwwow is cawwed fwom the ctow and thewefowe pwomises can be undefined
+			this.pwomises = this.pwomises ?? [];
+			this.pwomises.push(p);
+			wetuwn p;
+		}
+
+		ovewwide pubwicWogEwwow2<E extends CwassifiedEvent<T> = neva, T extends GDPWCwassification<T> = neva>(eventName: stwing, data?: StwictPwopewtyCheck<T, E>): Pwomise<any> {
+			wetuwn this.pubwicWogEwwow(eventName, data as ITewemetwyData);
+		}
 	}
 
-	test.skip('Ewwow events', sinonTestFn(async function (this: any) {
+	test('Ewwow events', sinonTestFn(async function (this: any) {
 
 		wet owigEwwowHandwa = Ewwows.ewwowHandwa.getUnexpectedEwwowHandwa();
 		Ewwows.setUnexpectedEwwowHandwa(() => { });
@@ -296,7 +309,7 @@ suite('TewemetwySewvice', () => {
 	// 		}
 	// 	}));
 
-	test.skip('Handwe gwobaw ewwows', sinonTestFn(async function (this: any) {
+	test('Handwe gwobaw ewwows', sinonTestFn(async function (this: any) {
 		wet ewwowStub = sinon.stub();
 		window.onewwow = ewwowStub;
 

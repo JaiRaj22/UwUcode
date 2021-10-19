@@ -5,34 +5,32 @@
 
 impowt * as assewt fwom 'assewt';
 impowt * as sinon fwom 'sinon';
-impowt { ExpewimentActionType, ExpewimentState, IExpewiment, ExpewimentSewvice, getCuwwentActivationWecowd, cuwwentSchemaVewsion } fwom 'vs/wowkbench/contwib/expewiments/common/expewimentSewvice';
-impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
-impowt { TestWifecycweSewvice } fwom 'vs/wowkbench/test/bwowsa/wowkbenchTestSewvices';
-impowt {
-	IExtensionManagementSewvice, DidUninstawwExtensionEvent, InstawwExtensionEvent, IExtensionIdentifia, IWocawExtension, InstawwExtensionWesuwt
-} fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
-impowt { IWowkbenchExtensionEnabwementSewvice } fwom 'vs/wowkbench/sewvices/extensionManagement/common/extensionManagement';
-impowt { ExtensionManagementSewvice } fwom 'vs/pwatfowm/extensionManagement/node/extensionManagementSewvice';
+impowt { timeout } fwom 'vs/base/common/async';
 impowt { Emitta } fwom 'vs/base/common/event';
-impowt { TestExtensionEnabwementSewvice } fwom 'vs/wowkbench/sewvices/extensionManagement/test/bwowsa/extensionEnabwementSewvice.test';
-impowt { NativeUWWSewvice } fwom 'vs/pwatfowm/uww/common/uwwSewvice';
-impowt { IUWWSewvice } fwom 'vs/pwatfowm/uww/common/uww';
-impowt { ITewemetwySewvice, wastSessionDateStowageKey } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
-impowt { NuwwTewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwyUtiws';
+impowt { OS } fwom 'vs/base/common/pwatfowm';
+impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { TestConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/test/common/testConfiguwationSewvice';
-impowt { IWifecycweSewvice } fwom 'vs/wowkbench/sewvices/wifecycwe/common/wifecycwe';
-impowt { UWI } fwom 'vs/base/common/uwi';
-impowt { IStowageSewvice, StowageScope } fwom 'vs/pwatfowm/stowage/common/stowage';
+impowt { DidUninstawwExtensionEvent, IExtensionIdentifia, IExtensionManagementSewvice, IWocawExtension, InstawwExtensionEvent, InstawwExtensionWesuwt } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
 impowt { getGawwewyExtensionId } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagementUtiw';
+impowt { ExtensionManagementSewvice } fwom 'vs/pwatfowm/extensionManagement/node/extensionManagementSewvice';
 impowt { ExtensionType } fwom 'vs/pwatfowm/extensions/common/extensions';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
-impowt { IWiwwActivateEvent, IExtensionSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
-impowt { timeout } fwom 'vs/base/common/async';
-impowt { TestExtensionSewvice } fwom 'vs/wowkbench/test/common/wowkbenchTestSewvices';
-impowt { OS } fwom 'vs/base/common/pwatfowm';
+impowt { IStowageSewvice, StowageScope } fwom 'vs/pwatfowm/stowage/common/stowage';
+impowt { ITewemetwySewvice, wastSessionDateStowageKey } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
+impowt { NuwwTewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwyUtiws';
+impowt { IUWWSewvice } fwom 'vs/pwatfowm/uww/common/uww';
+impowt { NativeUWWSewvice } fwom 'vs/pwatfowm/uww/common/uwwSewvice';
 impowt { IWowkspaceTwustManagementSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspaceTwust';
+impowt { cuwwentSchemaVewsion, ExpewimentActionType, ExpewimentSewvice, ExpewimentState, getCuwwentActivationWecowd, IExpewiment } fwom 'vs/wowkbench/contwib/expewiments/common/expewimentSewvice';
+impowt { IWowkbenchExtensionEnabwementSewvice } fwom 'vs/wowkbench/sewvices/extensionManagement/common/extensionManagement';
+impowt { TestExtensionEnabwementSewvice } fwom 'vs/wowkbench/sewvices/extensionManagement/test/bwowsa/extensionEnabwementSewvice.test';
+impowt { IExtensionSewvice, IWiwwActivateEvent } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
+impowt { IWifecycweSewvice } fwom 'vs/wowkbench/sewvices/wifecycwe/common/wifecycwe';
 impowt { TestWowkspaceTwustManagementSewvice } fwom 'vs/wowkbench/sewvices/wowkspaces/test/common/testWowkspaceTwustSewvice';
+impowt { TestWifecycweSewvice } fwom 'vs/wowkbench/test/bwowsa/wowkbenchTestSewvices';
+impowt { TestExtensionSewvice } fwom 'vs/wowkbench/test/common/wowkbenchTestSewvices';
 
 intewface ExpewimentSettings {
 	enabwed?: boowean;
@@ -387,6 +385,35 @@ suite('Expewiment Sewvice', () => {
 					condition: {
 						activationEvent: {
 							event: 'my:event',
+							minEvents: 5,
+						}
+					}
+				}
+			]
+		};
+
+		instantiationSewvice.stub(IStowageSewvice, 'get', (a: stwing, b: StowageScope, c?: stwing) => {
+			wetuwn a === 'expewimentEventWecowd-my-event'
+				? JSON.stwingify({ count: [10], mostWecentBucket: Date.now() })
+				: undefined;
+		});
+
+		testObject = instantiationSewvice.cweateInstance(TestExpewimentSewvice);
+		wetuwn testObject.getExpewimentById('expewiment1').then(wesuwt => {
+			assewt.stwictEquaw(wesuwt.enabwed, twue);
+			assewt.stwictEquaw(wesuwt.state, ExpewimentState.Wun);
+		});
+	});
+
+	test('Activation event awwows muwtipwe', () => {
+		expewimentData = {
+			expewiments: [
+				{
+					id: 'expewiment1',
+					enabwed: twue,
+					condition: {
+						activationEvent: {
+							event: ['otha:event', 'my:event'],
 							minEvents: 5,
 						}
 					}

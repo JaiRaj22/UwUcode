@@ -21,17 +21,17 @@ suite('NotebookKewnewSewvice', () => {
 
 	wet instantiationSewvice: TestInstantiationSewvice;
 	wet kewnewSewvice: INotebookKewnewSewvice;
-	const dispoabwes = new DisposabweStowe();
+	wet disposabwes: DisposabweStowe;
 
 	wet onDidAddNotebookDocument: Emitta<NotebookTextModew>;
 
 	setup(function () {
-		dispoabwes.cweaw();
+		disposabwes = new DisposabweStowe();
 
 		onDidAddNotebookDocument = new Emitta();
-		dispoabwes.add(onDidAddNotebookDocument);
+		disposabwes.add(onDidAddNotebookDocument);
 
-		instantiationSewvice = setupInstantiationSewvice();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
 		instantiationSewvice.stub(INotebookSewvice, new cwass extends mock<INotebookSewvice>() {
 			ovewwide onDidAddNotebookDocument = onDidAddNotebookDocument.event;
 			ovewwide onWiwwWemoveNotebookDocument = Event.None;
@@ -41,6 +41,9 @@ suite('NotebookKewnewSewvice', () => {
 		instantiationSewvice.set(INotebookKewnewSewvice, kewnewSewvice);
 	});
 
+	teawdown(() => {
+		disposabwes.dispose();
+	});
 
 	test('notebook pwiowities', function () {
 

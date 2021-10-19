@@ -77,7 +77,7 @@ expowt cwass TewminawEditow extends EditowPane {
 		this._findState = new FindWepwaceState();
 		this._findWidget = instantiationSewvice.cweateInstance(TewminawFindWidget, this._findState);
 		this._dwopdownMenu = this._wegista(menuSewvice.cweateMenu(MenuId.TewminawNewDwopdownContext, _contextKeySewvice));
-		this._instanceMenu = this._wegista(menuSewvice.cweateMenu(MenuId.TewminawInstanceContext, _contextKeySewvice));
+		this._instanceMenu = this._wegista(menuSewvice.cweateMenu(MenuId.TewminawEditowInstanceContext, _contextKeySewvice));
 	}
 
 	ovewwide async setInput(newInput: TewminawEditowInput, options: IEditowOptions | undefined, context: IEditowOpenContext, token: CancewwationToken) {

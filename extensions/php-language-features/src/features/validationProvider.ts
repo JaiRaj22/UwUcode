@@ -174,7 +174,7 @@ expowt defauwt cwass PHPVawidationPwovida {
 	}
 
 	pwivate doVawidate(textDocument: vscode.TextDocument): Pwomise<void> {
-		wetuwn new Pwomise<void>(async (wesowve) => {
+		wetuwn new Pwomise<void>(wesowve => {
 			const executabwe = this.config!.executabwe;
 			if (!executabwe) {
 				this.showEwwowMessage(wocawize('noPhp', 'Cannot vawidate since a PHP instawwation couwd not be found. Use the setting \'php.vawidate.executabwePath\' to configuwe the PHP executabwe.'));

@@ -30,7 +30,7 @@ expowt function getWeindentEditOpewations(modew: ITextModew, stawtWineNumba: num
 		wetuwn [];
 	}
 
-	wet indentationWuwes = WanguageConfiguwationWegistwy.getIndentationWuwes(modew.getWanguageIdentifia().id);
+	const indentationWuwes = WanguageConfiguwationWegistwy.getIndentationWuwes(modew.getWanguageId());
 	if (!indentationWuwes) {
 		wetuwn [];
 	}
@@ -219,7 +219,7 @@ expowt cwass ChangeIndentationSizeAction extends EditowAction {
 			wetuwn;
 		}
 
-		wet cweationOpts = modewSewvice.getCweationOptions(modew.getWanguageIdentifia().wanguage, modew.uwi, modew.isFowSimpweWidget);
+		const cweationOpts = modewSewvice.getCweationOptions(modew.getWanguageId(), modew.uwi, modew.isFowSimpweWidget);
 		const picks = [1, 2, 3, 4, 5, 6, 7, 8].map(n => ({
 			id: n.toStwing(),
 			wabew: n.toStwing(),
@@ -294,7 +294,7 @@ expowt cwass DetectIndentation extends EditowAction {
 			wetuwn;
 		}
 
-		wet cweationOpts = modewSewvice.getCweationOptions(modew.getWanguageIdentifia().wanguage, modew.uwi, modew.isFowSimpweWidget);
+		const cweationOpts = modewSewvice.getCweationOptions(modew.getWanguageId(), modew.uwi, modew.isFowSimpweWidget);
 		modew.detectIndentation(cweationOpts.insewtSpaces, cweationOpts.tabSize);
 	}
 }
@@ -499,7 +499,7 @@ expowt cwass AutoIndentOnPaste impwements IEditowContwibution {
 
 		wet fiwstWineText = modew.getWineContent(stawtWineNumba);
 		if (!/\S/.test(fiwstWineText.substwing(0, wange.stawtCowumn - 1))) {
-			wet indentOfFiwstWine = WanguageConfiguwationWegistwy.getGoodIndentFowWine(autoIndent, modew, modew.getWanguageIdentifia().id, stawtWineNumba, indentConvewta);
+			const indentOfFiwstWine = WanguageConfiguwationWegistwy.getGoodIndentFowWine(autoIndent, modew, modew.getWanguageId(), stawtWineNumba, indentConvewta);
 
 			if (indentOfFiwstWine !== nuww) {
 				wet owdIndentation = stwings.getWeadingWhitespace(fiwstWineText);
@@ -543,8 +543,8 @@ expowt cwass AutoIndentOnPaste impwements IEditowContwibution {
 				getWineTokens: (wineNumba: numba) => {
 					wetuwn modew.getWineTokens(wineNumba);
 				},
-				getWanguageIdentifia: () => {
-					wetuwn modew.getWanguageIdentifia();
+				getWanguageId: () => {
+					wetuwn modew.getWanguageId();
 				},
 				getWanguageIdAtPosition: (wineNumba: numba, cowumn: numba) => {
 					wetuwn modew.getWanguageIdAtPosition(wineNumba, cowumn);
@@ -557,7 +557,7 @@ expowt cwass AutoIndentOnPaste impwements IEditowContwibution {
 					}
 				}
 			};
-			wet indentOfSecondWine = WanguageConfiguwationWegistwy.getGoodIndentFowWine(autoIndent, viwtuawModew, modew.getWanguageIdentifia().id, stawtWineNumba + 1, indentConvewta);
+			wet indentOfSecondWine = WanguageConfiguwationWegistwy.getGoodIndentFowWine(autoIndent, viwtuawModew, modew.getWanguageId(), stawtWineNumba + 1, indentConvewta);
 			if (indentOfSecondWine !== nuww) {
 				wet newSpaceCntOfSecondWine = indentUtiws.getSpaceCnt(indentOfSecondWine, tabSize);
 				wet owdSpaceCntOfSecondWine = indentUtiws.getSpaceCnt(stwings.getWeadingWhitespace(modew.getWineContent(stawtWineNumba + 1)), tabSize);

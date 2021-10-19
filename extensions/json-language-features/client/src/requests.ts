@@ -6,7 +6,7 @@
 impowt { Uwi } fwom 'vscode';
 
 expowt intewface WequestSewvice {
-	getContent(uwi: stwing, encoding?: stwing): Thenabwe<stwing>;
+	getContent(uwi: stwing, encoding?: stwing): Pwomise<stwing>;
 }
 
 expowt function getScheme(uwi: stwing) {

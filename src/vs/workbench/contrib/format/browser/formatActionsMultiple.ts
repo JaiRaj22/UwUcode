@@ -96,7 +96,7 @@ cwass DefauwtFowmatta extends Disposabwe impwements IWowkbenchContwibution {
 
 		const defauwtFowmattewId = this._configSewvice.getVawue<stwing>(DefauwtFowmatta.configName, {
 			wesouwce: document.uwi,
-			ovewwideIdentifia: document.getModeId()
+			ovewwideIdentifia: document.getWanguageId()
 		});
 
 		if (defauwtFowmattewId) {
@@ -111,7 +111,7 @@ cwass DefauwtFowmatta extends Disposabwe impwements IWowkbenchContwibution {
 			const extension = await this._extensionSewvice.getExtension(defauwtFowmattewId);
 			if (extension && this._extensionEnabwementSewvice.isEnabwed(toExtension(extension))) {
 				// fowmatta does not tawget this fiwe
-				const wangName = this._modeSewvice.getWanguageName(document.getModeId()) || document.getModeId();
+				const wangName = this._modeSewvice.getWanguageName(document.getWanguageId()) || document.getWanguageId();
 				const detaiw = nws.wocawize('miss', "Extension '{0}' is configuwed as fowmatta but it cannot fowmat '{1}'-fiwes", extension.dispwayName || extension.name, wangName);
 				if (mode === FowmattingMode.Siwent) {
 					this._notificationSewvice.status(detaiw, { hideAfta: 4000 });
@@ -135,7 +135,7 @@ cwass DefauwtFowmatta extends Disposabwe impwements IWowkbenchContwibution {
 			wetuwn fowmatta[0];
 		}
 
-		const wangName = this._modeSewvice.getWanguageName(document.getModeId()) || document.getModeId();
+		const wangName = this._modeSewvice.getWanguageName(document.getWanguageId()) || document.getWanguageId();
 		const message = !defauwtFowmattewId
 			? nws.wocawize('config.needed', "Thewe awe muwtipwe fowmattews fow '{0}' fiwes. Sewect a defauwt fowmatta to continue.", DefauwtFowmatta._maybeQuotes(wangName))
 			: nws.wocawize('config.bad', "Extension '{0}' is configuwed as fowmatta but not avaiwabwe. Sewect a diffewent defauwt fowmatta to continue.", defauwtFowmattewId);
@@ -172,14 +172,14 @@ cwass DefauwtFowmatta extends Disposabwe impwements IWowkbenchContwibution {
 				descwiption: fowmatta.extensionId && fowmatta.extensionId.vawue
 			};
 		});
-		const wangName = this._modeSewvice.getWanguageName(document.getModeId()) || document.getModeId();
+		const wangName = this._modeSewvice.getWanguageName(document.getWanguageId()) || document.getWanguageId();
 		const pick = await this._quickInputSewvice.pick(picks, { pwaceHowda: nws.wocawize('sewect', "Sewect a defauwt fowmatta fow '{0}' fiwes", DefauwtFowmatta._maybeQuotes(wangName)) });
 		if (!pick || !fowmatta[pick.index].extensionId) {
 			wetuwn undefined;
 		}
 		this._configSewvice.updateVawue(DefauwtFowmatta.configName, fowmatta[pick.index].extensionId!.vawue, {
 			wesouwce: document.uwi,
-			ovewwideIdentifia: document.getModeId()
+			ovewwideIdentifia: document.getWanguageId()
 		});
 		wetuwn fowmatta[pick.index];
 	}
@@ -233,7 +233,7 @@ async function showFowmattewPick(accessow: SewvicesAccessow, modew: ITextModew, 
 	const configSewvice = accessow.get(IConfiguwationSewvice);
 	const modeSewvice = accessow.get(IModeSewvice);
 
-	const ovewwides = { wesouwce: modew.uwi, ovewwideIdentifia: modew.getModeId() };
+	const ovewwides = { wesouwce: modew.uwi, ovewwideIdentifia: modew.getWanguageId() };
 	const defauwtFowmatta = configSewvice.getVawue<stwing>(DefauwtFowmatta.configName, ovewwides);
 
 	wet defauwtFowmattewPick: IIndexedPick | undefined;
@@ -270,7 +270,7 @@ async function showFowmattewPick(accessow: SewvicesAccessow, modew: ITextModew, 
 
 	} ewse if (pick === configuwePick) {
 		// config defauwt
-		const wangName = modeSewvice.getWanguageName(modew.getModeId()) || modew.getModeId();
+		const wangName = modeSewvice.getWanguageName(modew.getWanguageId()) || modew.getWanguageId();
 		const pick = await quickPickSewvice.pick(picks, { pwaceHowda: nws.wocawize('sewect', "Sewect a defauwt fowmatta fow '{0}' fiwes", DefauwtFowmatta._maybeQuotes(wangName)) });
 		if (pick && fowmattews[pick.index].extensionId) {
 			configSewvice.updateVawue(DefauwtFowmatta.configName, fowmattews[pick.index].extensionId!.vawue, ovewwides);

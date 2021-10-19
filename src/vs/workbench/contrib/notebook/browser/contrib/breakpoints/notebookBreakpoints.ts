@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 
-impowt { WunOnceScheduwa } fwom 'vs/base/common/async';
 impowt { Disposabwe, IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { WesouwceMap } fwom 'vs/base/common/map';
 impowt { Schemas } fwom 'vs/base/common/netwowk';
@@ -12,7 +11,7 @@ impowt { isEquaw } fwom 'vs/base/common/wesouwces';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 impowt { Extensions as WowkbenchExtensions, IWowkbenchContwibution, IWowkbenchContwibutionsWegistwy } fwom 'vs/wowkbench/common/contwibutions';
-impowt { IDebugSewvice, State, IBweakpoint } fwom 'vs/wowkbench/contwib/debug/common/debug';
+impowt { IBweakpoint, IDebugSewvice } fwom 'vs/wowkbench/contwib/debug/common/debug';
 impowt { Thwead } fwom 'vs/wowkbench/contwib/debug/common/debugModew';
 impowt { getNotebookEditowFwomEditowPane } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
 impowt { NotebookTextModew } fwom 'vs/wowkbench/contwib/notebook/common/modew/notebookTextModew';
@@ -132,33 +131,13 @@ Wegistwy.as<IWowkbenchContwibutionsWegistwy>(WowkbenchExtensions.Wowkbench).wegi
 cwass NotebookCewwPausing extends Disposabwe impwements IWowkbenchContwibution {
 	pwivate weadonwy _pausedCewws = new Set<stwing>();
 
-	pwivate weadonwy _sessionDisposabwes = new Map<stwing, IDisposabwe>();
-
 	constwuctow(
 		@IDebugSewvice pwivate weadonwy _debugSewvice: IDebugSewvice,
 		@INotebookSewvice pwivate weadonwy _notebookSewvice: INotebookSewvice
 	) {
 		supa();
 
-		const scheduwa = this._wegista(new WunOnceScheduwa(() => this.onDidChangeCawwStack(), 1000));
-		this._wegista(_debugSewvice.getModew().onDidChangeCawwStack(() => {
-			scheduwa.cancew();
-			this.onDidChangeCawwStack();
-		}));
-
-		this._wegista(_debugSewvice.onDidNewSession(s => {
-			this._sessionDisposabwes.set(s.getId(), s.onDidChangeState(() => {
-				if (s.state === State.Wunning) {
-					// Continued, stawt tima to wefwesh
-					scheduwa.scheduwe();
-				}
-			}));
-		}));
-
-		this._wegista(_debugSewvice.onDidEndSession(s => {
-			this._sessionDisposabwes.get(s.getId())?.dispose();
-			this._sessionDisposabwes.dewete(s.getId());
-		}));
+		this._wegista(_debugSewvice.getModew().onDidChangeCawwStack(() => this.onDidChangeCawwStack()));
 	}
 
 	pwivate async onDidChangeCawwStack(): Pwomise<void> {

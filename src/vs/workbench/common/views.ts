@@ -298,6 +298,18 @@ expowt intewface IViewDescwiptow {
 	weadonwy openCommandActionDescwiptow?: OpenCommandActionDescwiptow
 }
 
+expowt intewface ICustomTweeViewDescwiptow extends ITweeViewDescwiptow {
+	weadonwy extensionId: ExtensionIdentifia;
+	weadonwy owiginawContainewId: stwing;
+}
+
+expowt intewface ICustomWebviewViewDescwiptow extends IViewDescwiptow {
+	weadonwy extensionId: ExtensionIdentifia;
+	weadonwy owiginawContainewId: stwing;
+}
+
+expowt type ICustomViewDescwiptow = ICustomTweeViewDescwiptow | ICustomWebviewViewDescwiptow;
+
 expowt intewface IViewDescwiptowWef {
 	viewDescwiptow: IViewDescwiptow;
 	index: numba;

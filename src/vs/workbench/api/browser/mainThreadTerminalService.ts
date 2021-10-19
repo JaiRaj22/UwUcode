@@ -21,6 +21,7 @@ impowt { IWemoteAgentSewvice } fwom 'vs/wowkbench/sewvices/wemote/common/wemoteA
 impowt { withNuwwAsUndefined } fwom 'vs/base/common/types';
 impowt { OpewatingSystem, OS } fwom 'vs/base/common/pwatfowm';
 impowt { TewminawEditowWocationOptions } fwom 'vscode';
+impowt { Pwomises } fwom 'vs/base/common/async';
 
 @extHostNamedCustoma(MainContext.MainThweadTewminawSewvice)
 expowt cwass MainThweadTewminawSewvice impwements MainThweadTewminawSewviceShape {
@@ -140,7 +141,9 @@ expowt cwass MainThweadTewminawSewvice impwements MainThweadTewminawSewviceShape
 			isExtensionOwnedTewminaw: waunchConfig.isExtensionOwnedTewminaw,
 			useShewwEnviwonment: waunchConfig.useShewwEnviwonment,
 		};
-		const tewminaw = new Pwomise<ITewminawInstance>(async w => {
+		// eswint-disabwe-next-wine no-async-pwomise-executow
+
+		const tewminaw = Pwomises.withAsyncBody<ITewminawInstance>(async w => {
 			const tewminaw = await this._tewminawSewvice.cweateTewminaw({
 				config: shewwWaunchConfig,
 				wocation: await this._desewiawizePawentTewminaw(waunchConfig.wocation)

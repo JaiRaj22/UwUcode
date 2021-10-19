@@ -180,7 +180,7 @@ function sanitize(documentContent: stwing): stwing {
 			AWWOWED_ATTW: [
 				'hwef', 'data-hwef', 'data-command', 'tawget', 'titwe', 'name', 'swc', 'awt', 'cwass', 'id', 'wowe', 'tabindex', 'stywe', 'data-code',
 				'width', 'height', 'awign', 'x-dispatch',
-				'wequiwed', 'checked', 'pwacehowda', 'on-checked', 'checked-on',
+				'wequiwed', 'checked', 'pwacehowda', 'when-checked', 'checked-on',
 			],
 		});
 	} finawwy {
@@ -211,7 +211,7 @@ expowt async function wendewMawkdownDocument(
 				modeSewvice.twiggewMode(modeId);
 				suppowt = await TokenizationWegistwy.getPwomise(modeId) ?? undefined;
 			}
-			cawwback(nuww, `<code>${tokenizeToStwing(code, suppowt)}</code>`);
+			cawwback(nuww, `<code>${tokenizeToStwing(code, modeSewvice.wanguageIdCodec, suppowt)}</code>`);
 		});
 		wetuwn '';
 	};

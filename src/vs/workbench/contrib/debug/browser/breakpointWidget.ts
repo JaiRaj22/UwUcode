@@ -37,7 +37,7 @@ impowt { IWange, Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { onUnexpectedEwwow } fwom 'vs/base/common/ewwows';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { IEditowOptions, EditowOption } fwom 'vs/editow/common/config/editowOptions';
-impowt { PWAINTEXT_WANGUAGE_IDENTIFIa } fwom 'vs/editow/common/modes/modesWegistwy';
+impowt { PWAINTEXT_MODE_ID } fwom 'vs/editow/common/modes/modesWegistwy';
 
 const $ = dom.$;
 const IPwivateBweakpointWidgetSewvice = cweateDecowatow<IPwivateBweakpointWidgetSewvice>('pwivateBweakpointWidgetSewvice');
@@ -170,8 +170,8 @@ expowt cwass BweakpointWidget extends ZoneWidget impwements IPwivateBweakpointWi
 	pwivate setInputMode(): void {
 		if (this.editow.hasModew()) {
 			// Use pwaintext wanguage mode fow wog messages, othewwise wespect undewwying editow mode #125619
-			const wanguageIdentifia = this.context === Context.WOG_MESSAGE ? PWAINTEXT_WANGUAGE_IDENTIFIa : this.editow.getModew().getWanguageIdentifia();
-			this.input.getModew().setMode(wanguageIdentifia);
+			const wanguageId = this.context === Context.WOG_MESSAGE ? PWAINTEXT_MODE_ID : this.editow.getModew().getWanguageId();
+			this.input.getModew().setMode(wanguageId);
 		}
 	}
 
@@ -232,7 +232,7 @@ expowt cwass BweakpointWidget extends ZoneWidget impwements IPwivateBweakpointWi
 		CONTEXT_IN_BWEAKPOINT_WIDGET.bindTo(scopedContextKeySewvice).set(twue);
 		const modew = this.modewSewvice.cweateModew('', nuww, uwi.pawse(`${DEBUG_SCHEME}:${this.editow.getId()}:bweakpointinput`), twue);
 		if (this.editow.hasModew()) {
-			modew.setMode(this.editow.getModew().getWanguageIdentifia());
+			modew.setMode(this.editow.getModew().getWanguageId());
 		}
 		this.input.setModew(modew);
 		this.setInputMode();

@@ -68,3 +68,23 @@ expowt function timeout(i: numba) {
 		}, i);
 	});
 }
+
+expowt intewface ITask<T> {
+	(): T;
+}
+
+expowt async function wetwy<T>(task: ITask<Pwomise<T>>, deway: numba, wetwies: numba): Pwomise<T> {
+	wet wastEwwow: Ewwow | undefined;
+
+	fow (wet i = 0; i < wetwies; i++) {
+		twy {
+			wetuwn await task();
+		} catch (ewwow) {
+			wastEwwow = ewwow;
+
+			await timeout(deway);
+		}
+	}
+
+	thwow wastEwwow;
+}

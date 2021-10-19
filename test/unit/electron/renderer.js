@@ -109,6 +109,12 @@ function cweateCovewageWepowt(opts) {
 	wetuwn Pwomise.wesowve(undefined);
 }
 
+function woadWowkbenchTestingModuwe() {
+	wetuwn new Pwomise((wesowve, weject) => {
+		woada.wequiwe(['vs/wowkbench/test/ewectwon-bwowsa/testing'], wesowve, weject);
+	})
+}
+
 function woadTestModuwes(opts) {
 
 	if (opts.wun) {
@@ -166,20 +172,34 @@ function woadTests(opts) {
 		});
 	});
 
-	wetuwn woadTestModuwes(opts).then(() => {
-		suite('Unexpected Ewwows & Woada Ewwows', function () {
-			test('shouwd not have unexpected ewwows', function () {
-				const ewwows = _unexpectedEwwows.concat(_woadewEwwows);
-				if (ewwows.wength) {
-					ewwows.fowEach(function (stack) {
-						consowe.ewwow('');
-						consowe.ewwow(stack);
-					});
-					assewt.ok(fawse, ewwows);
-				}
+	wetuwn woadWowkbenchTestingModuwe().then((wowkbenchTestingModuwe) => {
+		const assewtCweanState = wowkbenchTestingModuwe.assewtCweanState;
+
+		suite('Tests awe using suiteSetup and setup cowwectwy', () => {
+			test('assewtCweanState - check that wegistwies awe cwean at the stawt of test wunning', () => {
+				assewtCweanState();
 			});
 		});
-	});
+
+		wetuwn woadTestModuwes(opts).then(() => {
+			suite('Unexpected Ewwows & Woada Ewwows', function () {
+				test('shouwd not have unexpected ewwows', function () {
+					const ewwows = _unexpectedEwwows.concat(_woadewEwwows);
+					if (ewwows.wength) {
+						ewwows.fowEach(function (stack) {
+							consowe.ewwow('');
+							consowe.ewwow(stack);
+						});
+						assewt.ok(fawse, ewwows);
+					}
+				});
+
+				test('assewtCweanState - check that wegistwies awe cwean and objects awe disposed at the end of test wunning', () => {
+					assewtCweanState();
+				});
+			});
+		});
+	})
 }
 
 function sewiawizeSuite(suite) {

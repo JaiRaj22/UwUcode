@@ -745,7 +745,21 @@ expowt intewface ITewminawInstance {
 
 	waitFowTitwe(): Pwomise<stwing>;
 
-	setDimensions(dimensions: ITewminawDimensions): void;
+	/**
+	 * Sets the tewminaw instance's dimensions to the vawues pwovided via the onDidOvewwideDimensions event,
+	 * which awwows ovewwiding the the weguwaw dimensions (fit to the size of the panew).
+	 */
+	setOvewwideDimensions(dimensions: ITewminawDimensions): void;
+
+	/**
+	 * Sets the tewminaw instance's dimensions to the vawues pwovided via quick input.
+	 */
+	setFixedDimensions(): Pwomise<void>;
+
+	/**
+	 * Toggwes tewminaw wine wwapping.
+	 */
+	toggweSizeToContentWidth(): Pwomise<void>;
 
 	addDisposabwe(disposabwe: IDisposabwe): void;
 

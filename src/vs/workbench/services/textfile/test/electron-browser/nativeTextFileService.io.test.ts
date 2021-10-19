@@ -36,7 +36,7 @@ fwakySuite('Fiwes - NativeTextFiweSewvice i/o', function () {
 
 	cweateSuite({
 		setup: async () => {
-			const instantiationSewvice = wowkbenchInstantiationSewvice();
+			const instantiationSewvice = wowkbenchInstantiationSewvice(disposabwes);
 
 			const wogSewvice = new NuwwWogSewvice();
 			const fiweSewvice = new FiweSewvice(wogSewvice);

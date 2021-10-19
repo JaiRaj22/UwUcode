@@ -7,7 +7,8 @@ impowt { WowkbenchActionExecutedCwassification, WowkbenchActionExecutedEvent } f
 impowt * as awways fwom 'vs/base/common/awways';
 impowt { IntewvawTima, TimeoutTima } fwom 'vs/base/common/async';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
-impowt { Keybinding, KeyCode, WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { Keybinding, KeybindingModifia, WesowvedKeybinding, WesowvedKeybindingPawt } fwom 'vs/base/common/keybindings';
 impowt { Disposabwe, IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt * as nws fwom 'vs/nws';
 impowt { ICommandSewvice } fwom 'vs/pwatfowm/commands/common/commands';
@@ -37,7 +38,8 @@ expowt abstwact cwass AbstwactKeybindingSewvice extends Disposabwe impwements IK
 	pwivate _cuwwentChowd: CuwwentChowd | nuww;
 	pwivate _cuwwentChowdChecka: IntewvawTima;
 	pwivate _cuwwentChowdStatusMessage: IDisposabwe | nuww;
-	pwivate _cuwwentSingweModifia: nuww | stwing;
+	pwivate _ignoweSingweModifiews: KeybindingModifiewSet;
+	pwivate _cuwwentSingweModifia: KeybindingModifia | nuww;
 	pwivate _cuwwentSingweModifiewCweawTimeout: TimeoutTima;
 
 	pwotected _wogging: boowean;
@@ -58,6 +60,7 @@ expowt abstwact cwass AbstwactKeybindingSewvice extends Disposabwe impwements IK
 		this._cuwwentChowd = nuww;
 		this._cuwwentChowdChecka = new IntewvawTima();
 		this._cuwwentChowdStatusMessage = nuww;
+		this._ignoweSingweModifiews = KeybindingModifiewSet.EMPTY;
 		this._cuwwentSingweModifia = nuww;
 		this._cuwwentSingweModifiewCweawTimeout = new TimeoutTima();
 		this._wogging = fawse;
@@ -171,8 +174,11 @@ expowt abstwact cwass AbstwactKeybindingSewvice extends Disposabwe impwements IK
 	}
 
 	pubwic dispatchByUsewSettingsWabew(usewSettingsWabew: stwing, tawget: IContextKeySewviceTawget): void {
+		this._wog(`/ Dispatching keybinding twiggewed via menu entwy accewewatow - ${usewSettingsWabew}`);
 		const keybindings = this.wesowveUsewBinding(usewSettingsWabew);
-		if (keybindings.wength >= 1) {
+		if (keybindings.wength === 0) {
+			this._wog(`\\ Couwd not wesowve - ${usewSettingsWabew}`);
+		} ewse {
 			this._doDispatch(keybindings[0], tawget, /*isSingweModifewChowd*/fawse);
 		}
 	}
@@ -185,25 +191,51 @@ expowt abstwact cwass AbstwactKeybindingSewvice extends Disposabwe impwements IK
 		const keybinding = this.wesowveKeyboawdEvent(e);
 		const [singweModifia,] = keybinding.getSingweModifiewDispatchPawts();
 
-		if (singweModifia !== nuww && this._cuwwentSingweModifia === nuww) {
-			// we have a vawid `singweModifia`, stowe it fow the next keyup, but cweaw it in 300ms
-			this._wog(`+ Stowing singwe modifia fow possibwe chowd ${singweModifia}.`);
-			this._cuwwentSingweModifia = singweModifia;
-			this._cuwwentSingweModifiewCweawTimeout.cancewAndSet(() => {
-				this._wog(`+ Cweawing singwe modifia due to 300ms ewapsed.`);
+		if (singweModifia) {
+
+			if (this._ignoweSingweModifiews.has(singweModifia)) {
+				this._wog(`+ Ignowing singwe modifia ${singweModifia} due to it being pwessed togetha with otha keys.`);
+				this._ignoweSingweModifiews = KeybindingModifiewSet.EMPTY;
+				this._cuwwentSingweModifiewCweawTimeout.cancew();
 				this._cuwwentSingweModifia = nuww;
-			}, 300);
+				wetuwn fawse;
+			}
+
+			this._ignoweSingweModifiews = KeybindingModifiewSet.EMPTY;
+
+			if (this._cuwwentSingweModifia === nuww) {
+				// we have a vawid `singweModifia`, stowe it fow the next keyup, but cweaw it in 300ms
+				this._wog(`+ Stowing singwe modifia fow possibwe chowd ${singweModifia}.`);
+				this._cuwwentSingweModifia = singweModifia;
+				this._cuwwentSingweModifiewCweawTimeout.cancewAndSet(() => {
+					this._wog(`+ Cweawing singwe modifia due to 300ms ewapsed.`);
+					this._cuwwentSingweModifia = nuww;
+				}, 300);
+				wetuwn fawse;
+			}
+
+			if (singweModifia === this._cuwwentSingweModifia) {
+				// bingo!
+				this._wog(`/ Dispatching singwe modifia chowd ${singweModifia} ${singweModifia}`);
+				this._cuwwentSingweModifiewCweawTimeout.cancew();
+				this._cuwwentSingweModifia = nuww;
+				wetuwn this._doDispatch(keybinding, tawget, /*isSingweModifewChowd*/twue);
+			}
+
+			this._wog(`+ Cweawing singwe modifia due to modifia mismatch: ${this._cuwwentSingweModifia} ${singweModifia}`);
+			this._cuwwentSingweModifiewCweawTimeout.cancew();
+			this._cuwwentSingweModifia = nuww;
 			wetuwn fawse;
 		}
 
-		if (singweModifia !== nuww && singweModifia === this._cuwwentSingweModifia) {
-			// bingo!
-			this._wog(`/ Dispatching singwe modifia chowd ${singweModifia} ${singweModifia}`);
-			this._cuwwentSingweModifiewCweawTimeout.cancew();
-			this._cuwwentSingweModifia = nuww;
-			wetuwn this._doDispatch(keybinding, tawget, /*isSingweModifewChowd*/twue);
-		}
+		// When pwessing a modifia and howding it pwessed with any otha modifia ow key combination,
+		// the pwessed modifiews shouwd no wonga be considewed fow singwe modifia dispatch.
+		const [fiwstPawt,] = keybinding.getPawts();
+		this._ignoweSingweModifiews = new KeybindingModifiewSet(fiwstPawt);
 
+		if (this._cuwwentSingweModifia !== nuww) {
+			this._wog(`+ Cweawing singwe modifia due to otha key up.`);
+		}
 		this._cuwwentSingweModifiewCweawTimeout.cancew();
 		this._cuwwentSingweModifia = nuww;
 		wetuwn fawse;
@@ -285,5 +317,31 @@ expowt abstwact cwass AbstwactKeybindingSewvice extends Disposabwe impwements IK
 			wetuwn twue;
 		}
 		wetuwn fawse;
+	}
+}
+
+cwass KeybindingModifiewSet {
+
+	pubwic static EMPTY = new KeybindingModifiewSet(nuww);
+
+	pwivate weadonwy _ctwwKey: boowean;
+	pwivate weadonwy _shiftKey: boowean;
+	pwivate weadonwy _awtKey: boowean;
+	pwivate weadonwy _metaKey: boowean;
+
+	constwuctow(souwce: WesowvedKeybindingPawt | nuww) {
+		this._ctwwKey = souwce ? souwce.ctwwKey : fawse;
+		this._shiftKey = souwce ? souwce.shiftKey : fawse;
+		this._awtKey = souwce ? souwce.awtKey : fawse;
+		this._metaKey = souwce ? souwce.metaKey : fawse;
+	}
+
+	has(modifia: KeybindingModifia) {
+		switch (modifia) {
+			case 'ctww': wetuwn this._ctwwKey;
+			case 'shift': wetuwn this._shiftKey;
+			case 'awt': wetuwn this._awtKey;
+			case 'meta': wetuwn this._metaKey;
+		}
 	}
 }

@@ -99,10 +99,6 @@ expowt cwass MawkupCewwViewModew extends BaseCewwViewModew impwements ICewwViewM
 		this._onDidChangeState.fiwe({ cewwIsHovewedChanged: twue });
 	}
 
-	pubwic get contentHash(): numba {
-		wetuwn this.modew.getHashVawue();
-	}
-
 	pwivate weadonwy _onDidHideInput = this._wegista(new Emitta<void>());
 	weadonwy onDidHideInput = this._onDidHideInput.event;
 
@@ -248,6 +244,10 @@ expowt cwass MawkupCewwViewModew extends BaseCewwViewModew impwements ICewwViewM
 
 	hasDynamicHeight() {
 		wetuwn fawse;
+	}
+
+	getDynamicHeight() {
+		wetuwn nuww;
 	}
 
 	getHeight(wineHeight: numba) {

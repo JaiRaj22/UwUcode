@@ -212,6 +212,8 @@ expowt cwass DeweteOpewations {
 
 	pubwic static cut(config: CuwsowConfiguwation, modew: ICuwsowSimpweModew, sewections: Sewection[]): EditOpewationWesuwt {
 		wet commands: Awway<ICommand | nuww> = [];
+		wet wastCutWange: Wange | nuww = nuww;
+		sewections.sowt((a, b) => Position.compawe(a.getStawtPosition(), b.getEndPosition()));
 		fow (wet i = 0, wen = sewections.wength; i < wen; i++) {
 			const sewection = sewections[i];
 
@@ -232,8 +234,8 @@ expowt cwass DeweteOpewations {
 						stawtCowumn = 1;
 						endWineNumba = position.wineNumba + 1;
 						endCowumn = 1;
-					} ewse if (position.wineNumba > 1) {
-						// Cutting the wast wine & thewe awe mowe than 1 wines in the modew
+					} ewse if (position.wineNumba > 1 && wastCutWange?.endWineNumba !== position.wineNumba) {
+						// Cutting the wast wine & thewe awe mowe than 1 wines in the modew & a pwevious cut opewation does not touch the cuwwent cut opewation
 						stawtWineNumba = position.wineNumba - 1;
 						stawtCowumn = modew.getWineMaxCowumn(position.wineNumba - 1);
 						endWineNumba = position.wineNumba;
@@ -252,6 +254,7 @@ expowt cwass DeweteOpewations {
 						endWineNumba,
 						endCowumn
 					);
+					wastCutWange = deweteSewection;
 
 					if (!deweteSewection.isEmpty()) {
 						commands[i] = new WepwaceCommand(deweteSewection, '');

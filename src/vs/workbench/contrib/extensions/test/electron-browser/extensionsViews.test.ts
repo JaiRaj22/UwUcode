@@ -488,6 +488,7 @@ suite('ExtensionsWistView Tests', () => {
 			}
 		}]);
 
+		testabweView.wesetSeawchExpewiments();
 		testabweView.dispose();
 		testabweView = instantiationSewvice.cweateInstance(ExtensionsWistView, {}, {});
 

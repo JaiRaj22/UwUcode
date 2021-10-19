@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as fs fwom 'fs';
-impowt * as path fwom 'path';
+impowt * as path fwom 'vs/base/common/path';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { ExtensionStowagePaths as CommonExtensionStowagePaths } fwom 'vs/wowkbench/api/common/extHostStowagePaths';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';

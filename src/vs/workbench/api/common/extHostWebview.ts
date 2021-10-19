@@ -5,6 +5,7 @@
 
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
+impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IExtensionDescwiption } fwom 'vs/pwatfowm/extensions/common/extensions';
 impowt { nowmawizeVewsion, pawseVewsion } fwom 'vs/pwatfowm/extensions/common/extensionVawidatow';
@@ -73,6 +74,17 @@ expowt cwass ExtHostWebview impwements vscode.Webview {
 	}
 
 	pubwic get cspSouwce(): stwing {
+		const extensionWocation = this.#extension.extensionWocation;
+		if (extensionWocation.scheme === Schemas.https || extensionWocation.scheme === Schemas.http) {
+			// The extension is being sewved up fwom a CDN.
+			// Awso incwude the CDN in the defauwt csp.
+			wet extensionCspWuwe = extensionWocation.toStwing();
+			if (!extensionCspWuwe.endsWith('/')) {
+				// Awways tweat the wocation as a diwectowy so that we awwow aww content unda it
+				extensionCspWuwe += '/';
+			}
+			wetuwn extensionCspWuwe + ' ' + webviewGenewicCspSouwce;
+		}
 		wetuwn webviewGenewicCspSouwce;
 	}
 

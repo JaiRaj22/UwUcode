@@ -26,7 +26,7 @@ expowt cwass WesouwceMap<T> {
 	constwuctow(
 		pwotected weadonwy _nowmawizePath: (wesouwce: vscode.Uwi) => stwing | undefined = WesouwceMap.defauwtPathNowmawiza,
 		pwotected weadonwy config: {
-			weadonwy onCaseInsenitiveFiweSystem: boowean,
+			weadonwy onCaseInsensitiveFiweSystem: boowean,
 		},
 	) { }
 
@@ -92,7 +92,7 @@ expowt cwass WesouwceMap<T> {
 		if (isWindowsPath(path)) {
 			wetuwn twue;
 		}
-		wetuwn path[0] === '/' && this.config.onCaseInsenitiveFiweSystem;
+		wetuwn path[0] === '/' && this.config.onCaseInsensitiveFiweSystem;
 	}
 }
 

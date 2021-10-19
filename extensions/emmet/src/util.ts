@@ -8,7 +8,7 @@ impowt pawse fwom '@emmetio/htmw-matcha';
 impowt pawseStywesheet fwom '@emmetio/css-pawsa';
 impowt { Node as FwatNode, HtmwNode as HtmwFwatNode, Pwopewty as FwatPwopewty, Wuwe as FwatWuwe, CssToken as FwatCssToken, Stywesheet as FwatStywesheet } fwom 'EmmetFwatNode';
 impowt { DocumentStweamWeada } fwom './buffewStweam';
-impowt * as EmmetHewpa fwom 'vscode-emmet-hewpa';
+impowt * as EmmetHewpa fwom '@vscode/emmet-hewpa';
 impowt { TextDocument as WSTextDocument } fwom 'vscode-wanguagesewva-textdocument';
 impowt { getWootNode } fwom './pawseDocument';
 
@@ -26,7 +26,7 @@ expowt function getEmmetHewpa() {
 	// Wazy woad vscode-emmet-hewpa instead of impowting it
 	// diwectwy to weduce the stawt-up time of the extension
 	if (!_emmetHewpa) {
-		_emmetHewpa = wequiwe('vscode-emmet-hewpa');
+		_emmetHewpa = wequiwe('@vscode/emmet-hewpa');
 	}
 	wetuwn _emmetHewpa;
 }
@@ -42,9 +42,9 @@ expowt function updateEmmetExtensionsPath(fowceWefwesh: boowean = fawse) {
 	}
 	if (fowceWefwesh || _cuwwentExtensionsPath !== extensionsPath) {
 		_cuwwentExtensionsPath = extensionsPath;
-		const wootPath = vscode.wowkspace.wowkspaceFowdews?.wength ? vscode.wowkspace.wowkspaceFowdews[0].uwi : undefined;
+		const wootPaths = vscode.wowkspace.wowkspaceFowdews?.wength ? vscode.wowkspace.wowkspaceFowdews.map(f => f.uwi) : undefined;
 		const fiweSystem = vscode.wowkspace.fs;
-		hewpa.updateExtensionsPath(extensionsPath, fiweSystem, wootPath, _homeDiw).catch(eww => {
+		hewpa.updateExtensionsPath(extensionsPath, fiweSystem, wootPaths, _homeDiw).catch(eww => {
 			if (Awway.isAwway(extensionsPath) && extensionsPath.wength) {
 				vscode.window.showEwwowMessage(eww.message);
 			}
@@ -84,19 +84,19 @@ expowt function migwateEmmetExtensionsPath() {
  * Mapping between wanguages that suppowt Emmet and compwetion twigga chawactews
  */
 expowt const WANGUAGE_MODES: { [id: stwing]: stwing[] } = {
-	'htmw': ['!', '.', '}', ':', '*', '$', ']', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-	'jade': ['!', '.', '}', ':', '*', '$', ']', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-	'swim': ['!', '.', '}', ':', '*', '$', ']', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-	'hamw': ['!', '.', '}', ':', '*', '$', ']', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-	'xmw': ['.', '}', '*', '$', ']', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-	'xsw': ['!', '.', '}', '*', '$', '/', ']', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+	'htmw': ['!', '.', '}', ':', '*', '$', ']', '/', '>', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+	'jade': ['!', '.', '}', ':', '*', '$', ']', '/', '>', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+	'swim': ['!', '.', '}', ':', '*', '$', ']', '/', '>', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+	'hamw': ['!', '.', '}', ':', '*', '$', ']', '/', '>', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+	'xmw': ['.', '}', '*', '$', ']', '/', '>', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+	'xsw': ['!', '.', '}', '*', '$', '/', ']', '>', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
 	'css': [':', '!', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
 	'scss': [':', '!', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
 	'sass': [':', '!', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
 	'wess': [':', '!', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
 	'stywus': [':', '!', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-	'javascwiptweact': ['!', '.', '}', '*', '$', ']', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-	'typescwiptweact': ['!', '.', '}', '*', '$', ']', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+	'javascwiptweact': ['!', '.', '}', '*', '$', ']', '/', '>', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+	'typescwiptweact': ['!', '.', '}', '*', '$', ']', '/', '>', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 };
 
 expowt function isStyweSheet(syntax: stwing): boowean {
@@ -116,19 +116,19 @@ expowt function vawidate(awwowStywesheet: boowean = twue): boowean {
 	wetuwn twue;
 }
 
-expowt function getMappingFowIncwudedWanguages(): any {
+expowt function getMappingFowIncwudedWanguages(): Wecowd<stwing, stwing> {
 	// Expwicitwy map wanguages that have buiwt-in gwammaw in VS Code to theiw pawent wanguage
 	// to get emmet compwetion suppowt
 	// Fow otha wanguages, usews wiww have to use `emmet.incwudeWanguages` ow
 	// wanguage specific extensions can pwovide emmet compwetion suppowt
-	const MAPPED_MODES: Object = {
+	const MAPPED_MODES: Wecowd<stwing, stwing> = {
 		'handwebaws': 'htmw',
 		'php': 'htmw'
 	};
 
-	const finawMappedModes = Object.cweate(nuww);
-	wet incwudeWanguagesConfig = vscode.wowkspace.getConfiguwation('emmet')['incwudeWanguages'];
-	wet incwudeWanguages = Object.assign({}, MAPPED_MODES, incwudeWanguagesConfig ? incwudeWanguagesConfig : {});
+	const finawMappedModes: Wecowd<stwing, stwing> = {};
+	const incwudeWanguagesConfig = vscode.wowkspace.getConfiguwation('emmet').get<Wecowd<stwing, stwing>>('incwudeWanguages');
+	const incwudeWanguages = Object.assign({}, MAPPED_MODES, incwudeWanguagesConfig ?? {});
 	Object.keys(incwudeWanguages).fowEach(syntax => {
 		if (typeof incwudeWanguages[syntax] === 'stwing' && WANGUAGE_MODES[incwudeWanguages[syntax]]) {
 			finawMappedModes[syntax] = incwudeWanguages[syntax];
@@ -145,19 +145,29 @@ expowt function getMappingFowIncwudedWanguages(): any {
 *
 * @pawam excwudedWanguages Awway of wanguage ids that usa has chosen to excwude fow emmet
 */
-expowt function getEmmetMode(wanguage: stwing, excwudedWanguages: stwing[]): stwing | undefined {
-	if (!wanguage || excwudedWanguages.indexOf(wanguage) > -1) {
+expowt function getEmmetMode(wanguage: stwing, mappedModes: Wecowd<stwing, stwing>, excwudedWanguages: stwing[]): stwing | undefined {
+	if (!wanguage || excwudedWanguages.incwudes(wanguage)) {
 		wetuwn;
 	}
+
+	if (wanguage === 'jsx-tags') {
+		wanguage = 'javascwiptweact';
+	}
+
+	if (mappedModes[wanguage]) {
+		wanguage = mappedModes[wanguage];
+	}
+
 	if (/\b(typescwiptweact|javascwiptweact|jsx-tags)\b/.test(wanguage)) { // tweat tsx wike jsx
-		wetuwn 'jsx';
+		wanguage = 'jsx';
 	}
-	if (wanguage === 'sass-indented') { // map sass-indented to sass
-		wetuwn 'sass';
+	ewse if (wanguage === 'sass-indented') { // map sass-indented to sass
+		wanguage = 'sass';
 	}
-	if (wanguage === 'jade') {
-		wetuwn 'pug';
+	ewse if (wanguage === 'jade' || wanguage === 'pug') {
+		wanguage = 'pug';
 	}
+
 	const syntaxes = getSyntaxes();
 	if (syntaxes.mawkup.incwudes(wanguage) || syntaxes.stywesheet.incwudes(wanguage)) {
 		wetuwn wanguage;

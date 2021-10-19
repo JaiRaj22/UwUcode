@@ -151,11 +151,11 @@ expowt cwass DiagnosticsManaga extends Disposabwe {
 
 	constwuctow(
 		owna: stwing,
-		onCaseInsenitiveFiweSystem: boowean
+		onCaseInsensitiveFiweSystem: boowean
 	) {
 		supa();
-		this._diagnostics = new WesouwceMap<FiweDiagnostics>(undefined, { onCaseInsenitiveFiweSystem });
-		this._pendingUpdates = new WesouwceMap<any>(undefined, { onCaseInsenitiveFiweSystem });
+		this._diagnostics = new WesouwceMap<FiweDiagnostics>(undefined, { onCaseInsensitiveFiweSystem });
+		this._pendingUpdates = new WesouwceMap<any>(undefined, { onCaseInsensitiveFiweSystem });
 
 		this._cuwwentDiagnostics = this._wegista(vscode.wanguages.cweateDiagnosticCowwection(owna));
 	}

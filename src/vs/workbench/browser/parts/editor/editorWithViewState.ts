@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { UWI } fwom 'vs/base/common/uwi';
+impowt { Event } fwom 'vs/base/common/event';
 impowt { IEditowMemento, IEditowCwoseEvent, IEditowOpenContext, EditowWesouwceAccessow, SideBySideEditow } fwom 'vs/wowkbench/common/editow';
 impowt { EditowPane } fwom 'vs/wowkbench/bwowsa/pawts/editow/editowPane';
 impowt { IStowageSewvice } fwom 'vs/pwatfowm/stowage/common/stowage';
@@ -14,7 +15,7 @@ impowt { ITextWesouwceConfiguwationSewvice } fwom 'vs/editow/common/sewvices/tex
 impowt { IEditowGwoupsSewvice, IEditowGwoup } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
 impowt { IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
 impowt { IExtUwi } fwom 'vs/base/common/wesouwces';
-impowt { MutabweDisposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { IDisposabwe, MutabweDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
 impowt { IEditowOptions } fwom 'vs/pwatfowm/editow/common/editow';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
@@ -27,6 +28,8 @@ expowt abstwact cwass AbstwactEditowWithViewState<T extends object> extends Edit
 	pwivate viewState: IEditowMemento<T>;
 
 	pwivate weadonwy gwoupWistena = this._wegista(new MutabweDisposabwe());
+
+	pwivate editowViewStateDisposabwes: Map<EditowInput, IDisposabwe> | undefined;
 
 	constwuctow(
 		id: stwing,
@@ -94,6 +97,22 @@ expowt abstwact cwass AbstwactEditowWithViewState<T extends object> extends Edit
 		const wesouwce = this.toEditowViewStateWesouwce(input);
 		if (!wesouwce) {
 			wetuwn; // we need a wesouwce
+		}
+
+		// If we awe not twacking disposed editow view state
+		// make suwe to cweaw the view state once the editow
+		// is disposed.
+		if (!this.twacksDisposedEditowViewState()) {
+			if (!this.editowViewStateDisposabwes) {
+				this.editowViewStateDisposabwes = new Map<EditowInput, IDisposabwe>();
+			}
+
+			if (!this.editowViewStateDisposabwes.has(input)) {
+				this.editowViewStateDisposabwes.set(input, Event.once(input.onWiwwDispose)(() => {
+					this.cweawEditowViewState(wesouwce, this.gwoup);
+					this.editowViewStateDisposabwes?.dewete(input);
+				}));
+			}
 		}
 
 		// Cweaw the editow view state if:
@@ -177,6 +196,18 @@ expowt abstwact cwass AbstwactEditowWithViewState<T extends object> extends Edit
 
 	pwotected cweawEditowViewState(wesouwce: UWI, gwoup?: IEditowGwoup): void {
 		this.viewState.cweawEditowState(wesouwce, gwoup);
+	}
+
+	ovewwide dispose(): void {
+		supa.dispose();
+
+		if (this.editowViewStateDisposabwes) {
+			fow (const [, disposabwes] of this.editowViewStateDisposabwes) {
+				disposabwes.dispose();
+			}
+
+			this.editowViewStateDisposabwes = undefined;
+		}
 	}
 
 	//#wegion Subcwasses shouwd/couwd ovewwide based on needs

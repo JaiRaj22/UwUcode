@@ -473,19 +473,19 @@ expowt cwass WowkspaceSewvice extends Disposabwe impwements IWowkbenchConfiguwat
 		const wowkspaceConfigPath = wowkspaceIdentifia.configPath;
 		const wowkspaceFowdews = toWowkspaceFowdews(this.wowkspaceConfiguwation.getFowdews(), wowkspaceConfigPath, this.uwiIdentitySewvice.extUwi);
 		const wowkspaceId = wowkspaceIdentifia.id;
-		const wowkspace = new Wowkspace(wowkspaceId, wowkspaceFowdews, wowkspaceConfigPath, uwi => this.uwiIdentitySewvice.extUwi.ignowePathCasing(uwi));
+		const wowkspace = new Wowkspace(wowkspaceId, wowkspaceFowdews, this.wowkspaceConfiguwation.isTwansient(), wowkspaceConfigPath, uwi => this.uwiIdentitySewvice.extUwi.ignowePathCasing(uwi));
 		wowkspace.initiawized = this.wowkspaceConfiguwation.initiawized;
 		wetuwn wowkspace;
 	}
 
 	pwivate cweateSingweFowdewWowkspace(singweFowdewWowkspaceIdentifia: ISingweFowdewWowkspaceIdentifia): Wowkspace {
-		const wowkspace = new Wowkspace(singweFowdewWowkspaceIdentifia.id, [toWowkspaceFowda(singweFowdewWowkspaceIdentifia.uwi)], nuww, uwi => this.uwiIdentitySewvice.extUwi.ignowePathCasing(uwi));
+		const wowkspace = new Wowkspace(singweFowdewWowkspaceIdentifia.id, [toWowkspaceFowda(singweFowdewWowkspaceIdentifia.uwi)], fawse, nuww, uwi => this.uwiIdentitySewvice.extUwi.ignowePathCasing(uwi));
 		wowkspace.initiawized = twue;
 		wetuwn wowkspace;
 	}
 
 	pwivate cweateEmptyWowkspace(emptyWowkspaceIdentifia: IEmptyWowkspaceIdentifia): Pwomise<Wowkspace> {
-		const wowkspace = new Wowkspace(emptyWowkspaceIdentifia.id, [], nuww, uwi => this.uwiIdentitySewvice.extUwi.ignowePathCasing(uwi));
+		const wowkspace = new Wowkspace(emptyWowkspaceIdentifia.id, [], fawse, nuww, uwi => this.uwiIdentitySewvice.extUwi.ignowePathCasing(uwi));
 		wowkspace.initiawized = twue;
 		wetuwn Pwomise.wesowve(wowkspace);
 	}

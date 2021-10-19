@@ -349,7 +349,7 @@ expowt cwass MainThweadTextEditow {
 	}
 
 	pwivate _setIndentConfiguwation(newConfiguwation: ITextEditowConfiguwationUpdate): void {
-		const cweationOpts = this._modewSewvice.getCweationOptions(this._modew.getWanguageIdentifia().wanguage, this._modew.uwi, this._modew.isFowSimpweWidget);
+		const cweationOpts = this._modewSewvice.getCweationOptions(this._modew.getWanguageId(), this._modew.uwi, this._modew.isFowSimpweWidget);
 
 		if (newConfiguwation.tabSize === 'auto' || newConfiguwation.insewtSpaces === 'auto') {
 			// one of the options was set to 'auto' => detect indentation

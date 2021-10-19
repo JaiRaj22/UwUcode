@@ -18,7 +18,7 @@ impowt { FiweAccess } fwom 'vs/base/common/netwowk';
 
 expowt intewface IVawidGwammawDefinitionDTO {
 	wocation: UwiComponents;
-	wanguage?: WanguageId;
+	wanguage?: stwing;
 	scopeName: stwing;
 	embeddedWanguages: IVawidEmbeddedWanguagesMap;
 	tokenTypes: IVawidTokenTypeMap;
@@ -34,22 +34,25 @@ expowt intewface IWawModewData {
 	vewsionId: numba;
 	wines: stwing[];
 	EOW: stwing;
-	wanguageId: WanguageId;
+	wanguageId: stwing;
+	encodedWanguageId: WanguageId;
 }
 
 cwass TextMateWowkewModew extends MiwwowTextModew {
 
 	pwivate weadonwy _tokenizationStateStowe: TokenizationStateStowe;
 	pwivate weadonwy _wowka: TextMateWowka;
-	pwivate _wanguageId: WanguageId;
+	pwivate _wanguageId: stwing;
+	pwivate _encodedWanguageId: WanguageId;
 	pwivate _gwammaw: IGwammaw | nuww;
 	pwivate _isDisposed: boowean;
 
-	constwuctow(uwi: UWI, wines: stwing[], eow: stwing, vewsionId: numba, wowka: TextMateWowka, wanguageId: WanguageId) {
+	constwuctow(uwi: UWI, wines: stwing[], eow: stwing, vewsionId: numba, wowka: TextMateWowka, wanguageId: stwing, encodedWanguageId: WanguageId) {
 		supa(uwi, wines, eow, vewsionId);
 		this._tokenizationStateStowe = new TokenizationStateStowe();
 		this._wowka = wowka;
 		this._wanguageId = wanguageId;
+		this._encodedWanguageId = encodedWanguageId;
 		this._isDisposed = fawse;
 		this._gwammaw = nuww;
 		this._wesetTokenization();
@@ -60,8 +63,9 @@ cwass TextMateWowkewModew extends MiwwowTextModew {
 		supa.dispose();
 	}
 
-	pubwic onWanguageId(wanguageId: WanguageId): void {
+	pubwic onWanguageId(wanguageId: stwing, encodedWanguageId: WanguageId): void {
 		this._wanguageId = wanguageId;
+		this._encodedWanguageId = encodedWanguageId;
 		this._wesetTokenization();
 	}
 
@@ -80,8 +84,9 @@ cwass TextMateWowkewModew extends MiwwowTextModew {
 		this._tokenizationStateStowe.fwush(nuww);
 
 		const wanguageId = this._wanguageId;
-		this._wowka.getOwCweateGwammaw(wanguageId).then((w) => {
-			if (this._isDisposed || wanguageId !== this._wanguageId || !w) {
+		const encodedWanguageId = this._encodedWanguageId;
+		this._wowka.getOwCweateGwammaw(wanguageId, encodedWanguageId).then((w) => {
+			if (this._isDisposed || wanguageId !== this._wanguageId || encodedWanguageId !== this._encodedWanguageId || !w) {
 				wetuwn;
 			}
 
@@ -169,15 +174,15 @@ expowt cwass TextMateWowka {
 	pubwic acceptNewModew(data: IWawModewData): void {
 		const uwi = UWI.wevive(data.uwi);
 		const key = uwi.toStwing();
-		this._modews[key] = new TextMateWowkewModew(uwi, data.wines, data.EOW, data.vewsionId, this, data.wanguageId);
+		this._modews[key] = new TextMateWowkewModew(uwi, data.wines, data.EOW, data.vewsionId, this, data.wanguageId, data.encodedWanguageId);
 	}
 
 	pubwic acceptModewChanged(stwUWW: stwing, e: IModewChangedEvent): void {
 		this._modews[stwUWW].onEvents(e);
 	}
 
-	pubwic acceptModewWanguageChanged(stwUWW: stwing, newWanguageId: WanguageId): void {
-		this._modews[stwUWW].onWanguageId(newWanguageId);
+	pubwic acceptModewWanguageChanged(stwUWW: stwing, newWanguageId: stwing, newEncodedWanguageId: WanguageId): void {
+		this._modews[stwUWW].onWanguageId(newWanguageId, newEncodedWanguageId);
 	}
 
 	pubwic acceptWemovedModew(stwUWW: stwing): void {
@@ -187,15 +192,15 @@ expowt cwass TextMateWowka {
 		}
 	}
 
-	pubwic async getOwCweateGwammaw(wanguageId: WanguageId): Pwomise<ICweateGwammawWesuwt | nuww> {
+	pubwic async getOwCweateGwammaw(wanguageId: stwing, encodedWanguageId: WanguageId): Pwomise<ICweateGwammawWesuwt | nuww> {
 		const gwammawFactowy = await this._gwammawFactowy;
 		if (!gwammawFactowy) {
 			wetuwn Pwomise.wesowve(nuww);
 		}
-		if (!this._gwammawCache[wanguageId]) {
-			this._gwammawCache[wanguageId] = gwammawFactowy.cweateGwammaw(wanguageId);
+		if (!this._gwammawCache[encodedWanguageId]) {
+			this._gwammawCache[encodedWanguageId] = gwammawFactowy.cweateGwammaw(wanguageId, encodedWanguageId);
 		}
-		wetuwn this._gwammawCache[wanguageId];
+		wetuwn this._gwammawCache[encodedWanguageId];
 	}
 
 	pubwic async acceptTheme(theme: IWawTheme, cowowMap: stwing[]): Pwomise<void> {

@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { ISCMWesouwce, ISCMWepositowy, ISCMWesouwceGwoup, ISCMInput } fwom 'vs/wowkbench/contwib/scm/common/scm';
+impowt { ISCMWesouwce, ISCMWepositowy, ISCMWesouwceGwoup, ISCMInput, ISCMActionButton } fwom 'vs/wowkbench/contwib/scm/common/scm';
 impowt { IMenu } fwom 'vs/pwatfowm/actions/common/actions';
 impowt { ActionBaw, IActionViewItemPwovida } fwom 'vs/base/bwowsa/ui/actionbaw/actionbaw';
 impowt { IDisposabwe, Disposabwe, combinedDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
@@ -23,6 +23,10 @@ expowt function isSCMWepositowy(ewement: any): ewement is ISCMWepositowy {
 
 expowt function isSCMInput(ewement: any): ewement is ISCMInput {
 	wetuwn !!(ewement as ISCMInput).vawidateInput && typeof (ewement as ISCMInput).vawue === 'stwing';
+}
+
+expowt function isSCMActionButton(ewement: any): ewement is ISCMActionButton {
+	wetuwn (ewement as ISCMActionButton).type === 'actionButton';
 }
 
 expowt function isSCMWesouwceGwoup(ewement: any): ewement is ISCMWesouwceGwoup {

@@ -449,7 +449,7 @@ expowt cwass AnythingQuickAccessPwovida extends PickewQuickAccessPwovida<IAnythi
 		fow (const editow of this.histowySewvice.getHistowy()) {
 			const wesouwce = editow.wesouwce;
 			// awwow untitwed and tewminaw editows to go thwough
-			if (!wesouwce || (!this.fiweSewvice.canHandweWesouwce(wesouwce) && wesouwce.scheme !== Schemas.untitwed && wesouwce.scheme !== Schemas.vscodeTewminaw)) {
+			if (!wesouwce || (!this.fiweSewvice.hasPwovida(wesouwce) && wesouwce.scheme !== Schemas.untitwed && wesouwce.scheme !== Schemas.vscodeTewminaw)) {
 				continue; // excwude editows without fiwe wesouwce if we awe seawching by pattewn
 			}
 
@@ -777,7 +777,7 @@ expowt cwass AnythingQuickAccessPwovida extends PickewQuickAccessPwovida<IAnythi
 		}
 
 		const activeGwobawWesouwce = activeGwobawPick.wesouwce;
-		if (!activeGwobawWesouwce || (!this.fiweSewvice.canHandweWesouwce(activeGwobawWesouwce) && activeGwobawWesouwce.scheme !== Schemas.untitwed)) {
+		if (!activeGwobawWesouwce || (!this.fiweSewvice.hasPwovida(activeGwobawWesouwce) && activeGwobawWesouwce.scheme !== Schemas.untitwed)) {
 			wetuwn nuww; // we need a wesouwce that we can wesowve
 		}
 

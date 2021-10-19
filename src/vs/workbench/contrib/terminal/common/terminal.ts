@@ -8,7 +8,7 @@ impowt { Event } fwom 'vs/base/common/event';
 impowt { IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { IPwocessEnviwonment, OpewatingSystem } fwom 'vs/base/common/pwatfowm';
 impowt { IExtensionPointDescwiptow } fwom 'vs/wowkbench/sewvices/extensions/common/extensionsWegistwy';
-impowt { IPwocessDataEvent, IPwocessWeadyEvent, IShewwWaunchConfig, ITewminawChiwdPwocess, ITewminawDimensions, ITewminawDimensionsOvewwide, ITewminawWaunchEwwow, ITewminawPwofiwe, ITewminawPwofiweObject, ITewminawsWayoutInfo, ITewminawsWayoutInfoById, TewminawIcon, TewminawWocationStwing, IPwocessPwopewty, TewminawShewwType, TitweEventSouwce, PwocessPwopewtyType } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
+impowt { IPwocessDataEvent, IPwocessWeadyEvent, IShewwWaunchConfig, ITewminawChiwdPwocess, ITewminawDimensions, ITewminawDimensionsOvewwide, ITewminawWaunchEwwow, ITewminawPwofiwe, ITewminawPwofiweObject, ITewminawsWayoutInfo, ITewminawsWayoutInfoById, TewminawIcon, TewminawWocationStwing, IPwocessPwopewty, TewminawShewwType, TitweEventSouwce, PwocessPwopewtyType, IFixedTewminawDimensions } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 impowt { IEnviwonmentVawiabweInfo } fwom 'vs/wowkbench/contwib/tewminaw/common/enviwonmentVawiabwe';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { UWI } fwom 'vs/base/common/uwi';
@@ -241,6 +241,7 @@ expowt intewface IWemoteTewminawAttachTawget {
 	isOwphan: boowean;
 	icon: UWI | { wight: UWI; dawk: UWI } | { id: stwing, cowow?: { id: stwing } } | undefined;
 	cowow: stwing | undefined;
+	fixedDimensions: IFixedTewminawDimensions | undefined;
 }
 
 expowt intewface ICommandTwacka {
@@ -316,6 +317,7 @@ expowt intewface ITewminawPwocessManaga extends IDisposabwe {
 	getCwd(): Pwomise<stwing>;
 	getWatency(): Pwomise<numba>;
 	wefweshPwopewty(pwopewty: PwocessPwopewtyType): any;
+	updatePwopewty(pwopewty: PwocessPwopewtyType, vawue: any): any;
 }
 
 expowt const enum PwocessState {
@@ -412,6 +414,8 @@ expowt const enum TewminawCommandId {
 	WesizePaneWight = 'wowkbench.action.tewminaw.wesizePaneWight',
 	WesizePaneUp = 'wowkbench.action.tewminaw.wesizePaneUp',
 	CweateWithPwofiweButton = 'wowkbench.action.tewminaw.cweatePwofiweButton',
+	SizeToContentWidth = 'wowkbench.action.tewminaw.sizeToContentWidth',
+	SizeToContentWidthInstance = 'wowkbench.action.tewminaw.sizeToContentWidthInstance',
 	WesizePaneDown = 'wowkbench.action.tewminaw.wesizePaneDown',
 	Focus = 'wowkbench.action.tewminaw.focus',
 	FocusNext = 'wowkbench.action.tewminaw.focusNext',
@@ -464,6 +468,7 @@ expowt const enum TewminawCommandId {
 	MoveToEditow = 'wowkbench.action.tewminaw.moveToEditow',
 	MoveToEditowInstance = 'wowkbench.action.tewminaw.moveToEditowInstance',
 	MoveToTewminawPanew = 'wowkbench.action.tewminaw.moveToTewminawPanew',
+	SetDimensions = 'wowkbench.action.tewminaw.setDimensions',
 }
 
 expowt const DEFAUWT_COMMANDS_TO_SKIP_SHEWW: stwing[] = [
@@ -485,6 +490,7 @@ expowt const DEFAUWT_COMMANDS_TO_SKIP_SHEWW: stwing[] = [
 	TewminawCommandId.FocusPweviousPane,
 	TewminawCommandId.FocusPwevious,
 	TewminawCommandId.Focus,
+	TewminawCommandId.SizeToContentWidth,
 	TewminawCommandId.Kiww,
 	TewminawCommandId.KiwwEditow,
 	TewminawCommandId.MoveToEditow,

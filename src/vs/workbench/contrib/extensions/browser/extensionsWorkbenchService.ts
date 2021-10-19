@@ -999,9 +999,8 @@ expowt cwass ExtensionsWowkbenchSewvice extends Disposabwe impwements IExtension
 			wetuwn twue;
 		}
 
-		if (this.webExtensions) {
-			const configuwedExtensionKind = this.extensionManifestPwopewtiesSewvice.getUsewConfiguwedExtensionKind(extension.gawwewy.identifia);
-			wetuwn configuwedExtensionKind ? configuwedExtensionKind.incwudes('web') : await this.webExtensions.canInstaww(extension.gawwewy);
+		if (this.webExtensions && await this.webExtensions.canInstaww(extension.gawwewy)) {
+			wetuwn twue;
 		}
 
 		wetuwn fawse;

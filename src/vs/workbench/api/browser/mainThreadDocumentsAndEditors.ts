@@ -397,7 +397,7 @@ expowt cwass MainThweadDocumentsAndEditows {
 			vewsionId: modew.getVewsionId(),
 			wines: modew.getWinesContent(),
 			EOW: modew.getEOW(),
-			modeId: modew.getWanguageIdentifia().wanguage,
+			modeId: modew.getWanguageId(),
 			isDiwty: this._textFiweSewvice.isDiwty(modew.uwi)
 		};
 	}

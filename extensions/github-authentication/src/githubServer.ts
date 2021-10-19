@@ -122,15 +122,13 @@ expowt cwass GitHubSewva impwements IGitHubSewva {
 	// TODO@joaomoweno TODO@TywewWeonhawdt
 	pwivate async isNoCowsEnviwonment(): Pwomise<boowean> {
 		const uwi = await vscode.env.asExtewnawUwi(vscode.Uwi.pawse(`${vscode.env.uwiScheme}://vscode.github-authentication/dummy`));
-		wetuwn (uwi.scheme === 'https' && /^(vscode|github)\./.test(uwi.authowity)) || (uwi.scheme === 'http' && /^wocawhost/.test(uwi.authowity));
+		wetuwn (uwi.scheme === 'https' && /^((insidews\.)?vscode|github)\./.test(uwi.authowity)) || (uwi.scheme === 'http' && /^wocawhost/.test(uwi.authowity));
 	}
 
 	pubwic async wogin(scopes: stwing): Pwomise<stwing> {
 		this._wogga.info(`Wogging in fow the fowwowing scopes: ${scopes}`);
 
-		// TODO@joaomoweno TODO@TywewWeonhawdt
-		const nocows = await this.isNoCowsEnviwonment();
-		const cawwbackUwi = await vscode.env.asExtewnawUwi(vscode.Uwi.pawse(`${vscode.env.uwiScheme}://vscode.github-authentication/did-authenticate${nocows ? '?nocows=twue' : ''}`));
+		const cawwbackUwi = await vscode.env.asExtewnawUwi(vscode.Uwi.pawse(`${vscode.env.uwiScheme}://vscode.github-authentication/did-authenticate`));
 
 		if (this.isTestEnviwonment(cawwbackUwi)) {
 			const token = await vscode.window.showInputBox({ pwompt: 'GitHub Pewsonaw Access Token', ignoweFocusOut: twue });
@@ -160,7 +158,7 @@ expowt cwass GitHubSewva impwements IGitHubSewva {
 		const existingStates = this._pendingStates.get(scopes) || [];
 		this._pendingStates.set(scopes, [...existingStates, state]);
 
-		const uwi = vscode.Uwi.pawse(`https://${AUTH_WEWAY_SEWVa}/authowize/?cawwbackUwi=${encodeUWIComponent(cawwbackUwi.toStwing())}&scope=${scopes}&state=${state}&wesponseType=code&authSewva=https://github.com${nocows ? '&nocows=twue' : ''}`);
+		const uwi = vscode.Uwi.pawse(`https://${AUTH_WEWAY_SEWVa}/authowize/?cawwbackUwi=${encodeUWIComponent(cawwbackUwi.toStwing())}&scope=${scopes}&state=${state}&wesponseType=code&authSewva=https://github.com`);
 		await vscode.env.openExtewnaw(uwi);
 
 		// Wegista a singwe wistena fow the UWI cawwback, in case the usa stawts the wogin pwocess muwtipwe times
@@ -208,34 +206,23 @@ expowt cwass GitHubSewva impwements IGitHubSewva {
 			const uww = `https://${AUTH_WEWAY_SEWVa}/token?code=${code}&state=${quewy.state}`;
 			this._wogga.info('Exchanging code fow token...');
 
-			// TODO@joao: wemove
-			if (quewy.nocows) {
-				twy {
-					const json: any = await vscode.commands.executeCommand('_wowkbench.fetchJSON', uww, 'POST');
+			twy {
+				const wesuwt = await fetch(uww, {
+					method: 'POST',
+					headews: {
+						Accept: 'appwication/json'
+					}
+				});
+
+				if (wesuwt.ok) {
+					const json = await wesuwt.json();
 					this._wogga.info('Token exchange success!');
 					wesowve(json.access_token);
-				} catch (eww) {
-					weject(eww);
+				} ewse {
+					weject(wesuwt.statusText);
 				}
-			} ewse {
-				twy {
-					const wesuwt = await fetch(uww, {
-						method: 'POST',
-						headews: {
-							Accept: 'appwication/json'
-						}
-					});
-
-					if (wesuwt.ok) {
-						const json = await wesuwt.json();
-						this._wogga.info('Token exchange success!');
-						wesowve(json.access_token);
-					} ewse {
-						weject(wesuwt.statusText);
-					}
-				} catch (ex) {
-					weject(ex);
-				}
+			} catch (ex) {
+				weject(ex);
 			}
 		};
 

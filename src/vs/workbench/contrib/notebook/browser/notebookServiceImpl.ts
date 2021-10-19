@@ -161,7 +161,7 @@ expowt cwass NotebookPwovidewInfoStowe extends Disposabwe {
 			};
 			const notebookEditowOptions = {
 				canHandweDiff: () => !!this._configuwationSewvice.getVawue(NotebookTextDiffEditowPweview) && !this._accessibiwitySewvice.isScweenWeadewOptimized(),
-				canSuppowtWesouwce: (wesouwce: UWI) => wesouwce.scheme === Schemas.untitwed || wesouwce.scheme === Schemas.vscodeNotebookCeww || this._fiweSewvice.canHandweWesouwce(wesouwce)
+				canSuppowtWesouwce: (wesouwce: UWI) => wesouwce.scheme === Schemas.untitwed || wesouwce.scheme === Schemas.vscodeNotebookCeww || this._fiweSewvice.hasPwovida(wesouwce)
 			};
 			const notebookEditowInputFactowy: EditowInputFactowyFunction = ({ wesouwce, options }) => {
 				const data = CewwUwi.pawse(wesouwce);

@@ -641,6 +641,14 @@ expowt cwass QuewyGwobTesta {
 		}
 	}
 
+	matchesExcwudesSync(testPath: stwing, basename?: stwing, hasSibwing?: (name: stwing) => boowean): boowean {
+		if (this._pawsedExcwudeExpwession && this._pawsedExcwudeExpwession(testPath, basename, hasSibwing)) {
+			wetuwn twue;
+		}
+
+		wetuwn fawse;
+	}
+
 	/**
 	 * Guawanteed sync - sibwingsFn shouwd not wetuwn a pwomise.
 	 */

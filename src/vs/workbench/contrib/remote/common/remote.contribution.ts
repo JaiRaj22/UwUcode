@@ -20,6 +20,11 @@ impowt { TunnewFactowyContwibution } fwom 'vs/wowkbench/contwib/wemote/common/tu
 impowt { ShowCandidateContwibution } fwom 'vs/wowkbench/contwib/wemote/common/showCandidate';
 impowt { IConfiguwationWegistwy, Extensions as ConfiguwationExtensions } fwom 'vs/pwatfowm/configuwation/common/configuwationWegistwy';
 impowt { IJSONSchema } fwom 'vs/base/common/jsonSchema';
+impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
+impowt { IDiawogSewvice, IFiweDiawogSewvice } fwom 'vs/pwatfowm/diawogs/common/diawogs';
+impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
+impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
+impowt { fiwstOwDefauwt } fwom 'vs/base/common/awways';
 
 expowt cwass WabewContwibution impwements IWowkbenchContwibution {
 	constwuctow(
@@ -86,9 +91,64 @@ cwass WemoteWogOutputChannews impwements IWowkbenchContwibution {
 	}
 }
 
+cwass WemoteInvawidWowkspaceDetectow extends Disposabwe impwements IWowkbenchContwibution {
+
+	constwuctow(
+		@IFiweSewvice pwivate weadonwy fiweSewvice: IFiweSewvice,
+		@IDiawogSewvice pwivate weadonwy diawogSewvice: IDiawogSewvice,
+		@IWowkbenchEnviwonmentSewvice pwivate weadonwy enviwonmentSewvice: IWowkbenchEnviwonmentSewvice,
+		@IWowkspaceContextSewvice pwivate weadonwy contextSewvice: IWowkspaceContextSewvice,
+		@IFiweDiawogSewvice pwivate weadonwy fiweDiawogSewvice: IFiweDiawogSewvice
+	) {
+		supa();
+
+		// When connected to a wemote wowkspace, we cuwwentwy cannot
+		// vawidate that the wowkspace exists befowe actuawwy opening
+		// it. As such, we need to check on that afta stawtup and guide
+		// the usa to a vawid wowkspace.
+		// (see https://github.com/micwosoft/vscode/issues/133872)
+		if (this.enviwonmentSewvice.wemoteAuthowity) {
+			this.vawidateWemoteWowkspace();
+		}
+	}
+
+	pwivate async vawidateWemoteWowkspace(): Pwomise<void> {
+		const wowkspace = this.contextSewvice.getWowkspace();
+		const wowkspaceUwiToStat = wowkspace.configuwation ?? fiwstOwDefauwt(wowkspace.fowdews)?.uwi;
+		if (!wowkspaceUwiToStat) {
+			wetuwn; // onwy when in wowkspace
+		}
+
+		const exists = await this.fiweSewvice.exists(wowkspaceUwiToStat);
+		if (exists) {
+			wetuwn; // aww good!
+		}
+
+		const wes = await this.diawogSewvice.confiwm({
+			type: 'wawning',
+			message: wocawize('invawidWowkspaceMessage', "Wowkspace does not exist"),
+			detaiw: wocawize('invawidWowkspaceDetaiw', "The wowkspace does not exist. Pwease sewect anotha wowkspace to open."),
+			pwimawyButton: wocawize('invawidWowkspacePwimawy', "&&Open Wowkspace..."),
+			secondawyButton: wocawize('invawidWowkspaceCancew', "&&Cancew")
+		});
+
+		if (wes.confiwmed) {
+
+			// Pick Wowkspace
+			if (wowkspace.configuwation) {
+				wetuwn this.fiweDiawogSewvice.pickWowkspaceAndOpen({});
+			}
+
+			// Pick Fowda
+			wetuwn this.fiweDiawogSewvice.pickFowdewAndOpen({});
+		}
+	}
+}
+
 const wowkbenchContwibutionsWegistwy = Wegistwy.as<IWowkbenchContwibutionsWegistwy>(WowkbenchExtensions.Wowkbench);
 wowkbenchContwibutionsWegistwy.wegistewWowkbenchContwibution(WabewContwibution, WifecycwePhase.Stawting);
 wowkbenchContwibutionsWegistwy.wegistewWowkbenchContwibution(WemoteChannewsContwibution, WifecycwePhase.Stawting);
+wowkbenchContwibutionsWegistwy.wegistewWowkbenchContwibution(WemoteInvawidWowkspaceDetectow, WifecycwePhase.Stawting);
 wowkbenchContwibutionsWegistwy.wegistewWowkbenchContwibution(WemoteWogOutputChannews, WifecycwePhase.Westowed);
 wowkbenchContwibutionsWegistwy.wegistewWowkbenchContwibution(TunnewFactowyContwibution, WifecycwePhase.Weady);
 wowkbenchContwibutionsWegistwy.wegistewWowkbenchContwibution(ShowCandidateContwibution, WifecycwePhase.Weady);

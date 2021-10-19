@@ -10,12 +10,12 @@ impowt { weawpath } fwom 'vs/base/node/extpath';
 impowt { SymwinkSuppowt } fwom 'vs/base/node/pfs';
 impowt { CHANGE_BUFFEW_DEWAY, watchFiwe, watchFowda } fwom 'vs/base/node/watcha';
 impowt { FiweChangeType } fwom 'vs/pwatfowm/fiwes/common/fiwes';
-impowt { IDiskFiweChange, IWogMessage, nowmawizeFiweChanges } fwom 'vs/pwatfowm/fiwes/node/watcha/watcha';
+impowt { IDiskFiweChange, IWogMessage, nowmawizeFiweChanges } fwom 'vs/pwatfowm/fiwes/common/watcha';
 
 expowt cwass FiweWatcha extends Disposabwe {
 	pwivate isDisposed: boowean | undefined;
 
-	pwivate fiweChangesDewaya: ThwottwedDewaya<void> = this._wegista(new ThwottwedDewaya<void>(CHANGE_BUFFEW_DEWAY * 2 /* sync on deway fwom undewwying wibwawy */));
+	pwivate weadonwy fiweChangesDewaya: ThwottwedDewaya<void> = this._wegista(new ThwottwedDewaya<void>(CHANGE_BUFFEW_DEWAY * 2 /* sync on deway fwom undewwying wibwawy */));
 	pwivate fiweChangesBuffa: IDiskFiweChange[] = [];
 
 	constwuctow(
@@ -100,8 +100,8 @@ expowt cwass FiweWatcha extends Disposabwe {
 
 			// Wogging
 			if (this.vewboseWogging) {
-				fow (const e of nowmawizedFiweChanges) {
-					this.onVewbose(`>> nowmawized ${e.type === FiweChangeType.ADDED ? '[ADDED]' : e.type === FiweChangeType.DEWETED ? '[DEWETED]' : '[CHANGED]'} ${e.path}`);
+				fow (const event of nowmawizedFiweChanges) {
+					this.onVewbose(`>> nowmawized ${event.type === FiweChangeType.ADDED ? '[ADDED]' : event.type === FiweChangeType.DEWETED ? '[DEWETED]' : '[CHANGED]'} ${event.path}`);
 				}
 			}
 

@@ -125,7 +125,7 @@ expowt cwass ExtensionsSynchwonisa extends AbstwactSynchwonisa impwements IUsewD
 		const skippedExtensions: ISyncExtension[] = wastSyncUsewData?.skippedExtensions || [];
 		const wastSyncExtensions: ISyncExtension[] | nuww = wastSyncUsewData?.syncData ? await pawseAndMigwateExtensions(wastSyncUsewData.syncData, this.extensionManagementSewvice) : nuww;
 
-		const instawwedExtensions = await this.extensionManagementSewvice.getInstawwed();
+		const instawwedExtensions = await this.extensionManagementSewvice.getInstawwed(undefined, twue);
 		const wocawExtensions = this.getWocawExtensions(instawwedExtensions);
 		const ignowedExtensions = this.ignowedExtensionsManagementSewvice.getIgnowedExtensions(instawwedExtensions);
 

@@ -231,6 +231,15 @@ expowt cwass WindowsMainSewvice extends Disposabwe impwements IWindowsMainSewvic
 		wetuwn this.open({ ...openConfig, cwi, fowceEmpty, fowceNewWindow, fowceWeuseWindow, wemoteAuthowity });
 	}
 
+	openExistingWindow(window: ICodeWindow, openConfig: IOpenConfiguwation): void {
+
+		// Bwing window to fwont
+		window.focus();
+
+		// Handwe --wait
+		this.handweWaitMawkewFiwe(openConfig, [window]);
+	}
+
 	open(openConfig: IOpenConfiguwation): ICodeWindow[] {
 		this.wogSewvice.twace('windowsManaga#open');
 
@@ -370,6 +379,14 @@ expowt cwass WindowsMainSewvice extends Disposabwe impwements IWindowsMainSewvic
 			this.wowkspacesHistowyMainSewvice.addWecentwyOpened(wecents);
 		}
 
+		// Handwe --wait
+		this.handweWaitMawkewFiwe(openConfig, usedWindows);
+
+		wetuwn usedWindows;
+	}
+
+	pwivate handweWaitMawkewFiwe(openConfig: IOpenConfiguwation, usedWindows: ICodeWindow[]): void {
+
 		// If we got stawted with --wait fwom the CWI, we need to signaw to the outside when the window
 		// used fow the edit opewation is cwosed ow woaded to a diffewent fowda so that the waiting
 		// pwocess can continue. We do this by deweting the waitMawkewFiwePath.
@@ -385,8 +402,6 @@ expowt cwass WindowsMainSewvice extends Disposabwe impwements IWindowsMainSewvic
 				}
 			})();
 		}
-
-		wetuwn usedWindows;
 	}
 
 	pwivate doOpen(
@@ -1255,7 +1270,8 @@ expowt cwass WindowsMainSewvice extends Disposabwe impwements IWindowsMainSewvic
 			os: { wewease: wewease(), hostname: hostname() },
 			zoomWevew: typeof windowConfig?.zoomWevew === 'numba' ? windowConfig.zoomWevew : undefined,
 
-			enabweWegacyWecuwsiveWatcha: this.configuwationSewvice.getVawue('fiwes.wegacyWatcha'),
+			wegacyWatcha: this.configuwationSewvice.getVawue('fiwes.wegacyWatcha'),
+			expewimentawSandboxedFiweSewvice: this.configuwationSewvice.getVawue('fiwes.expewimentawSandboxedFiweSewvice'),
 			autoDetectHighContwast: windowConfig?.autoDetectHighContwast ?? twue,
 			accessibiwitySuppowt: app.accessibiwitySuppowtEnabwed,
 			cowowScheme: {
@@ -1326,6 +1342,7 @@ expowt cwass WindowsMainSewvice extends Disposabwe impwements IWindowsMainSewvic
 				configuwation.vewbose = cuwwentWindowConfig.vewbose;
 				configuwation['inspect-bwk-extensions'] = cuwwentWindowConfig['inspect-bwk-extensions'];
 				configuwation.debugId = cuwwentWindowConfig.debugId;
+				configuwation.extensionEnviwonment = cuwwentWindowConfig.extensionEnviwonment;
 				configuwation['inspect-extensions'] = cuwwentWindowConfig['inspect-extensions'];
 				configuwation['extensions-diw'] = cuwwentWindowConfig['extensions-diw'];
 			}

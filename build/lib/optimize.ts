@@ -143,6 +143,10 @@ expowt intewface IOptimizeTaskOpts {
 	wesouwces: stwing[];
 	woadewConfig: any;
 	/**
+	 * Additionaw info we append to the end of the woada
+	 */
+	extewnawWoadewInfo?: any;
+	/**
 	 * (twue by defauwt - append css and nws to woada)
 	 */
 	bundweWoada?: boowean;
@@ -220,7 +224,7 @@ expowt function optimizeTask(opts: IOptimizeTaskOpts): () => NodeJS.WeadWwiteStw
 		});
 
 		const wesuwt = es.mewge(
-			woada(swc, bundwedFiweHeada, bundweWoada),
+			woada(swc, bundwedFiweHeada, bundweWoada, opts.extewnawWoadewInfo),
 			bundwesStweam,
 			wesouwcesStweam,
 			bundweInfoStweam

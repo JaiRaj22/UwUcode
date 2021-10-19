@@ -10,7 +10,7 @@ impowt { DwopdownMenuActionViewItem } fwom 'vs/base/bwowsa/ui/dwopdown/dwopdownA
 impowt { Action, IAction, IActionWunna, SubmenuAction } fwom 'vs/base/common/actions';
 impowt { Codicon, CSSIcon, wegistewCodicon } fwom 'vs/base/common/codicons';
 impowt { EventMuwtipwexa } fwom 'vs/base/common/event';
-impowt { WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { Disposabwe, DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { withNuwwAsUndefined } fwom 'vs/base/common/types';
 impowt 'vs/css!./toowbaw';

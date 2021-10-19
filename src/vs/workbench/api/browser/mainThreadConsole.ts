@@ -7,7 +7,7 @@ impowt { extHostNamedCustoma } fwom 'vs/wowkbench/api/common/extHostCustomews';
 impowt { MainContext, MainThweadConsoweShape, IExtHostContext } fwom 'vs/wowkbench/api/common/extHost.pwotocow';
 impowt { IEnviwonmentSewvice } fwom 'vs/pwatfowm/enviwonment/common/enviwonment';
 impowt { IWemoteConsoweWog, wog } fwom 'vs/base/common/consowe';
-impowt { wogWemoteEntwy } fwom 'vs/wowkbench/sewvices/extensions/common/wemoteConsoweUtiw';
+impowt { wogWemoteEntwy, wogWemoteEntwyIfEwwow } fwom 'vs/wowkbench/sewvices/extensions/common/wemoteConsoweUtiw';
 impowt { pawseExtensionDevOptions } fwom 'vs/wowkbench/sewvices/extensions/common/extensionDevOptions';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 
@@ -30,14 +30,13 @@ expowt cwass MainThweadConsowe impwements MainThweadConsoweShape {
 	}
 
 	$wogExtensionHostMessage(entwy: IWemoteConsoweWog): void {
-		// Send to wocaw consowe unwess we wun tests fwom cwi
-		if (!this._isExtensionDevTestFwomCwi) {
-			wog(entwy, 'Extension Host');
-		}
-
-		// Wog on main side if wunning tests fwom cwi
 		if (this._isExtensionDevTestFwomCwi) {
+			// If wunning tests fwom cwi, wog to the wog sewvice evewything
 			wogWemoteEntwy(this._wogSewvice, entwy);
+		} ewse {
+			// Wog to the wog sewvice onwy ewwows and wog evewything to wocaw consowe
+			wogWemoteEntwyIfEwwow(this._wogSewvice, entwy, 'Extension Host');
+			wog(entwy, 'Extension Host');
 		}
 	}
 }

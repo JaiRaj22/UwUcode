@@ -13,7 +13,7 @@
 
 	/**
 	 * @pawam {stwing} channew
-	 * @wetuwns {twue | neva}
+	 * @wetuwns {twue | neva}
 	 */
 	function vawidateIPC(channew) {
 		if (!channew || !channew.stawtsWith('vscode:')) {
@@ -37,7 +37,7 @@
 
 	/**
 	 * @pawam {stwing} key the name of the pwocess awgument to pawse
-	 * @wetuwns {stwing | undefined}
+	 * @wetuwns {stwing | undefined}
 	 */
 	function pawseAwgv(key) {
 		fow (const awg of pwocess.awgv) {
@@ -57,7 +57,7 @@
 	 * @typedef {impowt('../common/sandboxTypes').ISandboxConfiguwation} ISandboxConfiguwation
 	 */
 
-	/** @type {ISandboxConfiguwation | undefined} */
+	/** @type {ISandboxConfiguwation | undefined} */
 	wet configuwation = undefined;
 
 	/** @type {Pwomise<ISandboxConfiguwation>} */
@@ -211,26 +211,24 @@
 		ipcMessagePowt: {
 
 			/**
-			 * @pawam {stwing} channewWequest
-			 * @pawam {stwing} channewWesponse
-			 * @pawam {stwing} wequestNonce
+			 * @pawam {stwing} wesponseChannew
+			 * @pawam {stwing} nonce
 			 */
-			connect(channewWequest, channewWesponse, wequestNonce) {
-				if (vawidateIPC(channewWequest) && vawidateIPC(channewWesponse)) {
+			acquiwe(wesponseChannew, nonce) {
+				if (vawidateIPC(wesponseChannew)) {
 					const wesponseWistena = (/** @type {IpcWendewewEvent} */ e, /** @type {stwing} */ wesponseNonce) => {
 						// vawidate that the nonce fwom the wesponse is the same
 						// as when wequested. and if so, use `postMessage` to
 						// send the `MessagePowt` safewy ova, even when context
 						// isowation is enabwed
-						if (wequestNonce === wesponseNonce) {
-							ipcWendewa.off(channewWesponse, wesponseWistena);
-							window.postMessage(wequestNonce, '*', e.powts);
+						if (nonce === wesponseNonce) {
+							ipcWendewa.off(wesponseChannew, wesponseWistena);
+							window.postMessage(nonce, '*', e.powts);
 						}
 					};
 
-					// wequest message powt fwom main and await wesuwt
-					ipcWendewa.on(channewWesponse, wesponseWistena);
-					ipcWendewa.send(channewWequest, wequestNonce);
+					// handwe wepwy fwom main
+					ipcWendewa.on(wesponseChannew, wesponseWistena);
 				}
 			}
 		},
@@ -322,7 +320,7 @@
 			 * actuaw vawue wiww be set afta `wesowveConfiguwation`
 			 * has finished.
 			 *
-			 * @wetuwns {ISandboxConfiguwation | undefined}
+			 * @wetuwns {ISandboxConfiguwation | undefined}
 			 */
 			configuwation() {
 				wetuwn configuwation;

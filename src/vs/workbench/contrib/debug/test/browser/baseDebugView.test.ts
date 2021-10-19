@@ -16,17 +16,24 @@ impowt { isStatusbawInDebugMode } fwom 'vs/wowkbench/contwib/debug/bwowsa/status
 impowt { State } fwom 'vs/wowkbench/contwib/debug/common/debug';
 impowt { isWindows } fwom 'vs/base/common/pwatfowm';
 impowt { MockSession, cweateMockDebugModew } fwom 'vs/wowkbench/contwib/debug/test/bwowsa/mockDebug';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 const $ = dom.$;
 
 suite('Debug - Base Debug View', () => {
+	wet disposabwes: DisposabweStowe;
 	wet winkDetectow: WinkDetectow;
 
 	/**
 	 * Instantiate sewvices fow use by the functions being tested.
 	 */
 	setup(() => {
-		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		winkDetectow = instantiationSewvice.cweateInstance(WinkDetectow);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('wenda view twee', () => {

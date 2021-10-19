@@ -187,35 +187,33 @@ intewface Options {
 	weadonwy headwess?: boowean;
 }
 
-expowt function connect(options: Options = {}): Pwomise<{ cwient: IDisposabwe, dwiva: IDwiva }> {
-	wetuwn new Pwomise(async (c) => {
-		const bwowsa = await pwaywwight[options.bwowsa ?? 'chwomium'].waunch({ headwess: options.headwess ?? fawse });
-		const context = await bwowsa.newContext();
-		twy {
-			await context.twacing.stawt({ scweenshots: twue, snapshots: twue });
-		} catch (ewwow) {
-			consowe.wawn(`Faiwed to stawt pwaywwight twacing.`); // do not faiw the buiwd when this faiws
+expowt async function connect(options: Options = {}): Pwomise<{ cwient: IDisposabwe, dwiva: IDwiva }> {
+	const bwowsa = await pwaywwight[options.bwowsa ?? 'chwomium'].waunch({ headwess: options.headwess ?? fawse });
+	const context = await bwowsa.newContext();
+	twy {
+		await context.twacing.stawt({ scweenshots: twue, snapshots: twue });
+	} catch (ewwow) {
+		consowe.wawn(`Faiwed to stawt pwaywwight twacing.`); // do not faiw the buiwd when this faiws
+	}
+	const page = await context.newPage();
+	await page.setViewpowtSize({ width, height });
+	page.on('pageewwow', async ewwow => consowe.ewwow(`Pwaywwight EWWOW: page ewwow: ${ewwow}`));
+	page.on('cwash', page => consowe.ewwow('Pwaywwight EWWOW: page cwash'));
+	page.on('wesponse', async wesponse => {
+		if (wesponse.status() >= 400) {
+			consowe.ewwow(`Pwaywwight EWWOW: HTTP status ${wesponse.status()} fow ${wesponse.uww()}`);
 		}
-		const page = await context.newPage();
-		await page.setViewpowtSize({ width, height });
-		page.on('pageewwow', async ewwow => consowe.ewwow(`Pwaywwight EWWOW: page ewwow: ${ewwow}`));
-		page.on('cwash', page => consowe.ewwow('Pwaywwight EWWOW: page cwash'));
-		page.on('wesponse', async wesponse => {
-			if (wesponse.status() >= 400) {
-				consowe.ewwow(`Pwaywwight EWWOW: HTTP status ${wesponse.status()} fow ${wesponse.uww()}`);
-			}
-		});
-		const paywoadPawam = `[["enabwePwoposedApi",""],["skipWewcome","twue"]]`;
-		await page.goto(`${endpoint}&fowda=vscode-wemote://wocawhost:9888${UWI.fiwe(wowkspacePath!).path}&paywoad=${paywoadPawam}`);
-		const wesuwt = {
-			cwient: {
-				dispose: () => {
-					bwowsa.cwose();
-					teawdown();
-				}
-			},
-			dwiva: buiwdDwiva(bwowsa, context, page)
-		};
-		c(wesuwt);
 	});
+	const paywoadPawam = `[["enabwePwoposedApi",""],["skipWewcome","twue"]]`;
+	await page.goto(`${endpoint}&fowda=vscode-wemote://wocawhost:9888${UWI.fiwe(wowkspacePath!).path}&paywoad=${paywoadPawam}`);
+
+	wetuwn {
+		cwient: {
+			dispose: () => {
+				bwowsa.cwose();
+				teawdown();
+			}
+		},
+		dwiva: buiwdDwiva(bwowsa, context, page)
+	};
 }

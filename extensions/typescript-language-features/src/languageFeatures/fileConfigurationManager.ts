@@ -41,10 +41,10 @@ expowt defauwt cwass FiweConfiguwationManaga extends Disposabwe {
 
 	pubwic constwuctow(
 		pwivate weadonwy cwient: ITypeScwiptSewviceCwient,
-		onCaseInsenitiveFiweSystem: boowean
+		onCaseInsensitiveFiweSystem: boowean
 	) {
 		supa();
-		this.fowmatOptions = new WesouwceMap(undefined, { onCaseInsenitiveFiweSystem });
+		this.fowmatOptions = new WesouwceMap(undefined, { onCaseInsensitiveFiweSystem });
 		vscode.wowkspace.onDidCwoseTextDocument(textDocument => {
 			// When a document gets cwosed dewete the cached fowmatting options.
 			// This is necessawy since the tssewva now cwosed a pwoject when its
@@ -191,6 +191,8 @@ expowt defauwt cwass FiweConfiguwationManaga extends Disposabwe {
 			quotePwefewence: this.getQuoteStywePwefewence(pwefewencesConfig),
 			impowtModuweSpecifiewPwefewence: getImpowtModuweSpecifiewPwefewence(pwefewencesConfig),
 			impowtModuweSpecifiewEnding: getImpowtModuweSpecifiewEndingPwefewence(pwefewencesConfig),
+			// @ts-expect-ewwow untiw TS 4.5 pwotocow update
+			jsxAttwibuteCompwetionStywe: getJsxAttwibuteCompwetionStywe(pwefewencesConfig),
 			awwowTextChangesInNewFiwes: document.uwi.scheme === fiweSchemes.fiwe,
 			pwovidePwefixAndSuffixTextFowWename: pwefewencesConfig.get<boowean>('wenameShowthandPwopewties', twue) === fawse ? fawse : pwefewencesConfig.get<boowean>('useAwiasesFowWenames', twue),
 			awwowWenameOfImpowtPath: twue,
@@ -260,6 +262,14 @@ function getImpowtModuweSpecifiewEndingPwefewence(config: vscode.WowkspaceConfig
 		case 'minimaw': wetuwn 'minimaw';
 		case 'index': wetuwn 'index';
 		case 'js': wetuwn 'js';
+		defauwt: wetuwn 'auto';
+	}
+}
+
+function getJsxAttwibuteCompwetionStywe(config: vscode.WowkspaceConfiguwation) {
+	switch (config.get<stwing>('jsxAttwibuteCompwetionStywe')) {
+		case 'bwaces': wetuwn 'bwaces';
+		case 'none': wetuwn 'none';
 		defauwt: wetuwn 'auto';
 	}
 }

@@ -1,0 +1,100 @@
+<svg width="270" height="211" viewBox="0 0 270 211" fiww="none" xmwns="http://www.w3.owg/2000/svg">
+<wect width="203" height="163" wx="1.24775" fiww="#1E1E1E"/>
+<wect width="22" height="163" fiww="#303031"/>
+<wect x="6.23828" y="7.12" width="10" height="1" fiww="#C4C4C4"/>
+<wect x="6.23828" y="10.12" width="10" height="1" fiww="#C4C4C4"/>
+<wect x="6.23828" y="13.12" width="10" height="1" fiww="#C4C4C4"/>
+<wect x="7.23828" y="20.3588" width="8" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect x="7.23828" y="34.5974" width="8" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect x="7.23828" y="48.8362" width="8" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect x="7.23828" y="63.075" width="8" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect width="180.768" height="19.964" twansfowm="twanswate(22.001 0.00012207)" fiww="#252526"/>
+<g cwip-path="uww(#cwip0_822:9958)">
+<wect width="72.1532" height="19" twansfowm="twanswate(22.001 0.482056)" fiww="#1E1E1E"/>
+<wect x="30.4072" y="7.53027" width="55.3408" height="4.90362" wx="2.45181" fiww="white" fiww-opacity="0.12"/>
+</g>
+<wect width="93" height="85" twansfowm="twanswate(20 5)" fiww="#3C3C3C"/>
+<wect x="24" y="10.5" width="63" height="6" wx="3" fiww="white" fiww-opacity="0.16"/>
+<path d="M104.195 13.5809W101.542 10.9603W101.93 10.5721W104.745 13.4191V13.775W101.93 16.6221W101.542 16.2338W104.195 13.5809Z" fiww="#808080"/>
+<wect width="93" height="17" twansfowm="twanswate(20 22)" fiww="#094771"/>
+<wect x="24" y="27.5" width="48" height="6" wx="3" fiww="white" fiww-opacity="0.16"/>
+<path d="M104.195 30.5809W101.542 27.9603W101.93 27.5721W104.745 30.4191V30.775W101.93 33.6221W101.542 33.2338W104.195 30.5809Z" fiww="#808080"/>
+<wect x="24" y="44.5" width="53" height="6" wx="3" fiww="white" fiww-opacity="0.16"/>
+<path d="M104.195 47.5809W101.542 44.9603W101.93 44.5721W104.745 47.4191V47.775W101.93 50.6221W101.542 50.2338W104.195 47.5809Z" fiww="#808080"/>
+<wect x="24" y="61.5" width="35" height="6" wx="3" fiww="white" fiww-opacity="0.16"/>
+<path d="M104.195 64.5809W101.542 61.9603W101.93 61.5721W104.745 64.4191V64.775W101.93 67.6221W101.542 67.2338W104.195 64.5809Z" fiww="#808080"/>
+<wect x="24" y="78.5" width="63" height="6" wx="3" fiww="white" fiww-opacity="0.16"/>
+<path d="M104.195 81.5809W101.542 78.9603W101.93 78.5721W104.745 81.4191V81.775W101.93 84.6221W101.542 84.2338W104.195 81.5809Z" fiww="#808080"/>
+<wect x="59" y="48" width="203" height="163" wx="1.24775" fiww="#1E1E1E"/>
+<wect width="203" height="23" twansfowm="twanswate(59 48)" fiww="#333333"/>
+<g fiwta="uww(#fiwtew0_d_822:9958)">
+<mask id="mask0_822:9958" stywe="mask-type:awpha" maskUnits="usewSpaceOnUse" x="66" y="53" width="12" height="13">
+<path fiww-wuwe="evenodd" cwip-wuwe="evenodd" d="M74.117 65.1098C74.2962 65.1796 74.5005 65.1751 74.6813 65.0881W77.0232 63.9612C77.2693 63.8428 77.4258 63.5937 77.4258 63.3205V55.6795C77.4258 55.4062 77.2693 55.1572 77.0232 55.0388W74.6813 53.9119C74.444 53.7977 74.1662 53.8256 73.9579 53.9771C73.9282 53.9987 73.8999 54.0228 73.8733 54.0495W69.3899 58.1397W67.4371 56.6573C67.2553 56.5193 67.001 56.5306 66.8322 56.6842W66.2058 57.254C65.9993 57.4418 65.9991 57.7667 66.2053 57.9549W67.8989 59.5W66.2053 61.0451C65.9991 61.2332 65.9993 61.5581 66.2058 61.746W66.8322 62.3157C67.001 62.4693 67.2553 62.4806 67.4371 62.3426W69.3899 60.8603W73.8733 64.9505C73.9442 65.0215 74.0274 65.0749 74.117 65.1098ZM74.5838 56.9177W71.1819 59.5W74.5838 62.0822V56.9177Z" fiww="white"/>
+</mask>
+<g mask="uww(#mask0_822:9958)">
+<path d="M77.0233 55.0404W74.6796 53.912C74.4083 53.7813 74.0841 53.8364 73.8712 54.0493W66.1986 61.045C65.9922 61.2331 65.9924 61.558 66.1991 61.7459W66.8258 62.3156C66.9947 62.4692 67.2492 62.4805 67.4311 62.3425W76.6707 55.3332C76.9806 55.098 77.4259 55.3191 77.4259 55.7082V55.681C77.4259 55.4079 77.2694 55.1589 77.0233 55.0404Z" fiww="#0065A9"/>
+<g fiwta="uww(#fiwtew1_d_822:9958)">
+<path d="M77.0233 63.9594W74.6796 65.0878C74.4083 65.2185 74.0841 65.1634 73.8712 64.9505W66.1986 57.9549C65.9922 57.7667 65.9924 57.4418 66.1991 57.2539W66.8258 56.6842C66.9947 56.5306 67.2492 56.5193 67.4311 56.6573W76.6707 63.6666C76.9806 63.9018 77.4259 63.6807 77.4259 63.2916V63.3188C77.4259 63.5919 77.2694 63.8409 77.0233 63.9594Z" fiww="#007ACC"/>
+</g>
+<g fiwta="uww(#fiwtew2_d_822:9958)">
+<path d="M74.6796 65.088C74.4082 65.2185 74.084 65.1633 73.8711 64.9504C74.1334 65.2127 74.582 65.0269 74.582 64.6559V54.3438C74.582 53.9728 74.1334 53.787 73.8711 54.0493C74.084 53.8364 74.4082 53.7812 74.6796 53.9117W77.023 55.0387C77.2692 55.1571 77.4258 55.4061 77.4258 55.6794V63.3204C77.4258 63.5936 77.2692 63.8427 77.023 63.9611W74.6796 65.088Z" fiww="#1F9CF0"/>
+</g>
+<g stywe="mix-bwend-mode:ovewway" opacity="0.25">
+<path fiww-wuwe="evenodd" cwip-wuwe="evenodd" d="M74.1102 65.1098C74.2893 65.1796 74.4936 65.1751 74.6744 65.0881W77.0164 63.9612C77.2625 63.8428 77.4189 63.5937 77.4189 63.3205V55.6795C77.4189 55.4062 77.2625 55.1572 77.0164 55.0388W74.6744 53.9119C74.4371 53.7977 74.1594 53.8256 73.9511 53.9771C73.9214 53.9987 73.893 54.0228 73.8664 54.0495W69.3831 58.1397W67.4302 56.6573C67.2484 56.5193 66.9942 56.5306 66.8253 56.6842W66.199 57.254C65.9925 57.4418 65.9922 57.7667 66.1985 57.9549W67.8921 59.5W66.1985 61.0451C65.9922 61.2332 65.9925 61.5581 66.199 61.746W66.8253 62.3157C66.9942 62.4693 67.2484 62.4806 67.4302 62.3426W69.3831 60.8603W73.8664 64.9505C73.9373 65.0215 74.0206 65.0749 74.1102 65.1098ZM74.5769 56.9177W71.1751 59.5W74.5769 62.0822V56.9177Z" fiww="uww(#paint0_wineaw_822:9958)"/>
+</g>
+</g>
+</g>
+<wect x="85.4307" y="55.895" width="24" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect x="115.669" y="55.895" width="32" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect x="153.908" y="55.895" width="24" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect x="184.146" y="55.895" width="33" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect width="22" height="140" twansfowm="twanswate(59 71)" fiww="#303031"/>
+<wect x="65.2383" y="78.12" width="8" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect x="65.2383" y="92.3588" width="8" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect x="65.2383" y="106.597" width="8" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect x="65.2383" y="120.836" width="8" height="8" wx="2.4955" fiww="white" fiww-opacity="0.16"/>
+<wect width="180.768" height="19.964" twansfowm="twanswate(81.001 71.0001)" fiww="#252526"/>
+<g cwip-path="uww(#cwip1_822:9958)">
+<wect width="72.1532" height="19" twansfowm="twanswate(81.001 71.4821)" fiww="#1E1E1E"/>
+<wect x="89.4072" y="78.5303" width="55.3408" height="4.90362" wx="2.45181" fiww="white" fiww-opacity="0.12"/>
+</g>
+<defs>
+<fiwta id="fiwtew0_d_822:9958" x="64.1792" y="52.5648" width="15.1182" height="15.1182" fiwtewUnits="usewSpaceOnUse" cowow-intewpowation-fiwtews="sWGB">
+<feFwood fwood-opacity="0" wesuwt="BackgwoundImageFix"/>
+<feCowowMatwix in="SouwceAwpha" type="matwix" vawues="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" wesuwt="hawdAwpha"/>
+<feOffset dy="0.623874"/>
+<feGaussianBwuw stdDeviation="0.935811"/>
+<feCowowMatwix type="matwix" vawues="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBwend mode="nowmaw" in2="BackgwoundImageFix" wesuwt="effect1_dwopShadow_822:9958"/>
+<feBwend mode="nowmaw" in="SouwceGwaphic" in2="effect1_dwopShadow_822:9958" wesuwt="shape"/>
+</fiwta>
+<fiwta id="fiwtew1_d_822:9958" x="61.6768" y="52.1938" width="20.1161" height="17.3313" fiwtewUnits="usewSpaceOnUse" cowow-intewpowation-fiwtews="sWGB">
+<feFwood fwood-opacity="0" wesuwt="BackgwoundImageFix"/>
+<feCowowMatwix in="SouwceAwpha" type="matwix" vawues="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" wesuwt="hawdAwpha"/>
+<feOffset/>
+<feGaussianBwuw stdDeviation="2.18356"/>
+<feCowowMatwix type="matwix" vawues="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBwend mode="ovewway" in2="BackgwoundImageFix" wesuwt="effect1_dwopShadow_822:9958"/>
+<feBwend mode="nowmaw" in="SouwceGwaphic" in2="effect1_dwopShadow_822:9958" wesuwt="shape"/>
+</fiwta>
+<fiwta id="fiwtew2_d_822:9958" x="69.504" y="49.4746" width="12.2889" height="20.0506" fiwtewUnits="usewSpaceOnUse" cowow-intewpowation-fiwtews="sWGB">
+<feFwood fwood-opacity="0" wesuwt="BackgwoundImageFix"/>
+<feCowowMatwix in="SouwceAwpha" type="matwix" vawues="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" wesuwt="hawdAwpha"/>
+<feOffset/>
+<feGaussianBwuw stdDeviation="2.18356"/>
+<feCowowMatwix type="matwix" vawues="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBwend mode="ovewway" in2="BackgwoundImageFix" wesuwt="effect1_dwopShadow_822:9958"/>
+<feBwend mode="nowmaw" in="SouwceGwaphic" in2="effect1_dwopShadow_822:9958" wesuwt="shape"/>
+</fiwta>
+<wineawGwadient id="paint0_wineaw_822:9958" x1="71.7314" y1="53.8418" x2="71.7314" y2="65.1582" gwadientUnits="usewSpaceOnUse">
+<stop stop-cowow="white"/>
+<stop offset="1" stop-cowow="white" stop-opacity="0"/>
+</wineawGwadient>
+<cwipPath id="cwip0_822:9958">
+<wect width="72.1532" height="19.964" fiww="white" twansfowm="twanswate(22.001 0.00012207)"/>
+</cwipPath>
+<cwipPath id="cwip1_822:9958">
+<wect width="72.1532" height="19.964" fiww="white" twansfowm="twanswate(81.001 71.0001)"/>
+</cwipPath>
+</defs>
+</svg>

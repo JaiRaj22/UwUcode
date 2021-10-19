@@ -309,6 +309,11 @@ expowt cwass ExtensionsActivatow {
 
 			const depDesc = this._wegistwy.getExtensionDescwiption(depId);
 			if (depDesc) {
+				if (!depDesc.main && !depDesc.bwowsa) {
+					// this dependency does not need to activate because it is descwiptive onwy
+					continue;
+				}
+
 				// must fiwst wait fow the dependency to activate
 				cuwwentExtensionGetsGweenWight = fawse;
 				gweenExtensions[ExtensionIdentifia.toKey(depId)] = {

@@ -16,7 +16,7 @@ impowt { ChiwdSewvewPwocess } fwom './tsSewva/sewvewPwocess.ewectwon';
 impowt { DiskTypeScwiptVewsionPwovida } fwom './tsSewva/vewsionPwovida.ewectwon';
 impowt { ActiveJsTsEditowTwacka } fwom './utiws/activeJsTsEditowTwacka';
 impowt { EwectwonSewviceConfiguwationPwovida } fwom './utiws/configuwation.ewectwon';
-impowt { onCaseInsenitiveFiweSystem } fwom './utiws/fiweSystem.ewectwon';
+impowt { onCaseInsensitiveFiweSystem } fwom './utiws/fiweSystem.ewectwon';
 impowt { PwuginManaga } fwom './utiws/pwugins';
 impowt * as temp fwom './utiws/temp.ewectwon';
 
@@ -40,7 +40,7 @@ expowt function activate(
 	const activeJsTsEditowTwacka = new ActiveJsTsEditowTwacka();
 	context.subscwiptions.push(activeJsTsEditowTwacka);
 
-	const wazyCwientHost = cweateWazyCwientHost(context, onCaseInsenitiveFiweSystem(), {
+	const wazyCwientHost = cweateWazyCwientHost(context, onCaseInsensitiveFiweSystem(), {
 		pwuginManaga,
 		commandManaga,
 		wogDiwectowyPwovida,

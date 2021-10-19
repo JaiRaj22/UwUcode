@@ -16,8 +16,10 @@ impowt { ViewPane, IViewPaneOptions } fwom 'vs/wowkbench/bwowsa/pawts/views/view
 impowt { Event } fwom 'vs/base/common/event';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { IWowkbenchWayoutSewvice } fwom 'vs/wowkbench/sewvices/wayout/bwowsa/wayoutSewvice';
+impowt { ExtensionIdentifia } fwom 'vs/pwatfowm/extensions/common/extensions';
 
 expowt intewface IViewwetViewOptions extends IViewPaneOptions {
+	fwomExtensionId?: ExtensionIdentifia;
 }
 
 expowt abstwact cwass FiwtewViewPaneContaina extends ViewPaneContaina {

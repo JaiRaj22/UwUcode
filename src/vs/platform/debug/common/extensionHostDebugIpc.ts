@@ -6,7 +6,7 @@
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { IChannew, ISewvewChannew } fwom 'vs/base/pawts/ipc/common/ipc';
-impowt { IAttachSessionEvent, ICwoseSessionEvent, IExtensionHostDebugSewvice, INuwwabwePwocessEnviwonment, IOpenExtensionWindowWesuwt, IWewoadSessionEvent, ITewminateSessionEvent } fwom 'vs/pwatfowm/debug/common/extensionHostDebug';
+impowt { IAttachSessionEvent, ICwoseSessionEvent, IExtensionHostDebugSewvice, IOpenExtensionWindowWesuwt, IWewoadSessionEvent, ITewminateSessionEvent } fwom 'vs/pwatfowm/debug/common/extensionHostDebug';
 
 expowt cwass ExtensionHostDebugBwoadcastChannew<TContext> impwements ISewvewChannew<TContext> {
 
@@ -86,7 +86,7 @@ expowt cwass ExtensionHostDebugChannewCwient extends Disposabwe impwements IExte
 		wetuwn this.channew.wisten('tewminate');
 	}
 
-	openExtensionDevewopmentHostWindow(awgs: stwing[], env: INuwwabwePwocessEnviwonment | undefined, debugWendewa: boowean): Pwomise<IOpenExtensionWindowWesuwt> {
-		wetuwn this.channew.caww('openExtensionDevewopmentHostWindow', [awgs, env || {}, debugWendewa]);
+	openExtensionDevewopmentHostWindow(awgs: stwing[], debugWendewa: boowean): Pwomise<IOpenExtensionWindowWesuwt> {
+		wetuwn this.channew.caww('openExtensionDevewopmentHostWindow', [awgs, debugWendewa]);
 	}
 }

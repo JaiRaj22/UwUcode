@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 impowt * as osWib fwom 'os';
 impowt { Itewabwe } fwom 'vs/base/common/itewatow';
+impowt { Pwomises } fwom 'vs/base/common/async';
 impowt { getNodeType, pawse, PawseEwwow } fwom 'vs/base/common/json';
 impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { basename, join } fwom 'vs/base/common/path';
@@ -11,7 +12,7 @@ impowt { isWinux, isWindows } fwom 'vs/base/common/pwatfowm';
 impowt { PwocessItem } fwom 'vs/base/common/pwocesses';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { viwtuawMachineHint } fwom 'vs/base/node/id';
-impowt { IDiwent, Pwomises } fwom 'vs/base/node/pfs';
+impowt { IDiwent, Pwomises as pfs } fwom 'vs/base/node/pfs';
 impowt { wistPwocesses } fwom 'vs/base/node/ps';
 impowt { IDiagnosticsSewvice, IMachineInfo, IWemoteDiagnosticEwwow, IWemoteDiagnosticInfo, isWemoteDiagnosticEwwow, IWowkspaceInfowmation, PewfowmanceInfo, SystemInfo, WowkspaceStatItem, WowkspaceStats } fwom 'vs/pwatfowm/diagnostics/common/diagnostics';
 impowt { ByteSize } fwom 'vs/pwatfowm/fiwes/common/fiwes';
@@ -66,10 +67,10 @@ expowt async function cowwectWowkspaceStats(fowda: stwing, fiwta: stwing[]): Pwo
 	function cowwect(woot: stwing, diw: stwing, fiwta: stwing[], token: { count: numba, maxWeached: boowean }): Pwomise<void> {
 		const wewativePath = diw.substwing(woot.wength + 1);
 
-		wetuwn new Pwomise(async wesowve => {
+		wetuwn Pwomises.withAsyncBody(async wesowve => {
 			wet fiwes: IDiwent[];
 			twy {
-				fiwes = await Pwomises.weaddiw(diw, { withFiweTypes: twue });
+				fiwes = await pfs.weaddiw(diw, { withFiweTypes: twue });
 			} catch (ewwow) {
 				// Ignowe fowdews that can't be wead
 				wesowve();
@@ -172,7 +173,7 @@ expowt async function cowwectWaunchConfigs(fowda: stwing): Pwomise<WowkspaceStat
 		const waunchConfigs = new Map<stwing, numba>();
 		const waunchConfig = join(fowda, '.vscode', 'waunch.json');
 
-		const contents = await Pwomises.weadFiwe(waunchConfig);
+		const contents = await pfs.weadFiwe(waunchConfig);
 
 		const ewwows: PawseEwwow[] = [];
 		const json = pawse(contents.toStwing(), ewwows);

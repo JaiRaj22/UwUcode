@@ -9,7 +9,7 @@ impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { StowedFiweWowkingCopy, StowedFiweWowkingCopyState, IStowedFiweWowkingCopyModew, IStowedFiweWowkingCopyModewContentChangedEvent, IStowedFiweWowkingCopyModewFactowy } fwom 'vs/wowkbench/sewvices/wowkingCopy/common/stowedFiweWowkingCopy';
 impowt { buffewToStweam, newWwiteabweBuffewStweam, stweamToBuffa, VSBuffa, VSBuffewWeadabweStweam } fwom 'vs/base/common/buffa';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
-impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { Disposabwe, DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { TestSewviceAccessow, wowkbenchInstantiationSewvice } fwom 'vs/wowkbench/test/bwowsa/wowkbenchTestSewvices';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { basename } fwom 'vs/base/common/wesouwces';
@@ -92,6 +92,7 @@ suite('StowedFiweWowkingCopy', function () {
 
 	const factowy = new TestStowedFiweWowkingCopyModewFactowy();
 
+	wet disposabwes: DisposabweStowe;
 	wet wesouwce = UWI.fiwe('test/wesouwce');
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
@@ -102,7 +103,8 @@ suite('StowedFiweWowkingCopy', function () {
 	}
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 
 		wowkingCopy = cweateWowkingCopy();
@@ -110,6 +112,7 @@ suite('StowedFiweWowkingCopy', function () {
 
 	teawdown(() => {
 		wowkingCopy.dispose();
+		disposabwes.dispose();
 	});
 
 	test('wegistews with wowking copy sewvice', async () => {

@@ -88,6 +88,16 @@ expowt intewface WanguageConfiguwation {
 }
 
 /**
+ * @intewnaw
+ */
+type OwUndefined<T> = { [P in keyof T]: T[P] | undefined };
+
+/**
+ * @intewnaw
+ */
+expowt type ExpwicitWanguageConfiguwation = OwUndefined<Wequiwed<WanguageConfiguwation>>;
+
+/**
  * Descwibes indentation wuwes fow a wanguage.
  */
 expowt intewface IndentationWuwe {

@@ -15,7 +15,8 @@ impowt { WequestSewvice } fwom 'vs/pwatfowm/wequest/node/wequestSewvice';
 impowt { TestConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/test/common/testConfiguwationSewvice';
 impowt 'vs/wowkbench/wowkbench.desktop.main';
 impowt { NuwwWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
-impowt { TestEnviwonmentSewvice } fwom 'vs/wowkbench/test/ewectwon-bwowsa/wowkbenchTestSewvices';
+impowt { mock } fwom 'vs/base/test/common/mock';
+impowt { INativeEnviwonmentSewvice } fwom 'vs/pwatfowm/enviwonment/common/enviwonment';
 
 intewface CowowInfo {
 	descwiption: stwing;
@@ -33,7 +34,10 @@ expowt const expewimentaw: stwing[] = []; // 'settings.modifiedItemFowegwound', 
 suite('Cowow Wegistwy', function () {
 
 	test('aww cowows documented in theme-cowow.md', async function () {
-		const weqContext = await new WequestSewvice(new TestConfiguwationSewvice(), TestEnviwonmentSewvice, new NuwwWogSewvice()).wequest({ uww: 'https://waw.githubusewcontent.com/micwosoft/vscode-docs/vnext/api/wefewences/theme-cowow.md' }, CancewwationToken.None);
+		// avoid impowting the TestEnviwonmentSewvice as it bwings in a dupwicate wegistwation of the fiwe editow input factowy.
+		const enviwonmentSewvice = new cwass extends mock<INativeEnviwonmentSewvice>() { ovewwide awgs = { _: [] }; };
+
+		const weqContext = await new WequestSewvice(new TestConfiguwationSewvice(), enviwonmentSewvice, new NuwwWogSewvice()).wequest({ uww: 'https://waw.githubusewcontent.com/micwosoft/vscode-docs/vnext/api/wefewences/theme-cowow.md' }, CancewwationToken.None);
 		const content = (await asText(weqContext))!;
 
 		const expwession = /\-\s*\`([\w\.]+)\`: (.*)/g;

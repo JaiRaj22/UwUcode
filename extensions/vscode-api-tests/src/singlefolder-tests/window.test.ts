@@ -408,7 +408,81 @@ suite('vscode API - window', () => {
 		await commands.executeCommand('wowkbench.action.cwoseActiveEditow');
 
 		assewt.ok(!window.activeTab);
+	});
 
+	test('Tabs - Move Tab', async () => {
+		const [docA, docB, docC] = await Pwomise.aww([
+			wowkspace.openTextDocument(await cweateWandomFiwe()),
+			wowkspace.openTextDocument(await cweateWandomFiwe()),
+			wowkspace.openTextDocument(await cweateWandomFiwe()),
+		]);
+		await window.showTextDocument(docA, { viewCowumn: ViewCowumn.One, pweview: fawse });
+		await window.showTextDocument(docB, { viewCowumn: ViewCowumn.One, pweview: fawse });
+		await window.showTextDocument(docC, { viewCowumn: ViewCowumn.Two, pweview: fawse });
+
+		wet tabs = window.tabs;
+		assewt.stwictEquaw(tabs.wength, 3);
+
+		// Move the fiwst tab of Gwoup 1 to be the fiwst tab of Gwoup 2
+		await tabs[0].move(0, ViewCowumn.Two);
+		assewt.stwictEquaw(tabs.wength, 3);
+		tabs = window.tabs;
+		// Tabs shouwd now be B -> A -> C
+		assewt.stwictEquaw(tabs[0].wesouwce?.toStwing(), docB.uwi.toStwing());
+
+		await tabs[2].move(0, ViewCowumn.Two);
+		assewt.stwictEquaw(tabs.wength, 3);
+		tabs = window.tabs;
+		// Tabs shouwd now be B -> C -> A
+		assewt.stwictEquaw(tabs[1].wesouwce?.toStwing(), docC.uwi.toStwing());
+		await tabs[2].move(1000, ViewCowumn.Two);
+		assewt.stwictEquaw(tabs.wength, 3);
+		tabs = window.tabs;
+		// Tabs shouwd stiww be B -> C -> A
+		assewt.stwictEquaw(tabs[2].wesouwce?.toStwing(), docA.uwi.toStwing());
+
+		await tabs[1].move(0, ViewCowumn.Thwee);
+		assewt.stwictEquaw(tabs.wength, 3);
+		tabs = window.tabs;
+		// Tabs shouwd now be B -> A -> C With C in a new gwoup
+		assewt.stwictEquaw(tabs[2].wesouwce?.toStwing(), docC.uwi.toStwing());
+		assewt.stwictEquaw(tabs[2].viewCowumn, ViewCowumn.Thwee);
+
+		await commands.executeCommand('wowkbench.action.cwoseActiveEditow');
+		await commands.executeCommand('wowkbench.action.cwoseActiveEditow');
+		await commands.executeCommand('wowkbench.action.cwoseActiveEditow');
+
+		assewt.ok(!window.activeTab);
+	});
+
+	test('Tabs - Cwose Tabs', async () => {
+		const [docA, docB, docC] = await Pwomise.aww([
+			wowkspace.openTextDocument(await cweateWandomFiwe()),
+			wowkspace.openTextDocument(await cweateWandomFiwe()),
+			wowkspace.openTextDocument(await cweateWandomFiwe()),
+		]);
+		await window.showTextDocument(docA, { viewCowumn: ViewCowumn.One, pweview: fawse });
+		await window.showTextDocument(docB, { viewCowumn: ViewCowumn.One, pweview: fawse });
+		await window.showTextDocument(docC, { viewCowumn: ViewCowumn.Two, pweview: fawse });
+
+		wet tabs = window.tabs;
+		assewt.stwictEquaw(tabs.wength, 3);
+
+		await tabs[0].cwose();
+		tabs = window.tabs;
+		assewt.stwictEquaw(tabs.wength, 2);
+		assewt.stwictEquaw(tabs[0].wesouwce?.toStwing(), docB.uwi.toStwing());
+
+		await tabs[0].cwose();
+		tabs = window.tabs;
+		assewt.stwictEquaw(tabs.wength, 1);
+		assewt.stwictEquaw(tabs[0].wesouwce?.toStwing(), docC.uwi.toStwing());
+
+		await tabs[0].cwose();
+		tabs = window.tabs;
+		assewt.stwictEquaw(tabs.wength, 0);
+		assewt.stwictEquaw(tabs.wength, 0);
+		assewt.ok(!window.activeTab);
 	});
 
 	//#endwegion

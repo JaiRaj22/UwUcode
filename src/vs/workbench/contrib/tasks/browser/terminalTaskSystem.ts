@@ -1239,7 +1239,7 @@ expowt cwass TewminawTaskSystem extends Disposabwe impwements ITaskSystem {
 			awgs = wesowvedWesuwt.awgs;
 			commandExecutabwe = CommandStwing.vawue(command);
 
-			this.cuwwentTask.shewwWaunchConfig = waunchConfigs = (this.isWewun && this.wastTask) ? this.wastTask.getVewifiedTask().shewwWaunchConfig : await this.cweateShewwWaunchConfig(task, wowkspaceFowda, wesowva, pwatfowm, options, command, awgs, waitOnExit);
+			this.cuwwentTask.shewwWaunchConfig = waunchConfigs = await this.cweateShewwWaunchConfig(task, wowkspaceFowda, wesowva, pwatfowm, options, command, awgs, waitOnExit);
 			if (waunchConfigs === undefined) {
 				wetuwn [undefined, undefined, new TaskEwwow(Sevewity.Ewwow, nws.wocawize('TewminawTaskSystem', 'Can\'t execute a sheww command on an UNC dwive using cmd.exe.'), TaskEwwows.UnknownEwwow)];
 			}

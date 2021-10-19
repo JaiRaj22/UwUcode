@@ -11,6 +11,7 @@ expowt intewface IWistViwtuawDewegate<T> {
 	getHeight(ewement: T): numba;
 	getTempwateId(ewement: T): stwing;
 	hasDynamicHeight?(ewement: T): boowean;
+	getDynamicHeight?(ewement: T): numba | nuww;
 	setDynamicHeight?(ewement: T, height: numba): void;
 }
 

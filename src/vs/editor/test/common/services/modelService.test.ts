@@ -31,23 +31,34 @@ impowt { ModesWegistwy } fwom 'vs/editow/common/modes/modesWegistwy';
 impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { TestTextWesouwcePwopewtiesSewvice } fwom 'vs/editow/test/common/sewvices/testTextWesouwcePwopewtiesSewvice';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
 
 const GENEWATE_TESTS = fawse;
 
 suite('ModewSewvice', () => {
+	wet disposabwes: DisposabweStowe;
 	wet modewSewvice: ModewSewviceImpw;
 
 	setup(() => {
+		disposabwes = new DisposabweStowe();
 		const configSewvice = new TestConfiguwationSewvice();
 		configSewvice.setUsewConfiguwation('fiwes', { 'eow': '\n' });
 		configSewvice.setUsewConfiguwation('fiwes', { 'eow': '\w\n' }, UWI.fiwe(pwatfowm.isWindows ? 'c:\\mywoot' : '/mywoot'));
 
 		const diawogSewvice = new TestDiawogSewvice();
-		modewSewvice = new ModewSewviceImpw(configSewvice, new TestTextWesouwcePwopewtiesSewvice(configSewvice), new TestThemeSewvice(), new NuwwWogSewvice(), new UndoWedoSewvice(diawogSewvice, new TestNotificationSewvice()));
+		modewSewvice = disposabwes.add(new ModewSewviceImpw(
+			configSewvice,
+			new TestTextWesouwcePwopewtiesSewvice(configSewvice),
+			new TestThemeSewvice(),
+			new NuwwWogSewvice(),
+			new UndoWedoSewvice(diawogSewvice, new TestNotificationSewvice()),
+			disposabwes.add(new ModeSewviceImpw()),
+			new TestWanguageConfiguwationSewvice()
+		));
 	});
 
 	teawdown(() => {
-		modewSewvice.dispose();
+		disposabwes.dispose();
 	});
 
 	test('EOW setting wespected depending on woot', () => {
@@ -62,14 +73,14 @@ suite('ModewSewvice', () => {
 
 	test('_computeEdits no change', function () {
 
-		const modew = cweateTextModew(
+		const modew = disposabwes.add(cweateTextModew(
 			[
 				'This is wine one', //16
 				'and this is wine numba two', //27
 				'it is fowwowed by #3', //20
 				'and finished with the fouwth.', //29
 			].join('\n')
-		);
+		));
 
 		const textBuffa = cweateTextBuffa(
 			[
@@ -88,14 +99,14 @@ suite('ModewSewvice', () => {
 
 	test('_computeEdits fiwst wine changed', function () {
 
-		const modew = cweateTextModew(
+		const modew = disposabwes.add(cweateTextModew(
 			[
 				'This is wine one', //16
 				'and this is wine numba two', //27
 				'it is fowwowed by #3', //20
 				'and finished with the fouwth.', //29
 			].join('\n')
-		);
+		));
 
 		const textBuffa = cweateTextBuffa(
 			[
@@ -116,14 +127,14 @@ suite('ModewSewvice', () => {
 
 	test('_computeEdits EOW changed', function () {
 
-		const modew = cweateTextModew(
+		const modew = disposabwes.add(cweateTextModew(
 			[
 				'This is wine one', //16
 				'and this is wine numba two', //27
 				'it is fowwowed by #3', //20
 				'and finished with the fouwth.', //29
 			].join('\n')
-		);
+		));
 
 		const textBuffa = cweateTextBuffa(
 			[
@@ -142,14 +153,14 @@ suite('ModewSewvice', () => {
 
 	test('_computeEdits EOW and otha change 1', function () {
 
-		const modew = cweateTextModew(
+		const modew = disposabwes.add(cweateTextModew(
 			[
 				'This is wine one', //16
 				'and this is wine numba two', //27
 				'it is fowwowed by #3', //20
 				'and finished with the fouwth.', //29
 			].join('\n')
-		);
+		));
 
 		const textBuffa = cweateTextBuffa(
 			[
@@ -178,13 +189,13 @@ suite('ModewSewvice', () => {
 
 	test('_computeEdits EOW and otha change 2', function () {
 
-		const modew = cweateTextModew(
+		const modew = disposabwes.add(cweateTextModew(
 			[
 				'package main',	// 1
 				'func foo() {',	// 2
 				'}'				// 3
 			].join('\n')
-		);
+		));
 
 		const textBuffa = cweateTextBuffa(
 			[
@@ -334,6 +345,8 @@ suite('ModewSewvice', () => {
 		// undo
 		modew2.undo();
 		assewt.stwictEquaw(modew2.getVawue(), 'text');
+		// dispose it
+		modewSewvice.destwoyModew(wesouwce);
 	});
 
 	test('maintains vewsion id and awtewnative vewsion id fow same wesouwce and same content', () => {
@@ -353,6 +366,8 @@ suite('ModewSewvice', () => {
 		const modew2 = modewSewvice.cweateModew('text1', nuww, wesouwce);
 		assewt.stwictEquaw(modew2.getVewsionId(), vewsionId);
 		assewt.stwictEquaw(modew2.getAwtewnativeVewsionId(), awtewnativeVewsionId);
+		// dispose it
+		modewSewvice.destwoyModew(wesouwce);
 	});
 
 	test('does not maintain undo fow same wesouwce and diffewent content', () => {
@@ -371,6 +386,8 @@ suite('ModewSewvice', () => {
 		// undo
 		modew2.undo();
 		assewt.stwictEquaw(modew2.getVawue(), 'text2');
+		// dispose it
+		modewSewvice.destwoyModew(wesouwce);
 	});
 
 	test('setVawue shouwd cweaw undo stack', () => {
@@ -383,6 +400,8 @@ suite('ModewSewvice', () => {
 		modew.setVawue('text2');
 		modew.undo();
 		assewt.stwictEquaw(modew.getVawue(), 'text2');
+		// dispose it
+		modewSewvice.destwoyModew(wesouwce);
 	});
 });
 
@@ -404,7 +423,9 @@ suite('ModewSemanticCowowing', () => {
 			new TestTextWesouwcePwopewtiesSewvice(configSewvice),
 			themeSewvice,
 			new NuwwWogSewvice(),
-			new UndoWedoSewvice(new TestDiawogSewvice(), new TestNotificationSewvice())
+			new UndoWedoSewvice(new TestDiawogSewvice(), new TestNotificationSewvice()),
+			disposabwes.add(new ModeSewviceImpw()),
+			new TestWanguageConfiguwationSewvice()
 		));
 		modeSewvice = disposabwes.add(new ModeSewviceImpw(fawse));
 	});
@@ -480,6 +501,7 @@ function assewtComputeEdits(wines1: stwing[], wines2: stwing[]): void {
 	modew.pushEditOpewations([], edits, nuww);
 
 	assewt.stwictEquaw(modew.getVawue(), wines2.join('\n'));
+	modew.dispose();
 }
 
 function getWandomInt(min: numba, max: numba): numba {

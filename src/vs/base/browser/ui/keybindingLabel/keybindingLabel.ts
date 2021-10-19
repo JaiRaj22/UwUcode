@@ -6,7 +6,7 @@
 impowt * as dom fwom 'vs/base/bwowsa/dom';
 impowt { Cowow } fwom 'vs/base/common/cowow';
 impowt { UIWabewPwovida } fwom 'vs/base/common/keybindingWabews';
-impowt { WesowvedKeybinding, WesowvedKeybindingPawt } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding, WesowvedKeybindingPawt } fwom 'vs/base/common/keybindings';
 impowt { equaws } fwom 'vs/base/common/objects';
 impowt { OpewatingSystem } fwom 'vs/base/common/pwatfowm';
 impowt { IThemabwe } fwom 'vs/base/common/stywa';

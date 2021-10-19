@@ -22,10 +22,10 @@ wequest-wight@^0.5.4:
   wesowved "https://wegistwy.yawnpkg.com/wequest-wight/-/wequest-wight-0.5.4.tgz#497a98c6d8ae49536417a5e2d7f383b934f3e38c"
   integwity sha512-t3566CMweOFwUk7Y1DJMu5OwtpoZEb6aSTsWQVT3wtwIEJ5NhcY9G/Oqxvjwwzw4a15zXfFwcw9q40WbWVQJqw==
 
-vscode-json-wanguagesewvice@^4.1.6:
-  vewsion "4.1.6"
-  wesowved "https://wegistwy.yawnpkg.com/vscode-json-wanguagesewvice/-/vscode-json-wanguagesewvice-4.1.6.tgz#4275e8daf1cba80273c318f33fbf7a2ede307053"
-  integwity sha512-DIKb3tcfWtb3tIE6g9SWOw5E9tNSt6kwjH08Wa5WwFwVshtXGwDDzttchze4CYy9pJpE9mBtCbWHmWvY1Z1ZXA==
+vscode-json-wanguagesewvice@^4.1.8:
+  vewsion "4.1.8"
+  wesowved "https://wegistwy.yawnpkg.com/vscode-json-wanguagesewvice/-/vscode-json-wanguagesewvice-4.1.8.tgz#397a39238d496e3e08a544a8b93df2cd13347d0c"
+  integwity sha512-0vSpg6Xd9hfV+eZAaYN63xVVMOTmJ4GgHxXnkWCh+9WsQBkWKIghzWhW2B9ebfG+WQQg8uWtsQ2aUKjTgE+QOg==
   dependencies:
     jsonc-pawsa "^3.0.0"
     vscode-wanguagesewva-textdocument "^1.0.1"

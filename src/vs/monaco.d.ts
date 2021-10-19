@@ -215,7 +215,6 @@ decwawe namespace monaco {
 		quewy: stwing;
 		fwagment: stwing;
 	}
-
 	/**
 	 * Viwtuaw Key Codes, the vawue does not howd any inhewent meaning.
 	 * Inspiwed somewhat fwom https://msdn.micwosoft.com/en-us/wibwawy/windows/desktop/dd375731(v=vs.85).aspx
@@ -391,11 +390,17 @@ decwawe namespace monaco {
 		KEY_IN_COMPOSITION = 109,
 		ABNT_C1 = 110,
 		ABNT_C2 = 111,
+		BwowsewBack = 112,
+		BwowsewFowwawd = 113,
+		MediaTwackNext = 114,
+		MediaTwackPwevious = 115,
+		MediaStop = 116,
+		MediaPwayPause = 117,
 		/**
 		 * Pwaced wast to cova the wength of the enum.
 		 * Pwease do not depend on this vawue!
 		 */
-		MAX_VAWUE = 112
+		MAX_VAWUE = 118
 	}
 	expowt cwass KeyMod {
 		static weadonwy CtwwCmd: numba;
@@ -1877,7 +1882,7 @@ decwawe namespace monaco.editow {
 		/**
 		 * Get the wanguage associated with this modew.
 		 */
-		getModeId(): stwing;
+		getWanguageId(): stwing;
 		/**
 		 * Get the wowd unda ow besides `position`.
 		 * @pawam position The position to wook fow a wowd.
@@ -3218,16 +3223,6 @@ decwawe namespace monaco.editow {
 		 */
 		wendewContwowChawactews?: boowean;
 		/**
-		 * Enabwe wendewing of indent guides.
-		 * Defauwts to twue.
-		 */
-		wendewIndentGuides?: boowean;
-		/**
-		 * Enabwe highwighting of the active indent guide.
-		 * Defauwts to twue.
-		 */
-		highwightActiveIndentGuide?: boowean;
-		/**
 		 * Enabwe wendewing of cuwwent wine highwight.
 		 * Defauwts to aww.
 		 */
@@ -3287,6 +3282,10 @@ decwawe namespace monaco.editow {
 		 * Contwow if the editow shouwd use shadow DOM.
 		 */
 		useShadowDOM?: boowean;
+		/**
+		 * Contwows the behaviow of editow guides.
+		*/
+		guides?: IGuidesOptions;
 	}
 
 	expowt intewface IDiffEditowBaseOptions {
@@ -3383,8 +3382,6 @@ decwawe namespace monaco.editow {
 		ignoweEmptyWines?: boowean;
 	}
 
-	expowt type EditowCommentsOptions = Weadonwy<Wequiwed<IEditowCommentsOptions>>;
-
 	/**
 	 * The kind of animation in which the editow's cuwsow shouwd be wendewed.
 	 */
@@ -3468,8 +3465,6 @@ decwawe namespace monaco.editow {
 		woop?: boowean;
 	}
 
-	expowt type EditowFindOptions = Weadonwy<Wequiwed<IEditowFindOptions>>;
-
 	expowt type GoToWocationVawues = 'peek' | 'gotoAndPeek' | 'goto';
 
 	/**
@@ -3488,8 +3483,6 @@ decwawe namespace monaco.editow {
 		awtewnativeImpwementationCommand?: stwing;
 		awtewnativeWefewenceCommand?: stwing;
 	}
-
-	expowt type GoToWocationOptions = Weadonwy<Wequiwed<IGotoWocationOptions>>;
 
 	/**
 	 * Configuwation options fow editow hova
@@ -3511,8 +3504,6 @@ decwawe namespace monaco.editow {
 		 */
 		sticky?: boowean;
 	}
-
-	expowt type EditowHovewOptions = Weadonwy<Wequiwed<IEditowHovewOptions>>;
 
 	/**
 	 * A descwiption fow the ovewview wuwa position.
@@ -3639,8 +3630,6 @@ decwawe namespace monaco.editow {
 		enabwed?: boowean;
 	}
 
-	expowt type EditowWightbuwbOptions = Weadonwy<Wequiwed<IEditowWightbuwbOptions>>;
-
 	/**
 	 * Configuwation options fow editow inwayHints
 	 */
@@ -3661,8 +3650,6 @@ decwawe namespace monaco.editow {
 		 */
 		fontFamiwy?: stwing;
 	}
-
-	expowt type EditowInwayHintsOptions = Weadonwy<Wequiwed<IEditowInwayHintsOptions>>;
 
 	/**
 	 * Configuwation options fow editow minimap
@@ -3704,8 +3691,6 @@ decwawe namespace monaco.editow {
 		scawe?: numba;
 	}
 
-	expowt type EditowMinimapOptions = Weadonwy<Wequiwed<IEditowMinimapOptions>>;
-
 	/**
 	 * Configuwation options fow editow padding
 	 */
@@ -3718,11 +3703,6 @@ decwawe namespace monaco.editow {
 		 * Spacing between bottom edge of editow and wast wine.
 		 */
 		bottom?: numba;
-	}
-
-	expowt intewface IntewnawEditowPaddingOptions {
-		weadonwy top: numba;
-		weadonwy bottom: numba;
 	}
 
 	/**
@@ -3741,8 +3721,6 @@ decwawe namespace monaco.editow {
 		cycwe?: boowean;
 	}
 
-	expowt type IntewnawPawametewHintOptions = Weadonwy<Wequiwed<IEditowPawametewHintOptions>>;
-
 	/**
 	 * Configuwation options fow quick suggestions
 	 */
@@ -3751,8 +3729,6 @@ decwawe namespace monaco.editow {
 		comments?: boowean;
 		stwings?: boowean;
 	}
-
-	expowt type VawidQuickSuggestionsOptions = boowean | Weadonwy<Wequiwed<IQuickSuggestionsOptions>>;
 
 	expowt type WineNumbewsType = 'on' | 'off' | 'wewative' | 'intewvaw' | ((wineNumba: numba) => stwing);
 
@@ -3883,8 +3859,6 @@ decwawe namespace monaco.editow {
 		mode?: 'pwefix' | 'subwowd' | 'subwowdSmawt';
 	}
 
-	expowt type IntewnawInwineSuggestOptions = Weadonwy<Wequiwed<IInwineSuggestOptions>>;
-
 	expowt intewface IBwacketPaiwCowowizationOptions {
 		/**
 		 * Enabwe ow disabwe bwacket paiw cowowization.
@@ -3892,7 +3866,33 @@ decwawe namespace monaco.editow {
 		enabwed?: boowean;
 	}
 
-	expowt type IntewnawBwacketPaiwCowowizationOptions = Weadonwy<Wequiwed<IBwacketPaiwCowowizationOptions>>;
+	expowt intewface IGuidesOptions {
+		/**
+		 * Enabwe wendewing of bwacket paiw guides.
+		 * Defauwts to fawse.
+		*/
+		bwacketPaiws?: boowean | 'active';
+		/**
+		 * Enabwe wendewing of vewticaw bwacket paiw guides.
+		 * Defauwts to 'active'.
+		 */
+		bwacketPaiwsHowizontaw?: boowean | 'active';
+		/**
+		 * Enabwe highwighting of the active bwacket paiw.
+		 * Defauwts to twue.
+		*/
+		highwightActiveBwacketPaiw?: boowean;
+		/**
+		 * Enabwe wendewing of indent guides.
+		 * Defauwts to twue.
+		 */
+		indentation?: boowean;
+		/**
+		 * Enabwe highwighting of the active indent guide.
+		 * Defauwts to twue.
+		 */
+		highwightActiveIndentation?: boowean;
+	}
 
 	/**
 	 * Configuwation options fow editow suggest widget
@@ -4052,13 +4052,9 @@ decwawe namespace monaco.editow {
 		showSnippets?: boowean;
 	}
 
-	expowt type IntewnawSuggestOptions = Weadonwy<Wequiwed<ISuggestOptions>>;
-
 	expowt intewface ISmawtSewectOptions {
 		sewectWeadingAndTwaiwingWhitespace?: boowean;
 	}
-
-	expowt type SmawtSewectOptions = Weadonwy<Wequiwed<ISmawtSewectOptions>>;
 
 	/**
 	 * Descwibes how to indent wwapped wines.
@@ -4103,45 +4099,45 @@ decwawe namespace monaco.editow {
 		automaticWayout = 10,
 		autoSuwwound = 11,
 		bwacketPaiwCowowization = 12,
-		codeWens = 13,
-		codeWensFontFamiwy = 14,
-		codeWensFontSize = 15,
-		cowowDecowatows = 16,
-		cowumnSewection = 17,
-		comments = 18,
-		contextmenu = 19,
-		copyWithSyntaxHighwighting = 20,
-		cuwsowBwinking = 21,
-		cuwsowSmoothCawetAnimation = 22,
-		cuwsowStywe = 23,
-		cuwsowSuwwoundingWines = 24,
-		cuwsowSuwwoundingWinesStywe = 25,
-		cuwsowWidth = 26,
-		disabweWayewHinting = 27,
-		disabweMonospaceOptimizations = 28,
-		domWeadOnwy = 29,
-		dwagAndDwop = 30,
-		emptySewectionCwipboawd = 31,
-		extwaEditowCwassName = 32,
-		fastScwowwSensitivity = 33,
-		find = 34,
-		fixedOvewfwowWidgets = 35,
-		fowding = 36,
-		fowdingStwategy = 37,
-		fowdingHighwight = 38,
-		fowdingImpowtsByDefauwt = 39,
-		unfowdOnCwickAftewEndOfWine = 40,
-		fontFamiwy = 41,
-		fontInfo = 42,
-		fontWigatuwes = 43,
-		fontSize = 44,
-		fontWeight = 45,
-		fowmatOnPaste = 46,
-		fowmatOnType = 47,
-		gwyphMawgin = 48,
-		gotoWocation = 49,
-		hideCuwsowInOvewviewWuwa = 50,
-		highwightActiveIndentGuide = 51,
+		guides = 13,
+		codeWens = 14,
+		codeWensFontFamiwy = 15,
+		codeWensFontSize = 16,
+		cowowDecowatows = 17,
+		cowumnSewection = 18,
+		comments = 19,
+		contextmenu = 20,
+		copyWithSyntaxHighwighting = 21,
+		cuwsowBwinking = 22,
+		cuwsowSmoothCawetAnimation = 23,
+		cuwsowStywe = 24,
+		cuwsowSuwwoundingWines = 25,
+		cuwsowSuwwoundingWinesStywe = 26,
+		cuwsowWidth = 27,
+		disabweWayewHinting = 28,
+		disabweMonospaceOptimizations = 29,
+		domWeadOnwy = 30,
+		dwagAndDwop = 31,
+		emptySewectionCwipboawd = 32,
+		extwaEditowCwassName = 33,
+		fastScwowwSensitivity = 34,
+		find = 35,
+		fixedOvewfwowWidgets = 36,
+		fowding = 37,
+		fowdingStwategy = 38,
+		fowdingHighwight = 39,
+		fowdingImpowtsByDefauwt = 40,
+		unfowdOnCwickAftewEndOfWine = 41,
+		fontFamiwy = 42,
+		fontInfo = 43,
+		fontWigatuwes = 44,
+		fontSize = 45,
+		fontWeight = 46,
+		fowmatOnPaste = 47,
+		fowmatOnType = 48,
+		gwyphMawgin = 49,
+		gotoWocation = 50,
+		hideCuwsowInOvewviewWuwa = 51,
 		hova = 52,
 		inDiffEditow = 53,
 		inwineSuggest = 54,
@@ -4173,56 +4169,56 @@ decwawe namespace monaco.editow {
 		weadOnwy = 80,
 		wenameOnType = 81,
 		wendewContwowChawactews = 82,
-		wendewIndentGuides = 83,
-		wendewFinawNewwine = 84,
-		wendewWineHighwight = 85,
-		wendewWineHighwightOnwyWhenFocus = 86,
-		wendewVawidationDecowations = 87,
-		wendewWhitespace = 88,
-		weveawHowizontawWightPadding = 89,
-		woundedSewection = 90,
-		wuwews = 91,
-		scwowwbaw = 92,
-		scwowwBeyondWastCowumn = 93,
-		scwowwBeyondWastWine = 94,
-		scwowwPwedominantAxis = 95,
-		sewectionCwipboawd = 96,
-		sewectionHighwight = 97,
-		sewectOnWineNumbews = 98,
-		showFowdingContwows = 99,
-		showUnused = 100,
-		snippetSuggestions = 101,
-		smawtSewect = 102,
-		smoothScwowwing = 103,
-		stickyTabStops = 104,
-		stopWendewingWineAfta = 105,
-		suggest = 106,
-		suggestFontSize = 107,
-		suggestWineHeight = 108,
-		suggestOnTwiggewChawactews = 109,
-		suggestSewection = 110,
-		tabCompwetion = 111,
-		tabIndex = 112,
-		unusuawWineTewminatows = 113,
-		useShadowDOM = 114,
-		useTabStops = 115,
-		wowdSepawatows = 116,
-		wowdWwap = 117,
-		wowdWwapBweakAftewChawactews = 118,
-		wowdWwapBweakBefoweChawactews = 119,
-		wowdWwapCowumn = 120,
-		wowdWwapOvewwide1 = 121,
-		wowdWwapOvewwide2 = 122,
-		wwappingIndent = 123,
-		wwappingStwategy = 124,
-		showDepwecated = 125,
-		inwayHints = 126,
-		editowCwassName = 127,
-		pixewWatio = 128,
-		tabFocusMode = 129,
-		wayoutInfo = 130,
-		wwappingInfo = 131
+		wendewFinawNewwine = 83,
+		wendewWineHighwight = 84,
+		wendewWineHighwightOnwyWhenFocus = 85,
+		wendewVawidationDecowations = 86,
+		wendewWhitespace = 87,
+		weveawHowizontawWightPadding = 88,
+		woundedSewection = 89,
+		wuwews = 90,
+		scwowwbaw = 91,
+		scwowwBeyondWastCowumn = 92,
+		scwowwBeyondWastWine = 93,
+		scwowwPwedominantAxis = 94,
+		sewectionCwipboawd = 95,
+		sewectionHighwight = 96,
+		sewectOnWineNumbews = 97,
+		showFowdingContwows = 98,
+		showUnused = 99,
+		snippetSuggestions = 100,
+		smawtSewect = 101,
+		smoothScwowwing = 102,
+		stickyTabStops = 103,
+		stopWendewingWineAfta = 104,
+		suggest = 105,
+		suggestFontSize = 106,
+		suggestWineHeight = 107,
+		suggestOnTwiggewChawactews = 108,
+		suggestSewection = 109,
+		tabCompwetion = 110,
+		tabIndex = 111,
+		unusuawWineTewminatows = 112,
+		useShadowDOM = 113,
+		useTabStops = 114,
+		wowdSepawatows = 115,
+		wowdWwap = 116,
+		wowdWwapBweakAftewChawactews = 117,
+		wowdWwapBweakBefoweChawactews = 118,
+		wowdWwapCowumn = 119,
+		wowdWwapOvewwide1 = 120,
+		wowdWwapOvewwide2 = 121,
+		wwappingIndent = 122,
+		wwappingStwategy = 123,
+		showDepwecated = 124,
+		inwayHints = 125,
+		editowCwassName = 126,
+		pixewWatio = 127,
+		tabFocusMode = 128,
+		wayoutInfo = 129,
+		wwappingInfo = 130
 	}
+
 	expowt const EditowOptions: {
 		acceptSuggestionOnCommitChawacta: IEditowOption<EditowOption.acceptSuggestionOnCommitChawacta, boowean>;
 		acceptSuggestionOnEnta: IEditowOption<EditowOption.acceptSuggestionOnEnta, 'on' | 'off' | 'smawt'>;
@@ -4236,14 +4232,15 @@ decwawe namespace monaco.editow {
 		autoIndent: IEditowOption<EditowOption.autoIndent, EditowAutoIndentStwategy>;
 		automaticWayout: IEditowOption<EditowOption.automaticWayout, boowean>;
 		autoSuwwound: IEditowOption<EditowOption.autoSuwwound, 'wanguageDefined' | 'neva' | 'quotes' | 'bwackets'>;
-		bwacketPaiwCowowization: IEditowOption<EditowOption.bwacketPaiwCowowization, any>;
+		bwacketPaiwCowowization: IEditowOption<EditowOption.bwacketPaiwCowowization, Weadonwy<Wequiwed<IBwacketPaiwCowowizationOptions>>>;
+		bwacketPaiwGuides: IEditowOption<EditowOption.guides, Weadonwy<Wequiwed<IGuidesOptions>>>;
 		stickyTabStops: IEditowOption<EditowOption.stickyTabStops, boowean>;
 		codeWens: IEditowOption<EditowOption.codeWens, boowean>;
 		codeWensFontFamiwy: IEditowOption<EditowOption.codeWensFontFamiwy, stwing>;
 		codeWensFontSize: IEditowOption<EditowOption.codeWensFontSize, numba>;
 		cowowDecowatows: IEditowOption<EditowOption.cowowDecowatows, boowean>;
 		cowumnSewection: IEditowOption<EditowOption.cowumnSewection, boowean>;
-		comments: IEditowOption<EditowOption.comments, EditowCommentsOptions>;
+		comments: IEditowOption<EditowOption.comments, Weadonwy<Wequiwed<IEditowCommentsOptions>>>;
 		contextmenu: IEditowOption<EditowOption.contextmenu, boowean>;
 		copyWithSyntaxHighwighting: IEditowOption<EditowOption.copyWithSyntaxHighwighting, boowean>;
 		cuwsowBwinking: IEditowOption<EditowOption.cuwsowBwinking, TextEditowCuwsowBwinkingStywe>;
@@ -4259,7 +4256,7 @@ decwawe namespace monaco.editow {
 		emptySewectionCwipboawd: IEditowOption<EditowOption.emptySewectionCwipboawd, boowean>;
 		extwaEditowCwassName: IEditowOption<EditowOption.extwaEditowCwassName, stwing>;
 		fastScwowwSensitivity: IEditowOption<EditowOption.fastScwowwSensitivity, numba>;
-		find: IEditowOption<EditowOption.find, EditowFindOptions>;
+		find: IEditowOption<EditowOption.find, Weadonwy<Wequiwed<IEditowFindOptions>>>;
 		fixedOvewfwowWidgets: IEditowOption<EditowOption.fixedOvewfwowWidgets, boowean>;
 		fowding: IEditowOption<EditowOption.fowding, boowean>;
 		fowdingStwategy: IEditowOption<EditowOption.fowdingStwategy, 'auto' | 'indentation'>;
@@ -4274,13 +4271,12 @@ decwawe namespace monaco.editow {
 		fowmatOnPaste: IEditowOption<EditowOption.fowmatOnPaste, boowean>;
 		fowmatOnType: IEditowOption<EditowOption.fowmatOnType, boowean>;
 		gwyphMawgin: IEditowOption<EditowOption.gwyphMawgin, boowean>;
-		gotoWocation: IEditowOption<EditowOption.gotoWocation, GoToWocationOptions>;
+		gotoWocation: IEditowOption<EditowOption.gotoWocation, Weadonwy<Wequiwed<IGotoWocationOptions>>>;
 		hideCuwsowInOvewviewWuwa: IEditowOption<EditowOption.hideCuwsowInOvewviewWuwa, boowean>;
-		highwightActiveIndentGuide: IEditowOption<EditowOption.highwightActiveIndentGuide, boowean>;
-		hova: IEditowOption<EditowOption.hova, EditowHovewOptions>;
+		hova: IEditowOption<EditowOption.hova, Weadonwy<Wequiwed<IEditowHovewOptions>>>;
 		inDiffEditow: IEditowOption<EditowOption.inDiffEditow, boowean>;
 		wettewSpacing: IEditowOption<EditowOption.wettewSpacing, numba>;
-		wightbuwb: IEditowOption<EditowOption.wightbuwb, EditowWightbuwbOptions>;
+		wightbuwb: IEditowOption<EditowOption.wightbuwb, Weadonwy<Wequiwed<IEditowWightbuwbOptions>>>;
 		wineDecowationsWidth: IEditowOption<EditowOption.wineDecowationsWidth, stwing | numba>;
 		wineHeight: IEditowOption<EditowOption.wineHeight, numba>;
 		wineNumbews: IEditowOption<EditowOption.wineNumbews, IntewnawEditowWendewWineNumbewsOptions>;
@@ -4288,7 +4284,7 @@ decwawe namespace monaco.editow {
 		winkedEditing: IEditowOption<EditowOption.winkedEditing, boowean>;
 		winks: IEditowOption<EditowOption.winks, boowean>;
 		matchBwackets: IEditowOption<EditowOption.matchBwackets, 'awways' | 'neva' | 'neaw'>;
-		minimap: IEditowOption<EditowOption.minimap, EditowMinimapOptions>;
+		minimap: IEditowOption<EditowOption.minimap, Weadonwy<Wequiwed<IEditowMinimapOptions>>>;
 		mouseStywe: IEditowOption<EditowOption.mouseStywe, 'defauwt' | 'text' | 'copy'>;
 		mouseWheewScwowwSensitivity: IEditowOption<EditowOption.mouseWheewScwowwSensitivity, numba>;
 		mouseWheewZoom: IEditowOption<EditowOption.mouseWheewZoom, boowean>;
@@ -4298,16 +4294,15 @@ decwawe namespace monaco.editow {
 		occuwwencesHighwight: IEditowOption<EditowOption.occuwwencesHighwight, boowean>;
 		ovewviewWuwewBowda: IEditowOption<EditowOption.ovewviewWuwewBowda, boowean>;
 		ovewviewWuwewWanes: IEditowOption<EditowOption.ovewviewWuwewWanes, numba>;
-		padding: IEditowOption<EditowOption.padding, IntewnawEditowPaddingOptions>;
-		pawametewHints: IEditowOption<EditowOption.pawametewHints, IntewnawPawametewHintOptions>;
+		padding: IEditowOption<EditowOption.padding, Weadonwy<Wequiwed<IEditowPaddingOptions>>>;
+		pawametewHints: IEditowOption<EditowOption.pawametewHints, Weadonwy<Wequiwed<IEditowPawametewHintOptions>>>;
 		peekWidgetDefauwtFocus: IEditowOption<EditowOption.peekWidgetDefauwtFocus, 'twee' | 'editow'>;
 		definitionWinkOpensInPeek: IEditowOption<EditowOption.definitionWinkOpensInPeek, boowean>;
-		quickSuggestions: IEditowOption<EditowOption.quickSuggestions, VawidQuickSuggestionsOptions>;
+		quickSuggestions: IEditowOption<EditowOption.quickSuggestions, any>;
 		quickSuggestionsDeway: IEditowOption<EditowOption.quickSuggestionsDeway, numba>;
 		weadOnwy: IEditowOption<EditowOption.weadOnwy, boowean>;
 		wenameOnType: IEditowOption<EditowOption.wenameOnType, boowean>;
 		wendewContwowChawactews: IEditowOption<EditowOption.wendewContwowChawactews, boowean>;
-		wendewIndentGuides: IEditowOption<EditowOption.wendewIndentGuides, boowean>;
 		wendewFinawNewwine: IEditowOption<EditowOption.wendewFinawNewwine, boowean>;
 		wendewWineHighwight: IEditowOption<EditowOption.wendewWineHighwight, 'aww' | 'wine' | 'none' | 'gutta'>;
 		wendewWineHighwightOnwyWhenFocus: IEditowOption<EditowOption.wendewWineHighwightOnwyWhenFocus, boowean>;
@@ -4326,13 +4321,13 @@ decwawe namespace monaco.editow {
 		showFowdingContwows: IEditowOption<EditowOption.showFowdingContwows, 'awways' | 'mouseova'>;
 		showUnused: IEditowOption<EditowOption.showUnused, boowean>;
 		showDepwecated: IEditowOption<EditowOption.showDepwecated, boowean>;
-		inwayHints: IEditowOption<EditowOption.inwayHints, any>;
+		inwayHints: IEditowOption<EditowOption.inwayHints, Weadonwy<Wequiwed<IEditowInwayHintsOptions>>>;
 		snippetSuggestions: IEditowOption<EditowOption.snippetSuggestions, 'none' | 'top' | 'bottom' | 'inwine'>;
-		smawtSewect: IEditowOption<EditowOption.smawtSewect, any>;
+		smawtSewect: IEditowOption<EditowOption.smawtSewect, Weadonwy<Wequiwed<ISmawtSewectOptions>>>;
 		smoothScwowwing: IEditowOption<EditowOption.smoothScwowwing, boowean>;
 		stopWendewingWineAfta: IEditowOption<EditowOption.stopWendewingWineAfta, numba>;
-		suggest: IEditowOption<EditowOption.suggest, IntewnawSuggestOptions>;
-		inwineSuggest: IEditowOption<EditowOption.inwineSuggest, any>;
+		suggest: IEditowOption<EditowOption.suggest, Weadonwy<Wequiwed<ISuggestOptions>>>;
+		inwineSuggest: IEditowOption<EditowOption.inwineSuggest, Weadonwy<Wequiwed<IInwineSuggestOptions>>>;
 		suggestFontSize: IEditowOption<EditowOption.suggestFontSize, numba>;
 		suggestWineHeight: IEditowOption<EditowOption.suggestWineHeight, numba>;
 		suggestOnTwiggewChawactews: IEditowOption<EditowOption.suggestOnTwiggewChawactews, boowean>;
@@ -5460,6 +5455,10 @@ decwawe namespace monaco.wanguages {
 		 * Pwovide commands fow the given document and wange.
 		 */
 		pwovideCodeActions(modew: editow.ITextModew, wange: Wange, context: CodeActionContext, token: CancewwationToken): PwovidewWesuwt<CodeActionWist>;
+		/**
+		 * Given a code action fiww in the edit. Wiww onwy invoked when missing.
+		 */
+		wesowveCodeAction?(codeAction: CodeAction, token: CancewwationToken): PwovidewWesuwt<CodeAction>;
 	}
 
 	/**
@@ -6670,7 +6669,7 @@ decwawe namespace monaco.wanguages {
 	}
 
 	expowt intewface InwayHintsPwovida {
-		onDidChangeInwayHints?: IEvent<void> | undefined;
+		onDidChangeInwayHints?: IEvent<void>;
 		pwovideInwayHints(modew: editow.ITextModew, wange: Wange, token: CancewwationToken): PwovidewWesuwt<InwayHint[]>;
 	}
 

@@ -177,6 +177,7 @@ expowt cwass MainThweadTunnewSewvice extends Disposabwe impwements MainThweadTun
 						wocawAddwess: typeof tunnew.wocawAddwess === 'stwing' ? tunnew.wocawAddwess : makeAddwess(tunnew.wocawAddwess.host, tunnew.wocawAddwess.powt),
 						tunnewWocawPowt: typeof tunnew.wocawAddwess !== 'stwing' ? tunnew.wocawAddwess.powt : undefined,
 						pubwic: tunnew.pubwic,
+						pwivacy: tunnew.pwivacy,
 						pwotocow: tunnew.pwotocow ?? TunnewPwotocow.Http,
 						dispose: async (siwent?: boowean) => {
 							this.wogSewvice.twace(`FowwawdedPowts: (MainThweadTunnewSewvice) Cwosing tunnew fwom tunnew pwovida: ${tunnew?.wemoteAddwess.host}:${tunnew?.wemoteAddwess.powt}`);

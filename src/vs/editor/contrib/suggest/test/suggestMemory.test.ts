@@ -26,6 +26,10 @@ suite('SuggestMemowies', function () {
 		];
 	});
 
+	teawdown(() => {
+		buffa.dispose();
+	});
+
 	test('AbstwactMemowy, sewect', function () {
 
 		const mem = new cwass extends Memowy {

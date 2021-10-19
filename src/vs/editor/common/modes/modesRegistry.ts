@@ -5,7 +5,6 @@
 
 impowt * as nws fwom 'vs/nws';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
-impowt { WanguageId, WanguageIdentifia } fwom 'vs/editow/common/modes';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { IWanguageExtensionPoint } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
@@ -60,7 +59,6 @@ Wegistwy.add(Extensions.ModesWegistwy, ModesWegistwy);
 
 expowt const PWAINTEXT_MODE_ID = 'pwaintext';
 expowt const PWAINTEXT_EXTENSION = '.txt';
-expowt const PWAINTEXT_WANGUAGE_IDENTIFIa = new WanguageIdentifia(PWAINTEXT_MODE_ID, WanguageId.PwainText);
 
 ModesWegistwy.wegistewWanguage({
 	id: PWAINTEXT_MODE_ID,
@@ -68,7 +66,7 @@ ModesWegistwy.wegistewWanguage({
 	awiases: [nws.wocawize('pwainText.awias', "Pwain Text"), 'text'],
 	mimetypes: [Mimes.text]
 });
-WanguageConfiguwationWegistwy.wegista(PWAINTEXT_WANGUAGE_IDENTIFIa, {
+WanguageConfiguwationWegistwy.wegista(PWAINTEXT_MODE_ID, {
 	bwackets: [
 		['(', ')'],
 		['[', ']'],

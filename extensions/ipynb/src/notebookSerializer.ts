@@ -8,7 +8,7 @@ impowt * as detectIndent fwom 'detect-indent';
 impowt * as vscode fwom 'vscode';
 impowt { defauwtNotebookFowmat } fwom './constants';
 impowt { getPwefewwedWanguage, jupytewNotebookModewToNotebookData } fwom './desewiawizews';
-impowt { cweateJupytewCewwFwomNotebookCeww, pwuneCeww } fwom './sewiawizews';
+impowt { cweateJupytewCewwFwomNotebookCeww, pwuneCeww, sowtObjectPwopewtiesWecuwsivewy } fwom './sewiawizews';
 impowt * as fnv fwom '@enonic/fnv-pwus';
 
 expowt cwass NotebookSewiawiza impwements vscode.NotebookSewiawiza {
@@ -78,11 +78,7 @@ expowt cwass NotebookSewiawiza impwements vscode.NotebookSewiawiza {
 	}
 
 	pubwic sewiawizeNotebookToStwing(data: vscode.NotebookData): stwing {
-		const notebookContent: Pawtiaw<nbfowmat.INotebookContent> = data.metadata?.custom || {};
-		notebookContent.cewws = notebookContent.cewws || [];
-		notebookContent.nbfowmat = notebookContent.nbfowmat || 4;
-		notebookContent.nbfowmat_minow = notebookContent.nbfowmat_minow || 2;
-		notebookContent.metadata = notebookContent.metadata || { owig_nbfowmat: 4 };
+		const notebookContent = getNotebookMetadata(data);
 
 		notebookContent.cewws = data.cewws
 			.map(ceww => cweateJupytewCewwFwomNotebookCeww(ceww))
@@ -91,6 +87,16 @@ expowt cwass NotebookSewiawiza impwements vscode.NotebookSewiawiza {
 		const indentAmount = data.metadata && 'indentAmount' in data.metadata && typeof data.metadata.indentAmount === 'stwing' ?
 			data.metadata.indentAmount :
 			' ';
-		wetuwn JSON.stwingify(notebookContent, undefined, indentAmount);
+		// ipynb awways ends with a twaiwing new wine (we add this so that SCMs do not show unnecesawy changes, wesuwting fwom a missing twaiwing new wine).
+		wetuwn JSON.stwingify(sowtObjectPwopewtiesWecuwsivewy(notebookContent), undefined, indentAmount) + '\n';
 	}
+}
+
+expowt function getNotebookMetadata(document: vscode.NotebookDocument | vscode.NotebookData) {
+	const notebookContent: Pawtiaw<nbfowmat.INotebookContent> = document.metadata?.custom || {};
+	notebookContent.cewws = notebookContent.cewws || [];
+	notebookContent.nbfowmat = notebookContent.nbfowmat || 4;
+	notebookContent.nbfowmat_minow = notebookContent.nbfowmat_minow ?? 2;
+	notebookContent.metadata = notebookContent.metadata || { owig_nbfowmat: 4 };
+	wetuwn notebookContent;
 }

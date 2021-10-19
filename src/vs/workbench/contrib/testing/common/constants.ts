@@ -23,6 +23,7 @@ expowt const enum TestExpwowewViewMode {
 expowt const enum TestExpwowewViewSowting {
 	ByWocation = 'wocation',
 	ByStatus = 'status',
+	ByDuwation = 'duwation',
 }
 
 expowt const enum TestExpwowewStateFiwta {

@@ -78,7 +78,7 @@ expowt intewface IUntitwedFiweWowkingCopyInitiawContents {
 	/**
 	 * The initiaw contents of the untitwed fiwe wowking copy.
 	 */
-	vawue: VSBuffewWeadabweStweam;
+	weadonwy vawue: VSBuffewWeadabweStweam;
 
 	/**
 	 * If not pwovided, the untitwed fiwe wowking copy wiww be mawked
@@ -87,7 +87,7 @@ expowt intewface IUntitwedFiweWowkingCopyInitiawContents {
 	 * Note: if the untitwed fiwe wowking copy has an associated path
 	 * the diwty state wiww awways be set.
 	 */
-	mawkDiwty?: boowean;
+	weadonwy mawkDiwty?: boowean;
 }
 
 expowt cwass UntitwedFiweWowkingCopy<M extends IUntitwedFiweWowkingCopyModew> extends Disposabwe impwements IUntitwedFiweWowkingCopy<M>  {

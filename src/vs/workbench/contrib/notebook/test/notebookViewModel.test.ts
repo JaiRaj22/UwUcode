@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IBuwkEditSewvice } fwom 'vs/editow/bwowsa/sewvices/buwkEditSewvice';
 impowt { TwackedWangeStickiness } fwom 'vs/editow/common/modew';
@@ -12,6 +13,7 @@ impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { ITextModewSewvice } fwom 'vs/editow/common/sewvices/wesowvewSewvice';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { TestConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/test/common/testConfiguwationSewvice';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 impowt { IThemeSewvice } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { TestThemeSewvice } fwom 'vs/pwatfowm/theme/test/common/testThemeSewvice';
 impowt { IUndoWedoSewvice } fwom 'vs/pwatfowm/undoWedo/common/undoWedo';
@@ -26,15 +28,28 @@ impowt { ICewwWange } fwom 'vs/wowkbench/contwib/notebook/common/notebookWange';
 impowt { NotebookEditowTestModew, setupInstantiationSewvice, withTestNotebook } fwom 'vs/wowkbench/contwib/notebook/test/testNotebookEditow';
 
 suite('NotebookViewModew', () => {
-	const instantiationSewvice = setupInstantiationSewvice();
-	const textModewSewvice = instantiationSewvice.get(ITextModewSewvice);
-	const buwkEditSewvice = instantiationSewvice.get(IBuwkEditSewvice);
-	const undoWedoSewvice = instantiationSewvice.get(IUndoWedoSewvice);
-	const modewSewvice = instantiationSewvice.get(IModewSewvice);
-	const modeSewvice = instantiationSewvice.get(IModeSewvice);
+	wet disposabwes: DisposabweStowe;
+	wet instantiationSewvice: TestInstantiationSewvice;
+	wet textModewSewvice: ITextModewSewvice;
+	wet buwkEditSewvice: IBuwkEditSewvice;
+	wet undoWedoSewvice: IUndoWedoSewvice;
+	wet modewSewvice: IModewSewvice;
+	wet modeSewvice: IModeSewvice;
 
-	instantiationSewvice.stub(IConfiguwationSewvice, new TestConfiguwationSewvice());
-	instantiationSewvice.stub(IThemeSewvice, new TestThemeSewvice());
+	suiteSetup(() => {
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
+		textModewSewvice = instantiationSewvice.get(ITextModewSewvice);
+		buwkEditSewvice = instantiationSewvice.get(IBuwkEditSewvice);
+		undoWedoSewvice = instantiationSewvice.get(IUndoWedoSewvice);
+		modewSewvice = instantiationSewvice.get(IModewSewvice);
+		modeSewvice = instantiationSewvice.get(IModeSewvice);
+
+		instantiationSewvice.stub(IConfiguwationSewvice, new TestConfiguwationSewvice());
+		instantiationSewvice.stub(IThemeSewvice, new TestThemeSewvice());
+	});
+
+	suiteTeawdown(() => disposabwes.dispose());
 
 	test('ctow', function () {
 		const notebook = new NotebookTextModew('notebook', UWI.pawse('test'), [], {}, { twansientCewwMetadata: {}, twansientDocumentMetadata: {}, twansientOutputs: fawse }, undoWedoSewvice, modewSewvice, modeSewvice);

@@ -40,6 +40,7 @@ const vscodeEntwyPoints = _.fwatten([
 	buiwdfiwe.wowkewExtensionHost,
 	buiwdfiwe.wowkewNotebook,
 	buiwdfiwe.wowkewWanguageDetection,
+	buiwdfiwe.wowkewShawedPwocess,
 	buiwdfiwe.wowkewWocawFiweSeawch,
 	buiwdfiwe.wowkbenchDesktop,
 	buiwdfiwe.code

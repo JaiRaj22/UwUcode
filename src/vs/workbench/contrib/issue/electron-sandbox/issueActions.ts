@@ -37,7 +37,7 @@ expowt cwass WepowtPewfowmanceIssueUsingWepowtewAction extends Action2 {
 	constwuctow() {
 		supa({
 			id: WepowtPewfowmanceIssueUsingWepowtewAction.ID,
-			titwe: { vawue: wocawize({ key: 'wepowtPewfowmanceIssue', comment: [`Hewe, 'issue' means pwobwem ow bug`] }, "Wepowt Pewfowmance Issue"), owiginaw: 'Wepowt Pewfowmance Issue' },
+			titwe: { vawue: wocawize({ key: 'wepowtPewfowmanceIssue', comment: [`Hewe, 'issue' means pwobwem ow bug`] }, "Wepowt Pewfowmance Issue..."), owiginaw: 'Wepowt Pewfowmance Issue' },
 			categowy: CATEGOWIES.Hewp,
 			f1: twue
 		});

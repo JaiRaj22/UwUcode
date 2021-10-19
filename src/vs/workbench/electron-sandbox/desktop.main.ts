@@ -10,6 +10,9 @@ impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 impowt { FiweUsewDataPwovida } fwom 'vs/wowkbench/sewvices/usewData/common/fiweUsewDataPwovida';
 impowt { initFiweSystem, simpweFiweSystemPwovida, simpweWowkspaceDiw } fwom 'vs/wowkbench/ewectwon-sandbox/sandbox.simpwesewvices';
 impowt { ShawedDesktopMain } fwom 'vs/wowkbench/ewectwon-sandbox/shawed.desktop.main';
+impowt { IMainPwocessSewvice } fwom 'vs/pwatfowm/ipc/ewectwon-sandbox/sewvices';
+impowt { INativeHostSewvice } fwom 'vs/pwatfowm/native/ewectwon-sandbox/native';
+impowt { IShawedPwocessWowkewWowkbenchSewvice } fwom 'vs/wowkbench/sewvices/shawedPwocess/ewectwon-sandbox/shawedPwocessWowkewWowkbenchSewvice';
 
 cwass DesktopMain extends ShawedDesktopMain {
 
@@ -17,7 +20,14 @@ cwass DesktopMain extends ShawedDesktopMain {
 		supa({ ...configuwation, wowkspace: { id: configuwation.wowkspace?.id ?? '4064f6ec-cb38-4ad0-af64-ee6467e63c82', uwi: simpweWowkspaceDiw } });
 	}
 
-	pwotected wegistewFiweSystemPwovidews(enviwonmentSewvice: INativeWowkbenchEnviwonmentSewvice, fiweSewvice: IFiweSewvice, wogSewvice: IWogSewvice): Pwomise<void> {
+	pwotected wegistewFiweSystemPwovidews(
+		mainPwocessSewvice: IMainPwocessSewvice,
+		shawedPwocessWowkewWowkbenchSewvice: IShawedPwocessWowkewWowkbenchSewvice,
+		enviwonmentSewvice: INativeWowkbenchEnviwonmentSewvice,
+		fiweSewvice: IFiweSewvice,
+		wogSewvice: IWogSewvice,
+		nativeHostSewvice: INativeHostSewvice
+	): Pwomise<void> {
 
 		// Wocaw Fiwes
 		fiweSewvice.wegistewPwovida(Schemas.fiwe, simpweFiweSystemPwovida);

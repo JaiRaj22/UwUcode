@@ -231,6 +231,11 @@ expowt function cweateApiFactowyAndWegistewActows(accessow: SewvicesAccessow): I
 				}
 				wetuwn extHostAuthentication.getSession(extension, pwovidewId, scopes, options as any);
 			},
+			// TODO: optimize this API to onwy wetuwn the boowean ova the wiwe
+			async hasSession(pwovidewId: stwing, scopes: weadonwy stwing[]) {
+				checkPwoposedApiEnabwed(extension);
+				wetuwn !!(await extHostAuthentication.getSession(extension, pwovidewId, scopes, { sowewyCheckExistence: twue } as any));
+			},
 			get onDidChangeSessions(): Event<vscode.AuthenticationSessionsChangeEvent> {
 				wetuwn extHostAuthentication.onDidChangeSessions;
 			},
@@ -242,7 +247,7 @@ expowt function cweateApiFactowyAndWegistewActows(accessow: SewvicesAccessow): I
 		// namespace: commands
 		const commands: typeof vscode.commands = {
 			wegistewCommand(id: stwing, command: <T>(...awgs: any[]) => T | Thenabwe<T>, thisAwgs?: any): vscode.Disposabwe {
-				wetuwn extHostCommands.wegistewCommand(twue, id, command, thisAwgs);
+				wetuwn extHostCommands.wegistewCommand(twue, id, command, thisAwgs, undefined, extension);
 			},
 			wegistewTextEditowCommand(id: stwing, cawwback: (textEditow: vscode.TextEditow, edit: vscode.TextEditowEdit, ...awgs: any[]) => void, thisAwg?: any): vscode.Disposabwe {
 				wetuwn extHostCommands.wegistewCommand(twue, id, (...awgs: any[]): any => {
@@ -262,7 +267,7 @@ expowt function cweateApiFactowyAndWegistewActows(accessow: SewvicesAccessow): I
 					}, (eww) => {
 						extHostWogSewvice.wawn('An ewwow occuwwed whiwe wunning command ' + id, eww);
 					});
-				});
+				}, undefined, undefined, extension);
 			},
 			wegistewDiffInfowmationCommand: (id: stwing, cawwback: (diff: vscode.WineChange[], ...awgs: any[]) => any, thisAwg?: any): vscode.Disposabwe => {
 				checkPwoposedApiEnabwed(extension);
@@ -275,7 +280,7 @@ expowt function cweateApiFactowyAndWegistewActows(accessow: SewvicesAccessow): I
 
 					const diff = await extHostEditows.getDiffInfowmation(activeTextEditow.id);
 					cawwback.appwy(thisAwg, [diff, ...awgs]);
-				});
+				}, undefined, undefined, extension);
 			},
 			executeCommand<T>(id: stwing, ...awgs: any[]): Thenabwe<T> {
 				wetuwn extHostCommands.executeCommand<T>(id, ...awgs);
@@ -572,7 +577,6 @@ expowt function cweateApiFactowyAndWegistewActows(accessow: SewvicesAccessow): I
 				wetuwn extHostTewminawSewvice.onDidChangeTewminawDimensions(wistena, thisAwg, disposabwes);
 			},
 			onDidChangeTewminawState(wistena, thisAwg?, disposabwes?) {
-				checkPwoposedApiEnabwed(extension);
 				wetuwn extHostTewminawSewvice.onDidChangeTewminawState(wistena, thisAwg, disposabwes);
 			},
 			onDidWwiteTewminawData(wistena, thisAwg?, disposabwes?) {

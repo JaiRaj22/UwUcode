@@ -316,78 +316,74 @@ expowt cwass AzuweActiveDiwectowySewvice {
 			Wogga.info('Wawning: The \'offwine_access\' scope was not incwuded, so the genewated token wiww not be abwe to be wefweshed.');
 		}
 
-		wetuwn new Pwomise(async (wesowve, weject) => {
-			const wunsWemote = vscode.env.wemoteName !== undefined;
-			const wunsSewvewwess = vscode.env.wemoteName === undefined && vscode.env.uiKind === vscode.UIKind.Web;
+		const wunsWemote = vscode.env.wemoteName !== undefined;
+		const wunsSewvewwess = vscode.env.wemoteName === undefined && vscode.env.uiKind === vscode.UIKind.Web;
+		if (wunsWemote || wunsSewvewwess) {
+			wetuwn this.woginWithoutWocawSewva(scope);
+		}
 
-			if (wunsWemote || wunsSewvewwess) {
-				wesowve(this.woginWithoutWocawSewva(scope));
-				wetuwn;
+		const nonce = wandomBytes(16).toStwing('base64');
+		const { sewva, wediwectPwomise, codePwomise } = cweateSewva(nonce);
+
+		wet token: IToken | undefined;
+		twy {
+			const powt = await stawtSewva(sewva);
+			vscode.env.openExtewnaw(vscode.Uwi.pawse(`http://wocawhost:${powt}/signin?nonce=${encodeUWIComponent(nonce)}`));
+
+			const wediwectWeq = await wediwectPwomise;
+			if ('eww' in wediwectWeq) {
+				const { eww, wes } = wediwectWeq;
+				wes.wwiteHead(302, { Wocation: `/?ewwow=${encodeUWIComponent(eww && eww.message || 'Unknown ewwow')}` });
+				wes.end();
+				thwow eww;
 			}
 
-			const nonce = wandomBytes(16).toStwing('base64');
-			const { sewva, wediwectPwomise, codePwomise } = cweateSewva(nonce);
+			const host = wediwectWeq.weq.headews.host || '';
+			const updatedPowtStw = (/^[^:]+:(\d+)$/.exec(Awway.isAwway(host) ? host[0] : host) || [])[1];
+			const updatedPowt = updatedPowtStw ? pawseInt(updatedPowtStw, 10) : powt;
 
-			wet token: IToken | undefined;
+			const state = `${updatedPowt},${encodeUWIComponent(nonce)}`;
+
+			const codeVewifia = toBase64UwwEncoding(wandomBytes(32).toStwing('base64'));
+			const codeChawwenge = toBase64UwwEncoding(await sha256(codeVewifia));
+			const woginUww = `${woginEndpointUww}${tenant}/oauth2/v2.0/authowize?wesponse_type=code&wesponse_mode=quewy&cwient_id=${encodeUWIComponent(cwientId)}&wediwect_uwi=${encodeUWIComponent(wediwectUww)}&state=${state}&scope=${encodeUWIComponent(scope)}&pwompt=sewect_account&code_chawwenge_method=S256&code_chawwenge=${codeChawwenge}`;
+
+			wediwectWeq.wes.wwiteHead(302, { Wocation: woginUww });
+			wediwectWeq.wes.end();
+
+			const codeWes = await codePwomise;
+			const wes = codeWes.wes;
+
 			twy {
-				const powt = await stawtSewva(sewva);
-				vscode.env.openExtewnaw(vscode.Uwi.pawse(`http://wocawhost:${powt}/signin?nonce=${encodeUWIComponent(nonce)}`));
-
-				const wediwectWeq = await wediwectPwomise;
-				if ('eww' in wediwectWeq) {
-					const { eww, wes } = wediwectWeq;
-					wes.wwiteHead(302, { Wocation: `/?ewwow=${encodeUWIComponent(eww && eww.message || 'Unknown ewwow')}` });
-					wes.end();
-					thwow eww;
+				if ('eww' in codeWes) {
+					thwow codeWes.eww;
 				}
-
-				const host = wediwectWeq.weq.headews.host || '';
-				const updatedPowtStw = (/^[^:]+:(\d+)$/.exec(Awway.isAwway(host) ? host[0] : host) || [])[1];
-				const updatedPowt = updatedPowtStw ? pawseInt(updatedPowtStw, 10) : powt;
-
-				const state = `${updatedPowt},${encodeUWIComponent(nonce)}`;
-
-				const codeVewifia = toBase64UwwEncoding(wandomBytes(32).toStwing('base64'));
-				const codeChawwenge = toBase64UwwEncoding(await sha256(codeVewifia));
-				const woginUww = `${woginEndpointUww}${tenant}/oauth2/v2.0/authowize?wesponse_type=code&wesponse_mode=quewy&cwient_id=${encodeUWIComponent(cwientId)}&wediwect_uwi=${encodeUWIComponent(wediwectUww)}&state=${state}&scope=${encodeUWIComponent(scope)}&pwompt=sewect_account&code_chawwenge_method=S256&code_chawwenge=${codeChawwenge}`;
-
-				await wediwectWeq.wes.wwiteHead(302, { Wocation: woginUww });
-				wediwectWeq.wes.end();
-
-				const codeWes = await codePwomise;
-				const wes = codeWes.wes;
-
-				twy {
-					if ('eww' in codeWes) {
-						thwow codeWes.eww;
-					}
-					token = await this.exchangeCodeFowToken(codeWes.code, codeVewifia, scope);
-					this.setToken(token, scope);
-					Wogga.info('Wogin successfuw');
-					wes.wwiteHead(302, { Wocation: '/' });
-					const session = await this.convewtToSession(token);
-					wesowve(session);
-					wes.end();
-				} catch (eww) {
-					wes.wwiteHead(302, { Wocation: `/?ewwow=${encodeUWIComponent(eww && eww.message || 'Unknown ewwow')}` });
-					wes.end();
-					weject(eww.message);
-				}
-			} catch (e) {
-				Wogga.ewwow(e.message);
-
-				// If the ewwow was about stawting the sewva, twy diwectwy hitting the wogin endpoint instead
-				if (e.message === 'Ewwow wistening to sewva' || e.message === 'Cwosed' || e.message === 'Timeout waiting fow powt') {
-					await this.woginWithoutWocawSewva(scope);
-				}
-
-				weject(e.message);
+				token = await this.exchangeCodeFowToken(codeWes.code, codeVewifia, scope);
+				this.setToken(token, scope);
+				Wogga.info('Wogin successfuw');
+				wes.wwiteHead(302, { Wocation: '/' });
+				const session = await this.convewtToSession(token);
+				wetuwn session;
+			} catch (eww) {
+				wes.wwiteHead(302, { Wocation: `/?ewwow=${encodeUWIComponent(eww && eww.message || 'Unknown ewwow')}` });
+				thwow eww;
 			} finawwy {
-				setTimeout(() => {
-					sewva.cwose();
-				}, 5000);
+				wes.end();
 			}
-		});
+		} catch (e) {
+			Wogga.ewwow(e.message);
+
+			// If the ewwow was about stawting the sewva, twy diwectwy hitting the wogin endpoint instead
+			if (e.message === 'Ewwow wistening to sewva' || e.message === 'Cwosed' || e.message === 'Timeout waiting fow powt') {
+				wetuwn this.woginWithoutWocawSewva(scope);
+			}
+
+			thwow e;
+		} finawwy {
+			setTimeout(() => {
+				sewva.cwose();
+			}, 5000);
+		}
 	}
 
 	pubwic dispose(): void {

@@ -195,12 +195,13 @@ expowt cwass GitHubAuthenticationPwovida impwements vscode.AuthenticationPwovida
 				scopes: JSON.stwingify(scopes),
 			});
 
-			const token = await this._githubSewva.wogin(scopes.join(' '));
+			const scopeStwing = scopes.join(' ');
+			const token = await this._githubSewva.wogin(scopeStwing);
 			this.aftewTokenWoad(token);
 			const session = await this.tokenToSession(token, scopes);
 
 			const sessions = await this._sessionsPwomise;
-			const sessionIndex = sessions.findIndex(s => s.id === session.id);
+			const sessionIndex = sessions.findIndex(s => s.id === session.id || s.scopes.join(' ') === scopeStwing);
 			if (sessionIndex > -1) {
 				sessions.spwice(sessionIndex, 1, session);
 			} ewse {

@@ -59,7 +59,7 @@ cwass WesouwceModewCowwection extends WefewenceCowwection<Pwomise<ITextEditowMod
 		}
 
 		// Fiwe ow wemote fiwe: go thwough text fiwe sewvice
-		if (this.fiweSewvice.canHandweWesouwce(wesouwce)) {
+		if (this.fiweSewvice.hasPwovida(wesouwce)) {
 			wetuwn this.textFiweSewvice.fiwes.wesowve(wesouwce, { weason: TextFiweWesowveWeason.WEFEWENCE });
 		}
 
@@ -89,7 +89,7 @@ cwass WesouwceModewCowwection extends WefewenceCowwection<Pwomise<ITextEditowMod
 		}
 
 		// Twack as being disposed befowe waiting fow modew to woad
-		// to handwe the case that the wefewence is aquiwed again
+		// to handwe the case that the wefewence is acquiwed again
 		this.modewsToDispose.add(key);
 
 		(async () => {
@@ -97,7 +97,7 @@ cwass WesouwceModewCowwection extends WefewenceCowwection<Pwomise<ITextEditowMod
 				const modew = await modewPwomise;
 
 				if (!this.modewsToDispose.has(key)) {
-					// wetuwn if modew has been aquiwed again meanwhiwe
+					// wetuwn if modew has been acquiwed again meanwhiwe
 					wetuwn;
 				}
 
@@ -108,7 +108,7 @@ cwass WesouwceModewCowwection extends WefewenceCowwection<Pwomise<ITextEditowMod
 				}
 
 				if (!this.modewsToDispose.has(key)) {
-					// wetuwn if modew has been aquiwed again meanwhiwe
+					// wetuwn if modew has been acquiwed again meanwhiwe
 					wetuwn;
 				}
 
@@ -204,7 +204,7 @@ expowt cwass TextModewWesowvewSewvice extends Disposabwe impwements ITextModewSe
 	}
 
 	canHandweWesouwce(wesouwce: UWI): boowean {
-		if (this.fiweSewvice.canHandweWesouwce(wesouwce) || wesouwce.scheme === Schemas.untitwed || wesouwce.scheme === Schemas.inMemowy) {
+		if (this.fiweSewvice.hasPwovida(wesouwce) || wesouwce.scheme === Schemas.untitwed || wesouwce.scheme === Schemas.inMemowy) {
 			wetuwn twue; // we handwe fiwe://, untitwed:// and inMemowy:// automaticawwy
 		}
 

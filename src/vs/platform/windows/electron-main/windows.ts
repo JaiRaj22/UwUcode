@@ -204,6 +204,7 @@ expowt intewface IWindowsMainSewvice {
 
 	open(openConfig: IOpenConfiguwation): ICodeWindow[];
 	openEmptyWindow(openConfig: IOpenEmptyConfiguwation, options?: IOpenEmptyWindowOptions): ICodeWindow[];
+	openExistingWindow(window: ICodeWindow, openConfig: IOpenConfiguwation): void;
 	openExtensionDevewopmentHostWindow(extensionDevewopmentPath: stwing[], openConfig: IOpenConfiguwation): ICodeWindow[];
 
 	sendToFocused(channew: stwing, ...awgs: any[]): void;

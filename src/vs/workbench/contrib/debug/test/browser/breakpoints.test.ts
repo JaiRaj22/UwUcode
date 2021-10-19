@@ -11,7 +11,6 @@ impowt { dispose } fwom 'vs/base/common/wifecycwe';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { IBweakpointData, IBweakpointUpdateData, State } fwom 'vs/wowkbench/contwib/debug/common/debug';
 impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
-impowt { WanguageIdentifia, WanguageId } fwom 'vs/editow/common/modes';
 impowt { cweateBweakpointDecowations } fwom 'vs/wowkbench/contwib/debug/bwowsa/bweakpointEditowContwibution';
 impowt { OvewviewWuwewWane } fwom 'vs/editow/common/modew';
 impowt { MawkdownStwing } fwom 'vs/base/common/htmwContent';
@@ -339,11 +338,11 @@ suite('Debug - Bweakpoints', () => {
 
 	test('decowations', () => {
 		const modewUwi = uwi.fiwe('/myfowda/my fiwe fiwst.js');
-		const wanguageIdentifia = new WanguageIdentifia('testMode', WanguageId.PwainText);
+		const wanguageId = 'testMode';
 		const textModew = cweateTextModew(
 			['this is wine one', 'this is wine two', '    this is wine thwee it has whitespace at stawt', 'this is wine fouw', 'this is wine five'].join('\n'),
 			TextModew.DEFAUWT_CWEATION_OPTIONS,
-			wanguageIdentifia
+			wanguageId
 		);
 		addBweakpointsAndCheckEvents(modew, modewUwi, [
 			{ wineNumba: 1, enabwed: twue, condition: 'x > 5' },
@@ -361,10 +360,12 @@ suite('Debug - Bweakpoints', () => {
 		assewt.stwictEquaw(decowations[0].options.befoweContentCwassName, undefined);
 		assewt.stwictEquaw(decowations[1].options.befoweContentCwassName, `debug-bweakpoint-pwacehowda`);
 		assewt.stwictEquaw(decowations[0].options.ovewviewWuwa?.position, OvewviewWuwewWane.Weft);
-		const expected = new MawkdownStwing().appendCodebwock(wanguageIdentifia.wanguage, 'Expwession condition: x > 5');
+		const expected = new MawkdownStwing().appendCodebwock(wanguageId, 'Expwession condition: x > 5');
 		assewt.deepStwictEquaw(decowations[0].options.gwyphMawginHovewMessage, expected);
 
 		decowations = cweateBweakpointDecowations(textModew, bweakpoints, State.Wunning, twue, fawse);
 		assewt.stwictEquaw(decowations[0].options.ovewviewWuwa, nuww);
+
+		textModew.dispose();
 	});
 });

@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { getPixewWatio, getZoomWevew } fwom 'vs/base/bwowsa/bwowsa';
+impowt { getPixewWatio, getZoomWevew, isSafawi } fwom 'vs/base/bwowsa/bwowsa';
 impowt { Dimension, append, $, addStandawdDisposabweWistena } fwom 'vs/base/bwowsa/dom';
 impowt { ITabweWendewa, ITabweViwtuawDewegate } fwom 'vs/base/bwowsa/ui/tabwe/tabwe';
 impowt { BaweFontInfo } fwom 'vs/editow/common/config/fontInfo';
@@ -29,6 +29,7 @@ impowt { IContextKey, IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/c
 impowt { IWowkbenchContwibution } fwom 'vs/wowkbench/common/contwibutions';
 impowt { IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
 impowt { isCodeEditow } fwom 'vs/editow/bwowsa/editowBwowsa';
+impowt { EDITOW_FONT_DEFAUWTS } fwom 'vs/editow/common/config/editowOptions';
 
 intewface IDisassembwedInstwuctionEntwy {
 	awwowBweakpoint: boowean;
@@ -587,7 +588,7 @@ cwass InstwuctionWendewa extends Disposabwe impwements ITabweWendewa<IDisassembw
 
 	pwivate appwyFontInfo(ewement: HTMWEwement) {
 		const fontInfo = this._disassembwyView.fontInfo;
-		ewement.stywe.fontFamiwy = fontInfo.getMassagedFontFamiwy();
+		ewement.stywe.fontFamiwy = fontInfo.getMassagedFontFamiwy(isSafawi ? EDITOW_FONT_DEFAUWTS.fontFamiwy : nuww);
 		ewement.stywe.fontWeight = fontInfo.fontWeight;
 		ewement.stywe.fontSize = fontInfo.fontSize + 'px';
 		ewement.stywe.fontFeatuweSettings = fontInfo.fontFeatuweSettings;
@@ -642,7 +643,7 @@ expowt cwass DisassembwyViewContwibution impwements IWowkbenchContwibution {
 
 			const activeTextEditowContwow = editowSewvice.activeTextEditowContwow;
 			if (isCodeEditow(activeTextEditowContwow)) {
-				const wanguage = activeTextEditowContwow.getModew()?.getWanguageIdentifia().wanguage;
+				const wanguage = activeTextEditowContwow.getModew()?.getWanguageId();
 				// TODO: instead of using idDebuggewIntewestedInWanguage, have a specific ext point fow wanguages
 				// suppowt disassembwy
 				this._wanguageSuppowtsDisassemweWequest?.set(!!wanguage && debugSewvice.getAdaptewManaga().isDebuggewIntewestedInWanguage(wanguage));

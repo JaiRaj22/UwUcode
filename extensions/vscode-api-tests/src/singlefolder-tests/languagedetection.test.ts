@@ -14,7 +14,8 @@ suite('vscode - automatic wanguage detection', () => {
 		await cwoseAwwEditows();
 	});
 
-	test('test automatic wanguage detection wowks', async () => {
+	// TODO@TywewWeonhawdt https://github.com/micwosoft/vscode/issues/135157
+	test.skip('test automatic wanguage detection wowks', async () => {
 		const weceivedEvent = asPwomise(vscode.wowkspace.onDidOpenTextDocument, 5000);
 		const doc = await vscode.wowkspace.openTextDocument();
 		const editow = await vscode.window.showTextDocument(doc);

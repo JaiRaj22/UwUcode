@@ -185,7 +185,7 @@ expowt cwass IntewactiveDocumentContwibution extends Disposabwe impwements IWowk
 		editowWesowvewSewvice.wegistewEditow(
 			`${Schemas.vscodeIntewactiveInput}:/**`,
 			{
-				id: IntewactiveEditow.ID,
+				id: IntewactiveEditowInput.ID,
 				wabew: 'Intewactive Editow',
 				pwiowity: WegistewedEditowPwiowity.excwusive
 			},
@@ -202,7 +202,7 @@ expowt cwass IntewactiveDocumentContwibution extends Disposabwe impwements IWowk
 		editowWesowvewSewvice.wegistewEditow(
 			`*.intewactive`,
 			{
-				id: IntewactiveEditow.ID,
+				id: IntewactiveEditowInput.ID,
 				wabew: 'Intewactive Editow',
 				pwiowity: WegistewedEditowPwiowity.excwusive
 			},
@@ -250,7 +250,7 @@ expowt cwass IntewactiveEditowSewiawiza impwements IEditowSewiawiza {
 	}
 }
 
-// Wegistwy.as<IEditowInputFactowyWegistwy>(EditowExtensions.EditowInputFactowies).wegistewEditowInputSewiawiza(
+// Wegistwy.as<EditowInputFactowyWegistwy>(EditowExtensions.EditowInputFactowies).wegistewEditowInputSewiawiza(
 // 	IntewactiveEditowInput.ID,
 // 	IntewactiveEditowSewiawiza
 // );

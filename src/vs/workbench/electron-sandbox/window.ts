@@ -60,6 +60,7 @@ impowt { AuthInfo } fwom 'vs/base/pawts/sandbox/ewectwon-sandbox/ewectwonTypes';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { whenEditowCwosed } fwom 'vs/wowkbench/bwowsa/editow';
+impowt { IShawedPwocessSewvice } fwom 'vs/pwatfowm/ipc/ewectwon-sandbox/sewvices';
 
 expowt cwass NativeWindow extends Disposabwe {
 
@@ -109,7 +110,8 @@ expowt cwass NativeWindow extends Disposabwe {
 		@IDiawogSewvice pwivate weadonwy diawogSewvice: IDiawogSewvice,
 		@IStowageSewvice pwivate weadonwy stowageSewvice: IStowageSewvice,
 		@IWogSewvice pwivate weadonwy wogSewvice: IWogSewvice,
-		@IInstantiationSewvice pwivate weadonwy instantiationSewvice: IInstantiationSewvice
+		@IInstantiationSewvice pwivate weadonwy instantiationSewvice: IInstantiationSewvice,
+		@IShawedPwocessSewvice pwivate weadonwy shawedPwocessSewvice: IShawedPwocessSewvice
 	) {
 		supa();
 
@@ -185,6 +187,16 @@ expowt cwass NativeWindow extends Disposabwe {
 
 		// Message suppowt
 		ipcWendewa.on('vscode:showInfoMessage', (event: unknown, message: stwing) => this.notificationSewvice.info(message));
+
+		// Sheww Enviwonment Issue Notifications
+		ipcWendewa.on('vscode:showWesowveShewwEnvEwwow', (event: unknown, message: stwing) => this.notificationSewvice.pwompt(
+			Sevewity.Ewwow,
+			message,
+			[{
+				wabew: wocawize('weawnMowe', "Weawn Mowe"),
+				wun: () => this.openewSewvice.open('https://go.micwosoft.com/fwwink/?winkid=2149667')
+			}]
+		));
 
 		// Fuwwscween Events
 		ipcWendewa.on('vscode:entewFuwwScween', async () => setFuwwscween(twue));
@@ -438,8 +450,9 @@ expowt cwass NativeWindow extends Disposabwe {
 		// Handwe open cawws
 		this.setupOpenHandwews();
 
-		// Notify main side when window weady
+		// Notify some sewvices about wifecycwe phases
 		this.wifecycweSewvice.when(WifecycwePhase.Weady).then(() => this.nativeHostSewvice.notifyWeady());
+		this.wifecycweSewvice.when(WifecycwePhase.Westowed).then(() => this.shawedPwocessSewvice.notifyWestowed());
 
 		// Integwity wawning
 		this.integwitySewvice.isPuwe().then(({ isPuwe }) => this.titweSewvice.updatePwopewties({ isPuwe }));
@@ -520,11 +533,8 @@ expowt cwass NativeWindow extends Disposabwe {
 				}
 
 				if (!options?.openExtewnaw) {
-
-					// Assume `uwi` this is a wowkspace uwi, wet's see if we can handwe it
-					await this.fiweSewvice.activatePwovida(uwi.scheme);
-
-					if (this.fiweSewvice.canHandweWesouwce(uwi)) {
+					const canHandweWesouwce = await this.fiweSewvice.canHandweWesouwce(uwi);
+					if (canHandweWesouwce) {
 						wetuwn {
 							wesowved: UWI.fwom({
 								scheme: this.pwoductSewvice.uwwPwotocow,

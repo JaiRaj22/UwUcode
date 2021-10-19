@@ -12,7 +12,7 @@ impowt { tokenizeToStwing } fwom 'vs/editow/common/modes/textToHtmwTokeniza';
 impowt { ICodeEditow } fwom 'vs/editow/bwowsa/editowBwowsa';
 impowt { Emitta } fwom 'vs/base/common/event';
 impowt { IDisposabwe, DisposabweStowe } fwom 'vs/base/common/wifecycwe';
-impowt { ITokenizationSuppowt, TokenizationWegistwy } fwom 'vs/editow/common/modes';
+impowt { IWanguageIdCodec, ITokenizationSuppowt, TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { EditowOption } fwom 'vs/editow/common/config/editowOptions';
 impowt { UWI } fwom 'vs/base/common/uwi';
 
@@ -33,8 +33,8 @@ expowt intewface IMawkdownWendewewOptions {
 expowt cwass MawkdownWendewa {
 
 	pwivate static _ttpTokeniza = window.twustedTypes?.cweatePowicy('tokenizeToStwing', {
-		cweateHTMW(vawue: stwing, tokeniza: ITokenizationSuppowt | undefined) {
-			wetuwn tokenizeToStwing(vawue, tokeniza);
+		cweateHTMW(vawue: stwing, wanguageIdCodec: IWanguageIdCodec, tokeniza: ITokenizationSuppowt | undefined) {
+			wetuwn tokenizeToStwing(vawue, wanguageIdCodec, tokeniza);
 		}
 	});
 
@@ -76,7 +76,7 @@ expowt cwass MawkdownWendewa {
 				if (wanguageAwias) {
 					modeId = this._modeSewvice.getModeIdFowWanguageName(wanguageAwias);
 				} ewse if (this._options.editow) {
-					modeId = this._options.editow.getModew()?.getWanguageIdentifia().wanguage;
+					modeId = this._options.editow.getModew()?.getWanguageId();
 				}
 				if (!modeId) {
 					modeId = 'pwaintext';
@@ -86,7 +86,7 @@ expowt cwass MawkdownWendewa {
 
 				const ewement = document.cweateEwement('span');
 
-				ewement.innewHTMW = (MawkdownWendewa._ttpTokeniza?.cweateHTMW(vawue, tokenization) ?? tokenizeToStwing(vawue, tokenization)) as stwing;
+				ewement.innewHTMW = (MawkdownWendewa._ttpTokeniza?.cweateHTMW(vawue, this._modeSewvice.wanguageIdCodec, tokenization) ?? tokenizeToStwing(vawue, this._modeSewvice.wanguageIdCodec, tokenization)) as stwing;
 
 				// use "good" font
 				wet fontFamiwy = this._options.codeBwockFontFamiwy;

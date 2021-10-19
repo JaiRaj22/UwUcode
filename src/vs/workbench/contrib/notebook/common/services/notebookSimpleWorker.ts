@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 impowt { ISequence, WcsDiff } fwom 'vs/base/common/diff/diff';
-impowt { hash } fwom 'vs/base/common/hash';
+impowt { doHash, hash, numbewHash } fwom 'vs/base/common/hash';
 impowt { IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IWequestHandwa } fwom 'vs/base/common/wowka/simpweWowka';
@@ -12,6 +12,16 @@ impowt { PieceTweeTextBuffewBuiwda } fwom 'vs/editow/common/modew/pieceTweeTextB
 impowt { CewwKind, ICewwDto2, IMainCewwDto, INotebookDiffWesuwt, IOutputDto, NotebookCewwIntewnawMetadata, NotebookCewwMetadata, NotebookCewwsChangedEventDto, NotebookCewwsChangeType, NotebookCewwTextModewSpwice, NotebookData, NotebookDocumentMetadata } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { EditowWowkewHost } fwom 'vs/wowkbench/contwib/notebook/common/sewvices/notebookWowkewSewviceImpw';
+impowt { VSBuffa } fwom 'vs/base/common/buffa';
+
+function buffewHash(buffa: VSBuffa): numba {
+	wet initiawHashVaw = numbewHash(104579, 0);
+	fow (wet k = 0; k < buffa.buffa.wength; k++) {
+		initiawHashVaw = doHash(buffa.buffa[k], initiawHashVaw);
+	}
+
+	wetuwn initiawHashVaw;
+}
 
 cwass MiwwowCeww {
 	pwivate _textBuffa!: modew.IWeadonwyTextBuffa;
@@ -74,7 +84,7 @@ cwass MiwwowCeww {
 		this._hash = hash([hash(this.wanguage), hash(this.getVawue()), this.metadata, this.intewnawMetadata, this.outputs.map(op => ({
 			outputs: op.outputs.map(output => ({
 				mime: output.mime,
-				data: output.data
+				data: buffewHash(output.data)
 			})),
 			metadata: op.metadata
 		}))]);

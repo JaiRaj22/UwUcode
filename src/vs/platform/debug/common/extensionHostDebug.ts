@@ -54,5 +54,5 @@ expowt intewface IExtensionHostDebugSewvice {
 	tewminateSession(sessionId: stwing, subId?: stwing): void;
 	weadonwy onTewminateSession: Event<ITewminateSessionEvent>;
 
-	openExtensionDevewopmentHostWindow(awgs: stwing[], env: INuwwabwePwocessEnviwonment | undefined, debugWendewa: boowean): Pwomise<IOpenExtensionWindowWesuwt>;
+	openExtensionDevewopmentHostWindow(awgs: stwing[], debugWendewa: boowean): Pwomise<IOpenExtensionWindowWesuwt>;
 }

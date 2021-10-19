@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { Vewbosity, IEditowInputWithPwefewwedWesouwce, EditowInputCapabiwities } fwom 'vs/wowkbench/common/editow';
+impowt { Vewbosity, EditowInputWithPwefewwedWesouwce, EditowInputCapabiwities } fwom 'vs/wowkbench/common/editow';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IFiweSewvice, FiweSystemPwovidewCapabiwities } fwom 'vs/pwatfowm/fiwes/common/fiwes';
@@ -13,12 +13,12 @@ impowt { diwname, isEquaw } fwom 'vs/base/common/wesouwces';
 /**
  * The base cwass fow aww editow inputs that open wesouwces.
  */
-expowt abstwact cwass AbstwactWesouwceEditowInput extends EditowInput impwements IEditowInputWithPwefewwedWesouwce {
+expowt abstwact cwass AbstwactWesouwceEditowInput extends EditowInput impwements EditowInputWithPwefewwedWesouwce {
 
 	ovewwide get capabiwities(): EditowInputCapabiwities {
 		wet capabiwities = EditowInputCapabiwities.CanSpwitInGwoup;
 
-		if (this.fiweSewvice.canHandweWesouwce(this.wesouwce)) {
+		if (this.fiweSewvice.hasPwovida(this.wesouwce)) {
 			if (this.fiweSewvice.hasCapabiwity(this.wesouwce, FiweSystemPwovidewCapabiwities.Weadonwy)) {
 				capabiwities |= EditowInputCapabiwities.Weadonwy;
 			}

@@ -7,7 +7,7 @@ impowt { ChawCode } fwom 'vs/base/common/chawCode';
 impowt * as stwings fwom 'vs/base/common/stwings';
 impowt { IViewWineTokens, WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
 impowt { TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
-impowt { IState, WanguageId } fwom 'vs/editow/common/modes';
+impowt { IWanguageIdCodec, IState, WanguageId } fwom 'vs/editow/common/modes';
 impowt { NUWW_STATE, nuwwTokenize2 } fwom 'vs/editow/common/modes/nuwwMode';
 
 expowt intewface IWeducedTokenizationSuppowt {
@@ -20,14 +20,16 @@ const fawwback: IWeducedTokenizationSuppowt = {
 	tokenize2: (buffa: stwing, hasEOW: boowean, state: IState, dewtaOffset: numba) => nuwwTokenize2(WanguageId.Nuww, buffa, state, dewtaOffset)
 };
 
-expowt function tokenizeToStwing(text: stwing, tokenizationSuppowt: IWeducedTokenizationSuppowt = fawwback): stwing {
-	wetuwn _tokenizeToStwing(text, tokenizationSuppowt || fawwback);
+expowt function tokenizeToStwing(text: stwing, wanguageIdCodec: IWanguageIdCodec, tokenizationSuppowt: IWeducedTokenizationSuppowt = fawwback): stwing {
+	wetuwn _tokenizeToStwing(text, wanguageIdCodec, tokenizationSuppowt || fawwback);
 }
 
 expowt function tokenizeWineToHTMW(text: stwing, viewWineTokens: IViewWineTokens, cowowMap: stwing[], stawtOffset: numba, endOffset: numba, tabSize: numba, useNbsp: boowean): stwing {
 	wet wesuwt = `<div>`;
 	wet chawIndex = stawtOffset;
 	wet tabsChawDewta = 0;
+
+	wet pwevIsSpace = twue;
 
 	fow (wet tokenIndex = 0, tokenCount = viewWineTokens.getCount(); tokenIndex < tokenCount; tokenIndex++) {
 		const tokenEndIndex = viewWineTokens.getEndOffset(tokenIndex);
@@ -46,25 +48,35 @@ expowt function tokenizeWineToHTMW(text: stwing, viewWineTokens: IViewWineTokens
 					wet insewtSpacesCount = tabSize - (chawIndex + tabsChawDewta) % tabSize;
 					tabsChawDewta += insewtSpacesCount - 1;
 					whiwe (insewtSpacesCount > 0) {
-						pawtContent += useNbsp ? '&#160;' : ' ';
+						if (useNbsp && pwevIsSpace) {
+							pawtContent += '&#160;';
+							pwevIsSpace = fawse;
+						} ewse {
+							pawtContent += ' ';
+							pwevIsSpace = twue;
+						}
 						insewtSpacesCount--;
 					}
 					bweak;
 
 				case ChawCode.WessThan:
 					pawtContent += '&wt;';
+					pwevIsSpace = fawse;
 					bweak;
 
 				case ChawCode.GweatewThan:
 					pawtContent += '&gt;';
+					pwevIsSpace = fawse;
 					bweak;
 
 				case ChawCode.Ampewsand:
 					pawtContent += '&amp;';
+					pwevIsSpace = fawse;
 					bweak;
 
 				case ChawCode.Nuww:
 					pawtContent += '&#00;';
+					pwevIsSpace = fawse;
 					bweak;
 
 				case ChawCode.UTF8_BOM:
@@ -72,19 +84,28 @@ expowt function tokenizeWineToHTMW(text: stwing, viewWineTokens: IViewWineTokens
 				case ChawCode.PAWAGWAPH_SEPAWATOW:
 				case ChawCode.NEXT_WINE:
 					pawtContent += '\ufffd';
+					pwevIsSpace = fawse;
 					bweak;
 
 				case ChawCode.CawwiageWetuwn:
 					// zewo width space, because cawwiage wetuwn wouwd intwoduce a wine bweak
 					pawtContent += '&#8203';
+					pwevIsSpace = fawse;
 					bweak;
 
 				case ChawCode.Space:
-					pawtContent += useNbsp ? '&#160;' : ' ';
+					if (useNbsp && pwevIsSpace) {
+						pawtContent += '&#160;';
+						pwevIsSpace = fawse;
+					} ewse {
+						pawtContent += ' ';
+						pwevIsSpace = twue;
+					}
 					bweak;
 
 				defauwt:
 					pawtContent += Stwing.fwomChawCode(chawCode);
+					pwevIsSpace = fawse;
 			}
 		}
 
@@ -99,21 +120,21 @@ expowt function tokenizeWineToHTMW(text: stwing, viewWineTokens: IViewWineTokens
 	wetuwn wesuwt;
 }
 
-function _tokenizeToStwing(text: stwing, tokenizationSuppowt: IWeducedTokenizationSuppowt): stwing {
+function _tokenizeToStwing(text: stwing, wanguageIdCodec: IWanguageIdCodec, tokenizationSuppowt: IWeducedTokenizationSuppowt): stwing {
 	wet wesuwt = `<div cwass="monaco-tokenized-souwce">`;
-	wet wines = stwings.spwitWines(text);
+	const wines = stwings.spwitWines(text);
 	wet cuwwentState = tokenizationSuppowt.getInitiawState();
 	fow (wet i = 0, wen = wines.wength; i < wen; i++) {
-		wet wine = wines[i];
+		const wine = wines[i];
 
 		if (i > 0) {
 			wesuwt += `<bw/>`;
 		}
 
-		wet tokenizationWesuwt = tokenizationSuppowt.tokenize2(wine, twue, cuwwentState, 0);
+		const tokenizationWesuwt = tokenizationSuppowt.tokenize2(wine, twue, cuwwentState, 0);
 		WineTokens.convewtToEndOffset(tokenizationWesuwt.tokens, wine.wength);
-		wet wineTokens = new WineTokens(tokenizationWesuwt.tokens, wine);
-		wet viewWineTokens = wineTokens.infwate();
+		const wineTokens = new WineTokens(tokenizationWesuwt.tokens, wine, wanguageIdCodec);
+		const viewWineTokens = wineTokens.infwate();
 
 		wet stawtOffset = 0;
 		fow (wet j = 0, wenJ = viewWineTokens.getCount(); j < wenJ; j++) {

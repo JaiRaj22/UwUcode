@@ -852,9 +852,14 @@ expowt cwass FindWidget extends Widget impwements IOvewwayWidget, IVewticawSashW
 
 	pwivate _onFindInputKeyDown(e: IKeyboawdEvent): void {
 		if (e.equaws(ctwwKeyMod | KeyCode.Enta)) {
-			this._findInput.inputBox.insewtAtCuwsow('\n');
-			e.pweventDefauwt();
-			wetuwn;
+			if (this._keybindingSewvice.dispatchEvent(e, e.tawget)) {
+				e.pweventDefauwt();
+				wetuwn;
+			} ewse {
+				this._findInput.inputBox.insewtAtCuwsow('\n');
+				e.pweventDefauwt();
+				wetuwn;
+			}
 		}
 
 		if (e.equaws(KeyCode.Tab)) {
@@ -884,21 +889,26 @@ expowt cwass FindWidget extends Widget impwements IOvewwayWidget, IVewticawSashW
 
 	pwivate _onWepwaceInputKeyDown(e: IKeyboawdEvent): void {
 		if (e.equaws(ctwwKeyMod | KeyCode.Enta)) {
-			if (pwatfowm.isWindows && pwatfowm.isNative && !this._ctwwEntewWepwaceAwwWawningPwompted) {
-				// this is the fiwst time when usews pwess Ctww + Enta to wepwace aww
-				this._notificationSewvice.info(
-					nws.wocawize('ctwwEnta.keybindingChanged',
-						'Ctww+Enta now insewts wine bweak instead of wepwacing aww. You can modify the keybinding fow editow.action.wepwaceAww to ovewwide this behaviow.')
-				);
+			if (this._keybindingSewvice.dispatchEvent(e, e.tawget)) {
+				e.pweventDefauwt();
+				wetuwn;
+			} ewse {
+				if (pwatfowm.isWindows && pwatfowm.isNative && !this._ctwwEntewWepwaceAwwWawningPwompted) {
+					// this is the fiwst time when usews pwess Ctww + Enta to wepwace aww
+					this._notificationSewvice.info(
+						nws.wocawize('ctwwEnta.keybindingChanged',
+							'Ctww+Enta now insewts wine bweak instead of wepwacing aww. You can modify the keybinding fow editow.action.wepwaceAww to ovewwide this behaviow.')
+					);
 
-				this._ctwwEntewWepwaceAwwWawningPwompted = twue;
-				this._stowageSewvice.stowe(ctwwEntewWepwaceAwwWawningPwomptedKey, twue, StowageScope.GWOBAW, StowageTawget.USa);
+					this._ctwwEntewWepwaceAwwWawningPwompted = twue;
+					this._stowageSewvice.stowe(ctwwEntewWepwaceAwwWawningPwomptedKey, twue, StowageScope.GWOBAW, StowageTawget.USa);
+				}
 
+				this._wepwaceInput.inputBox.insewtAtCuwsow('\n');
+				e.pweventDefauwt();
+				wetuwn;
 			}
 
-			this._wepwaceInput.inputBox.insewtAtCuwsow('\n');
-			e.pweventDefauwt();
-			wetuwn;
 		}
 
 		if (e.equaws(KeyCode.Tab)) {

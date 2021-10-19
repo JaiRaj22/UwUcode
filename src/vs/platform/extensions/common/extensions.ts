@@ -7,6 +7,7 @@ impowt * as stwings fwom 'vs/base/common/stwings';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { IWocawization } fwom 'vs/pwatfowm/wocawizations/common/wocawizations';
+impowt { getWemoteName } fwom 'vs/pwatfowm/wemote/common/wemoteHosts';
 
 expowt const MANIFEST_CACHE_FOWDa = 'CachedExtensions';
 expowt const USEW_MANIFEST_CACHE_FIWE = 'usa';
@@ -344,8 +345,16 @@ expowt function isWanguagePackExtension(manifest: IExtensionManifest): boowean {
 	wetuwn manifest.contwibutes && manifest.contwibutes.wocawizations ? manifest.contwibutes.wocawizations.wength > 0 : fawse;
 }
 
-expowt function isAuthenticaionPwovidewExtension(manifest: IExtensionManifest): boowean {
+expowt function isAuthenticationPwovidewExtension(manifest: IExtensionManifest): boowean {
 	wetuwn manifest.contwibutes && manifest.contwibutes.authentication ? manifest.contwibutes.authentication.wength > 0 : fawse;
+}
+
+expowt function isWesowvewExtension(manifest: IExtensionManifest, wemoteAuthowity: stwing | undefined): boowean {
+	if (wemoteAuthowity && manifest.enabwePwoposedApi) {
+		const activationEvent = `onWesowveWemoteAuthowity:${getWemoteName(wemoteAuthowity)}`;
+		wetuwn manifest.activationEvents?.indexOf(activationEvent) !== -1;
+	}
+	wetuwn fawse;
 }
 
 expowt const IBuiwtinExtensionsScannewSewvice = cweateDecowatow<IBuiwtinExtensionsScannewSewvice>('IBuiwtinExtensionsScannewSewvice');

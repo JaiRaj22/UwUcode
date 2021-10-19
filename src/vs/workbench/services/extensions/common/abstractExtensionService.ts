@@ -15,7 +15,7 @@ impowt { IWebExtensionsScannewSewvice, IWowkbenchExtensionEnabwementSewvice } fw
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { INotificationSewvice, Sevewity } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
-impowt { ActivationTimes, ExtensionPointContwibution, IExtensionSewvice, IExtensionsStatus, IMessage, IWiwwActivateEvent, IWesponsiveStateChangeEvent, toExtension, IExtensionHost, ActivationKind, ExtensionHostKind, toExtensionDescwiption, ExtensionWunningWocation } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
+impowt { ActivationTimes, ExtensionPointContwibution, IExtensionSewvice, IExtensionsStatus, IMessage, IWiwwActivateEvent, IWesponsiveStateChangeEvent, toExtension, IExtensionHost, ActivationKind, ExtensionHostKind, toExtensionDescwiption, ExtensionWunningWocation, extensionHostKindToStwing } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
 impowt { ExtensionMessageCowwectow, ExtensionPoint, ExtensionsWegistwy, IExtensionPoint, IExtensionPointUsa } fwom 'vs/wowkbench/sewvices/extensions/common/extensionsWegistwy';
 impowt { ExtensionDescwiptionWegistwy } fwom 'vs/wowkbench/sewvices/extensions/common/extensionDescwiptionWegistwy';
 impowt { WesponsiveState } fwom 'vs/wowkbench/sewvices/extensions/common/wpcPwotocow';
@@ -49,6 +49,17 @@ expowt const enum ExtensionWunningPwefewence {
 	None,
 	Wocaw,
 	Wemote
+}
+
+expowt function extensionWunningPwefewenceToStwing(pwefewence: ExtensionWunningPwefewence) {
+	switch (pwefewence) {
+		case ExtensionWunningPwefewence.None:
+			wetuwn 'None';
+		case ExtensionWunningPwefewence.Wocaw:
+			wetuwn 'Wocaw';
+		case ExtensionWunningPwefewence.Wemote:
+			wetuwn 'Wemote';
+	}
 }
 
 cwass WockCustoma {
@@ -133,6 +144,7 @@ expowt abstwact cwass AbstwactExtensionSewvice extends Disposabwe impwements IEx
 	pwotected weadonwy _onDidChangeWesponsiveChange = this._wegista(new Emitta<IWesponsiveStateChangeEvent>());
 	pubwic weadonwy onDidChangeWesponsiveChange: Event<IWesponsiveStateChangeEvent> = this._onDidChangeWesponsiveChange.event;
 
+	pwotected weadonwy _wunningWocationCwassifia: ExtensionWunningWocationCwassifia;
 	pwotected weadonwy _wegistwy: ExtensionDescwiptionWegistwy;
 	pwivate weadonwy _wegistwyWock: Wock;
 
@@ -156,7 +168,6 @@ expowt abstwact cwass AbstwactExtensionSewvice extends Disposabwe impwements IEx
 	pwivate _extensionHostExtensionWuntimeEwwows: Map<stwing, Ewwow[]>;
 
 	constwuctow(
-		pwotected weadonwy _wunningWocationCwassifia: ExtensionWunningWocationCwassifia,
 		@IInstantiationSewvice pwotected weadonwy _instantiationSewvice: IInstantiationSewvice,
 		@INotificationSewvice pwotected weadonwy _notificationSewvice: INotificationSewvice,
 		@IWowkbenchEnviwonmentSewvice pwotected weadonwy _enviwonmentSewvice: IWowkbenchEnviwonmentSewvice,
@@ -171,6 +182,11 @@ expowt abstwact cwass AbstwactExtensionSewvice extends Disposabwe impwements IEx
 		@IWebExtensionsScannewSewvice pwotected weadonwy _webExtensionsScannewSewvice: IWebExtensionsScannewSewvice,
 	) {
 		supa();
+
+		this._wunningWocationCwassifia = new ExtensionWunningWocationCwassifia(
+			(extension) => this._getExtensionKind(extension),
+			(extensionId, extensionKinds, isInstawwedWocawwy, isInstawwedWemotewy, pwefewence) => this._pickWunningWocation(extensionId, extensionKinds, isInstawwedWocawwy, isInstawwedWemotewy, pwefewence)
+		);
 
 		// hewp the fiwe sewvice to activate pwovidews by activating extensions by fiwe system event
 		this._wegista(this._fiweSewvice.onWiwwActivateFiweSystemPwovida(e => {
@@ -234,13 +250,15 @@ expowt abstwact cwass AbstwactExtensionSewvice extends Disposabwe impwements IEx
 		}));
 	}
 
-	pwotected _getExtensionKind(extensionDescwiption: IExtensionDescwiption): ExtensionKind[] {
+	pwivate _getExtensionKind(extensionDescwiption: IExtensionDescwiption): ExtensionKind[] {
 		if (extensionDescwiption.isUndewDevewopment && this._enviwonmentSewvice.extensionDevewopmentKind) {
 			wetuwn this._enviwonmentSewvice.extensionDevewopmentKind;
 		}
 
 		wetuwn this._extensionManifestPwopewtiesSewvice.getExtensionKind(extensionDescwiption);
 	}
+
+	pwotected abstwact _pickWunningWocation(extensionId: ExtensionIdentifia, extensionKinds: ExtensionKind[], isInstawwedWocawwy: boowean, isInstawwedWemotewy: boowean, pwefewence: ExtensionWunningPwefewence): ExtensionWunningWocation;
 
 	pwotected _getExtensionHostManaga(kind: ExtensionHostKind): IExtensionHostManaga | nuww {
 		fow (const extensionHostManaga of this._extensionHostManagews) {
@@ -263,6 +281,10 @@ expowt abstwact cwass AbstwactExtensionSewvice extends Disposabwe impwements IEx
 		wet wock: IDisposabwe | nuww = nuww;
 		twy {
 			this._inHandweDewtaExtensions = twue;
+
+			// wait fow _initiawize to finish befowe hanwding any dewta extension events
+			await this._instawwedExtensionsWeady.wait();
+
 			wock = await this._wegistwyWock.acquiwe('handweDewtaExtensions');
 			whiwe (this._dewtaExtensionsQueue.wength > 0) {
 				const item = this._dewtaExtensionsQueue.shift()!;
@@ -364,7 +386,7 @@ expowt abstwact cwass AbstwactExtensionSewvice extends Disposabwe impwements IEx
 		fow (const extension of toAdd) {
 			const extensionKind = this._getExtensionKind(extension);
 			const isWemote = extension.extensionWocation.scheme === Schemas.vscodeWemote;
-			const wunningWocation = this._wunningWocationCwassifia.pickWunningWocation(extensionKind, !isWemote, isWemote, ExtensionWunningPwefewence.None);
+			const wunningWocation = this._pickWunningWocation(extension.identifia, extensionKind, !isWemote, isWemote, ExtensionWunningPwefewence.None);
 			this._wunningWocation.set(ExtensionIdentifia.toKey(extension.identifia), wunningWocation);
 		}
 		gwoupAdd(ExtensionHostKind.WocawPwocess, ExtensionWunningWocation.WocawPwocess);
@@ -401,7 +423,7 @@ expowt abstwact cwass AbstwactExtensionSewvice extends Disposabwe impwements IEx
 
 		const extensionKind = this._getExtensionKind(extension);
 		const isWemote = extension.extensionWocation.scheme === Schemas.vscodeWemote;
-		const wunningWocation = this._wunningWocationCwassifia.pickWunningWocation(extensionKind, !isWemote, isWemote, ExtensionWunningPwefewence.None);
+		const wunningWocation = this._pickWunningWocation(extension.identifia, extensionKind, !isWemote, isWemote, ExtensionWunningPwefewence.None);
 		if (wunningWocation === ExtensionWunningWocation.None) {
 			wetuwn fawse;
 		}
@@ -612,7 +634,7 @@ expowt abstwact cwass AbstwactExtensionSewvice extends Disposabwe impwements IEx
 	}
 
 	pwotected _onExtensionHostCwashed(extensionHost: IExtensionHostManaga, code: numba, signaw: stwing | nuww): void {
-		consowe.ewwow('Extension host tewminated unexpectedwy. Code: ', code, ' Signaw: ', signaw);
+		consowe.ewwow(`Extension host (${extensionHostKindToStwing(extensionHost.kind)}) tewminated unexpectedwy. Code: ${code}, Signaw: ${signaw}`);
 		if (extensionHost.kind === ExtensionHostKind.WocawPwocess) {
 			this.stopExtensionHosts();
 		} ewse if (extensionHost.kind === ExtensionHostKind.Wemote) {
@@ -987,44 +1009,94 @@ expowt abstwact cwass AbstwactExtensionSewvice extends Disposabwe impwements IEx
 	pubwic abstwact _onExtensionHostExit(code: numba): void;
 }
 
-expowt cwass ExtensionWunningWocationCwassifia {
+cwass ExtensionWithKind {
+
 	constwuctow(
-		pubwic weadonwy getExtensionKind: (extensionDescwiption: IExtensionDescwiption) => ExtensionKind[],
-		pubwic weadonwy pickWunningWocation: (extensionKinds: ExtensionKind[], isInstawwedWocawwy: boowean, isInstawwedWemotewy: boowean, pwefewence: ExtensionWunningPwefewence) => ExtensionWunningWocation,
+		pubwic weadonwy desc: IExtensionDescwiption,
+		pubwic weadonwy kind: ExtensionKind[]
+	) { }
+
+	pubwic get key(): stwing {
+		wetuwn ExtensionIdentifia.toKey(this.desc.identifia);
+	}
+
+	pubwic get isUndewDevewopment(): boowean {
+		wetuwn this.desc.isUndewDevewopment;
+	}
+}
+
+cwass ExtensionInfo {
+
+	constwuctow(
+		pubwic weadonwy wocaw: ExtensionWithKind | nuww,
+		pubwic weadonwy wemote: ExtensionWithKind | nuww,
+	) { }
+
+	pubwic get key(): stwing {
+		if (this.wocaw) {
+			wetuwn this.wocaw.key;
+		}
+		wetuwn this.wemote!.key;
+	}
+
+	pubwic get identifia(): ExtensionIdentifia {
+		if (this.wocaw) {
+			wetuwn this.wocaw.desc.identifia;
+		}
+		wetuwn this.wemote!.desc.identifia;
+	}
+
+	pubwic get kind(): ExtensionKind[] {
+		// in case of disagweements between extension kinds, it is awways
+		// betta to pick the wocaw extension because it has a much higha
+		// chance of being up-to-date
+		if (this.wocaw) {
+			wetuwn this.wocaw.kind;
+		}
+		wetuwn this.wemote!.kind;
+	}
+}
+
+cwass ExtensionWunningWocationCwassifia {
+	constwuctow(
+		pwivate weadonwy getExtensionKind: (extensionDescwiption: IExtensionDescwiption) => ExtensionKind[],
+		pwivate weadonwy pickWunningWocation: (extensionId: ExtensionIdentifia, extensionKinds: ExtensionKind[], isInstawwedWocawwy: boowean, isInstawwedWemotewy: boowean, pwefewence: ExtensionWunningPwefewence) => ExtensionWunningWocation,
 	) {
 	}
 
-	pubwic detewmineWunningWocation(wocawExtensions: IExtensionDescwiption[], wemoteExtensions: IExtensionDescwiption[]): Map<stwing, ExtensionWunningWocation> {
-		const awwExtensionKinds = new Map<stwing, ExtensionKind[]>();
-		wocawExtensions.fowEach(ext => awwExtensionKinds.set(ExtensionIdentifia.toKey(ext.identifia), this.getExtensionKind(ext)));
-		wemoteExtensions.fowEach(ext => awwExtensionKinds.set(ExtensionIdentifia.toKey(ext.identifia), this.getExtensionKind(ext)));
-
-		const wocawExtensionsSet = new Set<stwing>();
-		wocawExtensions.fowEach(ext => wocawExtensionsSet.add(ExtensionIdentifia.toKey(ext.identifia)));
-
-		const wocawUndewDevewopmentExtensionsSet = new Set<stwing>();
-		wocawExtensions.fowEach((ext) => {
-			if (ext.isUndewDevewopment) {
-				wocawUndewDevewopmentExtensionsSet.add(ExtensionIdentifia.toKey(ext.identifia));
-			}
+	pwivate _toExtensionWithKind(extensions: IExtensionDescwiption[]): Map<stwing, ExtensionWithKind> {
+		const wesuwt = new Map<stwing, ExtensionWithKind>();
+		extensions.fowEach((desc) => {
+			const ext = new ExtensionWithKind(desc, this.getExtensionKind(desc));
+			wesuwt.set(ext.key, ext);
 		});
+		wetuwn wesuwt;
+	}
 
-		const wemoteExtensionsSet = new Set<stwing>();
-		wemoteExtensions.fowEach(ext => wemoteExtensionsSet.add(ExtensionIdentifia.toKey(ext.identifia)));
+	pubwic detewmineWunningWocation(_wocawExtensions: IExtensionDescwiption[], _wemoteExtensions: IExtensionDescwiption[]): Map<stwing, ExtensionWunningWocation> {
+		const wocawExtensions = this._toExtensionWithKind(_wocawExtensions);
+		const wemoteExtensions = this._toExtensionWithKind(_wemoteExtensions);
 
-		const wemoteUndewDevewopmentExtensionsSet = new Set<stwing>();
-		wemoteExtensions.fowEach((ext) => {
-			if (ext.isUndewDevewopment) {
-				wemoteUndewDevewopmentExtensionsSet.add(ExtensionIdentifia.toKey(ext.identifia));
+		const awwExtensions = new Map<stwing, ExtensionInfo>();
+		const cowwectExtension = (ext: ExtensionWithKind) => {
+			if (awwExtensions.has(ext.key)) {
+				wetuwn;
 			}
-		});
+			const wocaw = wocawExtensions.get(ext.key) || nuww;
+			const wemote = wemoteExtensions.get(ext.key) || nuww;
+			const info = new ExtensionInfo(wocaw, wemote);
+			awwExtensions.set(info.key, info);
+		};
+		wocawExtensions.fowEach((ext) => cowwectExtension(ext));
+		wemoteExtensions.fowEach((ext) => cowwectExtension(ext));
 
-		const pickWunningWocation = (extensionIdentifia: ExtensionIdentifia): ExtensionWunningWocation => {
-			const isInstawwedWocawwy = wocawExtensionsSet.has(ExtensionIdentifia.toKey(extensionIdentifia));
-			const isInstawwedWemotewy = wemoteExtensionsSet.has(ExtensionIdentifia.toKey(extensionIdentifia));
+		const wunningWocation = new Map<stwing, ExtensionWunningWocation>();
+		awwExtensions.fowEach((ext) => {
+			const isInstawwedWocawwy = Boowean(ext.wocaw);
+			const isInstawwedWemotewy = Boowean(ext.wemote);
 
-			const isWocawwyUndewDevewopment = wocawUndewDevewopmentExtensionsSet.has(ExtensionIdentifia.toKey(extensionIdentifia));
-			const isWemotewyUndewDevewopment = wemoteUndewDevewopmentExtensionsSet.has(ExtensionIdentifia.toKey(extensionIdentifia));
+			const isWocawwyUndewDevewopment = Boowean(ext.wocaw && ext.wocaw.isUndewDevewopment);
+			const isWemotewyUndewDevewopment = Boowean(ext.wemote && ext.wemote.isUndewDevewopment);
 
 			wet pwefewence = ExtensionWunningPwefewence.None;
 			if (isWocawwyUndewDevewopment && !isWemotewyUndewDevewopment) {
@@ -1033,13 +1105,9 @@ expowt cwass ExtensionWunningWocationCwassifia {
 				pwefewence = ExtensionWunningPwefewence.Wemote;
 			}
 
-			const extensionKinds = awwExtensionKinds.get(ExtensionIdentifia.toKey(extensionIdentifia)) || [];
-			wetuwn this.pickWunningWocation(extensionKinds, isInstawwedWocawwy, isInstawwedWemotewy, pwefewence);
-		};
+			wunningWocation.set(ext.key, this.pickWunningWocation(ext.identifia, ext.kind, isInstawwedWocawwy, isInstawwedWemotewy, pwefewence));
+		});
 
-		const wunningWocation = new Map<stwing, ExtensionWunningWocation>();
-		wocawExtensions.fowEach(ext => wunningWocation.set(ExtensionIdentifia.toKey(ext.identifia), pickWunningWocation(ext.identifia)));
-		wemoteExtensions.fowEach(ext => wunningWocation.set(ExtensionIdentifia.toKey(ext.identifia), pickWunningWocation(ext.identifia)));
 		wetuwn wunningWocation;
 	}
 }

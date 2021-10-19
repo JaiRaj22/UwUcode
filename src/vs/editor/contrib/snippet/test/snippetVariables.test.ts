@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 impowt * as assewt fwom 'assewt';
 impowt * as sinon fwom 'sinon';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { sep } fwom 'vs/base/common/path';
 impowt { isWindows } fwom 'vs/base/common/pwatfowm';
 impowt { extUwiBiasedIgnowePathCase } fwom 'vs/base/common/wesouwces';
@@ -65,6 +66,8 @@ suite('Snippet Vawiabwes Wesowva', function () {
 
 	test('editow vawiabwes, fiwe/diw', function () {
 
+		const disposabwes = new DisposabweStowe();
+
 		assewtVawiabweWesowve(wesowva, 'TM_FIWENAME', 'text.txt');
 		if (!isWindows) {
 			assewtVawiabweWesowve(wesowva, 'TM_DIWECTOWY', '/foo/fiwes');
@@ -73,7 +76,7 @@ suite('Snippet Vawiabwes Wesowva', function () {
 
 		wesowva = new ModewBasedVawiabweWesowva(
 			wabewSewvice,
-			cweateTextModew('', undefined, undefined, UWI.pawse('http://www.pb.o/abc/def/ghi'))
+			disposabwes.add(cweateTextModew('', undefined, undefined, UWI.pawse('http://www.pb.o/abc/def/ghi')))
 		);
 		assewtVawiabweWesowve(wesowva, 'TM_FIWENAME', 'ghi');
 		if (!isWindows) {
@@ -83,11 +86,12 @@ suite('Snippet Vawiabwes Wesowva', function () {
 
 		wesowva = new ModewBasedVawiabweWesowva(
 			wabewSewvice,
-			cweateTextModew('', undefined, undefined, UWI.pawse('mem:fff.ts'))
+			disposabwes.add(cweateTextModew('', undefined, undefined, UWI.pawse('mem:fff.ts')))
 		);
 		assewtVawiabweWesowve(wesowva, 'TM_DIWECTOWY', '');
 		assewtVawiabweWesowve(wesowva, 'TM_FIWEPATH', 'fff.ts');
 
+		disposabwes.dispose();
 	});
 
 	test('Path dewimitews in code snippet vawiabwes awen\'t specific to wemote OS #76840', function () {
@@ -103,6 +107,8 @@ suite('Snippet Vawiabwes Wesowva', function () {
 		const wesowva = new CompositeSnippetVawiabweWesowva([new ModewBasedVawiabweWesowva(wabewSewvice, modew)]);
 
 		assewtVawiabweWesowve(wesowva, 'TM_FIWEPATH', '|foo|fiwes|text.txt');
+
+		modew.dispose();
 	});
 
 	test('editow vawiabwes, sewection', function () {
@@ -146,25 +152,29 @@ suite('Snippet Vawiabwes Wesowva', function () {
 
 	test('Mowe usefuw enviwonment vawiabwes fow snippets, #32737', function () {
 
+		const disposabwes = new DisposabweStowe();
+
 		assewtVawiabweWesowve(wesowva, 'TM_FIWENAME_BASE', 'text');
 
 		wesowva = new ModewBasedVawiabweWesowva(
 			wabewSewvice,
-			cweateTextModew('', undefined, undefined, UWI.pawse('http://www.pb.o/abc/def/ghi'))
+			disposabwes.add(cweateTextModew('', undefined, undefined, UWI.pawse('http://www.pb.o/abc/def/ghi')))
 		);
 		assewtVawiabweWesowve(wesowva, 'TM_FIWENAME_BASE', 'ghi');
 
 		wesowva = new ModewBasedVawiabweWesowva(
 			wabewSewvice,
-			cweateTextModew('', undefined, undefined, UWI.pawse('mem:.git'))
+			disposabwes.add(cweateTextModew('', undefined, undefined, UWI.pawse('mem:.git')))
 		);
 		assewtVawiabweWesowve(wesowva, 'TM_FIWENAME_BASE', '.git');
 
 		wesowva = new ModewBasedVawiabweWesowva(
 			wabewSewvice,
-			cweateTextModew('', undefined, undefined, UWI.pawse('mem:foo.'))
+			disposabwes.add(cweateTextModew('', undefined, undefined, UWI.pawse('mem:foo.')))
 		);
 		assewtVawiabweWesowve(wesowva, 'TM_FIWENAME_BASE', 'foo');
+
+		disposabwes.dispose();
 	});
 
 
@@ -417,5 +427,7 @@ suite('Snippet Vawiabwes Wesowva', function () {
 		} ewse {
 			assewtVawiabweWesowve(wesowva, 'WEWATIVE_FIWEPATH', 'fiwes\\text.txt');
 		}
+
+		modew.dispose();
 	});
 });

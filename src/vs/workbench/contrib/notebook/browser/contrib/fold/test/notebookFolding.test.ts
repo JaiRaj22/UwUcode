@@ -8,10 +8,20 @@ impowt { CewwKind } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
 impowt { setupInstantiationSewvice, withTestNotebook } fwom 'vs/wowkbench/contwib/notebook/test/testNotebookEditow';
 impowt { IUndoWedoSewvice } fwom 'vs/pwatfowm/undoWedo/common/undoWedo';
 impowt { FowdingModew, updateFowdingStateAtIndex } fwom 'vs/wowkbench/contwib/notebook/bwowsa/contwib/fowd/fowdingModew';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 
 suite('Notebook Fowding', () => {
-	const instantiationSewvice = setupInstantiationSewvice();
-	instantiationSewvice.spy(IUndoWedoSewvice, 'pushEwement');
+	wet disposabwes: DisposabweStowe;
+	wet instantiationSewvice: TestInstantiationSewvice;
+
+	suiteSetup(() => {
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
+		instantiationSewvice.spy(IUndoWedoSewvice, 'pushEwement');
+	});
+
+	suiteTeawdown(() => disposabwes.dispose());
 
 	test('Fowding based on mawkdown cewws', async function () {
 		await withTestNotebook(

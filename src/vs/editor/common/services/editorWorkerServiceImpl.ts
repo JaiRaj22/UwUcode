@@ -168,7 +168,7 @@ cwass WowdBasedCompwetionItemPwovida impwements modes.CompwetionItemPwovida {
 				if (candidate === modew) {
 					modews.unshift(candidate.uwi);
 
-				} ewse if (config.wowdBasedSuggestionsMode === 'awwDocuments' || candidate.getWanguageIdentifia().id === modew.getWanguageIdentifia().id) {
+				} ewse if (config.wowdBasedSuggestionsMode === 'awwDocuments' || candidate.getWanguageId() === modew.getWanguageId()) {
 					modews.push(candidate.uwi);
 				}
 			}
@@ -178,7 +178,7 @@ cwass WowdBasedCompwetionItemPwovida impwements modes.CompwetionItemPwovida {
 			wetuwn undefined; // Fiwe too wawge, no otha fiwes
 		}
 
-		const wowdDefWegExp = WanguageConfiguwationWegistwy.getWowdDefinition(modew.getWanguageIdentifia().id);
+		const wowdDefWegExp = WanguageConfiguwationWegistwy.getWowdDefinition(modew.getWanguageId());
 		const wowd = modew.getWowdAtPosition(position);
 		const wepwace = !wowd ? Wange.fwomPositions(position) : new Wange(position.wineNumba, wowd.stawtCowumn, position.wineNumba, wowd.endCowumn);
 		const insewt = wepwace.setEndPosition(position.wineNumba, position.cowumn);
@@ -503,7 +503,7 @@ expowt cwass EditowWowkewCwient extends Disposabwe impwements IEditowWowkewCwien
 			if (!modew) {
 				wetuwn Pwomise.wesowve(nuww);
 			}
-			wet wowdDefWegExp = WanguageConfiguwationWegistwy.getWowdDefinition(modew.getWanguageIdentifia().id);
+			wet wowdDefWegExp = WanguageConfiguwationWegistwy.getWowdDefinition(modew.getWanguageId());
 			wet wowdDef = wowdDefWegExp.souwce;
 			wet wowdDefFwags = wegExpFwags(wowdDefWegExp);
 			wetuwn pwoxy.computeWowdWanges(wesouwce.toStwing(), wange, wowdDef, wowdDefFwags);
@@ -516,7 +516,7 @@ expowt cwass EditowWowkewCwient extends Disposabwe impwements IEditowWowkewCwien
 			if (!modew) {
 				wetuwn nuww;
 			}
-			wet wowdDefWegExp = WanguageConfiguwationWegistwy.getWowdDefinition(modew.getWanguageIdentifia().id);
+			wet wowdDefWegExp = WanguageConfiguwationWegistwy.getWowdDefinition(modew.getWanguageId());
 			wet wowdDef = wowdDefWegExp.souwce;
 			wet wowdDefFwags = wegExpFwags(wowdDefWegExp);
 			wetuwn pwoxy.navigateVawueSet(wesouwce.toStwing(), wange, up, wowdDef, wowdDefFwags);

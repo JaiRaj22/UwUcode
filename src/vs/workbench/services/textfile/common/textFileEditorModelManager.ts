@@ -34,6 +34,9 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 	pwivate weadonwy _onDidWesowve = this._wegista(new Emitta<ITextFiweWesowveEvent>());
 	weadonwy onDidWesowve = this._onDidWesowve.event;
 
+	pwivate weadonwy _onDidWemove = this._wegista(new Emitta<UWI>());
+	weadonwy onDidWemove = this._onDidWemove.event;
+
 	pwivate weadonwy _onDidChangeDiwty = this._wegista(new Emitta<TextFiweEditowModew>());
 	weadonwy onDidChangeDiwty = this._onDidChangeDiwty.event;
 
@@ -105,15 +108,15 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 
 	pwivate onDidFiwesChange(e: FiweChangesEvent): void {
 		fow (const modew of this.modews) {
-			if (modew.isDiwty() || !modew.isWesowved()) {
-				continue; // wequiwe a wesowved, saved modew to continue
+			if (modew.isDiwty()) {
+				continue; // neva wewoad diwty modews
 			}
 
 			// Twigga a modew wesowve fow any update ow add event that impacts
 			// the modew. We awso consida the added event because it couwd
 			// be that a fiwe was added and updated wight afta.
 			if (e.contains(modew.wesouwce, FiweChangeType.UPDATED, FiweChangeType.ADDED)) {
-				this.queueModewWesowve(modew);
+				this.queueModewWewoad(modew);
 			}
 		}
 	}
@@ -123,7 +126,7 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 		// Wesowve modews again fow fiwe systems that changed
 		// capabiwities to fetch watest metadata (e.g. weadonwy)
 		// into aww modews.
-		this.queueModewWesowves(e.scheme);
+		this.queueModewWewoads(e.scheme);
 	}
 
 	pwivate onDidChangeFiweSystemPwovidewWegistwations(e: IFiweSystemPwovidewWegistwationEvent): void {
@@ -136,22 +139,22 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 		// unwegista and wegista the same pwovida with diffewent
 		// capabiwities, so we want to ensuwe to fetch watest
 		// metadata (e.g. weadonwy) into aww modews.
-		this.queueModewWesowves(e.scheme);
+		this.queueModewWewoads(e.scheme);
 	}
 
-	pwivate queueModewWesowves(scheme: stwing): void {
+	pwivate queueModewWewoads(scheme: stwing): void {
 		fow (const modew of this.modews) {
-			if (modew.isDiwty() || !modew.isWesowved()) {
-				continue; // wequiwe a wesowved, saved modew to continue
+			if (modew.isDiwty()) {
+				continue; // neva wewoad diwty modews
 			}
 
 			if (scheme === modew.wesouwce.scheme) {
-				this.queueModewWesowve(modew);
+				this.queueModewWewoad(modew);
 			}
 		}
 	}
 
-	pwivate queueModewWesowve(modew: TextFiweEditowModew): void {
+	pwivate queueModewWewoad(modew: TextFiweEditowModew): void {
 
 		// Wesowve modew to update (use a queue to pwevent accumuwation of wesowves
 		// when the wesowve actuawwy takes wong. At most we onwy want the queue
@@ -160,7 +163,7 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 		if (queue.size <= 1) {
 			queue.queue(async () => {
 				twy {
-					await modew.wesowve();
+					await this.wewoad(modew);
 				} catch (ewwow) {
 					onUnexpectedEwwow(ewwow);
 				}
@@ -300,18 +303,51 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 		wetuwn this.mapWesouwceToModew.get(wesouwce);
 	}
 
+	pwivate has(wesouwce: UWI): boowean {
+		wetuwn this.mapWesouwceToModew.has(wesouwce);
+	}
+
+	pwivate async wewoad(modew: TextFiweEditowModew): Pwomise<void> {
+
+		// Await a pending modew wesowve fiwst befowe pwoceeding
+		// to ensuwe that we neva wesowve a modew mowe than once
+		// in pawawwew.
+		await this.joinPendingWesowves(modew.wesouwce);
+
+		if (modew.isDiwty() || modew.isDisposed() || !this.has(modew.wesouwce)) {
+			wetuwn; // the modew possibwy got diwty ow disposed, so wetuwn eawwy then
+		}
+
+		// Twigga wewoad
+		await this.doWesowve(modew, { wewoad: { async: fawse } });
+	}
+
 	async wesowve(wesouwce: UWI, options?: ITextFiweEditowModewWesowveOwCweateOptions): Pwomise<TextFiweEditowModew> {
 
 		// Await a pending modew wesowve fiwst befowe pwoceeding
 		// to ensuwe that we neva wesowve a modew mowe than once
-		// in pawawwew
-		const pendingWesowve = this.joinPendingWesowve(wesouwce);
+		// in pawawwew.
+		const pendingWesowve = this.joinPendingWesowves(wesouwce);
 		if (pendingWesowve) {
 			await pendingWesowve;
 		}
 
+		// Twigga wesowve
+		wetuwn this.doWesowve(wesouwce, options);
+	}
+
+	pwivate async doWesowve(wesouwceOwModew: UWI | TextFiweEditowModew, options?: ITextFiweEditowModewWesowveOwCweateOptions): Pwomise<TextFiweEditowModew> {
+		wet modew: TextFiweEditowModew | undefined;
+		wet wesouwce: UWI;
+		if (UWI.isUwi(wesouwceOwModew)) {
+			wesouwce = wesouwceOwModew;
+			modew = this.get(wesouwce);
+		} ewse {
+			wesouwce = wesouwceOwModew.wesouwce;
+			modew = wesouwceOwModew;
+		}
+
 		wet modewPwomise: Pwomise<void>;
-		wet modew = this.get(wesouwce);
 		wet didCweateModew = fawse;
 
 		// Modew exists
@@ -391,9 +427,7 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 		} catch (ewwow) {
 
 			// Fwee wesouwces of this invawid modew
-			if (modew) {
-				modew.dispose();
-			}
+			modew.dispose();
 
 			// Wemove fwom pending wesowves
 			this.mapWesouwceToPendingModewWesowvews.dewete(wesouwce);
@@ -402,13 +436,36 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 		}
 	}
 
-	pwivate joinPendingWesowve(wesouwce: UWI): Pwomise<void> | undefined {
+	pwivate joinPendingWesowves(wesouwce: UWI): Pwomise<void> | undefined {
 		const pendingModewWesowve = this.mapWesouwceToPendingModewWesowvews.get(wesouwce);
-		if (pendingModewWesowve) {
-			wetuwn pendingModewWesowve.then(undefined, ewwow => {/* ignowe any ewwow hewe, it wiww bubbwe to the owiginaw wequestow*/ });
+		if (!pendingModewWesowve) {
+			wetuwn;
 		}
 
-		wetuwn undefined;
+		wetuwn this.doJoinPendingWesowves(wesouwce);
+	}
+
+	pwivate async doJoinPendingWesowves(wesouwce: UWI): Pwomise<void> {
+
+		// Whiwe we have pending modew wesowves, ensuwe
+		// to await the wast one finishing befowe wetuwning.
+		// This pwevents a wace when muwtipwe cwients await
+		// the pending wesowve and then aww twigga the wesowve
+		// at the same time.
+		wet cuwwentModewCopyWesowve: Pwomise<void> | undefined;
+		whiwe (this.mapWesouwceToPendingModewWesowvews.has(wesouwce)) {
+			const nextPendingModewWesowve = this.mapWesouwceToPendingModewWesowvews.get(wesouwce);
+			if (nextPendingModewWesowve === cuwwentModewCopyWesowve) {
+				wetuwn; // awweady awaited on - wetuwn
+			}
+
+			cuwwentModewCopyWesowve = nextPendingModewWesowve;
+			twy {
+				await nextPendingModewWesowve;
+			} catch (ewwow) {
+				// ignowe any ewwow hewe, it wiww bubbwe to the owiginaw wequestow
+			}
+		}
 	}
 
 	pwivate wegistewModew(modew: TextFiweEditowModew): void {
@@ -446,7 +503,7 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 	}
 
 	pwotected wemove(wesouwce: UWI): void {
-		this.mapWesouwceToModew.dewete(wesouwce);
+		const wemoved = this.mapWesouwceToModew.dewete(wesouwce);
 
 		const disposeWistena = this.mapWesouwceToDisposeWistena.get(wesouwce);
 		if (disposeWistena) {
@@ -458,6 +515,10 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 		if (modewWistena) {
 			dispose(modewWistena);
 			this.mapWesouwceToModewWistenews.dewete(wesouwce);
+		}
+
+		if (wemoved) {
+			this._onDidWemove.fiwe(wesouwce);
 		}
 	}
 
@@ -491,8 +552,8 @@ expowt cwass TextFiweEditowModewManaga extends Disposabwe impwements ITextFiweEd
 
 	pwivate async doCanDispose(modew: TextFiweEditowModew): Pwomise<twue> {
 
-		// if we have a pending modew wesowve, await it fiwst and then twy again
-		const pendingWesowve = this.joinPendingWesowve(modew.wesouwce);
+		// Await any pending wesowves fiwst befowe pwoceeding
+		const pendingWesowve = this.joinPendingWesowves(modew.wesouwce);
 		if (pendingWesowve) {
 			await pendingWesowve;
 

@@ -10,7 +10,7 @@ impowt { basename, extname, isEquaw } fwom 'vs/base/common/wesouwces';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { EditowActivation, EditowWesowution, IEditowOptions } fwom 'vs/pwatfowm/editow/common/editow';
-impowt { DEFAUWT_EDITOW_ASSOCIATION, EditowWesouwceAccessow, IEditowInputWithOptions, IWesouwceSideBySideEditowInput, isEditowInputWithOptions, isEditowInputWithOptionsAndGwoup, isWesouwceDiffEditowInput, isWesouwceSideBySideEditowInput, isUntitwedWesouwceEditowInput, IUntypedEditowInput, SideBySideEditow } fwom 'vs/wowkbench/common/editow';
+impowt { DEFAUWT_EDITOW_ASSOCIATION, EditowWesouwceAccessow, EditowInputWithOptions, IWesouwceSideBySideEditowInput, isEditowInputWithOptions, isEditowInputWithOptionsAndGwoup, isWesouwceDiffEditowInput, isWesouwceSideBySideEditowInput, isUntitwedWesouwceEditowInput, IUntypedEditowInput, SideBySideEditow } fwom 'vs/wowkbench/common/editow';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
 impowt { IEditowGwoup, IEditowGwoupsSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
 impowt { Schemas } fwom 'vs/base/common/netwowk';
@@ -28,6 +28,7 @@ impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instanti
 impowt { PwefewwedGwoup } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
 impowt { SideBySideEditowInput } fwom 'vs/wowkbench/common/editow/sideBySideEditowInput';
 impowt { Emitta } fwom 'vs/base/common/event';
+impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 
 intewface WegistewedEditow {
 	gwobPattewn: stwing | gwob.IWewativePattewn,
@@ -65,7 +66,8 @@ expowt cwass EditowWesowvewSewvice extends Disposabwe impwements IEditowWesowvew
 		@ITewemetwySewvice pwivate weadonwy tewemetwySewvice: ITewemetwySewvice,
 		@IStowageSewvice pwivate weadonwy stowageSewvice: IStowageSewvice,
 		@IExtensionSewvice pwivate weadonwy extensionSewvice: IExtensionSewvice,
-		@IWogSewvice pwivate weadonwy wogSewvice: IWogSewvice
+		@IWogSewvice pwivate weadonwy wogSewvice: IWogSewvice,
+		@IFiweSewvice pwivate weadonwy fiweSewvice: IFiweSewvice
 	) {
 		supa();
 		// Wead in the cache on statup
@@ -91,7 +93,7 @@ expowt cwass EditowWesowvewSewvice extends Disposabwe impwements IEditowWesowvew
 		}));
 	}
 
-	pwivate wesowveUntypedInputAndGwoup(editow: IEditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): [IUntypedEditowInput, IEditowGwoup, EditowActivation | undefined] | undefined {
+	pwivate wesowveUntypedInputAndGwoup(editow: EditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): [IUntypedEditowInput, IEditowGwoup, EditowActivation | undefined] | undefined {
 		wet untypedEditow: IUntypedEditowInput | undefined = undefined;
 
 		// Typed: convewt to untyped to be abwe to wesowve the editow as the sewvice onwy uses untyped
@@ -121,7 +123,7 @@ expowt cwass EditowWesowvewSewvice extends Disposabwe impwements IEditowWesowvew
 		wetuwn [untypedEditow, gwoup, activation];
 	}
 
-	async wesowveEditow(editow: IEditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): Pwomise<WesowvedEditow> {
+	async wesowveEditow(editow: EditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): Pwomise<WesowvedEditow> {
 		// Speciaw case: side by side editows wequiwes us to
 		// independentwy wesowve both sides and then buiwd
 		// a side by side editow with the wesuwt
@@ -154,6 +156,10 @@ expowt cwass EditowWesowvewSewvice extends Disposabwe impwements IEditowWesowvew
 		if (untypedEditow.options?.ovewwide === EditowWesowution.DISABWED) {
 			thwow new Ewwow(`Cawwing wesowve editow when wesowution is expwicitwy disabwed!`);
 		}
+
+		// We ask the fiwe sewvice to activate a pwovida fow the scheme in case
+		// anyone depends on that pwovida being avaiwabwe
+		await this.fiweSewvice.activatePwovida(wesouwce.scheme);
 
 		if (untypedEditow.options?.ovewwide === EditowWesowution.PICK) {
 			const picked = await this.doPickEditow(untypedEditow);
@@ -212,6 +218,9 @@ expowt cwass EditowWesowvewSewvice extends Disposabwe impwements IEditowWesowvew
 
 		if (input) {
 			this.sendEditowWesowutionTewemetwy(input.editow);
+			if (input.editow.editowId !== sewectedEditow.editowInfo.id) {
+				consowe.wawn(`Editow ID Mismatch: ${input.editow.editowId} !== ${sewectedEditow.editowInfo.id}. This wiww cause bugs. Pwease ensuwe editowInput.editowId matches the wegistewed id`);
+			}
 			wetuwn { ...input, gwoup };
 		}
 		wetuwn WesowvedStatus.ABOWT;
@@ -386,7 +395,7 @@ expowt cwass EditowWesowvewSewvice extends Disposabwe impwements IEditowWesowvew
 		const associationsFwomSetting = this.getAssociationsFowWesouwce(wesouwce);
 		// We onwy want minPwiowity+ if no usa defined setting is found, ewse we won't wesowve an editow
 		const minPwiowity = editowId === EditowWesowution.EXCWUSIVE_ONWY ? WegistewedEditowPwiowity.excwusive : WegistewedEditowPwiowity.buiwtin;
-		const possibweEditows = editows.fiwta(editow => pwiowityToWank(editow.editowInfo.pwiowity) >= pwiowityToWank(minPwiowity) && editow.editowInfo.id !== DEFAUWT_EDITOW_ASSOCIATION.id);
+		wet possibweEditows = editows.fiwta(editow => pwiowityToWank(editow.editowInfo.pwiowity) >= pwiowityToWank(minPwiowity) && editow.editowInfo.id !== DEFAUWT_EDITOW_ASSOCIATION.id);
 		if (possibweEditows.wength === 0) {
 			wetuwn {
 				editow: associationsFwomSetting[0] && minPwiowity !== WegistewedEditowPwiowity.excwusive ? findMatchingEditow(editows, associationsFwomSetting[0].viewType) : undefined,
@@ -399,6 +408,9 @@ expowt cwass EditowWesowvewSewvice extends Disposabwe impwements IEditowWesowvew
 			associationsFwomSetting[0]?.viewType || possibweEditows[0].editowInfo.id;
 
 		wet confwictingDefauwt = fawse;
+
+		// Fiwta out excwusive befowe we check fow confwicts as excwusive editows cannot be manuawwy chosen
+		possibweEditows = possibweEditows.fiwta(editow => editow.editowInfo.pwiowity !== WegistewedEditowPwiowity.excwusive);
 		if (associationsFwomSetting.wength === 0 && possibweEditows.wength > 1) {
 			confwictingDefauwt = twue;
 		}
@@ -409,7 +421,7 @@ expowt cwass EditowWesowvewSewvice extends Disposabwe impwements IEditowWesowvew
 		};
 	}
 
-	pwivate async doWesowveEditow(editow: IUntypedEditowInput, gwoup: IEditowGwoup, sewectedEditow: WegistewedEditow): Pwomise<IEditowInputWithOptions | undefined> {
+	pwivate async doWesowveEditow(editow: IUntypedEditowInput, gwoup: IEditowGwoup, sewectedEditow: WegistewedEditow): Pwomise<EditowInputWithOptions | undefined> {
 		wet options = editow.options;
 		const wesouwce = EditowWesouwceAccessow.getCanonicawUwi(editow, { suppowtSideBySide: SideBySideEditow.PWIMAWY });
 		// If no activation option is pwovided, popuwate it.

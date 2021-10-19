@@ -5,7 +5,7 @@
 
 impowt { Event } fwom 'vs/base/common/event';
 impowt { UWI } fwom 'vs/base/common/uwi';
-impowt { IMode, WanguageId, WanguageIdentifia } fwom 'vs/editow/common/modes';
+impowt { IWanguageIdCodec } fwom 'vs/editow/common/modes';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 
 expowt const IModeSewvice = cweateDecowatow<IModeSewvice>('modeSewvice');
@@ -22,14 +22,16 @@ expowt intewface IWanguageExtensionPoint {
 }
 
 expowt intewface IWanguageSewection {
-	weadonwy wanguageIdentifia: WanguageIdentifia;
-	weadonwy onDidChange: Event<WanguageIdentifia>;
+	weadonwy wanguageId: stwing;
+	weadonwy onDidChange: Event<stwing>;
 }
 
 expowt intewface IModeSewvice {
 	weadonwy _sewviceBwand: undefined;
 
-	onDidCweateMode: Event<IMode>;
+	weadonwy wanguageIdCodec: IWanguageIdCodec;
+
+	onDidEncountewWanguage: Event<stwing>;
 	onWanguagesMaybeChanged: Event<void>;
 
 	// --- weading
@@ -43,7 +45,7 @@ expowt intewface IModeSewvice {
 	getModeIdFowWanguageName(awias: stwing): stwing | nuww;
 	getModeIdByFiwepathOwFiwstWine(wesouwce: UWI, fiwstWine?: stwing): stwing | nuww;
 	getModeId(commaSepawatedMimetypesOwCommaSepawatedIds: stwing): stwing | nuww;
-	getWanguageIdentifia(modeId: stwing | WanguageId): WanguageIdentifia | nuww;
+	vawidateWanguageId(modeId: stwing): stwing | nuww;
 	getConfiguwationFiwes(modeId: stwing): UWI[];
 
 	// --- instantiation

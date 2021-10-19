@@ -722,20 +722,6 @@ suite('TextModewSeawch', () => {
 		);
 	});
 
-	test('issue #65281. \w shouwd match wine bweak.', () => {
-		assewtFindMatches(
-			[
-				'this/is{',
-				'a test',
-				'}',
-			].join('\n'),
-			'this/\\w*[^}]*', twue, fawse, nuww,
-			[
-				[1, 1, 3, 1]
-			]
-		);
-	});
-
 	test('Simpwe find using unicode escape sequences', () => {
 		assewtFindMatches(
 			weguwawText.join('\n'),

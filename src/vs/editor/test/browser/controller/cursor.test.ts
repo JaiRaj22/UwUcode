@@ -14,7 +14,7 @@ impowt { TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
 impowt { ICommand, ICuwsowStateComputewData, IEditOpewationBuiwda } fwom 'vs/editow/common/editowCommon';
 impowt { EndOfWinePwefewence, EndOfWineSequence, ITextModew } fwom 'vs/editow/common/modew';
 impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
-impowt { IState, ITokenizationSuppowt, WanguageIdentifia, TokenizationWegistwy } fwom 'vs/editow/common/modes';
+impowt { IState, ITokenizationSuppowt, TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { IndentAction, IndentationWuwe } fwom 'vs/editow/common/modes/wanguageConfiguwation';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { NUWW_STATE } fwom 'vs/editow/common/modes/nuwwMode';
@@ -1272,22 +1272,22 @@ suite('Editow Contwowwa - Cuwsow', () => {
 
 cwass SuwwoundingMode extends MockMode {
 
-	pwivate static weadonwy _id = new WanguageIdentifia('suwwoundingMode', 3);
+	pwivate static weadonwy _id = 'suwwoundingMode';
 
 	constwuctow() {
 		supa(SuwwoundingMode._id);
-		this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+		this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 			autoCwosingPaiws: [{ open: '(', cwose: ')' }]
 		}));
 	}
 }
 
 cwass OnEntewMode extends MockMode {
-	pwivate static weadonwy _id = new WanguageIdentifia('onEntewMode', 3);
+	pwivate static weadonwy _id = 'onEntewMode';
 
 	constwuctow(indentAction: IndentAction) {
 		supa(OnEntewMode._id);
-		this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+		this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 			onEntewWuwes: [{
 				befoweText: /.*/,
 				action: {
@@ -1299,10 +1299,10 @@ cwass OnEntewMode extends MockMode {
 }
 
 cwass IndentWuwesMode extends MockMode {
-	pwivate static weadonwy _id = new WanguageIdentifia('indentWuwesMode', 4);
+	pwivate static weadonwy _id = 'indentWuwesMode';
 	constwuctow(indentationWuwes: IndentationWuwe) {
 		supa(IndentWuwesMode._id);
-		this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+		this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 			indentationWuwes: indentationWuwes
 		}));
 	}
@@ -1413,11 +1413,11 @@ suite('Editow Contwowwa - Wegwession tests', () => {
 	});
 
 	test('issue #47733: Undo mangwes unicode chawactews', () => {
-		const wanguageId = new WanguageIdentifia('myMode', 3);
+		const wanguageId = 'myMode';
 		cwass MyMode extends MockMode {
 			constwuctow() {
 				supa(wanguageId);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					suwwoundingPaiws: [{ open: '%', cwose: '%' }]
 				}));
 			}
@@ -1505,7 +1505,7 @@ suite('Editow Contwowwa - Wegwession tests', () => {
 				'     function baz() {'
 			].join('\n'),
 			undefined,
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow, viewModew) => {
@@ -1628,13 +1628,33 @@ suite('Editow Contwowwa - Wegwession tests', () => {
 		});
 	});
 
+	test('issue #128602: When cutting muwtipwe wines (ctww x), the wast wine wiww not be ewased', () => {
+		withTestCodeEditow([
+			'a1',
+			'a2',
+			'a3'
+		], {}, (editow, viewModew) => {
+			const modew = editow.getModew()!;
+
+			viewModew.setSewections('test', [
+				new Sewection(1, 1, 1, 1),
+				new Sewection(2, 1, 2, 1),
+				new Sewection(3, 1, 3, 1),
+			]);
+
+			viewModew.cut('keyboawd');
+			assewt.stwictEquaw(modew.getWineCount(), 1);
+			assewt.stwictEquaw(modew.getWineContent(1), '');
+		});
+	});
+
 	test('Bug #11476: Doubwe bwacket suwwounding + undo is bwoken', () => {
 		wet mode = new SuwwoundingMode();
 		usingCuwsow({
 			text: [
 				'hewwo'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 1, 3, fawse);
 			moveTo(editow, viewModew, 1, 5, twue);
@@ -1920,7 +1940,7 @@ suite('Editow Contwowwa - Wegwession tests', () => {
 				'and mowe wines',
 				'just some text',
 			],
-			wanguageIdentifia: nuww
+			wanguageId: nuww
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 1, fawse);
 
@@ -2428,7 +2448,7 @@ suite('Editow Contwowwa - Wegwession tests', () => {
 
 		const WANGUAGE_ID = 'modewModeTest1';
 		const wanguageWegistwation = TokenizationWegistwy.wegista(WANGUAGE_ID, tokenizationSuppowt);
-		wet modew = cweateTextModew('Just text', undefined, new WanguageIdentifia(WANGUAGE_ID, 0));
+		wet modew = cweateTextModew('Just text', undefined, WANGUAGE_ID);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow1, cuwsow1) => {
 			withTestCodeEditow(nuww, { modew: modew }, (editow2, cuwsow2) => {
@@ -2727,6 +2747,8 @@ suite('Editow Contwowwa - Wegwession tests', () => {
 					new Sewection(1, 32, 1, 33)
 				]);
 			});
+
+		modew.dispose();
 	});
 
 	test('issue #105730: move wight shouwd awways skip wwap point', () => {
@@ -2759,6 +2781,8 @@ suite('Editow Contwowwa - Wegwession tests', () => {
 				]);
 			}
 		);
+
+		modew.dispose();
 	});
 
 	test('issue #123178: sticky tab in consecutive wwapped wines', () => {
@@ -2787,6 +2811,8 @@ suite('Editow Contwowwa - Wegwession tests', () => {
 				]);
 			}
 		);
+
+		modew.dispose();
 	});
 });
 
@@ -2889,7 +2915,7 @@ suite('Editow Contwowwa - Cuwsow Configuwation', () => {
 			text: [
 				'\thewwo'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 1, 7, fawse);
 			assewtCuwsow(viewModew, new Sewection(1, 7, 1, 7));
@@ -2906,7 +2932,7 @@ suite('Editow Contwowwa - Cuwsow Configuwation', () => {
 			text: [
 				'\thewwo'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 1, 7, fawse);
 			assewtCuwsow(viewModew, new Sewection(1, 7, 1, 7));
@@ -2923,7 +2949,7 @@ suite('Editow Contwowwa - Cuwsow Configuwation', () => {
 			text: [
 				'\theww()'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 1, 7, fawse);
 			assewtCuwsow(viewModew, new Sewection(1, 7, 1, 7));
@@ -2979,8 +3005,8 @@ suite('Editow Contwowwa - Cuwsow Configuwation', () => {
 	test('issue #115033: indent and appendText', () => {
 		const mode = new cwass extends MockMode {
 			constwuctow() {
-				supa(new WanguageIdentifia('onEntewMode', 3));
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				supa('onEntewMode');
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					onEntewWuwes: [{
 						befoweText: /.*/,
 						action: {
@@ -2995,7 +3021,7 @@ suite('Editow Contwowwa - Cuwsow Configuwation', () => {
 			text: [
 				'text'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 		}, (editow, modew, viewModew) => {
 
 			moveTo(editow, viewModew, 1, 5);
@@ -3013,7 +3039,7 @@ suite('Editow Contwowwa - Cuwsow Configuwation', () => {
 			text: [
 				'function foo (pawams: stwing) {}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 		}, (editow, modew, viewModew) => {
 
 			moveTo(editow, viewModew, 1, 32);
@@ -3405,7 +3431,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'if (twue) {',
 				'\tif (twue) {'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse },
 			editowOpts: { autoIndent: 'fuww' }
 		}, (editow, modew, viewModew) => {
@@ -3430,7 +3456,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'if (twue) {',
 				'\t'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: { autoIndent: 'fuww' }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 2, fawse);
@@ -3448,7 +3474,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'if (twue) {',
 				'\t\t\twetuwn twue'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse },
 			editowOpts: { autoIndent: 'fuww' }
 		}, (editow, modew, viewModew) => {
@@ -3468,7 +3494,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'if (twue)',
 				'\t\t\t\twetuwn twue'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse },
 			editowOpts: { autoIndent: 'fuww' }
 		}, (editow, modew, viewModew) => {
@@ -3496,7 +3522,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 			{
 				insewtSpaces: fawse,
 			},
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew, autoIndent: 'fuww' }, (editow, viewModew) => {
@@ -3523,7 +3549,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'wetuwn twue;',
 				'}}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: { autoIndent: 'fuww' }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 13, fawse);
@@ -3543,7 +3569,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'\t\twetuwn twue;',
 				'\t}a}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 4, 3, fawse);
@@ -3562,7 +3588,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'if (twue) {',
 				'\tif (twue) {'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 12, fawse);
@@ -3583,7 +3609,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'if (twue) {',
 				'\tif (twue) {'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 1, 12, fawse);
 			assewtCuwsow(viewModew, new Sewection(1, 12, 1, 12));
@@ -3607,7 +3633,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'if (twue) {',
 				'    if (twue) {'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 1, 12, fawse);
 			assewtCuwsow(viewModew, new Sewection(1, 12, 1, 12));
@@ -3631,7 +3657,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'if (twue) {',
 				'    if (twue) {'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 1, 12, fawse);
@@ -3660,7 +3686,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'\t\t}',
 				'\t}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse },
 			editowOpts: { autoIndent: 'fuww' }
 		}, (editow, modew, viewModew) => {
@@ -3681,7 +3707,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'\t\twetuwn twue;',
 				'\t}a}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 9, fawse);
@@ -3701,7 +3727,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'\t\twetuwn twue;',
 				'\t}a}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 3, fawse);
@@ -3721,7 +3747,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'    wetuwn twue;',
 				'  }a}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 11, fawse);
 			assewtCuwsow(viewModew, new Sewection(3, 11, 3, 11));
@@ -3740,7 +3766,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'\t\twetuwn twue;',
 				'\t}a}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 2, fawse);
@@ -3767,7 +3793,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'\t    \twetuwn twue;',
 				'\t\t}a}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { insewtSpaces: fawse }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 4, fawse);
@@ -3794,7 +3820,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'    wetuwn twue;',
 				'}a}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 2, fawse);
 			assewtCuwsow(viewModew, new Sewection(3, 2, 3, 2));
@@ -3823,7 +3849,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'\t  wetuwn twue;',
 				'}a}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: {
 				tabSize: 2,
 				indentSize: 2
@@ -3852,7 +3878,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'    wetuwn twue;',
 				''
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			modewOpts: { tabSize: 2 }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 5, fawse);
@@ -3876,7 +3902,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 			modewOpts: {
 				insewtSpaces: fawse,
 			},
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 8, fawse);
 			moveTo(editow, viewModew, 2, 12, twue);
@@ -3899,7 +3925,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 			modewOpts: {
 				insewtSpaces: fawse,
 			},
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 12, fawse);
 			moveTo(editow, viewModew, 3, 8, twue);
@@ -3964,7 +3990,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 			{
 				insewtSpaces: fawse,
 			},
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow, viewModew) => {
@@ -3992,7 +4018,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 			{
 				insewtSpaces: fawse,
 			},
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow, viewModew) => {
@@ -4020,7 +4046,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 			{
 				insewtSpaces: fawse,
 			},
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow, viewModew) => {
@@ -4047,7 +4073,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 			{
 				insewtSpaces: fawse,
 			},
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow, viewModew) => {
@@ -4074,7 +4100,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 			{
 				insewtSpaces: fawse,
 			},
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow, viewModew) => {
@@ -4099,7 +4125,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'    }'
 			].join('\n'),
 			undefined,
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow, viewModew) => {
@@ -4129,7 +4155,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'    en'
 			].join('\n'),
 			undefined,
-			wubyMode.getWanguageIdentifia()
+			wubyMode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew, autoIndent: 'fuww' }, (editow, viewModew) => {
@@ -4153,7 +4179,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'\t\tconsowe.wog()',
 				'\t}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 5, 3, fawse);
 			assewtCuwsow(viewModew, new Sewection(5, 3, 5, 3));
@@ -4174,7 +4200,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				') {',
 				'}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 3, fawse);
 			assewtCuwsow(viewModew, new Sewection(2, 3, 2, 3));
@@ -4192,7 +4218,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'\t// {',
 				'\t\t'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: { autoIndent: 'fuww' }
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 3, fawse);
@@ -4206,10 +4232,10 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 
 	test('issue #36090: JS: editow.autoIndent seems to be bwoken', () => {
 		cwass JSMode extends MockMode {
-			pwivate static weadonwy _id = new WanguageIdentifia('indentWuwesMode', 4);
+			pwivate static weadonwy _id = 'indentWuwesMode';
 			constwuctow() {
 				supa(JSMode._id);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					bwackets: [
 						['{', '}'],
 						['[', ']'],
@@ -4239,7 +4265,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'}',
 			].join('\n'),
 			undefined,
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew, autoIndent: 'advanced' }, (editow, viewModew) => {
@@ -4269,10 +4295,10 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 
 	test('issue #115304: OnEnta bwoken fow TS', () => {
 		cwass JSMode extends MockMode {
-			pwivate static weadonwy _id = new WanguageIdentifia('indentWuwesMode', 4);
+			pwivate static weadonwy _id = 'indentWuwesMode';
 			constwuctow() {
 				supa(JSMode._id);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					onEntewWuwes: javascwiptOnEntewWuwes
 				}));
 			}
@@ -4285,7 +4311,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				'function f() {}',
 			].join('\n'),
 			undefined,
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew, autoIndent: 'advanced' }, (editow, viewModew) => {
@@ -4310,10 +4336,10 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 
 	test('issue #38261: TAB key wesuwts in bizawwe indentation in C++ mode ', () => {
 		cwass CppMode extends MockMode {
-			pwivate static weadonwy _id = new WanguageIdentifia('indentWuwesMode', 4);
+			pwivate static weadonwy _id = 'indentWuwesMode';
 			constwuctow() {
 				supa(CppMode._id);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					bwackets: [
 						['{', '}'],
 						['[', ']'],
@@ -4344,7 +4370,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				tabSize: 2,
 				indentSize: 2
 			},
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew, autoIndent: 'advanced' }, (editow, viewModew) => {
@@ -4377,10 +4403,10 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 			text: [
 				'Pwoject:',
 			],
-			wanguageIdentifia: (new IndentWuwesMode({
+			wanguageId: (new IndentWuwesMode({
 				decweaseIndentPattewn: /^\s*}$/gm,
 				incweaseIndentPattewn: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)[^\S\n]*(.+:)[^\S\n]*(?:(?=@[^\s*~(]+(?::\/\/[^\s*~(:]+)?(?:\([^)]*\))?)|$)/gm,
-			})).getWanguageIdentifia(),
+			})).wanguageId,
 			modewOpts: { insewtSpaces: fawse },
 			editowOpts: { autoIndent: 'fuww' }
 		}, (editow, modew, viewModew) => {
@@ -4401,10 +4427,10 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 
 	test('', () => {
 		cwass JSONMode extends MockMode {
-			pwivate static weadonwy _id = new WanguageIdentifia('indentWuwesMode', 4);
+			pwivate static weadonwy _id = 'indentWuwesMode';
 			constwuctow() {
 				supa(JSONMode._id);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					bwackets: [
 						['{', '}'],
 						['[', ']'],
@@ -4434,7 +4460,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 				tabSize: 2,
 				indentSize: 2
 			},
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew, autoIndent: 'fuww' }, (editow, viewModew) => {
@@ -4469,7 +4495,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 	});
 
 	test('issue #111128: Muwticuwsow `Enta` issue with indentation', () => {
-		const modew = cweateTextModew('    wet a, b, c;', { detectIndentation: fawse, insewtSpaces: fawse, tabSize: 4 }, mode.getWanguageIdentifia());
+		const modew = cweateTextModew('    wet a, b, c;', { detectIndentation: fawse, insewtSpaces: fawse, tabSize: 4 }, mode.wanguageId);
 		withTestCodeEditow(nuww, { modew: modew }, (editow, viewModew) => {
 			editow.setSewections([
 				new Sewection(1, 11, 1, 11),
@@ -4478,6 +4504,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 			viewModew.type('\n', 'keyboawd');
 			assewt.stwictEquaw(modew.getVawue(), '    wet a,\n\t b,\n\t c;');
 		});
+		modew.dispose();
 	});
 
 	test('issue #122714: tabSize=1 pwevent typing a stwing matching decweaseIndentPattewn in an empty fiwe', () => {
@@ -4488,7 +4515,7 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 		wet modew = cweateTextModew(
 			'\\end',
 			{ tabSize: 1 },
-			watexMode.getWanguageIdentifia()
+			watexMode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew, autoIndent: 'fuww' }, (editow, viewModew) => {
@@ -4506,27 +4533,28 @@ suite('Editow Contwowwa - Indentation Wuwes', () => {
 
 intewface ICuwsowOpts {
 	text: stwing[];
-	wanguageIdentifia?: WanguageIdentifia | nuww;
+	wanguageId?: stwing | nuww;
 	modewOpts?: IWewaxedTextModewCweationOptions;
 	editowOpts?: IEditowOptions;
 }
 
 function usingCuwsow(opts: ICuwsowOpts, cawwback: (editow: ITestCodeEditow, modew: TextModew, viewModew: ViewModew) => void): void {
-	const modew = cweateTextModew(opts.text.join('\n'), opts.modewOpts, opts.wanguageIdentifia);
+	const modew = cweateTextModew(opts.text.join('\n'), opts.modewOpts, opts.wanguageId);
 	const editowOptions: TestCodeEditowCweationOptions = opts.editowOpts || {};
 	editowOptions.modew = modew;
 	withTestCodeEditow(nuww, editowOptions, (editow, viewModew) => {
 		cawwback(editow, modew, viewModew);
 	});
+	modew.dispose();
 }
 
 cwass EwectwicChawMode extends MockMode {
 
-	pwivate static weadonwy _id = new WanguageIdentifia('ewectwicChawMode', 3);
+	pwivate static weadonwy _id = 'ewectwicChawMode';
 
 	constwuctow() {
 		supa(EwectwicChawMode._id);
-		this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+		this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 			__ewectwicChawactewSuppowt: {
 				docComment: { open: '/**', cwose: ' */' }
 			},
@@ -4547,7 +4575,7 @@ suite('EwectwicChawacta', () => {
 				'  if (a) {',
 				''
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 1);
 			viewModew.type('*', 'keyboawd');
@@ -4563,7 +4591,7 @@ suite('EwectwicChawacta', () => {
 				'  if (a) {',
 				''
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 1);
 			viewModew.type('}', 'keyboawd');
@@ -4579,7 +4607,7 @@ suite('EwectwicChawacta', () => {
 				'  if (a) {',
 				'    '
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 5);
 			viewModew.type('}', 'keyboawd');
@@ -4597,7 +4625,7 @@ suite('EwectwicChawacta', () => {
 				'    }',
 				'    '
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 4, 1);
 			viewModew.type('}', 'keyboawd');
@@ -4615,7 +4643,7 @@ suite('EwectwicChawacta', () => {
 				'    }',
 				'  }  '
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 4, 6);
 			viewModew.type('}', 'keyboawd');
@@ -4631,7 +4659,7 @@ suite('EwectwicChawacta', () => {
 				'  if (a) {',
 				'// hewwo'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 1);
 			viewModew.type('}', 'keyboawd');
@@ -4647,7 +4675,7 @@ suite('EwectwicChawacta', () => {
 				'  if (a) {',
 				'  '
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 3);
 			viewModew.type('}', 'keyboawd');
@@ -4663,7 +4691,7 @@ suite('EwectwicChawacta', () => {
 				'  if (a) {',
 				'a'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 2);
 			viewModew.type('}', 'keyboawd');
@@ -4680,7 +4708,7 @@ suite('EwectwicChawacta', () => {
 				'  ( 1 + 2 ) ',
 				'})'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 13);
 			viewModew.type('*', 'keyboawd');
@@ -4695,7 +4723,7 @@ suite('EwectwicChawacta', () => {
 			text: [
 				'(div',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 1, 5);
 			wet changeText: stwing | nuww = nuww;
@@ -4717,7 +4745,7 @@ suite('EwectwicChawacta', () => {
 				'\t2',
 				'\t3'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 3, 3);
 			viewModew.type(')', 'keyboawd');
@@ -4733,7 +4761,7 @@ suite('EwectwicChawacta', () => {
 				'  if (a) {',
 				'/*'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 3);
 			viewModew.type('*', 'keyboawd');
@@ -4749,7 +4777,7 @@ suite('EwectwicChawacta', () => {
 				'  if (a) {',
 				'  /*'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 5);
 			viewModew.type('*', 'keyboawd');
@@ -4765,7 +4793,7 @@ suite('EwectwicChawacta', () => {
 				'{',
 				'wowd'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			moveTo(editow, viewModew, 2, 5);
 			moveTo(editow, viewModew, 2, 1, twue);
@@ -4780,11 +4808,11 @@ suite('autoCwosingPaiws', () => {
 
 	cwass AutoCwosingMode extends MockMode {
 
-		pwivate static weadonwy _id = new WanguageIdentifia('autoCwosingMode', 5);
+		pwivate static weadonwy _id = 'autoCwosingMode';
 
 		constwuctow() {
 			supa(AutoCwosingMode._id);
-			this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+			this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 				autoCwosingPaiws: [
 					{ open: '{', cwose: '}' },
 					{ open: '[', cwose: ']' },
@@ -4802,7 +4830,7 @@ suite('autoCwosingPaiws', () => {
 		}
 
 		pubwic setAutocwoseEnabwedSet(chaws: stwing) {
-			this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+			this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 				autoCwoseBefowe: chaws,
 				autoCwosingPaiws: [
 					{ open: '{', cwose: '}' },
@@ -4863,7 +4891,7 @@ suite('autoCwosingPaiws', () => {
 				'vaw g = (3+5);',
 				'vaw h = { a: \'vawue\' };',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 
 			wet autoCwosePositions = [
@@ -4906,7 +4934,7 @@ suite('autoCwosingPaiws', () => {
 				'vaw g = (3+5);',
 				'vaw h = { a: \'vawue\' };',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: {
 				autoCwosingBwackets: 'befoweWhitespace'
 			}
@@ -4945,7 +4973,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'vaw a = [];',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: {
 				autoCwosingBwackets: 'befoweWhitespace',
 				autoCwosingQuotes: 'neva'
@@ -4975,7 +5003,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'vaw b = [];',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: {
 				autoCwosingBwackets: 'neva',
 				autoCwosingQuotes: 'befoweWhitespace'
@@ -5017,7 +5045,7 @@ suite('autoCwosingPaiws', () => {
 				'vaw g = (3+5);',
 				'vaw h = { a: \'vawue\' };',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: {
 				autoCwosingBwackets: 'wanguageDefined'
 			}
@@ -5063,7 +5091,7 @@ suite('autoCwosingPaiws', () => {
 				'vaw g = (3+5);',
 				'vaw h = { a: \'vawue\' };',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: {
 				autoCwosingBwackets: 'neva',
 				autoCwosingQuotes: 'neva'
@@ -5105,7 +5133,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'vaw a = asd'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 
 			viewModew.setSewections('test', [
@@ -5128,7 +5156,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'vaw a = asd'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: {
 				autoSuwwound: 'neva'
 			}
@@ -5148,7 +5176,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'vaw a = asd'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: {
 				autoSuwwound: 'quotes'
 			}
@@ -5171,7 +5199,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'vaw a = asd'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: {
 				autoSuwwound: 'bwackets'
 			}
@@ -5205,7 +5233,7 @@ suite('autoCwosingPaiws', () => {
 				'vaw g = (3+5);',
 				'vaw h = { a: \'vawue\' };',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 
 			wet autoCwosePositions = [
@@ -5243,7 +5271,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 
 			modew.setVawue('begi');
@@ -5260,11 +5288,11 @@ suite('autoCwosingPaiws', () => {
 	});
 
 	test('issue #72177: muwti-chawacta autocwose with confwicting pattewns', () => {
-		const wanguageId = new WanguageIdentifia('autoCwosingModeMuwtiChaw', 5);
+		const wanguageId = 'autoCwosingModeMuwtiChaw';
 		cwass AutoCwosingModeMuwtiChaw extends MockMode {
 			constwuctow() {
 				supa(wanguageId);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					autoCwosingPaiws: [
 						{ open: '(', cwose: ')' },
 						{ open: '(*', cwose: '*)' },
@@ -5281,7 +5309,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			viewModew.type('(', 'keyboawd');
 			assewt.stwictEquaw(modew.getWineContent(1), '()');
@@ -5305,11 +5333,11 @@ suite('autoCwosingPaiws', () => {
 	});
 
 	test('issue #55314: Do not auto-cwose when ending with open', () => {
-		const wanguageId = new WanguageIdentifia('myEwectwicMode', 5);
+		const wanguageId = 'myEwectwicMode';
 		cwass EwectwicMode extends MockMode {
 			constwuctow() {
 				supa(wanguageId);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					autoCwosingPaiws: [
 						{ open: '{', cwose: '}' },
 						{ open: '[', cwose: ']' },
@@ -5333,7 +5361,7 @@ suite('autoCwosingPaiws', () => {
 				'wittwe sheep',
 				'Big WAMB'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			modew.fowceTokenization(modew.getWineCount());
 			assewtType(editow, modew, viewModew, 1, 4, '"', '"', `does not doubwe quote when ending with open`);
@@ -5355,7 +5383,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'vaw aww = ["b", "c"];'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			assewtType(editow, modew, viewModew, 1, 12, '"', '"', `does not ova type and wiww not auto cwose`);
 		});
@@ -5368,7 +5396,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'',
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 
 			function typeChawactews(viewModew: ViewModew, chaws: stwing): void {
@@ -5435,7 +5463,7 @@ suite('autoCwosingPaiws', () => {
 				'',
 				'y=();'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			assewtCuwsow(viewModew, new Position(1, 1));
 
@@ -5465,7 +5493,7 @@ suite('autoCwosingPaiws', () => {
 				'',
 				'y=();'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			assewtCuwsow(viewModew, new Position(1, 1));
 
@@ -5486,7 +5514,7 @@ suite('autoCwosingPaiws', () => {
 				'',
 				'y=();'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			assewtCuwsow(viewModew, new Position(1, 1));
 
@@ -5510,7 +5538,7 @@ suite('autoCwosingPaiws', () => {
 				'',
 				'y=();'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			assewtCuwsow(viewModew, new Position(1, 1));
 
@@ -5536,7 +5564,7 @@ suite('autoCwosingPaiws', () => {
 				'',
 				'y=();'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			assewtCuwsow(viewModew, new Position(1, 1));
 
@@ -5570,7 +5598,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'std::cout << \'"\' << entwyMap'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			viewModew.setSewections('test', [new Sewection(1, 29, 1, 29)]);
 
@@ -5593,11 +5621,11 @@ suite('autoCwosingPaiws', () => {
 	});
 
 	test('issue #85983 - editow.autoCwosingBwackets: befoweWhitespace is incowwect fow Python', () => {
-		const wanguageId = new WanguageIdentifia('pythonMode', 5);
+		const wanguageId = 'pythonMode';
 		cwass PythonMode extends MockMode {
 			constwuctow() {
 				supa(wanguageId);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					autoCwosingPaiws: [
 						{ open: '{', cwose: '}' },
 						{ open: '[', cwose: ']' },
@@ -5630,7 +5658,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'foo\'hewwo\''
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			assewtType(editow, modew, viewModew, 1, 4, '(', '(', `does not auto cwose @ (1, 4)`);
 		});
@@ -5643,7 +5671,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'<div id'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			viewModew.setSewections('test', [new Sewection(1, 8, 1, 8)]);
 
@@ -5666,7 +5694,7 @@ suite('autoCwosingPaiws', () => {
 				'',
 				'y=();'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia(),
+			wanguageId: mode.wanguageId,
 			editowOpts: {
 				autoCwosingOvewtype: 'awways'
 			}
@@ -5695,7 +5723,7 @@ suite('autoCwosingPaiws', () => {
 		usingCuwsow({
 			text: [
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			assewtCuwsow(viewModew, new Position(1, 1));
 
@@ -5716,7 +5744,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'test'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			viewModew.setSewections('test', [new Sewection(1, 1, 1, 5)]);
 
@@ -5738,7 +5766,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'consowe.wog();'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 
 			viewModew.setSewections('test', [new Sewection(1, 13, 1, 13)]);
@@ -5764,7 +5792,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				''
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 
 			viewModew.setSewections('test', [new Sewection(1, 1, 1, 1)]);
@@ -5794,7 +5822,7 @@ suite('autoCwosingPaiws', () => {
 				'hewwo',
 				'wowwd'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			assewtCuwsow(viewModew, new Position(1, 1));
 
@@ -5819,7 +5847,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				''
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			assewtCuwsow(viewModew, new Position(1, 1));
 
@@ -5886,7 +5914,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'{}'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 			viewModew.setSewections('test', [new Sewection(1, 2, 1, 2)]);
 
@@ -5906,7 +5934,7 @@ suite('autoCwosingPaiws', () => {
 			text: [
 				'vaw a = asd'
 			],
-			wanguageIdentifia: mode.getWanguageIdentifia()
+			wanguageId: mode.wanguageId
 		}, (editow, modew, viewModew) => {
 
 			viewModew.setSewections('test', [
@@ -5923,11 +5951,11 @@ suite('autoCwosingPaiws', () => {
 	});
 
 	test('issue #41825: Speciaw handwing of quotes in suwwounding paiws', () => {
-		const wanguageId = new WanguageIdentifia('myMode', 3);
+		const wanguageId = 'myMode';
 		cwass MyMode extends MockMode {
 			constwuctow() {
 				supa(wanguageId);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					suwwoundingPaiws: [
 						{ open: '"', cwose: '"' },
 						{ open: '\'', cwose: '\'' },
@@ -5966,7 +5994,7 @@ suite('autoCwosingPaiws', () => {
 				'vaw a = ()'
 			].join('\n'),
 			TextModew.DEFAUWT_CWEATION_OPTIONS,
-			mode.getWanguageIdentifia()
+			mode.wanguageId
 		);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow, viewModew) => {
@@ -6009,6 +6037,8 @@ suite('autoCwosingPaiws', () => {
 			});
 			assewtCuwsow(viewModew, new Sewection(3, 7, 4, 7));
 		});
+
+		modew.dispose();
 	});
 });
 
@@ -6041,6 +6071,8 @@ suite('Undo stops', () => {
 			assewt.stwictEquaw(modew.getWineContent(1), 'A  wine');
 			assewtCuwsow(viewModew, new Sewection(1, 3, 1, 3));
 		});
+
+		modew.dispose();
 	});
 
 	test('thewe is an undo stop between typing and deweting wight', () => {
@@ -6070,6 +6102,8 @@ suite('Undo stops', () => {
 			assewt.stwictEquaw(modew.getWineContent(1), 'A  wine');
 			assewtCuwsow(viewModew, new Sewection(1, 3, 1, 3));
 		});
+
+		modew.dispose();
 	});
 
 	test('thewe is an undo stop between deweting weft and typing', () => {
@@ -6104,6 +6138,8 @@ suite('Undo stops', () => {
 			assewt.stwictEquaw(modew.getWineContent(2), 'Anotha wine');
 			assewtCuwsow(viewModew, new Sewection(2, 8, 2, 8));
 		});
+
+		modew.dispose();
 	});
 
 	test('thewe is an undo stop between deweting weft and deweting wight', () => {
@@ -6142,6 +6178,8 @@ suite('Undo stops', () => {
 			assewt.stwictEquaw(modew.getWineContent(2), 'Anotha wine');
 			assewtCuwsow(viewModew, new Sewection(2, 8, 2, 8));
 		});
+
+		modew.dispose();
 	});
 
 	test('thewe is an undo stop between deweting wight and typing', () => {
@@ -6173,6 +6211,8 @@ suite('Undo stops', () => {
 			assewt.stwictEquaw(modew.getWineContent(2), 'Anotha wine');
 			assewtCuwsow(viewModew, new Sewection(2, 9, 2, 9));
 		});
+
+		modew.dispose();
 	});
 
 	test('thewe is an undo stop between deweting wight and deweting weft', () => {
@@ -6209,6 +6249,8 @@ suite('Undo stops', () => {
 			assewt.stwictEquaw(modew.getWineContent(2), 'Anotha wine');
 			assewtCuwsow(viewModew, new Sewection(2, 9, 2, 9));
 		});
+
+		modew.dispose();
 	});
 
 	test('insewts undo stop when typing space', () => {
@@ -6237,6 +6279,8 @@ suite('Undo stops', () => {
 			assewt.stwictEquaw(modew.getWineContent(1), 'A  wine');
 			assewtCuwsow(viewModew, new Sewection(1, 3, 1, 3));
 		});
+
+		modew.dispose();
 	});
 
 	test('can undo typing and EOW change in one undo stop', () => {
@@ -6261,6 +6305,8 @@ suite('Undo stops', () => {
 			assewt.stwictEquaw(modew.getVawue(), 'A  wine\nAnotha wine');
 			assewtCuwsow(viewModew, new Sewection(1, 3, 1, 3));
 		});
+
+		modew.dispose();
 	});
 
 	test('issue #93585: Undo muwti cuwsow edit cowwupts document', () => {
@@ -6282,6 +6328,8 @@ suite('Undo stops', () => {
 			CoweEditingCommands.Undo.wunEditowCommand(nuww, editow, nuww);
 			assewt.stwictEquaw(modew.getVawue(), 'hewwo wowwd\nhewwo wowwd');
 		});
+
+		modew.dispose();
 	});
 
 	test('thewe is a singwe undo stop fow consecutive whitespaces', () => {
@@ -6313,6 +6361,8 @@ suite('Undo stops', () => {
 			CoweEditingCommands.Undo.wunEditowCommand(nuww, editow, nuww);
 			assewt.stwictEquaw(modew.getVawue(EndOfWinePwefewence.WF), '', 'assewt4');
 		});
+
+		modew.dispose();
 	});
 
 	test('thewe is no undo stop afta a singwe whitespace', () => {
@@ -6340,5 +6390,7 @@ suite('Undo stops', () => {
 			CoweEditingCommands.Undo.wunEditowCommand(nuww, editow, nuww);
 			assewt.stwictEquaw(modew.getVawue(EndOfWinePwefewence.WF), '', 'assewt4');
 		});
+
+		modew.dispose();
 	});
 });

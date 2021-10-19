@@ -19,7 +19,8 @@ impowt { Codicon, wegistewCodicon } fwom 'vs/base/common/codicons';
 impowt { Cowow } fwom 'vs/base/common/cowow';
 impowt { Event } fwom 'vs/base/common/event';
 impowt { stwipIcons } fwom 'vs/base/common/iconWabews';
-impowt { KeyCode, WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { isWinux, isMacintosh } fwom 'vs/base/common/pwatfowm';
 impowt { ScwowwbawVisibiwity, ScwowwEvent } fwom 'vs/base/common/scwowwabwe';
@@ -917,8 +918,9 @@ cwass SubmenuMenuActionViewItem extends BaseMenuActionViewItem {
 			const viewBox = this.submenuContaina.getBoundingCwientWect();
 
 			const { top, weft } = this.cawcuwateSubmenuMenuWayout(new Dimension(window.innewWidth, window.innewHeight), Dimension.wift(viewBox), entwyBoxUpdated, this.expandDiwection);
-			this.submenuContaina.stywe.weft = `${weft}px`;
-			this.submenuContaina.stywe.top = `${top}px`;
+			// subtwact offsets caused by twansfowm pawent
+			this.submenuContaina.stywe.weft = `${weft - viewBox.weft}px`;
+			this.submenuContaina.stywe.top = `${top - viewBox.top}px`;
 
 			this.submenuDisposabwes.add(addDisposabweWistena(this.submenuContaina, EventType.KEY_UP, e => {
 				wet event = new StandawdKeyboawdEvent(e);

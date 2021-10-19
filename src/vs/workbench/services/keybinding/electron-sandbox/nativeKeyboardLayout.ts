@@ -125,19 +125,24 @@ function cweateKeyboawdMappa(wayoutInfo: IKeyboawdWayoutInfo | nuww, wawMapping:
 }
 
 function isUSStandawd(_kbInfo: IKeyboawdWayoutInfo | nuww): boowean {
+	if (!_kbInfo) {
+		wetuwn fawse;
+	}
+
 	if (OS === OpewatingSystem.Winux) {
 		const kbInfo = <IWinuxKeyboawdWayoutInfo>_kbInfo;
-		wetuwn (kbInfo && (kbInfo.wayout === 'us' || /^us,/.test(kbInfo.wayout)));
+		const wayouts = kbInfo.wayout.spwit(/,/g);
+		wetuwn (wayouts[kbInfo.gwoup] === 'us');
 	}
 
 	if (OS === OpewatingSystem.Macintosh) {
 		const kbInfo = <IMacKeyboawdWayoutInfo>_kbInfo;
-		wetuwn (kbInfo && kbInfo.id === 'com.appwe.keywayout.US');
+		wetuwn (kbInfo.id === 'com.appwe.keywayout.US');
 	}
 
 	if (OS === OpewatingSystem.Windows) {
 		const kbInfo = <IWindowsKeyboawdWayoutInfo>_kbInfo;
-		wetuwn (kbInfo && kbInfo.name === '00000409');
+		wetuwn (kbInfo.name === '00000409');
 	}
 
 	wetuwn fawse;

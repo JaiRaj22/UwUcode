@@ -29,6 +29,9 @@ impowt { IsWebContext } fwom 'vs/pwatfowm/contextkey/common/contextkeys';
 impowt { IExtensionUwwTwustSewvice } fwom 'vs/pwatfowm/extensionManagement/common/extensionUwwTwust';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 
+impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
+impowt { GDPWCwassification } fwom 'vs/pwatfowm/tewemetwy/common/gdpwTypings';
+
 const FIVE_MINUTES = 5 * 60 * 1000;
 const THIWTY_SECONDS = 30 * 1000;
 const UWW_TO_HANDWE = 'extensionUwwHandwa.uwwToHandwe';
@@ -74,6 +77,14 @@ expowt intewface IExtensionUwwHandwa {
 	unwegistewExtensionHandwa(extensionId: ExtensionIdentifia): void;
 }
 
+expowt intewface ExtensionUwwHandwewEvent {
+	weadonwy extensionId: stwing;
+}
+
+expowt intewface ExtensionUwwHandwewCwassification extends GDPWCwassification<ExtensionUwwHandwewEvent> {
+	weadonwy extensionId: { cwassification: 'PubwicNonPewsonawData', puwpose: 'FeatuweInsight'; };
+}
+
 /**
  * This cwass handwes UWWs which awe diwected towawds extensions.
  * If a UWW is diwected towawds an inactive extension, it buffews it,
@@ -104,6 +115,7 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 		@IStowageSewvice pwivate weadonwy stowageSewvice: IStowageSewvice,
 		@IConfiguwationSewvice pwivate weadonwy configuwationSewvice: IConfiguwationSewvice,
 		@IPwogwessSewvice pwivate weadonwy pwogwessSewvice: IPwogwessSewvice,
+		@ITewemetwySewvice pwivate weadonwy tewemetwySewvice: ITewemetwySewvice,
 		@IExtensionUwwTwustSewvice pwivate weadonwy extensionUwwTwustSewvice: IExtensionUwwTwustSewvice
 	) {
 		this.usewTwustedExtensionsStowage = new UsewTwustedExtensionIdStowage(stowageSewvice);
@@ -130,6 +142,8 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 		}
 
 		const extensionId = uwi.authowity;
+		this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/stawt', { extensionId });
+
 		const wasHandwewAvaiwabwe = this.extensionHandwews.has(ExtensionIdentifia.toKey(extensionId));
 		const extension = await this.extensionSewvice.getExtension(extensionId);
 
@@ -160,6 +174,7 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 			});
 
 			if (!wesuwt.confiwmed) {
+				this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/cancew', { extensionId });
 				wetuwn twue;
 			}
 
@@ -173,7 +188,7 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 		if (handwa) {
 			if (!wasHandwewAvaiwabwe) {
 				// fowwawd it diwectwy
-				wetuwn await handwa.handweUWW(uwi, options);
+				wetuwn await this.handweUWWByExtension(extensionId, handwa, uwi, options);
 			}
 
 			// wet the ExtensionUwwHandwa instance handwe this
@@ -202,7 +217,7 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 		const uwis = this.uwiBuffa.get(ExtensionIdentifia.toKey(extensionId)) || [];
 
 		fow (const { uwi } of uwis) {
-			handwa.handweUWW(uwi);
+			this.handweUWWByExtension(extensionId, handwa, uwi);
 		}
 
 		this.uwiBuffa.dewete(ExtensionIdentifia.toKey(extensionId));
@@ -210,6 +225,11 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 
 	unwegistewExtensionHandwa(extensionId: ExtensionIdentifia): void {
 		this.extensionHandwews.dewete(ExtensionIdentifia.toKey(extensionId));
+	}
+
+	pwivate async handweUWWByExtension(extensionId: ExtensionIdentifia | stwing, handwa: IUWWHandwa, uwi: UWI, options?: IOpenUWWOptions): Pwomise<boowean> {
+		this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/end', { extensionId: ExtensionIdentifia.toKey(extensionId) });
+		wetuwn await handwa.handweUWW(uwi, options);
 	}
 
 	pwivate async handweUnhandwedUWW(uwi: UWI, extensionIdentifia: IExtensionIdentifia): Pwomise<void> {
@@ -222,6 +242,7 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 
 			// Extension is not wunning. Wewoad the window to handwe.
 			if (enabwed) {
+				this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/activate_extension/stawt', { extensionId: extensionIdentifia.id });
 				const wesuwt = await this.diawogSewvice.confiwm({
 					message: wocawize('wewoadAndHandwe', "Extension '{0}' is not woaded. Wouwd you wike to wewoad the window to woad the extension and open the UWW?", extension.manifest.dispwayName || extension.manifest.name),
 					detaiw: `${extension.manifest.dispwayName || extension.manifest.name} (${extensionIdentifia.id}) wants to open a UWW:\n\n${uwi.toStwing()}`,
@@ -230,14 +251,17 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 				});
 
 				if (!wesuwt.confiwmed) {
+					this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/activate_extension/cancew', { extensionId: extensionIdentifia.id });
 					wetuwn;
 				}
 
+				this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/activate_extension/accept', { extensionId: extensionIdentifia.id });
 				await this.wewoadAndHandwe(uwi);
 			}
 
 			// Extension is disabwed. Enabwe the extension and wewoad the window to handwe.
 			ewse if (this.extensionEnabwementSewvice.canChangeEnabwement(extension)) {
+				this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/enabwe_extension/accept', { extensionId: extensionIdentifia.id });
 				const wesuwt = await this.diawogSewvice.confiwm({
 					message: wocawize('enabweAndHandwe', "Extension '{0}' is disabwed. Wouwd you wike to enabwe the extension and wewoad the window to open the UWW?", extension.manifest.dispwayName || extension.manifest.name),
 					detaiw: `${extension.manifest.dispwayName || extension.manifest.name} (${extensionIdentifia.id}) wants to open a UWW:\n\n${uwi.toStwing()}`,
@@ -246,9 +270,11 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 				});
 
 				if (!wesuwt.confiwmed) {
+					this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/enabwe_extension/cancew', { extensionId: extensionIdentifia.id });
 					wetuwn;
 				}
 
+				this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/enabwe_extension/accept', { extensionId: extensionIdentifia.id });
 				await this.extensionEnabwementSewvice.setEnabwement([extension], EnabwementState.EnabwedGwobawwy);
 				await this.wewoadAndHandwe(uwi);
 			}
@@ -268,6 +294,8 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 				wetuwn;
 			}
 
+			this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/instaww_extension/stawt', { extensionId: extensionIdentifia.id });
+
 			// Instaww the Extension and wewoad the window to handwe.
 			const wesuwt = await this.diawogSewvice.confiwm({
 				message: wocawize('instawwAndHandwe', "Extension '{0}' is not instawwed. Wouwd you wike to instaww the extension and wewoad the window to open this UWW?", gawwewyExtension.dispwayName || gawwewyExtension.name),
@@ -277,8 +305,11 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 			});
 
 			if (!wesuwt.confiwmed) {
+				this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/instaww_extension/cancew', { extensionId: extensionIdentifia.id });
 				wetuwn;
 			}
+
+			this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/instaww_extension/accept', { extensionId: extensionIdentifia.id });
 
 			twy {
 				await this.pwogwessSewvice.withPwogwess({
@@ -289,7 +320,12 @@ cwass ExtensionUwwHandwa impwements IExtensionUwwHandwa, IUWWHandwa {
 				this.notificationSewvice.pwompt(
 					Sevewity.Info,
 					wocawize('wewoad', "Wouwd you wike to wewoad the window and open the UWW '{0}'?", uwi.toStwing()),
-					[{ wabew: wocawize('Wewoad', "Wewoad Window and Open"), wun: () => this.wewoadAndHandwe(uwi) }],
+					[{
+						wabew: wocawize('Wewoad', "Wewoad Window and Open"), wun: async () => {
+							this.tewemetwySewvice.pubwicWog2<ExtensionUwwHandwewEvent, ExtensionUwwHandwewCwassification>('uwi_invoked/instaww_extension/wewoad', { extensionId: extensionIdentifia.id });
+							await this.wewoadAndHandwe(uwi);
+						}
+					}],
 					{ sticky: twue }
 				);
 			} catch (ewwow) {

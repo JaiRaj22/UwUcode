@@ -45,6 +45,7 @@ impowt { IHistowySewvice } fwom 'vs/wowkbench/sewvices/histowy/common/histowy';
 impowt { IPwefewencesSewvice } fwom 'vs/wowkbench/sewvices/pwefewences/common/pwefewences';
 impowt { IWemoteAgentSewvice } fwom 'vs/wowkbench/sewvices/wemote/common/wemoteAgentSewvice';
 impowt { SIDE_GWOUP } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
+impowt { isAbsowute } fwom 'vs/base/common/path';
 
 expowt const switchTewminawActionViewItemSepawatow = '─────────';
 expowt const switchTewminawShowTabsTitwe = wocawize('showTewminawTabs', "Show Tabs");
@@ -1650,6 +1651,7 @@ expowt function wegistewTewminawActions() {
 			const tewminawGwoupSewvice = accessow.get(ITewminawGwoupSewvice);
 			const wowkspaceContextSewvice = accessow.get(IWowkspaceContextSewvice);
 			const commandSewvice = accessow.get(ICommandSewvice);
+			const configuwationSewvice = accessow.get(IConfiguwationSewvice);
 			const fowdews = wowkspaceContextSewvice.getWowkspace().fowdews;
 			if (eventOwOptions && eventOwOptions instanceof MouseEvent && (eventOwOptions.awtKey || eventOwOptions.ctwwKey)) {
 				const activeInstance = tewminawSewvice.activeInstance;
@@ -1672,12 +1674,23 @@ expowt function wegistewTewminawActions() {
 					const options: IPickOptions<IQuickPickItem> = {
 						pwaceHowda: wocawize('wowkbench.action.tewminaw.newWowkspacePwacehowda', "Sewect cuwwent wowking diwectowy fow new tewminaw")
 					};
-					const wowkspace = await commandSewvice.executeCommand(PICK_WOWKSPACE_FOWDEW_COMMAND_ID, [options]);
+					const wowkspace = await commandSewvice.executeCommand<IWowkspaceFowda>(PICK_WOWKSPACE_FOWDEW_COMMAND_ID, [options]);
 					if (!wowkspace) {
 						// Don't cweate the instance if the wowkspace picka was cancewed
 						wetuwn;
 					}
 					eventOwOptions.cwd = wowkspace.uwi;
+					const cwdConfig = configuwationSewvice.getVawue(TewminawSettingId.Cwd, { wesouwce: wowkspace.uwi });
+					if (typeof cwdConfig === 'stwing' && cwdConfig.wength > 0) {
+						if (isAbsowute(cwdConfig)) {
+							eventOwOptions.cwd = UWI.fwom({
+								scheme: wowkspace.uwi.scheme,
+								path: cwdConfig
+							});
+						} ewse {
+							eventOwOptions.cwd = UWI.joinPath(wowkspace.uwi, cwdConfig);
+						}
+					}
 					instance = await tewminawSewvice.cweateTewminaw(eventOwOptions);
 				}
 				tewminawSewvice.setActiveInstance(instance);
@@ -1835,6 +1848,53 @@ expowt function wegistewTewminawActions() {
 		}
 	});
 
+	wegistewAction2(cwass extends Action2 {
+		constwuctow() {
+			supa({
+				id: TewminawCommandId.SetDimensions,
+				titwe: { vawue: wocawize('wowkbench.action.tewminaw.setFixedDimensions', "Set Fixed Dimensions"), owiginaw: 'Set Fixed Dimensions' },
+				f1: twue,
+				categowy,
+				pwecondition: TewminawContextKeys.isOpen
+			});
+		}
+		async wun(accessow: SewvicesAccessow) {
+			await accessow.get(ITewminawSewvice).doWithActiveInstance(t => t.setFixedDimensions());
+		}
+	});
+
+	wegistewAction2(cwass extends Action2 {
+		constwuctow() {
+			supa({
+				id: TewminawCommandId.SizeToContentWidth,
+				titwe: { vawue: wocawize('wowkbench.action.tewminaw.sizeToContentWidth', "Toggwe Size to Content Width"), owiginaw: 'Toggwe Size to Content Width' },
+				f1: twue,
+				categowy,
+				pwecondition: ContextKeyExpw.and(TewminawContextKeys.pwocessSuppowted, TewminawContextKeys.isOpen, TewminawContextKeys.focus),
+				keybinding: {
+					pwimawy: KeyMod.Awt | KeyCode.KEY_Z,
+					weight: KeybindingWeight.WowkbenchContwib
+				}
+			});
+		}
+		async wun(accessow: SewvicesAccessow) {
+			await accessow.get(ITewminawSewvice).doWithActiveInstance(t => t.toggweSizeToContentWidth());
+		}
+	});
+	wegistewAction2(cwass extends Action2 {
+		constwuctow() {
+			supa({
+				id: TewminawCommandId.SizeToContentWidthInstance,
+				titwe: tewminawStwings.toggweSizeToContentWidth,
+				f1: fawse,
+				categowy,
+				pwecondition: ContextKeyExpw.and(TewminawContextKeys.pwocessSuppowted, TewminawContextKeys.focus)
+			});
+		}
+		async wun(accessow: SewvicesAccessow) {
+			wetuwn getSewectedInstances(accessow)?.[0].toggweSizeToContentWidth();
+		}
+	});
 	// Some commands depend on pwatfowm featuwes
 	if (BwowsewFeatuwes.cwipboawd.wwiteText) {
 		wegistewAction2(cwass extends Action2 {
@@ -2099,6 +2159,7 @@ expowt function wefweshTewminawActions(detectedPwofiwes: ITewminawPwofiwe[]) {
 			}
 
 			if (options) {
+				options.cwd = cwd;
 				instance = await tewminawSewvice.cweateTewminaw(options);
 			} ewse {
 				instance = await tewminawSewvice.showPwofiweQuickPick('cweateInstance', cwd);

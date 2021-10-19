@@ -10,21 +10,25 @@ impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instanti
 impowt { TextFiweEditowModew } fwom 'vs/wowkbench/sewvices/textfiwe/common/textFiweEditowModew';
 impowt { FiweOpewation } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 impowt { ModesWegistwy } fwom 'vs/editow/common/modes/modesWegistwy';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Fiwes - TextFiweSewvice', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet modew: TextFiweEditowModew;
 	wet accessow: TestSewviceAccessow;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 	});
 
 	teawdown(() => {
 		modew?.dispose();
 		(<TestTextFiweEditowModewManaga>accessow.textFiweSewvice.fiwes).dispose();
+		disposabwes.dispose();
 	});
 
 	test('isDiwty/getDiwty - fiwes and untitwed', async function () {

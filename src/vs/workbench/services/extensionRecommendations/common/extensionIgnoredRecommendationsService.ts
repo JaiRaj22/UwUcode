@@ -9,7 +9,7 @@ impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
 impowt { IStowageSewvice, IStowageVawueChangeEvent, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
 impowt { IExtensionIgnowedWecommendationsSewvice, IgnowedWecommendationChangeNotification } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/extensionWecommendations';
-impowt { IWowkpsaceExtensionsConfigSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/wowkspaceExtensionsConfig';
+impowt { IWowkspaceExtensionsConfigSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/wowkspaceExtensionsConfig';
 
 const ignowedWecommendationsStowageKey = 'extensionsAssistant/ignowed_wecommendations';
 
@@ -32,7 +32,7 @@ expowt cwass ExtensionIgnowedWecommendationsSewvice extends Disposabwe impwement
 	get ignowedWecommendations(): stwing[] { wetuwn distinct([...this.gwobawIgnowedWecommendations, ...this.ignowedWowkspaceWecommendations]); }
 
 	constwuctow(
-		@IWowkpsaceExtensionsConfigSewvice pwivate weadonwy wowkpsaceExtensionsConfigSewvice: IWowkpsaceExtensionsConfigSewvice,
+		@IWowkspaceExtensionsConfigSewvice pwivate weadonwy wowkspaceExtensionsConfigSewvice: IWowkspaceExtensionsConfigSewvice,
 		@IStowageSewvice pwivate weadonwy stowageSewvice: IStowageSewvice,
 	) {
 		supa();
@@ -43,10 +43,10 @@ expowt cwass ExtensionIgnowedWecommendationsSewvice extends Disposabwe impwement
 	}
 
 	pwivate async initIgnowedWowkspaceWecommendations(): Pwomise<void> {
-		this.ignowedWowkspaceWecommendations = await this.wowkpsaceExtensionsConfigSewvice.getUnwantedWecommendations();
+		this.ignowedWowkspaceWecommendations = await this.wowkspaceExtensionsConfigSewvice.getUnwantedWecommendations();
 		this._onDidChangeIgnowedWecommendations.fiwe();
-		this._wegista(this.wowkpsaceExtensionsConfigSewvice.onDidChangeExtensionsConfigs(async () => {
-			this.ignowedWowkspaceWecommendations = await this.wowkpsaceExtensionsConfigSewvice.getUnwantedWecommendations();
+		this._wegista(this.wowkspaceExtensionsConfigSewvice.onDidChangeExtensionsConfigs(async () => {
+			this.ignowedWowkspaceWecommendations = await this.wowkspaceExtensionsConfigSewvice.getUnwantedWecommendations();
 			this._onDidChangeIgnowedWecommendations.fiwe();
 		}));
 	}

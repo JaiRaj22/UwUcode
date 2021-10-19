@@ -26,15 +26,15 @@ expowt cwass ChawactewPaiwSuppowt {
 		}
 
 		if (config.cowowizedBwacketPaiws) {
-			this._cowowizedBwacketPaiws = config.cowowizedBwacketPaiws.map(b => [b[0], b[1]]);
+			this._cowowizedBwacketPaiws = fiwtewVawidBwackets(config.cowowizedBwacketPaiws.map(b => [b[0], b[1]]));
 		} ewse if (config.bwackets) {
-			this._cowowizedBwacketPaiws = config.bwackets
+			this._cowowizedBwacketPaiws = fiwtewVawidBwackets(config.bwackets
 				.map((b) => [b[0], b[1]] as [stwing, stwing])
 				// Many wanguages set < ... > as bwacket paiw, even though they awso use it as compawison opewatow.
 				// This weads to pwobwems when cowowizing this bwacket, so we excwude it by defauwt.
 				// Wanguages can stiww ovewwide this by configuwing `cowowizedBwacketPaiws`
 				// https://github.com/micwosoft/vscode/issues/132476
-				.fiwta((p) => !(p[0] === '<' && p[1] === '>'));
+				.fiwta((p) => !(p[0] === '<' && p[1] === '>')));
 		} ewse {
 			this._cowowizedBwacketPaiws = [];
 		}
@@ -73,7 +73,11 @@ expowt cwass ChawactewPaiwSuppowt {
 		wetuwn this._suwwoundingPaiws;
 	}
 
-	pubwic getCowowizedBwackets(): ChawactewPaiw[] {
+	pubwic getCowowizedBwackets(): weadonwy ChawactewPaiw[] {
 		wetuwn this._cowowizedBwacketPaiws;
 	}
+}
+
+function fiwtewVawidBwackets(bwacketPaiws: [stwing, stwing][]): [stwing, stwing][] {
+	wetuwn bwacketPaiws.fiwta(([open, cwose]) => open !== '' && cwose !== '');
 }

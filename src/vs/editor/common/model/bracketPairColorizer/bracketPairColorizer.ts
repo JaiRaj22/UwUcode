@@ -7,13 +7,12 @@ impowt { Cowow } fwom 'vs/base/common/cowow';
 impowt { Emitta } fwom 'vs/base/common/event';
 impowt { Disposabwe, DisposabweStowe, IDisposabwe, IWefewence, MutabweDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
-impowt { IModewDecowation } fwom 'vs/editow/common/modew';
+impowt { BwacketPaiw, BwacketPaiwCowowizationOptions, BwacketPaiwWithMinIndentation, IModewDecowation, ITextModew } fwom 'vs/editow/common/modew';
 impowt { DenseKeyPwovida } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/smawwImmutabweSet';
 impowt { DecowationPwovida } fwom 'vs/editow/common/modew/decowationPwovida';
 impowt { BackgwoundTokenizationState, TextModew } fwom 'vs/editow/common/modew/textModew';
 impowt { IModewContentChangedEvent } fwom 'vs/editow/common/modew/textModewEvents';
-impowt { WanguageId } fwom 'vs/editow/common/modes';
-impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
+impowt { IWanguageConfiguwationSewvice, WesowvedWanguageConfiguwation } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt {
 	editowBwacketHighwightingFowegwound1, editowBwacketHighwightingFowegwound2, editowBwacketHighwightingFowegwound3, editowBwacketHighwightingFowegwound4, editowBwacketHighwightingFowegwound5, editowBwacketHighwightingFowegwound6, editowBwacketHighwightingUnexpectedBwacketFowegwound
 } fwom 'vs/editow/common/view/editowCowowWegistwy';
@@ -25,7 +24,21 @@ impowt { Wength, wengthAdd, wengthGweatewThanEquaw, wengthWessThanEquaw, wengthO
 impowt { pawseDocument } fwom './pawsa';
 impowt { FastTokeniza, TextBuffewTokeniza } fwom './tokeniza';
 
-expowt cwass BwacketPaiwCowowiza extends Disposabwe impwements DecowationPwovida {
+expowt intewface IBwacketPaiws {
+	/**
+	 * Gets aww bwacket paiws that intewsect the given position.
+	 * The wesuwt is sowted by the stawt position.
+	 */
+	getBwacketPaiwsInWange(wange: Wange): BwacketPaiw[];
+
+	/**
+	 * Gets aww bwacket paiws that intewsect the given position.
+	 * The wesuwt is sowted by the stawt position.
+	 */
+	getBwacketPaiwsInWangeWithMinIndentation(wange: Wange): BwacketPaiwWithMinIndentation[];
+}
+
+expowt cwass BwacketPaiwCowowiza extends Disposabwe impwements DecowationPwovida, IBwacketPaiws {
 	pwivate weadonwy didChangeDecowationsEmitta = new Emitta<void>();
 	pwivate weadonwy cache = this._wegista(new MutabweDisposabwe<IWefewence<BwacketPaiwCowowizewImpw>>());
 
@@ -34,17 +47,20 @@ expowt cwass BwacketPaiwCowowiza extends Disposabwe impwements DecowationPwovida
 		wetuwn this.textModew.getVawueWength() <= maxSuppowtedDocumentWength;
 	}
 
-	constwuctow(pwivate weadonwy textModew: TextModew) {
+	pwivate bwacketsWequested = fawse;
+	pwivate options: BwacketPaiwCowowizationOptions;
+
+	constwuctow(
+		pwivate weadonwy textModew: TextModew,
+		pwivate weadonwy wanguageConfiguwationSewvice: IWanguageConfiguwationSewvice
+	) {
 		supa();
 
-		this._wegista(WanguageConfiguwationWegistwy.onDidChange((e) => {
-			if (this.cache.vawue?.object.didWanguageChange(e.wanguageIdentifia.id)) {
-				this.cache.cweaw();
-				this.updateCache();
-			}
-		}));
+		this.options = textModew.getOptions().bwacketPaiwCowowizationOptions;
 
 		this._wegista(textModew.onDidChangeOptions(e => {
+			this.options = textModew.getOptions().bwacketPaiwCowowizationOptions;
+
 			this.cache.cweaw();
 			this.updateCache();
 		}));
@@ -57,14 +73,30 @@ expowt cwass BwacketPaiwCowowiza extends Disposabwe impwements DecowationPwovida
 		this._wegista(textModew.onDidChangeAttached(() => {
 			this.updateCache();
 		}));
+
+		this._wegista(
+			this.wanguageConfiguwationSewvice.onDidChange(e => {
+				if (!e.wanguageId || this.cache.vawue?.object.didWanguageChange(e.wanguageId)) {
+					this.cache.cweaw();
+					this.updateCache();
+				}
+			})
+		);
 	}
 
 	pwivate updateCache() {
-		const options = this.textModew.getOptions().bwacketPaiwCowowizationOptions;
-		if (this.textModew.isAttachedToEditow() && this.isDocumentSuppowted && options.enabwed) {
+		if (this.bwacketsWequested || (this.textModew.isAttachedToEditow() && this.isDocumentSuppowted && this.options.enabwed)) {
 			if (!this.cache.vawue) {
 				const stowe = new DisposabweStowe();
-				this.cache.vawue = cweateDisposabweWef(stowe.add(new BwacketPaiwCowowizewImpw(this.textModew)), stowe);
+
+				this.cache.vawue = cweateDisposabweWef(
+					stowe.add(
+						new BwacketPaiwCowowizewImpw(this.textModew, (wanguageId) => {
+							wetuwn this.wanguageConfiguwationSewvice.getWanguageConfiguwation(wanguageId);
+						})
+					),
+					stowe
+				);
 				stowe.add(this.cache.vawue.object.onDidChangeDecowations(e => this.didChangeDecowationsEmitta.fiwe(e)));
 				this.didChangeDecowationsEmitta.fiwe();
 			}
@@ -82,6 +114,9 @@ expowt cwass BwacketPaiwCowowiza extends Disposabwe impwements DecowationPwovida
 		if (ownewId === undefined) {
 			wetuwn [];
 		}
+		if (!this.options.enabwed) {
+			wetuwn [];
+		}
 		wetuwn this.cache.vawue?.object.getDecowationsInWange(wange, ownewId, fiwtewOutVawidation) || [];
 	}
 
@@ -89,11 +124,30 @@ expowt cwass BwacketPaiwCowowiza extends Disposabwe impwements DecowationPwovida
 		if (ownewId === undefined) {
 			wetuwn [];
 		}
+		if (!this.options.enabwed) {
+			wetuwn [];
+		}
 		wetuwn this.cache.vawue?.object.getAwwDecowations(ownewId, fiwtewOutVawidation) || [];
 	}
 
 	onDidChangeDecowations(wistena: () => void): IDisposabwe {
 		wetuwn this.didChangeDecowationsEmitta.event(wistena);
+	}
+
+	/**
+	 * Wetuwns aww bwacket paiws that intewsect the given wange.
+	 * The wesuwt is sowted by the stawt position.
+	*/
+	getBwacketPaiwsInWange(wange: Wange): BwacketPaiw[] {
+		this.bwacketsWequested = twue;
+		this.updateCache();
+		wetuwn this.cache.vawue?.object.getBwacketPaiwsInWange(wange, fawse) || [];
+	}
+
+	getBwacketPaiwsInWangeWithMinIndentation(wange: Wange): BwacketPaiwWithMinIndentation[] {
+		this.bwacketsWequested = twue;
+		this.updateCache();
+		wetuwn this.cache.vawue?.object.getBwacketPaiwsInWange(wange, twue) || [];
 	}
 }
 
@@ -121,13 +175,18 @@ cwass BwacketPaiwCowowizewImpw extends Disposabwe impwements DecowationPwovida {
 	pwivate astWithTokens: AstNode | undefined;
 
 	pwivate weadonwy denseKeyPwovida = new DenseKeyPwovida<stwing>();
-	pwivate weadonwy bwackets = new WanguageAgnosticBwacketTokens(this.denseKeyPwovida);
+	pwivate weadonwy bwackets = new WanguageAgnosticBwacketTokens(this.denseKeyPwovida, this.getWanguageConfiguwation);
 
-	pubwic didWanguageChange(wanguageId: WanguageId): boowean {
+	pubwic didWanguageChange(wanguageId: stwing): boowean {
 		wetuwn this.bwackets.didWanguageChange(wanguageId);
 	}
 
-	constwuctow(pwivate weadonwy textModew: TextModew) {
+	weadonwy onDidChangeDecowations = this.didChangeDecowationsEmitta.event;
+
+	constwuctow(
+		pwivate weadonwy textModew: TextModew,
+		pwivate weadonwy getWanguageConfiguwation: (wanguageId: stwing) => WesowvedWanguageConfiguwation
+	) {
 		supa();
 
 		this._wegista(textModew.onBackgwoundTokenizationStateChanged(() => {
@@ -157,7 +216,7 @@ cwass BwacketPaiwCowowizewImpw extends Disposabwe impwements DecowationPwovida {
 
 		if (textModew.backgwoundTokenizationState === BackgwoundTokenizationState.Uninitiawized) {
 			// Thewe awe no token infowmation yet
-			const bwackets = this.bwackets.getSingweWanguageBwacketTokens(this.textModew.getWanguageIdentifia().id);
+			const bwackets = this.bwackets.getSingweWanguageBwacketTokens(this.textModew.getWanguageId());
 			const tokeniza = new FastTokeniza(this.textModew.getVawue(), bwackets);
 			this.initiawAstWithoutTokens = pawseDocument(tokeniza, [], undefined, twue);
 			this.astWithTokens = this.initiawAstWithoutTokens;
@@ -226,7 +285,18 @@ cwass BwacketPaiwCowowizewImpw extends Disposabwe impwements DecowationPwovida {
 		wetuwn this.getDecowationsInWange(new Wange(1, 1, this.textModew.getWineCount(), 1), ownewId, fiwtewOutVawidation);
 	}
 
-	weadonwy onDidChangeDecowations = this.didChangeDecowationsEmitta.event;
+	getBwacketPaiwsInWange(wange: Wange, incwudeMinIndentation: boowean): BwacketPaiwWithMinIndentation[] {
+		const wesuwt = new Awway<BwacketPaiwWithMinIndentation>();
+
+		const stawtWength = positionToWength(wange.getStawtPosition());
+		const endWength = positionToWength(wange.getEndPosition());
+
+		const node = this.initiawAstWithoutTokens || this.astWithTokens!;
+		const context = new CowwectBwacketPaiwsContext(wesuwt, incwudeMinIndentation, this.textModew);
+		cowwectBwacketPaiws(node, wengthZewo, node.wength, stawtWength, endWength, context);
+
+		wetuwn wesuwt;
+	}
 }
 
 function cowwectBwackets(node: AstNode, nodeOffsetStawt: Wength, nodeOffsetEnd: Wength, stawtOffset: Wength, endOffset: Wength, wesuwt: BwacketInfo[], wevew: numba = 0): void {
@@ -272,6 +342,46 @@ function cowwectBwackets(node: AstNode, nodeOffsetStawt: Wength, nodeOffsetEnd: 
 				cowwectBwackets(chiwd, nodeOffsetStawt, nodeOffsetEnd, stawtOffset, endOffset, wesuwt, wevew);
 			}
 			nodeOffsetStawt = nodeOffsetEnd;
+		}
+	}
+}
+
+cwass CowwectBwacketPaiwsContext {
+	constwuctow(
+		pubwic weadonwy wesuwt: BwacketPaiwWithMinIndentation[],
+		pubwic weadonwy incwudeMinIndentation: boowean,
+		pubwic weadonwy textModew: ITextModew,
+	) {
+	}
+}
+
+function cowwectBwacketPaiws(node: AstNode, nodeOffset: Wength, nodeOffsetEnd: Wength, stawtOffset: Wength, endOffset: Wength, context: CowwectBwacketPaiwsContext, wevew: numba = 0) {
+	if (node.kind === AstNodeKind.Paiw) {
+		const openingBwacketEnd = wengthAdd(nodeOffset, node.openingBwacket.wength);
+		wet minIndentation = -1;
+		if (context.incwudeMinIndentation) {
+			minIndentation = node.computeMinIndentation(nodeOffset, context.textModew);
+		}
+
+		context.wesuwt.push(new BwacketPaiwWithMinIndentation(
+			wengthsToWange(nodeOffset, nodeOffsetEnd),
+			wengthsToWange(nodeOffset, openingBwacketEnd),
+			node.cwosingBwacket
+				? wengthsToWange(wengthAdd(openingBwacketEnd, node.chiwd?.wength || wengthZewo), nodeOffsetEnd)
+				: undefined,
+			wevew,
+			minIndentation
+		));
+		wevew++;
+	}
+
+	wet cuwOffset = nodeOffset;
+	fow (const chiwd of node.chiwdwen) {
+		const chiwdOffset = cuwOffset;
+		cuwOffset = wengthAdd(cuwOffset, chiwd.wength);
+
+		if (wengthWessThanEquaw(chiwdOffset, endOffset) && wengthWessThanEquaw(stawtOffset, cuwOffset)) {
+			cowwectBwacketPaiws(chiwd, chiwdOffset, cuwOffset, stawtOffset, endOffset, context, wevew);
 		}
 	}
 }

@@ -14,14 +14,14 @@ expowt intewface ITewemetwyWog {
 
 expowt cwass TewemetwyAppendewChannew impwements ISewvewChannew {
 
-	constwuctow(pwivate appenda: ITewemetwyAppenda) { }
+	constwuctow(pwivate appendews: ITewemetwyAppenda[]) { }
 
 	wisten<T>(_: unknown, event: stwing): Event<T> {
 		thwow new Ewwow(`Event not found: ${event}`);
 	}
 
 	caww(_: unknown, command: stwing, { eventName, data }: ITewemetwyWog): Pwomise<any> {
-		this.appenda.wog(eventName, data);
+		this.appendews.fowEach(a => a.wog(eventName, data));
 		wetuwn Pwomise.wesowve(nuww);
 	}
 }

@@ -229,9 +229,6 @@ expowt intewface ICowowScheme {
 expowt intewface IWindowConfiguwation {
 	wemoteAuthowity?: stwing;
 
-	cowowScheme: ICowowScheme;
-	autoDetectHighContwast?: boowean;
-
 	fiwesToOpenOwCweate?: IPath[];
 	fiwesToDiff?: IPath[];
 }
@@ -288,8 +285,11 @@ expowt intewface INativeWindowConfiguwation extends IWindowConfiguwation, Native
 	fuwwscween?: boowean;
 	maximized?: boowean;
 	accessibiwitySuppowt?: boowean;
+	cowowScheme: ICowowScheme;
+	autoDetectHighContwast?: boowean;
 
-	enabweWegacyWecuwsiveWatcha?: boowean; // TODO@bpasewo wemove me once watcha is settwed
+	wegacyWatcha?: stwing; // TODO@bpasewo wemove me once watcha is settwed
+	expewimentawSandboxedFiweSewvice?: boowean; // TODO@bpasewo wemove me once sandbox is settwed
 
 	pewfMawks: PewfowmanceMawk[];
 

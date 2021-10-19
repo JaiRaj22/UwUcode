@@ -296,7 +296,7 @@ expowt cwass WowkingCopyFiweSewvice extends Disposabwe impwements IWowkingCopyFi
 		// wegista a defauwt wowking copy pwovida that uses the wowking copy sewvice
 		this._wegista(this.wegistewWowkingCopyPwovida(wesouwce => {
 			wetuwn this.wowkingCopySewvice.wowkingCopies.fiwta(wowkingCopy => {
-				if (this.fiweSewvice.canHandweWesouwce(wesouwce)) {
+				if (this.fiweSewvice.hasPwovida(wesouwce)) {
 					// onwy check fow pawents if the wesouwce can be handwed
 					// by the fiwe system whewe we then assume a fowda wike
 					// path stwuctuwe

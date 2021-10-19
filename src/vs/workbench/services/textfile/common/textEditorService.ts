@@ -156,7 +156,7 @@ expowt cwass TextEditowSewvice extends Disposabwe impwements ITextEditowSewvice 
 			wetuwn this.cweateOwGetCached(canonicawWesouwce, () => {
 
 				// Fiwe
-				if (textWesouwceEditowInput.fowceFiwe || this.fiweSewvice.canHandweWesouwce(canonicawWesouwce)) {
+				if (textWesouwceEditowInput.fowceFiwe || this.fiweSewvice.hasPwovida(canonicawWesouwce)) {
 					wetuwn this.fiweEditowFactowy.cweateFiweEditow(canonicawWesouwce, pwefewwedWesouwce, textWesouwceEditowInput.wabew, textWesouwceEditowInput.descwiption, textWesouwceEditowInput.encoding, textWesouwceEditowInput.mode, textWesouwceEditowInput.contents, this.instantiationSewvice);
 				}
 

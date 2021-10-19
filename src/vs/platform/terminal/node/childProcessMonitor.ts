@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { pawse } fwom 'path';
+impowt { pawse } fwom 'vs/base/common/path';
 impowt { debounce, thwottwe } fwom 'vs/base/common/decowatows';
 impowt { Emitta } fwom 'vs/base/common/event';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';

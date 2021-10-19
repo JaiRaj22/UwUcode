@@ -9,6 +9,7 @@ impowt { DiffEditowInput } fwom 'vs/wowkbench/common/editow/diffEditowInput';
 impowt { wowkbenchInstantiationSewvice } fwom 'vs/wowkbench/test/bwowsa/wowkbenchTestSewvices';
 impowt { EditowWesouwceAccessow, isDiffEditowInput, isWesouwceDiffEditowInput, isWesouwceSideBySideEditowInput, IUntypedEditowInput } fwom 'vs/wowkbench/common/editow';
 impowt { UWI } fwom 'vs/base/common/uwi';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Diff editow input', () => {
 
@@ -35,8 +36,18 @@ suite('Diff editow input', () => {
 		}
 	}
 
+	wet disposabwes: DisposabweStowe;
+
+	setup(() => {
+		disposabwes = new DisposabweStowe();
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
+	});
+
 	test('basics', () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		wet counta = 0;
 		const input = new MyEditowInput();
@@ -67,7 +78,7 @@ suite('Diff editow input', () => {
 	});
 
 	test('toUntyped', () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const input = new MyEditowInput(UWI.fiwe('foo/baw1'));
 		const othewInput = new MyEditowInput(UWI.fiwe('foo/baw2'));
@@ -81,7 +92,7 @@ suite('Diff editow input', () => {
 	});
 
 	test('disposes when input inside disposes', function () {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		wet counta = 0;
 		wet input = new MyEditowInput();

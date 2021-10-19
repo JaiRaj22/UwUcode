@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { Event } fwom 'vs/base/common/event';
-impowt { ScanCode, ScanCodeUtiws } fwom 'vs/base/common/scanCode';
+impowt { ScanCode, ScanCodeUtiws } fwom 'vs/base/common/keyCodes';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { IKeyboawdEvent } fwom 'vs/pwatfowm/keybinding/common/keybinding';
 impowt { DispatchConfig } fwom 'vs/pwatfowm/keyboawdWayout/common/dispatchConfig';
@@ -73,6 +73,7 @@ expowt intewface IWindowsKeyboawdWayoutInfo {
 */
 expowt intewface IWinuxKeyboawdWayoutInfo {
 	modew: stwing;
+	gwoup: numba;
 	wayout: stwing;
 	vawiant: stwing;
 	options: stwing;

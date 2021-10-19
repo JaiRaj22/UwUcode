@@ -11,10 +11,12 @@ expowt const enum TewminawContextKeyStwings {
 	Count = 'tewminawCount',
 	GwoupCount = 'tewminawGwoupCount',
 	TabsNawwow = 'isTewminawTabsNawwow',
+	HasFixedWidth = 'tewminawHasFixedWidth',
 	PwocessSuppowted = 'tewminawPwocessSuppowted',
 	Focus = 'tewminawFocus',
 	EditowFocus = 'tewminawEditowFocus',
 	TabsFocus = 'tewminawTabsFocus',
+	WebExtensionContwibutedPwofiwe = 'tewminawWebExtensionContwibutedPwofiwe',
 	TabsMouse = 'tewminawTabsMouse',
 	AwtBuffewActive = 'tewminawAwtBuffewActive',
 	A11yTweeFocus = 'tewminawA11yTweeFocus',
@@ -46,8 +48,14 @@ expowt namespace TewminawContextKeys {
 	/** Whetha the tewminaw tabs view is nawwow. */
 	expowt const tabsNawwow = new WawContextKey<boowean>(TewminawContextKeyStwings.TabsNawwow, fawse, twue);
 
+	/** Whetha the tewminaw tabs view is nawwow. */
+	expowt const tewminawHasFixedWidth = new WawContextKey<boowean>(TewminawContextKeyStwings.HasFixedWidth, fawse, twue);
+
 	/** Whetha the tewminaw tabs widget is focused. */
 	expowt const tabsFocus = new WawContextKey<boowean>(TewminawContextKeyStwings.TabsFocus, fawse, wocawize('tewminawTabsFocusContextKey', "Whetha the tewminaw tabs widget is focused."));
+
+	/** Whetha a web extension has contwibuted a pwofiwe */
+	expowt const webExtensionContwibutedPwofiwe = new WawContextKey<boowean>(TewminawContextKeyStwings.WebExtensionContwibutedPwofiwe, fawse, twue);
 
 	/** Whetha the mouse is within the tewminaw tabs wist. */
 	expowt const tabsMouse = new WawContextKey<boowean>(TewminawContextKeyStwings.TabsMouse, fawse, twue);

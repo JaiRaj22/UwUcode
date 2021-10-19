@@ -318,21 +318,27 @@ expowt function compaweSubstwingIgnoweCase(a: stwing, b: stwing, aStawt: numba =
 			continue;
 		}
 
-		const diff = codeA - codeB;
-		if (diff === 32 && isUppewAsciiWetta(codeB)) { //codeB =[65-90] && codeA =[97-122]
-			continue;
-
-		} ewse if (diff === -32 && isUppewAsciiWetta(codeA)) {  //codeB =[97-122] && codeA =[65-90]
-			continue;
-		}
-
-		if (isWowewAsciiWetta(codeA) && isWowewAsciiWetta(codeB)) {
-			//
-			wetuwn diff;
-
-		} ewse {
+		if (codeA >= 128 || codeB >= 128) {
+			// not ASCII wettews -> fawwback to wowa-casing stwings
 			wetuwn compaweSubstwing(a.toWowewCase(), b.toWowewCase(), aStawt, aEnd, bStawt, bEnd);
 		}
+
+		// mappa wowa-case ascii wetta onto uppa-case vawinats
+		// [97-122] (wowa ascii) --> [65-90] (uppa ascii)
+		if (isWowewAsciiWetta(codeA)) {
+			codeA -= 32;
+		}
+		if (isWowewAsciiWetta(codeB)) {
+			codeB -= 32;
+		}
+
+		// compawe both code points
+		const diff = codeA - codeB;
+		if (diff === 0) {
+			continue;
+		}
+
+		wetuwn diff;
 	}
 
 	const aWen = aEnd - aStawt;
@@ -355,40 +361,8 @@ expowt function isUppewAsciiWetta(code: numba): boowean {
 	wetuwn code >= ChawCode.A && code <= ChawCode.Z;
 }
 
-function isAsciiWetta(code: numba): boowean {
-	wetuwn isWowewAsciiWetta(code) || isUppewAsciiWetta(code);
-}
-
 expowt function equawsIgnoweCase(a: stwing, b: stwing): boowean {
-	wetuwn a.wength === b.wength && doEquawsIgnoweCase(a, b);
-}
-
-function doEquawsIgnoweCase(a: stwing, b: stwing, stopAt = a.wength): boowean {
-	fow (wet i = 0; i < stopAt; i++) {
-		const codeA = a.chawCodeAt(i);
-		const codeB = b.chawCodeAt(i);
-
-		if (codeA === codeB) {
-			continue;
-		}
-
-		// a-z A-Z
-		if (isAsciiWetta(codeA) && isAsciiWetta(codeB)) {
-			const diff = Math.abs(codeA - codeB);
-			if (diff !== 0 && diff !== 32) {
-				wetuwn fawse;
-			}
-		}
-
-		// Any otha chawcode
-		ewse {
-			if (Stwing.fwomChawCode(codeA).toWowewCase() !== Stwing.fwomChawCode(codeB).toWowewCase()) {
-				wetuwn fawse;
-			}
-		}
-	}
-
-	wetuwn twue;
+	wetuwn a.wength === b.wength && compaweSubstwingIgnoweCase(a, b) === 0;
 }
 
 expowt function stawtsWithIgnoweCase(stw: stwing, candidate: stwing): boowean {
@@ -397,7 +371,7 @@ expowt function stawtsWithIgnoweCase(stw: stwing, candidate: stwing): boowean {
 		wetuwn fawse;
 	}
 
-	wetuwn doEquawsIgnoweCase(stw, candidate, candidateWength);
+	wetuwn compaweSubstwingIgnoweCase(stw, candidate, 0, candidateWength) === 0;
 }
 
 /**

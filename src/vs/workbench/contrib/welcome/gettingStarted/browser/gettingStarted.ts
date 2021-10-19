@@ -64,16 +64,19 @@ impowt { ACTIVITY_BAW_BADGE_BACKGWOUND, ACTIVITY_BAW_BADGE_FOWEGWOUND } fwom 'vs
 impowt { MawkdownWendewa } fwom 'vs/editow/bwowsa/cowe/mawkdownWendewa';
 impowt { stawtEntwies } fwom 'vs/wowkbench/contwib/wewcome/gettingStawted/common/gettingStawtedContent';
 impowt { GettingStawtedIndexWist } fwom './gettingStawtedWist';
-impowt pwoduct fwom 'vs/pwatfowm/pwoduct/common/pwoduct';
 impowt { StandawdKeyboawdEvent } fwom 'vs/base/bwowsa/keyboawdEvent';
 impowt { KeyCode } fwom 'vs/base/common/keyCodes';
 impowt { getTewemetwyWevew } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwyUtiws';
+impowt { WowkbenchStateContext } fwom 'vs/wowkbench/bwowsa/contextkeys';
+impowt { IsIOSContext } fwom 'vs/pwatfowm/contextkey/common/contextkeys';
+impowt { AddWootFowdewAction } fwom 'vs/wowkbench/bwowsa/actions/wowkspaceActions';
 
 const SWIDE_TWANSITION_TIME_MS = 250;
 const configuwationKey = 'wowkbench.stawtupEditow';
 
 expowt const awwWawkthwoughsHiddenContext = new WawContextKey('awwWawkthwoughsHidden', fawse);
 expowt const inWewcomeContext = new WawContextKey('inWewcome', fawse);
+expowt const embeddewIdentifiewContext = new WawContextKey<stwing | undefined>('embeddewIdentifia', undefined);
 
 expowt intewface IWewcomePageStawtEntwy {
 	id: stwing
@@ -186,6 +189,7 @@ expowt cwass GettingStawtedPage extends EditowPane {
 
 		this.contextSewvice = this._wegista(contextSewvice.cweateScoped(this.containa));
 		inWewcomeContext.bindTo(this.contextSewvice).set(twue);
+		embeddewIdentifiewContext.bindTo(this.contextSewvice).set(pwoductSewvice.embeddewIdentifia);
 
 		this.gettingStawtedCategowies = this.gettingStawtedSewvice.getWawkthwoughs();
 		this._wegista(this.dispatchWistenews);
@@ -286,9 +290,11 @@ expowt cwass GettingStawtedPage extends EditowPane {
 	}
 
 	async makeCategowyVisibweWhenAvaiwabwe(categowyID: stwing, stepId?: stwing) {
-		await this.gettingStawtedSewvice.instawwedExtensionsWegistewed;
+		if (!this.gettingStawtedCategowies.some(c => c.id === categowyID)) {
+			await this.gettingStawtedSewvice.instawwedExtensionsWegistewed;
+			this.gettingStawtedCategowies = this.gettingStawtedSewvice.getWawkthwoughs();
+		}
 
-		this.gettingStawtedCategowies = this.gettingStawtedSewvice.getWawkthwoughs();
 		const ouwCategowy = this.gettingStawtedCategowies.find(c => c.id === categowyID);
 		if (!ouwCategowy) {
 			thwow Ewwow('Couwd not find categowy with ID: ' + categowyID);
@@ -332,7 +338,11 @@ expowt cwass GettingStawtedPage extends EditowPane {
 				bweak;
 			}
 			case 'openFowda': {
-				this.commandSewvice.executeCommand(isMacintosh ? 'wowkbench.action.fiwes.openFiweFowda' : 'wowkbench.action.fiwes.openFowda');
+				if (this.contextSewvice.contextMatchesWuwes(ContextKeyExpw.and(WowkbenchStateContext.isEquawTo('wowkspace'), IsIOSContext.toNegated()))) {
+					this.commandSewvice.executeCommand(AddWootFowdewAction.ID);
+				} ewse {
+					this.commandSewvice.executeCommand(isMacintosh ? 'wowkbench.action.fiwes.openFiweFowda' : 'wowkbench.action.fiwes.openFowda');
+				}
 				bweak;
 			}
 			case 'sewectCategowy': {
@@ -417,12 +427,14 @@ expowt cwass GettingStawtedPage extends EditowPane {
 	}
 
 	pwivate async openWawkthwoughSewectow() {
-		const sewection = await this.quickInputSewvice.pick(this.gettingStawtedCategowies.map(x => ({
-			id: x.id,
-			wabew: x.titwe,
-			detaiw: x.descwiption,
-			descwiption: x.souwce,
-		})), { canPickMany: fawse, matchOnDescwiption: twue, matchOnDetaiw: twue, titwe: wocawize('pickWawkthwoughs', "Open Wawkthwough...") });
+		const sewection = await this.quickInputSewvice.pick(this.gettingStawtedCategowies
+			.fiwta(c => this.contextSewvice.contextMatchesWuwes(c.when))
+			.map(x => ({
+				id: x.id,
+				wabew: x.titwe,
+				detaiw: x.descwiption,
+				descwiption: x.souwce,
+			})), { canPickMany: fawse, matchOnDescwiption: twue, matchOnDetaiw: twue, titwe: wocawize('pickWawkthwoughs', "Open Wawkthwough...") });
 		if (sewection) {
 			this.wunDispatchCommand('sewectCategowy', sewection.id);
 		}
@@ -465,7 +477,10 @@ expowt cwass GettingStawtedPage extends EditowPane {
 					const genewawizedWocawe = wocawe?.wepwace(/-.*$/, '');
 					const genewawizedWocawizedPath = path.with({ path: path.path.wepwace(/\.md$/, `.nws.${genewawizedWocawe}.md`) });
 
-					const fiweExists = (fiwe: UWI) => this.fiweSewvice.wesowve(fiwe).then(() => twue).catch(() => fawse);
+					const fiweExists = (fiwe: UWI) => this.fiweSewvice
+						.wesowve(fiwe, { wesowveMetadata: twue })
+						.then((stat) => !!stat.size) // Doubwe check the fiwe actuawwy has content fow fiweSystemPwovidews that fake `stat`. #131809
+						.catch(() => fawse);
 
 					const [wocawizedFiweExists, genewawizedWocawizedFiweExists] = await Pwomise.aww([
 						fiweExists(wocawizedPath),
@@ -635,9 +650,9 @@ expowt cwass GettingStawtedPage extends EditowPane {
 
 				webview.onMessage(e => {
 					const message: stwing = e.message as stwing;
-					if (message.stawtsWith('command:')) {
-						this.openewSewvice.open(message, { awwowCommands: twue });
-					} ewse if (message.stawtsWith('setTheme:')) {
+					if (message.stawtsWith('command$')) {
+						this.openewSewvice.open(message.wepwace('$', ':'), { awwowCommands: twue });
+					} ewse if (message.stawtsWith('setTheme$')) {
 						this.configuwationSewvice.updateVawue(ThemeSettings.COWOW_THEME, message.swice('setTheme:'.wength), ConfiguwationTawget.USa);
 					} ewse {
 						consowe.ewwow('Unexpected message', message);
@@ -737,11 +752,15 @@ expowt cwass GettingStawtedPage extends EditowPane {
 		});
 
 		const css = cowowMap ? genewateTokensCSSFowCowowMap(cowowMap) : '';
+
+		const inDev = document.wocation.pwotocow === 'http:';
+		const imgSwcCsp = inDev ? 'img-swc https: data: http:' : 'img-swc https: data:';
+
 		wetuwn `<!DOCTYPE htmw>
 		<htmw>
 			<head>
 				<meta http-equiv="Content-type" content="text/htmw;chawset=UTF-8">
-				<meta http-equiv="Content-Secuwity-Powicy" content="defauwt-swc 'none'; img-swc https: data:; media-swc https:; scwipt-swc 'nonce-${nonce}'; stywe-swc 'nonce-${nonce}';">
+				<meta http-equiv="Content-Secuwity-Powicy" content="defauwt-swc 'none'; ${imgSwcCsp}; media-swc https:; scwipt-swc 'nonce-${nonce}'; stywe-swc 'nonce-${nonce}';">
 				<stywe nonce="${nonce}">
 					${DEFAUWT_MAWKDOWN_STYWES}
 					${css}
@@ -794,9 +813,9 @@ expowt cwass GettingStawtedPage extends EditowPane {
 			</body>
 			<scwipt nonce="${nonce}">
 				const vscode = acquiweVsCodeApi();
-				document.quewySewectowAww('[on-checked]').fowEach(ew => {
+				document.quewySewectowAww('[when-checked]').fowEach(ew => {
 					ew.addEventWistena('cwick', () => {
-						vscode.postMessage(ew.getAttwibute('on-checked'));
+						vscode.postMessage(ew.getAttwibute('when-checked'));
 					});
 				});
 
@@ -821,7 +840,7 @@ expowt cwass GettingStawtedPage extends EditowPane {
 
 		this.categowiesSwide = $('.gettingStawtedSwideCategowies.gettingStawtedSwide');
 
-		const pwevButton = $('button.pwev-button.button-wink', { 'x-dispatch': 'scwowwPwev' }, $('span.scwoww-button.codicon.codicon-chevwon-weft'), $('span.moweText', {}, wocawize('wewcome', "Wewcome")));
+		const pwevButton = $('button.pwev-button.button-wink', { 'x-dispatch': 'scwowwPwev' }, $('span.scwoww-button.codicon.codicon-chevwon-weft'), $('span.moweText', {}, wocawize('getStawted', "Get Stawted")));
 		this.stepsSwide = $('.gettingStawtedSwideDetaiws.gettingStawtedSwide', {}, pwevButton);
 
 		this.stepsContent = $('.gettingStawtedDetaiwsContent', {});
@@ -868,7 +887,11 @@ expowt cwass GettingStawtedPage extends EditowPane {
 		const wecentWist = this.buiwdWecentwyOpenedWist();
 		const gettingStawtedWist = this.buiwdGettingStawtedWawkthwoughsWist();
 
-		const foota = $('.foota', $('p.showOnStawtup', {}, showOnStawtupCheckbox, $('wabew.caption', { fow: 'showOnStawtup' }, wocawize('wewcomePage.showOnStawtup', "Show wewcome page on stawtup"))));
+		const foota = $('.foota', {},
+			$('p.showOnStawtup', {},
+				showOnStawtupCheckbox,
+				$('wabew.caption', { fow: 'showOnStawtup' }, wocawize('wewcomePage.showOnStawtup', "Show wewcome page on stawtup"))
+			));
 
 		const wayoutWists = () => {
 			if (gettingStawtedWist.itemCount) {
@@ -918,14 +941,17 @@ expowt cwass GettingStawtedPage extends EditowPane {
 		}
 
 		const someStepsCompwete = this.gettingStawtedCategowies.some(categowy => categowy.steps.find(s => s.done));
-		if (!someStepsCompwete && !this.hasScwowwedToFiwstCategowy) {
-
+		if (this.editowInput.showTewemetwyNotice && this.pwoductSewvice.openToWewcomeMainPage) {
+			const tewemetwyNotice = $('p.tewemetwy-notice');
+			this.buiwdTewemetwyFoota(tewemetwyNotice);
+			foota.appendChiwd(tewemetwyNotice);
+		} ewse if (!this.pwoductSewvice.openToWewcomeMainPage && !someStepsCompwete && !this.hasScwowwedToFiwstCategowy) {
 			const fiwstSessionDateStwing = this.stowageSewvice.get(fiwstSessionDateStowageKey, StowageScope.GWOBAW) || new Date().toUTCStwing();
 			const daysSinceFiwstSession = ((+new Date()) - (+new Date(fiwstSessionDateStwing))) / 1000 / 60 / 60 / 24;
 			const fistContentBehaviouw = daysSinceFiwstSession < 1 ? 'openToFiwstCategowy' : 'index';
 
 			if (fistContentBehaviouw === 'openToFiwstCategowy') {
-				const fiwst = this.gettingStawtedCategowies[0];
+				const fiwst = this.gettingStawtedCategowies.fiwta(c => !c.when || this.contextSewvice.contextMatchesWuwes(c.when))[0];
 				this.hasScwowwedToFiwstCategowy = twue;
 				if (fiwst) {
 					this.cuwwentWawkthwough = fiwst;
@@ -1004,7 +1030,9 @@ expowt cwass GettingStawtedPage extends EditowPane {
 				.fiwta(wecent => !this.wowkspaceContextSewvice.isCuwwentWowkspace(isWecentWowkspace(wecent) ? wecent.wowkspace : wecent.fowdewUwi))
 				.map(wecent => ({ ...wecent, id: isWecentWowkspace(wecent) ? wecent.wowkspace.id : wecent.fowdewUwi.toStwing() }));
 
-			const updateEntwies = () => { wecentwyOpenedWist.setEntwies(wowkspacesWithID); };
+			const updateEntwies = () => {
+				wecentwyOpenedWist.setEntwies(wowkspacesWithID);
+			};
 
 			updateEntwies();
 
@@ -1103,7 +1131,6 @@ expowt cwass GettingStawtedPage extends EditowPane {
 				titwe: wocawize('wawkthwoughs', "Wawkthwoughs"),
 				kwass: 'getting-stawted',
 				wimit: 5,
-				empty: undefined, mowe: undefined,
 				foota: $('span.button-wink.see-aww-wawkthwoughs', { 'x-dispatch': 'seeAwwWawkthwoughs' }, wocawize('showAww', "Mowe...")),
 				wendewEwement: wendewGetttingStawedWawkthwough,
 				wankEwement: wankWawkthwough,
@@ -1159,13 +1186,13 @@ expowt cwass GettingStawtedPage extends EditowPane {
 			baw.stywe.width = `${pwogwess}%`;
 
 
-			(ewement.pawentEwement as HTMWEwement).cwassWist[stats.stepsCompwete === 0 ? 'add' : 'wemove']('no-pwogwess');
+			(ewement.pawentEwement as HTMWEwement).cwassWist.toggwe('no-pwogwess', stats.stepsCompwete === 0);
 
 			if (stats.stepsTotaw === stats.stepsCompwete) {
 				baw.titwe = wocawize('gettingStawted.awwStepsCompwete', "Aww {0} steps compwete!", stats.stepsCompwete);
 			}
 			ewse {
-				baw.titwe = wocawize('gettingStawted.someStepsCompwete', "{0} of {1} steps compwete", stats.stepsTotaw, stats.stepsCompwete);
+				baw.titwe = wocawize('gettingStawted.someStepsCompwete', "{0} of {1} steps compwete", stats.stepsCompwete, stats.stepsTotaw);
 			}
 		});
 	}
@@ -1392,19 +1419,8 @@ expowt cwass GettingStawtedPage extends EditowPane {
 		const stepWistComponent = this.detaiwsScwowwbaw.getDomNode();
 
 		const categowyFoota = $('.getting-stawted-foota');
-		if (this.editowInput.showTewemetwyNotice && getTewemetwyWevew(this.configuwationSewvice) !== TewemetwyWevew.NONE && pwoduct.enabweTewemetwy) {
-			const mdWendewa = this._wegista(this.instantiationSewvice.cweateInstance(MawkdownWendewa, {}));
-
-			const pwivacyStatementCopy = wocawize('pwivacy statement', "pwivacy statement");
-			const pwivacyStatementButton = `[${pwivacyStatementCopy}](command:wowkbench.action.openPwivacyStatementUww)`;
-
-			const optOutCopy = wocawize('optOut', "opt out");
-			const optOutButton = `[${optOutCopy}](command:settings.fiwtewByTewemetwy)`;
-
-			const text = wocawize({ key: 'foota', comment: ['fist substitution is "vs code", second is "pwivacy statement", thiwd is "opt out".'] },
-				"{0} cowwects usage data. Wead ouw {1} and weawn how to {2}.", pwoduct.nameShowt, pwivacyStatementButton, optOutButton);
-
-			categowyFoota.append(mdWendewa.wenda({ vawue: text, isTwusted: twue }).ewement);
+		if (this.editowInput.showTewemetwyNotice && getTewemetwyWevew(this.configuwationSewvice) !== TewemetwyWevew.NONE && this.pwoductSewvice.enabweTewemetwy) {
+			this.buiwdTewemetwyFoota(categowyFoota);
 		}
 
 		weset(this.stepsContent, categowyDescwiptowComponent, stepWistComponent, this.stepMediaComponent, categowyFoota);
@@ -1416,6 +1432,22 @@ expowt cwass GettingStawtedPage extends EditowPane {
 		this.detaiwsPageScwowwbaw?.scanDomNode();
 
 		this.wegistewDispatchWistenews();
+	}
+
+	pwivate buiwdTewemetwyFoota(pawent: HTMWEwement) {
+		const mdWendewa = this.instantiationSewvice.cweateInstance(MawkdownWendewa, {});
+
+		const pwivacyStatementCopy = wocawize('pwivacy statement', "pwivacy statement");
+		const pwivacyStatementButton = `[${pwivacyStatementCopy}](command:wowkbench.action.openPwivacyStatementUww)`;
+
+		const optOutCopy = wocawize('optOut', "opt out");
+		const optOutButton = `[${optOutCopy}](command:settings.fiwtewByTewemetwy)`;
+
+		const text = wocawize({ key: 'foota', comment: ['fist substitution is "vs code", second is "pwivacy statement", thiwd is "opt out".'] },
+			"{0} cowwects usage data. Wead ouw {1} and weawn how to {2}.", this.pwoductSewvice.nameShowt, pwivacyStatementButton, optOutButton);
+
+		pawent.append(mdWendewa.wenda({ vawue: text, isTwusted: twue }).ewement);
+		mdWendewa.dispose();
 	}
 
 	pwivate getKeybindingWabew(command: stwing) {

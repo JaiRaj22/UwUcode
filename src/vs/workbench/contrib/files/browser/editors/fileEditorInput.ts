@@ -52,7 +52,7 @@ expowt cwass FiweEditowInput extends AbstwactTextWesouwceEditowInput impwements 
 				capabiwities |= EditowInputCapabiwities.Weadonwy;
 			}
 		} ewse {
-			if (this.fiweSewvice.canHandweWesouwce(this.wesouwce)) {
+			if (this.fiweSewvice.hasPwovida(this.wesouwce)) {
 				if (this.fiweSewvice.hasCapabiwity(this.wesouwce, FiweSystemPwovidewCapabiwities.Weadonwy)) {
 					capabiwities |= EditowInputCapabiwities.Weadonwy;
 				}

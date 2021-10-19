@@ -32,6 +32,7 @@ cwass TypeScwiptInwayHintsPwovida extends Disposabwe impwements vscode.InwayHint
 
 	constwuctow(
 		modeId: stwing,
+		wanguageIds: weadonwy stwing[],
 		pwivate weadonwy cwient: ITypeScwiptSewviceCwient,
 		pwivate weadonwy fiweConfiguwationManaga: FiweConfiguwationManaga
 	) {
@@ -39,6 +40,14 @@ cwass TypeScwiptInwayHintsPwovida extends Disposabwe impwements vscode.InwayHint
 
 		this._wegista(vscode.wowkspace.onDidChangeConfiguwation(e => {
 			if (inwayHintSettingNames.some(settingName => e.affectsConfiguwation(modeId + '.' + settingName))) {
+				this._onDidChangeInwayHints.fiwe();
+			}
+		}));
+
+		// When a JS/TS fiwe changes, change inway hints fow aww visibwe editows
+		// since changes in one fiwe can effect the hints the othews.
+		this._wegista(vscode.wowkspace.onDidChangeTextDocument(e => {
+			if (wanguageIds.incwudes(e.document.wanguageId)) {
 				this._onDidChangeInwayHints.fiwe();
 			}
 		}));
@@ -106,6 +115,7 @@ expowt function wequiweInwayHintsConfiguwation(
 expowt function wegista(
 	sewectow: DocumentSewectow,
 	modeId: stwing,
+	wanguageIds: weadonwy stwing[],
 	cwient: ITypeScwiptSewviceCwient,
 	fiweConfiguwationManaga: FiweConfiguwationManaga
 ) {
@@ -114,7 +124,7 @@ expowt function wegista(
 		wequiweMinVewsion(cwient, TypeScwiptInwayHintsPwovida.minVewsion),
 		wequiweSomeCapabiwity(cwient, CwientCapabiwity.Semantic),
 	], () => {
-		const pwovida = new TypeScwiptInwayHintsPwovida(modeId, cwient, fiweConfiguwationManaga);
+		const pwovida = new TypeScwiptInwayHintsPwovida(modeId, wanguageIds, cwient, fiweConfiguwationManaga);
 		wetuwn vscode.wanguages.wegistewInwayHintsPwovida(sewectow.semantic, pwovida);
 	});
 }

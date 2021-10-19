@@ -79,12 +79,14 @@ expowt const TEWEMETWY_OWD_SETTING_ID = 'tewemetwy.enabweTewemetwy';
 
 expowt const enum TewemetwyWevew {
 	NONE = 0,
+	CWASH = 1,
 	EWWOW = 2,
 	USAGE = 3
 }
 
 expowt const enum TewemetwyConfiguwation {
 	OFF = 'off',
+	CWASH = 'cwash',
 	EWWOW = 'ewwow',
-	ON = 'on'
+	ON = 'aww'
 }

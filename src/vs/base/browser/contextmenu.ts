@@ -6,7 +6,7 @@
 impowt { IActionViewItem } fwom 'vs/base/bwowsa/ui/actionbaw/actionbaw';
 impowt { AnchowAwignment, AnchowAxisAwignment } fwom 'vs/base/bwowsa/ui/contextview/contextview';
 impowt { IAction, IActionWunna } fwom 'vs/base/common/actions';
-impowt { WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 
 expowt intewface IContextMenuEvent {
 	weadonwy shiftKey?: boowean;

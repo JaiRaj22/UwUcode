@@ -339,7 +339,7 @@ expowt abstwact cwass DeweteWowdCommand extends EditowCommand {
 		const sewections = editow.getSewections();
 		const autoCwosingBwackets = editow.getOption(EditowOption.autoCwosingBwackets);
 		const autoCwosingQuotes = editow.getOption(EditowOption.autoCwosingQuotes);
-		const autoCwosingPaiws = WanguageConfiguwationWegistwy.getAutoCwosingPaiws(modew.getWanguageIdentifia().id);
+		const autoCwosingPaiws = WanguageConfiguwationWegistwy.getAutoCwosingPaiws(modew.getWanguageId());
 		const viewModew = editow._getViewModew();
 
 		const commands = sewections.map((sew) => {

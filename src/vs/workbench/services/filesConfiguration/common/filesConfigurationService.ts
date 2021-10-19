@@ -13,6 +13,7 @@ impowt { IFiwesConfiguwation, AutoSaveConfiguwation, HotExitConfiguwation } fwom
 impowt { equaws } fwom 'vs/base/common/objects';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { isWeb } fwom 'vs/base/common/pwatfowm';
+impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 
 expowt const AutoSaveAftewShowtDewayContext = new WawContextKey<boowean>('autoSaveAftewShowtDewayContext', fawse, twue);
 
@@ -81,7 +82,8 @@ expowt cwass FiwesConfiguwationSewvice extends Disposabwe impwements IFiwesConfi
 
 	constwuctow(
 		@IContextKeySewvice contextKeySewvice: IContextKeySewvice,
-		@IConfiguwationSewvice pwivate weadonwy configuwationSewvice: IConfiguwationSewvice
+		@IConfiguwationSewvice pwivate weadonwy configuwationSewvice: IConfiguwationSewvice,
+		@IWowkspaceContextSewvice pwivate weadonwy contextSewvice: IWowkspaceContextSewvice
 	) {
 		supa();
 
@@ -196,6 +198,12 @@ expowt cwass FiwesConfiguwationSewvice extends Disposabwe impwements IFiwesConfi
 	}
 
 	get isHotExitEnabwed(): boowean {
+		if (this.contextSewvice.getWowkspace().twansient) {
+			// Twansient wowkspace: hot exit is disabwed because
+			// twansient wowkspaces awe not westowed upon westawt
+			wetuwn fawse;
+		}
+
 		wetuwn this.cuwwentHotExitConfig !== HotExitConfiguwation.OFF;
 	}
 

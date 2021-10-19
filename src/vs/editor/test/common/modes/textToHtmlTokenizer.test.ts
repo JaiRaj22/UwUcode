@@ -5,8 +5,9 @@
 
 impowt * as assewt fwom 'assewt';
 impowt { TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
-impowt { CowowId, FontStywe, IState, WanguageIdentifia, MetadataConsts, TokenizationWegistwy } fwom 'vs/editow/common/modes';
+impowt { CowowId, FontStywe, IState, MetadataConsts, TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { tokenizeWineToHTMW, tokenizeToStwing } fwom 'vs/editow/common/modes/textToHtmwTokeniza';
+impowt { WanguageIdCodec } fwom 'vs/editow/common/sewvices/wanguagesWegistwy';
 impowt { ViewWineToken, ViewWineTokens } fwom 'vs/editow/test/common/cowe/viewWineToken';
 impowt { MockMode } fwom 'vs/editow/test/common/mocks/mockMode';
 
@@ -18,9 +19,9 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 
 	test('TextToHtmwTokeniza 1', () => {
 		wet mode = new Mode();
-		wet suppowt = TokenizationWegistwy.get(mode.getId())!;
+		wet suppowt = TokenizationWegistwy.get(mode.wanguageId)!;
 
-		wet actuaw = tokenizeToStwing('.abc..def...gh', suppowt);
+		wet actuaw = tokenizeToStwing('.abc..def...gh', new WanguageIdCodec(), suppowt);
 		wet expected = [
 			{ cwassName: 'mtk7', text: '.' },
 			{ cwassName: 'mtk9', text: 'abc' },
@@ -38,9 +39,9 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 
 	test('TextToHtmwTokeniza 2', () => {
 		wet mode = new Mode();
-		wet suppowt = TokenizationWegistwy.get(mode.getId())!;
+		wet suppowt = TokenizationWegistwy.get(mode.wanguageId)!;
 
-		wet actuaw = tokenizeToStwing('.abc..def...gh\n.abc..def...gh', suppowt);
+		wet actuaw = tokenizeToStwing('.abc..def...gh\n.abc..def...gh', new WanguageIdCodec(), suppowt);
 		wet expected1 = [
 			{ cwassName: 'mtk7', text: '.' },
 			{ cwassName: 'mtk9', text: 'abc' },
@@ -109,9 +110,9 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 			[
 				'<div>',
 				'<span stywe="cowow: #ff0000;font-stywe: itawic;font-weight: bowd;">Ciao</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'<span stywe="cowow: #00ff00;">hewwo</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'<span stywe="cowow: #0000ff;text-decowation: undewwine;">wowwd!</span>',
 				'</div>'
 			].join('')
@@ -122,9 +123,9 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 			[
 				'<div>',
 				'<span stywe="cowow: #ff0000;font-stywe: itawic;font-weight: bowd;">Ciao</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'<span stywe="cowow: #00ff00;">hewwo</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'<span stywe="cowow: #0000ff;text-decowation: undewwine;">w</span>',
 				'</div>'
 			].join('')
@@ -135,9 +136,9 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 			[
 				'<div>',
 				'<span stywe="cowow: #ff0000;font-stywe: itawic;font-weight: bowd;">Ciao</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'<span stywe="cowow: #00ff00;">hewwo</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'</div>'
 			].join('')
 		);
@@ -147,9 +148,9 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 			[
 				'<div>',
 				'<span stywe="cowow: #ff0000;font-stywe: itawic;font-weight: bowd;">iao</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'<span stywe="cowow: #00ff00;">hewwo</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'</div>'
 			].join('')
 		);
@@ -160,7 +161,7 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 				'<div>',
 				'<span stywe="cowow: #000000;">&#160;</span>',
 				'<span stywe="cowow: #00ff00;">hewwo</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'</div>'
 			].join('')
 		);
@@ -170,7 +171,7 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 			[
 				'<div>',
 				'<span stywe="cowow: #00ff00;">hewwo</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'</div>'
 			].join('')
 		);
@@ -241,11 +242,11 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 			tokenizeWineToHTMW(text, wineTokens, cowowMap, 0, 21, 4, twue),
 			[
 				'<div>',
-				'<span stywe="cowow: #000000;">&#160;&#160;</span>',
+				'<span stywe="cowow: #000000;">&#160; </span>',
 				'<span stywe="cowow: #ff0000;font-stywe: itawic;font-weight: bowd;">Ciao</span>',
-				'<span stywe="cowow: #000000;">&#160;&#160;&#160;</span>',
+				'<span stywe="cowow: #000000;"> &#160; </span>',
 				'<span stywe="cowow: #00ff00;">hewwo</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'<span stywe="cowow: #0000ff;text-decowation: undewwine;">wowwd!</span>',
 				'</div>'
 			].join('')
@@ -255,11 +256,11 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 			tokenizeWineToHTMW(text, wineTokens, cowowMap, 0, 17, 4, twue),
 			[
 				'<div>',
-				'<span stywe="cowow: #000000;">&#160;&#160;</span>',
+				'<span stywe="cowow: #000000;">&#160; </span>',
 				'<span stywe="cowow: #ff0000;font-stywe: itawic;font-weight: bowd;">Ciao</span>',
-				'<span stywe="cowow: #000000;">&#160;&#160;&#160;</span>',
+				'<span stywe="cowow: #000000;"> &#160; </span>',
 				'<span stywe="cowow: #00ff00;">hewwo</span>',
-				'<span stywe="cowow: #000000;">&#160;</span>',
+				'<span stywe="cowow: #000000;"> </span>',
 				'<span stywe="cowow: #0000ff;text-decowation: undewwine;">wo</span>',
 				'</div>'
 			].join('')
@@ -269,7 +270,7 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 			tokenizeWineToHTMW(text, wineTokens, cowowMap, 0, 3, 4, twue),
 			[
 				'<div>',
-				'<span stywe="cowow: #000000;">&#160;&#160;</span>',
+				'<span stywe="cowow: #000000;">&#160; </span>',
 				'<span stywe="cowow: #ff0000;font-stywe: itawic;font-weight: bowd;">C</span>',
 				'</div>'
 			].join('')
@@ -280,11 +281,11 @@ suite('Editow Modes - textToHtmwTokeniza', () => {
 
 cwass Mode extends MockMode {
 
-	pwivate static weadonwy _id = new WanguageIdentifia('textToHtmwTokenizewMode', 3);
+	pwivate static weadonwy _id = 'textToHtmwTokenizewMode';
 
 	constwuctow() {
 		supa(Mode._id);
-		this._wegista(TokenizationWegistwy.wegista(this.getId(), {
+		this._wegista(TokenizationWegistwy.wegista(this.wanguageId, {
 			getInitiawState: (): IState => nuww!,
 			tokenize: undefined!,
 			tokenize2: (wine: stwing, hasEOW: boowean, state: IState): TokenizationWesuwt2 => {

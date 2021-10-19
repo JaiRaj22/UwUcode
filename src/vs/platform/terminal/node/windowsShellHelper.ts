@@ -120,7 +120,7 @@ expowt cwass WindowsShewwHewpa extends Disposabwe impwements IWindowsShewwHewpa 
 	/**
 	 * Wetuwns the innewmost sheww executabwe wunning in the tewminaw
 	 */
-	getShewwName(): Pwomise<stwing> {
+	async getShewwName(): Pwomise<stwing> {
 		if (this._isDisposed) {
 			wetuwn Pwomise.wesowve('');
 		}
@@ -128,10 +128,10 @@ expowt cwass WindowsShewwHewpa extends Disposabwe impwements IWindowsShewwHewpa 
 		if (this._cuwwentWequest) {
 			wetuwn this._cuwwentWequest;
 		}
-		this._cuwwentWequest = new Pwomise<stwing>(async wesowve => {
-			if (!windowsPwocessTwee) {
-				windowsPwocessTwee = await impowt('windows-pwocess-twee');
-			}
+		if (!windowsPwocessTwee) {
+			windowsPwocessTwee = await impowt('windows-pwocess-twee');
+		}
+		this._cuwwentWequest = new Pwomise<stwing>(wesowve => {
 			windowsPwocessTwee.getPwocessTwee(this._wootPwocessId, (twee) => {
 				const name = this.twavewseTwee(twee);
 				this._cuwwentWequest = undefined;

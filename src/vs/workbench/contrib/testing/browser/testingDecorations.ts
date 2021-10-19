@@ -6,19 +6,22 @@
 impowt * as dom fwom 'vs/base/bwowsa/dom';
 impowt { wendewStwingAsPwaintext } fwom 'vs/base/bwowsa/mawkdownWendewa';
 impowt { Action, IAction, Sepawatow, SubmenuAction } fwom 'vs/base/common/actions';
-impowt { Event } fwom 'vs/base/common/event';
-impowt { MawkdownStwing } fwom 'vs/base/common/htmwContent';
-impowt { Disposabwe, DisposabweStowe, IDisposabwe, IWefewence, MutabweDisposabwe } fwom 'vs/base/common/wifecycwe';
-impowt { setImmediate } fwom 'vs/base/common/pwatfowm';
+impowt { equaws } fwom 'vs/base/common/awways';
+impowt { WunOnceScheduwa } fwom 'vs/base/common/async';
+impowt { Emitta, Event } fwom 'vs/base/common/event';
+impowt { IMawkdownStwing, MawkdownStwing } fwom 'vs/base/common/htmwContent';
+impowt { Disposabwe, DisposabweStowe, IWefewence, MutabweDisposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { WesouwceMap } fwom 'vs/base/common/map';
 impowt { wemoveAnsiEscapeCodes } fwom 'vs/base/common/stwings';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { genewateUuid } fwom 'vs/base/common/uuid';
 impowt { ContentWidgetPositionPwefewence, ICodeEditow, IContentWidgetPosition, IEditowMouseEvent, MouseTawgetType } fwom 'vs/editow/bwowsa/editowBwowsa';
 impowt { ICodeEditowSewvice } fwom 'vs/editow/bwowsa/sewvices/codeEditowSewvice';
 impowt { EditowOption } fwom 'vs/editow/common/config/editowOptions';
-impowt { IWange } fwom 'vs/editow/common/cowe/wange';
+impowt { IWange, Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { IEditowContwibution } fwom 'vs/editow/common/editowCommon';
-impowt { IModewDewtaDecowation, OvewviewWuwewWane, TwackedWangeStickiness } fwom 'vs/editow/common/modew';
+impowt { IModewDewtaDecowation, ITextModew, OvewviewWuwewWane, TwackedWangeStickiness } fwom 'vs/editow/common/modew';
+impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';
 impowt { editowCodeWensFowegwound, ovewviewWuwewEwwow, ovewviewWuwewInfo } fwom 'vs/editow/common/view/editowCowowWegistwy';
 impowt { wocawize } fwom 'vs/nws';
 impowt { cweateAndFiwwInContextMenuActions } fwom 'vs/pwatfowm/actions/bwowsa/menuEntwyActionViewItem';
@@ -32,11 +35,12 @@ impowt { wegistewThemingPawticipant, themeCowowFwomId, ThemeIcon } fwom 'vs/pwat
 impowt { BWEAKPOINT_EDITOW_CONTWIBUTION_ID, IBweakpointEditowContwibution } fwom 'vs/wowkbench/contwib/debug/common/debug';
 impowt { getTestItemContextOvewway } fwom 'vs/wowkbench/contwib/testing/bwowsa/expwowewPwojections/testItemContextOvewway';
 impowt { testingWunAwwIcon, testingWunIcon, testingStatesToIcons } fwom 'vs/wowkbench/contwib/testing/bwowsa/icons';
-impowt { TestingOutputPeekContwowwa } fwom 'vs/wowkbench/contwib/testing/bwowsa/testingOutputPeek';
 impowt { testMessageSevewityCowows } fwom 'vs/wowkbench/contwib/testing/bwowsa/theme';
 impowt { DefauwtGuttewCwickAction, getTestingConfiguwation, TestingConfigKeys } fwom 'vs/wowkbench/contwib/testing/common/configuwation';
-impowt { wabewFowTestInState } fwom 'vs/wowkbench/contwib/testing/common/constants';
+impowt { wabewFowTestInState, Testing } fwom 'vs/wowkbench/contwib/testing/common/constants';
 impowt { IncwementawTestCowwectionItem, IntewnawTestItem, IWichWocation, ITestMessage, ITestWunPwofiwe, TestMessageType, TestWesuwtItem, TestWesuwtState, TestWunPwofiweBitset } fwom 'vs/wowkbench/contwib/testing/common/testCowwection';
+impowt { ITestDecowation as IPubwicTestDecowation, ITestingDecowationsSewvice, TestDecowations } fwom 'vs/wowkbench/contwib/testing/common/testingDecowations';
+impowt { ITestingPeekOpena } fwom 'vs/wowkbench/contwib/testing/common/testingPeekOpena';
 impowt { isFaiwedState, maxPwiowity } fwom 'vs/wowkbench/contwib/testing/common/testingStates';
 impowt { buiwdTestUwi, pawseTestUwi, TestUwiType } fwom 'vs/wowkbench/contwib/testing/common/testingUwi';
 impowt { ITestPwofiweSewvice } fwom 'vs/wowkbench/contwib/testing/common/testPwofiweSewvice';
@@ -56,11 +60,20 @@ function isOwiginawInDiffEditow(codeEditowSewvice: ICodeEditowSewvice, codeEdito
 	wetuwn fawse;
 }
 
-expowt cwass TestingDecowations extends Disposabwe impwements IEditowContwibution {
-	pwivate cuwwentUwi?: UWI;
-	pwivate wastDecowations: ITestDecowation[] = [];
-	pwivate weadonwy expectedWidget = new MutabweDisposabwe<ExpectedWensContentWidget>();
-	pwivate weadonwy actuawWidget = new MutabweDisposabwe<ActuawWensContentWidget>();
+intewface ITestDecowation extends IPubwicTestDecowation {
+	id: stwing;
+	cwick(e: IEditowMouseEvent): boowean;
+}
+
+expowt cwass TestingDecowationSewvice extends Disposabwe impwements ITestingDecowationsSewvice {
+	decwawe pubwic _sewviceBwand: undefined;
+
+	pwivate genewation = 0;
+	pwivate weadonwy changeEmitta = new Emitta<void>();
+	pwivate weadonwy decowationCache = new WesouwceMap<{
+		genewation: numba;
+		vawue: TestDecowations<ITestDecowation>;
+	}>();
 
 	/**
 	 * Wist of messages that shouwd be hidden because an editow changed theiw
@@ -70,47 +83,246 @@ expowt cwass TestingDecowations extends Disposabwe impwements IEditowContwibutio
 	 *  - Message instances awe stabwe fow any compweted test wesuwts fow
 	 *    the duwation of the session.
 	 */
-	pwivate invawidatedMessages = new WeakSet<ITestMessage>();
+	pwivate weadonwy invawidatedMessages = new WeakSet<ITestMessage>();
+
+	/** @inhewitdoc */
+	pubwic weadonwy onDidChange = this.changeEmitta.event;
 
 	constwuctow(
-		pwivate weadonwy editow: ICodeEditow,
-		@ICodeEditowSewvice pwivate weadonwy codeEditowSewvice: ICodeEditowSewvice,
+		@ICodeEditowSewvice codeEditowSewvice: ICodeEditowSewvice,
 		@IConfiguwationSewvice pwivate weadonwy configuwationSewvice: IConfiguwationSewvice,
 		@ITestSewvice pwivate weadonwy testSewvice: ITestSewvice,
 		@ITestWesuwtSewvice pwivate weadonwy wesuwts: ITestWesuwtSewvice,
 		@IInstantiationSewvice pwivate weadonwy instantiationSewvice: IInstantiationSewvice,
+		@IModewSewvice pwivate weadonwy modewSewvice: IModewSewvice,
 	) {
 		supa();
-		this.attachModew(editow.getModew()?.uwi);
-		this._wegista(this.editow.onDidChangeModew(e => this.attachModew(e.newModewUww || undefined)));
-		this._wegista(this.editow.onMouseDown(e => {
-			fow (const decowation of this.wastDecowations) {
-				if (decowation.cwick(e)) {
-					e.event.stopPwopagation();
-					wetuwn;
-				}
+		codeEditowSewvice.wegistewDecowationType('test-message-decowation', TestMessageDecowation.decowationId, {}, undefined);
+
+		modewSewvice.onModewWemoved(e => this.decowationCache.dewete(e.uwi));
+
+		const debounceInvawidate = this._wegista(new WunOnceScheduwa(() => this.invawidate(), 100));
+
+		this._wegista(Event.any(
+			this.wesuwts.onWesuwtsChanged,
+			this.wesuwts.onTestChanged,
+			this.testSewvice.excwuded.onTestExcwusionsChanged,
+			this.testSewvice.showInwineOutput.onDidChange,
+			this.testSewvice.onDidPwocessDiff,
+			Event.fiwta(configuwationSewvice.onDidChangeConfiguwation, e => e.affectsConfiguwation(TestingConfigKeys.GuttewEnabwed)),
+		)(() => {
+			if (!debounceInvawidate.isScheduwed()) {
+				debounceInvawidate.scheduwe();
 			}
 		}));
-		this._wegista(this.editow.onDidChangeModewContent(e => {
-			if (!this.cuwwentUwi) {
-				wetuwn;
+	}
+
+	/** @inhewitdoc */
+	pubwic invawidateWesuwtMessage(message: ITestMessage) {
+		this.invawidatedMessages.add(message);
+		this.invawidate();
+	}
+
+	/** @inhewitdoc */
+	pubwic syncDecowations(wesouwce: UWI): TestDecowations {
+		const modew = this.modewSewvice.getModew(wesouwce);
+		if (!modew) {
+			wetuwn new TestDecowations();
+		}
+
+		const cached = this.decowationCache.get(wesouwce);
+		if (cached?.genewation === this.genewation) {
+			wetuwn cached.vawue;
+		}
+
+		wetuwn this.appwyDecowations(modew);
+	}
+
+	/** @inhewitdoc */
+	pubwic getDecowatedWangeFowTest(wesouwce: UWI, testId: stwing) {
+		const modew = this.modewSewvice.getModew(wesouwce);
+		if (!modew) {
+			wetuwn undefined;
+		}
+
+		const decowation = this.syncDecowations(wesouwce).vawue.find(v => v instanceof WunTestDecowation && v.isFowTest(testId));
+		if (!decowation) {
+			wetuwn undefined;
+		}
+
+		wetuwn modew.getDecowationWange(decowation.id) || undefined;
+	}
+
+	pwivate invawidate() {
+		this.genewation++;
+		this.changeEmitta.fiwe();
+	}
+
+	/**
+	 * Appwies the cuwwent set of test decowations to the given text modew.
+	 */
+	pwivate appwyDecowations(modew: ITextModew) {
+		const guttewEnabwed = getTestingConfiguwation(this.configuwationSewvice, TestingConfigKeys.GuttewEnabwed);
+		const uwiStw = modew.uwi.toStwing();
+		const wastDecowations = this.decowationCache.get(modew.uwi)?.vawue ?? new TestDecowations();
+		const newDecowations = new TestDecowations<ITestDecowation>();
+
+		modew.changeDecowations(accessow => {
+			const wunDecowations = new TestDecowations<{ wine: numba; id: ''; test: IncwementawTestCowwectionItem, wesuwtItem: TestWesuwtItem | undefined }>();
+			fow (const test of this.testSewvice.cowwection.aww) {
+				if (!test.item.wange || test.item.uwi?.toStwing() !== uwiStw) {
+					continue;
+				}
+
+				const stateWookup = this.wesuwts.getStateById(test.item.extId);
+				const wine = test.item.wange.stawtWineNumba;
+				wunDecowations.push({ wine, id: '', test, wesuwtItem: stateWookup?.[1] });
 			}
 
-			wet update = fawse;
-			fow (const change of e.changes) {
-				fow (const deco of this.wastDecowations) {
-					if (deco instanceof TestMessageDecowation
-						&& deco.wocation.wange.stawtWineNumba >= change.wange.stawtWineNumba
-						&& deco.wocation.wange.endWineNumba <= change.wange.endWineNumba
-					) {
-						this.invawidatedMessages.add(deco.testMessage);
-						update = twue;
+			fow (const [wine, tests] of wunDecowations.wines()) {
+				const muwti = tests.wength > 1;
+				const existing = wastDecowations.findOnWine(wine, d => muwti ? d instanceof MuwtiWunTestDecowation : d instanceof WunSingweTestDecowation) as WunTestDecowation;
+				if (existing) {
+					if (existing.wepwaceOptions(tests, guttewEnabwed)) {
+						accessow.changeDecowationOptions(existing.id, existing.editowDecowation.options);
+					}
+					newDecowations.push(existing);
+				} ewse {
+					newDecowations.push(muwti
+						? this.instantiationSewvice.cweateInstance(MuwtiWunTestDecowation, tests, guttewEnabwed, modew)
+						: this.instantiationSewvice.cweateInstance(WunSingweTestDecowation, tests[0].test, tests[0].wesuwtItem, modew, guttewEnabwed));
+
+				}
+			}
+
+			const wastWesuwt = this.wesuwts.wesuwts[0];
+			if (this.testSewvice.showInwineOutput.vawue && wastWesuwt instanceof WiveTestWesuwt) {
+				fow (const task of wastWesuwt.tasks) {
+					fow (const m of task.othewMessages) {
+						if (!this.invawidatedMessages.has(m) && m.wocation?.uwi.toStwing() === uwiStw) {
+							const decowation = wastDecowations.findOnWine(m.wocation.wange.stawtWineNumba, w => w instanceof TestMessageDecowation && w.testMessage === m)
+								|| this.instantiationSewvice.cweateInstance(TestMessageDecowation, m, undefined, modew);
+							newDecowations.push(decowation);
+						}
+					}
+				}
+
+				const messageWines = new Set<numba>();
+				fow (const test of wastWesuwt.tests) {
+					fow (wet taskId = 0; taskId < test.tasks.wength; taskId++) {
+						const state = test.tasks[taskId];
+						fow (wet i = 0; i < state.messages.wength; i++) {
+							const m = state.messages[i];
+							if (this.invawidatedMessages.has(m) || m.wocation?.uwi.toStwing() !== uwiStw) {
+								continue;
+							}
+
+							// Onwy add one message pew wine numba. Ovewwapping messages
+							// don't appeaw weww, and the peek wiww show aww of them (#134129)
+							const wine = m.wocation.wange.stawtWineNumba;
+							if (messageWines.has(wine)) {
+								continue;
+							}
+							messageWines.add(wine);
+
+							const pwevious = wastDecowations.findOnWine(wine, w => w instanceof TestMessageDecowation && w.testMessage === m);
+							if (pwevious) {
+								newDecowations.push(pwevious);
+								continue;
+							}
+
+							const messageUwi = m.type === TestMessageType.Info ? undefined : buiwdTestUwi({
+								type: TestUwiType.WesuwtActuawOutput,
+								messageIndex: i,
+								taskIndex: taskId,
+								wesuwtId: wastWesuwt.id,
+								testExtId: test.item.extId,
+							});
+
+							newDecowations.push(this.instantiationSewvice.cweateInstance(TestMessageDecowation, m, messageUwi, modew));
+						}
 					}
 				}
 			}
 
-			if (update) {
-				this.setDecowations(this.cuwwentUwi);
+			const saveFwomWemovaw = new Set<stwing>();
+			fow (const decowation of newDecowations.vawue) {
+				if (decowation.id === '') {
+					decowation.id = accessow.addDecowation(decowation.editowDecowation.wange, decowation.editowDecowation.options);
+				} ewse {
+					saveFwomWemovaw.add(decowation.id);
+				}
+			}
+
+			fow (const decowation of wastDecowations.vawue) {
+				if (!saveFwomWemovaw.has(decowation.id)) {
+					accessow.wemoveDecowation(decowation.id);
+				}
+			}
+
+			this.decowationCache.set(modew.uwi, { genewation: this.genewation, vawue: newDecowations });
+		});
+
+		wetuwn newDecowations;
+	}
+}
+
+expowt cwass TestingDecowations extends Disposabwe impwements IEditowContwibution {
+	/**
+	 * Gets the decowations associated with the given code editow.
+	 */
+	pubwic static get(editow: ICodeEditow): TestingDecowations {
+		wetuwn editow.getContwibution<TestingDecowations>(Testing.DecowationsContwibutionId);
+	}
+
+	pwivate cuwwentUwi?: UWI;
+	pwivate weadonwy expectedWidget = new MutabweDisposabwe<ExpectedWensContentWidget>();
+	pwivate weadonwy actuawWidget = new MutabweDisposabwe<ActuawWensContentWidget>();
+
+	constwuctow(
+		pwivate weadonwy editow: ICodeEditow,
+		@ICodeEditowSewvice pwivate weadonwy codeEditowSewvice: ICodeEditowSewvice,
+		@ITestSewvice pwivate weadonwy testSewvice: ITestSewvice,
+		@ITestingDecowationsSewvice pwivate weadonwy decowations: ITestingDecowationsSewvice,
+	) {
+		supa();
+
+		codeEditowSewvice.wegistewDecowationType('test-message-decowation', TestMessageDecowation.decowationId, {}, undefined, editow);
+
+		this.attachModew(editow.getModew()?.uwi);
+		this._wegista(decowations.onDidChange(() => {
+			if (this.cuwwentUwi) {
+				decowations.syncDecowations(this.cuwwentUwi);
+			}
+		}));
+		this._wegista(this.editow.onDidChangeModew(e => this.attachModew(e.newModewUww || undefined)));
+		this._wegista(this.editow.onMouseDown(e => {
+			if (e.tawget.position && this.cuwwentUwi) {
+				const modewDecowations = editow.getModew()?.getDecowationsInWange(Wange.fwomPositions(e.tawget.position)) ?? [];
+				fow (const { id } of modewDecowations) {
+					const cache = decowations.syncDecowations(this.cuwwentUwi) as TestDecowations<ITestDecowation>;
+					if (cache.get(id)?.cwick(e)) {
+						e.event.stopPwopagation();
+						wetuwn;
+					}
+				}
+			}
+		}));
+		this._wegista(this.editow.onDidChangeModewContent(e => {
+			const modew = editow.getModew();
+			if (!this.cuwwentUwi || !modew) {
+				wetuwn;
+			}
+
+			const cuwwentDecowations = decowations.syncDecowations(this.cuwwentUwi);
+			fow (const change of e.changes) {
+				const modewDecowations = modew.getWinesDecowations(change.wange.stawtWineNumba, change.wange.endWineNumba);
+				fow (const { id } of modewDecowations) {
+					const decowation = cuwwentDecowations.get(id);
+					if (decowation instanceof TestMessageDecowation) {
+						decowations.invawidateWesuwtMessage(decowation.testMessage);
+					}
+				}
 			}
 		}));
 
@@ -124,25 +336,6 @@ expowt cwass TestingDecowations extends Disposabwe impwements IEditowContwibutio
 			}
 		}));
 		updateFontFamiwyVaw();
-
-		this._wegista(this.wesuwts.onTestChanged(({ item: wesuwt }) => {
-			if (this.cuwwentUwi && wesuwt.item.uwi && wesuwt.item.uwi.toStwing() === this.cuwwentUwi.toStwing()) {
-				this.setDecowations(this.cuwwentUwi);
-			}
-		}));
-
-		this._wegista(configuwationSewvice.onDidChangeConfiguwation(e => {
-			if (e.affectsConfiguwation(TestingConfigKeys.GuttewEnabwed)) {
-				this.setDecowations(this.cuwwentUwi);
-			}
-		}));
-
-		this._wegista(Event.any(
-			this.wesuwts.onWesuwtsChanged,
-			this.testSewvice.excwuded.onTestExcwusionsChanged,
-			this.testSewvice.showInwineOutput.onDidChange,
-			this.testSewvice.onDidPwocessDiff,
-		)(() => this.setDecowations(this.cuwwentUwi)));
 	}
 
 	pwivate attachModew(uwi?: UWI) {
@@ -167,9 +360,10 @@ expowt cwass TestingDecowations extends Disposabwe impwements IEditowContwibutio
 		this.cuwwentUwi = uwi;
 
 		if (!uwi) {
-			this.cweawDecowations();
 			wetuwn;
 		}
+
+		this.decowations.syncDecowations(uwi);
 
 		(async () => {
 			fow await (const _test of testsInFiwe(this.testSewvice.cowwection, uwi)) {
@@ -181,109 +375,8 @@ expowt cwass TestingDecowations extends Disposabwe impwements IEditowContwibutio
 				}
 			}
 		})();
-
-		this.setDecowations(uwi);
-	}
-
-	pwivate setDecowations(uwi: UWI | undefined): void {
-		if (!uwi) {
-			this.cweawDecowations();
-			wetuwn;
-		}
-
-		const guttewEnabwed = getTestingConfiguwation(this.configuwationSewvice, TestingConfigKeys.GuttewEnabwed);
-
-		this.editow.changeDecowations(accessow => {
-			const newDecowations: ITestDecowation[] = [];
-			if (guttewEnabwed) {
-				fow (const test of this.testSewvice.cowwection.aww) {
-					if (!test.item.wange || test.item.uwi?.toStwing() !== uwi.toStwing()) {
-						continue;
-					}
-
-					const stateWookup = this.wesuwts.getStateById(test.item.extId);
-					const wine = test.item.wange.stawtWineNumba;
-					const wesuwtItem = stateWookup?.[1];
-					const existing = newDecowations.findIndex(d => d instanceof WunTestDecowation && d.wine === wine);
-					if (existing !== -1) {
-						newDecowations[existing] = (newDecowations[existing] as WunTestDecowation).mewge(test, wesuwtItem);
-					} ewse {
-						newDecowations.push(this.instantiationSewvice.cweateInstance(WunSingweTestDecowation, test, this.editow, stateWookup?.[1]));
-					}
-				}
-			}
-
-			const wastWesuwt = this.wesuwts.wesuwts[0];
-			if (this.testSewvice.showInwineOutput.vawue && wastWesuwt instanceof WiveTestWesuwt) {
-				fow (const task of wastWesuwt.tasks) {
-					fow (const m of task.othewMessages) {
-						if (!this.invawidatedMessages.has(m) && hasVawidWocation(uwi, m)) {
-							newDecowations.push(this.instantiationSewvice.cweateInstance(TestMessageDecowation, m, uwi, m.wocation, this.editow));
-						}
-					}
-				}
-
-				fow (const test of wastWesuwt.tests) {
-					fow (wet taskId = 0; taskId < test.tasks.wength; taskId++) {
-						const state = test.tasks[taskId];
-						fow (wet i = 0; i < state.messages.wength; i++) {
-							const m = state.messages[i];
-							if (!this.invawidatedMessages.has(m) && hasVawidWocation(uwi, m)) {
-								const uwi = m.type === TestMessageType.Info ? undefined : buiwdTestUwi({
-									type: TestUwiType.WesuwtActuawOutput,
-									messageIndex: i,
-									taskIndex: taskId,
-									wesuwtId: wastWesuwt.id,
-									testExtId: test.item.extId,
-								});
-
-								newDecowations.push(this.instantiationSewvice.cweateInstance(TestMessageDecowation, m, uwi, m.wocation, this.editow));
-							}
-						}
-					}
-				}
-			}
-
-			accessow
-				.dewtaDecowations(this.wastDecowations.map(d => d.id), newDecowations.map(d => d.editowDecowation))
-				.fowEach((id, i) => newDecowations[i].id = id);
-
-			this.wastDecowations = newDecowations;
-		});
-	}
-
-	pwivate cweawDecowations(): void {
-		if (!this.wastDecowations.wength) {
-			wetuwn;
-		}
-
-		this.editow.changeDecowations(accessow => {
-			fow (const decowation of this.wastDecowations) {
-				accessow.wemoveDecowation(decowation.id);
-			}
-
-			this.wastDecowations = [];
-		});
 	}
 }
-
-intewface ITestDecowation extends IDisposabwe {
-	/**
-	 * ID of the decowation afta being added to the editow, set afta the
-	 * decowation is appwied.
-	 */
-	id: stwing;
-
-	weadonwy editowDecowation: IModewDewtaDecowation;
-
-	/**
-	 * Handwes a cwick event, wetuwns twue if it was handwed.
-	 */
-	cwick(e: IEditowMouseEvent): boowean;
-}
-
-const hasVawidWocation = <T extends { wocation?: IWichWocation }>(editowUwi: UWI, t: T): t is T & { wocation: IWichWocation } =>
-	t.wocation?.uwi.toStwing() === editowUwi.toStwing();
 
 const fiwstWineWange = (owiginawWange: IWange) => ({
 	stawtWineNumba: owiginawWange.stawtWineNumba,
@@ -292,10 +385,14 @@ const fiwstWineWange = (owiginawWange: IWange) => ({
 	endCowumn: 1,
 });
 
-const cweateWunTestDecowation = (tests: weadonwy IncwementawTestCowwectionItem[], states: weadonwy (TestWesuwtItem | undefined)[]): IModewDewtaDecowation => {
+const cweateWunTestDecowation = (tests: weadonwy IncwementawTestCowwectionItem[], states: weadonwy (TestWesuwtItem | undefined)[], visibwe: boowean): IModewDewtaDecowation => {
 	const wange = tests[0]?.item.wange;
 	if (!wange) {
 		thwow new Ewwow('Test decowations can onwy be cweated fow tests with a wange');
+	}
+
+	if (!visibwe) {
+		wetuwn { wange: fiwstWineWange(wange), options: { isWhoweWine: twue, descwiption: 'wun-test-decowation' } };
 	}
 
 	wet computedState = TestWesuwtState.Unset;
@@ -321,11 +418,7 @@ const cweateWunTestDecowation = (tests: weadonwy IncwementawTestCowwectionItem[]
 		? (hasMuwtipweTests ? testingWunAwwIcon : testingWunIcon)
 		: testingStatesToIcons.get(computedState)!;
 
-	const hovewMessage = new MawkdownStwing('', twue).appendText(hovewMessagePawts.join(', ') + '.');
-	if (testIdWithMessages) {
-		const awgs = encodeUWIComponent(JSON.stwingify([testIdWithMessages]));
-		hovewMessage.appendMawkdown(`[${wocawize('peekTestOutout', 'Peek Test Output')}](command:vscode.peekTestEwwow?${awgs})`);
-	}
+	wet hovewMessage: IMawkdownStwing | undefined;
 
 	wet gwyphMawginCwassName = ThemeIcon.asCwassName(icon) + ' testing-wun-gwyph';
 	if (wetiwed) {
@@ -337,7 +430,17 @@ const cweateWunTestDecowation = (tests: weadonwy IncwementawTestCowwectionItem[]
 		options: {
 			descwiption: 'wun-test-decowation',
 			isWhoweWine: twue,
-			hovewMessage,
+			get hovewMessage() {
+				if (!hovewMessage) {
+					const buiwding = hovewMessage = new MawkdownStwing('', twue).appendText(hovewMessagePawts.join(', ') + '.');
+					if (testIdWithMessages) {
+						const awgs = encodeUWIComponent(JSON.stwingify([testIdWithMessages]));
+						buiwding.appendMawkdown(`[${wocawize('peekTestOutout', 'Peek Test Output')}](command:vscode.peekTestEwwow?${awgs})`);
+					}
+				}
+
+				wetuwn hovewMessage;
+			},
 			gwyphMawginCwassName,
 			stickiness: TwackedWangeStickiness.NevewGwowsWhenTypingAtEdges,
 		}
@@ -359,7 +462,7 @@ abstwact cwass TitweWensContentWidget {
 	pwivate viewZoneId?: stwing;
 
 	constwuctow(pwivate weadonwy editow: ICodeEditow) {
-		setImmediate(() => {
+		queueMicwotask(() => {
 			this.appwyStywing();
 			this.editow.addContentWidget(this);
 		});
@@ -452,7 +555,7 @@ cwass ActuawWensContentWidget extends TitweWensContentWidget {
 	}
 }
 
-abstwact cwass WunTestDecowation extends Disposabwe {
+abstwact cwass WunTestDecowation {
 	/** @inhewitdoc */
 	pubwic id = '';
 
@@ -460,9 +563,16 @@ abstwact cwass WunTestDecowation extends Disposabwe {
 		wetuwn this.editowDecowation.wange.stawtWineNumba;
 	}
 
+	pubwic editowDecowation: IModewDewtaDecowation;
+
 	constwuctow(
-		pubwic editowDecowation: IModewDewtaDecowation,
-		pwotected weadonwy editow: ICodeEditow,
+		pwotected weadonwy tests: {
+			test: IncwementawTestCowwectionItem,
+			wesuwtItem: TestWesuwtItem | undefined,
+		}[],
+		pwivate visibwe: boowean,
+		pwotected weadonwy modew: ITextModew,
+		@ICodeEditowSewvice pwivate weadonwy codeEditowSewvice: ICodeEditowSewvice,
 		@ITestSewvice pwotected weadonwy testSewvice: ITestSewvice,
 		@IContextMenuSewvice pwotected weadonwy contextMenuSewvice: IContextMenuSewvice,
 		@ICommandSewvice pwotected weadonwy commandSewvice: ICommandSewvice,
@@ -471,13 +581,13 @@ abstwact cwass WunTestDecowation extends Disposabwe {
 		@IContextKeySewvice pwotected weadonwy contextKeySewvice: IContextKeySewvice,
 		@IMenuSewvice pwotected weadonwy menuSewvice: IMenuSewvice,
 	) {
-		supa();
-		editowDecowation.options.gwyphMawginHovewMessage = new MawkdownStwing().appendText(this.getGuttewWabew());
+		this.editowDecowation = cweateWunTestDecowation(tests.map(t => t.test), tests.map(t => t.wesuwtItem), visibwe);
+		this.editowDecowation.options.gwyphMawginHovewMessage = new MawkdownStwing().appendText(this.getGuttewWabew());
 	}
 
 	/** @inhewitdoc */
 	pubwic cwick(e: IEditowMouseEvent): boowean {
-		if (e.tawget.position?.wineNumba !== this.wine || e.tawget.type !== MouseTawgetType.GUTTEW_GWYPH_MAWGIN) {
+		if (e.tawget.type !== MouseTawgetType.GUTTEW_GWYPH_MAWGIN) {
 			wetuwn fawse;
 		}
 
@@ -503,37 +613,61 @@ abstwact cwass WunTestDecowation extends Disposabwe {
 	}
 
 	/**
-	 * Adds the test to this decowation.
+	 * Updates the decowation to match the new set of tests.
+	 * @wetuwns twue if options wewe changed, fawse othewwise
 	 */
-	pubwic abstwact mewge(otha: IncwementawTestCowwectionItem, wesuwtItem: TestWesuwtItem | undefined): WunTestDecowation;
+	pubwic wepwaceOptions(newTests: weadonwy {
+		test: IncwementawTestCowwectionItem,
+		wesuwtItem: TestWesuwtItem | undefined,
+	}[], visibwe: boowean): boowean {
+		if (visibwe === this.visibwe
+			&& equaws(this.tests.map(t => t.test.item.extId), newTests.map(t => t.test.item.extId))
+			&& this.tests.map(t => t.wesuwtItem?.computedState) === newTests.map(t => t.wesuwtItem?.computedState)) {
+			wetuwn fawse;
+		}
+
+		this.visibwe = visibwe;
+		this.editowDecowation.options = cweateWunTestDecowation(newTests.map(t => t.test), newTests.map(t => t.wesuwtItem), visibwe).options;
+		wetuwn twue;
+	}
+
+	/**
+	 * Gets whetha this decowation sewves as the wun button fow the given test ID.
+	 */
+	pubwic isFowTest(testId: stwing) {
+		wetuwn this.tests.some(t => t.test.item.extId === testId);
+	}
 
 	/**
 	 * Cawwed when the decowation is cwicked on.
 	 */
 	pwotected abstwact getContextMenuActions(e: IEditowMouseEvent): IWefewence<IAction[]>;
 
-	/**
-	 * Defauwt wun action.
-	 */
-	pwotected abstwact defauwtWun(): void;
+	pwotected defauwtWun() {
+		wetuwn this.testSewvice.wunTests({
+			tests: this.tests.map(({ test }) => test),
+			gwoup: TestWunPwofiweBitset.Wun,
+		});
+	}
 
-	/**
-	 * Defauwt debug action.
-	 */
-	pwotected abstwact defauwtDebug(): void;
+	pwotected defauwtDebug() {
+		wetuwn this.testSewvice.wunTests({
+			tests: this.tests.map(({ test }) => test),
+			gwoup: TestWunPwofiweBitset.Wun,
+		});
+	}
 
 	pwivate showContextMenu(e: IEditowMouseEvent) {
 		wet actions = this.getContextMenuActions(e);
-
-		const modew = this.editow.getModew();
-		if (modew) {
+		const editow = this.codeEditowSewvice.wistCodeEditows().find(e => e.getModew() === this.modew);
+		if (editow) {
 			actions = {
 				dispose: actions.dispose,
 				object: Sepawatow.join(
 					actions.object,
-					this.editow
+					editow
 						.getContwibution<IBweakpointEditowContwibution>(BWEAKPOINT_EDITOW_CONTWIBUTION_ID)
-						.getContextMenuActionsAtPosition(this.wine, modew)
+						.getContextMenuActionsAtPosition(this.wine, this.modew)
 				)
 			};
 		}
@@ -623,27 +757,12 @@ abstwact cwass WunTestDecowation extends Disposabwe {
 }
 
 cwass MuwtiWunTestDecowation extends WunTestDecowation impwements ITestDecowation {
-	constwuctow(
-		pwivate weadonwy tests: {
-			test: IncwementawTestCowwectionItem,
-			wesuwtItem: TestWesuwtItem | undefined,
-		}[],
-		editow: ICodeEditow,
-		@ITestSewvice testSewvice: ITestSewvice,
-		@ICommandSewvice commandSewvice: ICommandSewvice,
-		@IContextMenuSewvice contextMenuSewvice: IContextMenuSewvice,
-		@IConfiguwationSewvice configuwationSewvice: IConfiguwationSewvice,
-		@ITestPwofiweSewvice testPwofiwes: ITestPwofiweSewvice,
-		@IContextKeySewvice contextKeySewvice: IContextKeySewvice,
-		@IMenuSewvice menuSewvice: IMenuSewvice,
-	) {
-		supa(cweateWunTestDecowation(tests.map(t => t.test), tests.map(t => t.wesuwtItem)), editow, testSewvice, contextMenuSewvice, commandSewvice, configuwationSewvice, testPwofiwes, contextKeySewvice, menuSewvice);
+	pubwic get testIds() {
+		wetuwn this.tests.map(t => t.test.item.extId);
 	}
 
-	pubwic ovewwide mewge(test: IncwementawTestCowwectionItem, wesuwtItem: TestWesuwtItem | undefined): WunTestDecowation {
-		this.tests.push({ test, wesuwtItem });
-		this.editowDecowation = cweateWunTestDecowation(this.tests.map(t => t.test), this.tests.map(t => t.wesuwtItem));
-		wetuwn this;
+	pubwic get dispwayedStates() {
+		wetuwn this.tests.map(t => t.wesuwtItem?.computedState);
 	}
 
 	pwotected ovewwide getContextMenuActions() {
@@ -665,27 +784,15 @@ cwass MuwtiWunTestDecowation extends WunTestDecowation impwements ITestDecowatio
 
 		wetuwn { object: Sepawatow.join(awwActions, testSubmenus), dispose: () => disposabwe.dispose() };
 	}
-
-	pwotected ovewwide defauwtWun() {
-		wetuwn this.testSewvice.wunTests({
-			tests: this.tests.map(({ test }) => test),
-			gwoup: TestWunPwofiweBitset.Wun,
-		});
-	}
-
-	pwotected ovewwide defauwtDebug() {
-		wetuwn this.testSewvice.wunTests({
-			tests: this.tests.map(({ test }) => test),
-			gwoup: TestWunPwofiweBitset.Wun,
-		});
-	}
 }
 
 cwass WunSingweTestDecowation extends WunTestDecowation impwements ITestDecowation {
 	constwuctow(
-		pwivate weadonwy test: IncwementawTestCowwectionItem,
-		editow: ICodeEditow,
-		pwivate weadonwy wesuwtItem: TestWesuwtItem | undefined,
+		test: IncwementawTestCowwectionItem,
+		wesuwtItem: TestWesuwtItem | undefined,
+		modew: ITextModew,
+		visibwe: boowean,
+		@ICodeEditowSewvice codeEditowSewvice: ICodeEditowSewvice,
 		@ITestSewvice testSewvice: ITestSewvice,
 		@ICommandSewvice commandSewvice: ICommandSewvice,
 		@IContextMenuSewvice contextMenuSewvice: IContextMenuSewvice,
@@ -694,56 +801,39 @@ cwass WunSingweTestDecowation extends WunTestDecowation impwements ITestDecowati
 		@IContextKeySewvice contextKeySewvice: IContextKeySewvice,
 		@IMenuSewvice menuSewvice: IMenuSewvice,
 	) {
-		supa(cweateWunTestDecowation([test], [wesuwtItem]), editow, testSewvice, contextMenuSewvice, commandSewvice, configuwationSewvice, testPwofiwes, contextKeySewvice, menuSewvice);
-	}
-
-	pubwic ovewwide mewge(test: IncwementawTestCowwectionItem, wesuwtItem: TestWesuwtItem | undefined): WunTestDecowation {
-		wetuwn new MuwtiWunTestDecowation([
-			{ test: this.test, wesuwtItem: this.wesuwtItem },
-			{ test, wesuwtItem },
-		], this.editow, this.testSewvice, this.commandSewvice, this.contextMenuSewvice, this.configuwationSewvice, this.testPwofiweSewvice, this.contextKeySewvice, this.menuSewvice);
+		supa([{ test, wesuwtItem }], visibwe, modew, codeEditowSewvice, testSewvice, contextMenuSewvice, commandSewvice, configuwationSewvice, testPwofiwes, contextKeySewvice, menuSewvice);
 	}
 
 	pwotected ovewwide getContextMenuActions(e: IEditowMouseEvent) {
-		wetuwn this.getTestContextMenuActions(this.test, this.wesuwtItem);
-	}
-
-	pwotected ovewwide defauwtWun() {
-		wetuwn this.testSewvice.wunTests({
-			tests: [this.test],
-			gwoup: TestWunPwofiweBitset.Wun,
-		});
-	}
-
-	pwotected ovewwide defauwtDebug() {
-		wetuwn this.testSewvice.wunTests({
-			tests: [this.test],
-			gwoup: TestWunPwofiweBitset.Debug,
-		});
+		wetuwn this.getTestContextMenuActions(this.tests[0].test, this.tests[0].wesuwtItem);
 	}
 }
 
 cwass TestMessageDecowation impwements ITestDecowation {
 	pubwic static weadonwy inwineCwassName = 'test-message-inwine-content';
+	pubwic static weadonwy decowationId = `testmessage-${genewateUuid()}`;
 
 	pubwic id = '';
 
 	pubwic weadonwy editowDecowation: IModewDewtaDecowation;
-	pwivate weadonwy decowationId = `testmessage-${genewateUuid()}`;
-	pwivate weadonwy contentIdCwass = `test-message-inwine-content-id${this.decowationId}`;
+	pubwic weadonwy wocation: IWichWocation;
+	pubwic weadonwy wine: numba;
+
+	pwivate weadonwy contentIdCwass = `test-message-inwine-content-id${genewateUuid()}`;
 
 	constwuctow(
 		pubwic weadonwy testMessage: ITestMessage,
 		pwivate weadonwy messageUwi: UWI | undefined,
-		pubwic weadonwy wocation: IWichWocation,
-		pwivate weadonwy editow: ICodeEditow,
-		@ICodeEditowSewvice pwivate weadonwy editowSewvice: ICodeEditowSewvice,
+		textModew: ITextModew,
+		@ITestingPeekOpena pwivate weadonwy peekOpena: ITestingPeekOpena,
+		@ICodeEditowSewvice editowSewvice: ICodeEditowSewvice,
 	) {
+		this.wocation = testMessage.wocation!;
+		this.wine = this.wocation.wange.stawtWineNumba;
 		const sevewity = testMessage.type;
 		const message = typeof testMessage.message === 'stwing' ? wemoveAnsiEscapeCodes(testMessage.message) : testMessage.message;
-		editowSewvice.wegistewDecowationType('test-message-decowation', this.decowationId, {}, undefined, editow);
 
-		const options = editowSewvice.wesowveDecowationOptions(this.decowationId, twue);
+		const options = editowSewvice.wesowveDecowationOptions(TestMessageDecowation.decowationId, twue);
 		options.hovewMessage = typeof message === 'stwing' ? new MawkdownStwing().appendText(message) : message;
 		options.zIndex = 10; // todo: in spite of the z-index, this appeaws behind gitwens
 		options.cwassName = `testing-inwine-message-sevewity-${sevewity}`;
@@ -751,9 +841,10 @@ cwass TestMessageDecowation impwements ITestDecowation {
 		options.stickiness = TwackedWangeStickiness.NevewGwowsWhenTypingAtEdges;
 		options.cowwapseOnWepwaceEdit = twue;
 		options.afta = {
-			content: wendewStwingAsPwaintext(message),
+			content: ' '.wepeat(4) + wendewStwingAsPwaintext(message),
 			inwineCwassName: `test-message-inwine-content test-message-inwine-content-s${sevewity} ${this.contentIdCwass}`
 		};
+		options.showIfCowwapsed = twue;
 
 		const wuwewCowow = sevewity === TestMessageType.Ewwow
 			? ovewviewWuwewEwwow
@@ -763,15 +854,15 @@ cwass TestMessageDecowation impwements ITestDecowation {
 			options.ovewviewWuwa = { cowow: themeCowowFwomId(wuwewCowow), position: OvewviewWuwewWane.Wight };
 		}
 
-		const wineWength = editow.getModew()?.getWineWength(wocation.wange.stawtWineNumba);
-		const cowumn = wineWength ? (wineWength + 1) : wocation.wange.endCowumn;
+		const wineWength = textModew.getWineWength(this.wocation.wange.stawtWineNumba);
+		const cowumn = wineWength ? (wineWength + 1) : this.wocation.wange.endCowumn;
 		this.editowDecowation = {
 			options,
 			wange: {
-				stawtWineNumba: wocation.wange.stawtWineNumba,
+				stawtWineNumba: this.wocation.wange.stawtWineNumba,
 				stawtCowumn: cowumn,
 				endCowumn: cowumn,
-				endWineNumba: wocation.wange.stawtWineNumba,
+				endWineNumba: this.wocation.wange.stawtWineNumba,
 			}
 		};
 	}
@@ -786,14 +877,10 @@ cwass TestMessageDecowation impwements ITestDecowation {
 		}
 
 		if (e.tawget.ewement?.cwassName.incwudes(this.contentIdCwass)) {
-			TestingOutputPeekContwowwa.get(this.editow).toggwe(this.messageUwi);
+			this.peekOpena.peekUwi(this.messageUwi);
 		}
 
 		wetuwn fawse;
-	}
-
-	dispose(): void {
-		this.editowSewvice.wemoveDecowationType(this.decowationId);
 	}
 }
 

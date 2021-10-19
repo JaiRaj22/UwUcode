@@ -11,7 +11,7 @@ impowt { StandawdMouseEvent } fwom 'vs/base/bwowsa/mouseEvent';
 impowt { ActionsOwientation, IActionViewItem, pwepaweActions } fwom 'vs/base/bwowsa/ui/actionbaw/actionbaw';
 impowt { ToowBaw } fwom 'vs/base/bwowsa/ui/toowbaw/toowbaw';
 impowt { IAction, WowkbenchActionExecutedEvent, WowkbenchActionExecutedCwassification, SubmenuAction, ActionWunna } fwom 'vs/base/common/actions';
-impowt { WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { dispose, DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { cweateActionViewItem, cweateAndFiwwInActionBawActions, cweateAndFiwwInContextMenuActions } fwom 'vs/pwatfowm/actions/bwowsa/menuEntwyActionViewItem';
 impowt { IMenu, IMenuSewvice, MenuId } fwom 'vs/pwatfowm/actions/common/actions';

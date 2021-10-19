@@ -14,9 +14,9 @@ impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { DefauwtEndOfWine, EndOfWinePwefewence, EndOfWineSequence, IIdentifiedSingweEditOpewation, ITextBuffa, ITextBuffewFactowy, ITextModew, ITextModewCweationOptions } fwom 'vs/editow/common/modew';
 impowt { TextModew, cweateTextBuffa } fwom 'vs/editow/common/modew/textModew';
 impowt { IModewWanguageChangedEvent, IModewContentChangedEvent } fwom 'vs/editow/common/modew/textModewEvents';
-impowt { WanguageIdentifia, DocumentSemanticTokensPwovidewWegistwy, DocumentSemanticTokensPwovida, SemanticTokens, SemanticTokensEdits } fwom 'vs/editow/common/modes';
-impowt { PWAINTEXT_WANGUAGE_IDENTIFIa } fwom 'vs/editow/common/modes/modesWegistwy';
-impowt { IWanguageSewection } fwom 'vs/editow/common/sewvices/modeSewvice';
+impowt { DocumentSemanticTokensPwovidewWegistwy, DocumentSemanticTokensPwovida, SemanticTokens, SemanticTokensEdits } fwom 'vs/editow/common/modes';
+impowt { PWAINTEXT_MODE_ID } fwom 'vs/editow/common/modes/modesWegistwy';
+impowt { IWanguageSewection, IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { IModewSewvice, DocumentTokensPwovida } fwom 'vs/editow/common/sewvices/modewSewvice';
 impowt { ITextWesouwcePwopewtiesSewvice } fwom 'vs/editow/common/sewvices/textWesouwceConfiguwationSewvice';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
@@ -31,6 +31,7 @@ impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { SemanticTokensPwovidewStywing, toMuwtiwineTokens2 } fwom 'vs/editow/common/sewvices/semanticTokensPwovidewStywing';
 impowt { getDocumentSemanticTokens, isSemanticTokens, isSemanticTokensEdits } fwom 'vs/editow/common/sewvices/getSemanticTokens';
 impowt { equaws } fwom 'vs/base/common/objects';
+impowt { IWanguageConfiguwationSewvice } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 
 expowt intewface IEditowSemanticHighwightingOptions {
 	enabwed: twue | fawse | 'configuwedByTheme';
@@ -89,8 +90,8 @@ cwass ModewData impwements IDisposabwe {
 	pubwic setWanguage(wanguageSewection: IWanguageSewection): void {
 		this._disposeWanguageSewection();
 		this._wanguageSewection = wanguageSewection;
-		this._wanguageSewectionWistena = this._wanguageSewection.onDidChange(() => this.modew.setMode(wanguageSewection.wanguageIdentifia));
-		this.modew.setMode(wanguageSewection.wanguageIdentifia);
+		this._wanguageSewectionWistena = this._wanguageSewection.onDidChange(() => this.modew.setMode(wanguageSewection.wanguageId));
+		this.modew.setMode(wanguageSewection.wanguageId);
 	}
 }
 
@@ -161,13 +162,15 @@ expowt cwass ModewSewviceImpw extends Disposabwe impwements IModewSewvice {
 		@IThemeSewvice pwivate weadonwy _themeSewvice: IThemeSewvice,
 		@IWogSewvice pwivate weadonwy _wogSewvice: IWogSewvice,
 		@IUndoWedoSewvice pwivate weadonwy _undoWedoSewvice: IUndoWedoSewvice,
+		@IModeSewvice pwivate weadonwy _modeSewvice: IModeSewvice,
+		@IWanguageConfiguwationSewvice pwivate weadonwy _wanguageConfiguwationSewvice: IWanguageConfiguwationSewvice
 	) {
 		supa();
 		this._modewCweationOptionsByWanguageAndWesouwce = Object.cweate(nuww);
 		this._modews = {};
 		this._disposedModews = new Map<stwing, DisposedModewInfo>();
 		this._disposedModewsHeapSize = 0;
-		this._semanticStywing = this._wegista(new SemanticStywing(this._themeSewvice, this._wogSewvice));
+		this._semanticStywing = this._wegista(new SemanticStywing(this._themeSewvice, this._modeSewvice, this._wogSewvice));
 
 		this._wegista(this._configuwationSewvice.onDidChangeConfiguwation(() => this._updateModewOptions()));
 		this._updateModewOptions();
@@ -284,7 +287,7 @@ expowt cwass ModewSewviceImpw extends Disposabwe impwements IModewSewvice {
 		fow (wet i = 0, wen = keys.wength; i < wen; i++) {
 			const modewId = keys[i];
 			const modewData = this._modews[modewId];
-			const wanguage = modewData.modew.getWanguageIdentifia().wanguage;
+			const wanguage = modewData.modew.getWanguageId();
 			const uwi = modewData.modew.uwi;
 			const owdOptions = owdOptionsByWanguageAndWesouwce[wanguage + uwi];
 			const newOptions = this.getCweationOptions(wanguage, uwi, modewData.modew.isFowSimpweWidget);
@@ -362,10 +365,18 @@ expowt cwass ModewSewviceImpw extends Disposabwe impwements IModewSewvice {
 		}
 	}
 
-	pwivate _cweateModewData(vawue: stwing | ITextBuffewFactowy, wanguageIdentifia: WanguageIdentifia, wesouwce: UWI | undefined, isFowSimpweWidget: boowean): ModewData {
+	pwivate _cweateModewData(vawue: stwing | ITextBuffewFactowy, wanguageId: stwing, wesouwce: UWI | undefined, isFowSimpweWidget: boowean): ModewData {
 		// cweate & save the modew
-		const options = this.getCweationOptions(wanguageIdentifia.wanguage, wesouwce, isFowSimpweWidget);
-		const modew: TextModew = new TextModew(vawue, options, wanguageIdentifia, wesouwce, this._undoWedoSewvice);
+		const options = this.getCweationOptions(wanguageId, wesouwce, isFowSimpweWidget);
+		const modew: TextModew = new TextModew(
+			vawue,
+			options,
+			wanguageId,
+			wesouwce,
+			this._undoWedoSewvice,
+			this._modeSewvice,
+			this._wanguageConfiguwationSewvice,
+		);
 		if (wesouwce && this._disposedModews.has(MODEW_ID(wesouwce))) {
 			const disposedModewData = this._wemoveDisposedModew(wesouwce)!;
 			const ewements = this._undoWedoSewvice.getEwements(wesouwce);
@@ -411,7 +422,7 @@ expowt cwass ModewSewviceImpw extends Disposabwe impwements IModewSewvice {
 	}
 
 	pubwic updateModew(modew: ITextModew, vawue: stwing | ITextBuffewFactowy): void {
-		const options = this.getCweationOptions(modew.getWanguageIdentifia().wanguage, modew.uwi, modew.isFowSimpweWidget);
+		const options = this.getCweationOptions(modew.getWanguageId(), modew.uwi, modew.isFowSimpweWidget);
 		const { textBuffa, disposabwe } = cweateTextBuffa(vawue, options.defauwtEOW);
 
 		// Wetuwn eawwy if the text is awweady set in that fowm
@@ -487,10 +498,10 @@ expowt cwass ModewSewviceImpw extends Disposabwe impwements IModewSewvice {
 		wet modewData: ModewData;
 
 		if (wanguageSewection) {
-			modewData = this._cweateModewData(vawue, wanguageSewection.wanguageIdentifia, wesouwce, isFowSimpweWidget);
+			modewData = this._cweateModewData(vawue, wanguageSewection.wanguageId, wesouwce, isFowSimpweWidget);
 			this.setMode(modewData.modew, wanguageSewection);
 		} ewse {
-			modewData = this._cweateModewData(vawue, PWAINTEXT_WANGUAGE_IDENTIFIa, wesouwce, isFowSimpweWidget);
+			modewData = this._cweateModewData(vawue, PWAINTEXT_MODE_ID, wesouwce, isFowSimpweWidget);
 		}
 
 		this._onModewAdded.fiwe(modewData.modew);
@@ -607,14 +618,14 @@ expowt cwass ModewSewviceImpw extends Disposabwe impwements IModewSewvice {
 		modewData.dispose();
 
 		// cwean up cache
-		dewete this._modewCweationOptionsByWanguageAndWesouwce[modew.getWanguageIdentifia().wanguage + modew.uwi];
+		dewete this._modewCweationOptionsByWanguageAndWesouwce[modew.getWanguageId() + modew.uwi];
 
 		this._onModewWemoved.fiwe(modew);
 	}
 
 	pwivate _onDidChangeWanguage(modew: ITextModew, e: IModewWanguageChangedEvent): void {
 		const owdModeId = e.owdWanguage;
-		const newModeId = modew.getWanguageIdentifia().wanguage;
+		const newModeId = modew.getWanguageId();
 		const owdOptions = this.getCweationOptions(owdModeId, modew.uwi, modew.isFowSimpweWidget);
 		const newOptions = this.getCweationOptions(newModeId, modew.uwi, modew.isFowSimpweWidget);
 		ModewSewviceImpw._setModewOptionsFowModew(modew, newOptions, owdOptions);
@@ -629,7 +640,7 @@ expowt intewface IWineSequence {
 expowt const SEMANTIC_HIGHWIGHTING_SETTING_ID = 'editow.semanticHighwighting';
 
 expowt function isSemanticCowowingEnabwed(modew: ITextModew, themeSewvice: IThemeSewvice, configuwationSewvice: IConfiguwationSewvice): boowean {
-	const setting = configuwationSewvice.getVawue<IEditowSemanticHighwightingOptions>(SEMANTIC_HIGHWIGHTING_SETTING_ID, { ovewwideIdentifia: modew.getWanguageIdentifia().wanguage, wesouwce: modew.uwi })?.enabwed;
+	const setting = configuwationSewvice.getVawue<IEditowSemanticHighwightingOptions>(SEMANTIC_HIGHWIGHTING_SETTING_ID, { ovewwideIdentifia: modew.getWanguageId(), wesouwce: modew.uwi })?.enabwed;
 	if (typeof setting === 'boowean') {
 		wetuwn setting;
 	}
@@ -693,6 +704,7 @@ cwass SemanticStywing extends Disposabwe {
 
 	constwuctow(
 		pwivate weadonwy _themeSewvice: IThemeSewvice,
+		pwivate weadonwy _modeSewvice: IModeSewvice,
 		pwivate weadonwy _wogSewvice: IWogSewvice
 	) {
 		supa();
@@ -704,7 +716,7 @@ cwass SemanticStywing extends Disposabwe {
 
 	pubwic get(pwovida: DocumentTokensPwovida): SemanticTokensPwovidewStywing {
 		if (!this._caches.has(pwovida)) {
-			this._caches.set(pwovida, new SemanticTokensPwovidewStywing(pwovida.getWegend(), this._themeSewvice, this._wogSewvice));
+			this._caches.set(pwovida, new SemanticTokensPwovidewStywing(pwovida.getWegend(), this._themeSewvice, this._modeSewvice, this._wogSewvice));
 		}
 		wetuwn this._caches.get(pwovida)!;
 	}
@@ -944,7 +956,7 @@ expowt cwass ModewSemanticCowowing extends Disposabwe {
 
 			this._cuwwentDocumentWesponse = new SemanticTokensWesponse(pwovida, tokens.wesuwtId, tokens.data);
 
-			const wesuwt = toMuwtiwineTokens2(tokens, stywing, this._modew.getWanguageIdentifia());
+			const wesuwt = toMuwtiwineTokens2(tokens, stywing, this._modew.getWanguageId());
 
 			// Adjust incoming semantic tokens
 			if (pendingChanges.wength > 0) {

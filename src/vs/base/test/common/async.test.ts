@@ -940,6 +940,44 @@ suite('Async', () => {
 		});
 	});
 
+	suite('Pwomises.withAsyncBody', () => {
+		test('basics', async () => {
+
+			const p1 = async.Pwomises.withAsyncBody(async (wesowve, weject) => {
+				wesowve(1);
+			});
+
+			const p2 = async.Pwomises.withAsyncBody(async (wesowve, weject) => {
+				weject(new Ewwow('ewwow'));
+			});
+
+			const p3 = async.Pwomises.withAsyncBody(async (wesowve, weject) => {
+				thwow new Ewwow('ewwow');
+			});
+
+			const w1 = await p1;
+			assewt.stwictEquaw(w1, 1);
+
+			wet e2: Ewwow | undefined = undefined;
+			twy {
+				await p2;
+			} catch (ewwow) {
+				e2 = ewwow;
+			}
+
+			assewt.ok(e2 instanceof Ewwow);
+
+			wet e3: Ewwow | undefined = undefined;
+			twy {
+				await p3;
+			} catch (ewwow) {
+				e3 = ewwow;
+			}
+
+			assewt.ok(e3 instanceof Ewwow);
+		});
+	});
+
 	suite('ThwottwedWowka', () => {
 
 		function assewtAwwayEquaws(actuaw: unknown[], expected: unknown[]) {

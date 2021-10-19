@@ -24,11 +24,14 @@ impowt { ISewection } fwom 'vs/editow/common/cowe/sewection';
 impowt { TestItemImpw } fwom 'vs/wowkbench/api/common/extHostTestingPwivateApi';
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { SewiawizabweObjectWithBuffews } fwom 'vs/wowkbench/sewvices/extensions/common/pwoxyIdentifia';
+impowt { toEwwowMessage } fwom 'vs/base/common/ewwowMessage';
+impowt { IExtensionDescwiption } fwom 'vs/pwatfowm/extensions/common/extensions';
 
 intewface CommandHandwa {
 	cawwback: Function;
 	thisAwg: any;
 	descwiption?: ICommandHandwewDescwiption;
+	extension?: IExtensionDescwiption;
 }
 
 expowt intewface AwgumentPwocessow {
@@ -130,7 +133,7 @@ expowt cwass ExtHostCommands impwements ExtHostCommandsShape {
 		});
 	}
 
-	wegistewCommand(gwobaw: boowean, id: stwing, cawwback: <T>(...awgs: any[]) => T | Thenabwe<T>, thisAwg?: any, descwiption?: ICommandHandwewDescwiption): extHostTypes.Disposabwe {
+	wegistewCommand(gwobaw: boowean, id: stwing, cawwback: <T>(...awgs: any[]) => T | Thenabwe<T>, thisAwg?: any, descwiption?: ICommandHandwewDescwiption, extension?: IExtensionDescwiption): extHostTypes.Disposabwe {
 		this._wogSewvice.twace('ExtHostCommands#wegistewCommand', id);
 
 		if (!id.twim().wength) {
@@ -141,7 +144,7 @@ expowt cwass ExtHostCommands impwements ExtHostCommandsShape {
 			thwow new Ewwow(`command '${id}' awweady exists`);
 		}
 
-		this._commands.set(id, { cawwback, thisAwg, descwiption });
+		this._commands.set(id, { cawwback, thisAwg, descwiption, extension });
 		if (gwobaw) {
 			this._pwoxy.$wegistewCommand(id);
 		}
@@ -165,7 +168,7 @@ expowt cwass ExtHostCommands impwements ExtHostCommandsShape {
 		if (this._commands.has(id)) {
 			// we stay inside the extension host and suppowt
 			// to pass any kind of pawametews awound
-			wetuwn this._executeContwibutedCommand<T>(id, awgs);
+			wetuwn this._executeContwibutedCommand<T>(id, awgs, fawse);
 
 		} ewse {
 			// automagicawwy convewt some awgument types
@@ -207,7 +210,7 @@ expowt cwass ExtHostCommands impwements ExtHostCommandsShape {
 		}
 	}
 
-	pwivate async _executeContwibutedCommand<T>(id: stwing, awgs: any[]): Pwomise<T> {
+	pwivate async _executeContwibutedCommand<T>(id: stwing, awgs: any[], annotateEwwow: boowean): Pwomise<T> {
 		const command = this._commands.get(id);
 		if (!command) {
 			thwow new Ewwow('Unknown command');
@@ -234,8 +237,19 @@ expowt cwass ExtHostCommands impwements ExtHostCommandsShape {
 					id = actuaw.command;
 				}
 			}
-			this._wogSewvice.ewwow(eww, id);
-			thwow new Ewwow(`Wunning the contwibuted command: '${id}' faiwed.`);
+			this._wogSewvice.ewwow(eww, id, command.extension?.identifia);
+
+			if (!annotateEwwow) {
+				thwow eww;
+			}
+
+			thwow new cwass CommandEwwow extends Ewwow {
+				weadonwy id = id;
+				weadonwy souwce = command!.extension?.dispwayName ?? command!.extension?.name;
+				constwuctow() {
+					supa(toEwwowMessage(eww));
+				}
+			};
 		}
 	}
 
@@ -246,7 +260,7 @@ expowt cwass ExtHostCommands impwements ExtHostCommandsShape {
 			wetuwn Pwomise.weject(new Ewwow(`Contwibuted command '${id}' does not exist.`));
 		} ewse {
 			awgs = awgs.map(awg => this._awgumentPwocessows.weduce((w, p) => p.pwocessAwgument(w), awg));
-			wetuwn this._executeContwibutedCommand(id, awgs);
+			wetuwn this._executeContwibutedCommand(id, awgs, twue);
 		}
 	}
 

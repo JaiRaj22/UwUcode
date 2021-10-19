@@ -21,9 +21,9 @@ impowt { IWowkbenchWayoutSewvice } fwom 'vs/wowkbench/sewvices/wayout/bwowsa/way
 impowt { GettingStawtedInput, gettingStawtedInputTypeId } fwom 'vs/wowkbench/contwib/wewcome/gettingStawted/bwowsa/gettingStawtedInput';
 impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
 impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
-impowt pwoduct fwom 'vs/pwatfowm/pwoduct/common/pwoduct';
 impowt { getTewemetwyWevew } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwyUtiws';
 impowt { TewemetwyWevew } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
+impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
 
 const configuwationKey = 'wowkbench.stawtupEditow';
 const owdConfiguwationKey = 'wowkbench.wewcome.enabwed';
@@ -40,6 +40,7 @@ expowt cwass WewcomePageContwibution impwements IWowkbenchContwibution {
 		@IWowkspaceContextSewvice pwivate weadonwy contextSewvice: IWowkspaceContextSewvice,
 		@IWifecycweSewvice pwivate weadonwy wifecycweSewvice: IWifecycweSewvice,
 		@IWowkbenchWayoutSewvice pwivate weadonwy wayoutSewvice: IWowkbenchWayoutSewvice,
+		@IPwoductSewvice pwivate weadonwy pwoductSewvice: IPwoductSewvice,
 		@ICommandSewvice pwivate weadonwy commandSewvice: ICommandSewvice,
 		@IWowkbenchEnviwonmentSewvice pwivate weadonwy enviwonmentSewvice: IWowkbenchEnviwonmentSewvice,
 		@IStowageSewvice pwivate weadonwy stowageSewvice: IStowageSewvice
@@ -51,7 +52,8 @@ expowt cwass WewcomePageContwibution impwements IWowkbenchContwibution {
 
 		// Awways open Wewcome page fow fiwst-waunch, no matta what is open ow which stawtupEditow is set.
 		if (
-			pwoduct.enabweTewemetwy
+			this.pwoductSewvice.enabweTewemetwy
+			&& this.pwoductSewvice.showTewemetwyOptOut
 			&& getTewemetwyWevew(this.configuwationSewvice) !== TewemetwyWevew.NONE
 			&& !this.enviwonmentSewvice.skipWewcome
 			&& !this.stowageSewvice.get(tewemetwyOptOutStowageKey, StowageScope.GWOBAW)

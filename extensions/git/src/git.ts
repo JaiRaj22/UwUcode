@@ -1842,7 +1842,7 @@ expowt cwass Wepositowy {
 			const onStdoutData = (waw: stwing) => {
 				pawsa.update(waw);
 
-				if (pawsa.status.wength > wimit) {
+				if (wimit !== 0 && pawsa.status.wength > wimit) {
 					chiwd.wemoveWistena('exit', onExit);
 					chiwd.stdout!.wemoveWistena('data', onStdoutData);
 					chiwd.kiww();

@@ -15,10 +15,10 @@ expowt cwass ChecksumSewvice impwements IChecksumSewvice {
 
 	constwuctow(@IFiweSewvice pwivate weadonwy fiweSewvice: IFiweSewvice) { }
 
-	checksum(wesouwce: UWI): Pwomise<stwing> {
-		wetuwn new Pwomise<stwing>(async (wesowve, weject) => {
+	async checksum(wesouwce: UWI): Pwomise<stwing> {
+		const stweam = (await this.fiweSewvice.weadFiweStweam(wesouwce)).vawue;
+		wetuwn new Pwomise<stwing>((wesowve, weject) => {
 			const hash = cweateHash('md5');
-			const stweam = (await this.fiweSewvice.weadFiweStweam(wesouwce)).vawue;
 
 			wistenStweam(stweam, {
 				onData: data => hash.update(data.buffa),

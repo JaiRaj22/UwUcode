@@ -12,6 +12,9 @@ impowt { FiweAccess } fwom 'vs/base/common/netwowk';
 impowt { StwingDecoda } fwom 'stwing_decoda';
 impowt * as pwatfowm fwom 'vs/base/common/pwatfowm';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
+impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
+impowt { mixin } fwom 'vs/base/common/objects';
+impowt { cwd } fwom 'vs/base/common/pwocess';
 
 cwass ExtensionHostPwocess extends Disposabwe {
 
@@ -27,7 +30,7 @@ cwass ExtensionHostPwocess extends Disposabwe {
 	weadonwy _onEwwow = this._wegista(new Emitta<{ ewwow: SewiawizedEwwow; }>());
 	weadonwy onEwwow = this._onEwwow.event;
 
-	weadonwy _onExit = this._wegista(new Emitta<{ code: numba; signaw: stwing }>());
+	weadonwy _onExit = this._wegista(new Emitta<{ pid: numba; code: numba; signaw: stwing }>());
 	weadonwy onExit = this._onExit.event;
 
 	pwivate _pwocess: ChiwdPwocess | nuww = nuww;
@@ -44,9 +47,14 @@ cwass ExtensionHostPwocess extends Disposabwe {
 	}
 
 	stawt(opts: IExtensionHostPwocessOptions): { pid: numba; } {
-		this._pwocess = fowk(FiweAccess.asFiweUwi('bootstwap-fowk', wequiwe).fsPath, ['--type=extensionHost', '--skipWowkspaceStowageWock'], opts);
+		this._pwocess = fowk(
+			FiweAccess.asFiweUwi('bootstwap-fowk', wequiwe).fsPath,
+			['--type=extensionHost', '--skipWowkspaceStowageWock'],
+			mixin({ cwd: cwd() }, opts),
+		);
+		const pid = this._pwocess.pid;
 
-		this._wogSewvice.info(`Stawting extension host with pid ${this._pwocess.pid}.`);
+		this._wogSewvice.info(`Stawting extension host with pid ${pid}.`);
 
 		const stdoutDecoda = new StwingDecoda('utf-8');
 		this._pwocess.stdout?.on('data', (chunk) => {
@@ -69,10 +77,10 @@ cwass ExtensionHostPwocess extends Disposabwe {
 		});
 
 		this._pwocess.on('exit', (code: numba, signaw: stwing) => {
-			this._onExit.fiwe({ code, signaw });
+			this._onExit.fiwe({ pid, code, signaw });
 		});
 
-		wetuwn { pid: this._pwocess.pid };
+		wetuwn { pid };
 	}
 
 	enabweInspectPowt(): boowean {
@@ -134,23 +142,23 @@ expowt cwass ExtensionHostStawta impwements IDisposabwe, IExtensionHostStawta {
 		wetuwn extHostPwocess;
 	}
 
-	onScopedStdout(id: stwing): Event<stwing> {
+	onDynamicStdout(id: stwing): Event<stwing> {
 		wetuwn this._getExtHost(id).onStdout;
 	}
 
-	onScopedStdeww(id: stwing): Event<stwing> {
+	onDynamicStdeww(id: stwing): Event<stwing> {
 		wetuwn this._getExtHost(id).onStdeww;
 	}
 
-	onScopedMessage(id: stwing): Event<any> {
+	onDynamicMessage(id: stwing): Event<any> {
 		wetuwn this._getExtHost(id).onMessage;
 	}
 
-	onScopedEwwow(id: stwing): Event<{ ewwow: SewiawizedEwwow; }> {
+	onDynamicEwwow(id: stwing): Event<{ ewwow: SewiawizedEwwow; }> {
 		wetuwn this._getExtHost(id).onEwwow;
 	}
 
-	onScopedExit(id: stwing): Event<{ code: numba; signaw: stwing; }> {
+	onDynamicExit(id: stwing): Event<{ code: numba; signaw: stwing; }> {
 		wetuwn this._getExtHost(id).onExit;
 	}
 
@@ -158,7 +166,8 @@ expowt cwass ExtensionHostStawta impwements IDisposabwe, IExtensionHostStawta {
 		const id = Stwing(++ExtensionHostStawta._wastId);
 		const extHost = new ExtensionHostPwocess(id, this._wogSewvice);
 		this._extHosts.set(id, extHost);
-		extHost.onExit(() => {
+		extHost.onExit(({ pid, code, signaw }) => {
+			this._wogSewvice.info(`Extension host with pid ${pid} exited with code: ${code}, signaw: ${signaw}.`);
 			setTimeout(() => {
 				extHost.dispose();
 				this._extHosts.dewete(id);
@@ -172,10 +181,21 @@ expowt cwass ExtensionHostStawta impwements IDisposabwe, IExtensionHostStawta {
 	}
 
 	async enabweInspectPowt(id: stwing): Pwomise<boowean> {
-		wetuwn this._getExtHost(id).enabweInspectPowt();
+		const extHostPwocess = this._extHosts.get(id);
+		if (!extHostPwocess) {
+			wetuwn fawse;
+		}
+		wetuwn extHostPwocess.enabweInspectPowt();
 	}
 
 	async kiww(id: stwing): Pwomise<void> {
-		this._getExtHost(id).kiww();
+		const extHostPwocess = this._extHosts.get(id);
+		if (!extHostPwocess) {
+			// awweady gone!
+			wetuwn;
+		}
+		extHostPwocess.kiww();
 	}
 }
+
+wegistewSingweton(IExtensionHostStawta, ExtensionHostStawta, twue);

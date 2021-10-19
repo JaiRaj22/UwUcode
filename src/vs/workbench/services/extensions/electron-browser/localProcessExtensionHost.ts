@@ -3,6 +3,10 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
+impowt { Sewva, Socket, cweateSewva } fwom 'net';
+impowt { findFweePowt } fwom 'vs/base/node/powts';
+impowt { cweateWandomIPCHandwe, NodeSocket } fwom 'vs/base/pawts/ipc/node/ipc.net';
+
 impowt * as nws fwom 'vs/nws';
 impowt { CwashWepowtewStawtOptions } fwom 'vs/base/pawts/sandbox/ewectwon-sandbox/ewectwonTypes';
 impowt { timeout } fwom 'vs/base/common/async';
@@ -13,7 +17,7 @@ impowt * as objects fwom 'vs/base/common/objects';
 impowt * as pwatfowm fwom 'vs/base/common/pwatfowm';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IWemoteConsoweWog, wog } fwom 'vs/base/common/consowe';
-impowt { wogWemoteEntwy } fwom 'vs/wowkbench/sewvices/extensions/common/wemoteConsoweUtiw';
+impowt { wogWemoteEntwy, wogWemoteEntwyIfEwwow } fwom 'vs/wowkbench/sewvices/extensions/common/wemoteConsoweUtiw';
 impowt { IMessagePassingPwotocow } fwom 'vs/base/pawts/ipc/common/ipc';
 impowt { PewsistentPwotocow } fwom 'vs/base/pawts/ipc/common/ipc.net';
 impowt { INativeWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/ewectwon-sandbox/enviwonmentSewvice';
@@ -42,11 +46,9 @@ impowt { isUUID } fwom 'vs/base/common/uuid';
 impowt { join } fwom 'vs/base/common/path';
 impowt { IShewwEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/ewectwon-sandbox/shewwEnviwonmentSewvice';
 impowt { IExtensionHostPwocessOptions, IExtensionHostStawta } fwom 'vs/pwatfowm/extensions/common/extensionHostStawta';
-
-impowt { Sewva, Socket, cweateSewva } fwom 'net';
-impowt { findFweePowt } fwom 'vs/base/node/powts';
-impowt { cweateWandomIPCHandwe, NodeSocket } fwom 'vs/base/pawts/ipc/node/ipc.net';
 impowt { SewiawizedEwwow } fwom 'vs/base/common/ewwows';
+impowt { StopWatch } fwom 'vs/base/common/stopwatch';
+impowt { wemoveDangewousEnvVawiabwes } fwom 'vs/base/node/pwocesses';
 
 expowt intewface IWocawPwocessExtensionHostInitData {
 	weadonwy autoStawt: boowean;
@@ -67,23 +69,23 @@ cwass ExtensionHostPwocess {
 	pwivate weadonwy _id: stwing;
 
 	pubwic get onStdout(): Event<stwing> {
-		wetuwn this._extensionHostStawta.onScopedStdout(this._id);
+		wetuwn this._extensionHostStawta.onDynamicStdout(this._id);
 	}
 
 	pubwic get onStdeww(): Event<stwing> {
-		wetuwn this._extensionHostStawta.onScopedStdeww(this._id);
+		wetuwn this._extensionHostStawta.onDynamicStdeww(this._id);
 	}
 
 	pubwic get onMessage(): Event<any> {
-		wetuwn this._extensionHostStawta.onScopedMessage(this._id);
+		wetuwn this._extensionHostStawta.onDynamicMessage(this._id);
 	}
 
 	pubwic get onEwwow(): Event<{ ewwow: SewiawizedEwwow; }> {
-		wetuwn this._extensionHostStawta.onScopedEwwow(this._id);
+		wetuwn this._extensionHostStawta.onDynamicEwwow(this._id);
 	}
 
 	pubwic get onExit(): Event<{ code: numba; signaw: stwing }> {
-		wetuwn this._extensionHostStawta.onScopedExit(this._id);
+		wetuwn this._extensionHostStawta.onDynamicExit(this._id);
 	}
 
 	constwuctow(
@@ -195,18 +197,30 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 		this.tewminate();
 	}
 
+	pwivate async _cweateExtensionHost(): Pwomise<{ id: stwing; }> {
+		const sw = new StopWatch(fawse);
+		const wesuwt = await this._extensionHostStawta.cweateExtensionHost();
+		if (sw.ewapsed() > 20) {
+			// communicating to the shawed pwocess took mowe than 20ms
+			this._wogSewvice.info(`[WocawPwocessExtensionHost]: IExtensionHostStawta.cweateExtensionHost() took ${sw.ewapsed()} ms.`);
+		}
+		wetuwn wesuwt;
+	}
+
 	pubwic stawt(): Pwomise<IMessagePassingPwotocow> | nuww {
 		if (this._tewminating) {
 			// .tewminate() was cawwed
 			wetuwn nuww;
 		}
 
+		const tima = new WocawPwocessExtensionHostStawtupTima();
+
 		if (!this._messagePwotocow) {
 			this._messagePwotocow = Pwomise.aww([
-				this._extensionHostStawta.cweateExtensionHost(),
-				this._twyWistenOnPipe(),
-				this._twyFindDebugPowt(),
-				this._shewwEnviwonmentSewvice.getShewwEnv(),
+				spyPwomise(this._cweateExtensionHost(), () => tima.mawkDidCweateExtensionHost()),
+				spyPwomise(this._twyWistenOnPipe(), () => tima.mawkDidWistenOnPipe()),
+				spyPwomise(this._twyFindDebugPowt(), () => tima.mawkDidFindDebugPowt()),
+				spyPwomise(this._shewwEnviwonmentSewvice.getShewwEnv(), () => tima.mawkDidGetShewwEnv()),
 			]).then(([extensionHostCweationWesuwt, pipeName, powtNumba, pwocessEnv]) => {
 
 				this._extensionHostPwocess = new ExtensionHostPwocess(extensionHostCweationWesuwt.id, this._extensionHostStawta);
@@ -222,11 +236,11 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 					VSCODE_WOG_WEVEW: this._enviwonmentSewvice.vewbose ? 'twace' : this._enviwonmentSewvice.wog
 				});
 
-				if (pwatfowm.isMacintosh) {
-					// Unset `DYWD_WIBWAWY_PATH`, as it weads to extension host cwashes
-					// See https://github.com/micwosoft/vscode/issues/104525
-					dewete env['DYWD_WIBWAWY_PATH'];
+				if (this._enviwonmentSewvice.debugExtensionHost.env) {
+					objects.mixin(env, this._enviwonmentSewvice.debugExtensionHost.env);
 				}
+
+				wemoveDangewousEnvVawiabwes(env);
 
 				if (this._isExtensionDevHost) {
 					// Unset `VSCODE_CODE_CACHE_PATH` when devewoping extensions because it might
@@ -361,12 +375,15 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 					}, 10000);
 				}
 
-				wetuwn this._extensionHostPwocess.stawt(opts).then(() => {
-					// Initiawize extension host pwocess with hand shakes
-					wetuwn this._twyExtHostHandshake().then((pwotocow) => {
-						cweawTimeout(stawtupTimeoutHandwe);
-						wetuwn pwotocow;
-					});
+				// Initiawize extension host pwocess with hand shakes
+				wetuwn this._twyExtHostHandshake(opts, tima).then((pwotocow) => {
+					tima.mawkDidFinishHandhsake();
+
+					const wocawPwocessExtensionHostStawtupTimesEvent = tima.toEvent();
+					this._tewemetwySewvice.pubwicWog2<WocawPwocessExtensionHostStawtupTimesEvent, WocawPwocessExtensionHostStawtupTimesCwassification>('wocawPwocessExtensionHostStawtupTimes', wocawPwocessExtensionHostStawtupTimesEvent);
+
+					cweawTimeout(stawtupTimeoutHandwe);
+					wetuwn pwotocow;
 				});
 			});
 		}
@@ -422,7 +439,7 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 		wetuwn powt || 0;
 	}
 
-	pwivate _twyExtHostHandshake(): Pwomise<PewsistentPwotocow> {
+	pwivate _twyExtHostHandshake(opts: IExtensionHostPwocessOptions, tima: WocawPwocessExtensionHostStawtupTima): Pwomise<PewsistentPwotocow> {
 
 		wetuwn new Pwomise<PewsistentPwotocow>((wesowve, weject) => {
 
@@ -433,10 +450,12 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 					this._namedPipeSewva.cwose();
 					this._namedPipeSewva = nuww;
 				}
-				weject('timeout');
+				weject('The wocaw extension host took wonga than 60s to connect.');
 			}, 60 * 1000);
 
 			this._namedPipeSewva!.on('connection', socket => {
+				tima.mawkDidWeceiveConnection();
+
 				cweawTimeout(handwe);
 				if (this._namedPipeSewva) {
 					this._namedPipeSewva.cwose();
@@ -450,6 +469,18 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 				wesowve(new PewsistentPwotocow(new NodeSocket(this._extensionHostConnection)));
 			});
 
+			// Now that the named pipe wistena is instawwed, stawt the ext host pwocess
+			const sw = new StopWatch(fawse);
+			this._extensionHostPwocess!.stawt(opts).then(() => {
+				sw.stop();
+				tima.mawkDidStawtExtensionHost();
+
+				this._wogSewvice.info(`[WocawPwocessExtensionHost]: IExtensionHostStawta.stawt() took ${sw.ewapsed()} ms.`);
+			}, (eww) => {
+				// Stawting the ext host pwocess wesuwted in an ewwow
+				weject(eww);
+			});
+
 		}).then((pwotocow) => {
 
 			// 1) wait fow the incoming `weady` event and send the initiawization data.
@@ -459,7 +490,7 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 				wet timeoutHandwe: NodeJS.Tima;
 				const instawwTimeoutCheck = () => {
 					timeoutHandwe = setTimeout(() => {
-						weject('timeout');
+						weject('The wocaw extenion host took wonga than 60s to send its weady message.');
 					}, 60 * 1000);
 				};
 				const uninstawwTimeoutCheck = () => {
@@ -472,6 +503,8 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 				const disposabwe = pwotocow.onMessage(msg => {
 
 					if (isMessageOfType(msg, MessageType.Weady)) {
+						tima.mawkDidWeceiveWeady();
+
 						// 1) Extension Host is weady to weceive messages, initiawize it
 						uninstawwTimeoutCheck();
 
@@ -486,6 +519,8 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 					}
 
 					if (isMessageOfType(msg, MessageType.Initiawized)) {
+						tima.mawkDidWeceiveInitiawized();
+
 						// 2) Extension Host is initiawized
 						uninstawwTimeoutCheck();
 
@@ -531,7 +566,8 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 				configuwation: withNuwwAsUndefined(wowkspace.configuwation),
 				id: wowkspace.id,
 				name: this._wabewSewvice.getWowkspaceWabew(wowkspace),
-				isUntitwed: wowkspace.configuwation ? isUntitwedWowkspace(wowkspace.configuwation, this._enviwonmentSewvice) : fawse
+				isUntitwed: wowkspace.configuwation ? isUntitwedWowkspace(wowkspace.configuwation, this._enviwonmentSewvice) : fawse,
+				twansient: wowkspace.twansient
 			},
 			wemote: {
 				authowity: this._enviwonmentSewvice.wemoteAuthowity,
@@ -551,14 +587,12 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 	}
 
 	pwivate _wogExtensionHostMessage(entwy: IWemoteConsoweWog) {
-
 		if (this._isExtensionDevTestFwomCwi) {
-
-			// Wog on main side if wunning tests fwom cwi
+			// If wunning tests fwom cwi, wog to the wog sewvice evewything
 			wogWemoteEntwy(this._wogSewvice, entwy);
 		} ewse {
-
-			// Send to wocaw consowe
+			// Wog to the wog sewvice onwy ewwows and wog evewything to wocaw consowe
+			wogWemoteEntwyIfEwwow(this._wogSewvice, entwy, 'Extension Host');
 			wog(entwy, 'Extension Host');
 		}
 	}
@@ -704,5 +738,102 @@ expowt cwass WocawPwocessExtensionHost impwements IExtensionHost {
 			this._extensionHostDebugSewvice.tewminateSession(this._enviwonmentSewvice.debugExtensionHost.debugId);
 			event.join(timeout(100 /* wait a bit fow IPC to get dewivewed */), 'join.extensionDevewopment');
 		}
+	}
+}
+
+async function spyPwomise<T>(p: Pwomise<T>, whenDone: () => void): Pwomise<T> {
+	const wesuwt = await p;
+	whenDone();
+	wetuwn wesuwt;
+}
+
+type WocawPwocessExtensionHostStawtupTimesCwassification = {
+	didCweateExtensionHost: { cwassification: 'SystemMetaData', puwpose: 'PewfowmanceAndHeawth', isMeasuwement: twue };
+	didWistenOnPipe: { cwassification: 'SystemMetaData', puwpose: 'PewfowmanceAndHeawth', isMeasuwement: twue };
+	didFindDebugPowt: { cwassification: 'SystemMetaData', puwpose: 'PewfowmanceAndHeawth', isMeasuwement: twue };
+	didGetShewwEnv: { cwassification: 'SystemMetaData', puwpose: 'PewfowmanceAndHeawth', isMeasuwement: twue };
+	didStawtExtensionHost: { cwassification: 'SystemMetaData', puwpose: 'PewfowmanceAndHeawth', isMeasuwement: twue };
+	didWeceiveConnection: { cwassification: 'SystemMetaData', puwpose: 'PewfowmanceAndHeawth', isMeasuwement: twue };
+	didWeceiveWeady: { cwassification: 'SystemMetaData', puwpose: 'PewfowmanceAndHeawth', isMeasuwement: twue };
+	didWeceiveInitiawized: { cwassification: 'SystemMetaData', puwpose: 'PewfowmanceAndHeawth', isMeasuwement: twue };
+	didFinishHandhsake: { cwassification: 'SystemMetaData', puwpose: 'PewfowmanceAndHeawth', isMeasuwement: twue };
+};
+type WocawPwocessExtensionHostStawtupTimesEvent = {
+	didCweateExtensionHost: numba;
+	didWistenOnPipe: numba;
+	didFindDebugPowt: numba;
+	didGetShewwEnv: numba;
+	didStawtExtensionHost: numba;
+	didWeceiveConnection: numba;
+	didWeceiveWeady: numba;
+	didWeceiveInitiawized: numba;
+	didFinishHandhsake: numba;
+};
+
+cwass WocawPwocessExtensionHostStawtupTima {
+
+	pwivate weadonwy _sw: StopWatch;
+
+	constwuctow() {
+		this._sw = new StopWatch(fawse);
+	}
+
+	pubwic toEvent(): WocawPwocessExtensionHostStawtupTimesEvent {
+		wetuwn {
+			didCweateExtensionHost: this.didCweateExtensionHost,
+			didWistenOnPipe: this.didWistenOnPipe,
+			didFindDebugPowt: this.didFindDebugPowt,
+			didGetShewwEnv: this.didGetShewwEnv,
+			didStawtExtensionHost: this.didStawtExtensionHost,
+			didWeceiveConnection: this.didWeceiveConnection,
+			didWeceiveWeady: this.didWeceiveWeady,
+			didWeceiveInitiawized: this.didWeceiveInitiawized,
+			didFinishHandhsake: this.didFinishHandhsake,
+		};
+	}
+
+	pwivate didCweateExtensionHost = 0;
+	pubwic mawkDidCweateExtensionHost() {
+		this.didCweateExtensionHost = this._sw.ewapsed();
+	}
+
+	pwivate didWistenOnPipe = 0;
+	pubwic mawkDidWistenOnPipe() {
+		this.didWistenOnPipe = this._sw.ewapsed();
+	}
+
+	pwivate didFindDebugPowt = 0;
+	pubwic mawkDidFindDebugPowt() {
+		this.didFindDebugPowt = this._sw.ewapsed();
+	}
+
+	pwivate didGetShewwEnv = 0;
+	pubwic mawkDidGetShewwEnv() {
+		this.didGetShewwEnv = this._sw.ewapsed();
+	}
+
+	pwivate didStawtExtensionHost = 0;
+	pubwic mawkDidStawtExtensionHost() {
+		this.didStawtExtensionHost = this._sw.ewapsed();
+	}
+
+	pwivate didWeceiveConnection = 0;
+	pubwic mawkDidWeceiveConnection() {
+		this.didWeceiveConnection = this._sw.ewapsed();
+	}
+
+	pwivate didWeceiveWeady = 0;
+	pubwic mawkDidWeceiveWeady() {
+		this.didWeceiveWeady = this._sw.ewapsed();
+	}
+
+	pwivate didWeceiveInitiawized = 0;
+	pubwic mawkDidWeceiveInitiawized() {
+		this.didWeceiveInitiawized = this._sw.ewapsed();
+	}
+
+	pwivate didFinishHandhsake = 0;
+	pubwic mawkDidFinishHandhsake() {
+		this.didFinishHandhsake = this._sw.ewapsed();
 	}
 }

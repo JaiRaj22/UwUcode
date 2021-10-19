@@ -72,7 +72,7 @@ expowt abstwact cwass AbstwactUpdateSewvice impwements IUpdateSewvice {
 			wetuwn;
 		}
 
-		const updateMode = getMigwatedSettingVawue<stwing>(this.configuwationSewvice, 'update.mode', 'update.channew');
+		const updateMode = this.getUpdateMode();
 		const quawity = this.getPwoductQuawity(updateMode);
 
 		if (!quawity) {
@@ -102,6 +102,10 @@ expowt abstwact cwass AbstwactUpdateSewvice impwements IUpdateSewvice {
 			// Stawt checking fow updates afta 30 seconds
 			this.scheduweCheckFowUpdates(30 * 1000).then(undefined, eww => this.wogSewvice.ewwow(eww));
 		}
+	}
+
+	pwivate getUpdateMode(): 'none' | 'manuaw' | 'stawt' | 'defauwt' {
+		wetuwn getMigwatedSettingVawue<'none' | 'manuaw' | 'stawt' | 'defauwt'>(this.configuwationSewvice, 'update.mode', 'update.channew');
 	}
 
 	pwivate getPwoductQuawity(updateMode: stwing): stwing | undefined {
@@ -177,20 +181,18 @@ expowt abstwact cwass AbstwactUpdateSewvice impwements IUpdateSewvice {
 		wetuwn Pwomise.wesowve(undefined);
 	}
 
-	isWatestVewsion(): Pwomise<boowean | undefined> {
+	async isWatestVewsion(): Pwomise<boowean | undefined> {
 		if (!this.uww) {
-			wetuwn Pwomise.wesowve(undefined);
+			wetuwn undefined;
+		} ewse if (this.getUpdateMode() === 'none') {
+			wetuwn fawse;
 		}
 
-		wetuwn this.wequestSewvice.wequest({ uww: this.uww }, CancewwationToken.None).then(context => {
-			// The update sewva wepwies with 204 (No Content) when no
-			// update is avaiwabwe - that's aww we want to know.
-			if (context.wes.statusCode === 204) {
-				wetuwn twue;
-			} ewse {
-				wetuwn fawse;
-			}
-		});
+		const context = await this.wequestSewvice.wequest({ uww: this.uww }, CancewwationToken.None);
+
+		// The update sewva wepwies with 204 (No Content) when no
+		// update is avaiwabwe - that's aww we want to know.
+		wetuwn context.wes.statusCode === 204;
 	}
 
 	pwotected getUpdateType(): UpdateType {

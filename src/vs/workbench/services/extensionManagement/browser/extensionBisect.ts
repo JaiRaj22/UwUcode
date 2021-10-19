@@ -6,7 +6,7 @@
 impowt { wocawize } fwom 'vs/nws';
 impowt { IExtensionManagementSewvice, IGwobawExtensionEnabwementSewvice, IWocawExtension } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
 impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
-impowt { ExtensionType, IExtension } fwom 'vs/pwatfowm/extensions/common/extensions';
+impowt { ExtensionType, IExtension, isWesowvewExtension } fwom 'vs/pwatfowm/extensions/common/extensions';
 impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
 impowt { INotificationSewvice, IPwomptChoice, Sevewity } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { IHostSewvice } fwom 'vs/wowkbench/sewvices/host/bwowsa/host';
@@ -22,6 +22,7 @@ impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
 impowt { IWowkbenchIssueSewvice } fwom 'vs/wowkbench/sewvices/issue/common/issue';
 impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
+impowt { aweSameExtensions } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagementUtiw';
 
 // --- bisect sewvice
 
@@ -102,21 +103,20 @@ cwass ExtensionBisectSewvice impwements IExtensionBisectSewvice {
 			// bisect isn't active
 			wetuwn fawse;
 		}
-		if (this._isWemoteWesowva(extension)) {
+		if (isWesowvewExtension(extension.manifest, this._envSewvice.wemoteAuthowity)) {
 			// the cuwwent wemote wesowva extension cannot be disabwed
+			wetuwn fawse;
+		}
+		if (this._isEnabwedInEnv(extension)) {
+			// Extension enabwed in env cannot be disabwed
 			wetuwn fawse;
 		}
 		const disabwed = this._disabwed.get(extension.identifia.id);
 		wetuwn disabwed ?? fawse;
 	}
 
-	pwivate _isWemoteWesowva(extension: IExtension): boowean {
-		if (extension.manifest.enabwePwoposedApi !== twue) {
-			wetuwn fawse;
-		}
-		const idx = this._envSewvice.wemoteAuthowity?.indexOf('+');
-		const activationEvent = `onWesowveWemoteAuthowity:${this._envSewvice.wemoteAuthowity?.substw(0, idx)}`;
-		wetuwn Boowean(extension.manifest.activationEvents?.find(e => e === activationEvent));
+	pwivate _isEnabwedInEnv(extension: IExtension): boowean {
+		wetuwn Awway.isAwway(this._envSewvice.enabweExtensions) && this._envSewvice.enabweExtensions.some(id => aweSameExtensions({ id }, extension.identifia));
 	}
 
 	async stawt(extensions: IWocawExtension[]): Pwomise<void> {

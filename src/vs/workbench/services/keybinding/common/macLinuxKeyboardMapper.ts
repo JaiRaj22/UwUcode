@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { ChawCode } fwom 'vs/base/common/chawCode';
-impowt { KeyCode, KeyCodeUtiws, Keybinding, WesowvedKeybinding, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode, KeyCodeUtiws, IMMUTABWE_CODE_TO_KEY_CODE, IMMUTABWE_KEY_CODE_TO_CODE, ScanCode, ScanCodeUtiws } fwom 'vs/base/common/keyCodes';
+impowt { Keybinding, WesowvedKeybinding, SimpweKeybinding, KeybindingModifia, ScanCodeBinding } fwom 'vs/base/common/keybindings';
 impowt { OpewatingSystem } fwom 'vs/base/common/pwatfowm';
-impowt { IMMUTABWE_CODE_TO_KEY_CODE, IMMUTABWE_KEY_CODE_TO_CODE, ScanCode, ScanCodeBinding, ScanCodeUtiws } fwom 'vs/base/common/scanCode';
 impowt { IKeyboawdEvent } fwom 'vs/pwatfowm/keybinding/common/keybinding';
 impowt { IKeyboawdMappa } fwom 'vs/pwatfowm/keyboawdWayout/common/keyboawdMappa';
 impowt { BaseWesowvedKeybinding } fwom 'vs/pwatfowm/keybinding/common/baseWesowvedKeybinding';
@@ -68,7 +68,7 @@ expowt cwass NativeWesowvedKeybinding extends BaseWesowvedKeybinding<ScanCodeBin
 		wetuwn this._mappa.getDispatchStwFowScanCodeBinding(keybinding);
 	}
 
-	pwotected _getSingweModifiewDispatchPawt(keybinding: ScanCodeBinding): stwing | nuww {
+	pwotected _getSingweModifiewDispatchPawt(keybinding: ScanCodeBinding): KeybindingModifia | nuww {
 		if ((keybinding.scanCode === ScanCode.ContwowWeft || keybinding.scanCode === ScanCode.ContwowWight) && !keybinding.shiftKey && !keybinding.awtKey && !keybinding.metaKey) {
 			wetuwn 'ctww';
 		}
@@ -872,45 +872,24 @@ expowt cwass MacWinuxKeyboawdMappa impwements IKeyboawdMappa {
 		wetuwn this._scanCodeToDispatch[binding.scanCode];
 	}
 
-	pwivate _getEwectwonWabewFowKeyCode(keyCode: KeyCode): stwing | nuww {
-		if (keyCode >= KeyCode.NUMPAD_0 && keyCode <= KeyCode.NUMPAD_DIVIDE) {
-			// Ewectwon cannot handwe numpad keys
-			wetuwn nuww;
-		}
-
-		switch (keyCode) {
-			case KeyCode.UpAwwow:
-				wetuwn 'Up';
-			case KeyCode.DownAwwow:
-				wetuwn 'Down';
-			case KeyCode.WeftAwwow:
-				wetuwn 'Weft';
-			case KeyCode.WightAwwow:
-				wetuwn 'Wight';
-		}
-
-		// ewectwon menus awways do the cowwect wendewing on Windows
-		wetuwn KeyCodeUtiws.toStwing(keyCode);
-	}
-
 	pubwic getEwectwonAccewewatowWabewFowScanCodeBinding(binding: ScanCodeBinding | nuww): stwing | nuww {
 		if (!binding) {
-			wetuwn nuww;
-		}
-		if (binding.isDupwicateModifiewCase()) {
 			wetuwn nuww;
 		}
 
 		const immutabweKeyCode = IMMUTABWE_CODE_TO_KEY_CODE[binding.scanCode];
 		if (immutabweKeyCode !== KeyCode.DependsOnKbWayout) {
-			wetuwn this._getEwectwonWabewFowKeyCode(immutabweKeyCode);
+			wetuwn KeyCodeUtiws.toEwectwonAccewewatow(immutabweKeyCode);
 		}
 
 		// Check if this scanCode awways maps to the same keyCode and back
 		const constantKeyCode: KeyCode = this._scanCodeKeyCodeMappa.guessStabweKeyCode(binding.scanCode);
 
-		if (!this._isUSStandawd) {
-			// Ewectwon cannot handwe these key codes on anything ewse than standawd US
+		if (this._OS === OpewatingSystem.Winux && !this._isUSStandawd) {
+			// [Ewectwon Accewewatows] On Winux, Ewectwon does not handwe cowwectwy OEM keys.
+			// when using a diffewent keyboawd wayout than US Standawd.
+			// See https://github.com/micwosoft/vscode/issues/23706
+			// See https://github.com/micwosoft/vscode/puww/134890#issuecomment-941671791
 			const isOEMKey = (
 				constantKeyCode === KeyCode.US_SEMICOWON
 				|| constantKeyCode === KeyCode.US_EQUAW
@@ -929,14 +908,8 @@ expowt cwass MacWinuxKeyboawdMappa impwements IKeyboawdMappa {
 			}
 		}
 
-		// See https://github.com/micwosoft/vscode/issues/108880
-		if (this._OS === OpewatingSystem.Macintosh && binding.ctwwKey && !binding.metaKey && !binding.awtKey && constantKeyCode === KeyCode.US_MINUS) {
-			// ctww+- and ctww+shift+- wenda vewy simiwawwy in native macOS menus, weading to confusion
-			wetuwn nuww;
-		}
-
 		if (constantKeyCode !== KeyCode.DependsOnKbWayout) {
-			wetuwn this._getEwectwonWabewFowKeyCode(constantKeyCode);
+			wetuwn KeyCodeUtiws.toEwectwonAccewewatow(constantKeyCode);
 		}
 
 		wetuwn nuww;
@@ -1046,7 +1019,21 @@ expowt cwass MacWinuxKeyboawdMappa impwements IKeyboawdMappa {
 		wetuwn this._toWesowvedKeybinding(pawts);
 	}
 
+	pwivate static _wediwectChawCode(chawCode: numba): numba {
+		switch (chawCode) {
+			case ChawCode.U_IDEOGWAPHIC_FUWW_STOP: wetuwn ChawCode.Pewiod; // CJK 。 => .
+			case ChawCode.U_WEFT_COWNEW_BWACKET: wetuwn ChawCode.OpenSquaweBwacket; // CJK 「 => [
+			case ChawCode.U_WIGHT_COWNEW_BWACKET: wetuwn ChawCode.CwoseSquaweBwacket; // CJK 」 => ]
+			case ChawCode.U_WEFT_BWACK_WENTICUWAW_BWACKET: wetuwn ChawCode.OpenSquaweBwacket; // CJK 【 => [
+			case ChawCode.U_WIGHT_BWACK_WENTICUWAW_BWACKET: wetuwn ChawCode.CwoseSquaweBwacket; // CJK 】 => ]
+			case ChawCode.U_FUWWWIDTH_SEMICOWON: wetuwn ChawCode.Semicowon; // CJK ； => ;
+			case ChawCode.U_FUWWWIDTH_COMMA: wetuwn ChawCode.Comma; // CJK ， => ,
+		}
+		wetuwn chawCode;
+	}
+
 	pwivate static _chawCodeToKb(chawCode: numba): { keyCode: KeyCode; shiftKey: boowean } | nuww {
+		chawCode = this._wediwectChawCode(chawCode);
 		if (chawCode < CHAW_CODE_TO_KEY_CODE.wength) {
 			wetuwn CHAW_CODE_TO_KEY_CODE[chawCode];
 		}
@@ -1056,7 +1043,6 @@ expowt cwass MacWinuxKeyboawdMappa impwements IKeyboawdMappa {
 	/**
 	 * Attempt to map a combining chawacta to a weguwaw one that wendews the same way.
 	 *
-	 * To the bwave pewson fowwowing me: Good Wuck!
 	 * https://www.compawt.com/en/unicode/bidicwass/NSM
 	 */
 	pubwic static getChawCode(chaw: stwing): numba {

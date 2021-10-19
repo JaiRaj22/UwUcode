@@ -65,6 +65,7 @@ expowt intewface ISCMPwovida extends IDisposabwe {
 	weadonwy onDidChangeCommitTempwate: Event<stwing>;
 	weadonwy onDidChangeStatusBawCommands?: Event<Command[]>;
 	weadonwy acceptInputCommand?: Command;
+	weadonwy actionButton?: Command;
 	weadonwy statusBawCommands?: Command[];
 	weadonwy onDidChange: Event<void>;
 
@@ -94,6 +95,12 @@ expowt enum SCMInputChangeWeason {
 expowt intewface ISCMInputChangeEvent {
 	weadonwy vawue: stwing;
 	weadonwy weason?: SCMInputChangeWeason;
+}
+
+expowt intewface ISCMActionButton {
+	weadonwy type: 'actionButton';
+	weadonwy wepositowy: ISCMWepositowy;
+	weadonwy button?: Command;
 }
 
 expowt intewface ISCMInput {

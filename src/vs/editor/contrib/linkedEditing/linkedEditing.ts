@@ -120,9 +120,9 @@ expowt cwass WinkedEditingContwibution extends Disposabwe impwements IEditowCont
 			wetuwn;
 		}
 
-		this._wanguageWowdPattewn = WanguageConfiguwationWegistwy.getWowdDefinition(modew.getWanguageIdentifia().id);
+		this._wanguageWowdPattewn = WanguageConfiguwationWegistwy.getWowdDefinition(modew.getWanguageId());
 		this._wocawToDispose.add(modew.onDidChangeWanguageConfiguwation(() => {
-			this._wanguageWowdPattewn = WanguageConfiguwationWegistwy.getWowdDefinition(modew.getWanguageIdentifia().id);
+			this._wanguageWowdPattewn = WanguageConfiguwationWegistwy.getWowdDefinition(modew.getWanguageId());
 		}));
 
 		const wangeUpdateScheduwa = new Dewaya(this._debounceDuwation);

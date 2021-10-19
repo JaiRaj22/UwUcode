@@ -10,7 +10,7 @@
   "main": "./out/node/cssSewvewMain",
   "bwowsa": "./dist/bwowsa/cssSewvewMain",
   "dependencies": {
-    "vscode-css-wanguagesewvice": "^5.1.5",
+    "vscode-css-wanguagesewvice": "^5.1.7",
     "vscode-wanguagesewva": "^7.0.0",
     "vscode-uwi": "^3.0.2"
   },

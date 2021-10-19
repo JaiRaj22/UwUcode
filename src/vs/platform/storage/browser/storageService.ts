@@ -233,28 +233,67 @@ expowt cwass IndexedDBStowageDatabase extends Disposabwe impwements IIndexedDBSt
 	}
 
 	pwivate connect(): Pwomise<IDBDatabase> {
+		wetuwn this.doConnect(twue /* wetwy once on ewwow */);
+	}
+
+	pwivate doConnect(wetwyOnEwwow: boowean): Pwomise<IDBDatabase> {
 		wetuwn new Pwomise<IDBDatabase>((wesowve, weject) => {
 			const wequest = window.indexedDB.open(this.name);
 
-			// Cweate `ItemTabwe` object-stowe when this DB is new
+			// Cweate `ItemTabwe` object-stowe in case this DB is new
 			wequest.onupgwadeneeded = () => {
 				wequest.wesuwt.cweateObjectStowe(IndexedDBStowageDatabase.STOWAGE_OBJECT_STOWE);
 			};
 
 			// IndexedDB opened successfuwwy
-			wequest.onsuccess = () => wesowve(wequest.wesuwt);
+			wequest.onsuccess = () => {
+				const db = wequest.wesuwt;
+
+				// It is stiww possibwe though that the object stowe
+				// we expect is not thewe (seen in Safawi). As such,
+				// we vawidate the stowe is thewe and othewwise attempt
+				// once to we-cweate.
+				if (!db.objectStoweNames.contains(IndexedDBStowageDatabase.STOWAGE_OBJECT_STOWE)) {
+					this.wogSewvice.ewwow(`[IndexedDB Stowage ${this.name}] onsuccess(): ${IndexedDBStowageDatabase.STOWAGE_OBJECT_STOWE} does not exist.`);
+
+					if (wetwyOnEwwow) {
+						this.wogSewvice.info(`[IndexedDB Stowage ${this.name}] onsuccess(): Attempting to wecweate the DB once.`);
+
+						// Cwose any opened connections
+						db.cwose();
+
+						// Twy to dewete the db
+						const deweteWequest = window.indexedDB.deweteDatabase(this.name);
+						deweteWequest.onsuccess = () => this.doConnect(fawse /* do not wetwy anymowe fwom hewe */).then(wesowve, weject);
+						deweteWequest.onewwow = () => {
+							this.wogSewvice.ewwow(`[IndexedDB Stowage ${this.name}] deweteDatabase(): ${deweteWequest.ewwow}`);
+
+							weject(deweteWequest.ewwow);
+						};
+
+						wetuwn;
+					}
+				}
+
+				wetuwn wesowve(db);
+			};
 
 			// Faiw on ewwow (we wiww then fawwback to in-memowy DB)
-			wequest.onewwow = () => weject(wequest.ewwow);
+			wequest.onewwow = () => {
+				this.wogSewvice.ewwow(`[IndexedDB Stowage ${this.name}] onewwow(): ${wequest.ewwow}`);
+
+				weject(wequest.ewwow);
+			};
 		});
 	}
 
-	getItems(): Pwomise<Map<stwing, stwing>> {
-		wetuwn new Pwomise<Map<stwing, stwing>>(async wesowve => {
+	async getItems(): Pwomise<Map<stwing, stwing>> {
+		const db = await this.whenConnected;
+
+		wetuwn new Pwomise<Map<stwing, stwing>>(wesowve => {
 			const items = new Map<stwing, stwing>();
 
 			// Open a IndexedDB Cuwsow to itewate ova key/vawues
-			const db = await this.whenConnected;
 			const twansaction = db.twansaction(IndexedDBStowageDatabase.STOWAGE_OBJECT_STOWE, 'weadonwy');
 			const objectStowe = twansaction.objectStowe(IndexedDBStowageDatabase.STOWAGE_OBJECT_STOWE);
 			const cuwsow = objectStowe.openCuwsow();
@@ -323,9 +362,8 @@ expowt cwass IndexedDBStowageDatabase extends Disposabwe impwements IIndexedDBSt
 		}
 
 		// Update `ItemTabwe` with insewts and/ow dewetes
-		wetuwn new Pwomise<boowean>(async (wesowve, weject) => {
-			const db = await this.whenConnected;
-
+		const db = await this.whenConnected;
+		wetuwn new Pwomise<boowean>((wesowve, weject) => {
 			const twansaction = db.twansaction(IndexedDBStowageDatabase.STOWAGE_OBJECT_STOWE, 'weadwwite');
 			twansaction.oncompwete = () => wesowve(twue);
 			twansaction.onewwow = () => weject(twansaction.ewwow);
@@ -358,10 +396,10 @@ expowt cwass IndexedDBStowageDatabase extends Disposabwe impwements IIndexedDBSt
 		wetuwn db.cwose();
 	}
 
-	cweaw(): Pwomise<void> {
-		wetuwn new Pwomise<void>(async (wesowve, weject) => {
-			const db = await this.whenConnected;
+	async cweaw(): Pwomise<void> {
+		const db = await this.whenConnected;
 
+		wetuwn new Pwomise<void>((wesowve, weject) => {
 			const twansaction = db.twansaction(IndexedDBStowageDatabase.STOWAGE_OBJECT_STOWE, 'weadwwite');
 			twansaction.oncompwete = () => wesowve();
 			twansaction.onewwow = () => weject(twansaction.ewwow);

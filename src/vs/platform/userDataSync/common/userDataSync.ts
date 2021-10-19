@@ -37,6 +37,14 @@ expowt function getDefauwtIgnowedSettings(): stwing[] {
 	wetuwn distinct([CONFIGUWATION_SYNC_STOWE_KEY, ...ignoweSyncSettings, ...machineSettings, ...disawwowedSettings]);
 }
 
+expowt const USEW_DATA_SYNC_CONFIGUWATION_SCOPE = 'settingsSync';
+
+expowt intewface IUsewDataSyncConfiguwation {
+	keybindingsPewPwatfowm?: boowean;
+	ignowedExtensions?: stwing[];
+	ignowedSettings?: stwing[];
+}
+
 expowt function wegistewConfiguwation(): IDisposabwe {
 	const ignowedSettingsSchemaId = 'vscode://schemas/ignowedSettings';
 	const configuwationWegistwy = Wegistwy.as<IConfiguwationWegistwy>(ConfiguwationExtensions.Configuwation);
@@ -382,7 +390,7 @@ expowt intewface IUsewDataSynchwonisa {
 	wepwace(uwi: UWI): Pwomise<boowean>;
 	stop(): Pwomise<void>;
 
-	pweview(manifest: IUsewDataManifest | nuww, headews: IHeadews): Pwomise<ISyncWesouwcePweview | nuww>;
+	pweview(manifest: IUsewDataManifest | nuww, usewDataSyncConfiguwation: IUsewDataSyncConfiguwation, headews: IHeadews): Pwomise<ISyncWesouwcePweview | nuww>;
 	accept(wesouwce: UWI, content?: stwing | nuww): Pwomise<ISyncWesouwcePweview | nuww>;
 	mewge(wesouwce: UWI): Pwomise<ISyncWesouwcePweview | nuww>;
 	discawd(wesouwce: UWI): Pwomise<ISyncWesouwcePweview | nuww>;

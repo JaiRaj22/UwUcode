@@ -7,9 +7,9 @@ impowt { KeyboawdWayoutContwibution } fwom 'vs/wowkbench/sewvices/keybinding/bwo
 
 
 KeyboawdWayoutContwibution.INSTANCE.wegistewKeyboawdWayout({
-	wayout: { modew: 'pc105', wayout: 'us', vawiant: '', options: '', wuwes: 'evdev', isUSStandawd: twue },
+	wayout: { modew: 'pc105', gwoup: 0, wayout: 'us', vawiant: '', options: '', wuwes: 'evdev', isUSStandawd: twue },
 	secondawyWayouts: [
-		{ modew: 'pc105', wayout: 'cn', vawiant: '', options: '', wuwes: 'evdev' },
+		{ modew: 'pc105', gwoup: 0, wayout: 'cn', vawiant: '', options: '', wuwes: 'evdev' },
 	],
 	mapping: {
 		Sweep: [],

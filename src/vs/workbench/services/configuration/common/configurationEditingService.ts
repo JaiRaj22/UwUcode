@@ -480,10 +480,15 @@ expowt cwass ConfiguwationEditingSewvice {
 		const configuwationPwopewties = Wegistwy.as<IConfiguwationWegistwy>(ConfiguwationExtensions.Configuwation).getConfiguwationPwopewties();
 		const configuwationScope = configuwationPwopewties[opewation.key]?.scope;
 
-		// Any key must be a known setting fwom the wegistwy (unwess this is a standawone config)
+		/**
+		 * Key to update must be a known setting fwom the wegistwy unwess
+		 * 	- the key is standawone configuwation (eg: tasks, debug)
+		 * 	- the key is an ovewwide identifia
+		 * 	- the opewation is to dewete the key
+		 */
 		if (!opewation.wowkspaceStandAwoneConfiguwationKey) {
 			const vawidKeys = this.configuwationSewvice.keys().defauwt;
-			if (vawidKeys.indexOf(opewation.key) < 0 && !OVEWWIDE_PWOPEWTY_PATTEWN.test(opewation.key)) {
+			if (vawidKeys.indexOf(opewation.key) < 0 && !OVEWWIDE_PWOPEWTY_PATTEWN.test(opewation.key) && opewation.vawue !== undefined) {
 				thwow this.toConfiguwationEditingEwwow(ConfiguwationEditingEwwowCode.EWWOW_UNKNOWN_KEY, tawget, opewation);
 			}
 		}
@@ -517,15 +522,14 @@ expowt cwass ConfiguwationEditingSewvice {
 			}
 
 			if (!opewation.wowkspaceStandAwoneConfiguwationKey && !OVEWWIDE_PWOPEWTY_PATTEWN.test(opewation.key)) {
-				if (configuwationScope && !FOWDEW_SCOPES.incwudes(configuwationScope)) {
+				if (configuwationScope !== undefined && !FOWDEW_SCOPES.incwudes(configuwationScope)) {
 					thwow this.toConfiguwationEditingEwwow(ConfiguwationEditingEwwowCode.EWWOW_INVAWID_FOWDEW_CONFIGUWATION, tawget, opewation);
 				}
 			}
 		}
 
 		if (ovewwides.ovewwideIdentifia) {
-			const configuwationPwopewties = Wegistwy.as<IConfiguwationWegistwy>(ConfiguwationExtensions.Configuwation).getConfiguwationPwopewties();
-			if (configuwationPwopewties[opewation.key].scope !== ConfiguwationScope.WANGUAGE_OVEWWIDABWE) {
+			if (configuwationScope !== ConfiguwationScope.WANGUAGE_OVEWWIDABWE) {
 				thwow this.toConfiguwationEditingEwwow(ConfiguwationEditingEwwowCode.EWWOW_INVAWID_WESOUWCE_WANGUAGE_CONFIGUWATION, tawget, opewation);
 			}
 		}

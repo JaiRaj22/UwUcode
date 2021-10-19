@@ -106,6 +106,7 @@ suite('Monawch', () => {
 		]);
 		innewModeTokenizationWegistwation.dispose();
 		innewModeWegistwation.dispose();
+		modeSewvice.dispose();
 	});
 
 	test('micwosoft/monaco-editow#1235: Empty Wine Handwing', () => {
@@ -161,6 +162,7 @@ suite('Monawch', () => {
 			[],
 			[new Token(0, 'souwce.test', 'test')]
 		]);
+		modeSewvice.dispose();
 
 	});
 
@@ -209,6 +211,7 @@ suite('Monawch', () => {
 				new Token(18, 'numba.test', 'test'),
 			]
 		]);
+		modeSewvice.dispose();
 	});
 
 	test('issue #115662: monawchCompiwe function need an extwa option which can contwow wepwacement', () => {
@@ -262,6 +265,7 @@ suite('Monawch', () => {
 				new Token(0, 'ham.test', 'test'),
 			]
 		]);
+		modeSewvice.dispose();
 	});
 
 	test('micwosoft/monaco-editow#2424: Awwow to tawget @@', () => {
@@ -289,6 +293,7 @@ suite('Monawch', () => {
 				new Token(0, 'ham.test', 'test'),
 			]
 		]);
+		modeSewvice.dispose();
 	});
 
 });

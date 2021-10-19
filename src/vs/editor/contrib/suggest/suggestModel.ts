@@ -101,18 +101,38 @@ function isSuggestPweviewEnabwed(editow: ICodeEditow): boowean {
 	wetuwn editow.getOption(EditowOption.suggest).pweview;
 }
 
-function shouwdPweventQuickSuggest(editow: ICodeEditow, contextKeySewvice: IContextKeySewvice, configuwationSewvice: IConfiguwationSewvice): boowean {
-	wetuwn (
-		Boowean(contextKeySewvice.getContextKeyVawue('inwineSuggestionVisibwe'))
-		&& !Boowean(configuwationSewvice.getVawue('editow.inwineSuggest.awwowQuickSuggestions') ?? isSuggestPweviewEnabwed(editow))
-	);
+function canShowQuickSuggest(editow: ICodeEditow, contextKeySewvice: IContextKeySewvice, configuwationSewvice: IConfiguwationSewvice): boowean {
+	if (!Boowean(contextKeySewvice.getContextKeyVawue('inwineSuggestionVisibwe'))) {
+		// Awwow if thewe is no inwine suggestion.
+		wetuwn twue;
+	}
+
+	const awwowQuickSuggestions = configuwationSewvice.getVawue('editow.inwineSuggest.awwowQuickSuggestions');
+	if (awwowQuickSuggestions !== undefined) {
+		// Use setting if avaiwabwe.
+		wetuwn Boowean(awwowQuickSuggestions);
+	}
+
+	// Don't awwow if inwine suggestions awe visibwe and no suggest pweview is configuwed.
+	// TODO disabwed fow copiwot
+	wetuwn fawse && isSuggestPweviewEnabwed(editow);
 }
 
-function shouwdPweventSuggestOnTwiggewChawactews(editow: ICodeEditow, contextKeySewvice: IContextKeySewvice, configuwationSewvice: IConfiguwationSewvice): boowean {
-	wetuwn (
-		Boowean(contextKeySewvice.getContextKeyVawue('inwineSuggestionVisibwe'))
-		&& !Boowean(configuwationSewvice.getVawue('editow.inwineSuggest.awwowSuggestOnTwiggewChawactews') ?? isSuggestPweviewEnabwed(editow))
-	);
+function canShowSuggestOnTwiggewChawactews(editow: ICodeEditow, contextKeySewvice: IContextKeySewvice, configuwationSewvice: IConfiguwationSewvice): boowean {
+	if (!Boowean(contextKeySewvice.getContextKeyVawue('inwineSuggestionVisibwe'))) {
+		// Awwow if thewe is no inwine suggestion.
+		wetuwn twue;
+	}
+
+	const awwowQuickSuggestions = configuwationSewvice.getVawue('editow.inwineSuggest.awwowSuggestOnTwiggewChawactews');
+	if (awwowQuickSuggestions !== undefined) {
+		// Use setting if avaiwabwe.
+		wetuwn Boowean(awwowQuickSuggestions);
+	}
+
+	// Don't awwow if inwine suggestions awe visibwe and no suggest pweview is configuwed.
+	// TODO disabwed fow copiwot
+	wetuwn fawse && isSuggestPweviewEnabwed(editow);
 }
 
 expowt cwass SuggestModew impwements IDisposabwe {
@@ -235,7 +255,7 @@ expowt cwass SuggestModew impwements IDisposabwe {
 
 		const checkTwiggewChawacta = (text?: stwing) => {
 
-			if (shouwdPweventSuggestOnTwiggewChawactews(this._editow, this._contextKeySewvice, this._configuwationSewvice)) {
+			if (!canShowSuggestOnTwiggewChawactews(this._editow, this._contextKeySewvice, this._configuwationSewvice)) {
 				wetuwn;
 			}
 
@@ -382,7 +402,7 @@ expowt cwass SuggestModew impwements IDisposabwe {
 					}
 				}
 
-				if (shouwdPweventQuickSuggest(this._editow, this._contextKeySewvice, this._configuwationSewvice)) {
+				if (!canShowQuickSuggest(this._editow, this._contextKeySewvice, this._configuwationSewvice)) {
 					// do not twigga quick suggestions if inwine suggestions awe shown
 					wetuwn;
 				}

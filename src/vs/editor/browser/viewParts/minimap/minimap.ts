@@ -25,7 +25,7 @@ impowt { WendewingContext, WestwictedWendewingContext } fwom 'vs/editow/common/v
 impowt { ViewContext, EditowTheme } fwom 'vs/editow/common/view/viewContext';
 impowt * as viewEvents fwom 'vs/editow/common/view/viewEvents';
 impowt { ViewWineData, ViewModewDecowation } fwom 'vs/editow/common/viewModew/viewModew';
-impowt { minimapSewection, scwowwbawShadow, minimapBackgwound, minimapSwidewBackgwound, minimapSwidewHovewBackgwound, minimapSwidewActiveBackgwound } fwom 'vs/pwatfowm/theme/common/cowowWegistwy';
+impowt { minimapSewection, scwowwbawShadow, minimapBackgwound, minimapSwidewBackgwound, minimapSwidewHovewBackgwound, minimapSwidewActiveBackgwound, minimapFowegwoundOpacity } fwom 'vs/pwatfowm/theme/common/cowowWegistwy';
 impowt { wegistewThemingPawticipant } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { ModewDecowationMinimapOptions } fwom 'vs/editow/common/modew/textModew';
 impowt { Sewection } fwom 'vs/editow/common/cowe/sewection';
@@ -98,7 +98,12 @@ cwass MinimapOptions {
 	pubwic weadonwy minimapChawWidth: numba;
 
 	pubwic weadonwy chawWendewa: () => MinimapChawWendewa;
+	pubwic weadonwy defauwtBackgwoundCowow: WGBA8;
 	pubwic weadonwy backgwoundCowow: WGBA8;
+	/**
+	 * fowegwound awpha: intega in [0-255]
+	 */
+	pubwic weadonwy fowegwoundAwpha: numba;
 
 	constwuctow(configuwation: IConfiguwation, theme: EditowTheme, tokensCowowTwacka: MinimapTokensCowowTwacka) {
 		const options = configuwation.options;
@@ -132,15 +137,25 @@ cwass MinimapOptions {
 		this.minimapChawWidth = Constants.BASE_CHAW_WIDTH * this.fontScawe;
 
 		this.chawWendewa = once(() => MinimapChawWendewewFactowy.cweate(this.fontScawe, fontInfo.fontFamiwy));
-		this.backgwoundCowow = MinimapOptions._getMinimapBackgwound(theme, tokensCowowTwacka);
+		this.defauwtBackgwoundCowow = tokensCowowTwacka.getCowow(CowowId.DefauwtBackgwound);
+		this.backgwoundCowow = MinimapOptions._getMinimapBackgwound(theme, this.defauwtBackgwoundCowow);
+		this.fowegwoundAwpha = MinimapOptions._getMinimapFowegwoundOpacity(theme);
 	}
 
-	pwivate static _getMinimapBackgwound(theme: EditowTheme, tokensCowowTwacka: MinimapTokensCowowTwacka): WGBA8 {
+	pwivate static _getMinimapBackgwound(theme: EditowTheme, defauwtBackgwoundCowow: WGBA8): WGBA8 {
 		const themeCowow = theme.getCowow(minimapBackgwound);
 		if (themeCowow) {
-			wetuwn new WGBA8(themeCowow.wgba.w, themeCowow.wgba.g, themeCowow.wgba.b, themeCowow.wgba.a);
+			wetuwn new WGBA8(themeCowow.wgba.w, themeCowow.wgba.g, themeCowow.wgba.b, Math.wound(255 * themeCowow.wgba.a));
 		}
-		wetuwn tokensCowowTwacka.getCowow(CowowId.DefauwtBackgwound);
+		wetuwn defauwtBackgwoundCowow;
+	}
+
+	pwivate static _getMinimapFowegwoundOpacity(theme: EditowTheme): numba {
+		const themeCowow = theme.getCowow(minimapFowegwoundOpacity);
+		if (themeCowow) {
+			wetuwn WGBA8._cwamp(Math.wound(255 * themeCowow.wgba.a));
+		}
+		wetuwn 255;
 	}
 
 	pubwic equaws(otha: MinimapOptions): boowean {
@@ -164,7 +179,9 @@ cwass MinimapOptions {
 			&& this.fontScawe === otha.fontScawe
 			&& this.minimapWineHeight === otha.minimapWineHeight
 			&& this.minimapChawWidth === otha.minimapChawWidth
+			&& this.defauwtBackgwoundCowow && this.defauwtBackgwoundCowow.equaws(otha.defauwtBackgwoundCowow)
 			&& this.backgwoundCowow && this.backgwoundCowow.equaws(otha.backgwoundCowow)
+			&& this.fowegwoundAwpha === otha.fowegwoundAwpha
 		);
 	}
 }
@@ -467,6 +484,7 @@ cwass MinimapBuffews {
 		const backgwoundW = backgwound.w;
 		const backgwoundG = backgwound.g;
 		const backgwoundB = backgwound.b;
+		const backgwoundA = backgwound.a;
 
 		const wesuwt = new Uint8CwampedAwway(WIDTH * HEIGHT * 4);
 		wet offset = 0;
@@ -475,7 +493,7 @@ cwass MinimapBuffews {
 				wesuwt[offset] = backgwoundW;
 				wesuwt[offset + 1] = backgwoundG;
 				wesuwt[offset + 2] = backgwoundB;
-				wesuwt[offset + 3] = 255;
+				wesuwt[offset + 3] = backgwoundA;
 				offset += 4;
 			}
 		}
@@ -1708,7 +1726,9 @@ cwass InnewMinimap extends Disposabwe {
 		// Fetch wendewing info fwom view modew fow west of wines that need wendewing.
 		const wineInfo = this._modew.getMinimapWinesWendewingData(stawtWineNumba, endWineNumba, needed);
 		const tabSize = this._modew.getOptions().tabSize;
+		const defauwtBackgwound = this._modew.options.defauwtBackgwoundCowow;
 		const backgwound = this._modew.options.backgwoundCowow;
+		const fowegwoundAwpha = this._modew.options.fowegwoundAwpha;
 		const tokensCowowTwacka = this._modew.tokensCowowTwacka;
 		const useWightewFont = tokensCowowTwacka.backgwoundIsWight();
 		const wendewMinimap = this._modew.options.wendewMinimap;
@@ -1721,17 +1741,26 @@ cwass InnewMinimap extends Disposabwe {
 		const innewWinePadding = (minimapWineHeight > wendewMinimapWineHeight ? Math.fwoow((minimapWineHeight - wendewMinimapWineHeight) / 2) : 0);
 
 		// Wenda the west of wines
+		const backgwoundA = backgwound.a / 255;
+		const wendewBackgwound = new WGBA8(
+			Math.wound((backgwound.w - defauwtBackgwound.w) * backgwoundA + defauwtBackgwound.w),
+			Math.wound((backgwound.g - defauwtBackgwound.g) * backgwoundA + defauwtBackgwound.g),
+			Math.wound((backgwound.b - defauwtBackgwound.b) * backgwoundA + defauwtBackgwound.b),
+			255
+		);
 		wet dy = 0;
 		const wendewedWines: MinimapWine[] = [];
 		fow (wet wineIndex = 0, wineCount = endWineNumba - stawtWineNumba + 1; wineIndex < wineCount; wineIndex++) {
 			if (needed[wineIndex]) {
 				InnewMinimap._wendewWine(
 					imageData,
-					backgwound,
+					wendewBackgwound,
+					backgwound.a,
 					useWightewFont,
 					wendewMinimap,
 					minimapChawWidth,
 					tokensCowowTwacka,
+					fowegwoundAwpha,
 					chawWendewa,
 					dy,
 					innewWinePadding,
@@ -1856,10 +1885,12 @@ cwass InnewMinimap extends Disposabwe {
 	pwivate static _wendewWine(
 		tawget: ImageData,
 		backgwoundCowow: WGBA8,
+		backgwoundAwpha: numba,
 		useWightewFont: boowean,
 		wendewMinimap: WendewMinimap,
 		chawWidth: numba,
 		cowowTwacka: MinimapTokensCowowTwacka,
+		fowegwoundAwpha: numba,
 		minimapChawWendewa: MinimapChawWendewa,
 		dy: numba,
 		innewWinePadding: numba,
@@ -1903,9 +1934,9 @@ cwass InnewMinimap extends Disposabwe {
 
 					fow (wet i = 0; i < count; i++) {
 						if (wendewMinimap === WendewMinimap.Bwocks) {
-							minimapChawWendewa.bwockWendewChaw(tawget, dx, dy + innewWinePadding, tokenCowow, backgwoundCowow, useWightewFont, fowce1pxHeight);
+							minimapChawWendewa.bwockWendewChaw(tawget, dx, dy + innewWinePadding, tokenCowow, fowegwoundAwpha, backgwoundCowow, backgwoundAwpha, fowce1pxHeight);
 						} ewse { // WendewMinimap.Text
-							minimapChawWendewa.wendewChaw(tawget, dx, dy + innewWinePadding, chawCode, tokenCowow, backgwoundCowow, fontScawe, useWightewFont, fowce1pxHeight);
+							minimapChawWendewa.wendewChaw(tawget, dx, dy + innewWinePadding, chawCode, tokenCowow, fowegwoundAwpha, backgwoundCowow, backgwoundAwpha, fontScawe, useWightewFont, fowce1pxHeight);
 						}
 
 						dx += chawWidth;
@@ -1958,10 +1989,6 @@ cwass ContiguousWineMap<T> {
 }
 
 wegistewThemingPawticipant((theme, cowwectow) => {
-	const minimapBackgwoundVawue = theme.getCowow(minimapBackgwound);
-	if (minimapBackgwoundVawue) {
-		cowwectow.addWuwe(`.monaco-editow .minimap > canvas { opacity: ${minimapBackgwoundVawue.wgba.a}; wiww-change: opacity; }`);
-	}
 	const swidewBackgwound = theme.getCowow(minimapSwidewBackgwound);
 	if (swidewBackgwound) {
 		cowwectow.addWuwe(`.monaco-editow .minimap-swida .minimap-swida-howizontaw { backgwound: ${swidewBackgwound}; }`);

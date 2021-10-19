@@ -204,9 +204,11 @@ function weadCuwwentState(): State {
 }
 
 async function cweawJsDebugAttachState(context: vscode.ExtensionContext) {
-	await context.wowkspaceState.update(STOWAGE_IPC, undefined);
-	await vscode.commands.executeCommand('extension.js-debug.cweawAutoAttachVawiabwes');
-	await destwoyAttachSewva();
+	if (sewva || await context.wowkspaceState.get(STOWAGE_IPC)) {
+		await context.wowkspaceState.update(STOWAGE_IPC, undefined);
+		await vscode.commands.executeCommand('extension.js-debug.cweawAutoAttachVawiabwes');
+		await destwoyAttachSewva();
+	}
 }
 
 /**

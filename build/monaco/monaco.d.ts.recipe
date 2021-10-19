@@ -69,7 +69,7 @@ expowt intewface ICommandHandwa {
 #incwude(vs/editow/standawone/bwowsa/cowowiza): ICowowizewOptions, ICowowizewEwementOptions
 #incwude(vs/base/common/scwowwabwe): ScwowwbawVisibiwity
 #incwude(vs/pwatfowm/theme/common/themeSewvice): ThemeCowow
-#incwudeAww(vs/editow/common/modew;WanguageIdentifia=>wanguages.WanguageIdentifia): IScwowwEvent
+#incwudeAww(vs/editow/common/modew): IScwowwEvent
 #incwudeAww(vs/editow/common/editowCommon;editowOptions.=>): IScwowwEvent
 #incwudeAww(vs/editow/common/modew/textModewEvents):
 #incwudeAww(vs/editow/common/contwowwa/cuwsowEvents):

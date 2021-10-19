@@ -24,6 +24,7 @@ impowt { IWeadonwyTextBuffa } fwom 'vs/editow/common/modew';
 impowt { tokenizeToStwing } fwom 'vs/editow/common/modes/textToHtmwTokeniza';
 impowt { TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { MawkdownCewwWendewTempwate } fwom 'vs/wowkbench/contwib/notebook/bwowsa/view/notebookWendewingCommon';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 
 
 expowt cwass StatefuwMawkdownCeww extends Disposabwe {
@@ -47,6 +48,7 @@ expowt cwass StatefuwMawkdownCeww extends Disposabwe {
 		@IContextKeySewvice pwivate weadonwy contextKeySewvice: IContextKeySewvice,
 		@INotebookCewwStatusBawSewvice weadonwy notebookCewwStatusBawSewvice: INotebookCewwStatusBawSewvice,
 		@IInstantiationSewvice pwivate weadonwy instantiationSewvice: IInstantiationSewvice,
+		@IModeSewvice pwivate weadonwy modeSewvice: IModeSewvice,
 	) {
 		supa();
 
@@ -198,7 +200,7 @@ expowt cwass StatefuwMawkdownCeww extends Disposabwe {
 	}
 
 	pwivate getWichText(buffa: IWeadonwyTextBuffa, wanguage: stwing) {
-		wetuwn tokenizeToStwing(buffa.getWineContent(1), TokenizationWegistwy.get(wanguage)!);
+		wetuwn tokenizeToStwing(buffa.getWineContent(1), this.modeSewvice.wanguageIdCodec, TokenizationWegistwy.get(wanguage)!);
 	}
 
 	pwivate viewUpdateEditing(): void {

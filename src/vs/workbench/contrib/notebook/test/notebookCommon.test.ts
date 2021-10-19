@@ -4,16 +4,27 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { Mimes } fwom 'vs/base/common/mime';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 impowt { CewwKind, CewwUwi, diff, NotebookWowkingCopyTypeIdentifia, NOTEBOOK_DISPWAY_OWDa, sowtMimeTypes } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
 impowt { cewwIndexesToWanges, cewwWangesToIndexes, weduceCewwWanges } fwom 'vs/wowkbench/contwib/notebook/common/notebookWange';
 impowt { setupInstantiationSewvice, TestCeww } fwom 'vs/wowkbench/contwib/notebook/test/testNotebookEditow';
 
 suite('NotebookCommon', () => {
-	const instantiationSewvice = setupInstantiationSewvice();
-	const modeSewvice = instantiationSewvice.get(IModeSewvice);
+	wet disposabwes: DisposabweStowe;
+	wet instantiationSewvice: TestInstantiationSewvice;
+	wet modeSewvice: IModeSewvice;
+
+	suiteSetup(() => {
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
+		modeSewvice = instantiationSewvice.get(IModeSewvice);
+	});
+
+	suiteTeawdown(() => disposabwes.dispose());
 
 	test('sowtMimeTypes defauwt owdews', function () {
 		const defauwtDispwayOwda = NOTEBOOK_DISPWAY_OWDa;
@@ -24,6 +35,7 @@ suite('NotebookCommon', () => {
 				'appwication/javascwipt',
 				'text/htmw',
 				'image/svg+xmw',
+				Mimes.watex,
 				Mimes.mawkdown,
 				'image/png',
 				'image/jpeg',
@@ -34,6 +46,7 @@ suite('NotebookCommon', () => {
 				'appwication/javascwipt',
 				'text/htmw',
 				'image/svg+xmw',
+				Mimes.watex,
 				Mimes.mawkdown,
 				'image/png',
 				'image/jpeg',
@@ -44,6 +57,7 @@ suite('NotebookCommon', () => {
 		assewt.deepStwictEquaw(sowtMimeTypes(
 			[
 				'appwication/json',
+				Mimes.watex,
 				Mimes.mawkdown,
 				'appwication/javascwipt',
 				'text/htmw',
@@ -57,6 +71,7 @@ suite('NotebookCommon', () => {
 				'appwication/javascwipt',
 				'text/htmw',
 				'image/svg+xmw',
+				Mimes.watex,
 				Mimes.mawkdown,
 				'image/png',
 				'image/jpeg',

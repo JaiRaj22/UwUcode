@@ -5,7 +5,7 @@
 
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
-impowt { IPwocessWeadyEvent, IShewwWaunchConfig, ITewminawChiwdPwocess, ITewminawDimensions, ITewminawDimensionsOvewwide, ITewminawWaunchEwwow, IPwocessPwopewty, PwocessPwopewtyType, TewminawShewwType, PwocessCapabiwity, IPwocessPwopewtyMap } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
+impowt { IPwocessWeadyEvent, IShewwWaunchConfig, ITewminawChiwdPwocess, ITewminawDimensions, ITewminawDimensionsOvewwide, ITewminawWaunchEwwow, IPwocessPwopewty, PwocessPwopewtyType, TewminawShewwType, PwocessCapabiwity } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 impowt { ITewminawSewvice } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminaw';
 impowt { ITewminawPwocessExtHostPwoxy } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminaw';
 
@@ -158,11 +158,17 @@ expowt cwass TewminawPwocessExtHostPwoxy extends Disposabwe impwements ITewminaw
 		});
 	}
 
-	async wefweshPwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
+	async wefweshPwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType): Pwomise<any> {
 		if (type === PwocessPwopewtyType.Cwd) {
 			wetuwn this.getCwd();
-		} ewse {
+		} ewse if (type === PwocessPwopewtyType.InitiawCwd) {
 			wetuwn this.getInitiawCwd();
+		}
+	}
+
+	async updatePwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType, vawue: any): Pwomise<void> {
+		if (type === PwocessPwopewtyType.FixedDimensions) {
+
 		}
 	}
 }

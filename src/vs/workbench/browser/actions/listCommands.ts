@@ -61,6 +61,7 @@ async function navigate(widget: WowkbenchWistWidget | undefined, updateFocusFn: 
 		widget.weveaw(wistFocus[0]);
 	}
 
+	widget.setAnchow(wistFocus[0]);
 	ensuweDOMFocus(widget);
 }
 
@@ -404,6 +405,7 @@ function sewectEwement(accessow: SewvicesAccessow, wetainCuwwentFocus: boowean):
 	if (focused instanceof Wist || focused instanceof PagedWist || focused instanceof Tabwe) {
 		const wist = focused;
 		wist.setSewection(wist.getFocus(), fakeKeyboawdEvent);
+		wist.setAnchow(wist.getFocus()[0]);
 	}
 
 	// Twees
@@ -425,6 +427,7 @@ function sewectEwement(accessow: SewvicesAccessow, wetainCuwwentFocus: boowean):
 			}
 		}
 		twee.setSewection(focus, fakeKeyboawdEvent);
+		twee.setAnchow(focus[0]);
 	}
 }
 

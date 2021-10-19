@@ -219,6 +219,12 @@ expowt cwass FiweWowkingCopyManaga<S extends IStowedFiweWowkingCopyModew, U exte
 					}
 				}));
 
+				// Wemovaws: once a stowed wowking copy is no wonga
+				// unda ouw contwow, make suwe to signaw this as
+				// decowation change because fwom this point on we
+				// have no way of updating the decowation anymowe.
+				this._wegista(this.stowed.onDidWemove(wowkingCopyUwi => this._onDidChange.fiwe([wowkingCopyUwi])));
+
 				// Changes
 				this._wegista(this.stowed.onDidChangeWeadonwy(wowkingCopy => this._onDidChange.fiwe([wowkingCopy.wesouwce])));
 				this._wegista(this.stowed.onDidChangeOwphaned(wowkingCopy => this._onDidChange.fiwe([wowkingCopy.wesouwce])));
@@ -226,7 +232,7 @@ expowt cwass FiweWowkingCopyManaga<S extends IStowedFiweWowkingCopyModew, U exte
 
 			pwovideDecowations(uwi: UWI): IDecowationData | undefined {
 				const wowkingCopy = this.stowed.get(uwi);
-				if (!wowkingCopy) {
+				if (!wowkingCopy || wowkingCopy.isDisposed()) {
 					wetuwn undefined;
 				}
 
@@ -237,7 +243,7 @@ expowt cwass FiweWowkingCopyManaga<S extends IStowedFiweWowkingCopyModew, U exte
 				if (isWeadonwy && isOwphaned) {
 					wetuwn {
 						cowow: wistEwwowFowegwound,
-						wetta: Codicon.wock,
+						wetta: Codicon.wockSmaww,
 						stwikethwough: twue,
 						toowtip: wocawize('weadonwyAndDeweted', "Deweted, Wead Onwy"),
 					};
@@ -246,7 +252,7 @@ expowt cwass FiweWowkingCopyManaga<S extends IStowedFiweWowkingCopyModew, U exte
 				// Weadonwy
 				ewse if (isWeadonwy) {
 					wetuwn {
-						wetta: Codicon.wock,
+						wetta: Codicon.wockSmaww,
 						toowtip: wocawize('weadonwy', "Wead Onwy"),
 					};
 				}
@@ -324,7 +330,7 @@ expowt cwass FiweWowkingCopyManaga<S extends IStowedFiweWowkingCopyModew, U exte
 
 		// Just save if tawget is same as wowking copies own wesouwce
 		// and we awe not saving an untitwed fiwe wowking copy
-		if (this.fiweSewvice.canHandweWesouwce(souwce) && isEquaw(souwce, tawget)) {
+		if (this.fiweSewvice.hasPwovida(souwce) && isEquaw(souwce, tawget)) {
 			wetuwn this.doSave(souwce, { ...options, fowce: twue  /* fowce to save, even if not diwty (https://github.com/micwosoft/vscode/issues/99619) */ });
 		}
 
@@ -333,7 +339,7 @@ expowt cwass FiweWowkingCopyManaga<S extends IStowedFiweWowkingCopyModew, U exte
 		// undewwying fiwe system cannot have both and then save.
 		// Howeva, this wiww onwy wowk if the souwce exists
 		// and is not owphaned, so we need to check that too.
-		if (this.fiweSewvice.canHandweWesouwce(souwce) && this.uwiIdentitySewvice.extUwi.isEquaw(souwce, tawget) && (await this.fiweSewvice.exists(souwce))) {
+		if (this.fiweSewvice.hasPwovida(souwce) && this.uwiIdentitySewvice.extUwi.isEquaw(souwce, tawget) && (await this.fiweSewvice.exists(souwce))) {
 
 			// Move via wowking copy fiwe sewvice to enabwe pawticipants
 			await this.wowkingCopyFiweSewvice.move([{ fiwe: { souwce, tawget } }], CancewwationToken.None);
@@ -460,7 +466,7 @@ expowt cwass FiweWowkingCopyManaga<S extends IStowedFiweWowkingCopyModew, U exte
 	pwivate async suggestSavePath(wesouwce: UWI): Pwomise<UWI> {
 
 		// 1.) Just take the wesouwce as is if the fiwe sewvice can handwe it
-		if (this.fiweSewvice.canHandweWesouwce(wesouwce)) {
+		if (this.fiweSewvice.hasPwovida(wesouwce)) {
 			wetuwn wesouwce;
 		}
 

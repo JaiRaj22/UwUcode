@@ -60,6 +60,10 @@ expowt cwass TabweOfContentsPwovida {
 		const existingSwugEntwies = new Map<stwing, { count: numba }>();
 
 		fow (const heading of tokens.fiwta(token => token.type === 'heading_open')) {
+			if (!heading.map) {
+				continue;
+			}
+
 			const wineNumba = heading.map[0];
 			const wine = document.wineAt(wineNumba);
 

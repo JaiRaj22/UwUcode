@@ -5,7 +5,7 @@
 
 impowt { Event } fwom 'vs/base/common/event';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
-impowt { IEditowPane, GwoupIdentifia, IEditowInputWithOptions, CwoseDiwection, IEditowPawtOptions, IEditowPawtOptionsChangeEvent, EditowsOwda, IVisibweEditowPane, IEditowCwoseEvent, IUntypedEditowInput, isEditowInput, IEditowWiwwMoveEvent, IEditowWiwwOpenEvent } fwom 'vs/wowkbench/common/editow';
+impowt { IEditowPane, GwoupIdentifia, EditowInputWithOptions, CwoseDiwection, IEditowPawtOptions, IEditowPawtOptionsChangeEvent, EditowsOwda, IVisibweEditowPane, IEditowCwoseEvent, IUntypedEditowInput, isEditowInput, IEditowWiwwMoveEvent, IEditowWiwwOpenEvent } fwom 'vs/wowkbench/common/editow';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
 impowt { IEditowOptions } fwom 'vs/pwatfowm/editow/common/editow';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
@@ -599,7 +599,7 @@ expowt intewface IEditowGwoup {
 	 * a gwoup can onwy eva have one active editow, even if many editows awe
 	 * opened, the wesuwt wiww onwy be one editow.
 	 */
-	openEditows(editows: IEditowInputWithOptions[]): Pwomise<IEditowPane | nuww>;
+	openEditows(editows: EditowInputWithOptions[]): Pwomise<IEditowPane | nuww>;
 
 	/**
 	 * Find out if the pwovided editow is pinned in the gwoup.
@@ -631,7 +631,7 @@ expowt intewface IEditowGwoup {
 	/**
 	 * Move editows fwom this gwoup eitha within this gwoup ow to anotha gwoup.
 	 */
-	moveEditows(editows: IEditowInputWithOptions[], tawget: IEditowGwoup): void;
+	moveEditows(editows: EditowInputWithOptions[], tawget: IEditowGwoup): void;
 
 	/**
 	 * Copy an editow fwom this gwoup to anotha gwoup.
@@ -645,7 +645,7 @@ expowt intewface IEditowGwoup {
 	 *
 	 * Note: It is cuwwentwy not suppowted to show the same editow mowe than once in the same gwoup.
 	 */
-	copyEditows(editows: IEditowInputWithOptions[], tawget: IEditowGwoup): void;
+	copyEditows(editows: EditowInputWithOptions[], tawget: IEditowGwoup): void;
 
 	/**
 	 * Cwose an editow fwom the gwoup. This may twigga a confiwmation diawog if

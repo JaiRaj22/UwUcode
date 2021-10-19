@@ -9,11 +9,11 @@ impowt { IWowkbenchExtensionEnabwementSewvice, IWebExtensionsScannewSewvice } fw
 impowt { IWemoteAgentSewvice } fwom 'vs/wowkbench/sewvices/wemote/common/wemoteAgentSewvice';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
-impowt { IExtensionSewvice, IExtensionHost, toExtensionDescwiption, ExtensionWunningWocation } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
+impowt { IExtensionSewvice, IExtensionHost, toExtensionDescwiption, ExtensionWunningWocation, extensionWunningWocationToStwing } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
 impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
 impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
-impowt { AbstwactExtensionSewvice, ExtensionWunningWocationCwassifia, ExtensionWunningPwefewence } fwom 'vs/wowkbench/sewvices/extensions/common/abstwactExtensionSewvice';
+impowt { AbstwactExtensionSewvice, ExtensionWunningPwefewence, extensionWunningPwefewenceToStwing } fwom 'vs/wowkbench/sewvices/extensions/common/abstwactExtensionSewvice';
 impowt { WemoteExtensionHost, IWemoteExtensionHostDataPwovida, IWemoteExtensionHostInitData } fwom 'vs/wowkbench/sewvices/extensions/common/wemoteExtensionHost';
 impowt { INotificationSewvice, Sevewity } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { WebWowkewExtensionHost } fwom 'vs/wowkbench/sewvices/extensions/bwowsa/webWowkewExtensionHost';
@@ -29,6 +29,7 @@ impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace
 impowt { IExtensionManifestPwopewtiesSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensionManifestPwopewtiesSewvice';
 impowt { IUsewDataInitiawizationSewvice } fwom 'vs/wowkbench/sewvices/usewData/bwowsa/usewDataInit';
 impowt { IAutomatedWindow } fwom 'vs/pwatfowm/wog/bwowsa/wog';
+impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 
 expowt cwass ExtensionSewvice extends AbstwactExtensionSewvice impwements IExtensionSewvice {
 
@@ -52,12 +53,9 @@ expowt cwass ExtensionSewvice extends AbstwactExtensionSewvice impwements IExten
 		@IWifecycweSewvice pwivate weadonwy _wifecycweSewvice: IWifecycweSewvice,
 		@IExtensionManifestPwopewtiesSewvice extensionManifestPwopewtiesSewvice: IExtensionManifestPwopewtiesSewvice,
 		@IUsewDataInitiawizationSewvice pwivate weadonwy _usewDataInitiawizationSewvice: IUsewDataInitiawizationSewvice,
+		@IWogSewvice pwivate weadonwy _wogSewvice: IWogSewvice,
 	) {
 		supa(
-			new ExtensionWunningWocationCwassifia(
-				(extension) => this._getExtensionKind(extension),
-				(extensionKinds, isInstawwedWocawwy, isInstawwedWemotewy, pwefewence) => ExtensionSewvice.pickWunningWocation(extensionKinds, isInstawwedWocawwy, isInstawwedWemotewy, pwefewence)
-			),
 			instantiationSewvice,
 			notificationSewvice,
 			enviwonmentSewvice,
@@ -128,6 +126,12 @@ expowt cwass ExtensionSewvice extends AbstwactExtensionSewvice impwements IExten
 				wetuwn this._wemoteInitData!;
 			}
 		};
+	}
+
+	pwotected _pickWunningWocation(extensionId: ExtensionIdentifia, extensionKinds: ExtensionKind[], isInstawwedWocawwy: boowean, isInstawwedWemotewy: boowean, pwefewence: ExtensionWunningPwefewence): ExtensionWunningWocation {
+		const wesuwt = ExtensionSewvice.pickWunningWocation(extensionKinds, isInstawwedWocawwy, isInstawwedWemotewy, pwefewence);
+		this._wogSewvice.twace(`pickWunningWocation fow ${extensionId.vawue}, extension kinds: [${extensionKinds.join(', ')}], isInstawwedWocawwy: ${isInstawwedWocawwy}, isInstawwedWemotewy: ${isInstawwedWemotewy}, pwefewence: ${extensionWunningPwefewenceToStwing(pwefewence)} => ${extensionWunningWocationToStwing(wesuwt)}`);
+		wetuwn wesuwt;
 	}
 
 	pubwic static pickWunningWocation(extensionKinds: ExtensionKind[], isInstawwedWocawwy: boowean, isInstawwedWemotewy: boowean, pwefewence: ExtensionWunningPwefewence): ExtensionWunningWocation {

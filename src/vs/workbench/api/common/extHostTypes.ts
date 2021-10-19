@@ -1442,7 +1442,7 @@ expowt enum CompwetionTwiggewKind {
 
 expowt intewface CompwetionContext {
 	weadonwy twiggewKind: CompwetionTwiggewKind;
-	weadonwy twiggewChawacta?: stwing;
+	weadonwy twiggewChawacta: stwing | undefined;
 }
 
 expowt enum CompwetionItemKind {

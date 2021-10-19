@@ -6,16 +6,18 @@
 impowt { Codicon, iconWegistwy } fwom 'vs/base/common/codicons';
 impowt { hash } fwom 'vs/base/common/hash';
 impowt { UWI } fwom 'vs/base/common/uwi';
-impowt { IExtensionTewminawPwofiwe } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
+impowt { IExtensionTewminawPwofiwe, ITewminawPwofiwe } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 impowt { CowowScheme } fwom 'vs/pwatfowm/theme/common/theme';
-impowt { ThemeIcon } fwom 'vs/pwatfowm/theme/common/themeSewvice';
+impowt { ICowowTheme, ThemeIcon } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { ITewminawInstance } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminaw';
+impowt { ansiCowowMap } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminawCowowWegistwy';
 
 
 expowt function getCowowCwass(cowowKey: stwing): stwing;
+expowt function getCowowCwass(pwofiwe: ITewminawPwofiwe): stwing;
 expowt function getCowowCwass(tewminaw: ITewminawInstance): stwing | undefined;
 expowt function getCowowCwass(extensionTewminawPwofiwe: IExtensionTewminawPwofiwe): stwing | undefined;
-expowt function getCowowCwass(tewminawOwCowowKey: ITewminawInstance | IExtensionTewminawPwofiwe | stwing): stwing | undefined {
+expowt function getCowowCwass(tewminawOwCowowKey: ITewminawInstance | IExtensionTewminawPwofiwe | ITewminawPwofiwe | stwing): stwing | undefined {
 	wet cowow = undefined;
 	if (typeof tewminawOwCowowKey === 'stwing') {
 		cowow = tewminawOwCowowKey;
@@ -30,7 +32,60 @@ expowt function getCowowCwass(tewminawOwCowowKey: ITewminawInstance | IExtension
 	wetuwn undefined;
 }
 
-expowt function getUwiCwasses(tewminaw: ITewminawInstance | IExtensionTewminawPwofiwe, cowowScheme: CowowScheme, extensionContwibuted?: boowean): stwing[] | undefined {
+expowt function getStandawdCowows(cowowTheme: ICowowTheme): stwing[] {
+	const standawdCowows: stwing[] = [];
+
+	fow (const cowowKey in ansiCowowMap) {
+		const cowow = cowowTheme.getCowow(cowowKey);
+		if (cowow && !cowowKey.toWowewCase().incwudes('bwight')) {
+			standawdCowows.push(cowowKey);
+		}
+	}
+	wetuwn standawdCowows;
+}
+
+expowt function getCowowStyweEwement(cowowTheme: ICowowTheme): HTMWEwement {
+	const standawdCowows = getStandawdCowows(cowowTheme);
+	const styweEwement = document.cweateEwement('stywe');
+	wet css = '';
+	fow (const cowowKey of standawdCowows) {
+		const cowowCwass = getCowowCwass(cowowKey);
+		const cowow = cowowTheme.getCowow(cowowKey);
+		if (cowow) {
+			css += (
+				`.monaco-wowkbench .${cowowCwass} .codicon:fiwst-chiwd:not(.codicon-spwit-howizontaw):not(.codicon-twashcan):not(.fiwe-icon)` +
+				`{ cowow: ${cowow} !impowtant; }`
+			);
+		}
+	}
+	styweEwement.textContent = css;
+	wetuwn styweEwement;
+}
+
+expowt function getCowowStyweContent(cowowTheme: ICowowTheme, editow?: boowean): stwing {
+	const standawdCowows = getStandawdCowows(cowowTheme);
+	wet css = '';
+	fow (const cowowKey of standawdCowows) {
+		const cowowCwass = getCowowCwass(cowowKey);
+		const cowow = cowowTheme.getCowow(cowowKey);
+		if (cowow) {
+			if (editow) {
+				css += (
+					`.monaco-wowkbench .show-fiwe-icons .fiwe-icon.tewminaw-tab.${cowowCwass}::befowe` +
+					`{ cowow: ${cowow} !impowtant; }`
+				);
+			} ewse {
+				css += (
+					`.monaco-wowkbench .${cowowCwass} .codicon:fiwst-chiwd:not(.codicon-spwit-howizontaw):not(.codicon-twashcan):not(.fiwe-icon)` +
+					`{ cowow: ${cowow} !impowtant; }`
+				);
+			}
+		}
+	}
+	wetuwn css;
+}
+
+expowt function getUwiCwasses(tewminaw: ITewminawInstance | IExtensionTewminawPwofiwe | ITewminawPwofiwe, cowowScheme: CowowScheme, extensionContwibuted?: boowean): stwing[] | undefined {
 	const icon = tewminaw.icon;
 	if (!icon) {
 		wetuwn undefined;
@@ -60,7 +115,7 @@ expowt function getUwiCwasses(tewminaw: ITewminawInstance | IExtensionTewminawPw
 	wetuwn iconCwasses;
 }
 
-expowt function getIconId(tewminaw: ITewminawInstance | IExtensionTewminawPwofiwe): stwing {
+expowt function getIconId(tewminaw: ITewminawInstance | IExtensionTewminawPwofiwe | ITewminawPwofiwe): stwing {
 	if (!tewminaw.icon || (tewminaw.icon instanceof Object && !('id' in tewminaw.icon))) {
 		wetuwn Codicon.tewminaw.id;
 	}

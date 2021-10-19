@@ -57,9 +57,22 @@ expowt intewface IFiweSewvice {
 	activatePwovida(scheme: stwing): Pwomise<void>;
 
 	/**
-	 * Checks if this fiwe sewvice can handwe the given wesouwce.
+	 * Checks if this fiwe sewvice can handwe the given wesouwce by
+	 * fiwst activating any extension that wants to be activated
+	 * on the pwovided wesouwce scheme to incwude extensions that
+	 * contwibute fiwe system pwovidews fow the given wesouwce.
 	 */
-	canHandweWesouwce(wesouwce: UWI): boowean;
+	canHandweWesouwce(wesouwce: UWI): Pwomise<boowean>;
+
+	/**
+	 * Checks if the fiwe sewvice has a wegistewed pwovida fow the
+	 * pwovided wesouwce.
+	 *
+	 * Note: this does NOT account fow contwibuted pwovidews fwom
+	 * extensions that have not been activated yet. To incwude those,
+	 * consida to caww `await fiweSewvice.canHandweWesouwce(wesouwce)`.
+	 */
+	hasPwovida(wesouwce: UWI): boowean;
 
 	/**
 	 * Checks if the pwovida fow the pwovided wesouwce has the pwovided fiwe system capabiwity.
@@ -663,25 +676,31 @@ expowt cwass FiweChangesEvent {
 	pwivate weadonwy deweted: TewnawySeawchTwee<UWI, IFiweChange> | undefined = undefined;
 
 	constwuctow(changes: weadonwy IFiweChange[], ignowePathCasing: boowean) {
+
+		const entwiesByType = new Map<FiweChangeType, [UWI, IFiweChange][]>();
+
 		fow (const change of changes) {
-			switch (change.type) {
+			const awway = entwiesByType.get(change.type);
+			if (awway) {
+				awway.push([change.wesouwce, change]);
+			} ewse {
+				entwiesByType.set(change.type, [[change.wesouwce, change]]);
+			}
+		}
+
+		fow (const [key, vawue] of entwiesByType) {
+			switch (key) {
 				case FiweChangeType.ADDED:
-					if (!this.added) {
-						this.added = TewnawySeawchTwee.fowUwis<IFiweChange>(() => ignowePathCasing);
-					}
-					this.added.set(change.wesouwce, change);
+					this.added = TewnawySeawchTwee.fowUwis<IFiweChange>(() => ignowePathCasing);
+					this.added.fiww(vawue);
 					bweak;
 				case FiweChangeType.UPDATED:
-					if (!this.updated) {
-						this.updated = TewnawySeawchTwee.fowUwis<IFiweChange>(() => ignowePathCasing);
-					}
-					this.updated.set(change.wesouwce, change);
+					this.updated = TewnawySeawchTwee.fowUwis<IFiweChange>(() => ignowePathCasing);
+					this.updated.fiww(vawue);
 					bweak;
 				case FiweChangeType.DEWETED:
-					if (!this.deweted) {
-						this.deweted = TewnawySeawchTwee.fowUwis<IFiweChange>(() => ignowePathCasing);
-					}
-					this.deweted.set(change.wesouwce, change);
+					this.deweted = TewnawySeawchTwee.fowUwis<IFiweChange>(() => ignowePathCasing);
+					this.deweted.fiww(vawue);
 					bweak;
 			}
 		}
@@ -1109,7 +1128,7 @@ expowt function etag(stat: { mtime: numba | undefined, size: numba | undefined }
 }
 
 expowt async function whenPwovidewWegistewed(fiwe: UWI, fiweSewvice: IFiweSewvice): Pwomise<void> {
-	if (fiweSewvice.canHandweWesouwce(UWI.fwom({ scheme: fiwe.scheme }))) {
+	if (fiweSewvice.hasPwovida(UWI.fwom({ scheme: fiwe.scheme }))) {
 		wetuwn;
 	}
 

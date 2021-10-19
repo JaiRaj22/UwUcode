@@ -133,6 +133,11 @@ expowt cwass ConfiguwationManaga impwements IConfiguwationManaga {
 			}
 		}));
 
+		// The wesowva can change the type, ensuwe activation happens, #135090
+		if (wesuwt?.type && wesuwt.type !== config.type) {
+			await this.activateDebuggews('onDebugWesowve', wesuwt.type);
+		}
+
 		wetuwn wesuwt;
 	}
 

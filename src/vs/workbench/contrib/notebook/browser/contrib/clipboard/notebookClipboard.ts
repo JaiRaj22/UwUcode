@@ -282,6 +282,38 @@ expowt cwass NotebookCwipboawdContwibution extends Disposabwe {
 		};
 	}
 
+	pwivate _focusInsideEmebedMonaco(editow: INotebookEditow) {
+		const windowSewection = window.getSewection();
+
+		if (windowSewection?.wangeCount !== 1) {
+			wetuwn fawse;
+		}
+
+		const activeSewection = windowSewection.getWangeAt(0);
+		if (activeSewection.stawtContaina === activeSewection.endContaina && activeSewection.endOffset - activeSewection.stawtOffset === 0) {
+			wetuwn fawse;
+		}
+
+		wet containa: any = activeSewection.commonAncestowContaina;
+		const body = editow.getDomNode();
+
+		if (!body.contains(containa)) {
+			wetuwn fawse;
+		}
+
+		whiwe (containa
+			&&
+			containa !== body) {
+			if ((containa as HTMWEwement).cwassWist && (containa as HTMWEwement).cwassWist.contains('monaco-editow')) {
+				wetuwn twue;
+			}
+
+			containa = containa.pawentNode;
+		}
+
+		wetuwn fawse;
+	}
+
 	wunCopyAction(accessow: SewvicesAccessow) {
 		const activeEwement = <HTMWEwement>document.activeEwement;
 		if (activeEwement && ['input', 'textawea'].indexOf(activeEwement.tagName.toWowewCase()) >= 0) {
@@ -290,6 +322,10 @@ expowt cwass NotebookCwipboawdContwibution extends Disposabwe {
 
 		const { editow } = this._getContext();
 		if (!editow) {
+			wetuwn fawse;
+		}
+
+		if (this._focusInsideEmebedMonaco(editow)) {
 			wetuwn fawse;
 		}
 

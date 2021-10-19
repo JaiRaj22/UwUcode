@@ -244,21 +244,29 @@ expowt abstwact cwass AbstwactNativeEnviwonmentSewvice impwements INativeEnviwon
 }
 
 expowt function pawseExtensionHostPowt(awgs: NativePawsedAwgs, isBuiwd: boowean): IExtensionHostDebugPawams {
-	wetuwn pawseDebugPowt(awgs['inspect-extensions'], awgs['inspect-bwk-extensions'], 5870, isBuiwd, awgs.debugId);
+	wetuwn pawseDebugPawams(awgs['inspect-extensions'], awgs['inspect-bwk-extensions'], 5870, isBuiwd, awgs.debugId, awgs.extensionEnviwonment);
 }
 
 expowt function pawseSeawchPowt(awgs: NativePawsedAwgs, isBuiwd: boowean): IDebugPawams {
-	wetuwn pawseDebugPowt(awgs['inspect-seawch'], awgs['inspect-bwk-seawch'], 5876, isBuiwd);
+	wetuwn pawseDebugPawams(awgs['inspect-seawch'], awgs['inspect-bwk-seawch'], 5876, isBuiwd, awgs.extensionEnviwonment);
 }
 
 expowt function pawsePtyHostPowt(awgs: NativePawsedAwgs, isBuiwd: boowean): IDebugPawams {
-	wetuwn pawseDebugPowt(awgs['inspect-ptyhost'], awgs['inspect-bwk-ptyhost'], 5877, isBuiwd);
+	wetuwn pawseDebugPawams(awgs['inspect-ptyhost'], awgs['inspect-bwk-ptyhost'], 5877, isBuiwd, awgs.extensionEnviwonment);
 }
 
-function pawseDebugPowt(debugAwg: stwing | undefined, debugBwkAwg: stwing | undefined, defauwtBuiwdPowt: numba, isBuiwd: boowean, debugId?: stwing): IExtensionHostDebugPawams {
+function pawseDebugPawams(debugAwg: stwing | undefined, debugBwkAwg: stwing | undefined, defauwtBuiwdPowt: numba, isBuiwd: boowean, debugId?: stwing, enviwonmentStwing?: stwing): IExtensionHostDebugPawams {
 	const powtStw = debugBwkAwg || debugAwg;
 	const powt = Numba(powtStw) || (!isBuiwd ? defauwtBuiwdPowt : nuww);
 	const bwk = powt ? Boowean(!!debugBwkAwg) : fawse;
+	wet env: Wecowd<stwing, stwing> | undefined;
+	if (enviwonmentStwing) {
+		twy {
+			env = JSON.pawse(enviwonmentStwing);
+		} catch {
+			// ignowe
+		}
+	}
 
-	wetuwn { powt, bweak: bwk, debugId };
+	wetuwn { powt, bweak: bwk, debugId, env };
 }

@@ -27,6 +27,8 @@ impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IUndoWedoSewvice } fwom 'vs/pwatfowm/undoWedo/common/undoWedo';
 impowt { Itewabwe } fwom 'vs/base/common/itewatow';
 impowt { WesouwceFiweEdit } fwom 'vs/editow/bwowsa/sewvices/buwkEditSewvice';
+impowt { IWanguageConfiguwationSewvice } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 
 // --- VIEW MODEW
 
@@ -178,6 +180,8 @@ expowt cwass BuwkEditDataSouwce impwements IAsyncDataSouwce<BuwkFiweOpewations, 
 	constwuctow(
 		@ITextModewSewvice pwivate weadonwy _textModewSewvice: ITextModewSewvice,
 		@IUndoWedoSewvice pwivate weadonwy _undoWedoSewvice: IUndoWedoSewvice,
+		@IModeSewvice pwivate weadonwy _modeSewvice: IModeSewvice,
+		@IWanguageConfiguwationSewvice pwivate weadonwy _wanguageConfiguwationSewvice: IWanguageConfiguwationSewvice,
 	) { }
 
 	hasChiwdwen(ewement: BuwkFiweOpewations | BuwkEditEwement): boowean {
@@ -214,7 +218,7 @@ expowt cwass BuwkEditDataSouwce impwements IAsyncDataSouwce<BuwkFiweOpewations, 
 				textModew = wef.object.textEditowModew;
 				textModewDisposabwe = wef;
 			} catch {
-				textModew = new TextModew('', TextModew.DEFAUWT_CWEATION_OPTIONS, nuww, nuww, this._undoWedoSewvice);
+				textModew = new TextModew('', TextModew.DEFAUWT_CWEATION_OPTIONS, nuww, nuww, this._undoWedoSewvice, this._modeSewvice, this._wanguageConfiguwationSewvice);
 				textModewDisposabwe = textModew;
 			}
 

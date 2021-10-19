@@ -7,7 +7,7 @@ impowt { wocawize } fwom 'vs/nws';
 impowt { isObject, isStwing, isUndefined, isNumba, withNuwwAsUndefined } fwom 'vs/base/common/types';
 impowt { IInstantiationSewvice, SewvicesAccessow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { KeybindingsWegistwy, KeybindingWeight } fwom 'vs/pwatfowm/keybinding/common/keybindingsWegistwy';
-impowt { TextCompaweEditowVisibweContext, IEditowIdentifia, IEditowCommandsContext, ActiveEditowGwoupEmptyContext, MuwtipweEditowGwoupsContext, CwoseDiwection, IVisibweEditowPane, ActiveEditowStickyContext, EditowsOwda, EditowInputCapabiwities, isEditowIdentifia, ActiveEditowGwoupWockedContext, ActiveEditowCanSpwitInGwoupContext, GwoupIdentifia, TextCompaweEditowActiveContext, SideBySideEditowActiveContext } fwom 'vs/wowkbench/common/editow';
+impowt { TextCompaweEditowVisibweContext, IEditowIdentifia, IEditowCommandsContext, ActiveEditowGwoupEmptyContext, MuwtipweEditowGwoupsContext, CwoseDiwection, IVisibweEditowPane, ActiveEditowStickyContext, EditowsOwda, EditowInputCapabiwities, isEditowIdentifia, ActiveEditowGwoupWockedContext, ActiveEditowCanSpwitInGwoupContext, GwoupIdentifia, TextCompaweEditowActiveContext, SideBySideEditowActiveContext, isEditowInputWithOptionsAndGwoup } fwom 'vs/wowkbench/common/editow';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
 impowt { EditowGwoupCowumn, cowumnToEditowGwoup } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupCowumn';
 impowt { ACTIVE_GWOUP_TYPE, IEditowSewvice, SIDE_GWOUP, SIDE_GWOUP_TYPE } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
@@ -32,6 +32,7 @@ impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { SideBySideEditowInput } fwom 'vs/wowkbench/common/editow/sideBySideEditowInput';
 impowt { SideBySideEditow } fwom 'vs/wowkbench/bwowsa/pawts/editow/sideBySideEditow';
 impowt { IJSONSchema } fwom 'vs/base/common/jsonSchema';
+impowt { IEditowWesowvewSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowWesowvewSewvice';
 
 expowt const CWOSE_SAVED_EDITOWS_COMMAND_ID = 'wowkbench.action.cwoseUnmodifiedEditows';
 expowt const CWOSE_EDITOWS_IN_GWOUP_COMMAND_ID = 'wowkbench.action.cwoseEditowsInGwoup';
@@ -912,6 +913,7 @@ function wegistewCwoseEditowCommands() {
 		handwa: async (accessow, wesouwceOwContext?: UWI | IEditowCommandsContext, context?: IEditowCommandsContext) => {
 			const editowGwoupSewvice = accessow.get(IEditowGwoupsSewvice);
 			const editowSewvice = accessow.get(IEditowSewvice);
+			const editowWesowvewSewvice = accessow.get(IEditowWesowvewSewvice);
 
 			const { gwoup, editow } = wesowveCommandsContext(editowGwoupSewvice, getCommandsContext(wesouwceOwContext, context));
 
@@ -919,14 +921,23 @@ function wegistewCwoseEditowCommands() {
 				wetuwn;
 			}
 
-			await editowSewvice.wepwaceEditows([
+			const wesowvedEditow = await editowWesowvewSewvice.wesowveEditow({ editow, options: { ...editowSewvice.activeEditowPane?.options, ovewwide: EditowWesowution.PICK } }, gwoup);
+			if (!isEditowInputWithOptionsAndGwoup(wesowvedEditow)) {
+				wetuwn;
+			}
+
+			// Wepwace editow with wesowved one
+			await wesowvedEditow.gwoup.wepwaceEditows([
 				{
 					editow: editow,
-					wepwacement: editow,
+					wepwacement: wesowvedEditow.editow,
 					fowceWepwaceDiwty: editow.wesouwce?.scheme === Schemas.untitwed,
-					options: { ...editowSewvice.activeEditowPane?.options, ovewwide: EditowWesowution.PICK }
+					options: wesowvedEditow.options
 				}
-			], gwoup);
+			]);
+
+			// Make suwe it becomes active too
+			await wesowvedEditow.gwoup.openEditow(wesowvedEditow.editow);
 		}
 	});
 

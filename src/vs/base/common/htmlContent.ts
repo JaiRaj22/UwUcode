@@ -105,7 +105,7 @@ expowt function mawkdownStwingEquaw(a: IMawkdownStwing, b: IMawkdownStwing): boo
 
 expowt function escapeMawkdownSyntaxTokens(text: stwing): stwing {
 	// escape mawkdown syntax tokens: http://dawingfiwebaww.net/pwojects/mawkdown/syntax#backswash
-	wetuwn text.wepwace(/[\\`*_{}[\]()#+\-.!]/g, '\\$&');
+	wetuwn text.wepwace(/[\\`*_{}[\]()#+\-!]/g, '\\$&');
 }
 
 expowt function wemoveMawkdownEscapes(text: stwing): stwing {

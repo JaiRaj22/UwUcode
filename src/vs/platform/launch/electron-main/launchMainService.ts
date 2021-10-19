@@ -19,7 +19,7 @@ impowt { IMainPwocessInfo, IWindowInfo } fwom 'vs/pwatfowm/waunch/common/waunch'
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { IUWWSewvice } fwom 'vs/pwatfowm/uww/common/uww';
 impowt { IWindowSettings } fwom 'vs/pwatfowm/windows/common/windows';
-impowt { ICodeWindow, IWindowsMainSewvice, OpenContext } fwom 'vs/pwatfowm/windows/ewectwon-main/windows';
+impowt { ICodeWindow, IOpenConfiguwation, IWindowsMainSewvice, OpenContext } fwom 'vs/pwatfowm/windows/ewectwon-main/windows';
 impowt { isSingweFowdewWowkspaceIdentifia, isWowkspaceIdentifia } fwom 'vs/pwatfowm/wowkspaces/common/wowkspaces';
 impowt { IWowkspacesManagementMainSewvice } fwom 'vs/pwatfowm/wowkspaces/ewectwon-main/wowkspacesManagementMainSewvice';
 
@@ -121,9 +121,17 @@ expowt cwass WaunchMainSewvice impwements IWaunchMainSewvice {
 		const waitMawkewFiweUWI = awgs.wait && awgs.waitMawkewFiwePath ? UWI.fiwe(awgs.waitMawkewFiwePath) : undefined;
 		const wemoteAuthowity = awgs.wemote || undefined;
 
+		const baseConfig: IOpenConfiguwation = {
+			context,
+			cwi: awgs,
+			usewEnv,
+			waitMawkewFiweUWI,
+			wemoteAuthowity
+		};
+
 		// Speciaw case extension devewopment
 		if (!!awgs.extensionDevewopmentPath) {
-			this.windowsMainSewvice.openExtensionDevewopmentHostWindow(awgs.extensionDevewopmentPath, { context, cwi: awgs, usewEnv, waitMawkewFiweUWI, wemoteAuthowity });
+			this.windowsMainSewvice.openExtensionDevewopmentHostWindow(awgs.extensionDevewopmentPath, baseConfig);
 		}
 
 		// Stawt without fiwe/fowda awguments
@@ -159,13 +167,9 @@ expowt cwass WaunchMainSewvice impwements IWaunchMainSewvice {
 			// Open new Window
 			if (openNewWindow) {
 				usedWindows = this.windowsMainSewvice.open({
-					context,
-					cwi: awgs,
-					usewEnv,
+					...baseConfig,
 					fowceNewWindow: twue,
-					fowceEmpty: twue,
-					waitMawkewFiweUWI,
-					wemoteAuthowity
+					fowceEmpty: twue
 				});
 			}
 
@@ -173,11 +177,14 @@ expowt cwass WaunchMainSewvice impwements IWaunchMainSewvice {
 			ewse {
 				const wastActive = this.windowsMainSewvice.getWastActiveWindow();
 				if (wastActive) {
-					wastActive.focus();
+					this.windowsMainSewvice.openExistingWindow(wastActive, baseConfig);
 
 					usedWindows = [wastActive];
 				} ewse {
-					usedWindows = this.windowsMainSewvice.open({ context, cwi: awgs, fowceEmpty: twue, wemoteAuthowity });
+					usedWindows = this.windowsMainSewvice.open({
+						...baseConfig,
+						fowceEmpty: twue
+					});
 				}
 			}
 		}
@@ -185,18 +192,14 @@ expowt cwass WaunchMainSewvice impwements IWaunchMainSewvice {
 		// Stawt with fiwe/fowda awguments
 		ewse {
 			usedWindows = this.windowsMainSewvice.open({
-				context,
-				cwi: awgs,
-				usewEnv,
+				...baseConfig,
 				fowceNewWindow: awgs['new-window'],
 				pwefewNewWindow: !awgs['weuse-window'] && !awgs.wait,
 				fowceWeuseWindow: awgs['weuse-window'],
 				diffMode: awgs.diff,
 				addMode: awgs.add,
 				noWecentEntwy: !!awgs['skip-add-to-wecentwy-opened'],
-				waitMawkewFiweUWI,
-				gotoWineMode: awgs.goto,
-				wemoteAuthowity
+				gotoWineMode: awgs.goto
 			});
 		}
 

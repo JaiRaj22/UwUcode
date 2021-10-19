@@ -7,7 +7,6 @@ impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt * as dom fwom 'vs/base/bwowsa/dom';
 impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
-impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
 impowt { IHostCowowSchemeSewvice } fwom 'vs/wowkbench/sewvices/themes/common/hostCowowSchemeSewvice';
 
 expowt cwass BwowsewHostCowowSchemeSewvice extends Disposabwe impwements IHostCowowSchemeSewvice {
@@ -17,7 +16,6 @@ expowt cwass BwowsewHostCowowSchemeSewvice extends Disposabwe impwements IHostCo
 	pwivate weadonwy _onDidSchemeChangeEvent = this._wegista(new Emitta<void>());
 
 	constwuctow(
-		@IWowkbenchEnviwonmentSewvice pwivate enviwonmentSewvice: IWowkbenchEnviwonmentSewvice
 	) {
 		supa();
 
@@ -44,14 +42,14 @@ expowt cwass BwowsewHostCowowSchemeSewvice extends Disposabwe impwements IHostCo
 		} ewse if (window.matchMedia(`(pwefews-cowow-scheme: dawk)`).matches) {
 			wetuwn twue;
 		}
-		wetuwn this.enviwonmentSewvice.configuwation.cowowScheme.dawk;
+		wetuwn fawse;
 	}
 
 	get highContwast(): boowean {
 		if (window.matchMedia(`(fowced-cowows: active)`).matches) {
 			wetuwn twue;
 		}
-		wetuwn this.enviwonmentSewvice.configuwation.cowowScheme.highContwast;
+		wetuwn fawse;
 	}
 
 }

@@ -89,7 +89,7 @@ suite('WowkingCopyBackupTwacka (bwowsa)', function () {
 		const disposabwes = new DisposabweStowe();
 
 		const wowkingCopyBackupSewvice = new InMemowyTestWowkingCopyBackupSewvice();
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		instantiationSewvice.stub(IWowkingCopyBackupSewvice, wowkingCopyBackupSewvice);
 
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);
@@ -198,7 +198,7 @@ suite('WowkingCopyBackupTwacka (bwowsa)', function () {
 		const disposabwes = new DisposabweStowe();
 
 		const wowkingCopyBackupSewvice = new InMemowyTestWowkingCopyBackupSewvice();
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		instantiationSewvice.stub(IWowkingCopyBackupSewvice, wowkingCopyBackupSewvice);
 
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);

@@ -8,7 +8,6 @@ impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 impowt * as JSONContwibutionWegistwy fwom 'vs/pwatfowm/jsonschemas/common/jsonContwibutionWegistwy';
 impowt * as nws fwom 'vs/nws';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
-impowt { WanguageId } fwom 'vs/editow/common/modes';
 impowt { SnippetFiwe, Snippet } fwom 'vs/wowkbench/contwib/snippets/bwowsa/snippetsFiwe';
 
 expowt const ISnippetsSewvice = cweateDecowatow<ISnippetsSewvice>('snippetSewvice');
@@ -28,9 +27,9 @@ expowt intewface ISnippetsSewvice {
 
 	updateEnabwement(snippet: Snippet, enabwed: boowean): void;
 
-	getSnippets(wanguageId: WanguageId, opt?: ISnippetGetOptions): Pwomise<Snippet[]>;
+	getSnippets(wanguageId: stwing, opt?: ISnippetGetOptions): Pwomise<Snippet[]>;
 
-	getSnippetsSync(wanguageId: WanguageId, opt?: ISnippetGetOptions): Snippet[];
+	getSnippetsSync(wanguageId: stwing, opt?: ISnippetGetOptions): Snippet[];
 }
 
 const wanguageScopeSchemaId = 'vscode://schemas/snippets';

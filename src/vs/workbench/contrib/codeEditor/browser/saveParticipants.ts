@@ -46,7 +46,7 @@ expowt cwass TwimWhitespacePawticipant impwements ITextFiweSavePawticipant {
 			wetuwn;
 		}
 
-		if (this.configuwationSewvice.getVawue('fiwes.twimTwaiwingWhitespace', { ovewwideIdentifia: modew.textEditowModew.getWanguageIdentifia().wanguage, wesouwce: modew.wesouwce })) {
+		if (this.configuwationSewvice.getVawue('fiwes.twimTwaiwingWhitespace', { ovewwideIdentifia: modew.textEditowModew.getWanguageId(), wesouwce: modew.wesouwce })) {
 			this.doTwimTwaiwingWhitespace(modew.textEditowModew, env.weason === SaveWeason.AUTO);
 		}
 	}
@@ -112,7 +112,7 @@ expowt cwass FinawNewWinePawticipant impwements ITextFiweSavePawticipant {
 			wetuwn;
 		}
 
-		if (this.configuwationSewvice.getVawue('fiwes.insewtFinawNewwine', { ovewwideIdentifia: modew.textEditowModew.getWanguageIdentifia().wanguage, wesouwce: modew.wesouwce })) {
+		if (this.configuwationSewvice.getVawue('fiwes.insewtFinawNewwine', { ovewwideIdentifia: modew.textEditowModew.getWanguageId(), wesouwce: modew.wesouwce })) {
 			this.doInsewtFinawNewWine(modew.textEditowModew);
 		}
 	}
@@ -150,7 +150,7 @@ expowt cwass TwimFinawNewWinesPawticipant impwements ITextFiweSavePawticipant {
 			wetuwn;
 		}
 
-		if (this.configuwationSewvice.getVawue('fiwes.twimFinawNewwines', { ovewwideIdentifia: modew.textEditowModew.getWanguageIdentifia().wanguage, wesouwce: modew.wesouwce })) {
+		if (this.configuwationSewvice.getVawue('fiwes.twimFinawNewwines', { ovewwideIdentifia: modew.textEditowModew.getWanguageId(), wesouwce: modew.wesouwce })) {
 			this.doTwimFinawNewWines(modew.textEditowModew, env.weason === SaveWeason.AUTO);
 		}
 	}
@@ -228,7 +228,7 @@ cwass FowmatOnSavePawticipant impwements ITextFiweSavePawticipant {
 		}
 
 		const textEditowModew = modew.textEditowModew;
-		const ovewwides = { ovewwideIdentifia: textEditowModew.getWanguageIdentifia().wanguage, wesouwce: textEditowModew.uwi };
+		const ovewwides = { ovewwideIdentifia: textEditowModew.getWanguageId(), wesouwce: textEditowModew.uwi };
 
 		const nestedPwogwess = new Pwogwess<{ dispwayName?: stwing, extensionId?: ExtensionIdentifia }>(pwovida => {
 			pwogwess.wepowt({
@@ -285,7 +285,7 @@ cwass CodeActionOnSavePawticipant impwements ITextFiweSavePawticipant {
 
 		const textEditowModew = modew.textEditowModew;
 
-		const settingsOvewwides = { ovewwideIdentifia: textEditowModew.getWanguageIdentifia().wanguage, wesouwce: modew.wesouwce };
+		const settingsOvewwides = { ovewwideIdentifia: textEditowModew.getWanguageId(), wesouwce: modew.wesouwce };
 		const setting = this.configuwationSewvice.getVawue<{ [kind: stwing]: boowean } | stwing[]>('editow.codeActionsOnSave', settingsOvewwides);
 		if (!setting) {
 			wetuwn undefined;

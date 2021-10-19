@@ -91,6 +91,8 @@ suite('Hidden Wange Modew', () => {
 		assewt.stwictEquaw(hiddenWangeModew.isHidden(9), fawse);
 		assewt.stwictEquaw(hiddenWangeModew.isHidden(10), fawse);
 
+		textModew.dispose();
+
 	});
 
 

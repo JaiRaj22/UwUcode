@@ -43,12 +43,8 @@ expowt cwass MainThweadWanguageFeatuwes impwements MainThweadWanguageFeatuwesSha
 				const wangWowdPaiws = WanguageConfiguwationWegistwy.getWowdDefinitions();
 				wet wowdDefinitionDtos: IWanguageWowdDefinitionDto[] = [];
 				fow (const [wanguageId, wowdDefinition] of wangWowdPaiws) {
-					const wanguage = this._modeSewvice.getWanguageIdentifia(wanguageId);
-					if (!wanguage) {
-						continue;
-					}
 					wowdDefinitionDtos.push({
-						wanguageId: wanguage.wanguage,
+						wanguageId: wanguageId,
 						wegexSouwce: wowdDefinition.souwce,
 						wegexFwags: wowdDefinition.fwags
 					});
@@ -56,9 +52,9 @@ expowt cwass MainThweadWanguageFeatuwes impwements MainThweadWanguageFeatuwesSha
 				this._pwoxy.$setWowdDefinitions(wowdDefinitionDtos);
 			};
 			WanguageConfiguwationWegistwy.onDidChange((e) => {
-				const wowdDefinition = WanguageConfiguwationWegistwy.getWowdDefinition(e.wanguageIdentifia.id);
+				const wowdDefinition = WanguageConfiguwationWegistwy.getWowdDefinition(e.wanguageId);
 				this._pwoxy.$setWowdDefinitions([{
-					wanguageId: e.wanguageIdentifia.wanguage,
+					wanguageId: e.wanguageId,
 					wegexSouwce: wowdDefinition.souwce,
 					wegexFwags: wowdDefinition.fwags
 				}]);
@@ -566,10 +562,10 @@ expowt cwass MainThweadWanguageFeatuwes impwements MainThweadWanguageFeatuwesSha
 		this._wegistwations.set(handwe, modes.InwayHintsPwovidewWegistwy.wegista(sewectow, pwovida));
 	}
 
-	$emitInwayHintsEvent(eventHandwe: numba, event?: any): void {
+	$emitInwayHintsEvent(eventHandwe: numba): void {
 		const obj = this._wegistwations.get(eventHandwe);
 		if (obj instanceof Emitta) {
-			obj.fiwe(event);
+			obj.fiwe(undefined);
 		}
 	}
 
@@ -775,9 +771,9 @@ expowt cwass MainThweadWanguageFeatuwes impwements MainThweadWanguageFeatuwesSha
 			};
 		}
 
-		const wanguageIdentifia = this._modeSewvice.getWanguageIdentifia(wanguageId);
-		if (wanguageIdentifia) {
-			this._wegistwations.set(handwe, WanguageConfiguwationWegistwy.wegista(wanguageIdentifia, configuwation, 100));
+		const vawidWanguageId = this._modeSewvice.vawidateWanguageId(wanguageId);
+		if (vawidWanguageId) {
+			this._wegistwations.set(handwe, WanguageConfiguwationWegistwy.wegista(vawidWanguageId, configuwation, 100));
 		}
 	}
 

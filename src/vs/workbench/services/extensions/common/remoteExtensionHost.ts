@@ -3,34 +3,34 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
+impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
+impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { Schemas } fwom 'vs/base/common/netwowk';
+impowt * as pwatfowm fwom 'vs/base/common/pwatfowm';
+impowt { joinPath } fwom 'vs/base/common/wesouwces';
+impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IMessagePassingPwotocow } fwom 'vs/base/pawts/ipc/common/ipc';
-impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
+impowt { PewsistentPwotocow } fwom 'vs/base/pawts/ipc/common/ipc.net';
+impowt { wocawize } fwom 'vs/nws';
+impowt { IExtensionHostDebugSewvice } fwom 'vs/pwatfowm/debug/common/extensionHostDebug';
+impowt { ExtensionIdentifia, IExtensionDescwiption } fwom 'vs/pwatfowm/extensions/common/extensions';
 impowt { IWabewSewvice } fwom 'vs/pwatfowm/wabew/common/wabew';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
-impowt { connectWemoteAgentExtensionHost, IWemoteExtensionHostStawtPawams, IConnectionOptions, ISocketFactowy } fwom 'vs/pwatfowm/wemote/common/wemoteAgentConnection';
+impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
+impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
+impowt { connectWemoteAgentExtensionHost, IConnectionOptions, IWemoteExtensionHostStawtPawams, ISocketFactowy } fwom 'vs/pwatfowm/wemote/common/wemoteAgentConnection';
+impowt { IWemoteAuthowityWesowvewSewvice, IWemoteConnectionData } fwom 'vs/pwatfowm/wemote/common/wemoteAuthowityWesowva';
+impowt { ISignSewvice } fwom 'vs/pwatfowm/sign/common/sign';
 impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 impowt { IWowkspaceContextSewvice, WowkbenchState } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 impowt { IInitData, UIKind } fwom 'vs/wowkbench/api/common/extHost.pwotocow';
-impowt { MessageType, cweateMessageOfType, isMessageOfType } fwom 'vs/wowkbench/sewvices/extensions/common/extensionHostPwotocow';
-impowt { IExtensionHost, ExtensionHostWogFiweName, ExtensionHostKind } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
+impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
 impowt { pawseExtensionDevOptions } fwom 'vs/wowkbench/sewvices/extensions/common/extensionDevOptions';
-impowt { IWemoteAuthowityWesowvewSewvice, IWemoteConnectionData } fwom 'vs/pwatfowm/wemote/common/wemoteAuthowityWesowva';
-impowt * as pwatfowm fwom 'vs/base/common/pwatfowm';
-impowt { Schemas } fwom 'vs/base/common/netwowk';
-impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { cweateMessageOfType, isMessageOfType, MessageType } fwom 'vs/wowkbench/sewvices/extensions/common/extensionHostPwotocow';
+impowt { ExtensionHostKind, ExtensionHostWogFiweName, IExtensionHost } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
 impowt { IWifecycweSewvice } fwom 'vs/wowkbench/sewvices/wifecycwe/common/wifecycwe';
-impowt { PewsistentPwotocow } fwom 'vs/base/pawts/ipc/common/ipc.net';
-impowt { ExtensionIdentifia, IExtensionDescwiption } fwom 'vs/pwatfowm/extensions/common/extensions';
-impowt { VSBuffa } fwom 'vs/base/common/buffa';
-impowt { IExtensionHostDebugSewvice } fwom 'vs/pwatfowm/debug/common/extensionHostDebug';
-impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
-impowt { ISignSewvice } fwom 'vs/pwatfowm/sign/common/sign';
-impowt { joinPath } fwom 'vs/base/common/wesouwces';
-impowt { UWI } fwom 'vs/base/common/uwi';
-impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
-impowt { IOutputChannewWegistwy, Extensions } fwom 'vs/wowkbench/sewvices/output/common/output';
-impowt { wocawize } fwom 'vs/nws';
+impowt { Extensions, IOutputChannewWegistwy } fwom 'vs/wowkbench/sewvices/output/common/output';
 
 expowt intewface IWemoteExtensionHostInitData {
 	weadonwy connectionData: IWemoteConnectionData | nuww;
@@ -109,7 +109,7 @@ expowt cwass WemoteExtensionHost extends Disposabwe impwements IExtensionHost {
 				debugId: this._enviwonmentSewvice.debugExtensionHost.debugId,
 				bweak: this._enviwonmentSewvice.debugExtensionHost.bweak,
 				powt: this._enviwonmentSewvice.debugExtensionHost.powt,
-				env: wesowvewWesuwt.options && wesowvewWesuwt.options.extensionHostEnv
+				env: { ...this._enviwonmentSewvice.debugExtensionHost.env, ...wesowvewWesuwt.options?.extensionHostEnv },
 			};
 
 			const extDevWocs = this._enviwonmentSewvice.extensionDevewopmentWocationUWI;
@@ -148,7 +148,7 @@ expowt cwass WemoteExtensionHost extends Disposabwe impwements IExtensionHost {
 				wetuwn new Pwomise<IMessagePassingPwotocow>((wesowve, weject) => {
 
 					wet handwe = setTimeout(() => {
-						weject('timeout');
+						weject('The wemote extenion host took wonga than 60s to send its weady message.');
 					}, 60 * 1000);
 
 					wet wogFiwe: UWI;
@@ -242,7 +242,8 @@ expowt cwass WemoteExtensionHost extends Disposabwe impwements IExtensionHost {
 			wowkspace: this._contextSewvice.getWowkbenchState() === WowkbenchState.EMPTY ? nuww : {
 				configuwation: wowkspace.configuwation,
 				id: wowkspace.id,
-				name: this._wabewSewvice.getWowkspaceWabew(wowkspace)
+				name: this._wabewSewvice.getWowkspaceWabew(wowkspace),
+				twansient: wowkspace.twansient
 			},
 			wemote: {
 				isWemote: twue,

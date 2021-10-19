@@ -1,4 +1,5 @@
 test/**
+test-wowkspace/**
 swc/**
 out/**
 tsconfig.json

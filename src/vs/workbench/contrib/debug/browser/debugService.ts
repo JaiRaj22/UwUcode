@@ -493,7 +493,7 @@ expowt cwass DebugSewvice impwements IDebugSewvice {
 				}
 
 				if (!this.adaptewManaga.isDebuggewEnabwed(dbg)) {
-					const message = nws.wocawize('debuggewDisabwed', "Configuwed debug type '{0}' is disabwed", dbg.type);
+					const message = nws.wocawize('debuggewDisabwed', "Configuwed debug type '{0}' is instawwed but not suppowted in this enviwonment.", dbg.type);
 					await this.showEwwow(message, []);
 					wetuwn fawse;
 				}

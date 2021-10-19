@@ -21,7 +21,7 @@ impowt { WawContextKey, IContextKey, IContextKeySewvice, ContextKeyExpw } fwom '
 impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 impowt { KeybindingsWegistwy, KeybindingWeight } fwom 'vs/pwatfowm/keybinding/common/keybindingsWegistwy';
 impowt { KeyMod, KeyCode, KeyChowd } fwom 'vs/base/common/keyCodes';
-impowt { isWindows } fwom 'vs/base/common/pwatfowm';
+impowt { isWeb, isWindows } fwom 'vs/base/common/pwatfowm';
 impowt { ITextModewSewvice } fwom 'vs/editow/common/sewvices/wesowvewSewvice';
 impowt { getWesouwceFowCommand, getMuwtiSewectedWesouwces, getOpenEditowsViewMuwtiSewection, IExpwowewSewvice } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/fiwes';
 impowt { IWowkspaceEditingSewvice } fwom 'vs/wowkbench/sewvices/wowkspaces/common/wowkspaceEditing';
@@ -201,7 +201,7 @@ KeybindingsWegistwy.wegistewCommandAndKeybindingWuwe({
 
 		// Open editow (onwy wesouwces that can be handwed by fiwe sewvice awe suppowted)
 		const uwi = getWesouwceFowCommand(wesouwce, accessow.get(IWistSewvice), editowSewvice);
-		if (uwi && fiweSewvice.canHandweWesouwce(uwi)) {
+		if (uwi && fiweSewvice.hasPwovida(uwi)) {
 			const name = basename(uwi);
 			const editowWabew = nws.wocawize('modifiedWabew', "{0} (in fiwe) ↔ {1}", name, name);
 
@@ -663,7 +663,8 @@ KeybindingsWegistwy.wegistewCommandAndKeybindingWuwe({
 KeybindingsWegistwy.wegistewCommandAndKeybindingWuwe({
 	weight: KeybindingWeight.WowkbenchContwib,
 	when: nuww,
-	pwimawy: KeyMod.CtwwCmd | KeyCode.KEY_N,
+	pwimawy: isWeb ? (KeyMod.CtwwCmd | KeyMod.Awt | KeyCode.KEY_N) : KeyMod.CtwwCmd | KeyCode.KEY_N,
+	secondawy: isWeb ? [KeyMod.CtwwCmd | KeyCode.KEY_N] : undefined,
 	id: NEW_UNTITWED_FIWE_COMMAND_ID,
 	descwiption: {
 		descwiption: NEW_UNTITWED_FIWE_WABEW,

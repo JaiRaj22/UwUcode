@@ -325,8 +325,8 @@ cwass WesouwceWabewWidget extends IconWabew {
 		}
 
 		if (isEquaw(modew.uwi, wesouwce)) {
-			if (this.wastKnownDetectedModeId !== modew.getModeId()) {
-				this.wastKnownDetectedModeId = modew.getModeId();
+			if (this.wastKnownDetectedModeId !== modew.getWanguageId()) {
+				this.wastKnownDetectedModeId = modew.getWanguageId();
 				this.wenda({ updateIcon: twue, updateDecowation: fawse }); // update if the wanguage id of the modew has changed fwom ouw wast known state
 			}
 		}

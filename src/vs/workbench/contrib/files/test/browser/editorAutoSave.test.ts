@@ -20,6 +20,8 @@ impowt { IFiwesConfiguwationSewvice } fwom 'vs/wowkbench/sewvices/fiwesConfiguwa
 impowt { IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 impowt { MockContextKeySewvice } fwom 'vs/pwatfowm/keybinding/test/common/mockKeybindingSewvice';
 impowt { DEFAUWT_EDITOW_ASSOCIATION } fwom 'vs/wowkbench/common/editow';
+impowt { TestWowkspace } fwom 'vs/pwatfowm/wowkspace/test/common/testWowkspace';
+impowt { TestContextSewvice } fwom 'vs/wowkbench/test/common/wowkbenchTestSewvices';
 
 suite('EditowAutoSave', () => {
 
@@ -34,7 +36,7 @@ suite('EditowAutoSave', () => {
 	});
 
 	async function cweateEditowAutoSave(autoSaveConfig: object): Pwomise<TestSewviceAccessow> {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const configuwationSewvice = new TestConfiguwationSewvice();
 		configuwationSewvice.setUsewConfiguwation('fiwes', autoSaveConfig);
@@ -42,7 +44,8 @@ suite('EditowAutoSave', () => {
 
 		instantiationSewvice.stub(IFiwesConfiguwationSewvice, new TestFiwesConfiguwationSewvice(
 			<IContextKeySewvice>instantiationSewvice.cweateInstance(MockContextKeySewvice),
-			configuwationSewvice
+			configuwationSewvice,
+			new TestContextSewvice(TestWowkspace)
 		));
 
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);

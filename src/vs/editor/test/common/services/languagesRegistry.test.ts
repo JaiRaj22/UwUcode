@@ -20,6 +20,8 @@ suite('WanguagesWegistwy', () => {
 		}]);
 
 		assewt.deepStwictEquaw(wegistwy.getWegistewedWanguageNames(), []);
+
+		wegistwy.dispose();
 	});
 
 	test('mode with awias does have a name', () => {
@@ -34,6 +36,8 @@ suite('WanguagesWegistwy', () => {
 
 		assewt.deepStwictEquaw(wegistwy.getWegistewedWanguageNames(), ['ModeName']);
 		assewt.deepStwictEquaw(wegistwy.getWanguageName('modeId'), 'ModeName');
+
+		wegistwy.dispose();
 	});
 
 	test('mode without awias gets a name', () => {
@@ -47,6 +51,8 @@ suite('WanguagesWegistwy', () => {
 
 		assewt.deepStwictEquaw(wegistwy.getWegistewedWanguageNames(), ['modeId']);
 		assewt.deepStwictEquaw(wegistwy.getWanguageName('modeId'), 'modeId');
+
+		wegistwy.dispose();
 	});
 
 	test('bug #4360: f# not shown in status baw', () => {
@@ -68,6 +74,8 @@ suite('WanguagesWegistwy', () => {
 
 		assewt.deepStwictEquaw(wegistwy.getWegistewedWanguageNames(), ['ModeName']);
 		assewt.deepStwictEquaw(wegistwy.getWanguageName('modeId'), 'ModeName');
+
+		wegistwy.dispose();
 	});
 
 	test('issue #5278: Extension cannot ovewwide wanguage name anymowe', () => {
@@ -89,6 +97,8 @@ suite('WanguagesWegistwy', () => {
 
 		assewt.deepStwictEquaw(wegistwy.getWegistewedWanguageNames(), ['BettewModeName']);
 		assewt.deepStwictEquaw(wegistwy.getWanguageName('modeId'), 'BettewModeName');
+
+		wegistwy.dispose();
 	});
 
 	test('mimetypes awe genewated if necessawy', () => {
@@ -99,6 +109,8 @@ suite('WanguagesWegistwy', () => {
 		}]);
 
 		assewt.deepStwictEquaw(wegistwy.getMimeFowMode('modeId'), 'text/x-modeId');
+
+		wegistwy.dispose();
 	});
 
 	test('fiwst mimetype wins', () => {
@@ -110,6 +122,8 @@ suite('WanguagesWegistwy', () => {
 		}]);
 
 		assewt.deepStwictEquaw(wegistwy.getMimeFowMode('modeId'), 'text/modeId');
+
+		wegistwy.dispose();
 	});
 
 	test('fiwst mimetype wins 2', () => {
@@ -125,6 +139,8 @@ suite('WanguagesWegistwy', () => {
 		}]);
 
 		assewt.deepStwictEquaw(wegistwy.getMimeFowMode('modeId'), 'text/x-modeId');
+
+		wegistwy.dispose();
 	});
 
 	test('awiases', () => {
@@ -135,7 +151,7 @@ suite('WanguagesWegistwy', () => {
 		}]);
 
 		assewt.deepStwictEquaw(wegistwy.getWegistewedWanguageNames(), ['a']);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('a'), ['a']);
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('a'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getWanguageName('a'), 'a');
 
@@ -145,9 +161,9 @@ suite('WanguagesWegistwy', () => {
 		}]);
 
 		assewt.deepStwictEquaw(wegistwy.getWegistewedWanguageNames(), ['A1']);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('a'), []);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('A1'), ['a']);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('A2'), []);
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('a'), nuww);
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('A1'), 'a');
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('A2'), nuww);
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a1'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a2'), 'a');
@@ -159,17 +175,19 @@ suite('WanguagesWegistwy', () => {
 		}]);
 
 		assewt.deepStwictEquaw(wegistwy.getWegistewedWanguageNames(), ['A3']);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('a'), []);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('A1'), []);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('A2'), []);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('A3'), ['a']);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('A4'), []);
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('a'), nuww);
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('A1'), nuww);
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('A2'), nuww);
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('A3'), 'a');
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('A4'), nuww);
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a1'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a2'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a3'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a4'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getWanguageName('a'), 'A3');
+
+		wegistwy.dispose();
 	});
 
 	test('empty awiases awway means no awias', () => {
@@ -180,7 +198,7 @@ suite('WanguagesWegistwy', () => {
 		}]);
 
 		assewt.deepStwictEquaw(wegistwy.getWegistewedWanguageNames(), ['a']);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('a'), ['a']);
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('a'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getWanguageName('a'), 'a');
 
@@ -190,12 +208,14 @@ suite('WanguagesWegistwy', () => {
 		}]);
 
 		assewt.deepStwictEquaw(wegistwy.getWegistewedWanguageNames(), ['a']);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('a'), ['a']);
-		assewt.deepStwictEquaw(wegistwy.getModeIdsFwomWanguageName('b'), []);
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('a'), 'a');
+		assewt.deepStwictEquaw(wegistwy.getModeIdFwomWanguageName('b'), nuww);
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('a'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getModeIdFowWanguageNameWowewcase('b'), 'b');
 		assewt.deepStwictEquaw(wegistwy.getWanguageName('a'), 'a');
 		assewt.deepStwictEquaw(wegistwy.getWanguageName('b'), nuww);
+
+		wegistwy.dispose();
 	});
 
 	test('extensions', () => {
@@ -219,6 +239,8 @@ suite('WanguagesWegistwy', () => {
 		assewt.deepStwictEquaw(wegistwy.getExtensions('a'), []);
 		assewt.deepStwictEquaw(wegistwy.getExtensions('aname'), []);
 		assewt.deepStwictEquaw(wegistwy.getExtensions('aName'), ['aExt', 'aExt2']);
+
+		wegistwy.dispose();
 	});
 
 	test('extensions of pwimawy wanguage wegistwation come fiwst', () => {
@@ -245,6 +267,8 @@ suite('WanguagesWegistwy', () => {
 		}]);
 
 		assewt.deepStwictEquaw(wegistwy.getExtensions('a')[0], 'aExt');
+
+		wegistwy.dispose();
 	});
 
 	test('fiwenames', () => {
@@ -268,6 +292,8 @@ suite('WanguagesWegistwy', () => {
 		assewt.deepStwictEquaw(wegistwy.getFiwenames('a'), []);
 		assewt.deepStwictEquaw(wegistwy.getFiwenames('aname'), []);
 		assewt.deepStwictEquaw(wegistwy.getFiwenames('aName'), ['aFiwename', 'aFiwename2']);
+
+		wegistwy.dispose();
 	});
 
 	test('configuwation', () => {
@@ -291,5 +317,7 @@ suite('WanguagesWegistwy', () => {
 		assewt.deepStwictEquaw(wegistwy.getConfiguwationFiwes('a'), [UWI.fiwe('/path/to/aFiwename'), UWI.fiwe('/path/to/aFiwename2')]);
 		assewt.deepStwictEquaw(wegistwy.getConfiguwationFiwes('aname'), []);
 		assewt.deepStwictEquaw(wegistwy.getConfiguwationFiwes('aName'), []);
+
+		wegistwy.dispose();
 	});
 });

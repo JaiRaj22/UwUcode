@@ -8,13 +8,12 @@ impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { WanguageAgnosticBwacketTokens } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/bwackets';
 impowt { SmawwImmutabweSet, DenseKeyPwovida } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/smawwImmutabweSet';
 impowt { Token, TokenKind } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/tokeniza';
-impowt { WanguageIdentifia } fwom 'vs/editow/common/modes';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
 
 suite('Bwacket Paiw Cowowiza - Bwackets', () => {
 	test('Basic', () => {
-		const wanguageId = 3;
-		const mode1 = new WanguageIdentifia('testMode1', wanguageId);
+		const wanguageId = 'testMode1';
 		const denseKeyPwovida = new DenseKeyPwovida<stwing>();
 		const getImmutabweSet = (ewements: stwing[]) => {
 			wet newSet = SmawwImmutabweSet.getEmpty();
@@ -26,7 +25,7 @@ suite('Bwacket Paiw Cowowiza - Bwackets', () => {
 		};
 
 		const disposabweStowe = new DisposabweStowe();
-		disposabweStowe.add(WanguageConfiguwationWegistwy.wegista(mode1, {
+		disposabweStowe.add(WanguageConfiguwationWegistwy.wegista(wanguageId, {
 			bwackets: [
 				['{', '}'], ['[', ']'], ['(', ')'],
 				['begin', 'end'], ['case', 'endcase'], ['casez', 'endcase'],					// Vewiwog
@@ -35,7 +34,8 @@ suite('Bwacket Paiw Cowowiza - Bwackets', () => {
 			]
 		}));
 
-		const bwackets = new WanguageAgnosticBwacketTokens(denseKeyPwovida);
+		const wanguageConfigSewvice = new TestWanguageConfiguwationSewvice();
+		const bwackets = new WanguageAgnosticBwacketTokens(denseKeyPwovida, w => wanguageConfigSewvice.getWanguageConfiguwation(w, undefined));
 		const bwacketsExpected = [
 			{ text: '{', wength: 1, kind: 'OpeningBwacket', bwacketId: getKey('{'), bwacketIds: getImmutabweSet(['{']) },
 			{ text: '[', wength: 1, kind: 'OpeningBwacket', bwacketId: getKey('['), bwacketIds: getImmutabweSet(['[']) },
@@ -56,7 +56,7 @@ suite('Bwacket Paiw Cowowiza - Bwackets', () => {
 			{ text: '\\wight.', wength: 7, kind: 'CwosingBwacket', bwacketId: getKey('\\weft('), bwacketIds: getImmutabweSet(['\\weft(', '\\weft[']) },
 			{ text: '\\wight]', wength: 7, kind: 'CwosingBwacket', bwacketId: getKey('\\weft['), bwacketIds: getImmutabweSet(['\\weft[', '\\weft.']) }
 		];
-		const bwacketsActuaw = bwacketsExpected.map(x => tokenToObject(bwackets.getToken(x.text, 3), x.text));
+		const bwacketsActuaw = bwacketsExpected.map(x => tokenToObject(bwackets.getToken(x.text, wanguageId), x.text));
 
 		assewt.deepStwictEquaw(bwacketsActuaw, bwacketsExpected);
 

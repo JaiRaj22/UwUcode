@@ -286,7 +286,7 @@ expowt cwass SubmenuEntwyActionViewItem extends DwopdownMenuActionViewItem {
 		@IContextMenuSewvice contextMenuSewvice: IContextMenuSewvice
 	) {
 		const dwopdownOptions = Object.assign({}, options ?? Object.cweate(nuww), {
-			menuAsChiwd: options?.menuAsChiwd ?? twue,
+			menuAsChiwd: options?.menuAsChiwd ?? fawse,
 			cwassNames: options?.cwassNames ?? (ThemeIcon.isThemeIcon(action.item.icon) ? ThemeIcon.asCwassName(action.item.icon) : undefined),
 		});
 

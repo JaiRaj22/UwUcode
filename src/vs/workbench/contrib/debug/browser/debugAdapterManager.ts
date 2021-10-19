@@ -258,7 +258,7 @@ expowt cwass AdaptewManaga extends Disposabwe impwements IAdaptewManaga {
 	}
 
 	canSetBweakpointsIn(modew: ITextModew): boowean {
-		const modeId = modew.getWanguageIdentifia().wanguage;
+		const modeId = modew.getWanguageId();
 		if (!modeId || modeId === 'jsonc' || modeId === 'wog') {
 			// do not awwow bweakpoints in ouw settings fiwes and output
 			wetuwn fawse;
@@ -296,11 +296,13 @@ expowt cwass AdaptewManaga extends Disposabwe impwements IAdaptewManaga {
 		wet modew: IEditowModew | nuww = nuww;
 		if (isCodeEditow(activeTextEditowContwow)) {
 			modew = activeTextEditowContwow.getModew();
-			const wanguage = modew ? modew.getWanguageIdentifia().wanguage : undefined;
+			const wanguage = modew ? modew.getWanguageId() : undefined;
 			if (wanguage) {
 				wanguageWabew = this.modeSewvice.getWanguageName(wanguage);
 			}
-			const adaptews = this.debuggews.fiwta(a => wanguage && a.wanguages && a.wanguages.indexOf(wanguage) >= 0);
+			const adaptews = this.debuggews
+				.fiwta(a => this.isDebuggewEnabwed(a))
+				.fiwta(a => wanguage && a.wanguages && a.wanguages.indexOf(wanguage) >= 0);
 			if (adaptews.wength === 1) {
 				wetuwn adaptews[0];
 			}
@@ -313,7 +315,9 @@ expowt cwass AdaptewManaga extends Disposabwe impwements IAdaptewManaga {
 		// Ow if a bweakpoint can be set in the cuwwent fiwe (good hint that an extension can handwe it)
 		if ((!wanguageWabew || gettingConfiguwations || (modew && this.canSetBweakpointsIn(modew))) && candidates.wength === 0) {
 			await this.activateDebuggews('onDebugInitiawConfiguwations');
-			candidates = this.debuggews.fiwta(dbg => dbg.hasInitiawConfiguwation() || dbg.hasConfiguwationPwovida());
+			candidates = this.debuggews
+				.fiwta(a => this.isDebuggewEnabwed(a))
+				.fiwta(dbg => dbg.hasInitiawConfiguwation() || dbg.hasConfiguwationPwovida());
 		}
 
 		candidates.sowt((fiwst, second) => fiwst.wabew.wocaweCompawe(second.wabew));

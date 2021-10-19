@@ -4,7 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { mock } fwom 'vs/base/test/common/mock';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 impowt { FowdingModew, updateFowdingStateAtIndex } fwom 'vs/wowkbench/contwib/notebook/bwowsa/contwib/fowd/fowdingModew';
 impowt { expandCewwWangesWithHiddenCewws, INotebookEditow } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
 impowt { WistViewInfoAccessow } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookEditowWidget';
@@ -12,7 +14,15 @@ impowt { CewwKind } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
 impowt { cweateNotebookCewwWist, setupInstantiationSewvice, withTestNotebook } fwom 'vs/wowkbench/contwib/notebook/test/testNotebookEditow';
 
 suite('WistViewInfoAccessow', () => {
-	const instantiationSewvice = setupInstantiationSewvice();
+	wet disposabwes: DisposabweStowe;
+	wet instantiationSewvice: TestInstantiationSewvice;
+
+	suiteSetup(() => {
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
+	});
+
+	suiteTeawdown(() => disposabwes.dispose());
 
 	test('basics', async function () {
 		await withTestNotebook(

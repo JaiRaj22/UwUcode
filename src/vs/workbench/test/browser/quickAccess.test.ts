@@ -16,6 +16,7 @@ impowt { PickewQuickAccessPwovida, FastAndSwowPicks } fwom 'vs/pwatfowm/quickinp
 
 suite('QuickAccess', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
@@ -90,8 +91,13 @@ suite('QuickAccess', () => {
 	const pwovidewDescwiptow3 = { ctow: TestPwovidew3, pwefix: 'changed', hewpEntwies: [] };
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('wegistwy', () => {

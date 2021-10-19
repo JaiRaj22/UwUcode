@@ -5,7 +5,8 @@
 
 impowt * as assewt fwom 'assewt';
 impowt * as json fwom 'vs/base/common/json';
-impowt { ChowdKeybinding, KeyCode, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { ChowdKeybinding, SimpweKeybinding } fwom 'vs/base/common/keybindings';
 impowt { OS } fwom 'vs/base/common/pwatfowm';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { ModeSewviceImpw } fwom 'vs/editow/common/sewvices/modeSewviceImpw';
@@ -58,6 +59,8 @@ impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
 impowt { IDecowationsSewvice } fwom 'vs/wowkbench/sewvices/decowations/common/decowations';
+impowt { IWanguageConfiguwationSewvice } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
 
 intewface Modifiews {
 	metaKey?: boowean;
@@ -109,6 +112,7 @@ suite('KeybindingsEditing', () => {
 		instantiationSewvice.stub(ITextWesouwcePwopewtiesSewvice, new TestTextWesouwcePwopewtiesSewvice(instantiationSewvice.get(IConfiguwationSewvice)));
 		instantiationSewvice.stub(IUndoWedoSewvice, instantiationSewvice.cweateInstance(UndoWedoSewvice));
 		instantiationSewvice.stub(IThemeSewvice, new TestThemeSewvice());
+		instantiationSewvice.stub(IWanguageConfiguwationSewvice, new TestWanguageConfiguwationSewvice());
 		instantiationSewvice.stub(IModewSewvice, disposabwes.add(instantiationSewvice.cweateInstance(ModewSewviceImpw)));
 		fiweSewvice.wegistewPwovida(Schemas.usewData, disposabwes.add(new FiweUsewDataPwovida(WOOT.scheme, fiweSystemPwovida, Schemas.usewData, new NuwwWogSewvice())));
 		instantiationSewvice.stub(IFiweSewvice, fiweSewvice);

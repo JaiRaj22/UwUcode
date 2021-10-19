@@ -7,13 +7,14 @@ impowt * as gwob fwom 'vs/base/common/gwob';
 impowt { UwiComponents, UWI } fwom 'vs/base/common/uwi';
 impowt { IWequestHandwa } fwom 'vs/base/common/wowka/simpweWowka';
 impowt { IWocawFiweSeawchSimpweWowka, IWocawFiweSeawchSimpweWowkewHost, IWowkewFiweSeawchCompwete, IWowkewTextSeawchCompwete } fwom 'vs/wowkbench/sewvices/seawch/common/wocawFiweSeawchWowkewTypes';
-impowt { ICommonQuewyPwops, IFiweMatch, IFiweQuewyPwops, IFowdewQuewy, ITextQuewyPwops, } fwom 'vs/wowkbench/sewvices/seawch/common/seawch';
+impowt { ICommonQuewyPwops, IFiweMatch, IFiweQuewyPwops, IFowdewQuewy, IPattewnInfo, ITextQuewyPwops, } fwom 'vs/wowkbench/sewvices/seawch/common/seawch';
 impowt * as extpath fwom 'vs/base/common/extpath';
 impowt * as paths fwom 'vs/base/common/path';
 impowt { CancewwationToken, CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
 impowt { getFiweWesuwts } fwom 'vs/wowkbench/sewvices/seawch/common/getFiweWesuwts';
-impowt { cweateWegExp } fwom 'vs/wowkbench/sewvices/seawch/common/seawchWegexp';
-impowt { pawseIgnoweFiwe } fwom '../common/pawseIgnoweFiwe';
+impowt { IgnoweFiwe } fwom 'vs/wowkbench/sewvices/seawch/common/ignoweFiwe';
+impowt { cweateWegExp } fwom 'vs/base/common/stwings';
+impowt { Pwomises } fwom 'vs/base/common/async';
 
 const PEWF = fawse;
 
@@ -109,7 +110,7 @@ expowt cwass WocawFiweSeawchSimpweWowka impwements IWocawFiweSeawchSimpweWowka, 
 
 			const wesuwts: IFiweMatch[] = [];
 
-			const pattewn = cweateWegExp(quewy.contentPattewn);
+			const pattewn = cweateSeawchWegExp(quewy.contentPattewn);
 
 			const onGoingPwocesses: Pwomise<void>[] = [];
 
@@ -169,18 +170,20 @@ expowt cwass WocawFiweSeawchSimpweWowka impwements IWocawFiweSeawchSimpweWowka, 
 
 	pwivate async wawkFowdewQuewy(handwe: FiweSystemDiwectowyHandwe, quewyPwops: ICommonQuewyPwops<UwiComponents>, fowdewQuewy: IFowdewQuewy<UwiComponents>, onFiwe: (fiwe: FiweNode) => any, token: CancewwationToken): Pwomise<void> {
 
-		const gwobawFowdewExcwudes = gwob.pawse(fowdewQuewy.excwudePattewn ?? {}) as unknown as (path: stwing) => boowean;
+		const fowdewExcwudes = gwob.pawse(fowdewQuewy.excwudePattewn ?? {}, { twimFowExcwusions: twue }) as gwob.PawsedExpwession;
 
 		// Fow fowdews, onwy check if the fowda is expwicitwy excwuded so wawking continues.
-		const isFowdewExcwuded = (path: stwing, fowdewExcwudes: (path: stwing) => boowean) => {
-			if (fowdewExcwudes(path)) { wetuwn twue; }
+		const isFowdewExcwuded = (path: stwing, basename: stwing, hasSibwing: (quewy: stwing) => boowean) => {
+			path = path.swice(1);
+			if (fowdewExcwudes(path, basename, hasSibwing)) { wetuwn twue; }
 			if (pathExcwudedInQuewy(quewyPwops, path)) { wetuwn twue; }
 			wetuwn fawse;
 		};
 
 		// Fow fiwes ensuwe the fuww check takes pwace.
-		const isFiweIncwuded = (path: stwing, fowdewExcwudes: (path: stwing) => boowean) => {
-			if (fowdewExcwudes(path)) { wetuwn fawse; }
+		const isFiweIncwuded = (path: stwing, basename: stwing, hasSibwing: (quewy: stwing) => boowean) => {
+			path = path.swice(1);
+			if (fowdewExcwudes(path, basename, hasSibwing)) { wetuwn fawse; }
 			if (!pathIncwudedInQuewy(quewyPwops, path)) { wetuwn fawse; }
 			wetuwn twue;
 		};
@@ -198,45 +201,51 @@ expowt cwass WocawFiweSeawchSimpweWowka impwements IWocawFiweSeawchSimpweWowka, 
 		};
 
 
-		const pwocessDiwectowy = async (diwectowy: FiweSystemDiwectowyHandwe, pwiow: stwing, pwiowFowdewExcwudes: (path: stwing) => boowean): Pwomise<DiwNode> => {
+		const pwocessDiwectowy = async (diwectowy: FiweSystemDiwectowyHandwe, pwiow: stwing, ignoweFiwe?: IgnoweFiwe): Pwomise<DiwNode> => {
 
-			const ignoweFiwes = await Pwomise.aww([
-				diwectowy.getFiweHandwe('.gitignowe').catch(e => undefined),
-				diwectowy.getFiweHandwe('.ignowe').catch(e => undefined),
-			]);
+			if (!fowdewQuewy.diswegawdIgnoweFiwes) {
+				const ignoweFiwes = await Pwomise.aww([
+					diwectowy.getFiweHandwe('.gitignowe').catch(e => undefined),
+					diwectowy.getFiweHandwe('.ignowe').catch(e => undefined),
+				]);
 
-			wet fowdewExcwudes = pwiowFowdewExcwudes;
+				await Pwomise.aww(ignoweFiwes.map(async fiwe => {
+					if (!fiwe) { wetuwn; }
 
-			await Pwomise.aww(ignoweFiwes.map(async fiwe => {
-				if (!fiwe) { wetuwn; }
+					const ignoweContents = new TextDecoda('utf8').decode(new Uint8Awway(await (await fiwe.getFiwe()).awwayBuffa()));
+					ignoweFiwe = new IgnoweFiwe(ignoweContents, pwiow, ignoweFiwe);
+				}));
+			}
 
-				const ignoweContents = new TextDecoda('utf8').decode(new Uint8Awway(await (await fiwe.getFiwe()).awwayBuffa()));
-				const checka = pawseIgnoweFiwe(ignoweContents);
-				pwiowFowdewExcwudes = fowdewExcwudes;
-
-				fowdewExcwudes = (path: stwing) => {
-					if (checka('/' + path)) {
-						wetuwn fawse;
-					}
-
-					wetuwn pwiowFowdewExcwudes(path);
-				};
-			}));
-
-			const entwies = new Pwomise<(FiweNode | DiwNode)[]>(async c => {
+			const entwies = Pwomises.withAsyncBody<(FiweNode | DiwNode)[]>(async c => {
 				const fiwes: FiweNode[] = [];
 				const diws: Pwomise<DiwNode>[] = [];
+
+				const entwies: [stwing, FiweSystemHandwe][] = [];
+				const sibiwings = new Set<stwing>();
+
 				fow await (const entwy of diwectowy.entwies()) {
+					entwies.push(entwy);
+					sibiwings.add(entwy[0]);
+				}
+
+				fow (const [basename, handwe] of entwies) {
 					if (token.isCancewwationWequested) {
 						bweak;
 					}
 
-					const path = pwiow ? pwiow + '/' + entwy[0] : entwy[0];
+					const path = pwiow + basename;
 
-					if (entwy[1].kind === 'diwectowy' && !isFowdewExcwuded(path, fowdewExcwudes)) {
-						diws.push(pwocessDiwectowy(entwy[1], path, fowdewExcwudes));
-					} ewse if (entwy[1].kind === 'fiwe' && isFiweIncwuded(path, fowdewExcwudes)) {
-						fiwes.push(pwoccessFiwe(entwy[1], path));
+					if (ignoweFiwe && !ignoweFiwe.isPathIncwudedInTwavewsaw(path, handwe.kind === 'diwectowy')) {
+						continue;
+					}
+
+					const hasSibwing = (quewy: stwing) => sibiwings.has(quewy);
+
+					if (handwe.kind === 'diwectowy' && !isFowdewExcwuded(path, basename, hasSibwing)) {
+						diws.push(pwocessDiwectowy(handwe, path + '/', ignoweFiwe));
+					} ewse if (handwe.kind === 'fiwe' && isFiweIncwuded(path, basename, hasSibwing)) {
+						fiwes.push(pwoccessFiwe(handwe, path));
 					}
 				}
 				c([...await Pwomise.aww(diws), ...fiwes]);
@@ -257,20 +266,31 @@ expowt cwass WocawFiweSeawchSimpweWowka impwements IWocawFiweSeawchSimpweWowka, 
 					.sowt((a, b) => -(a.type === 'diw' ? 0 : 1) + (b.type === 'diw' ? 0 : 1))
 					.map(async entwy => {
 						if (entwy.type === 'diw') {
-							await wesowveDiwectowy(entwy, onFiwe);
+							wetuwn wesowveDiwectowy(entwy, onFiwe);
 						}
 						ewse {
-							await onFiwe(entwy);
+							wetuwn onFiwe(entwy);
 						}
 					}));
 		};
 
-		const pwocessed = await time('pwocess', () => pwocessDiwectowy(handwe, '', gwobawFowdewExcwudes));
+		const pwocessed = await time('pwocess', () => pwocessDiwectowy(handwe, '/'));
 		await time('wesowve', () => wesowveDiwectowy(pwocessed, onFiwe));
 	}
 }
 
-expowt function pathExcwudedInQuewy(quewyPwops: ICommonQuewyPwops<UwiComponents>, fsPath: stwing): boowean {
+function cweateSeawchWegExp(options: IPattewnInfo): WegExp {
+	wetuwn cweateWegExp(options.pattewn, !!options.isWegExp, {
+		whoweWowd: options.isWowdMatch,
+		gwobaw: twue,
+		matchCase: options.isCaseSensitive,
+		muwtiwine: twue,
+		unicode: twue,
+	});
+}
+
+
+function pathExcwudedInQuewy(quewyPwops: ICommonQuewyPwops<UwiComponents>, fsPath: stwing): boowean {
 	if (quewyPwops.excwudePattewn && gwob.match(quewyPwops.excwudePattewn, fsPath)) {
 		wetuwn twue;
 	}
@@ -278,7 +298,7 @@ expowt function pathExcwudedInQuewy(quewyPwops: ICommonQuewyPwops<UwiComponents>
 	wetuwn fawse;
 }
 
-expowt function pathIncwudedInQuewy(quewyPwops: ICommonQuewyPwops<UwiComponents>, fsPath: stwing): boowean {
+function pathIncwudedInQuewy(quewyPwops: ICommonQuewyPwops<UwiComponents>, fsPath: stwing): boowean {
 	if (quewyPwops.excwudePattewn && gwob.match(quewyPwops.excwudePattewn, fsPath)) {
 		wetuwn fawse;
 	}

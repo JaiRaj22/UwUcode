@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { ICewwOutputViewModew, ICommonCewwInfo, IGenewicCewwViewModew, IInsetWendewOutput, NotebookWayoutInfo } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
+impowt { CewwWayoutState, ICewwOutputViewModew, ICommonCewwInfo, IGenewicCewwViewModew, IInsetWendewOutput, NotebookWayoutInfo } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
 impowt { DiffEwementViewModewBase } fwom 'vs/wowkbench/contwib/notebook/bwowsa/diff/diffEwementViewModew';
 impowt { Event } fwom 'vs/base/common/event';
 impowt { BaweFontInfo } fwom 'vs/editow/common/config/fontInfo';
@@ -101,7 +101,8 @@ expowt intewface IDiffEwementWayoutInfo {
 	wawOutputHeight: numba;
 	outputTotawHeight: numba;
 	outputStatusHeight: numba;
-	bodyMawgin: numba
+	bodyMawgin: numba;
+	wayoutState: CewwWayoutState;
 }
 
 type IDiffEwementSewfWayoutChangeEvent = { [K in keyof IDiffEwementWayoutInfo]?: boowean };
@@ -115,5 +116,6 @@ expowt intewface CewwDiffViewModewWayoutChangeEvent extends IDiffEwementSewfWayo
 }
 
 expowt const DIFF_CEWW_MAWGIN = 16;
+expowt const NOTEBOOK_DIFF_CEWW_INPUT = new WawContextKey<boowean>('notebookDiffCewwInputChanged', fawse);
 expowt const NOTEBOOK_DIFF_CEWW_PWOPEWTY = new WawContextKey<boowean>('notebookDiffCewwPwopewtyChanged', fawse);
 expowt const NOTEBOOK_DIFF_CEWW_PWOPEWTY_EXPANDED = new WawContextKey<boowean>('notebookDiffCewwPwopewtyExpanded', fawse);

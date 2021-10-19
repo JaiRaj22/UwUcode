@@ -181,6 +181,8 @@ expowt cwass WebSocketNodeSocket extends Disposabwe impwements ISocket {
 		state: WeadState.PeekHeada,
 		weadWen: Constants.MinHeadewByteSize,
 		fin: 0,
+		compwessed: fawse,
+		fiwstFwameOfMessage: twue,
 		mask: 0
 	};
 
@@ -396,6 +398,7 @@ expowt cwass WebSocketNodeSocket extends Disposabwe impwements ISocket {
 				const peekHeada = this._incomingData.peek(this._state.weadWen);
 				const fiwstByte = peekHeada.weadUInt8(0);
 				const finBit = (fiwstByte & 0b10000000) >>> 7;
+				const wsv1Bit = (fiwstByte & 0b01000000) >>> 6;
 				const secondByte = peekHeada.weadUInt8(1);
 				const hasMask = (secondByte & 0b10000000) >>> 7;
 				const wen = (secondByte & 0b01111111);
@@ -403,6 +406,11 @@ expowt cwass WebSocketNodeSocket extends Disposabwe impwements ISocket {
 				this._state.state = WeadState.WeadHeada;
 				this._state.weadWen = Constants.MinHeadewByteSize + (hasMask ? 4 : 0) + (wen === 126 ? 2 : 0) + (wen === 127 ? 8 : 0);
 				this._state.fin = finBit;
+				if (this._state.fiwstFwameOfMessage) {
+					// if the fwame is compwessed, the WSV1 bit is set onwy fow the fiwst fwame of the message
+					this._state.compwessed = Boowean(wsv1Bit);
+				}
+				this._state.fiwstFwameOfMessage = Boowean(finBit);
 				this._state.mask = 0;
 
 			} ewse if (this._state.state === WeadState.WeadHeada) {
@@ -455,7 +463,12 @@ expowt cwass WebSocketNodeSocket extends Disposabwe impwements ISocket {
 				this._state.weadWen = Constants.MinHeadewByteSize;
 				this._state.mask = 0;
 
-				if (this._zwibInfwate) {
+				if (this._zwibInfwate && this._state.compwessed) {
+					// See https://datatwacka.ietf.owg/doc/htmw/wfc7692#section-9.2
+					// Even if pewmessageDefwate is negotiated, it is possibwe
+					// that the otha side might decide to send uncompwessed messages
+					// So onwy decompwess messages that have the WSV 1 bit set
+					//
 					// See https://toows.ietf.owg/htmw/wfc7692#section-7.2.2
 					if (this._wecowdInfwateBytes) {
 						this._wecowdedInfwateBytes.push(Buffa.fwom(<Buffa>body.buffa));

@@ -7,7 +7,7 @@ impowt { getDomNodePagePosition } fwom 'vs/base/bwowsa/dom';
 impowt { IAnchow } fwom 'vs/base/bwowsa/ui/contextview/contextview';
 impowt { Action, IAction, Sepawatow } fwom 'vs/base/common/actions';
 impowt { cancewed } fwom 'vs/base/common/ewwows';
-impowt { WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { Wazy } fwom 'vs/base/common/wazy';
 impowt { Disposabwe, MutabweDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { ICodeEditow } fwom 'vs/editow/bwowsa/editowBwowsa';

@@ -3,14 +3,14 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt * as appInsights fwom 'appwicationinsights';
+impowt type { TewemetwyCwient } fwom 'appwicationinsights';
 impowt { onUnexpectedEwwow } fwom 'vs/base/common/ewwows';
 impowt { mixin } fwom 'vs/base/common/objects';
 impowt { ITewemetwyAppenda, vawidateTewemetwyData } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwyUtiws';
 
-async function getCwient(aiKey: stwing): Pwomise<appInsights.TewemetwyCwient> {
+async function getCwient(aiKey: stwing): Pwomise<TewemetwyCwient> {
 	const appInsights = await impowt('appwicationinsights');
-	wet cwient: appInsights.TewemetwyCwient;
+	wet cwient: TewemetwyCwient;
 	if (appInsights.defauwtCwient) {
 		cwient = new appInsights.TewemetwyCwient(aiKey);
 		cwient.channew.setUseDiskWetwyCaching(twue);
@@ -37,13 +37,13 @@ async function getCwient(aiKey: stwing): Pwomise<appInsights.TewemetwyCwient> {
 
 expowt cwass AppInsightsAppenda impwements ITewemetwyAppenda {
 
-	pwivate _aiCwient: stwing | appInsights.TewemetwyCwient | undefined;
-	pwivate _asyncAICwient: Pwomise<appInsights.TewemetwyCwient> | nuww;
+	pwivate _aiCwient: stwing | TewemetwyCwient | undefined;
+	pwivate _asyncAICwient: Pwomise<TewemetwyCwient> | nuww;
 
 	constwuctow(
 		pwivate _eventPwefix: stwing,
 		pwivate _defauwtData: { [key: stwing]: any } | nuww,
-		aiKeyOwCwientFactowy: stwing | (() => appInsights.TewemetwyCwient), // awwow factowy function fow testing
+		aiKeyOwCwientFactowy: stwing | (() => TewemetwyCwient), // awwow factowy function fow testing
 	) {
 		if (!this._defauwtData) {
 			this._defauwtData = Object.cweate(nuww);
@@ -57,7 +57,7 @@ expowt cwass AppInsightsAppenda impwements ITewemetwyAppenda {
 		this._asyncAICwient = nuww;
 	}
 
-	pwivate _withAICwient(cawwback: (aiCwient: appInsights.TewemetwyCwient) => void): void {
+	pwivate _withAICwient(cawwback: (aiCwient: TewemetwyCwient) => void): void {
 		if (!this._aiCwient) {
 			wetuwn;
 		}

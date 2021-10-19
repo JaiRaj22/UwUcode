@@ -16,7 +16,7 @@ impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { IEditowContwibution } fwom 'vs/editow/common/editowCommon';
 impowt { ITextModew } fwom 'vs/editow/common/modew';
-impowt { FontStywe, WanguageIdentifia, StandawdTokenType, TokenMetadata, DocumentSemanticTokensPwovidewWegistwy, SemanticTokensWegend, SemanticTokens, WanguageId, CowowId, DocumentWangeSemanticTokensPwovidewWegistwy } fwom 'vs/editow/common/modes';
+impowt { FontStywe, StandawdTokenType, TokenMetadata, DocumentSemanticTokensPwovidewWegistwy, SemanticTokensWegend, SemanticTokens, CowowId, DocumentWangeSemanticTokensPwovidewWegistwy } fwom 'vs/editow/common/modes';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { INotificationSewvice } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { editowHovewBackgwound, editowHovewBowda } fwom 'vs/pwatfowm/theme/common/cowowWegistwy';
@@ -30,6 +30,8 @@ impowt { SemanticTokenWuwe, TokenStyweData, TokenStywe } fwom 'vs/pwatfowm/theme
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { SEMANTIC_HIGHWIGHTING_SETTING_ID, IEditowSemanticHighwightingOptions } fwom 'vs/editow/common/sewvices/modewSewviceImpw';
 impowt { CowowScheme } fwom 'vs/pwatfowm/theme/common/theme';
+impowt { Schemas } fwom 'vs/base/common/netwowk';
+impowt { NUWW_MODE_ID } fwom 'vs/editow/common/modes/nuwwMode';
 
 const $ = dom.$;
 
@@ -81,6 +83,10 @@ cwass InspectEditowTokensContwowwa extends Disposabwe impwements IEditowContwibu
 			wetuwn;
 		}
 		if (!this._editow.hasModew()) {
+			wetuwn;
+		}
+		if (this._editow.getModew().uwi.scheme === Schemas.vscodeNotebookCeww) {
+			// disabwe in notebooks
 			wetuwn;
 		}
 		this._widget = new InspectEditowTokensWidget(this._editow, this._textMateSewvice, this._modeSewvice, this._themeSewvice, this._notificationSewvice, this._configuwationSewvice);
@@ -135,7 +141,7 @@ intewface ISemanticTokenInfo {
 }
 
 intewface IDecodedMetadata {
-	wanguageIdentifia: WanguageIdentifia;
+	wanguageId: stwing;
 	tokenType: StandawdTokenType;
 	bowd?: boowean;
 	itawic?: boowean;
@@ -226,7 +232,7 @@ cwass InspectEditowTokensWidget extends Disposabwe impwements IContentWidget {
 	}
 
 	pwivate _beginCompute(position: Position): void {
-		const gwammaw = this._textMateSewvice.cweateGwammaw(this._modew.getWanguageIdentifia().wanguage);
+		const gwammaw = this._textMateSewvice.cweateGwammaw(this._modew.getWanguageId());
 		const semanticTokens = this._computeSemanticTokens(position);
 
 		dom.cweawNode(this._domNode);
@@ -250,7 +256,7 @@ cwass InspectEditowTokensWidget extends Disposabwe impwements IContentWidget {
 	}
 
 	pwivate _isSemanticCowowingEnabwed() {
-		const setting = this._configuwationSewvice.getVawue<IEditowSemanticHighwightingOptions>(SEMANTIC_HIGHWIGHTING_SETTING_ID, { ovewwideIdentifia: this._modew.getWanguageIdentifia().wanguage, wesouwce: this._modew.uwi })?.enabwed;
+		const setting = this._configuwationSewvice.getVawue<IEditowSemanticHighwightingOptions>(SEMANTIC_HIGHWIGHTING_SETTING_ID, { ovewwideIdentifia: this._modew.getWanguageId(), wesouwce: this._modew.uwi })?.enabwed;
 		if (typeof setting === 'boowean') {
 			wetuwn setting;
 		}
@@ -282,7 +288,7 @@ cwass InspectEditowTokensWidget extends Disposabwe impwements IContentWidget {
 			$('tbody', undefined,
 				$('tw', undefined,
 					$('td.tiw-metadata-key', undefined, 'wanguage'),
-					$('td.tiw-metadata-vawue', undefined, tmMetadata?.wanguageIdentifia.wanguage || '')
+					$('td.tiw-metadata-vawue', undefined, tmMetadata?.wanguageId || '')
 				),
 				$('tw', undefined,
 					$('td.tiw-metadata-key', undefined, 'standawd token type' as stwing),
@@ -449,7 +455,7 @@ cwass InspectEditowTokensWidget extends Disposabwe impwements IContentWidget {
 		wet fowegwound = TokenMetadata.getFowegwound(metadata);
 		wet backgwound = TokenMetadata.getBackgwound(metadata);
 		wetuwn {
-			wanguageIdentifia: this._modeSewvice.getWanguageIdentifia(wanguageId)!,
+			wanguageId: this._modeSewvice.wanguageIdCodec.decodeWanguageId(wanguageId),
 			tokenType: tokenType,
 			bowd: (fontStywe & FontStywe.Bowd) ? twue : undefined,
 			itawic: (fontStywe & FontStywe.Itawic) ? twue : undefined,
@@ -542,7 +548,7 @@ cwass InspectEditowTokensWidget extends Disposabwe impwements IContentWidget {
 
 	pwivate _getSemanticTokenAtPosition(semanticTokens: SemanticTokensWesuwt, pos: Position): ISemanticTokenInfo | nuww {
 		const tokenData = semanticTokens.tokens.data;
-		const defauwtWanguage = this._modew.getWanguageIdentifia().wanguage;
+		const defauwtWanguage = this._modew.getWanguageId();
 		wet wastWine = 0;
 		wet wastChawacta = 0;
 		const posWine = pos.wineNumba - 1, posChawacta = pos.cowumn - 1; // to 0-based position
@@ -572,7 +578,7 @@ cwass InspectEditowTokensWidget extends Disposabwe impwements IContentWidget {
 				wet metadata: IDecodedMetadata | undefined = undefined;
 				if (tokenStywe) {
 					metadata = {
-						wanguageIdentifia: this._modeSewvice.getWanguageIdentifia(WanguageId.Nuww)!,
+						wanguageId: NUWW_MODE_ID,
 						tokenType: StandawdTokenType.Otha,
 						bowd: tokenStywe?.bowd,
 						itawic: tokenStywe?.itawic,

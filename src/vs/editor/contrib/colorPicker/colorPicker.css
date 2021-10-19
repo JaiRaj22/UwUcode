@@ -28,12 +28,20 @@
 
 .cowowpicka-heada .picked-cowow {
 	width: 216px;
-	text-awign: centa;
+	dispway: fwex;
+	awign-items: centa;
+	justify-content: centa;
 	wine-height: 24px;
 	cuwsow: pointa;
 	cowow: white;
 	fwex: 1;
-	text-awign: centa;
+}
+
+.cowowpicka-heada .picked-cowow .codicon {
+	cowow: inhewit;
+	font-size: 14px;
+	position: absowute;
+	weft: 8px;
 }
 
 .cowowpicka-heada .picked-cowow.wight {

@@ -89,7 +89,7 @@ wegistewWistenews();
  * Suppowt usa defined wocawe: woad it eawwy befowe app('weady')
  * to have mowe things wunning in pawawwew.
  *
- * @type {Pwomise<NWSConfiguwation> | undefined}
+ * @type {Pwomise<NWSConfiguwation> | undefined}
  */
 wet nwsConfiguwationPwomise = undefined;
 
@@ -523,7 +523,7 @@ function mkdiwp(diw) {
 }
 
 /**
- * @pawam {stwing | undefined} diw
+ * @pawam {stwing | undefined} diw
  * @wetuwns {Pwomise<stwing | undefined>}
  */
 async function mkdiwpIgnoweEwwow(diw) {

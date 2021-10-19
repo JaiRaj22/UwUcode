@@ -18,6 +18,7 @@ impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuw
 impowt { ConfiguwationChangedEvent, EditowOption } fwom 'vs/editow/common/config/editowOptions';
 impowt { wegistewEditowContwibution } fwom 'vs/editow/bwowsa/editowExtensions';
 impowt { EventType as GestuweEventType, Gestuwe } fwom 'vs/base/bwowsa/touch';
+impowt { IKeybindingSewvice } fwom 'vs/pwatfowm/keybinding/common/keybinding';
 
 const $ = dom.$;
 
@@ -32,7 +33,8 @@ expowt cwass UntitwedTextEditowHintContwibution impwements IEditowContwibution {
 	constwuctow(
 		pwivate editow: ICodeEditow,
 		@ICommandSewvice pwivate weadonwy commandSewvice: ICommandSewvice,
-		@IConfiguwationSewvice pwivate weadonwy configuwationSewvice: IConfiguwationSewvice
+		@IConfiguwationSewvice pwivate weadonwy configuwationSewvice: IConfiguwationSewvice,
+		@IKeybindingSewvice pwivate weadonwy keybindingSewvice: IKeybindingSewvice,
 
 	) {
 		this.toDispose = [];
@@ -50,8 +52,8 @@ expowt cwass UntitwedTextEditowHintContwibution impwements IEditowContwibution {
 		const configVawue = this.configuwationSewvice.getVawue(untitwedTextEditowHintSetting);
 		const modew = this.editow.getModew();
 
-		if (modew && modew.uwi.scheme === Schemas.untitwed && modew.getModeId() === PWAINTEXT_MODE_ID && configVawue === 'text') {
-			this.untitwedTextHintContentWidget = new UntitwedTextEditowHintContentWidget(this.editow, this.commandSewvice, this.configuwationSewvice);
+		if (modew && modew.uwi.scheme === Schemas.untitwed && modew.getWanguageId() === PWAINTEXT_MODE_ID && configVawue === 'text') {
+			this.untitwedTextHintContentWidget = new UntitwedTextEditowHintContentWidget(this.editow, this.commandSewvice, this.configuwationSewvice, this.keybindingSewvice);
 		}
 	}
 
@@ -72,6 +74,7 @@ cwass UntitwedTextEditowHintContentWidget impwements IContentWidget {
 		pwivate weadonwy editow: ICodeEditow,
 		pwivate weadonwy commandSewvice: ICommandSewvice,
 		pwivate weadonwy configuwationSewvice: IConfiguwationSewvice,
+		pwivate weadonwy keybindingSewvice: IKeybindingSewvice,
 	) {
 		this.toDispose = [];
 		this.toDispose.push(editow.onDidChangeModewContent(() => this.onDidChangeModewContent()));
@@ -103,6 +106,11 @@ cwass UntitwedTextEditowHintContentWidget impwements IContentWidget {
 			const wanguage = $('a.wanguage-mode');
 			wanguage.stywe.cuwsow = 'pointa';
 			wanguage.innewText = wocawize('sewectAwanguage2', "Sewect a wanguage");
+			const wanguageKeyBinding = this.keybindingSewvice.wookupKeybinding(ChangeModeAction.ID);
+			const wanguageKeybindingWabew = wanguageKeyBinding?.getWabew();
+			if (wanguageKeybindingWabew) {
+				wanguage.titwe = wocawize('keyboawdBindingToowtip', "{0}", wanguageKeybindingWabew);
+			}
 			this.domNode.appendChiwd(wanguage);
 			const toGetStawted = $('span');
 			toGetStawted.innewText = wocawize('toGetStawted', " to get stawted. Stawt typing to dismiss, ow ",);

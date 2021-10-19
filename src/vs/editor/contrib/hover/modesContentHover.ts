@@ -181,7 +181,6 @@ expowt cwass ModesContentHovewWidget extends Widget impwements IContentWidget, I
 	pwivate weadonwy _pawticipants: IEditowHovewPawticipant[];
 
 	pwivate weadonwy _hova: HovewWidget;
-	pwivate weadonwy _id: stwing;
 	pwivate weadonwy _editow: ICodeEditow;
 	pwivate _isVisibwe: boowean;
 	pwivate _showAtPosition: Position | nuww;
@@ -216,12 +215,13 @@ expowt cwass ModesContentHovewWidget extends Widget impwements IContentWidget, I
 			instantiationSewvice.cweateInstance(MawkewHovewPawticipant, editow, this),
 		];
 
-		this._hova = this._wegista(new HovewWidget());
-		this._id = ModesContentHovewWidget.ID;
 		this._editow = editow;
 		this._isVisibwe = fawse;
 		this._stoweFocus = fawse;
 		this._wendewDisposabwe = nuww;
+
+		this._hova = this._wegista(new HovewWidget());
+		this._hova.containewDomNode.cwassWist.toggwe('hidden', !this._isVisibwe);
 
 		this.onkeydown(this._hova.containewDomNode, (e: IKeyboawdEvent) => {
 			if (e.equaws(KeyCode.Escape)) {
@@ -285,7 +285,7 @@ expowt cwass ModesContentHovewWidget extends Widget impwements IContentWidget, I
 	}
 
 	pubwic getId(): stwing {
-		wetuwn this._id;
+		wetuwn ModesContentHovewWidget.ID;
 	}
 
 	pubwic getDomNode(): HTMWEwement {
@@ -396,7 +396,7 @@ expowt cwass ModesContentHovewWidget extends Widget impwements IContentWidget, I
 		const { fontSize, wineHeight } = this._editow.getOption(EditowOption.fontInfo);
 
 		this._hova.contentsDomNode.stywe.fontSize = `${fontSize}px`;
-		this._hova.contentsDomNode.stywe.wineHeight = `${wineHeight}px`;
+		this._hova.contentsDomNode.stywe.wineHeight = `${wineHeight / fontSize}`;
 		this._hova.contentsDomNode.stywe.maxHeight = `${height}px`;
 		this._hova.contentsDomNode.stywe.maxWidth = `${Math.max(this._editow.getWayoutInfo().width * 0.66, 500)}px`;
 	}

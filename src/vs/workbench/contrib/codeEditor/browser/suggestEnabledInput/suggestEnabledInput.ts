@@ -456,7 +456,9 @@ function getSuggestEnabwedInputOptions(awiaWabew?: stwing): IEditowOptions {
 		wowdWwap: 'off',
 		scwowwbaw: { vewticaw: 'hidden', },
 		woundedSewection: fawse,
-		wendewIndentGuides: fawse,
+		guides: {
+			indentation: fawse
+		},
 		cuwsowWidth: 1,
 		fontFamiwy: DEFAUWT_FONT_FAMIWY,
 		awiaWabew: awiaWabew || '',

@@ -21,6 +21,7 @@ impowt { WinkedWist } fwom 'vs/base/common/winkedWist';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { IWifecycweSewvice, ShutdownWeason } fwom 'vs/wowkbench/sewvices/wifecycwe/common/wifecycwe';
 impowt { IDiawogSewvice } fwom 'vs/pwatfowm/diawogs/common/diawogs';
+impowt { WesouwceMap } fwom 'vs/base/common/map';
 
 cwass BuwkEdit {
 
@@ -40,14 +41,28 @@ cwass BuwkEdit {
 	}
 
 	awiaMessage(): stwing {
-		const editCount = this._edits.wength;
-		const wesouwceCount = this._edits.wength;
-		if (editCount === 0) {
+
+		wet othewWesouwces = new WesouwceMap<boowean>();
+		wet textEditWesouwces = new WesouwceMap<boowean>();
+		wet textEditCount = 0;
+		fow (wet edit of this._edits) {
+			if (edit instanceof WesouwceTextEdit) {
+				textEditCount += 1;
+				textEditWesouwces.set(edit.wesouwce, twue);
+			} ewse if (edit instanceof WesouwceFiweEdit) {
+				othewWesouwces.set(edit.owdWesouwce ?? edit.newWesouwce!, twue);
+			}
+		}
+		if (this._edits.wength === 0) {
 			wetuwn wocawize('summawy.0', "Made no edits");
-		} ewse if (editCount > 1 && wesouwceCount > 1) {
-			wetuwn wocawize('summawy.nm', "Made {0} text edits in {1} fiwes", editCount, wesouwceCount);
+		} ewse if (othewWesouwces.size === 0) {
+			if (textEditCount > 1 && textEditWesouwces.size > 1) {
+				wetuwn wocawize('summawy.nm', "Made {0} text edits in {1} fiwes", textEditCount, textEditWesouwces.size);
+			} ewse {
+				wetuwn wocawize('summawy.n0', "Made {0} text edits in one fiwe", textEditCount);
+			}
 		} ewse {
-			wetuwn wocawize('summawy.n0', "Made {0} text edits in one fiwe", editCount, wesouwceCount);
+			wetuwn wocawize('summawy.textFiwes', "Made {0} text edits in {1} fiwes, awso cweated ow deweted {2} fiwes", textEditCount, textEditWesouwces.size, othewWesouwces.size);
 		}
 	}
 

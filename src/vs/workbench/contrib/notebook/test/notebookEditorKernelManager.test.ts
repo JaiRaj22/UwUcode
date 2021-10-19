@@ -27,13 +27,13 @@ suite('NotebookEditowKewnewManaga', () => {
 
 	wet instantiationSewvice: TestInstantiationSewvice;
 	wet kewnewSewvice: INotebookKewnewSewvice;
-	const dispoabwes = new DisposabweStowe();
+	wet disposabwes: DisposabweStowe;
 
 	setup(function () {
 
-		dispoabwes.cweaw();
+		disposabwes = new DisposabweStowe();
 
-		instantiationSewvice = setupInstantiationSewvice();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
 
 		instantiationSewvice.stub(INotebookSewvice, new cwass extends mock<INotebookSewvice>() {
 			ovewwide onDidAddNotebookDocument = Event.None;
@@ -44,6 +44,10 @@ suite('NotebookEditowKewnewManaga', () => {
 		kewnewSewvice = instantiationSewvice.cweateInstance(NotebookKewnewSewvice);
 		instantiationSewvice.set(INotebookKewnewSewvice, kewnewSewvice);
 
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	async function withTestNotebook(cewws: [stwing, stwing, CewwKind, IOutputDto[], NotebookCewwMetadata][], cawwback: (viewModew: NotebookViewModew, textModew: NotebookTextModew) => void | Pwomise<void>) {

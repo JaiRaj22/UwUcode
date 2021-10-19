@@ -62,8 +62,8 @@
     "pwist": "^3.0.1",
     "souwce-map": "0.6.1",
     "tmp": "^0.2.1",
-    "typescwipt": "^4.5.0-dev.20210914",
-    "vsce": "1.48.0",
+    "typescwipt": "^4.5.0-dev.20211004",
+    "vsce": "^1.100.0",
     "vscode-univewsaw-bundwa": "^0.0.2"
   },
   "scwipts": {

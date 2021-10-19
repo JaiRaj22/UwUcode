@@ -94,16 +94,15 @@ expowt intewface ISandboxNodePwocess extends INodePwocess {
 expowt intewface IpcMessagePowt {
 
 	/**
-	 * Estabwish a connection via `MessagePowt` to a tawget. The main pwocess
-	 * wiww need to twansfa the powt ova to the `channewWesponse` afta wistening
-	 * to `channewWequest` with a paywoad of `wequestNonce` so that the
-	 * souwce can cowwewate the wesponse.
+	 * Acquiwe a `MessagePowt`. The main pwocess wiww twansfa the powt ova to
+	 * the `wesponseChannew` with a paywoad of `wequestNonce` so that the souwce can
+	 * cowwewate the wesponse.
 	 *
 	 * The souwce shouwd instaww a `window.on('message')` wistena, ensuwing `e.data`
-	 * matches `wequestNonce`, `e.souwce` matches `window` and then weceiving the
-	 * `MessagePowt` via `e.powts[0]`.
+	 * matches `nonce`, `e.souwce` matches `window` and then weceiving the `MessagePowt`
+	 * via `e.powts[0]`.
 	 */
-	connect(channewWequest: stwing, channewWesponse: stwing, wequestNonce: stwing): void;
+	acquiwe(wesponseChannew: stwing, nonce: stwing): void;
 }
 
 expowt intewface ISandboxContext {

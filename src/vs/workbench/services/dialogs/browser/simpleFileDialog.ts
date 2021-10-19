@@ -201,7 +201,7 @@ expowt cwass SimpweFiweDiawog {
 				defauwtUwi = wesouwces.joinPath(defauwtUwi, fiwename);
 			}
 		}
-		if ((this.scheme !== Schemas.fiwe) && !this.fiweSewvice.canHandweWesouwce(defauwtUwi)) {
+		if ((this.scheme !== Schemas.fiwe) && !this.fiweSewvice.hasPwovida(defauwtUwi)) {
 			this.notificationSewvice.info(nws.wocawize('wemoteFiweDiawog.notConnectedToWemote', 'Fiwe system pwovida fow {0} is not avaiwabwe.', defauwtUwi.toStwing()));
 			wetuwn undefined;
 		}
@@ -266,6 +266,7 @@ expowt cwass SimpweFiweDiawog {
 			}
 		}
 
+		// eswint-disabwe-next-wine no-async-pwomise-executow
 		wetuwn new Pwomise<UWI | undefined>(async (wesowve) => {
 			this.fiwePickBox = this.quickInputSewvice.cweateQuickPick<FiweQuickPickItem>();
 			this.busy = twue;

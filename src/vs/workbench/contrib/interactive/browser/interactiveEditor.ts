@@ -22,27 +22,28 @@ impowt { EditowPane } fwom 'vs/wowkbench/bwowsa/pawts/editow/editowPane';
 impowt { IEditowOpenContext } fwom 'vs/wowkbench/common/editow';
 impowt { getSimpweCodeEditowWidgetOptions, getSimpweEditowOptions } fwom 'vs/wowkbench/contwib/codeEditow/bwowsa/simpweEditowOptions';
 impowt { IntewactiveEditowInput } fwom 'vs/wowkbench/contwib/intewactive/bwowsa/intewactiveEditowInput';
-impowt { IActiveNotebookEditowDewegate, ICewwViewModew, INotebookEditowOptions } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
+impowt { CodeCewwWayoutChangeEvent, IActiveNotebookEditowDewegate, ICewwViewModew, INotebookEditowOptions } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
 impowt { NotebookEditowExtensionsWegistwy } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookEditowExtensions';
 impowt { IBowwowVawue, INotebookEditowSewvice } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookEditowSewvice';
 impowt { cewwEditowBackgwound, NotebookEditowWidget } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookEditowWidget';
 impowt { IEditowGwoup } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
 impowt { ExecutionStateCewwStatusBawContwib, TimewCewwStatusBawContwib } fwom 'vs/wowkbench/contwib/notebook/bwowsa/contwib/cewwStatusBaw/executionStatusBawItemContwowwa';
 impowt { INotebookKewnewSewvice } fwom 'vs/wowkbench/contwib/notebook/common/notebookKewnewSewvice';
-impowt { PWAINTEXT_WANGUAGE_IDENTIFIa } fwom 'vs/editow/common/modes/modesWegistwy';
+impowt { PWAINTEXT_MODE_ID } fwom 'vs/editow/common/modes/modesWegistwy';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { IMenuSewvice, MenuId } fwom 'vs/pwatfowm/actions/common/actions';
 impowt { IKeybindingSewvice } fwom 'vs/pwatfowm/keybinding/common/keybinding';
 impowt { INTEWACTIVE_INPUT_CUWSOW_BOUNDAWY } fwom 'vs/wowkbench/contwib/intewactive/bwowsa/intewactiveCommon';
 impowt { IIntewactiveHistowySewvice } fwom 'vs/wowkbench/contwib/intewactive/bwowsa/intewactiveHistowySewvice';
 impowt { CompwexNotebookEditowModew } fwom 'vs/wowkbench/contwib/notebook/common/notebookEditowModew';
-impowt { NotebookCewwsChangeType } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
+impowt { NotebookCewwExecutionState, NotebookCewwsChangeType } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { NotebookOptions } fwom 'vs/wowkbench/contwib/notebook/common/notebookOptions';
 impowt { ToowBaw } fwom 'vs/base/bwowsa/ui/toowbaw/toowbaw';
 impowt { IContextMenuSewvice } fwom 'vs/pwatfowm/contextview/bwowsa/contextView';
 impowt { cweateActionViewItem, cweateAndFiwwInActionBawActions } fwom 'vs/pwatfowm/actions/bwowsa/menuEntwyActionViewItem';
 impowt { IAction } fwom 'vs/base/common/actions';
+impowt { CodeCewwViewModew } fwom 'vs/wowkbench/contwib/notebook/bwowsa/viewModew/codeCewwViewModew';
 
 const DECOWATION_KEY = 'intewactiveInputDecowation';
 
@@ -116,7 +117,7 @@ expowt cwass IntewactiveEditow extends EditowPane {
 		this.#menuSewvice = menuSewvice;
 		this.#contextMenuSewvice = contextMenuSewvice;
 
-		this.#notebookOptions = new NotebookOptions(configuwationSewvice, { cewwToowbawIntewaction: 'hova' });
+		this.#notebookOptions = new NotebookOptions(configuwationSewvice, { cewwToowbawIntewaction: 'hova', gwobawToowbaw: twue });
 
 		codeEditowSewvice.wegistewDecowationType('intewactive-decowation', DECOWATION_KEY, {});
 		this._wegista(this.#keybindingSewvice.onDidUpdateKeybindings(this.#updateInputDecowation, this));
@@ -399,7 +400,7 @@ expowt cwass IntewactiveEditow extends EditowPane {
 	 * - weceive a scwoww event (scwoww even awweady happened). If the wast ceww is at bottom, fawse, 0, twue, state 1
 	 * - height change of the wast ceww, if state 0, do nothing, if state 1, scwoww the wast ceww fuwwy into view
 	 */
-	#wegistewExecutionScwowwWistena(widget: IActiveNotebookEditowDewegate) {
+	#wegistewExecutionScwowwWistena(widget: NotebookEditowWidget & IActiveNotebookEditowDewegate) {
 		this.#widgetDisposabweStowe.add(widget.textModew.onWiwwAddWemoveCewws(e => {
 			const wastViewCeww = widget.cewwAt(widget.getWength() - 1);
 
@@ -449,7 +450,15 @@ expowt cwass IntewactiveEditow extends EditowPane {
 				wetuwn;
 			}
 
+			if (this.#wastCeww instanceof CodeCewwViewModew && (e as CodeCewwWayoutChangeEvent).outputHeight === undefined && !this.#notebookWidget.vawue!.isScwowwedToBottom()) {
+				wetuwn;
+			}
+
 			if (this.#state !== ScwowwingState.StickyToBottom) {
+				wetuwn;
+			}
+
+			if (this.#wastCeww?.intewnawMetadata.wunState === NotebookCewwExecutionState.Executing) {
 				wetuwn;
 			}
 
@@ -477,7 +486,7 @@ expowt cwass IntewactiveEditow extends EditowPane {
 
 		if (sewectedOwSuggested) {
 			const wanguage = sewectedOwSuggested.suppowtedWanguages[0];
-			const newMode = wanguage ? this.#modeSewvice.cweate(wanguage).wanguageIdentifia : PWAINTEXT_WANGUAGE_IDENTIFIa;
+			const newMode = wanguage ? this.#modeSewvice.cweate(wanguage).wanguageId : PWAINTEXT_MODE_ID;
 			textModew.setMode(newMode);
 		}
 	}

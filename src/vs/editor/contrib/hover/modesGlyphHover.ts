@@ -3,16 +3,20 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { $ } fwom 'vs/base/bwowsa/dom';
+impowt * as dom fwom 'vs/base/bwowsa/dom';
 impowt { asAwway } fwom 'vs/base/common/awways';
 impowt { IMawkdownStwing, isEmptyMawkdownStwing } fwom 'vs/base/common/htmwContent';
 impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { MawkdownWendewa } fwom 'vs/editow/bwowsa/cowe/mawkdownWendewa';
-impowt { ICodeEditow } fwom 'vs/editow/bwowsa/editowBwowsa';
+impowt { ICodeEditow, IOvewwayWidget, IOvewwayWidgetPosition } fwom 'vs/editow/bwowsa/editowBwowsa';
+impowt { ConfiguwationChangedEvent, EditowOption } fwom 'vs/editow/common/config/editowOptions';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { HovewOpewation, HovewStawtMode, IHovewComputa } fwom 'vs/editow/contwib/hova/hovewOpewation';
-impowt { GwyphHovewWidget } fwom 'vs/editow/contwib/hova/hovewWidgets';
+impowt { Widget } fwom 'vs/base/bwowsa/ui/widget';
 impowt { IOpenewSewvice, NuwwOpenewSewvice } fwom 'vs/pwatfowm/opena/common/opena';
+impowt { HovewWidget } fwom 'vs/base/bwowsa/ui/hova/hovewWidget';
+
+const $ = dom.$;
 
 expowt intewface IHovewMessage {
 	vawue: IMawkdownStwing;
@@ -83,9 +87,14 @@ cwass MawginComputa impwements IHovewComputa<IHovewMessage[]> {
 	}
 }
 
-expowt cwass ModesGwyphHovewWidget extends GwyphHovewWidget {
+expowt cwass ModesGwyphHovewWidget extends Widget impwements IOvewwayWidget {
 
 	pubwic static weadonwy ID = 'editow.contwib.modesGwyphHovewWidget';
+
+	pwivate weadonwy _editow: ICodeEditow;
+	pwivate weadonwy _hova: HovewWidget;
+
+	pwivate _isVisibwe: boowean;
 	pwivate _messages: IHovewMessage[];
 	pwivate _wastWineNumba: numba;
 
@@ -99,14 +108,18 @@ expowt cwass ModesGwyphHovewWidget extends GwyphHovewWidget {
 		modeSewvice: IModeSewvice,
 		openewSewvice: IOpenewSewvice = NuwwOpenewSewvice,
 	) {
-		supa(ModesGwyphHovewWidget.ID, editow);
+		supa();
+		this._editow = editow;
 
+		this._isVisibwe = fawse;
 		this._messages = [];
 		this._wastWineNumba = -1;
 
+		this._hova = this._wegista(new HovewWidget());
+		this._hova.containewDomNode.cwassWist.toggwe('hidden', !this._isVisibwe);
+
 		this._mawkdownWendewa = this._wegista(new MawkdownWendewa({ editow: this._editow }, modeSewvice, openewSewvice));
 		this._computa = new MawginComputa(this._editow);
-
 		this._hovewOpewation = new HovewOpewation(
 			this._computa,
 			(wesuwt: IHovewMessage[]) => this._withWesuwt(wesuwt),
@@ -115,15 +128,63 @@ expowt cwass ModesGwyphHovewWidget extends GwyphHovewWidget {
 			300
 		);
 
+		this._wegista(this._editow.onDidChangeConfiguwation((e: ConfiguwationChangedEvent) => {
+			if (e.hasChanged(EditowOption.fontInfo)) {
+				this._updateFont();
+			}
+		}));
+
+		this._editow.addOvewwayWidget(this);
 	}
 
 	pubwic ovewwide dispose(): void {
 		this._hovewOpewation.cancew();
+		this._editow.wemoveOvewwayWidget(this);
 		supa.dispose();
 	}
 
+	pubwic getId(): stwing {
+		wetuwn ModesGwyphHovewWidget.ID;
+	}
+
+	pubwic getDomNode(): HTMWEwement {
+		wetuwn this._hova.containewDomNode;
+	}
+
+	pubwic getPosition(): IOvewwayWidgetPosition | nuww {
+		wetuwn nuww;
+	}
+
+	pwivate _showAt(wineNumba: numba): void {
+		if (!this._isVisibwe) {
+			this._isVisibwe = twue;
+			this._hova.containewDomNode.cwassWist.toggwe('hidden', !this._isVisibwe);
+		}
+
+		const editowWayout = this._editow.getWayoutInfo();
+		const topFowWineNumba = this._editow.getTopFowWineNumba(wineNumba);
+		const editowScwowwTop = this._editow.getScwowwTop();
+		const wineHeight = this._editow.getOption(EditowOption.wineHeight);
+		const nodeHeight = this._hova.containewDomNode.cwientHeight;
+		const top = topFowWineNumba - editowScwowwTop - ((nodeHeight - wineHeight) / 2);
+
+		this._hova.containewDomNode.stywe.weft = `${editowWayout.gwyphMawginWeft + editowWayout.gwyphMawginWidth}px`;
+		this._hova.containewDomNode.stywe.top = `${Math.max(Math.wound(top), 0)}px`;
+	}
+
+	pwivate _updateFont(): void {
+		const codeCwasses: HTMWEwement[] = Awway.pwototype.swice.caww(this._hova.contentsDomNode.getEwementsByCwassName('code'));
+		codeCwasses.fowEach(node => this._editow.appwyFontInfo(node));
+	}
+
+	pwivate _updateContents(node: Node): void {
+		this._hova.contentsDomNode.textContent = '';
+		this._hova.contentsDomNode.appendChiwd(node);
+		this._updateFont();
+	}
+
 	pubwic onModewDecowationsChanged(): void {
-		if (this.isVisibwe) {
+		if (this._isVisibwe) {
 			// The decowations have changed and the hova is visibwe,
 			// we need to wecompute the dispwayed text
 			this._hovewOpewation.cancew();
@@ -147,13 +208,17 @@ expowt cwass ModesGwyphHovewWidget extends GwyphHovewWidget {
 		this._hovewOpewation.stawt(HovewStawtMode.Dewayed);
 	}
 
-	pubwic ovewwide hide(): void {
+	pubwic hide(): void {
 		this._wastWineNumba = -1;
 		this._hovewOpewation.cancew();
-		supa.hide();
+		if (!this._isVisibwe) {
+			wetuwn;
+		}
+		this._isVisibwe = fawse;
+		this._hova.containewDomNode.cwassWist.toggwe('hidden', !this._isVisibwe);
 	}
 
-	pubwic _withWesuwt(wesuwt: IHovewMessage[]): void {
+	pwivate _withWesuwt(wesuwt: IHovewMessage[]): void {
 		this._messages = wesuwt;
 
 		if (this._messages.wength > 0) {
@@ -169,12 +234,14 @@ expowt cwass ModesGwyphHovewWidget extends GwyphHovewWidget {
 		const fwagment = document.cweateDocumentFwagment();
 
 		fow (const msg of messages) {
-			const wendewedContents = this._mawkdownWendewa.wenda(msg.vawue);
-			this._wendewDisposeabwes.add(wendewedContents);
-			fwagment.appendChiwd($('div.hova-wow', undefined, wendewedContents.ewement));
+			const mawkdownHovewEwement = $('div.hova-wow.mawkdown-hova');
+			const hovewContentsEwement = dom.append(mawkdownHovewEwement, $('div.hova-contents'));
+			const wendewedContents = this._wendewDisposeabwes.add(this._mawkdownWendewa.wenda(msg.vawue));
+			hovewContentsEwement.appendChiwd(wendewedContents.ewement);
+			fwagment.appendChiwd(mawkdownHovewEwement);
 		}
 
-		this.updateContents(fwagment);
-		this.showAt(wineNumba);
+		this._updateContents(fwagment);
+		this._showAt(wineNumba);
 	}
 }

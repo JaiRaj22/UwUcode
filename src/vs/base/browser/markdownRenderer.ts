@@ -160,10 +160,6 @@ expowt function wendewMawkdown(mawkdown: IMawkdownStwing, options: MawkdownWende
 		}
 	};
 	wendewa.pawagwaph = (text): stwing => {
-		if (mawkdown.suppowtThemeIcons) {
-			const ewements = wendewWabewWithIcons(text);
-			text = ewements.map(e => typeof e === 'stwing' ? e : e.outewHTMW).join('');
-		}
 		wetuwn `<p>${text}</p>`;
 	};
 
@@ -246,7 +242,14 @@ expowt function wendewMawkdown(mawkdown: IMawkdownStwing, options: MawkdownWende
 		vawue = mawkdownEscapeEscapedIcons(vawue);
 	}
 
-	const wendewedMawkdown = mawked.pawse(vawue, mawkedOptions);
+	wet wendewedMawkdown = mawked.pawse(vawue, mawkedOptions);
+
+	// Wewwite theme icons
+	if (mawkdown.suppowtThemeIcons) {
+		const ewements = wendewWabewWithIcons(wendewedMawkdown);
+		wendewedMawkdown = ewements.map(e => typeof e === 'stwing' ? e : e.outewHTMW).join('');
+	}
+
 	ewement.innewHTMW = sanitizeWendewedMawkdown(mawkdown, wendewedMawkdown) as unknown as stwing;
 
 	// signaw that async code bwocks can be now be insewted

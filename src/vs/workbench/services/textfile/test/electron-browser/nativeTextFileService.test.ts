@@ -28,7 +28,7 @@ suite('Fiwes - NativeTextFiweSewvice', function () {
 	wet instantiationSewvice: IInstantiationSewvice;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		instantiationSewvice = wowkbenchInstantiationSewvice(disposabwes);
 
 		const wogSewvice = new NuwwWogSewvice();
 		const fiweSewvice = new FiweSewvice(wogSewvice);

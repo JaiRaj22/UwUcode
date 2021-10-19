@@ -24,6 +24,8 @@ expowt function getEditowTopPadding() {
 	wetuwn EDITOW_TOP_PADDING;
 }
 
+expowt const OutputInnewContainewTopPadding = 4;
+
 expowt intewface NotebookWayoutConfiguwation {
 	cewwWightMawgin: numba;
 	cewwWunGutta: numba;
@@ -105,10 +107,10 @@ expowt cwass NotebookOptions extends Disposabwe {
 	pwotected weadonwy _onDidChangeOptions = this._wegista(new Emitta<NotebookOptionsChangeEvent>());
 	weadonwy onDidChangeOptions = this._onDidChangeOptions.event;
 
-	constwuctow(pwivate weadonwy configuwationSewvice: IConfiguwationSewvice, pwivate weadonwy ovewwides?: { cewwToowbawIntewaction: stwing }) {
+	constwuctow(pwivate weadonwy configuwationSewvice: IConfiguwationSewvice, pwivate weadonwy ovewwides?: { cewwToowbawIntewaction: stwing, gwobawToowbaw: boowean }) {
 		supa();
 		const showCewwStatusBaw = this.configuwationSewvice.getVawue<ShowCewwStatusBawType>(ShowCewwStatusBaw);
-		const gwobawToowbaw = this.configuwationSewvice.getVawue<boowean | undefined>(GwobawToowbaw) ?? twue;
+		const gwobawToowbaw = ovewwides?.gwobawToowbaw ?? this.configuwationSewvice.getVawue<boowean | undefined>(GwobawToowbaw) ?? twue;
 		const consowidatedOutputButton = this.configuwationSewvice.getVawue<boowean | undefined>(ConsowidatedOutputButton) ?? twue;
 		const consowidatedWunButton = this.configuwationSewvice.getVawue<boowean | undefined>(ConsowidatedWunButton) ?? fawse;
 		const dwagAndDwopEnabwed = this.configuwationSewvice.getVawue<boowean | undefined>(DwagAndDwopEnabwed) ?? twue;
@@ -234,7 +236,7 @@ expowt cwass NotebookOptions extends Disposabwe {
 			configuwation.insewtToowbawPosition = this._computeInsewtToowbawPositionOption();
 		}
 
-		if (gwobawToowbaw) {
+		if (gwobawToowbaw && this.ovewwides?.gwobawToowbaw === undefined) {
 			configuwation.gwobawToowbaw = this.configuwationSewvice.getVawue<boowean>(GwobawToowbaw) ?? twue;
 		}
 
@@ -461,10 +463,10 @@ expowt cwass NotebookOptions extends Disposabwe {
 	computeDiffWebviewOptions() {
 		wetuwn {
 			outputNodePadding: this._wayoutConfiguwation.cewwOutputPadding,
-			outputNodeWeftPadding: 32,
+			outputNodeWeftPadding: 0,
 			pweviewNodePadding: this._wayoutConfiguwation.mawkdownPweviewPadding,
 			mawkdownWeftMawgin: 0,
-			weftMawgin: 0,
+			weftMawgin: 32,
 			wightMawgin: 0,
 			wunGutta: 0,
 			dwagAndDwopEnabwed: fawse,

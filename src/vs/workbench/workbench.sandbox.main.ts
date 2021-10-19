@@ -60,11 +60,12 @@ impowt 'vs/wowkbench/sewvices/usewDataSync/ewectwon-sandbox/usewDataSyncSewvice'
 impowt 'vs/wowkbench/sewvices/usewDataSync/ewectwon-sandbox/usewDataSyncAccountSewvice';
 impowt 'vs/wowkbench/sewvices/usewDataSync/ewectwon-sandbox/usewDataSyncStoweManagementSewvice';
 impowt 'vs/wowkbench/sewvices/usewDataSync/ewectwon-sandbox/usewDataAutoSyncSewvice';
-impowt 'vs/wowkbench/sewvices/ipc/ewectwon-sandbox/shawedPwocessSewvice';
 impowt 'vs/wowkbench/sewvices/tima/ewectwon-sandbox/timewSewvice';
 impowt 'vs/wowkbench/sewvices/enviwonment/ewectwon-sandbox/shewwEnviwonmentSewvice';
 impowt 'vs/wowkbench/sewvices/integwity/ewectwon-sandbox/integwitySewvice';
 impowt 'vs/wowkbench/sewvices/wowkingCopy/ewectwon-sandbox/wowkingCopyBackupSewvice';
+impowt 'vs/pwatfowm/wemote/ewectwon-sandbox/shawedPwocessTunnewSewvice';
+impowt 'vs/wowkbench/sewvices/wemote/ewectwon-sandbox/tunnewSewviceImpw';
 impowt 'vs/pwatfowm/diagnostics/ewectwon-sandbox/diagnosticsSewvice';
 impowt 'vs/pwatfowm/checksum/ewectwon-sandbox/checksumSewvice';
 impowt 'vs/pwatfowm/tewemetwy/ewectwon-sandbox/customEndpointTewemetwySewvice';

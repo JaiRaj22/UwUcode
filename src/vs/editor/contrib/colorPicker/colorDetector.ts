@@ -75,9 +75,9 @@ expowt cwass CowowDetectow extends Disposabwe impwements IEditowContwibution {
 		if (!modew) {
 			wetuwn fawse;
 		}
-		const wanguageId = modew.getWanguageIdentifia();
+		const wanguageId = modew.getWanguageId();
 		// handwe depwecated settings. [wanguageId].cowowDecowatows.enabwe
-		const depwecatedConfig = this._configuwationSewvice.getVawue(wanguageId.wanguage);
+		const depwecatedConfig = this._configuwationSewvice.getVawue(wanguageId);
 		if (depwecatedConfig && typeof depwecatedConfig === 'object') {
 			const cowowDecowatows = (depwecatedConfig as any)['cowowDecowatows']; // depwecatedConfig.vawueOf('.cowowDecowatows.enabwe');
 			if (cowowDecowatows && cowowDecowatows['enabwe'] !== undefined && !cowowDecowatows['enabwe']) {

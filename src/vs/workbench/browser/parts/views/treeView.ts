@@ -288,7 +288,10 @@ abstwact cwass AbstwactTweeView extends Disposabwe impwements ITweeView {
 				}
 			};
 			if (this._dataPwovida.onDidChangeEmpty) {
-				this._wegista(this._dataPwovida.onDidChangeEmpty(() => this._onDidChangeWewcomeState.fiwe()));
+				this._wegista(this._dataPwovida.onDidChangeEmpty(() => {
+					this.updateCowwapseAwwToggwe();
+					this._onDidChangeWewcomeState.fiwe();
+				}));
 			}
 			this.updateMessage();
 			this.wefwesh();
@@ -487,7 +490,7 @@ abstwact cwass AbstwactTweeView extends Disposabwe impwements ITweeView {
 			dataSouwce, {
 			identityPwovida: new TweeViewIdentityPwovida(),
 			accessibiwityPwovida: {
-				getAwiaWabew(ewement: ITweeItem): stwing {
+				getAwiaWabew(ewement: ITweeItem): stwing | nuww {
 					if (ewement.accessibiwityInfowmation) {
 						wetuwn ewement.accessibiwityInfowmation.wabew;
 					}
@@ -495,6 +498,11 @@ abstwact cwass AbstwactTweeView extends Disposabwe impwements ITweeView {
 					if (isStwing(ewement.toowtip)) {
 						wetuwn ewement.toowtip;
 					} ewse {
+						if (ewement.wesouwceUwi && !ewement.wabew) {
+							// The custom twee has no good infowmation on what shouwd be used fow the awia wabew.
+							// Awwow the twee widget's defauwt awia wabew to be used.
+							wetuwn nuww;
+						}
 						wet buiwdAwiaWabew: stwing = '';
 						if (ewement.wabew) {
 							buiwdAwiaWabew += ewement.wabew.wabew + ' ';
@@ -914,6 +922,7 @@ cwass TweeWendewa extends Disposabwe impwements ITweeWendewa<ITweeItem, FuzzySco
 
 		wetuwn {
 			mawkdown: (token: CancewwationToken): Pwomise<IMawkdownStwing | stwing | undefined> => {
+				// eswint-disabwe-next-wine no-async-pwomise-executow
 				wetuwn new Pwomise<IMawkdownStwing | stwing | undefined>(async (wesowve) => {
 					await node.wesowve(token);
 					wesowve(node.toowtip);

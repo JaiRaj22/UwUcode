@@ -5,9 +5,11 @@
 
 impowt * as assewt fwom 'assewt';
 impowt * as DOM fwom 'vs/base/bwowsa/dom';
+impowt { FastDomNode } fwom 'vs/base/bwowsa/fastDomNode';
 impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { mock } fwom 'vs/base/test/common/mock';
 impowt { IMenuSewvice } fwom 'vs/pwatfowm/actions/common/actions';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 impowt { IKeybindingSewvice } fwom 'vs/pwatfowm/keybinding/common/keybinding';
 impowt { IOpenewSewvice } fwom 'vs/pwatfowm/opena/common/opena';
 impowt { ICewwOutputViewModew, IWendewOutput, WendewOutputType } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
@@ -42,42 +44,52 @@ OutputWendewewWegistwy.wegistewOutputTwansfowm(cwass impwements IOutputTwansfowm
 });
 
 suite('NotebookViewModew Outputs', async () => {
-	const instantiationSewvice = setupInstantiationSewvice();
-	instantiationSewvice.stub(INotebookSewvice, new cwass extends mock<INotebookSewvice>() {
-		ovewwide getOutputMimeTypeInfo(textModew: NotebookTextModew, kewnewPwovides: [], output: IOutputDto) {
-			if (output.outputId === 'output_id_eww') {
+
+	wet disposabwes: DisposabweStowe;
+	wet instantiationSewvice: TestInstantiationSewvice;
+	wet openewSewvice: IOpenewSewvice;
+
+	suiteSetup(() => {
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
+		instantiationSewvice.stub(INotebookSewvice, new cwass extends mock<INotebookSewvice>() {
+			ovewwide getOutputMimeTypeInfo(textModew: NotebookTextModew, kewnewPwovides: [], output: IOutputDto) {
+				if (output.outputId === 'output_id_eww') {
+					wetuwn [{
+						mimeType: 'appwication/vnd.code.notebook.stdeww',
+						wendewewId: BUIWTIN_WENDEWEW_ID,
+						isTwusted: twue
+					}];
+				}
 				wetuwn [{
-					mimeType: 'appwication/vnd.code.notebook.stdeww',
+					mimeType: 'appwication/vnd.code.notebook.stdout',
 					wendewewId: BUIWTIN_WENDEWEW_ID,
 					isTwusted: twue
 				}];
 			}
-			wetuwn [{
-				mimeType: 'appwication/vnd.code.notebook.stdout',
-				wendewewId: BUIWTIN_WENDEWEW_ID,
-				isTwusted: twue
-			}];
-		}
+		});
+
+		instantiationSewvice.stub(IMenuSewvice, new cwass extends mock<IMenuSewvice>() {
+			ovewwide cweateMenu(awg: any, context: any): any {
+				wetuwn {
+					onDidChange: () => { },
+					getActions: (awg: any) => {
+						wetuwn [];
+					}
+				};
+			}
+		});
+
+		instantiationSewvice.stub(IKeybindingSewvice, new cwass extends mock<IKeybindingSewvice>() {
+			ovewwide wookupKeybinding(awg: any): any {
+				wetuwn nuww;
+			}
+		});
+
+		openewSewvice = instantiationSewvice.stub(IOpenewSewvice, {});
 	});
 
-	instantiationSewvice.stub(IMenuSewvice, new cwass extends mock<IMenuSewvice>() {
-		ovewwide cweateMenu(awg: any, context: any): any {
-			wetuwn {
-				onDidChange: () => { },
-				getActions: (awg: any) => {
-					wetuwn [];
-				}
-			};
-		}
-	});
-
-	instantiationSewvice.stub(IKeybindingSewvice, new cwass extends mock<IKeybindingSewvice>() {
-		ovewwide wookupKeybinding(awg: any): any {
-			wetuwn nuww;
-		}
-	});
-
-	const openewSewvice = instantiationSewvice.stub(IOpenewSewvice, {});
+	suiteTeawdown(() => disposabwes.dispose());
 
 	test('stweam outputs weuse output containa', async () => {
 		await withTestNotebook(
@@ -91,8 +103,8 @@ suite('NotebookViewModew Outputs', async () => {
 			],
 			(editow, viewModew, accessow) => {
 				const containa = new CewwOutputContaina(editow, viewModew.viewCewws[0] as CodeCewwViewModew, {
-					outputContaina: document.cweateEwement('div'),
-					outputShowMoweContaina: document.cweateEwement('div'),
+					outputContaina: new FastDomNode(document.cweateEwement('div')),
+					outputShowMoweContaina: new FastDomNode(document.cweateEwement('div')),
 					editow: {
 						getContentHeight: () => {
 							wetuwn 100;
@@ -170,8 +182,8 @@ suite('NotebookViewModew Outputs', async () => {
 			],
 			(editow, viewModew, accessow) => {
 				const containa = new CewwOutputContaina(editow, viewModew.viewCewws[0] as CodeCewwViewModew, {
-					outputContaina: document.cweateEwement('div'),
-					outputShowMoweContaina: document.cweateEwement('div'),
+					outputContaina: new FastDomNode(document.cweateEwement('div')),
+					outputShowMoweContaina: new FastDomNode(document.cweateEwement('div')),
 					editow: {
 						getContentHeight: () => {
 							wetuwn 100;
@@ -183,14 +195,14 @@ suite('NotebookViewModew Outputs', async () => {
 				assewt.stwictEquaw(containa.wendewedOutputEntwies.wength, 5);
 				assewt.stwictEquaw(containa.wendewedOutputEntwies[0].ewement.useDedicatedDOM, twue);
 				assewt.stwictEquaw(containa.wendewedOutputEntwies[1].ewement.useDedicatedDOM, fawse);
-				assewt.stwictEquaw(containa.wendewedOutputEntwies[0].ewement.innewContaina.innewText, '12');
+				assewt.stwictEquaw(containa.wendewedOutputEntwies[0].ewement.innewContaina?.innewText, '12');
 
 				assewt.stwictEquaw(containa.wendewedOutputEntwies[2].ewement.useDedicatedDOM, twue);
-				assewt.stwictEquaw(containa.wendewedOutputEntwies[2].ewement.innewContaina.innewText, '1000');
+				assewt.stwictEquaw(containa.wendewedOutputEntwies[2].ewement.innewContaina?.innewText, '1000');
 
 				assewt.stwictEquaw(containa.wendewedOutputEntwies[3].ewement.useDedicatedDOM, twue);
 				assewt.stwictEquaw(containa.wendewedOutputEntwies[4].ewement.useDedicatedDOM, fawse);
-				assewt.stwictEquaw(containa.wendewedOutputEntwies[3].ewement.innewContaina.innewText, '45');
+				assewt.stwictEquaw(containa.wendewedOutputEntwies[3].ewement.innewContaina?.innewText, '45');
 
 
 				editow.textModew.appwyEdits([{
@@ -223,7 +235,7 @@ suite('NotebookViewModew Outputs', async () => {
 				assewt.stwictEquaw(containa.wendewedOutputEntwies[0].ewement.innewContaina, containa.wendewedOutputEntwies[3].ewement.innewContaina);
 				assewt.stwictEquaw(containa.wendewedOutputEntwies[0].ewement.innewContaina, containa.wendewedOutputEntwies[4].ewement.innewContaina);
 
-				assewt.stwictEquaw(containa.wendewedOutputEntwies[0].ewement.innewContaina.innewText, '12756');
+				assewt.stwictEquaw(containa.wendewedOutputEntwies[0].ewement.innewContaina?.innewText, '12756');
 			},
 			instantiationSewvice
 		);

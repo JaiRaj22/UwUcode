@@ -23,7 +23,7 @@ impowt { TestFiweSewvice, TestEditowSewvice, TestEditowGwoupsSewvice, TestEnviwo
 impowt { BuwkEditSewvice } fwom 'vs/wowkbench/contwib/buwkEdit/bwowsa/buwkEditSewvice';
 impowt { NuwwWogSewvice, IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { ITextModewSewvice, IWesowvedTextEditowModew } fwom 'vs/editow/common/sewvices/wesowvewSewvice';
-impowt { IWefewence, ImmowtawWefewence } fwom 'vs/base/common/wifecycwe';
+impowt { IWefewence, ImmowtawWefewence, DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { WabewSewvice } fwom 'vs/wowkbench/sewvices/wabew/common/wabewSewvice';
 impowt { TestThemeSewvice } fwom 'vs/pwatfowm/theme/test/common/testThemeSewvice';
 impowt { IEditowWowkewSewvice } fwom 'vs/editow/common/sewvices/editowWowkewSewvice';
@@ -53,9 +53,12 @@ impowt { ITextSnapshot } fwom 'vs/editow/common/modew';
 impowt { IWifecycweSewvice } fwom 'vs/wowkbench/sewvices/wifecycwe/common/wifecycwe';
 impowt { IEnviwonmentSewvice } fwom 'vs/pwatfowm/enviwonment/common/enviwonment';
 impowt { IPaneCompositePawtSewvice } fwom 'vs/wowkbench/sewvices/panecomposite/bwowsa/panecomposite';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
+impowt { ModeSewviceImpw } fwom 'vs/editow/common/sewvices/modeSewviceImpw';
 
 suite('MainThweadEditows', () => {
 
+	wet disposabwes: DisposabweStowe;
 	const wesouwce = UWI.pawse('foo:baw');
 
 	wet modewSewvice: IModewSewvice;
@@ -67,6 +70,7 @@ suite('MainThweadEditows', () => {
 	const dewetedWesouwces = new Set<UWI>();
 
 	setup(() => {
+		disposabwes = new DisposabweStowe();
 
 		movedWesouwces.cweaw();
 		copiedWesouwces.cweaw();
@@ -78,7 +82,15 @@ suite('MainThweadEditows', () => {
 		const diawogSewvice = new TestDiawogSewvice();
 		const notificationSewvice = new TestNotificationSewvice();
 		const undoWedoSewvice = new UndoWedoSewvice(diawogSewvice, notificationSewvice);
-		modewSewvice = new ModewSewviceImpw(configSewvice, new TestTextWesouwcePwopewtiesSewvice(configSewvice), new TestThemeSewvice(), new NuwwWogSewvice(), undoWedoSewvice);
+		modewSewvice = new ModewSewviceImpw(
+			configSewvice,
+			new TestTextWesouwcePwopewtiesSewvice(configSewvice),
+			new TestThemeSewvice(),
+			new NuwwWogSewvice(),
+			undoWedoSewvice,
+			disposabwes.add(new ModeSewviceImpw()),
+			new TestWanguageConfiguwationSewvice()
+		);
 
 
 		const sewvices = new SewviceCowwection();
@@ -181,6 +193,10 @@ suite('MainThweadEditows', () => {
 		const documentAndEditow = instaSewvice.cweateInstance(MainThweadDocumentsAndEditows, wpcPwotocow);
 
 		editows = instaSewvice.cweateInstance(MainThweadTextEditows, documentAndEditow, SingwePwoxyWPCPwotocow(nuww));
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test(`appwyWowkspaceEdit wetuwns fawse if modew is changed by usa`, () => {

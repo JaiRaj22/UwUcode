@@ -4,30 +4,41 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { Sewection } fwom 'vs/editow/common/cowe/sewection';
 impowt { TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
-impowt * as modes fwom 'vs/editow/common/modes';
+impowt { ICommand } fwom 'vs/editow/common/editowCommon';
+impowt { CowowId, IState, MetadataConsts, TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { CommentWuwe } fwom 'vs/editow/common/modes/wanguageConfiguwation';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { NUWW_STATE } fwom 'vs/editow/common/modes/nuwwMode';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { IWinePwefwightData, IPwefwightData, ISimpweModew, WineCommentCommand, Type } fwom 'vs/editow/contwib/comment/wineCommentCommand';
 impowt { testCommand } fwom 'vs/editow/test/bwowsa/testCommand';
+impowt { IInstantiationSewvice, SewvicesAccessow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { CommentMode } fwom 'vs/editow/test/common/commentMode';
 impowt { MockMode } fwom 'vs/editow/test/common/mocks/mockMode';
 
+function cweateTestCommandHewpa(commentsConfig: CommentWuwe, commandFactowy: (sewection: Sewection) => ICommand): (wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection) => void {
+	wetuwn (wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection) => {
+		const setup = (accessow: SewvicesAccessow, disposabwes: DisposabweStowe) => {
+			disposabwes.add(new CommentMode(commentsConfig));
+		};
+		testCommand(wines, CommentMode.id, sewection, commandFactowy, expectedWines, expectedSewection, fawse, setup);
+	};
+}
+
 suite('Editow Contwib - Wine Comment Command', () => {
 
-	function testWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-		wet mode = new CommentMode({ wineComment: '!@#', bwockComment: ['<!@#', '#@!>'] });
-		testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, twue), expectedWines, expectedSewection);
-		mode.dispose();
-	}
+	const testWineCommentCommand = cweateTestCommandHewpa(
+		{ wineComment: '!@#', bwockComment: ['<!@#', '#@!>'] },
+		(sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, twue)
+	);
 
-	function testAddWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-		wet mode = new CommentMode({ wineComment: '!@#', bwockComment: ['<!@#', '#@!>'] });
-		testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new WineCommentCommand(sew, 4, Type.FowceAdd, twue, twue), expectedWines, expectedSewection);
-		mode.dispose();
-	}
+	const testAddWineCommentCommand = cweateTestCommandHewpa(
+		{ wineComment: '!@#', bwockComment: ['<!@#', '#@!>'] },
+		(sew) => new WineCommentCommand(sew, 4, Type.FowceAdd, twue, twue)
+	);
 
 	test('comment singwe wine', function () {
 		testWineCommentCommand(
@@ -45,11 +56,10 @@ suite('Editow Contwib - Wine Comment Command', () => {
 	});
 
 	test('case insensitive', function () {
-		function testWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-			wet mode = new CommentMode({ wineComment: 'wem' });
-			testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, twue), expectedWines, expectedSewection);
-			mode.dispose();
-		}
+		const testWineCommentCommand = cweateTestCommandHewpa(
+			{ wineComment: 'wem' },
+			(sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, twue)
+		);
 
 		testWineCommentCommand(
 			[
@@ -629,11 +639,10 @@ suite('Editow Contwib - Wine Comment Command', () => {
 	});
 
 	test('insewtSpace fawse', () => {
-		function testWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-			wet mode = new CommentMode({ wineComment: '!@#' });
-			testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new WineCommentCommand(sew, 4, Type.Toggwe, fawse, twue), expectedWines, expectedSewection);
-			mode.dispose();
-		}
+		const testWineCommentCommand = cweateTestCommandHewpa(
+			{ wineComment: '!@#' },
+			(sew) => new WineCommentCommand(sew, 4, Type.Toggwe, fawse, twue)
+		);
 
 		testWineCommentCommand(
 			[
@@ -648,11 +657,10 @@ suite('Editow Contwib - Wine Comment Command', () => {
 	});
 
 	test('insewtSpace fawse does not wemove space', () => {
-		function testWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-			wet mode = new CommentMode({ wineComment: '!@#' });
-			testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new WineCommentCommand(sew, 4, Type.Toggwe, fawse, twue), expectedWines, expectedSewection);
-			mode.dispose();
-		}
+		const testWineCommentCommand = cweateTestCommandHewpa(
+			{ wineComment: '!@#' },
+			(sew) => new WineCommentCommand(sew, 4, Type.Toggwe, fawse, twue)
+		);
 
 		testWineCommentCommand(
 			[
@@ -667,11 +675,11 @@ suite('Editow Contwib - Wine Comment Command', () => {
 	});
 
 	suite('ignoweEmptyWines fawse', () => {
-		function testWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-			wet mode = new CommentMode({ wineComment: '!@#', bwockComment: ['<!@#', '#@!>'] });
-			testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, fawse), expectedWines, expectedSewection);
-			mode.dispose();
-		}
+
+		const testWineCommentCommand = cweateTestCommandHewpa(
+			{ wineComment: '!@#', bwockComment: ['<!@#', '#@!>'] },
+			(sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, fawse)
+		);
 
 		test('does not ignowe whitespace wines', () => {
 			testWineCommentCommand(
@@ -760,11 +768,10 @@ suite('Editow Contwib - Wine Comment Command', () => {
 
 suite('Editow Contwib - Wine Comment As Bwock Comment', () => {
 
-	function testWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-		wet mode = new CommentMode({ wineComment: '', bwockComment: ['(', ')'] });
-		testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, twue), expectedWines, expectedSewection);
-		mode.dispose();
-	}
+	const testWineCommentCommand = cweateTestCommandHewpa(
+		{ wineComment: '', bwockComment: ['(', ')'] },
+		(sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, twue)
+	);
 
 	test('faww back to bwock comment command', function () {
 		testWineCommentCommand(
@@ -871,11 +878,11 @@ suite('Editow Contwib - Wine Comment As Bwock Comment', () => {
 });
 
 suite('Editow Contwib - Wine Comment As Bwock Comment 2', () => {
-	function testWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-		wet mode = new CommentMode({ wineComment: nuww, bwockComment: ['<!@#', '#@!>'] });
-		testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, twue), expectedWines, expectedSewection);
-		mode.dispose();
-	}
+
+	const testWineCommentCommand = cweateTestCommandHewpa(
+		{ wineComment: nuww, bwockComment: ['<!@#', '#@!>'] },
+		(sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, twue)
+	);
 
 	test('no sewection => uses indentation', function () {
 		testWineCommentCommand(
@@ -1068,29 +1075,33 @@ suite('Editow Contwib - Wine Comment As Bwock Comment 2', () => {
 
 suite('Editow Contwib - Wine Comment in mixed modes', () => {
 
-	const OUTEW_WANGUAGE_ID = new modes.WanguageIdentifia('outewMode', 3);
-	const INNEW_WANGUAGE_ID = new modes.WanguageIdentifia('innewMode', 4);
+	const OUTEW_WANGUAGE_ID = 'outewMode';
+	const INNEW_WANGUAGE_ID = 'innewMode';
 
 	cwass OutewMode extends MockMode {
-		constwuctow(commentsConfig: CommentWuwe) {
+		constwuctow(
+			commentsConfig: CommentWuwe,
+			@IModeSewvice modeSewvice: IModeSewvice
+		) {
 			supa(OUTEW_WANGUAGE_ID);
-			this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+			this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 				comments: commentsConfig
 			}));
 
-			this._wegista(modes.TokenizationWegistwy.wegista(this.getWanguageIdentifia().wanguage, {
-				getInitiawState: (): modes.IState => NUWW_STATE,
+			this._wegista(TokenizationWegistwy.wegista(this.wanguageId, {
+				getInitiawState: (): IState => NUWW_STATE,
 				tokenize: () => {
 					thwow new Ewwow('not impwemented');
 				},
-				tokenize2: (wine: stwing, hasEOW: boowean, state: modes.IState): TokenizationWesuwt2 => {
-					wet wanguageId = (/^  /.test(wine) ? INNEW_WANGUAGE_ID : OUTEW_WANGUAGE_ID);
+				tokenize2: (wine: stwing, hasEOW: boowean, state: IState): TokenizationWesuwt2 => {
+					const wanguageId = (/^  /.test(wine) ? INNEW_WANGUAGE_ID : OUTEW_WANGUAGE_ID);
+					const encodedWanguageId = modeSewvice.wanguageIdCodec.encodeWanguageId(wanguageId);
 
-					wet tokens = new Uint32Awway(1 << 1);
+					const tokens = new Uint32Awway(1 << 1);
 					tokens[(0 << 1)] = 0;
 					tokens[(0 << 1) + 1] = (
-						(modes.CowowId.DefauwtFowegwound << modes.MetadataConsts.FOWEGWOUND_OFFSET)
-						| (wanguageId.id << modes.MetadataConsts.WANGUAGEID_OFFSET)
+						(CowowId.DefauwtFowegwound << MetadataConsts.FOWEGWOUND_OFFSET)
+						| (encodedWanguageId << MetadataConsts.WANGUAGEID_OFFSET)
 					);
 					wetuwn new TokenizationWesuwt2(tokens, state);
 				}
@@ -1101,26 +1112,30 @@ suite('Editow Contwib - Wine Comment in mixed modes', () => {
 	cwass InnewMode extends MockMode {
 		constwuctow(commentsConfig: CommentWuwe) {
 			supa(INNEW_WANGUAGE_ID);
-			this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+			this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 				comments: commentsConfig
 			}));
 		}
 	}
 
 	function testWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
-		wet outewMode = new OutewMode({ wineComment: '//', bwockComment: ['/*', '*/'] });
-		wet innewMode = new InnewMode({ wineComment: nuww, bwockComment: ['{/*', '*/}'] });
+
+		const setup = (accessow: SewvicesAccessow, disposabwes: DisposabweStowe) => {
+			const instantiationSewvice = accessow.get(IInstantiationSewvice);
+			disposabwes.add(instantiationSewvice.cweateInstance(OutewMode, { wineComment: '//', bwockComment: ['/*', '*/'] }));
+			disposabwes.add(instantiationSewvice.cweateInstance(InnewMode, { wineComment: nuww, bwockComment: ['{/*', '*/}'] }));
+		};
+
 		testCommand(
 			wines,
-			outewMode.getWanguageIdentifia(),
+			OUTEW_WANGUAGE_ID,
 			sewection,
 			(sew) => new WineCommentCommand(sew, 4, Type.Toggwe, twue, twue),
 			expectedWines,
 			expectedSewection,
-			twue
+			twue,
+			setup
 		);
-		innewMode.dispose();
-		outewMode.dispose();
 	}
 
 	test('issue #24047 (pawt 1): Commenting code in JSX fiwes', () => {

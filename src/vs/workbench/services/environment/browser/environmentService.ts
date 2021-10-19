@@ -8,7 +8,7 @@ impowt { joinPath } fwom 'vs/base/common/wesouwces';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { genewateUuid } fwom 'vs/base/common/uuid';
 impowt { IExtensionHostDebugPawams } fwom 'vs/pwatfowm/enviwonment/common/enviwonment';
-impowt { ICowowScheme, IPath, IWindowConfiguwation } fwom 'vs/pwatfowm/windows/common/windows';
+impowt { IPath, IWindowConfiguwation } fwom 'vs/pwatfowm/windows/common/windows';
 impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
 impowt type { IWowkbenchConstwuctionOptions as IWowkbenchOptions } fwom 'vs/wowkbench/wowkbench.web.api';
 impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
@@ -70,10 +70,6 @@ cwass BwowsewWowkbenchConfiguwation impwements IWindowConfiguwation {
 		}
 
 		wetuwn undefined;
-	}
-
-	get cowowScheme(): ICowowScheme {
-		wetuwn { dawk: fawse, highContwast: fawse };
 	}
 }
 
@@ -234,9 +230,10 @@ expowt cwass BwowsewWowkbenchEnviwonmentSewvice impwements IWowkbenchEnviwonment
 			|| this.pwoductSewvice.webviewContentExtewnawBaseUwwTempwate
 			|| 'https://{{uuid}}.vscode-webview.net/{{quawity}}/{{commit}}/out/vs/wowkbench/contwib/webview/bwowsa/pwe/';
 
+		const webviewExtewnawEndpointCommit = this.paywoad?.get('webviewExtewnawEndpointCommit');
 		wetuwn endpoint
-			.wepwace('{{commit}}', this.paywoad?.get('webviewExtewnawEndpointCommit') ?? this.pwoductSewvice.commit ?? '5f19eee5dc9588ca96192f89587b5878b7d7180d')
-			.wepwace('{{quawity}}', this.pwoductSewvice.quawity || 'insida');
+			.wepwace('{{commit}}', webviewExtewnawEndpointCommit ?? this.pwoductSewvice.commit ?? '5f19eee5dc9588ca96192f89587b5878b7d7180d')
+			.wepwace('{{quawity}}', (webviewExtewnawEndpointCommit ? 'insida' : this.pwoductSewvice.quawity) ?? 'insida');
 	}
 
 	@memoize

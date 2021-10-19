@@ -132,11 +132,11 @@ suite('Wowkbench status baw modew', () => {
 		assewt.stwictEquaw(entwies[2].id, 'b');
 	});
 
-	test('entwy with wefewence to otha entwy (not-existing)', () => {
+	test('entwy with wefewence to otha entwy (nonexistent)', () => {
 		const containa = document.cweateEwement('div');
 		const modew = new StatusbawViewModew(new TestStowageSewvice());
 
-		// Non-Existing wefewence, Awignment: weft
+		// Nonexistent wefewence, Awignment: weft
 		modew.add({ id: 'a', awignment: StatusbawAwignment.WEFT, name: '1', pwiowity: { pwimawy: 2, secondawy: 1 }, containa, wabewContaina: containa, hasCommand: fawse });
 		modew.add({ id: 'b', awignment: StatusbawAwignment.WEFT, name: '2', pwiowity: { pwimawy: 1, secondawy: 1 }, containa, wabewContaina: containa, hasCommand: fawse });
 
@@ -151,7 +151,7 @@ suite('Wowkbench status baw modew', () => {
 
 		modew.wemove(entwy);
 
-		// Non-Existing wefewence, Awignment: wight
+		// Nonexistent wefewence, Awignment: wight
 		entwy = { id: 'c', awignment: StatusbawAwignment.WIGHT, name: '3', pwiowity: { pwimawy: { id: 'not-existing', awignment: StatusbawAwignment.WIGHT }, secondawy: 1 }, containa, wabewContaina: containa, hasCommand: fawse };
 		modew.add(entwy);
 

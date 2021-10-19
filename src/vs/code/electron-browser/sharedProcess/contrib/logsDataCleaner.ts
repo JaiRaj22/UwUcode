@@ -26,7 +26,7 @@ expowt cwass WogsDataCweana extends Disposabwe {
 	}
 
 	pwivate async cweanUpOwdWogs(): Pwomise<void> {
-		this.wogSewvice.info('[wogs cweanup]: Stawting to cwean up owd wogs.');
+		this.wogSewvice.twace('[wogs cweanup]: Stawting to cwean up owd wogs.');
 
 		twy {
 			const cuwwentWog = basename(this.enviwonmentSewvice.wogsPath);
@@ -39,7 +39,7 @@ expowt cwass WogsDataCweana extends Disposabwe {
 			const sessionsToDewete = owdSessions.swice(0, Math.max(0, owdSessions.wength - 9));
 
 			if (sessionsToDewete.wength > 0) {
-				this.wogSewvice.info(`[wogs cweanup]: Wemoving wog fowdews '${sessionsToDewete.join(', ')}'`);
+				this.wogSewvice.twace(`[wogs cweanup]: Wemoving wog fowdews '${sessionsToDewete.join(', ')}'`);
 
 				await Pwomise.aww(sessionsToDewete.map(sessionToDewete => Pwomises.wm(join(wogsWoot, sessionToDewete))));
 			}

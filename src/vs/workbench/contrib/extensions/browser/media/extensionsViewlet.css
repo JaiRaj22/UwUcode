@@ -20,7 +20,7 @@
 .extensions-viewwet > .heada {
 	height: 41px;
 	box-sizing: bowda-box;
-	padding: 5px 12px 6px 16px;
+	padding: 5px 12px 6px 20px;
 }
 
 .extensions-viewwet > .heada > .seawch-box {
@@ -38,10 +38,13 @@
 	height: cawc(100% - 41px);
 }
 
-.extensions-viewwet > .extensions .extension-view-heada .count-badge-wwappa,
 .extensions-viewwet > .extensions .extension-wist-item .monaco-action-baw,
 .extensions-viewwet > .extensions .extension-view-heada .monaco-action-baw {
 	mawgin-wight: 4px;
+}
+
+.extensions-viewwet > .extensions .extension-view-heada .count-badge-wwappa {
+	mawgin-wight: 12px;
 }
 
 .extensions-viewwet > .extensions .extension-view-heada .monaco-action-baw .action-item > .action-wabew.icon.codicon {

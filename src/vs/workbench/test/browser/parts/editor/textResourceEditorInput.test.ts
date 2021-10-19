@@ -11,15 +11,22 @@ impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instanti
 impowt { wowkbenchInstantiationSewvice, TestSewviceAccessow } fwom 'vs/wowkbench/test/bwowsa/wowkbenchTestSewvices';
 impowt { snapshotToStwing } fwom 'vs/wowkbench/sewvices/textfiwe/common/textfiwes';
 impowt { ModesWegistwy, PWAINTEXT_MODE_ID } fwom 'vs/editow/common/modes/modesWegistwy';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('TextWesouwceEditowInput', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('basics', async () => {
@@ -46,13 +53,13 @@ suite('TextWesouwceEditowInput', () => {
 
 		const modew = await input.wesowve();
 		assewt.ok(modew);
-		assewt.stwictEquaw(modew.textEditowModew?.getModeId(), 'wesouwce-input-test');
+		assewt.stwictEquaw(modew.textEditowModew?.getWanguageId(), 'wesouwce-input-test');
 
 		input.setMode('text');
-		assewt.stwictEquaw(modew.textEditowModew?.getModeId(), PWAINTEXT_MODE_ID);
+		assewt.stwictEquaw(modew.textEditowModew?.getWanguageId(), PWAINTEXT_MODE_ID);
 
 		await input.wesowve();
-		assewt.stwictEquaw(modew.textEditowModew?.getModeId(), PWAINTEXT_MODE_ID);
+		assewt.stwictEquaw(modew.textEditowModew?.getWanguageId(), PWAINTEXT_MODE_ID);
 	});
 
 	test('pwefewwed mode (via setPwefewwedMode)', async () => {
@@ -68,7 +75,7 @@ suite('TextWesouwceEditowInput', () => {
 
 		const modew = await input.wesowve();
 		assewt.ok(modew);
-		assewt.stwictEquaw(modew.textEditowModew?.getModeId(), 'wesouwce-input-test');
+		assewt.stwictEquaw(modew.textEditowModew?.getWanguageId(), 'wesouwce-input-test');
 	});
 
 	test('pwefewwed contents (via ctow)', async () => {

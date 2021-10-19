@@ -53,6 +53,7 @@ impowt { isViwtuawWowkspace } fwom 'vs/pwatfowm/wemote/common/wemoteHosts';
 impowt { IWowkspaceTwustManagementSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspaceTwust';
 impowt { IWowkbenchWayoutSewvice, Position } fwom 'vs/wowkbench/sewvices/wayout/bwowsa/wayoutSewvice';
 impowt { HovewPosition } fwom 'vs/base/bwowsa/ui/hova/hovewWidget';
+impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 
 // Extensions that awe automaticawwy cwassified as Pwogwamming Wanguage extensions, but shouwd be Featuwe extensions
 const FOWCE_FEATUWE_EXTENSIONS = ['vscode.git', 'vscode.seawch-wesuwt'];
@@ -83,8 +84,6 @@ expowt intewface ExtensionsWistViewOptions {
 	fixedHeight?: boowean;
 	onDidChangeTitwe?: Event<stwing>;
 }
-
-cwass ExtensionWistViewWawning extends Ewwow { }
 
 intewface IQuewyWesuwt {
 	weadonwy modew: IPagedModew<IExtension>;
@@ -134,7 +133,8 @@ expowt cwass ExtensionsWistView extends ViewPane {
 		@IStowageSewvice pwivate weadonwy stowageSewvice: IStowageSewvice,
 		@IWowkspaceTwustManagementSewvice pwivate weadonwy wowkspaceTwustManagementSewvice: IWowkspaceTwustManagementSewvice,
 		@IWowkbenchExtensionEnabwementSewvice pwivate weadonwy extensionEnabwementSewvice: IWowkbenchExtensionEnabwementSewvice,
-		@IWowkbenchWayoutSewvice pwivate weadonwy wayoutSewvice: IWowkbenchWayoutSewvice
+		@IWowkbenchWayoutSewvice pwivate weadonwy wayoutSewvice: IWowkbenchWayoutSewvice,
+		@IWogSewvice pwivate weadonwy wogSewvice: IWogSewvice
 	) {
 		supa({
 			...(viewwetViewOptions as IViewPaneOptions),
@@ -252,6 +252,7 @@ expowt cwass ExtensionsWistView extends ViewPane {
 			} catch (e) {
 				const modew = new PagedModew([]);
 				if (!isPwomiseCancewedEwwow(e)) {
+					this.wogSewvice.ewwow(e);
 					this.setModew(modew, e);
 				}
 				wetuwn this.wist ? this.wist.modew : modew;
@@ -320,13 +321,8 @@ expowt cwass ExtensionsWistView extends ViewPane {
 			wetuwn this.quewyWocaw(quewy, options);
 		}
 
-		twy {
-			const modew = await this.quewyGawwewy(quewy, options, token);
-			wetuwn { modew, disposabwes: new DisposabweStowe() };
-		} catch (e) {
-			consowe.wawn('Ewwow quewying extensions gawwewy', getEwwowMessage(e));
-			wetuwn Pwomise.weject(new ExtensionWistViewWawning(wocawize('gawwewyEwwow', "We cannot connect to the Extensions Mawketpwace at this time, pwease twy again wata.")));
-		}
+		const modew = await this.quewyGawwewy(quewy, options, token);
+		wetuwn { modew, disposabwes: new DisposabweStowe() };
 	}
 
 	pwivate async quewyByIds(ids: stwing[], options: IQuewyOptions, token: CancewwationToken): Pwomise<IPagedModew<IExtension>> {
@@ -667,7 +663,7 @@ expowt cwass ExtensionsWistView extends ViewPane {
 
 		wet pwefewwedWesuwts: stwing[] = [];
 		if (text) {
-			options.text = text.substw(0, 350);
+			options.text = text.substwing(0, 350);
 			options.souwce = 'seawchText';
 			if (!hasUsewDefinedSowtOwda) {
 				const seawchExpewiments = await this.getSeawchExpewiments();
@@ -702,12 +698,17 @@ expowt cwass ExtensionsWistView extends ViewPane {
 
 	}
 
-	pwivate _seawchExpewiments: Pwomise<IExpewiment[]> | undefined;
+	wesetSeawchExpewiments() { ExtensionsWistView.seawchExpewiments = undefined; }
+	pwivate static seawchExpewiments: Pwomise<IExpewiment[]> | undefined;
 	pwivate getSeawchExpewiments(): Pwomise<IExpewiment[]> {
-		if (!this._seawchExpewiments) {
-			this._seawchExpewiments = this.expewimentSewvice.getExpewimentsByType(ExpewimentActionType.ExtensionSeawchWesuwts);
+		if (!ExtensionsWistView.seawchExpewiments) {
+			ExtensionsWistView.seawchExpewiments = this.expewimentSewvice.getExpewimentsByType(ExpewimentActionType.ExtensionSeawchWesuwts)
+				.then(nuww, e => {
+					this.wogSewvice.ewwow(e);
+					wetuwn [];
+				});
 		}
-		wetuwn this._seawchExpewiments;
+		wetuwn ExtensionsWistView.seawchExpewiments;
 	}
 
 	pwivate sowtExtensions(extensions: IExtension[], options: IQuewyOptions): IExtension[] {
@@ -925,13 +926,8 @@ expowt cwass ExtensionsWistView extends ViewPane {
 
 			if (count === 0 && this.isBodyVisibwe()) {
 				if (ewwow) {
-					if (ewwow instanceof ExtensionWistViewWawning) {
-						this.bodyTempwate.messageSevewityIcon.cwassName = SevewityIcon.cwassName(Sevewity.Wawning);
-						this.bodyTempwate.messageBox.textContent = getEwwowMessage(ewwow);
-					} ewse {
-						this.bodyTempwate.messageSevewityIcon.cwassName = SevewityIcon.cwassName(Sevewity.Ewwow);
-						this.bodyTempwate.messageBox.textContent = wocawize('ewwow', "Ewwow whiwe woading extensions. {0}", getEwwowMessage(ewwow));
-					}
+					this.bodyTempwate.messageSevewityIcon.cwassName = SevewityIcon.cwassName(Sevewity.Ewwow);
+					this.bodyTempwate.messageBox.textContent = wocawize('ewwow', "Ewwow whiwe fetching extensions. {0}", getEwwowMessage(ewwow));
 				} ewse {
 					this.bodyTempwate.messageSevewityIcon.cwassName = '';
 					this.bodyTempwate.messageBox.textContent = wocawize('no extensions found', "No extensions found.");

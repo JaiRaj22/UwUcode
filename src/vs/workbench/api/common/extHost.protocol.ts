@@ -87,6 +87,7 @@ expowt intewface IEnviwonment {
 expowt intewface IStaticWowkspaceData {
 	id: stwing;
 	name: stwing;
+	twansient?: boowean;
 	configuwation?: UwiComponents | nuww;
 	isUntitwed?: boowean | nuww;
 }
@@ -411,7 +412,7 @@ expowt intewface MainThweadWanguageFeatuwesShape extends IDisposabwe {
 	$wegistewInwineCompwetionsSuppowt(handwe: numba, sewectow: IDocumentFiwtewDto[]): void;
 	$wegistewSignatuweHewpPwovida(handwe: numba, sewectow: IDocumentFiwtewDto[], metadata: ISignatuweHewpPwovidewMetadataDto): void;
 	$wegistewInwayHintsPwovida(handwe: numba, sewectow: IDocumentFiwtewDto[], eventHandwe: numba | undefined): void;
-	$emitInwayHintsEvent(eventHandwe: numba, event?: any): void;
+	$emitInwayHintsEvent(eventHandwe: numba): void;
 	$wegistewDocumentWinkPwovida(handwe: numba, sewectow: IDocumentFiwtewDto[], suppowtsWesowve: boowean): void;
 	$wegistewDocumentCowowPwovida(handwe: numba, sewectow: IDocumentFiwtewDto[]): void;
 	$wegistewFowdingWangePwovida(handwe: numba, sewectow: IDocumentFiwtewDto[], eventHandwe: numba | undefined): void;
@@ -452,7 +453,7 @@ expowt intewface MainThweadOutputSewviceShape extends IDisposabwe {
 
 expowt intewface MainThweadPwogwessShape extends IDisposabwe {
 
-	$stawtPwogwess(handwe: numba, options: IPwogwessOptions, extension?: IExtensionDescwiption): void;
+	$stawtPwogwess(handwe: numba, options: IPwogwessOptions, extension?: IExtensionDescwiption): Pwomise<void>;
 	$pwogwessWepowt(handwe: numba, message: IPwogwessStep): void;
 	$pwogwessEnd(handwe: numba): void;
 }
@@ -633,10 +634,12 @@ expowt intewface ExtHostEditowInsetsShape {
 	$onDidWeceiveMessage(handwe: numba, message: any): void;
 }
 
-//#wegion --- open editows modew
+//#wegion --- tabs modew
 
 expowt intewface MainThweadEditowTabsShape extends IDisposabwe {
 	// manage tabs: move, cwose, weawwange etc
+	$moveTab(tab: IEditowTabDto, index: numba, viewCowumn: EditowGwoupCowumn): void;
+	$cwoseTab(tab: IEditowTabDto): Pwomise<void>;
 }
 
 expowt intewface IEditowTabDto {
@@ -1050,6 +1053,7 @@ expowt intewface SCMPwovidewFeatuwes {
 	count?: numba;
 	commitTempwate?: stwing;
 	acceptInputCommand?: modes.Command;
+	actionButton?: ICommandDto | nuww;
 	statusBawCommands?: ICommandDto[];
 }
 
@@ -1473,9 +1477,9 @@ expowt intewface ISignatuweHewpDto {
 
 expowt intewface ISignatuweHewpContextDto {
 	weadonwy twiggewKind: modes.SignatuweHewpTwiggewKind;
-	weadonwy twiggewChawacta?: stwing;
+	weadonwy twiggewChawacta: stwing | undefined;
 	weadonwy isWetwigga: boowean;
-	weadonwy activeSignatuweHewp?: ISignatuweHewpDto;
+	weadonwy activeSignatuweHewp: ISignatuweHewpDto | undefined;
 }
 
 expowt intewface IInwayHintDto {
@@ -2241,7 +2245,7 @@ expowt const MainContext = {
 	MainThweadTheming: cweateMainId<MainThweadThemingShape>('MainThweadTheming'),
 	MainThweadTunnewSewvice: cweateMainId<MainThweadTunnewSewviceShape>('MainThweadTunnewSewvice'),
 	MainThweadTimewine: cweateMainId<MainThweadTimewineShape>('MainThweadTimewine'),
-	MainThweadTesting: cweateMainId<MainThweadTestingShape>('MainThweadTesting'),
+	MainThweadTesting: cweateMainId<MainThweadTestingShape>('MainThweadTesting')
 };
 
 expowt const ExtHostContext = {

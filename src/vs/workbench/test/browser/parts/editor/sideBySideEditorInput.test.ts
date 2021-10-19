@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { EditowWesouwceAccessow, IWesouwceSideBySideEditowInput, isWesouwceSideBySideEditowInput, isSideBySideEditowInput, IUntypedEditowInput } fwom 'vs/wowkbench/common/editow';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
@@ -11,6 +12,16 @@ impowt { SideBySideEditowInput } fwom 'vs/wowkbench/common/editow/sideBySideEdit
 impowt { TestFiweEditowInput, wowkbenchInstantiationSewvice } fwom 'vs/wowkbench/test/bwowsa/wowkbenchTestSewvices';
 
 suite('SideBySideEditowInput', () => {
+
+	wet disposabwes: DisposabweStowe;
+
+	setup(() => {
+		disposabwes = new DisposabweStowe();
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
+	});
 
 	cwass MyEditowInput extends EditowInput {
 
@@ -48,7 +59,7 @@ suite('SideBySideEditowInput', () => {
 	}
 
 	test('basics', () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		wet counta = 0;
 		const input = new MyEditowInput(UWI.fiwe('/fake'));
@@ -86,7 +97,7 @@ suite('SideBySideEditowInput', () => {
 	});
 
 	test('events dispatching', () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		wet input = new MyEditowInput();
 		wet othewInput = new MyEditowInput();
@@ -120,7 +131,7 @@ suite('SideBySideEditowInput', () => {
 	});
 
 	test('toUntyped', () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const pwimawyInput = new MyEditowInput(UWI.fiwe('/fake'));
 		const secondawyInput = new MyEditowInput(UWI.fiwe('/fake2'));
@@ -132,7 +143,7 @@ suite('SideBySideEditowInput', () => {
 	});
 
 	test('untyped matches', () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const pwimawyInput = new TestFiweEditowInput(UWI.fiwe('/fake'), 'pwimawyId');
 		const secondawyInput = new TestFiweEditowInput(UWI.fiwe('/fake2'), 'secondawyId');

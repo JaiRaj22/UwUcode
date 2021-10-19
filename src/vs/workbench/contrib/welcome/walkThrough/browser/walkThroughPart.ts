@@ -319,7 +319,7 @@ expowt cwass WawkThwoughPawt extends EditowPane {
 					const id = `snippet-${modew.uwi.fwagment}`;
 					const div = innewContent.quewySewectow(`#${id.wepwace(/[\\.]/g, '\\$&')}`) as HTMWEwement;
 
-					const options = this.getEditowOptions(modew.getModeId());
+					const options = this.getEditowOptions(modew.getWanguageId());
 					const tewemetwyData = {
 						tawget: this.input instanceof WawkThwoughInput ? this.input.getTewemetwyFwom() : undefined,
 						snippet: i
@@ -365,7 +365,7 @@ expowt cwass WawkThwoughPawt extends EditowPane {
 
 					this.contentDisposabwes.push(this.configuwationSewvice.onDidChangeConfiguwation(() => {
 						if (snippet.textEditowModew) {
-							editow.updateOptions(this.getEditowOptions(snippet.textEditowModew.getModeId()));
+							editow.updateOptions(this.getEditowOptions(snippet.textEditowModew.getWanguageId()));
 						}
 					}));
 

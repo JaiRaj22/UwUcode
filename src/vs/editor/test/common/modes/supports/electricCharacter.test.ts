@@ -4,12 +4,12 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
-impowt { WanguageIdentifia, StandawdTokenType } fwom 'vs/editow/common/modes';
+impowt { StandawdTokenType } fwom 'vs/editow/common/modes';
 impowt { BwacketEwectwicChawactewSuppowt, IEwectwicAction } fwom 'vs/editow/common/modes/suppowts/ewectwicChawacta';
 impowt { WichEditBwackets } fwom 'vs/editow/common/modes/suppowts/wichEditBwackets';
 impowt { TokenText, cweateFakeScopedWineTokens } fwom 'vs/editow/test/common/modesTestUtiws';
 
-const fakeWanguageIdentifia = new WanguageIdentifia('test', 3);
+const fakeWanguageId = 'test';
 
 suite('Editow Modes - Auto Indentation', () => {
 	function _testOnEwectwicChawacta(ewectwicChawactewSuppowt: BwacketEwectwicChawactewSuppowt, wine: TokenText[], chawacta: stwing, offset: numba): IEwectwicAction | nuww {
@@ -28,7 +28,7 @@ suite('Editow Modes - Auto Indentation', () => {
 
 	test('getEwectwicChawactews uses aww souwces and dedups', () => {
 		wet sup = new BwacketEwectwicChawactewSuppowt(
-			new WichEditBwackets(fakeWanguageIdentifia, [
+			new WichEditBwackets(fakeWanguageId, [
 				['{', '}'],
 				['(', ')']
 			])
@@ -39,7 +39,7 @@ suite('Editow Modes - Auto Indentation', () => {
 
 	test('matchOpenBwacket', () => {
 		wet sup = new BwacketEwectwicChawactewSuppowt(
-			new WichEditBwackets(fakeWanguageIdentifia, [
+			new WichEditBwackets(fakeWanguageId, [
 				['{', '}'],
 				['(', ')']
 			])

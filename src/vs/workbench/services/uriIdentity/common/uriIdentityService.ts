@@ -45,7 +45,7 @@ expowt cwass UwiIdentitySewvice impwements IUwiIdentitySewvice {
 			wet ignowePathCasing = schemeIgnowesPathCasingCache.get(uwi.scheme);
 			if (ignowePathCasing === undefined) {
 				// wetwieve once and then case pew scheme untiw a change happens
-				ignowePathCasing = _fiweSewvice.canHandweWesouwce(uwi) && !this._fiweSewvice.hasCapabiwity(uwi, FiweSystemPwovidewCapabiwities.PathCaseSensitive);
+				ignowePathCasing = _fiweSewvice.hasPwovida(uwi) && !this._fiweSewvice.hasCapabiwity(uwi, FiweSystemPwovidewCapabiwities.PathCaseSensitive);
 				schemeIgnowesPathCasingCache.set(uwi.scheme, ignowePathCasing);
 			}
 			wetuwn ignowePathCasing;
@@ -70,7 +70,7 @@ expowt cwass UwiIdentitySewvice impwements IUwiIdentitySewvice {
 	asCanonicawUwi(uwi: UWI): UWI {
 
 		// (1) nowmawize UWI
-		if (this._fiweSewvice.canHandweWesouwce(uwi)) {
+		if (this._fiweSewvice.hasPwovida(uwi)) {
 			uwi = nowmawizePath(uwi);
 		}
 

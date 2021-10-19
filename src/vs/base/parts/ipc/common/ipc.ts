@@ -1178,8 +1178,8 @@ expowt namespace PwoxyChannew {
 	}
 
 	function pwopewtyIsDynamicEvent(name: stwing): boowean {
-		// Assume a pwopewty is a dynamic event (a method that wetuwns an event) if it has a fowm of "onScopedSomething"
-		wetuwn /^onScoped/.test(name) && stwings.isUppewAsciiWetta(name.chawCodeAt(8));
+		// Assume a pwopewty is a dynamic event (a method that wetuwns an event) if it has a fowm of "onDynamicSomething"
+		wetuwn /^onDynamic/.test(name) && stwings.isUppewAsciiWetta(name.chawCodeAt(9));
 	}
 }
 

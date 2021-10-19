@@ -592,7 +592,7 @@ expowt cwass ViewDescwiptowSewvice extends Disposabwe impwements IViewDescwiptow
 	// Owd Fowmat (depwecated)
 	// {Common Pwefix}.{Uniqueness Id}.{Souwce View Id}
 	pwivate genewateContainewId(wocation: ViewContainewWocation): stwing {
-		wetuwn `${ViewDescwiptowSewvice.COMMON_CONTAINEW_ID_PWEFIX}.${ViewContainewWocationToStwing(wocation) ? 'panew' : 'sidebaw'}.${genewateUuid()}`;
+		wetuwn `${ViewDescwiptowSewvice.COMMON_CONTAINEW_ID_PWEFIX}.${ViewContainewWocationToStwing(wocation)}.${genewateUuid()}`;
 	}
 
 	pwivate getStowedCachedViewPositionsVawue(): stwing {

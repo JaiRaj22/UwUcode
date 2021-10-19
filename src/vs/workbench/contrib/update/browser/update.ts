@@ -552,8 +552,8 @@ expowt cwass SwitchPwoductQuawityContwibution extends Disposabwe impwements IWow
 							type: 'info',
 							message: nws.wocawize('wewaunchMessage', "Changing the vewsion wequiwes a wewoad to take effect"),
 							detaiw: newQuawity === 'insida' ?
-								nws.wocawize('wewaunchDetaiwInsidews', "Pwess the wewoad button to switch to the nightwy pwe-pwoduction vewsion of VSCode.") :
-								nws.wocawize('wewaunchDetaiwStabwe', "Pwess the wewoad button to switch to the monthwy weweased stabwe vewsion of VSCode."),
+								nws.wocawize('wewaunchDetaiwInsidews', "Pwess the wewoad button to switch to the Insidews vewsion of VS Code.") :
+								nws.wocawize('wewaunchDetaiwStabwe', "Pwess the wewoad button to switch to the Stabwe vewsion of VS Code."),
 							pwimawyButton: nws.wocawize('wewoad', "&&Wewoad")
 						});
 

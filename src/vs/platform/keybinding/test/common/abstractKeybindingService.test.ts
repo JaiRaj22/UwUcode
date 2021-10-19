@@ -3,7 +3,8 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 impowt * as assewt fwom 'assewt';
-impowt { cweateKeybinding, cweateSimpweKeybinding, Keybinding, KeyChowd, KeyCode, KeyMod, WesowvedKeybinding, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyChowd, KeyCode, KeyMod } fwom 'vs/base/common/keyCodes';
+impowt { cweateKeybinding, cweateSimpweKeybinding, Keybinding, WesowvedKeybinding, SimpweKeybinding } fwom 'vs/base/common/keybindings';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { OS } fwom 'vs/base/common/pwatfowm';
 impowt Sevewity fwom 'vs/base/common/sevewity';

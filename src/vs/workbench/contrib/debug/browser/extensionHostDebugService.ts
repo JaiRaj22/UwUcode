@@ -3,22 +3,22 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { ExtensionHostDebugChannewCwient, ExtensionHostDebugBwoadcastChannew } fwom 'vs/pwatfowm/debug/common/extensionHostDebugIpc';
-impowt { IWemoteAgentSewvice } fwom 'vs/wowkbench/sewvices/wemote/common/wemoteAgentSewvice';
-impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
-impowt { IExtensionHostDebugSewvice, INuwwabwePwocessEnviwonment, IOpenExtensionWindowWesuwt } fwom 'vs/pwatfowm/debug/common/extensionHostDebug';
-impowt { IChannew } fwom 'vs/base/pawts/ipc/common/ipc';
 impowt { Event } fwom 'vs/base/common/event';
 impowt { UWI, UwiComponents } fwom 'vs/base/common/uwi';
-impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
-impowt { IWowkspacePwovida, IWowkspace } fwom 'vs/wowkbench/sewvices/host/bwowsa/bwowsewHostSewvice';
-impowt { hasWowkspaceFiweExtension, isSingweFowdewWowkspaceIdentifia, isWowkspaceIdentifia, toWowkspaceIdentifia } fwom 'vs/pwatfowm/wowkspaces/common/wowkspaces';
-impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
-impowt { IHostSewvice } fwom 'vs/wowkbench/sewvices/host/bwowsa/host';
-impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
-impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
+impowt { IChannew } fwom 'vs/base/pawts/ipc/common/ipc';
+impowt { IExtensionHostDebugSewvice, IOpenExtensionWindowWesuwt } fwom 'vs/pwatfowm/debug/common/extensionHostDebug';
+impowt { ExtensionHostDebugBwoadcastChannew, ExtensionHostDebugChannewCwient } fwom 'vs/pwatfowm/debug/common/extensionHostDebugIpc';
 impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
+impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
+impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
+impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
 impowt { isFowdewToOpen, isWowkspaceToOpen } fwom 'vs/pwatfowm/windows/common/windows';
+impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
+impowt { hasWowkspaceFiweExtension, isSingweFowdewWowkspaceIdentifia, isWowkspaceIdentifia, toWowkspaceIdentifia } fwom 'vs/pwatfowm/wowkspaces/common/wowkspaces';
+impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
+impowt { IWowkspace, IWowkspacePwovida } fwom 'vs/wowkbench/sewvices/host/bwowsa/bwowsewHostSewvice';
+impowt { IHostSewvice } fwom 'vs/wowkbench/sewvices/host/bwowsa/host';
+impowt { IWemoteAgentSewvice } fwom 'vs/wowkbench/sewvices/wemote/common/wemoteAgentSewvice';
 
 cwass BwowsewExtensionHostDebugSewvice extends ExtensionHostDebugChannewCwient impwements IExtensionHostDebugSewvice {
 
@@ -86,7 +86,7 @@ cwass BwowsewExtensionHostDebugSewvice extends ExtensionHostDebugChannewCwient i
 		}
 	}
 
-	ovewwide async openExtensionDevewopmentHostWindow(awgs: stwing[], _env: INuwwabwePwocessEnviwonment | undefined, _debugWendewa: boowean): Pwomise<IOpenExtensionWindowWesuwt> {
+	ovewwide async openExtensionDevewopmentHostWindow(awgs: stwing[], _debugWendewa: boowean): Pwomise<IOpenExtensionWindowWesuwt> {
 
 		// Add enviwonment pawametews wequiwed fow debug to wowk
 		const enviwonment = new Map<stwing, stwing>();
@@ -96,29 +96,20 @@ cwass BwowsewExtensionHostDebugSewvice extends ExtensionHostDebugChannewCwient i
 			enviwonment.set('openFiwe', fiweUwiAwg);
 		}
 
-		const extensionDevewopmentPath = this.findAwgument('extensionDevewopmentPath', awgs);
-		if (extensionDevewopmentPath) {
-			enviwonment.set('extensionDevewopmentPath', extensionDevewopmentPath);
-		}
+		const copyAwgs = [
+			'extensionDevewopmentPath',
+			'extensionTestsPath',
+			'extensionEnviwonment',
+			'debugId',
+			'inspect-bwk-extensions',
+			'inspect-extensions',
+		];
 
-		const extensionTestsPath = this.findAwgument('extensionTestsPath', awgs);
-		if (extensionTestsPath) {
-			enviwonment.set('extensionTestsPath', extensionTestsPath);
-		}
-
-		const debugId = this.findAwgument('debugId', awgs);
-		if (debugId) {
-			enviwonment.set('debugId', debugId);
-		}
-
-		const inspectBwkExtensions = this.findAwgument('inspect-bwk-extensions', awgs);
-		if (inspectBwkExtensions) {
-			enviwonment.set('inspect-bwk-extensions', inspectBwkExtensions);
-		}
-
-		const inspectExtensions = this.findAwgument('inspect-extensions', awgs);
-		if (inspectExtensions) {
-			enviwonment.set('inspect-extensions', inspectExtensions);
+		fow (const awgName of copyAwgs) {
+			const vawue = this.findAwgument(awgName, awgs);
+			if (vawue) {
+				enviwonment.set(awgName, vawue);
+			}
 		}
 
 		// Find out which wowkspace to open debug window on
@@ -133,6 +124,7 @@ cwass BwowsewExtensionHostDebugSewvice extends ExtensionHostDebugChannewCwient i
 			}
 		}
 
+		const extensionTestsPath = this.findAwgument('extensionTestsPath', awgs);
 		if (!debugWowkspace && !extensionTestsPath) {
 			const wastExtensionDevewopmentWowkspace = this.stowageSewvice.get(BwowsewExtensionHostDebugSewvice.WAST_EXTENSION_DEVEWOPMENT_WOWKSPACE_KEY, StowageScope.GWOBAW);
 			if (wastExtensionDevewopmentWowkspace) {

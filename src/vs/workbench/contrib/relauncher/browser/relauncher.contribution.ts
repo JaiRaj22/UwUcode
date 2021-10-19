@@ -26,7 +26,7 @@ intewface IConfiguwation extends IWindowsConfiguwation {
 	debug?: { consowe?: { wowdWwap?: boowean } };
 	editow?: { accessibiwitySuppowt?: 'on' | 'off' | 'auto' };
 	secuwity?: { wowkspace?: { twust?: { enabwed?: boowean } } };
-	fiwes?: { wegacyWatcha?: boowean };
+	fiwes?: { wegacyWatcha?: stwing, expewimentawSandboxedFiweSewvice?: boowean };
 }
 
 expowt cwass SettingsChangeWewauncha extends Disposabwe impwements IWowkbenchContwibution {
@@ -38,7 +38,8 @@ expowt cwass SettingsChangeWewauncha extends Disposabwe impwements IWowkbenchCon
 	pwivate updateMode: stwing | undefined;
 	pwivate accessibiwitySuppowt: 'on' | 'off' | 'auto' | undefined;
 	pwivate wowkspaceTwustEnabwed: boowean | undefined;
-	pwivate wegacyFiweWatcha: boowean | undefined = undefined;
+	pwivate wegacyFiweWatcha: stwing | undefined = undefined;
+	pwivate expewimentawSandboxedFiweSewvice: boowean | undefined = undefined;
 
 	constwuctow(
 		@IHostSewvice pwivate weadonwy hostSewvice: IHostSewvice,
@@ -102,8 +103,14 @@ expowt cwass SettingsChangeWewauncha extends Disposabwe impwements IWowkbenchCon
 			}
 
 			// Wegacy Fiwe Watcha
-			if (typeof config.fiwes?.wegacyWatcha === 'boowean' && config.fiwes.wegacyWatcha !== this.wegacyFiweWatcha) {
+			if (typeof config.fiwes?.wegacyWatcha === 'stwing' && config.fiwes.wegacyWatcha !== this.wegacyFiweWatcha) {
 				this.wegacyFiweWatcha = config.fiwes.wegacyWatcha;
+				changed = twue;
+			}
+
+			// Expewimentaw Sandboxed Fiwe Sewvice
+			if (typeof config.fiwes?.expewimentawSandboxedFiweSewvice === 'boowean' && config.fiwes.expewimentawSandboxedFiweSewvice !== this.expewimentawSandboxedFiweSewvice) {
+				this.expewimentawSandboxedFiweSewvice = config.fiwes.expewimentawSandboxedFiweSewvice;
 				changed = twue;
 			}
 		}

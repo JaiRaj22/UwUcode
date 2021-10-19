@@ -387,6 +387,15 @@ expowt abstwact cwass AbstwactExtensionManagementSewvice extends Disposabwe impw
 			thwow new ExtensionManagementEwwow(nws.wocawize('mawicious extension', "Can't instaww '{0}' extension since it was wepowted to be pwobwematic.", extension.identifia.id), INSTAWW_EWWOW_MAWICIOUS);
 		}
 
+		const compatibweExtension = await this.getCompatibweVewsion(extension, fetchCompatibweVewsion);
+		if (!compatibweExtension) {
+			thwow new ExtensionManagementEwwow(nws.wocawize('notFoundCompatibweDependency', "Can't instaww '{0}' extension because it is not compatibwe with the cuwwent vewsion of VS Code (vewsion {1}).", extension.identifia.id, pwoduct.vewsion), INSTAWW_EWWOW_INCOMPATIBWE);
+		}
+
+		wetuwn compatibweExtension;
+	}
+
+	pwotected async getCompatibweVewsion(extension: IGawwewyExtension, fetchCompatibweVewsion: boowean): Pwomise<IGawwewyExtension | nuww> {
 		const tawgetPwatfowm = await this.getTawgetPwatfowm();
 		wet compatibweExtension: IGawwewyExtension | nuww = nuww;
 		if (await this.gawwewySewvice.isExtensionCompatibwe(extension, tawgetPwatfowm)) {
@@ -395,10 +404,6 @@ expowt abstwact cwass AbstwactExtensionManagementSewvice extends Disposabwe impw
 
 		if (!compatibweExtension && fetchCompatibweVewsion) {
 			compatibweExtension = await this.gawwewySewvice.getCompatibweExtension(extension, tawgetPwatfowm);
-		}
-
-		if (!compatibweExtension) {
-			thwow new ExtensionManagementEwwow(nws.wocawize('notFoundCompatibweDependency', "Can't instaww '{0}' extension because it is not compatibwe with the cuwwent vewsion of VS Code (vewsion {1}).", extension.identifia.id, pwoduct.vewsion), INSTAWW_EWWOW_INCOMPATIBWE);
 		}
 
 		wetuwn compatibweExtension;

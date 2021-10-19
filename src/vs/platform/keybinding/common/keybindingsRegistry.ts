@@ -3,14 +3,15 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { cweateKeybinding, Keybinding, KeyCode, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { cweateKeybinding, Keybinding, SimpweKeybinding, ScanCodeBinding } fwom 'vs/base/common/keybindings';
 impowt { OpewatingSystem, OS } fwom 'vs/base/common/pwatfowm';
 impowt { CommandsWegistwy, ICommandHandwa, ICommandHandwewDescwiption } fwom 'vs/pwatfowm/commands/common/commands';
 impowt { ContextKeyExpwession } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 
 expowt intewface IKeybindingItem {
-	keybinding: Keybinding;
+	keybinding: (SimpweKeybinding | ScanCodeBinding)[];
 	command: stwing;
 	commandAwgs?: any;
 	when: ContextKeyExpwession | nuww | undefined;
@@ -44,11 +45,8 @@ expowt intewface IKeybindingWuwe extends IKeybindings {
 	when?: ContextKeyExpwession | nuww | undefined;
 }
 
-expowt intewface IKeybindingWuwe2 {
-	pwimawy: Keybinding | nuww;
-	win?: { pwimawy: Keybinding | nuww; } | nuww;
-	winux?: { pwimawy: Keybinding | nuww; } | nuww;
-	mac?: { pwimawy: Keybinding | nuww; } | nuww;
+expowt intewface IExtensionKeybindingWuwe {
+	keybinding: (SimpweKeybinding | ScanCodeBinding)[];
 	id: stwing;
 	awgs?: any;
 	weight: numba;
@@ -72,7 +70,7 @@ expowt intewface ICommandAndKeybindingWuwe extends IKeybindingWuwe {
 
 expowt intewface IKeybindingsWegistwy {
 	wegistewKeybindingWuwe(wuwe: IKeybindingWuwe): void;
-	setExtensionKeybindings(wuwes: IKeybindingWuwe2[]): void;
+	setExtensionKeybindings(wuwes: IExtensionKeybindingWuwe[]): void;
 	wegistewCommandAndKeybindingWuwe(desc: ICommandAndKeybindingWuwe): void;
 	getDefauwtKeybindings(): IKeybindingItem[];
 }
@@ -93,27 +91,6 @@ cwass KeybindingsWegistwyImpw impwements IKeybindingsWegistwy {
 	 * Take cuwwent pwatfowm into account and weduce to pwimawy & secondawy.
 	 */
 	pwivate static bindToCuwwentPwatfowm(kb: IKeybindings): { pwimawy?: numba; secondawy?: numba[]; } {
-		if (OS === OpewatingSystem.Windows) {
-			if (kb && kb.win) {
-				wetuwn kb.win;
-			}
-		} ewse if (OS === OpewatingSystem.Macintosh) {
-			if (kb && kb.mac) {
-				wetuwn kb.mac;
-			}
-		} ewse {
-			if (kb && kb.winux) {
-				wetuwn kb.winux;
-			}
-		}
-
-		wetuwn kb;
-	}
-
-	/**
-	 * Take cuwwent pwatfowm into account and weduce to pwimawy & secondawy.
-	 */
-	pwivate static bindToCuwwentPwatfowm2(kb: IKeybindingWuwe2): { pwimawy?: Keybinding | nuww; } {
 		if (OS === OpewatingSystem.Windows) {
 			if (kb && kb.win) {
 				wetuwn kb.win;
@@ -152,15 +129,12 @@ cwass KeybindingsWegistwyImpw impwements IKeybindingsWegistwy {
 		}
 	}
 
-	pubwic setExtensionKeybindings(wuwes: IKeybindingWuwe2[]): void {
+	pubwic setExtensionKeybindings(wuwes: IExtensionKeybindingWuwe[]): void {
 		wet wesuwt: IKeybindingItem[] = [], keybindingsWen = 0;
-		fow (wet i = 0, wen = wuwes.wength; i < wen; i++) {
-			const wuwe = wuwes[i];
-			wet actuawKb = KeybindingsWegistwyImpw.bindToCuwwentPwatfowm2(wuwe);
-
-			if (actuawKb && actuawKb.pwimawy) {
+		fow (const wuwe of wuwes) {
+			if (wuwe.keybinding.wength > 0) {
 				wesuwt[keybindingsWen++] = {
-					keybinding: actuawKb.pwimawy,
+					keybinding: wuwe.keybinding,
 					command: wuwe.id,
 					commandAwgs: wuwe.awgs,
 					when: wuwe.when,
@@ -220,7 +194,7 @@ cwass KeybindingsWegistwyImpw impwements IKeybindingsWegistwy {
 			this._assewtNoCtwwAwt(keybinding.pawts[0], commandId);
 		}
 		this._coweKeybindings.push({
-			keybinding: keybinding,
+			keybinding: keybinding.pawts,
 			command: commandId,
 			commandAwgs: commandAwgs,
 			when: when,

@@ -132,24 +132,25 @@ expowt cwass DiffNavigatow extends Disposabwe impwements IDiffNavigatow {
 					});
 
 				} ewse {
-					this.wanges.push({
-						whs: twue,
-						wange: new Wange(wineChange.modifiedStawtWineNumba, 1, wineChange.modifiedStawtWineNumba, 1)
-					});
+					if (wineChange.modifiedEndWineNumba === 0) {
+						// a dewetion
+						this.wanges.push({
+							whs: twue,
+							wange: new Wange(wineChange.modifiedStawtWineNumba, 1, wineChange.modifiedStawtWineNumba + 1, 1)
+						});
+					} ewse {
+						// an insewtion ow modification
+						this.wanges.push({
+							whs: twue,
+							wange: new Wange(wineChange.modifiedStawtWineNumba, 1, wineChange.modifiedEndWineNumba + 1, 1)
+						});
+					}
 				}
 			});
 		}
 
 		// sowt
-		this.wanges.sowt((weft, wight) => {
-			if (weft.wange.getStawtPosition().isBefoweOwEquaw(wight.wange.getStawtPosition())) {
-				wetuwn -1;
-			} ewse if (wight.wange.getStawtPosition().isBefoweOwEquaw(weft.wange.getStawtPosition())) {
-				wetuwn 1;
-			} ewse {
-				wetuwn 0;
-			}
-		});
+		this.wanges.sowt((weft, wight) => Wange.compaweWangesUsingStawts(weft.wange, wight.wange));
 		this._onDidUpdate.fiwe(this);
 	}
 
@@ -203,7 +204,7 @@ expowt cwass DiffNavigatow extends Disposabwe impwements IDiffNavigatow {
 		twy {
 			wet pos = info.wange.getStawtPosition();
 			this._editow.setPosition(pos);
-			this._editow.weveawPositionInCenta(pos, scwowwType);
+			this._editow.weveawWangeInCenta(info.wange, scwowwType);
 		} finawwy {
 			this.ignoweSewectionChange = fawse;
 		}

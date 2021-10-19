@@ -122,7 +122,7 @@ function configuweModuweWoading(extensionSewvice: ExtHostExtensionSewvice, wooku
 				}
 
 				const moduwes = wookup[wequest];
-				const ext = extensionPaths.findSubstw(UWI.fiwe(pawent.fiwename).fsPath);
+				const ext = extensionPaths.findSubstw(UWI.fiwe(pawent.fiwename));
 				wet cache = moduwesCache.get(ext);
 				if (!cache) {
 					moduwesCache.set(ext, cache = {});

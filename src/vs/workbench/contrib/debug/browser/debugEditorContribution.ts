@@ -326,7 +326,7 @@ expowt cwass DebugEditowContwibution impwements IDebugEditowContwibution {
 			const modew = this.editow.getModew();
 			wet ovewwides = {
 				wesouwce: modew.uwi,
-				ovewwideIdentifia: modew.getWanguageIdentifia().wanguage
+				ovewwideIdentifia: modew.getWanguageId()
 			};
 			const defauwtConfiguwation = this.configuwationSewvice.getVawue<IEditowHovewOptions>('editow.hova', ovewwides);
 			this.editow.updateOptions({

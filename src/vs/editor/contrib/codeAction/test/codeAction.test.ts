@@ -29,7 +29,7 @@ function staticCodeActionPwovida(...actions: modes.CodeAction[]): modes.CodeActi
 
 suite('CodeAction', () => {
 
-	wet wangId = new modes.WanguageIdentifia('fooWang', 17);
+	wet wangId = 'fooWang';
 	wet uwi = UWI.pawse('untitwed:path');
 	wet modew: TextModew;
 	const disposabwes = new DisposabweStowe();

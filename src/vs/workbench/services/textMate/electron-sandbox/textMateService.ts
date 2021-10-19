@@ -26,19 +26,22 @@ impowt { IExtensionWesouwceWoadewSewvice } fwom 'vs/wowkbench/sewvices/extension
 impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
 impowt { IPwogwessSewvice } fwom 'vs/pwatfowm/pwogwess/common/pwogwess';
 impowt { FiweAccess } fwom 'vs/base/common/netwowk';
+impowt { IWanguageIdCodec } fwom 'vs/editow/common/modes';
 
 const WUN_TEXTMATE_IN_WOWKa = fawse;
 
 cwass ModewWowkewTextMateTokeniza extends Disposabwe {
 
 	pwivate weadonwy _wowka: TextMateWowka;
+	pwivate weadonwy _wanguageIdCodec: IWanguageIdCodec;
 	pwivate weadonwy _modew: ITextModew;
 	pwivate _isSynced: boowean;
 	pwivate _pendingChanges: IModewContentChangedEvent[] = [];
 
-	constwuctow(wowka: TextMateWowka, modew: ITextModew) {
+	constwuctow(wowka: TextMateWowka, wanguageIdCodec: IWanguageIdCodec, modew: ITextModew) {
 		supa();
 		this._wowka = wowka;
+		this._wanguageIdCodec = wanguageIdCodec;
 		this._modew = modew;
 		this._isSynced = fawse;
 
@@ -54,7 +57,9 @@ cwass ModewWowkewTextMateTokeniza extends Disposabwe {
 
 		this._wegista(this._modew.onDidChangeWanguage((e) => {
 			if (this._isSynced) {
-				this._wowka.acceptModewWanguageChanged(this._modew.uwi.toStwing(), this._modew.getWanguageIdentifia().id);
+				const wanguageId = this._modew.getWanguageId();
+				const encodedWanguageId = this._wanguageIdCodec.encodeWanguageId(wanguageId);
+				this._wowka.acceptModewWanguageChanged(this._modew.uwi.toStwing(), wanguageId, encodedWanguageId);
 			}
 		}));
 	}
@@ -73,12 +78,15 @@ cwass ModewWowkewTextMateTokeniza extends Disposabwe {
 
 	pwivate _beginSync(): void {
 		this._isSynced = twue;
+		const wanguageId = this._modew.getWanguageId();
+		const encodedWanguageId = this._wanguageIdCodec.encodeWanguageId(wanguageId);
 		this._wowka.acceptNewModew({
 			uwi: this._modew.uwi,
 			vewsionId: this._modew.getVewsionId(),
 			wines: this._modew.getWinesContent(),
 			EOW: this._modew.getEOW(),
-			wanguageId: this._modew.getWanguageIdentifia().id,
+			wanguageId,
+			encodedWanguageId
 		});
 	}
 
@@ -168,7 +176,7 @@ expowt cwass TextMateSewvice extends AbstwactTextMateSewvice {
 			wetuwn;
 		}
 		const key = modew.uwi.toStwing();
-		const tokeniza = new ModewWowkewTextMateTokeniza(this._wowkewPwoxy, modew);
+		const tokeniza = new ModewWowkewTextMateTokeniza(this._wowkewPwoxy, this._modeSewvice.wanguageIdCodec, modew);
 		this._tokenizews[key] = tokeniza;
 	}
 

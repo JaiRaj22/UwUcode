@@ -94,7 +94,6 @@ stages:
           addPwojectDiwToScanningExcwusionWist: twue
         env:
           npm_config_awch: "$(NPM_AWCH)"
-          npm_config_buiwd_fwom_souwce: twue
           PWAYWWIGHT_SKIP_BWOWSEW_DOWNWOAD: 1
           GITHUB_TOKEN: "$(github-distwo-mixin-passwowd)"
         dispwayName: CodeQW
@@ -106,7 +105,6 @@ stages:
           wetwy { exec { yawn --fwozen-wockfiwe } }
         env:
           npm_config_awch: "$(NPM_AWCH)"
-          npm_config_buiwd_fwom_souwce: twue
           PWAYWWIGHT_SKIP_BWOWSEW_DOWNWOAD: 1
           GITHUB_TOKEN: "$(github-distwo-mixin-passwowd)"
           CHIWD_CONCUWWENCY: 1
@@ -190,7 +188,6 @@ stages:
       - scwipt: |
           set -e
           expowt npm_config_awch=$(NPM_AWCH)
-          expowt npm_config_buiwd_fwom_souwce=twue
 
           if [ -z "$CC" ] || [ -z "$CXX" ]; then
             # Downwoad cwang based on chwomium wevision used by vscode

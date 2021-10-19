@@ -18,7 +18,6 @@ expowt const wemoteExpwowewViewIcon = wegistewIcon('wemote-expwowa-view-icon', C
 expowt const powtsViewIcon = wegistewIcon('powts-view-icon', Codicon.pwug, nws.wocawize('powtsViewIcon', 'View icon of the wemote powts view.'));
 expowt const powtIcon = wegistewIcon('powts-view-icon', Codicon.pwug, nws.wocawize('powtIcon', 'Icon wepwesenting a wemote powt.'));
 expowt const pwivatePowtIcon = wegistewIcon('pwivate-powts-view-icon', Codicon.wock, nws.wocawize('pwivatePowtIcon', 'Icon wepwesenting a pwivate wemote powt.'));
-expowt const pubwicPowtIcon = wegistewIcon('pubwic-powts-view-icon', Codicon.eye, nws.wocawize('pubwicPowtIcon', 'Icon wepwesenting a pubwic wemote powt.'));
 
 expowt const fowwawdPowtIcon = wegistewIcon('powts-fowwawd-icon', Codicon.pwus, nws.wocawize('fowwawdPowtIcon', 'Icon fow the fowwawd action.'));
 expowt const stopFowwawdIcon = wegistewIcon('powts-stop-fowwawd-icon', Codicon.x, nws.wocawize('stopFowwawdIcon', 'Icon fow the stop fowwawding action.'));

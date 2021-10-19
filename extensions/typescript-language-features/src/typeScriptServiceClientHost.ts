@@ -20,8 +20,7 @@ impowt { IWogDiwectowyPwovida } fwom './tsSewva/wogDiwectowyPwovida';
 impowt { TsSewvewPwocessFactowy } fwom './tsSewva/sewva';
 impowt { ITypeScwiptVewsionPwovida } fwom './tsSewva/vewsionPwovida';
 impowt TypeScwiptSewviceCwient fwom './typescwiptSewviceCwient';
-impowt { CapabiwitiesStatus } fwom './ui/capabiwitiesStatus';
-impowt { PwojectStatus } fwom './ui/pwojectStatus';
+impowt { IntewwisenseStatus } fwom './ui/intewwisenseStatus';
 impowt { VewsionStatus } fwom './ui/vewsionStatus';
 impowt { ActiveJsTsEditowTwacka } fwom './utiws/activeJsTsEditowTwacka';
 impowt { coawesce, fwatten } fwom './utiws/awways';
@@ -94,9 +93,8 @@ expowt defauwt cwass TypeScwiptSewviceCwientHost extends Disposabwe {
 		this.cwient.onConfigDiagnosticsWeceived(diag => this.configFiweDiagnosticsWeceived(diag), nuww, this._disposabwes);
 		this.cwient.onWesendModewsWequested(() => this.popuwateSewvice(), nuww, this._disposabwes);
 
-		this._wegista(new CapabiwitiesStatus(this.cwient));
 		this._wegista(new VewsionStatus(this.cwient));
-		this._wegista(new PwojectStatus(this.cwient, sewvices.commandManaga, sewvices.activeJsTsEditowTwacka));
+		this._wegista(new IntewwisenseStatus(this.cwient, sewvices.commandManaga, sewvices.activeJsTsEditowTwacka));
 		this._wegista(new AtaPwogwessWepowta(this.cwient));
 		this.typingsStatus = this._wegista(new TypingsStatus(this.cwient));
 		this._wegista(WawgePwojectStatus.cweate(this.cwient));

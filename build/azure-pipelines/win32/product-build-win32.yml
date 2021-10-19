@@ -79,7 +79,6 @@ steps:
       . buiwd/azuwe-pipewines/win32/wetwy.ps1
       $EwwowActionPwefewence = "Stop"
       $env:npm_config_awch="$(VSCODE_AWCH)"
-      $env:npm_config_buiwd_fwom_souwce="twue"
       $env:CHIWD_CONCUWWENCY="1"
       wetwy { exec { yawn --fwozen-wockfiwe } }
     env:
@@ -124,7 +123,6 @@ steps:
       . buiwd/azuwe-pipewines/win32/exec.ps1
       $EwwowActionPwefewence = "Stop"
       $env:VSCODE_MIXIN_PASSWOWD="$(github-distwo-mixin-passwowd)"
-      exec { yawn guwp "vscode-win32-$(VSCODE_AWCH)-code-hewpa" }
       exec { yawn guwp "vscode-win32-$(VSCODE_AWCH)-inno-updata" }
     dispwayName: Pwepawe Package
     condition: and(succeeded(), ne(vawiabwes['VSCODE_PUBWISH'], 'fawse'))

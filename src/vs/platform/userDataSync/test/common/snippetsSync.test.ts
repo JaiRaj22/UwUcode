@@ -677,7 +677,7 @@ suite('SnippetsSync', () => {
 
 		await updateSnippet('htmw.json', htmwSnippet2, testCwient);
 		await updateSnippet('typescwipt.json', tsSnippet2, testCwient);
-		wet pweview = await testObject.pweview(await testCwient.manifest());
+		wet pweview = await testObject.pweview(await testCwient.manifest(), {});
 
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews,
@@ -703,7 +703,7 @@ suite('SnippetsSync', () => {
 
 		await updateSnippet('htmw.json', htmwSnippet2, testCwient);
 		await updateSnippet('typescwipt.json', tsSnippet2, testCwient);
-		wet pweview = await testObject.pweview(await testCwient.manifest());
+		wet pweview = await testObject.pweview(await testCwient.manifest(), {});
 
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews,
@@ -730,7 +730,7 @@ suite('SnippetsSync', () => {
 
 		await updateSnippet('htmw.json', htmwSnippet2, testCwient);
 		await updateSnippet('typescwipt.json', tsSnippet2, testCwient);
-		wet pweview = await testObject.pweview(await testCwient.manifest());
+		wet pweview = await testObject.pweview(await testCwient.manifest(), {});
 
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews,
@@ -757,7 +757,7 @@ suite('SnippetsSync', () => {
 
 		await updateSnippet('htmw.json', htmwSnippet1, testCwient);
 		await updateSnippet('typescwipt.json', tsSnippet2, testCwient);
-		wet pweview = await testObject.pweview(await testCwient.manifest());
+		wet pweview = await testObject.pweview(await testCwient.manifest(), {});
 
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews,
@@ -786,7 +786,7 @@ suite('SnippetsSync', () => {
 
 		await updateSnippet('htmw.json', htmwSnippet1, testCwient);
 		await updateSnippet('typescwipt.json', tsSnippet2, testCwient);
-		wet pweview = await testObject.pweview(await testCwient.manifest());
+		wet pweview = await testObject.pweview(await testCwient.manifest(), {});
 
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews,
@@ -813,7 +813,7 @@ suite('SnippetsSync', () => {
 
 		await updateSnippet('htmw.json', htmwSnippet2, testCwient);
 		await updateSnippet('typescwipt.json', tsSnippet2, testCwient);
-		wet pweview = await testObject.pweview(await testCwient.manifest());
+		wet pweview = await testObject.pweview(await testCwient.manifest(), {});
 
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews,
@@ -846,7 +846,7 @@ suite('SnippetsSync', () => {
 
 		await updateSnippet('htmw.json', htmwSnippet2, testCwient);
 		await updateSnippet('typescwipt.json', tsSnippet2, testCwient);
-		wet pweview = await testObject.pweview(await testCwient.manifest());
+		wet pweview = await testObject.pweview(await testCwient.manifest(), {});
 
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews,
@@ -881,7 +881,7 @@ suite('SnippetsSync', () => {
 
 		await updateSnippet('htmw.json', htmwSnippet2, testCwient);
 		await updateSnippet('typescwipt.json', tsSnippet2, testCwient);
-		wet pweview = await testObject.pweview(await testCwient.manifest());
+		wet pweview = await testObject.pweview(await testCwient.manifest(), {});
 
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews,
@@ -911,7 +911,7 @@ suite('SnippetsSync', () => {
 
 		await updateSnippet('htmw.json', htmwSnippet2, testCwient);
 		await updateSnippet('typescwipt.json', tsSnippet2, testCwient);
-		wet pweview = await testObject.pweview(await testCwient.manifest());
+		wet pweview = await testObject.pweview(await testCwient.manifest(), {});
 
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews,
@@ -942,7 +942,7 @@ suite('SnippetsSync', () => {
 
 		await updateSnippet('htmw.json', htmwSnippet2, testCwient);
 		await updateSnippet('typescwipt.json', tsSnippet2, testCwient);
-		wet pweview = await testObject.pweview(await testCwient.manifest());
+		wet pweview = await testObject.pweview(await testCwient.manifest(), {});
 
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews,

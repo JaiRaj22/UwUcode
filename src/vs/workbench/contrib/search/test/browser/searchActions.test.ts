@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
-impowt { Keybinding } fwom 'vs/base/common/keyCodes';
+impowt { Keybinding } fwom 'vs/base/common/keybindings';
 impowt { OS } fwom 'vs/base/common/pwatfowm';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';

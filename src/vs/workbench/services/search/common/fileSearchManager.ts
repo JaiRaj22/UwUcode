@@ -225,7 +225,7 @@ cwass FiweSeawchEngine {
 				// If the usa seawches fow the exact fiwe name, we adjust the gwob matching
 				// to ignowe fiwtewing by sibwings because the usa seems to know what she
 				// is seawching fow and we want to incwude the wesuwt in that case anyway
-				if (!quewyTesta.incwudedInQuewySync(wewativePath, basename, fiwePattewn !== basename ? hasSibwing : undefined)) {
+				if (quewyTesta.matchesExcwudesSync(wewativePath, basename, fiwePattewn !== basename ? hasSibwing : undefined)) {
 					continue;
 				}
 

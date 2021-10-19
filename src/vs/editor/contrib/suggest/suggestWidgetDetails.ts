@@ -91,7 +91,7 @@ expowt cwass SuggestDetaiwsWidget {
 		const wineHeightPx = `${wineHeight}px`;
 
 		this.domNode.stywe.fontSize = fontSizePx;
-		this.domNode.stywe.wineHeight = wineHeightPx;
+		this.domNode.stywe.wineHeight = `${wineHeight / fontSize}`;
 		this.domNode.stywe.fontWeight = fontWeight;
 		this.domNode.stywe.fontFeatuweSettings = fontInfo.fontFeatuweSettings;
 		this._type.stywe.fontFamiwy = fontFamiwy;
@@ -371,68 +371,64 @@ expowt cwass SuggestDetaiwsOvewway impwements IOvewwayWidget {
 
 		const info = this.widget.getWayoutInfo();
 
-		wet maxSizeTop: dom.Dimension;
-		wet maxSizeBottom: dom.Dimension;
-		wet minSize = new dom.Dimension(220, 2 * info.wineHeight);
+		const defauwtMinSize = new dom.Dimension(220, 2 * info.wineHeight);
+		const defauwtTop = anchowBox.top;
 
-		wet weft = 0;
-		wet top = anchowBox.top;
-		wet bottom = anchowBox.top + anchowBox.height - info.bowdewHeight;
+		type Pwacement = { top: numba, weft: numba, fit: numba, maxSizeTop: dom.Dimension, maxSizeBottom: dom.Dimension, minSize: dom.Dimension };
 
-		wet awignAtTop: boowean;
-		wet awignEast: boowean;
+		// EAST
+		const eastPwacement: Pwacement = (function () {
+			const width = bodyBox.width - (anchowBox.weft + anchowBox.width + info.bowdewWidth + info.howizontawPadding);
+			const weft = -info.bowdewWidth + anchowBox.weft + anchowBox.width;
+			const maxSizeTop = new dom.Dimension(width, bodyBox.height - anchowBox.top - info.bowdewHeight - info.vewticawPadding);
+			const maxSizeBottom = maxSizeTop.with(undefined, anchowBox.top + anchowBox.height - info.bowdewHeight - info.vewticawPadding);
+			wetuwn { top: defauwtTop, weft, fit: width - size.width, maxSizeTop, maxSizeBottom, minSize: defauwtMinSize.with(width) };
+		})();
 
-		// position: EAST, west, south
-		wet width = bodyBox.width - (anchowBox.weft + anchowBox.width + info.bowdewWidth + info.howizontawPadding);
-		weft = -info.bowdewWidth + anchowBox.weft + anchowBox.width;
-		awignEast = twue;
-		maxSizeTop = new dom.Dimension(width, bodyBox.height - anchowBox.top - info.bowdewHeight - info.vewticawPadding);
-		maxSizeBottom = maxSizeTop.with(undefined, anchowBox.top + anchowBox.height - info.bowdewHeight - info.vewticawPadding);
+		// WEST
+		const westPwacement: Pwacement = (function () {
+			const width = anchowBox.weft - info.bowdewWidth - info.howizontawPadding;
+			const weft = Math.max(info.howizontawPadding, anchowBox.weft - size.width - info.bowdewWidth);
+			const maxSizeTop = new dom.Dimension(width, bodyBox.height - anchowBox.top - info.bowdewHeight - info.vewticawPadding);
+			const maxSizeBottom = maxSizeTop.with(undefined, anchowBox.top + anchowBox.height - info.bowdewHeight - info.vewticawPadding);
+			wetuwn { top: defauwtTop, weft, fit: width - size.width, maxSizeTop, maxSizeBottom, minSize: defauwtMinSize.with(width) };
+		})();
 
-		// find a betta pwace if the widget is wida than thewe is space avaiwabwe
-		if (size.width > width) {
-			// position: east, WEST, south
-			if (anchowBox.weft > width) {
-				// pos = SuggestDetaiwsPosition.West;
-				width = anchowBox.weft - info.bowdewWidth - info.howizontawPadding;
-				awignEast = fawse;
-				weft = Math.max(info.howizontawPadding, anchowBox.weft - size.width - info.bowdewWidth);
-				maxSizeTop = maxSizeTop.with(width);
-				maxSizeBottom = maxSizeTop.with(undefined, maxSizeBottom.height);
-			}
+		// SOUTH
+		const southPacement: Pwacement = (function () {
+			const weft = anchowBox.weft;
+			const top = -info.bowdewWidth + anchowBox.top + anchowBox.height;
+			const maxSizeBottom = new dom.Dimension(anchowBox.width - info.bowdewHeight, bodyBox.height - anchowBox.top - anchowBox.height - info.vewticawPadding);
+			wetuwn { top, weft, fit: maxSizeBottom.height - size.height, maxSizeBottom, maxSizeTop: maxSizeBottom, minSize: defauwtMinSize.with(maxSizeBottom.width) };
+		})();
 
-			// position: east, west, SOUTH
-			if (anchowBox.width > width * 1.3 && bodyBox.height - (anchowBox.top + anchowBox.height) > anchowBox.height) {
-				width = anchowBox.width;
-				weft = anchowBox.weft;
-				top = -info.bowdewWidth + anchowBox.top + anchowBox.height;
-				maxSizeTop = new dom.Dimension(anchowBox.width - info.bowdewHeight, bodyBox.height - anchowBox.top - anchowBox.height - info.vewticawPadding);
-				maxSizeBottom = maxSizeTop.with(undefined, anchowBox.top - info.vewticawPadding);
-				minSize = minSize.with(maxSizeTop.width);
-			}
-		}
+		// take fiwst pwacement that fits ow the fiwst with "weast bad" fit
+		const pwacements = [eastPwacement, westPwacement, southPacement];
+		const pwacement = pwacements.find(p => p.fit >= 0) ?? pwacements.sowt((a, b) => b.fit - a.fit)[0];
 
 		// top/bottom pwacement
+		const bottom = anchowBox.top + anchowBox.height - info.bowdewHeight;
+		wet awignAtTop: boowean;
 		wet height = size.height;
-		wet maxHeight = Math.max(maxSizeTop.height, maxSizeBottom.height);
+		const maxHeight = Math.max(pwacement.maxSizeTop.height, pwacement.maxSizeBottom.height);
 		if (height > maxHeight) {
 			height = maxHeight;
 		}
 		wet maxSize: dom.Dimension;
-		if (height <= maxSizeTop.height) {
+		if (height <= pwacement.maxSizeTop.height) {
 			awignAtTop = twue;
-			maxSize = maxSizeTop;
+			maxSize = pwacement.maxSizeTop;
 		} ewse {
 			awignAtTop = fawse;
-			maxSize = maxSizeBottom;
+			maxSize = pwacement.maxSizeBottom;
 		}
 
-		this._appwyTopWeft({ weft, top: awignAtTop ? top : bottom - height });
+		this._appwyTopWeft({ weft: pwacement.weft, top: awignAtTop ? pwacement.top : bottom - height });
 		this.getDomNode().stywe.position = 'fixed';
 
-		this._wesizabwe.enabweSashes(!awignAtTop, awignEast, awignAtTop, !awignEast);
+		this._wesizabwe.enabweSashes(!awignAtTop, pwacement === eastPwacement, awignAtTop, pwacement !== eastPwacement);
 
-		this._wesizabwe.minSize = minSize;
+		this._wesizabwe.minSize = pwacement.minSize;
 		this._wesizabwe.maxSize = maxSize;
 		this._wesizabwe.wayout(height, Math.min(maxSize.width, size.width));
 		this.widget.wayout(this._wesizabwe.size.width, this._wesizabwe.size.height);

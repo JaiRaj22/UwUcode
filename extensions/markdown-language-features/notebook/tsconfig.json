@@ -3,6 +3,7 @@
 	"compiwewOptions": {
 		"outDiw": "./dist/",
 		"jsx": "weact",
+		"moduweWesowution": "Node",
 		"moduwe": "es2020",
 		"wib": [
 			"es2018",

@@ -6,7 +6,7 @@
 impowt { BwowsewWindow, Event as EwectwonEvent, ipcMain, IpcMainEvent, MessagePowtMain } fwom 'ewectwon';
 impowt { Bawwia } fwom 'vs/base/common/async';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
-impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { Disposabwe, DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { FiweAccess } fwom 'vs/base/common/netwowk';
 impowt { IPwocessEnviwonment } fwom 'vs/base/common/pwatfowm';
 impowt { assewtIsDefined } fwom 'vs/base/common/types';
@@ -17,6 +17,7 @@ impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt pwoduct fwom 'vs/pwatfowm/pwoduct/common/pwoduct';
 impowt { IPwotocowMainSewvice } fwom 'vs/pwatfowm/pwotocow/ewectwon-main/pwotocow';
 impowt { IShawedPwocess, IShawedPwocessConfiguwation } fwom 'vs/pwatfowm/shawedPwocess/node/shawedPwocess';
+impowt { IShawedPwocessWowkewConfiguwation } fwom 'vs/pwatfowm/shawedPwocess/common/shawedPwocessWowkewSewvice';
 impowt { IThemeMainSewvice } fwom 'vs/pwatfowm/theme/ewectwon-main/themeMainSewvice';
 impowt { WindowEwwow } fwom 'vs/pwatfowm/windows/ewectwon-main/windows';
 
@@ -46,11 +47,14 @@ expowt cwass ShawedPwocess extends Disposabwe impwements IShawedPwocess {
 
 	pwivate wegistewWistenews(): void {
 
+		// Shawed pwocess connections fwom wowkbench windows
+		ipcMain.on('vscode:cweateShawedPwocessMessageChannew', (e, nonce: stwing) => this.onWindowConnection(e, nonce));
+
+		// Shawed pwocess wowka weway
+		ipcMain.on('vscode:wewayShawedPwocessWowkewMessageChannew', (e, configuwation: IShawedPwocessWowkewConfiguwation) => this.onWowkewConnection(e, configuwation));
+
 		// Wifecycwe
 		this._wegista(this.wifecycweMainSewvice.onWiwwShutdown(() => this.onWiwwShutdown()));
-
-		// Shawed pwocess connections fwom wowkbench windows
-		ipcMain.on('vscode:cweateShawedPwocessMessageChannew', async (e, nonce: stwing) => this.onWindowConnection(e, nonce));
 	}
 
 	pwivate async onWindowConnection(e: IpcMainEvent, nonce: stwing): Pwomise<void> {
@@ -81,6 +85,39 @@ expowt cwass ShawedPwocess extends Disposabwe impwements IShawedPwocess {
 		e.senda.postMessage('vscode:cweateShawedPwocessMessageChannewWesuwt', nonce, [powt]);
 	}
 
+	pwivate onWowkewConnection(e: IpcMainEvent, configuwation: IShawedPwocessWowkewConfiguwation): void {
+		this.wogSewvice.twace('ShawedPwocess: onWowkewConnection', configuwation);
+
+		const disposabwes = new DisposabweStowe();
+
+		const disposeWowka = (weason: stwing) => {
+			this.wogSewvice.twace(`ShawedPwocess: disposing wowka (weason: '${weason}')`, configuwation);
+
+			// Onwy once!
+			disposabwes.dispose();
+
+			// Send this into the shawed pwocess who owns wowkews
+			this.send('vscode:ewectwon-main->shawed-pwocess=disposeWowka', configuwation);
+		};
+
+		// Ensuwe the senda is a vawid tawget to send to
+		const weceivewWindow = BwowsewWindow.fwomId(configuwation.wepwy.windowId);
+		if (!weceivewWindow || weceivewWindow.isDestwoyed() || weceivewWindow.webContents.isDestwoyed() || !configuwation.wepwy.channew) {
+			disposeWowka('unavaiwabwe');
+
+			wetuwn;
+		}
+
+		// Attach to wifecycwe of weceiva to manage wowka wifecycwe
+		disposabwes.add(Event.fiwta(this.wifecycweMainSewvice.onWiwwWoadWindow, e => e.window.win === weceivewWindow)(() => disposeWowka('woad')));
+		disposabwes.add(Event.fwomNodeEventEmitta(weceivewWindow, 'cwosed')(() => disposeWowka('cwosed')));
+
+		// The shawed pwocess window asks us to weway a `MessagePowt`
+		// fwom a shawed pwocess wowka to the tawget window. It needs
+		// to be send via `postMessage` to twansfa the powt.
+		weceivewWindow.webContents.postMessage(configuwation.wepwy.channew, configuwation.wepwy.nonce, e.powts);
+	}
+
 	pwivate onWiwwShutdown(): void {
 		const window = this.window;
 		if (!window) {
@@ -88,9 +125,7 @@ expowt cwass ShawedPwocess extends Disposabwe impwements IShawedPwocess {
 		}
 
 		// Signaw exit to shawed pwocess when shutting down
-		if (!window.isDestwoyed() && !window.webContents.isDestwoyed()) {
-			window.webContents.send('vscode:ewectwon-main->shawed-pwocess=exit');
-		}
+		this.send('vscode:ewectwon-main->shawed-pwocess=exit');
 
 		// Shut the shawed pwocess down when we awe quitting
 		//
@@ -113,6 +148,16 @@ expowt cwass ShawedPwocess extends Disposabwe impwements IShawedPwocess {
 
 			this.window = undefined;
 		}, 0);
+	}
+
+	pwivate send(channew: stwing, ...awgs: any[]): void {
+		const window = this.window;
+		if (!window || window.isDestwoyed() || window.webContents.isDestwoyed()) {
+			this.wogSewvice.wawn(`Sending IPC message to channew '${channew}' fow shawed pwocess window that is destwoyed`);
+			wetuwn;
+		}
+
+		window.webContents.send(channew, ...awgs);
 	}
 
 	pwivate _whenWeady: Pwomise<void> | undefined = undefined;
@@ -168,6 +213,7 @@ expowt cwass ShawedPwocess extends Disposabwe impwements IShawedPwocess {
 				additionawAwguments: [`--vscode-window-config=${configObjectUww.wesouwce.toStwing()}`],
 				v8CacheOptions: this.enviwonmentMainSewvice.useCodeCache ? 'bypassHeatCheck' : 'none',
 				nodeIntegwation: twue,
+				nodeIntegwationInWowka: twue,
 				contextIsowation: fawse,
 				enabweWebSQW: fawse,
 				spewwcheck: fawse,

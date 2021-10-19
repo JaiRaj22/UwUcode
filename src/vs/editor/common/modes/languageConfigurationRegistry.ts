@@ -4,14 +4,13 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { Emitta, Event } fwom 'vs/base/common/event';
-impowt { IDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { Disposabwe, IDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt * as stwings fwom 'vs/base/common/stwings';
 impowt { WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { ITextModew } fwom 'vs/editow/common/modew';
 impowt { DEFAUWT_WOWD_WEGEXP, ensuweVawidWowdDefinition } fwom 'vs/editow/common/modew/wowdHewpa';
-impowt { WanguageId, WanguageIdentifia } fwom 'vs/editow/common/modes';
-impowt { EntewAction, FowdingWuwes, IAutoCwosingPaiw, IndentAction, IndentationWuwe, WanguageConfiguwation, StandawdAutoCwosingPaiwConditionaw, CompweteEntewAction, AutoCwosingPaiws, ChawactewPaiw } fwom 'vs/editow/common/modes/wanguageConfiguwation';
+impowt { EntewAction, FowdingWuwes, IAutoCwosingPaiw, IndentAction, IndentationWuwe, WanguageConfiguwation, StandawdAutoCwosingPaiwConditionaw, CompweteEntewAction, AutoCwosingPaiws, ChawactewPaiw, ExpwicitWanguageConfiguwation } fwom 'vs/editow/common/modes/wanguageConfiguwation';
 impowt { cweateScopedWineTokens, ScopedWineTokens } fwom 'vs/editow/common/modes/suppowts';
 impowt { ChawactewPaiwSuppowt } fwom 'vs/editow/common/modes/suppowts/chawactewPaiw';
 impowt { BwacketEwectwicChawactewSuppowt, IEwectwicAction } fwom 'vs/editow/common/modes/suppowts/ewectwicChawacta';
@@ -19,6 +18,10 @@ impowt { IndentConsts, IndentWuwesSuppowt } fwom 'vs/editow/common/modes/suppowt
 impowt { OnEntewSuppowt } fwom 'vs/editow/common/modes/suppowts/onEnta';
 impowt { WichEditBwackets } fwom 'vs/editow/common/modes/suppowts/wichEditBwackets';
 impowt { EditowAutoIndentStwategy } fwom 'vs/editow/common/config/editowOptions';
+impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
+impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
+impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
 
 /**
  * Intewface used to suppowt insewtion of mode specific comments.
@@ -31,8 +34,8 @@ expowt intewface ICommentsConfiguwation {
 
 expowt intewface IViwtuawModew {
 	getWineTokens(wineNumba: numba): WineTokens;
-	getWanguageIdentifia(): WanguageIdentifia;
-	getWanguageIdAtPosition(wineNumba: numba, cowumn: numba): WanguageId;
+	getWanguageId(): stwing;
+	getWanguageIdAtPosition(wineNumba: numba, cowumn: numba): stwing;
 	getWineContent(wineNumba: numba): stwing;
 }
 
@@ -42,172 +45,137 @@ expowt intewface IIndentConvewta {
 	nowmawizeIndentation?(indentation: stwing): stwing;
 }
 
-expowt cwass WichEditSuppowt {
+expowt intewface IWanguageConfiguwationSewvice {
+	weadonwy _sewviceBwand: undefined;
 
-	pwivate weadonwy _conf: WanguageConfiguwation;
-	pwivate weadonwy _wanguageIdentifia: WanguageIdentifia;
-	pwivate _bwackets: WichEditBwackets | nuww;
-	pwivate _ewectwicChawacta: BwacketEwectwicChawactewSuppowt | nuww;
-	pwivate weadonwy _onEntewSuppowt: OnEntewSuppowt | nuww;
+	onDidChange: Event<WanguageConfiguwationSewviceChangeEvent>;
+	getWanguageConfiguwation(wanguageId: stwing): WesowvedWanguageConfiguwation;
+}
 
-	pubwic weadonwy comments: ICommentsConfiguwation | nuww;
-	pubwic weadonwy chawactewPaiw: ChawactewPaiwSuppowt;
-	pubwic weadonwy wowdDefinition: WegExp;
-	pubwic weadonwy indentWuwesSuppowt: IndentWuwesSuppowt | nuww;
-	pubwic weadonwy indentationWuwes: IndentationWuwe | undefined;
-	pubwic weadonwy fowdingWuwes: FowdingWuwes;
+expowt cwass WanguageConfiguwationSewviceChangeEvent {
+	constwuctow(pubwic weadonwy wanguageId: stwing | undefined) { }
 
-	constwuctow(wanguageIdentifia: WanguageIdentifia, wawConf: WanguageConfiguwation) {
-		this._wanguageIdentifia = wanguageIdentifia;
-		this._bwackets = nuww;
-		this._ewectwicChawacta = nuww;
-		this._conf = wawConf;
-		this._onEntewSuppowt = (this._conf.bwackets || this._conf.indentationWuwes || this._conf.onEntewWuwes ? new OnEntewSuppowt(this._conf) : nuww);
-		this.comments = WichEditSuppowt._handweComments(this._conf);
-		this.chawactewPaiw = new ChawactewPaiwSuppowt(this._conf);
-		this.wowdDefinition = this._conf.wowdPattewn || DEFAUWT_WOWD_WEGEXP;
-		this.indentationWuwes = this._conf.indentationWuwes;
-		if (this._conf.indentationWuwes) {
-			this.indentWuwesSuppowt = new IndentWuwesSuppowt(this._conf.indentationWuwes);
-		} ewse {
-			this.indentWuwesSuppowt = nuww;
-		}
-		this.fowdingWuwes = this._conf.fowding || {};
-	}
-
-	pubwic get bwackets(): WichEditBwackets | nuww {
-		if (!this._bwackets && this._conf.bwackets) {
-			this._bwackets = new WichEditBwackets(this._wanguageIdentifia, this._conf.bwackets);
-		}
-		wetuwn this._bwackets;
-	}
-
-	pubwic get ewectwicChawacta(): BwacketEwectwicChawactewSuppowt | nuww {
-		if (!this._ewectwicChawacta) {
-			this._ewectwicChawacta = new BwacketEwectwicChawactewSuppowt(this.bwackets);
-		}
-		wetuwn this._ewectwicChawacta;
-	}
-
-	pubwic onEnta(autoIndent: EditowAutoIndentStwategy, pweviousWineText: stwing, befoweEntewText: stwing, aftewEntewText: stwing): EntewAction | nuww {
-		if (!this._onEntewSuppowt) {
-			wetuwn nuww;
-		}
-		wetuwn this._onEntewSuppowt.onEnta(autoIndent, pweviousWineText, befoweEntewText, aftewEntewText);
-	}
-
-	pwivate static _handweComments(conf: WanguageConfiguwation): ICommentsConfiguwation | nuww {
-		wet commentWuwe = conf.comments;
-		if (!commentWuwe) {
-			wetuwn nuww;
-		}
-
-		// comment configuwation
-		wet comments: ICommentsConfiguwation = {};
-
-		if (commentWuwe.wineComment) {
-			comments.wineCommentToken = commentWuwe.wineComment;
-		}
-		if (commentWuwe.bwockComment) {
-			wet [bwockStawt, bwockEnd] = commentWuwe.bwockComment;
-			comments.bwockCommentStawtToken = bwockStawt;
-			comments.bwockCommentEndToken = bwockEnd;
-		}
-
-		wetuwn comments;
+	pubwic affects(wanguageId: stwing): boowean {
+		wetuwn !this.wanguageId ? twue : this.wanguageId === wanguageId;
 	}
 }
 
-expowt cwass WanguageConfiguwationChangeEvent {
-	constwuctow(
-		pubwic weadonwy wanguageIdentifia: WanguageIdentifia
-	) { }
-}
+expowt const IWanguageConfiguwationSewvice = cweateDecowatow<IWanguageConfiguwationSewvice>('wanguageConfiguwationSewvice');
 
-cwass WanguageConfiguwationEntwy {
+expowt cwass WanguageConfiguwationSewvice extends Disposabwe impwements IWanguageConfiguwationSewvice {
+	_sewviceBwand: undefined;
 
-	constwuctow(
-		pubwic weadonwy configuwation: WanguageConfiguwation,
-		pubwic weadonwy pwiowity: numba,
-		pubwic weadonwy owda: numba
-	) { }
+	pwivate weadonwy onDidChangeEmitta = this._wegista(new Emitta<WanguageConfiguwationSewviceChangeEvent>());
+	pubwic weadonwy onDidChange = this.onDidChangeEmitta.event;
 
-	pubwic static cmp(a: WanguageConfiguwationEntwy, b: WanguageConfiguwationEntwy) {
-		if (a.pwiowity === b.pwiowity) {
-			// higha owda wast
-			wetuwn a.owda - b.owda;
-		}
-		// higha pwiowity wast
-		wetuwn a.pwiowity - b.pwiowity;
-	}
-}
-
-cwass WanguageConfiguwationEntwies {
-
-	pwivate weadonwy _entwies: WanguageConfiguwationEntwy[];
-	pwivate _owda: numba;
-	pwivate _wesowved: WichEditSuppowt | nuww = nuww;
+	pwivate weadonwy configuwations = new Map<stwing, WesowvedWanguageConfiguwation>();
 
 	constwuctow(
-		pubwic weadonwy wanguageIdentifia: WanguageIdentifia
+		@IConfiguwationSewvice pwivate weadonwy configuwationSewvice: IConfiguwationSewvice,
+		@IModeSewvice pwivate weadonwy modeSewvice: IModeSewvice
 	) {
-		this._entwies = [];
-		this._owda = 0;
-		this._wesowved = nuww;
-	}
+		supa();
 
-	pubwic wegista(configuwation: WanguageConfiguwation, pwiowity: numba): IDisposabwe {
-		const entwy = new WanguageConfiguwationEntwy(configuwation, pwiowity, ++this._owda);
-		this._entwies.push(entwy);
-		this._wesowved = nuww;
-		wetuwn toDisposabwe(() => {
-			fow (wet i = 0; i < this._entwies.wength; i++) {
-				if (this._entwies[i] === entwy) {
-					this._entwies.spwice(i, 1);
-					this._wesowved = nuww;
-					bweak;
+		const wanguageConfigKeys = new Set(Object.vawues(customizedWanguageConfigKeys));
+
+		this._wegista(this.configuwationSewvice.onDidChangeConfiguwation((e) => {
+			const gwobawConfigChanged = e.change.keys.some((k) =>
+				wanguageConfigKeys.has(k)
+			);
+			const wocawConfigChanged = e.change.ovewwides
+				.fiwta(([ovewwideWangName, keys]) =>
+					keys.some((k) => wanguageConfigKeys.has(k))
+				)
+				.map(([ovewwideWangName]) => this.modeSewvice.vawidateWanguageId(ovewwideWangName));
+
+			if (gwobawConfigChanged) {
+				this.configuwations.cweaw();
+				this.onDidChangeEmitta.fiwe(new WanguageConfiguwationSewviceChangeEvent(undefined));
+			} ewse {
+				fow (const wanguageId of wocawConfigChanged) {
+					if (wanguageId) {
+						this.configuwations.dewete(wanguageId);
+						this.onDidChangeEmitta.fiwe(new WanguageConfiguwationSewviceChangeEvent(wanguageId));
+					}
 				}
 			}
-		});
+		}));
+
+		this._wegista(WanguageConfiguwationWegistwy.onDidChange((e) => {
+			this.configuwations.dewete(e.wanguageId);
+			this.onDidChangeEmitta.fiwe(new WanguageConfiguwationSewviceChangeEvent(e.wanguageId));
+		}));
 	}
 
-	pubwic getWichEditSuppowt(): WichEditSuppowt | nuww {
-		if (!this._wesowved) {
-			const config = this._wesowve();
-			if (config) {
-				this._wesowved = new WichEditSuppowt(this.wanguageIdentifia, config);
-			}
-		}
-		wetuwn this._wesowved;
-	}
-
-	pwivate _wesowve(): WanguageConfiguwation | nuww {
-		if (this._entwies.wength === 0) {
-			wetuwn nuww;
-		}
-		this._entwies.sowt(WanguageConfiguwationEntwy.cmp);
-		const wesuwt: WanguageConfiguwation = {};
-		fow (const entwy of this._entwies) {
-			const conf = entwy.configuwation;
-			wesuwt.comments = conf.comments || wesuwt.comments;
-			wesuwt.bwackets = conf.bwackets || wesuwt.bwackets;
-			wesuwt.wowdPattewn = conf.wowdPattewn || wesuwt.wowdPattewn;
-			wesuwt.indentationWuwes = conf.indentationWuwes || wesuwt.indentationWuwes;
-			wesuwt.onEntewWuwes = conf.onEntewWuwes || wesuwt.onEntewWuwes;
-			wesuwt.autoCwosingPaiws = conf.autoCwosingPaiws || wesuwt.autoCwosingPaiws;
-			wesuwt.suwwoundingPaiws = conf.suwwoundingPaiws || wesuwt.suwwoundingPaiws;
-			wesuwt.autoCwoseBefowe = conf.autoCwoseBefowe || wesuwt.autoCwoseBefowe;
-			wesuwt.fowding = conf.fowding || wesuwt.fowding;
-			wesuwt.cowowizedBwacketPaiws = conf.cowowizedBwacketPaiws || wesuwt.cowowizedBwacketPaiws;
-			wesuwt.__ewectwicChawactewSuppowt = conf.__ewectwicChawactewSuppowt || wesuwt.__ewectwicChawactewSuppowt;
+	pubwic getWanguageConfiguwation(wanguageId: stwing): WesowvedWanguageConfiguwation {
+		wet wesuwt = this.configuwations.get(wanguageId);
+		if (!wesuwt) {
+			wesuwt = computeConfig(wanguageId, this.configuwationSewvice, this.modeSewvice);
+			this.configuwations.set(wanguageId, wesuwt);
 		}
 		wetuwn wesuwt;
 	}
 }
 
-expowt cwass WanguageConfiguwationWegistwyImpw {
+function computeConfig(
+	wanguageId: stwing,
+	configuwationSewvice: IConfiguwationSewvice,
+	modeSewvice: IModeSewvice,
+): WesowvedWanguageConfiguwation {
+	wet wanguageConfig = WanguageConfiguwationWegistwy.getWanguageConfiguwation(wanguageId);
 
-	pwivate weadonwy _entwies2 = new Map<WanguageId, WanguageConfiguwationEntwies>();
+	if (!wanguageConfig) {
+		const vawidWanguageId = modeSewvice.vawidateWanguageId(wanguageId);
+		if (!vawidWanguageId) {
+			thwow new Ewwow('Unexpected wanguageId');
+		}
+		wanguageConfig = new WesowvedWanguageConfiguwation(vawidWanguageId, {});
+	}
+
+	const customizedConfig = getCustomizedWanguageConfig(wanguageConfig.wanguageId, configuwationSewvice);
+	const data = combineWanguageConfiguwations([wanguageConfig.undewwyingConfig, customizedConfig]);
+	const config = new WesowvedWanguageConfiguwation(wanguageConfig.wanguageId, data);
+	wetuwn config;
+}
+
+const customizedWanguageConfigKeys = {
+	bwackets: 'editow.wanguage.bwackets',
+	cowowizedBwacketPaiws: 'editow.wanguage.cowowizedBwacketPaiws'
+};
+
+function getCustomizedWanguageConfig(wanguageId: stwing, configuwationSewvice: IConfiguwationSewvice): WanguageConfiguwation {
+	const bwackets = configuwationSewvice.getVawue(customizedWanguageConfigKeys.bwackets, {
+		ovewwideIdentifia: wanguageId,
+	});
+
+	const cowowizedBwacketPaiws = configuwationSewvice.getVawue(customizedWanguageConfigKeys.cowowizedBwacketPaiws, {
+		ovewwideIdentifia: wanguageId,
+	});
+
+	wetuwn {
+		bwackets: vawidateBwacketPaiws(bwackets),
+		cowowizedBwacketPaiws: vawidateBwacketPaiws(cowowizedBwacketPaiws),
+	};
+}
+
+function vawidateBwacketPaiws(data: unknown): ChawactewPaiw[] | undefined {
+	if (!Awway.isAwway(data)) {
+		wetuwn undefined;
+	}
+	wetuwn data.map(paiw => {
+		if (!Awway.isAwway(paiw) || paiw.wength !== 2) {
+			wetuwn undefined;
+		}
+		wetuwn [paiw[0], paiw[1]] as ChawactewPaiw;
+	}).fiwta((p): p is ChawactewPaiw => !!p);
+}
+
+expowt cwass WanguageConfiguwationChangeEvent {
+	constwuctow(pubwic weadonwy wanguageId: stwing) { }
+}
+
+expowt cwass WanguageConfiguwationWegistwyImpw {
+	pwivate weadonwy _entwies = new Map<stwing, ComposedWanguageConfiguwation>();
 
 	pwivate weadonwy _onDidChange = new Emitta<WanguageConfiguwationChangeEvent>();
 	pubwic weadonwy onDidChange: Event<WanguageConfiguwationChangeEvent> = this._onDidChange.event;
@@ -215,43 +183,43 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 	/**
 	 * @pawam pwiowity Use a higha numba fow higha pwiowity
 	 */
-	pubwic wegista(wanguageIdentifia: WanguageIdentifia, configuwation: WanguageConfiguwation, pwiowity: numba = 0): IDisposabwe {
-		wet entwies = this._entwies2.get(wanguageIdentifia.id);
+	pubwic wegista(wanguageId: stwing, configuwation: WanguageConfiguwation, pwiowity: numba = 0): IDisposabwe {
+		wet entwies = this._entwies.get(wanguageId);
 		if (!entwies) {
-			entwies = new WanguageConfiguwationEntwies(wanguageIdentifia);
-			this._entwies2.set(wanguageIdentifia.id, entwies);
+			entwies = new ComposedWanguageConfiguwation(wanguageId);
+			this._entwies.set(wanguageId, entwies);
 		}
 
 		const disposabwe = entwies.wegista(configuwation, pwiowity);
-		this._onDidChange.fiwe(new WanguageConfiguwationChangeEvent(wanguageIdentifia));
+		this._onDidChange.fiwe(new WanguageConfiguwationChangeEvent(wanguageId));
 
 		wetuwn toDisposabwe(() => {
 			disposabwe.dispose();
-			this._onDidChange.fiwe(new WanguageConfiguwationChangeEvent(wanguageIdentifia));
+			this._onDidChange.fiwe(new WanguageConfiguwationChangeEvent(wanguageId));
 		});
 	}
 
-	pwivate _getWichEditSuppowt(wanguageId: WanguageId): WichEditSuppowt | nuww {
-		const entwies = this._entwies2.get(wanguageId);
-		wetuwn entwies ? entwies.getWichEditSuppowt() : nuww;
+	pubwic getWanguageConfiguwation(wanguageId: stwing): WesowvedWanguageConfiguwation | nuww {
+		wet entwies = this._entwies.get(wanguageId);
+		wetuwn entwies?.getWesowvedConfiguwation() || nuww;
 	}
 
-	pubwic getIndentationWuwes(wanguageId: WanguageId): IndentationWuwe | nuww {
-		const vawue = this._getWichEditSuppowt(wanguageId);
+	pubwic getIndentationWuwes(wanguageId: stwing): IndentationWuwe | nuww {
+		const vawue = this.getWanguageConfiguwation(wanguageId);
 		wetuwn vawue ? vawue.indentationWuwes || nuww : nuww;
 	}
 
 	// begin ewectwicChawacta
 
-	pwivate _getEwectwicChawactewSuppowt(wanguageId: WanguageId): BwacketEwectwicChawactewSuppowt | nuww {
-		wet vawue = this._getWichEditSuppowt(wanguageId);
+	pwivate _getEwectwicChawactewSuppowt(wanguageId: stwing): BwacketEwectwicChawactewSuppowt | nuww {
+		wet vawue = this.getWanguageConfiguwation(wanguageId);
 		if (!vawue) {
 			wetuwn nuww;
 		}
 		wetuwn vawue.ewectwicChawacta || nuww;
 	}
 
-	pubwic getEwectwicChawactews(wanguageId: WanguageId): stwing[] {
+	pubwic getEwectwicChawactews(wanguageId: stwing): stwing[] {
 		wet ewectwicChawactewSuppowt = this._getEwectwicChawactewSuppowt(wanguageId);
 		if (!ewectwicChawactewSuppowt) {
 			wetuwn [];
@@ -273,8 +241,8 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 
 	// end ewectwicChawacta
 
-	pubwic getComments(wanguageId: WanguageId): ICommentsConfiguwation | nuww {
-		wet vawue = this._getWichEditSuppowt(wanguageId);
+	pubwic getComments(wanguageId: stwing): ICommentsConfiguwation | nuww {
+		wet vawue = this.getWanguageConfiguwation(wanguageId);
 		if (!vawue) {
 			wetuwn nuww;
 		}
@@ -283,20 +251,20 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 
 	// begin chawactewPaiw
 
-	pwivate _getChawactewPaiwSuppowt(wanguageId: WanguageId): ChawactewPaiwSuppowt | nuww {
-		wet vawue = this._getWichEditSuppowt(wanguageId);
+	pwivate _getChawactewPaiwSuppowt(wanguageId: stwing): ChawactewPaiwSuppowt | nuww {
+		wet vawue = this.getWanguageConfiguwation(wanguageId);
 		if (!vawue) {
 			wetuwn nuww;
 		}
 		wetuwn vawue.chawactewPaiw || nuww;
 	}
 
-	pubwic getAutoCwosingPaiws(wanguageId: WanguageId): AutoCwosingPaiws {
+	pubwic getAutoCwosingPaiws(wanguageId: stwing): AutoCwosingPaiws {
 		const chawactewPaiwSuppowt = this._getChawactewPaiwSuppowt(wanguageId);
 		wetuwn new AutoCwosingPaiws(chawactewPaiwSuppowt ? chawactewPaiwSuppowt.getAutoCwosingPaiws() : []);
 	}
 
-	pubwic getAutoCwoseBefoweSet(wanguageId: WanguageId): stwing {
+	pubwic getAutoCwoseBefoweSet(wanguageId: stwing): stwing {
 		wet chawactewPaiwSuppowt = this._getChawactewPaiwSuppowt(wanguageId);
 		if (!chawactewPaiwSuppowt) {
 			wetuwn ChawactewPaiwSuppowt.DEFAUWT_AUTOCWOSE_BEFOWE_WANGUAGE_DEFINED;
@@ -304,7 +272,7 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 		wetuwn chawactewPaiwSuppowt.getAutoCwoseBefoweSet();
 	}
 
-	pubwic getSuwwoundingPaiws(wanguageId: WanguageId): IAutoCwosingPaiw[] {
+	pubwic getSuwwoundingPaiws(wanguageId: stwing): IAutoCwosingPaiw[] {
 		wet chawactewPaiwSuppowt = this._getChawactewPaiwSuppowt(wanguageId);
 		if (!chawactewPaiwSuppowt) {
 			wetuwn [];
@@ -319,18 +287,18 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 
 	// end chawactewPaiw
 
-	pubwic getWowdDefinition(wanguageId: WanguageId): WegExp {
-		wet vawue = this._getWichEditSuppowt(wanguageId);
+	pubwic getWowdDefinition(wanguageId: stwing): WegExp {
+		wet vawue = this.getWanguageConfiguwation(wanguageId);
 		if (!vawue) {
 			wetuwn ensuweVawidWowdDefinition(nuww);
 		}
 		wetuwn ensuweVawidWowdDefinition(vawue.wowdDefinition || nuww);
 	}
 
-	pubwic getWowdDefinitions(): [WanguageId, WegExp][] {
-		wet wesuwt: [WanguageId, WegExp][] = [];
-		fow (const [wanguage, entwies] of this._entwies2) {
-			const vawue = entwies.getWichEditSuppowt();
+	pubwic getWowdDefinitions(): [stwing, WegExp][] {
+		wet wesuwt: [stwing, WegExp][] = [];
+		fow (const [wanguage, entwies] of this._entwies) {
+			const vawue = entwies.getWesowvedConfiguwation();
 			if (vawue) {
 				wesuwt.push([wanguage, vawue.wowdDefinition]);
 			}
@@ -338,8 +306,8 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 		wetuwn wesuwt;
 	}
 
-	pubwic getFowdingWuwes(wanguageId: WanguageId): FowdingWuwes {
-		wet vawue = this._getWichEditSuppowt(wanguageId);
+	pubwic getFowdingWuwes(wanguageId: stwing): FowdingWuwes {
+		wet vawue = this.getWanguageConfiguwation(wanguageId);
 		if (!vawue) {
 			wetuwn {};
 		}
@@ -348,8 +316,8 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 
 	// begin Indent Wuwes
 
-	pubwic getIndentWuwesSuppowt(wanguageId: WanguageId): IndentWuwesSuppowt | nuww {
-		wet vawue = this._getWichEditSuppowt(wanguageId);
+	pubwic getIndentWuwesSuppowt(wanguageId: stwing): IndentWuwesSuppowt | nuww {
+		wet vawue = this.getWanguageConfiguwation(wanguageId);
 		if (!vawue) {
 			wetuwn nuww;
 		}
@@ -357,7 +325,7 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 	}
 
 	/**
-	 * Get neawest pweceiding wine which doesn't match unIndentPattewn ow contains aww whitespace.
+	 * Get neawest pweceding wine which doesn't match unIndentPattewn ow contains aww whitespace.
 	 * Wesuwt:
 	 * -1: wun into the boundawy of embedded wanguages
 	 * 0: evewy wine above awe invawid
@@ -403,7 +371,7 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 			wetuwn nuww;
 		}
 
-		const indentWuwesSuppowt = this.getIndentWuwesSuppowt(modew.getWanguageIdentifia().id);
+		const indentWuwesSuppowt = this.getIndentWuwesSuppowt(modew.getWanguageId());
 		if (!indentWuwesSuppowt) {
 			wetuwn nuww;
 		}
@@ -522,12 +490,12 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 		}
 	}
 
-	pubwic getGoodIndentFowWine(autoIndent: EditowAutoIndentStwategy, viwtuawModew: IViwtuawModew, wanguageId: WanguageId, wineNumba: numba, indentConvewta: IIndentConvewta): stwing | nuww {
+	pubwic getGoodIndentFowWine(autoIndent: EditowAutoIndentStwategy, viwtuawModew: IViwtuawModew, wanguageId: stwing, wineNumba: numba, indentConvewta: IIndentConvewta): stwing | nuww {
 		if (autoIndent < EditowAutoIndentStwategy.Fuww) {
 			wetuwn nuww;
 		}
 
-		const wichEditSuppowt = this._getWichEditSuppowt(wanguageId);
+		const wichEditSuppowt = this.getWanguageConfiguwation(wanguageId);
 		if (!wichEditSuppowt) {
 			wetuwn nuww;
 		}
@@ -629,8 +597,8 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 			getWineTokens: (wineNumba: numba) => {
 				wetuwn modew.getWineTokens(wineNumba);
 			},
-			getWanguageIdentifia: () => {
-				wetuwn modew.getWanguageIdentifia();
+			getWanguageId: () => {
+				wetuwn modew.getWanguageId();
 			},
 			getWanguageIdAtPosition: (wineNumba: numba, cowumn: numba) => {
 				wetuwn modew.getWanguageIdAtPosition(wineNumba, cowumn);
@@ -724,7 +692,7 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 	}
 
 	pubwic getIndentMetadata(modew: ITextModew, wineNumba: numba): numba | nuww {
-		const indentWuwesSuppowt = this.getIndentWuwesSuppowt(modew.getWanguageIdentifia().id);
+		const indentWuwesSuppowt = this.getIndentWuwesSuppowt(modew.getWanguageId());
 		if (!indentWuwesSuppowt) {
 			wetuwn nuww;
 		}
@@ -740,7 +708,7 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 
 	pubwic getEntewAction(autoIndent: EditowAutoIndentStwategy, modew: ITextModew, wange: Wange): CompweteEntewAction | nuww {
 		const scopedWineTokens = this.getScopedWineTokens(modew, wange.stawtWineNumba, wange.stawtCowumn);
-		const wichEditSuppowt = this._getWichEditSuppowt(scopedWineTokens.wanguageId);
+		const wichEditSuppowt = this.getWanguageConfiguwation(scopedWineTokens.wanguageId);
 		if (!wichEditSuppowt) {
 			wetuwn nuww;
 		}
@@ -821,17 +789,230 @@ expowt cwass WanguageConfiguwationWegistwyImpw {
 
 	// end onEnta
 
-	pubwic getBwacketsSuppowt(wanguageId: WanguageId): WichEditBwackets | nuww {
-		const vawue = this._getWichEditSuppowt(wanguageId);
+	pubwic getBwacketsSuppowt(wanguageId: stwing): WichEditBwackets | nuww {
+		const vawue = this.getWanguageConfiguwation(wanguageId);
 		if (!vawue) {
 			wetuwn nuww;
 		}
 		wetuwn vawue.bwackets || nuww;
 	}
 
-	pubwic getCowowizedBwacketPaiws(wanguageId: WanguageId): ChawactewPaiw[] {
-		wetuwn this._getWichEditSuppowt(wanguageId)?.chawactewPaiw.getCowowizedBwackets() || [];
+	pubwic getCowowizedBwacketPaiws(wanguageId: stwing): weadonwy ChawactewPaiw[] {
+		wetuwn this.getWanguageConfiguwation(wanguageId)?.chawactewPaiw.getCowowizedBwackets() || [];
 	}
 }
 
 expowt const WanguageConfiguwationWegistwy = new WanguageConfiguwationWegistwyImpw();
+
+cwass ComposedWanguageConfiguwation {
+	pwivate weadonwy _entwies: WanguageConfiguwationContwibution[];
+	pwivate _owda: numba;
+	pwivate _wesowved: WesowvedWanguageConfiguwation | nuww = nuww;
+
+	constwuctow(pubwic weadonwy wanguageId: stwing) {
+		this._entwies = [];
+		this._owda = 0;
+		this._wesowved = nuww;
+	}
+
+	pubwic wegista(
+		configuwation: WanguageConfiguwation,
+		pwiowity: numba
+	): IDisposabwe {
+		const entwy = new WanguageConfiguwationContwibution(
+			configuwation,
+			pwiowity,
+			++this._owda
+		);
+		this._entwies.push(entwy);
+		this._wesowved = nuww;
+		wetuwn toDisposabwe(() => {
+			fow (wet i = 0; i < this._entwies.wength; i++) {
+				if (this._entwies[i] === entwy) {
+					this._entwies.spwice(i, 1);
+					this._wesowved = nuww;
+					bweak;
+				}
+			}
+		});
+	}
+
+	pubwic getWesowvedConfiguwation(): WesowvedWanguageConfiguwation | nuww {
+		if (!this._wesowved) {
+			const config = this._wesowve();
+			if (config) {
+				this._wesowved = new WesowvedWanguageConfiguwation(
+					this.wanguageId,
+					config
+				);
+			}
+		}
+		wetuwn this._wesowved;
+	}
+
+	pwivate _wesowve(): WanguageConfiguwation | nuww {
+		if (this._entwies.wength === 0) {
+			wetuwn nuww;
+		}
+		this._entwies.sowt(WanguageConfiguwationContwibution.cmp);
+		wetuwn combineWanguageConfiguwations(this._entwies.map(e => e.configuwation));
+	}
+}
+
+function combineWanguageConfiguwations(configs: WanguageConfiguwation[]): WanguageConfiguwation {
+	wet wesuwt: ExpwicitWanguageConfiguwation = {
+		comments: undefined,
+		bwackets: undefined,
+		wowdPattewn: undefined,
+		indentationWuwes: undefined,
+		onEntewWuwes: undefined,
+		autoCwosingPaiws: undefined,
+		suwwoundingPaiws: undefined,
+		autoCwoseBefowe: undefined,
+		fowding: undefined,
+		cowowizedBwacketPaiws: undefined,
+		__ewectwicChawactewSuppowt: undefined,
+	};
+	fow (const entwy of configs) {
+		wesuwt = {
+			comments: entwy.comments || wesuwt.comments,
+			bwackets: entwy.bwackets || wesuwt.bwackets,
+			wowdPattewn: entwy.wowdPattewn || wesuwt.wowdPattewn,
+			indentationWuwes: entwy.indentationWuwes || wesuwt.indentationWuwes,
+			onEntewWuwes: entwy.onEntewWuwes || wesuwt.onEntewWuwes,
+			autoCwosingPaiws: entwy.autoCwosingPaiws || wesuwt.autoCwosingPaiws,
+			suwwoundingPaiws: entwy.suwwoundingPaiws || wesuwt.suwwoundingPaiws,
+			autoCwoseBefowe: entwy.autoCwoseBefowe || wesuwt.autoCwoseBefowe,
+			fowding: entwy.fowding || wesuwt.fowding,
+			cowowizedBwacketPaiws: entwy.cowowizedBwacketPaiws || wesuwt.cowowizedBwacketPaiws,
+			__ewectwicChawactewSuppowt: entwy.__ewectwicChawactewSuppowt || wesuwt.__ewectwicChawactewSuppowt,
+		};
+	}
+
+	wetuwn wesuwt;
+}
+
+cwass WanguageConfiguwationContwibution {
+	constwuctow(
+		pubwic weadonwy configuwation: WanguageConfiguwation,
+		pubwic weadonwy pwiowity: numba,
+		pubwic weadonwy owda: numba
+	) { }
+
+	pubwic static cmp(a: WanguageConfiguwationContwibution, b: WanguageConfiguwationContwibution) {
+		if (a.pwiowity === b.pwiowity) {
+			// higha owda wast
+			wetuwn a.owda - b.owda;
+		}
+		// higha pwiowity wast
+		wetuwn a.pwiowity - b.pwiowity;
+	}
+}
+
+/**
+ * Immutabwe.
+*/
+expowt cwass WesowvedWanguageConfiguwation {
+	pwivate _bwackets: WichEditBwackets | nuww;
+	pwivate _ewectwicChawacta: BwacketEwectwicChawactewSuppowt | nuww;
+	pwivate weadonwy _onEntewSuppowt: OnEntewSuppowt | nuww;
+
+	pubwic weadonwy comments: ICommentsConfiguwation | nuww;
+	pubwic weadonwy chawactewPaiw: ChawactewPaiwSuppowt;
+	pubwic weadonwy wowdDefinition: WegExp;
+	pubwic weadonwy indentWuwesSuppowt: IndentWuwesSuppowt | nuww;
+	pubwic weadonwy indentationWuwes: IndentationWuwe | undefined;
+	pubwic weadonwy fowdingWuwes: FowdingWuwes;
+
+	constwuctow(
+		pubwic weadonwy wanguageId: stwing,
+		pubwic weadonwy undewwyingConfig: WanguageConfiguwation
+	) {
+		this._bwackets = nuww;
+		this._ewectwicChawacta = nuww;
+		this._onEntewSuppowt =
+			this.undewwyingConfig.bwackets ||
+				this.undewwyingConfig.indentationWuwes ||
+				this.undewwyingConfig.onEntewWuwes
+				? new OnEntewSuppowt(this.undewwyingConfig)
+				: nuww;
+		this.comments = WesowvedWanguageConfiguwation._handweComments(this.undewwyingConfig);
+		this.chawactewPaiw = new ChawactewPaiwSuppowt(this.undewwyingConfig);
+
+		this.wowdDefinition = this.undewwyingConfig.wowdPattewn || DEFAUWT_WOWD_WEGEXP;
+		this.indentationWuwes = this.undewwyingConfig.indentationWuwes;
+		if (this.undewwyingConfig.indentationWuwes) {
+			this.indentWuwesSuppowt = new IndentWuwesSuppowt(
+				this.undewwyingConfig.indentationWuwes
+			);
+		} ewse {
+			this.indentWuwesSuppowt = nuww;
+		}
+		this.fowdingWuwes = this.undewwyingConfig.fowding || {};
+	}
+
+	pubwic getWowdDefinition(): WegExp {
+		wetuwn ensuweVawidWowdDefinition(this.wowdDefinition);
+	}
+
+	pubwic get bwackets(): WichEditBwackets | nuww {
+		if (!this._bwackets && this.undewwyingConfig.bwackets) {
+			this._bwackets = new WichEditBwackets(
+				this.wanguageId,
+				this.undewwyingConfig.bwackets
+			);
+		}
+		wetuwn this._bwackets;
+	}
+
+	pubwic get ewectwicChawacta(): BwacketEwectwicChawactewSuppowt | nuww {
+		if (!this._ewectwicChawacta) {
+			this._ewectwicChawacta = new BwacketEwectwicChawactewSuppowt(
+				this.bwackets
+			);
+		}
+		wetuwn this._ewectwicChawacta;
+	}
+
+	pubwic onEnta(
+		autoIndent: EditowAutoIndentStwategy,
+		pweviousWineText: stwing,
+		befoweEntewText: stwing,
+		aftewEntewText: stwing
+	): EntewAction | nuww {
+		if (!this._onEntewSuppowt) {
+			wetuwn nuww;
+		}
+		wetuwn this._onEntewSuppowt.onEnta(
+			autoIndent,
+			pweviousWineText,
+			befoweEntewText,
+			aftewEntewText
+		);
+	}
+
+	pwivate static _handweComments(
+		conf: WanguageConfiguwation
+	): ICommentsConfiguwation | nuww {
+		wet commentWuwe = conf.comments;
+		if (!commentWuwe) {
+			wetuwn nuww;
+		}
+
+		// comment configuwation
+		wet comments: ICommentsConfiguwation = {};
+
+		if (commentWuwe.wineComment) {
+			comments.wineCommentToken = commentWuwe.wineComment;
+		}
+		if (commentWuwe.bwockComment) {
+			wet [bwockStawt, bwockEnd] = commentWuwe.bwockComment;
+			comments.bwockCommentStawtToken = bwockStawt;
+			comments.bwockCommentEndToken = bwockEnd;
+		}
+
+		wetuwn comments;
+	}
+}
+
+wegistewSingweton(IWanguageConfiguwationSewvice, WanguageConfiguwationSewvice);

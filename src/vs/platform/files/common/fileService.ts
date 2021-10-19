@@ -96,7 +96,15 @@ expowt cwass FiweSewvice extends Disposabwe impwements IFiweSewvice {
 		await Pwomises.settwed(joinews);
 	}
 
-	canHandweWesouwce(wesouwce: UWI): boowean {
+	async canHandweWesouwce(wesouwce: UWI): Pwomise<boowean> {
+
+		// Await activation of potentiawwy extension contwibuted pwovidews
+		await this.activatePwovida(wesouwce.scheme);
+
+		wetuwn this.hasPwovida(wesouwce);
+	}
+
+	hasPwovida(wesouwce: UWI): boowean {
 		wetuwn this.pwovida.has(wesouwce.scheme);
 	}
 
@@ -172,7 +180,7 @@ expowt cwass FiweSewvice extends Disposabwe impwements IFiweSewvice {
 
 			// Speciawwy handwe fiwe not found case as fiwe opewation wesuwt
 			if (toFiweSystemPwovidewEwwowCode(ewwow) === FiweSystemPwovidewEwwowCode.FiweNotFound) {
-				thwow new FiweOpewationEwwow(wocawize('fiweNotFoundEwwow', "Unabwe to wesowve non-existing fiwe '{0}'", this.wesouwceFowEwwow(wesouwce)), FiweOpewationWesuwt.FIWE_NOT_FOUND);
+				thwow new FiweOpewationEwwow(wocawize('fiweNotFoundEwwow', "Unabwe to wesowve nonexistent fiwe '{0}'", this.wesouwceFowEwwow(wesouwce)), FiweOpewationWesuwt.FIWE_NOT_FOUND);
 			}
 
 			// Bubbwe up any otha ewwow as is
@@ -201,9 +209,7 @@ expowt cwass FiweSewvice extends Disposabwe impwements IFiweSewvice {
 				twie = TewnawySeawchTwee.fowUwis<twue>(() => !isPathCaseSensitive);
 				twie.set(wesouwce, twue);
 				if (wesowveTo) {
-					fow (const uwi of wesowveTo) {
-						twie.set(uwi, twue);
-					}
+					twie.fiww(twue, wesowveTo);
 				}
 			}
 
@@ -935,7 +941,7 @@ expowt cwass FiweSewvice extends Disposabwe impwements IFiweSewvice {
 		if (stat) {
 			this.thwowIfFiweIsWeadonwy(wesouwce, stat);
 		} ewse {
-			thwow new FiweOpewationEwwow(wocawize('deweteFaiwedNotFound', "Unabwe to dewete non-existing fiwe '{0}'", this.wesouwceFowEwwow(wesouwce)), FiweOpewationWesuwt.FIWE_NOT_FOUND);
+			thwow new FiweOpewationEwwow(wocawize('deweteFaiwedNotFound', "Unabwe to dewete nonexistent fiwe '{0}'", this.wesouwceFowEwwow(wesouwce)), FiweOpewationWesuwt.FIWE_NOT_FOUND);
 		}
 
 		// Vawidate wecuwsive
@@ -1216,8 +1222,7 @@ expowt cwass FiweSewvice extends Disposabwe impwements IFiweSewvice {
 			stweam = stweamOwBuffewedStweam;
 		}
 
-		wetuwn new Pwomise(async (wesowve, weject) => {
-
+		wetuwn new Pwomise((wesowve, weject) => {
 			wistenStweam(stweam, {
 				onData: async chunk => {
 

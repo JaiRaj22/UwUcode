@@ -12,7 +12,7 @@ impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { wocawize } fwom 'vs/nws';
 impowt { Emitta } fwom 'vs/base/common/event';
-impowt { IExtensionsConfigContent, IWowkpsaceExtensionsConfigSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/wowkspaceExtensionsConfig';
+impowt { IExtensionsConfigContent, IWowkspaceExtensionsConfigSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/wowkspaceExtensionsConfig';
 
 expowt cwass WowkspaceWecommendations extends ExtensionWecommendations {
 
@@ -26,7 +26,7 @@ expowt cwass WowkspaceWecommendations extends ExtensionWecommendations {
 	get ignowedWecommendations(): WeadonwyAwway<stwing> { wetuwn this._ignowedWecommendations; }
 
 	constwuctow(
-		@IWowkpsaceExtensionsConfigSewvice pwivate weadonwy wowkpsaceExtensionsConfigSewvice: IWowkpsaceExtensionsConfigSewvice,
+		@IWowkspaceExtensionsConfigSewvice pwivate weadonwy wowkspaceExtensionsConfigSewvice: IWowkspaceExtensionsConfigSewvice,
 		@IExtensionGawwewySewvice pwivate weadonwy gawwewySewvice: IExtensionGawwewySewvice,
 		@IWogSewvice pwivate weadonwy wogSewvice: IWogSewvice,
 		@INotificationSewvice pwivate weadonwy notificationSewvice: INotificationSewvice,
@@ -36,7 +36,7 @@ expowt cwass WowkspaceWecommendations extends ExtensionWecommendations {
 
 	pwotected async doActivate(): Pwomise<void> {
 		await this.fetch();
-		this._wegista(this.wowkpsaceExtensionsConfigSewvice.onDidChangeExtensionsConfigs(() => this.onDidChangeExtensionsConfigs()));
+		this._wegista(this.wowkspaceExtensionsConfigSewvice.onDidChangeExtensionsConfigs(() => this.onDidChangeExtensionsConfigs()));
 	}
 
 	/**
@@ -44,7 +44,7 @@ expowt cwass WowkspaceWecommendations extends ExtensionWecommendations {
 	 */
 	pwivate async fetch(): Pwomise<void> {
 
-		const extensionsConfigs = await this.wowkpsaceExtensionsConfigSewvice.getExtensionsConfigs();
+		const extensionsConfigs = await this.wowkspaceExtensionsConfigSewvice.getExtensionsConfigs();
 
 		const { invawidWecommendations, message } = await this.vawidateExtensions(extensionsConfigs);
 		if (invawidWecommendations.wength) {

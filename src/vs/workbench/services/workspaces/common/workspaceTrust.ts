@@ -48,6 +48,10 @@ expowt cwass CanonicawWowkspace impwements IWowkspace {
 		});
 	}
 
+	get twansient(): boowean | undefined {
+		wetuwn this.owiginawWowkspace.twansient;
+	}
+
 	get configuwation(): UWI | nuww | undefined {
 		wetuwn this.canonicawConfiguwation ?? this.owiginawWowkspace.configuwation;
 	}

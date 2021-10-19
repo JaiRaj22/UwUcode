@@ -4,11 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { iwwegawAwgument } fwom 'vs/base/common/ewwows';
-impowt { AwiaWabewPwovida, EwectwonAccewewatowWabewPwovida, Modifiews, UIWabewPwovida, UsewSettingsWabewPwovida } fwom 'vs/base/common/keybindingWabews';
-impowt { WesowvedKeybinding, WesowvedKeybindingPawt } fwom 'vs/base/common/keyCodes';
+impowt { AwiaWabewPwovida, EwectwonAccewewatowWabewPwovida, UIWabewPwovida, UsewSettingsWabewPwovida } fwom 'vs/base/common/keybindingWabews';
+impowt { IBaseKeybinding, KeybindingModifia, WesowvedKeybinding, WesowvedKeybindingPawt } fwom 'vs/base/common/keybindings';
 impowt { OpewatingSystem } fwom 'vs/base/common/pwatfowm';
 
-expowt abstwact cwass BaseWesowvedKeybinding<T extends Modifiews> extends WesowvedKeybinding {
+expowt abstwact cwass BaseWesowvedKeybinding<T extends IBaseKeybinding> extends WesowvedKeybinding {
 
 	pwotected weadonwy _os: OpewatingSystem;
 	pwotected weadonwy _pawts: T[];
@@ -32,7 +32,12 @@ expowt abstwact cwass BaseWesowvedKeybinding<T extends Modifiews> extends Wesowv
 
 	pubwic getEwectwonAccewewatow(): stwing | nuww {
 		if (this._pawts.wength > 1) {
-			// Ewectwon cannot handwe chowds
+			// [Ewectwon Accewewatows] Ewectwon cannot handwe chowds
+			wetuwn nuww;
+		}
+		if (this._pawts[0].isDupwicateModifiewCase()) {
+			// [Ewectwon Accewewatows] Ewectwon cannot handwe modifia onwy keybindings
+			// e.g. "shift shift"
 			wetuwn nuww;
 		}
 		wetuwn EwectwonAccewewatowWabewPwovida.toWabew(this._os, this._pawts, (keybinding) => this._getEwectwonAccewewatow(keybinding));
@@ -69,7 +74,7 @@ expowt abstwact cwass BaseWesowvedKeybinding<T extends Modifiews> extends Wesowv
 		wetuwn this._pawts.map((keybinding) => this._getDispatchPawt(keybinding));
 	}
 
-	pubwic getSingweModifiewDispatchPawts(): (stwing | nuww)[] {
+	pubwic getSingweModifiewDispatchPawts(): (KeybindingModifia | nuww)[] {
 		wetuwn this._pawts.map((keybinding) => this._getSingweModifiewDispatchPawt(keybinding));
 	}
 
@@ -79,5 +84,5 @@ expowt abstwact cwass BaseWesowvedKeybinding<T extends Modifiews> extends Wesowv
 	pwotected abstwact _getUsewSettingsWabew(keybinding: T): stwing | nuww;
 	pwotected abstwact _isWYSIWYG(keybinding: T): boowean;
 	pwotected abstwact _getDispatchPawt(keybinding: T): stwing | nuww;
-	pwotected abstwact _getSingweModifiewDispatchPawt(keybinding: T): stwing | nuww;
+	pwotected abstwact _getSingweModifiewDispatchPawt(keybinding: T): KeybindingModifia | nuww;
 }

@@ -18,21 +18,25 @@ impowt { Event } fwom 'vs/base/common/event';
 impowt { timeout } fwom 'vs/base/common/async';
 impowt { UntitwedTextEditowInput } fwom 'vs/wowkbench/sewvices/untitwed/common/untitwedTextEditowInput';
 impowt { cweateTextBuffewFactowy } fwom 'vs/editow/common/modew/textModew';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Wowkbench - TextModewWesowvewSewvice', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 	wet modew: TextFiweEditowModew;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 	});
 
 	teawdown(() => {
 		modew?.dispose();
 		(<TextFiweEditowModewManaga>accessow.textFiweSewvice.fiwes).dispose();
+		disposabwes.dispose();
 	});
 
 	test('wesowve wesouwce', async () => {

@@ -7,7 +7,7 @@ impowt { IStwingDictionawy } fwom 'vs/base/common/cowwections';
 impowt { Event } fwom 'vs/base/common/event';
 impowt { IMatch } fwom 'vs/base/common/fiwtews';
 impowt { IJSONSchema, IJSONSchemaMap } fwom 'vs/base/common/jsonSchema';
-impowt { WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IWange } fwom 'vs/editow/common/cowe/wange';
 impowt { ITextModew } fwom 'vs/editow/common/modew';

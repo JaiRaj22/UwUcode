@@ -6,6 +6,7 @@
 impowt * as assewt fwom 'assewt';
 impowt { IViewWineTokens, WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
 impowt { MetadataConsts } fwom 'vs/editow/common/modes';
+impowt { WanguageIdCodec } fwom 'vs/editow/common/sewvices/wanguagesWegistwy';
 
 suite('WineTokens', () => {
 
@@ -24,7 +25,7 @@ suite('WineTokens', () => {
 			) >>> 0;
 		}
 
-		wetuwn new WineTokens(binTokens, text);
+		wetuwn new WineTokens(binTokens, text, new WanguageIdCodec());
 	}
 
 	function cweateTestWineTokens(): WineTokens {

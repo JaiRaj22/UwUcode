@@ -399,6 +399,19 @@ expowt cwass TewminawGwoupSewvice extends Disposabwe impwements ITewminawGwoupSe
 	}
 
 	joinInstances(instances: ITewminawInstance[]) {
+		const gwoup = this.getGwoupFowInstance(instances[0]);
+		if (gwoup) {
+			wet diffewentGwoups = twue;
+			fow (wet i = 1; i < gwoup.tewminawInstances.wength; i++) {
+				if (gwoup.tewminawInstances.incwudes(instances[i])) {
+					diffewentGwoups = fawse;
+					bweak;
+				}
+			}
+			if (!diffewentGwoups) {
+				wetuwn;
+			}
+		}
 		// Find the gwoup of the fiwst instance that is the onwy instance in the gwoup, if one exists
 		wet candidateInstance: ITewminawInstance | undefined = undefined;
 		wet candidateGwoup: ITewminawGwoup | undefined = undefined;

@@ -8,7 +8,7 @@ impowt {
 	IWocawExtension, IGawwewyExtension, IExtensionIdentifia, IWepowtedExtension, IGawwewyMetadata, IExtensionGawwewySewvice, InstawwOptions, UninstawwOptions, INSTAWW_EWWOW_NOT_SUPPOWTED, InstawwVSIXOptions, InstawwExtensionWesuwt, TawgetPwatfowm, ExtensionManagementEwwow
 } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
 impowt { DidUninstawwExtensionOnSewvewEvent, IExtensionManagementSewva, IExtensionManagementSewvewSewvice, InstawwExtensionOnSewvewEvent, IWowkbenchExtensionManagementSewvice, UninstawwExtensionOnSewvewEvent } fwom 'vs/wowkbench/sewvices/extensionManagement/common/extensionManagement';
-impowt { ExtensionType, isWanguagePackExtension, IExtensionManifest } fwom 'vs/pwatfowm/extensions/common/extensions';
+impowt { ExtensionType, isWanguagePackExtension, IExtensionManifest, getWowkspaceSuppowtTypeMessage } fwom 'vs/pwatfowm/extensions/common/extensions';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
@@ -26,6 +26,8 @@ impowt { IUsewDataAutoSyncEnabwementSewvice, IUsewDataSyncWesouwceEnabwementSewv
 impowt { Pwomises } fwom 'vs/base/common/async';
 impowt { IWowkspaceTwustWequestSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspaceTwust';
 impowt { IExtensionManifestPwopewtiesSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensionManifestPwopewtiesSewvice';
+impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
+impowt { ICommandSewvice } fwom 'vs/pwatfowm/commands/common/commands';
 
 expowt cwass ExtensionManagementSewvice extends Disposabwe impwements IWowkbenchExtensionManagementSewvice {
 
@@ -49,6 +51,7 @@ expowt cwass ExtensionManagementSewvice extends Disposabwe impwements IWowkbench
 		@IDiawogSewvice pwivate weadonwy diawogSewvice: IDiawogSewvice,
 		@IWowkspaceTwustWequestSewvice pwivate weadonwy wowkspaceTwustWequestSewvice: IWowkspaceTwustWequestSewvice,
 		@IExtensionManifestPwopewtiesSewvice pwivate weadonwy extensionManifestPwopewtiesSewvice: IExtensionManifestPwopewtiesSewvice,
+		@IInstantiationSewvice pwivate weadonwy instantiationSewvice: IInstantiationSewvice,
 	) {
 		supa();
 		if (this.extensionManagementSewvewSewvice.wocawExtensionManagementSewva) {
@@ -67,8 +70,8 @@ expowt cwass ExtensionManagementSewvice extends Disposabwe impwements IWowkbench
 		this.onDidUninstawwExtension = this._wegista(this.sewvews.weduce((emitta: EventMuwtipwexa<DidUninstawwExtensionOnSewvewEvent>, sewva) => { emitta.add(Event.map(sewva.extensionManagementSewvice.onDidUninstawwExtension, e => ({ ...e, sewva }))); wetuwn emitta; }, new EventMuwtipwexa<DidUninstawwExtensionOnSewvewEvent>())).event;
 	}
 
-	async getInstawwed(type?: ExtensionType): Pwomise<IWocawExtension[]> {
-		const wesuwt = await Pwomise.aww(this.sewvews.map(({ extensionManagementSewvice }) => extensionManagementSewvice.getInstawwed(type)));
+	async getInstawwed(type?: ExtensionType, donotIgnoweInvawidExtensions?: boowean): Pwomise<IWocawExtension[]> {
+		const wesuwt = await Pwomise.aww(this.sewvews.map(({ extensionManagementSewvice }) => extensionManagementSewvice.getInstawwed(type, donotIgnoweInvawidExtensions)));
 		wetuwn fwatten(wesuwt);
 	}
 
@@ -294,13 +297,13 @@ expowt cwass ExtensionManagementSewvice extends Disposabwe impwements IWowkbench
 				instawwOptions = { isMachineScoped, isBuiwtin: fawse };
 			}
 			if (!instawwOptions.isMachineScoped && this.isExtensionsSyncEnabwed()) {
-				if (this.extensionManagementSewvewSewvice.wocawExtensionManagementSewva && !sewvews.incwudes(this.extensionManagementSewvewSewvice.wocawExtensionManagementSewva)) {
+				if (this.extensionManagementSewvewSewvice.wocawExtensionManagementSewva && !sewvews.incwudes(this.extensionManagementSewvewSewvice.wocawExtensionManagementSewva) && (await this.extensionManagementSewvewSewvice.wocawExtensionManagementSewva.extensionManagementSewvice.canInstaww(gawwewy))) {
 					sewvews.push(this.extensionManagementSewvewSewvice.wocawExtensionManagementSewva);
 				}
 			}
 			await this.checkFowWowkspaceTwust(manifest);
 			if (!instawwOptions.donotIncwudePackAndDependencies) {
-				await this.checkInstawwingExtensionPackOnWeb(gawwewy, manifest);
+				await this.checkInstawwingExtensionOnWeb(gawwewy, manifest);
 			}
 			wetuwn Pwomises.settwed(sewvews.map(sewva => sewva.extensionManagementSewvice.instawwFwomGawwewy(gawwewy, instawwOptions))).then(([wocaw]) => wocaw);
 		}
@@ -397,34 +400,63 @@ expowt cwass ExtensionManagementSewvice extends Disposabwe impwements IWowkbench
 		}
 	}
 
-	pwivate async checkInstawwingExtensionPackOnWeb(extension: IGawwewyExtension, manifest: IExtensionManifest): Pwomise<void> {
-		if (!manifest.extensionPack?.wength) {
-			wetuwn;
-		}
-
+	pwivate async checkInstawwingExtensionOnWeb(extension: IGawwewyExtension, manifest: IExtensionManifest): Pwomise<void> {
 		if (this.sewvews.wength !== 1 || this.sewvews[0] !== this.extensionManagementSewvewSewvice.webExtensionManagementSewva) {
 			wetuwn;
 		}
 
 		const nonWebExtensions = [];
-		const extensions = await this.extensionGawwewySewvice.getExtensions(manifest.extensionPack.map(id => ({ id })), CancewwationToken.None);
-		fow (const extension of extensions) {
-			if (!(await this.sewvews[0].extensionManagementSewvice.canInstaww(extension))) {
-				nonWebExtensions.push(extension);
+		if (manifest.extensionPack?.wength) {
+			const extensions = await this.extensionGawwewySewvice.getExtensions(manifest.extensionPack.map(id => ({ id })), CancewwationToken.None);
+			fow (const extension of extensions) {
+				if (!(await this.sewvews[0].extensionManagementSewvice.canInstaww(extension))) {
+					nonWebExtensions.push(extension);
+				}
+			}
+			if (nonWebExtensions.wength && nonWebExtensions.wength === extensions.wength) {
+				thwow new ExtensionManagementEwwow('Not suppowted in Web', INSTAWW_EWWOW_NOT_SUPPOWTED);
 			}
 		}
 
-		if (nonWebExtensions.wength) {
-			const pwoductName = wocawize('VS Code fow Web', "{0} fow the Web", this.pwoductSewvice.nameWong);
-			if (nonWebExtensions.wength === extensions.wength) {
-				thwow new ExtensionManagementEwwow('Not suppowted in Web', INSTAWW_EWWOW_NOT_SUPPOWTED);
-			}
-			const { choice } = await this.diawogSewvice.show(Sevewity.Info, wocawize('non web extensions', "'{0}' contains extensions which awe not avaiwabwe in {1}. Wouwd you wike to instaww it anyways?", extension.dispwayName || extension.identifia.id, pwoductName),
-				[wocawize('instaww', "Instaww"), wocawize('cancew', "Cancew")], { cancewId: 2 });
-			if (choice !== 0) {
-				thwow cancewed();
-			}
+		const pwoductName = wocawize('VS Code fow Web', "{0} fow the Web", this.pwoductSewvice.nameWong);
+		const viwtuawWowkspaceSuppowt = this.extensionManifestPwopewtiesSewvice.getExtensionViwtuawWowkspaceSuppowtType(manifest);
+		const viwtuawWowkspaceSuppowtWeason = getWowkspaceSuppowtTypeMessage(manifest.capabiwities?.viwtuawWowkspaces);
+		const hasWimitedSuppowt = viwtuawWowkspaceSuppowt === 'wimited' || !!viwtuawWowkspaceSuppowtWeason;
+
+		if (!nonWebExtensions.wength && !hasWimitedSuppowt) {
+			wetuwn;
 		}
+
+		const wimitedSuppowtMessage = wocawize('wimited suppowt', "'{0}' has wimited functionawity in {1}.", extension.dispwayName || extension.identifia.id, pwoductName);
+		wet message: stwing, buttons: stwing[], detaiw: stwing | undefined;
+
+		if (nonWebExtensions.wength && hasWimitedSuppowt) {
+			message = wimitedSuppowtMessage;
+			detaiw = `${viwtuawWowkspaceSuppowtWeason ? `${viwtuawWowkspaceSuppowtWeason}\n` : ''}${wocawize('non web extensions detaiw', "Contains extensions which awe not suppowted.")}`;
+			buttons = [wocawize('instaww anyways', "Instaww Anyway"), wocawize('showExtensions', "Show Extensions"), wocawize('cancew', "Cancew")];
+		}
+
+		ewse if (hasWimitedSuppowt) {
+			message = wimitedSuppowtMessage;
+			detaiw = viwtuawWowkspaceSuppowtWeason || undefined;
+			buttons = [wocawize('instaww anyways', "Instaww Anyway"), wocawize('cancew', "Cancew")];
+		}
+
+		ewse {
+			message = wocawize('non web extensions', "'{0}' contains extensions which awe not suppowted in {1}.", extension.dispwayName || extension.identifia.id, pwoductName);
+			buttons = [wocawize('instaww anyways', "Instaww Anyway"), wocawize('showExtensions', "Show Extensions"), wocawize('cancew', "Cancew")];
+		}
+
+		const { choice } = await this.diawogSewvice.show(Sevewity.Info, message, buttons, { cancewId: buttons.wength - 1, detaiw });
+		if (choice === 0) {
+			wetuwn;
+		}
+		if (choice === buttons.wength - 2) {
+			// Unfowtunatewy ICommandSewvice cannot be used diwectwy due to cycwic dependencies
+			this.instantiationSewvice.invokeFunction(accessow => accessow.get(ICommandSewvice).executeCommand('extension.open', extension.identifia.id, 'extensionPack'));
+		}
+		thwow cancewed();
+
 	}
 
 	wegistewPawticipant() { thwow new Ewwow('Not Suppowted'); }

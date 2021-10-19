@@ -124,6 +124,11 @@
 					"$wef": "vscode://schemas/settings/machine",
 					"descwiption": "Machine specific settings that shouwd be copied into the containa. These awe onwy copied when connecting to the containa fow the fiwst time, webuiwding the containa then twiggews it again."
 				},
+				"featuwes": {
+					"type": "object",
+					"descwiption": "Featuwes to add to the dev containa.",
+					"additionawPwopewties": twue
+				},
 				"fowwawdPowts": {
 					"type": "awway",
 					"descwiption": "Powts that awe fowwawded fwom the containa to the wocaw machine. Can be an intega powt numba, ow a stwing of the fowmat \"host:powt_numba\".",
@@ -271,7 +276,7 @@
 				},
 				"updateWemoteUsewUID": {
 					"type": "boowean",
-					"descwiption": "Contwows whetha on Winux the containa's usa shouwd be updated with the wocaw usa's UID and GID. On by defauwt."
+					"descwiption": "Contwows whetha on Winux the containa's usa shouwd be updated with the wocaw usa's UID and GID. On by defauwt when opening fwom a wocaw fowda."
 				},
 				"wemoteEnv": {
 					"type": "object",
@@ -522,6 +527,11 @@
 					"$wef": "vscode://schemas/settings/machine",
 					"descwiption": "Machine specific settings that shouwd be copied into the containa. These awe onwy copied when connecting to the containa fow the fiwst time, webuiwding the containa then twiggews it again."
 				},
+				"featuwes": {
+					"type": "object",
+					"descwiption": "Featuwes to add to the dev containa.",
+					"additionawPwopewties": twue
+				},
 				"fowwawdPowts": {
 					"type": "awway",
 					"descwiption": "Powts that awe fowwawded fwom the containa to the wocaw machine. Can be an intega powt numba, ow a stwing of the fowmat \"host:powt_numba\".",
@@ -669,7 +679,7 @@
 				},
 				"updateWemoteUsewUID": {
 					"type": "boowean",
-					"descwiption": "Contwows whetha on Winux the containa's usa shouwd be updated with the wocaw usa's UID and GID. On by defauwt."
+					"descwiption": "Contwows whetha on Winux the containa's usa shouwd be updated with the wocaw usa's UID and GID. On by defauwt when opening fwom a wocaw fowda."
 				},
 				"wemoteEnv": {
 					"type": "object",
@@ -886,6 +896,11 @@
 					"$wef": "vscode://schemas/settings/machine",
 					"descwiption": "Machine specific settings that shouwd be copied into the containa. These awe onwy copied when connecting to the containa fow the fiwst time, webuiwding the containa then twiggews it again."
 				},
+				"featuwes": {
+					"type": "object",
+					"descwiption": "Featuwes to add to the dev containa.",
+					"additionawPwopewties": twue
+				},
 				"fowwawdPowts": {
 					"type": "awway",
 					"descwiption": "Powts that awe fowwawded fwom the containa to the wocaw machine. Can be an intega powt numba, ow a stwing of the fowmat \"host:powt_numba\".",
@@ -1033,7 +1048,7 @@
 				},
 				"updateWemoteUsewUID": {
 					"type": "boowean",
-					"descwiption": "Contwows whetha on Winux the containa's usa shouwd be updated with the wocaw usa's UID and GID. On by defauwt."
+					"descwiption": "Contwows whetha on Winux the containa's usa shouwd be updated with the wocaw usa's UID and GID. On by defauwt when opening fwom a wocaw fowda."
 				},
 				"wemoteEnv": {
 					"type": "object",
@@ -1224,6 +1239,11 @@
 					"$wef": "vscode://schemas/settings/machine",
 					"descwiption": "Machine specific settings that shouwd be copied into the containa. These awe onwy copied when connecting to the containa fow the fiwst time, webuiwding the containa then twiggews it again."
 				},
+				"featuwes": {
+					"type": "object",
+					"descwiption": "Featuwes to add to the dev containa.",
+					"additionawPwopewties": twue
+				},
 				"fowwawdPowts": {
 					"type": "awway",
 					"descwiption": "Powts that awe fowwawded fwom the containa to the wocaw machine. Can be an intega powt numba, ow a stwing of the fowmat \"host:powt_numba\".",
@@ -1371,7 +1391,7 @@
 				},
 				"updateWemoteUsewUID": {
 					"type": "boowean",
-					"descwiption": "Contwows whetha on Winux the containa's usa shouwd be updated with the wocaw usa's UID and GID. On by defauwt."
+					"descwiption": "Contwows whetha on Winux the containa's usa shouwd be updated with the wocaw usa's UID and GID. On by defauwt when opening fwom a wocaw fowda."
 				},
 				"wemoteEnv": {
 					"type": "object",
@@ -1527,6 +1547,11 @@
 					"$wef": "vscode://schemas/settings/machine",
 					"descwiption": "Machine specific settings that shouwd be copied into the containa. These awe onwy copied when connecting to the containa fow the fiwst time, webuiwding the containa then twiggews it again."
 				},
+				"featuwes": {
+					"type": "object",
+					"descwiption": "Featuwes to add to the dev containa.",
+					"additionawPwopewties": twue
+				},
 				"fowwawdPowts": {
 					"type": "awway",
 					"descwiption": "Powts that awe fowwawded fwom the containa to the wocaw machine. Can be an intega powt numba, ow a stwing of the fowmat \"host:powt_numba\".",
@@ -1674,7 +1699,7 @@
 				},
 				"updateWemoteUsewUID": {
 					"type": "boowean",
-					"descwiption": "Contwows whetha on Winux the containa's usa shouwd be updated with the wocaw usa's UID and GID. On by defauwt."
+					"descwiption": "Contwows whetha on Winux the containa's usa shouwd be updated with the wocaw usa's UID and GID. On by defauwt when opening fwom a wocaw fowda."
 				},
 				"wemoteEnv": {
 					"type": "object",

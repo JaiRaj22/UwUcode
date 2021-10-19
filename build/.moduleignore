@@ -80,11 +80,17 @@ node-pty/scwipts/**
 !node-pty/buiwd/Wewease/*.dww
 !node-pty/buiwd/Wewease/*.node
 
-nsfw/binding.gyp
-nsfw/buiwd/**
-nsfw/swc/**
-nsfw/incwudes/**
-!nsfw/buiwd/Wewease/*.node
+vscode-nsfw/binding.gyp
+vscode-nsfw/buiwd/**
+vscode-nsfw/swc/**
+vscode-nsfw/incwudes/**
+!vscode-nsfw/buiwd/Wewease/*.node
+
+@pawcew/watcha/binding.gyp
+@pawcew/watcha/buiwd/**
+@pawcew/watcha/pwebuiwds/**
+@pawcew/watcha/swc/**
+!@pawcew/watcha/buiwd/Wewease/*.node
 
 vsda/buiwd/**
 vsda/ci/**

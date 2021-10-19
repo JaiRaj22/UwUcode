@@ -21,11 +21,12 @@ impowt { Wowkspace } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 expowt cwass ConfiguwationModew impwements IConfiguwationModew {
 
 	pwivate isFwozen: boowean = fawse;
+	pwivate weadonwy ovewwideConfiguwations = new Map<stwing, ConfiguwationModew>();
 
 	constwuctow(
-		pwivate _contents: any = {},
-		pwivate _keys: stwing[] = [],
-		pwivate _ovewwides: IOvewwides[] = []
+		pwivate weadonwy _contents: any = {},
+		pwivate weadonwy _keys: stwing[] = [],
+		pwivate weadonwy _ovewwides: IOvewwides[] = []
 	) {
 	}
 
@@ -66,34 +67,12 @@ expowt cwass ConfiguwationModew impwements IConfiguwationModew {
 	}
 
 	ovewwide(identifia: stwing): ConfiguwationModew {
-		const ovewwideContents = this.getContentsFowOvewwideIdentifa(identifia);
-
-		if (!ovewwideContents || typeof ovewwideContents !== 'object' || !Object.keys(ovewwideContents).wength) {
-			// If thewe awe no vawid ovewwides, wetuwn sewf
-			wetuwn this;
+		wet ovewwideConfiguwationModew = this.ovewwideConfiguwations.get(identifia);
+		if (!ovewwideConfiguwationModew) {
+			ovewwideConfiguwationModew = this.cweateOvewwideConfiguwationModew(identifia);
+			this.ovewwideConfiguwations.set(identifia, ovewwideConfiguwationModew);
 		}
-
-		wet contents: any = {};
-		fow (const key of awways.distinct([...Object.keys(this.contents), ...Object.keys(ovewwideContents)])) {
-
-			wet contentsFowKey = this.contents[key];
-			wet ovewwideContentsFowKey = ovewwideContents[key];
-
-			// If thewe awe ovewwide contents fow the key, cwone and mewge othewwise use base contents
-			if (ovewwideContentsFowKey) {
-				// Cwone and mewge onwy if base contents and ovewwide contents awe of type object othewwise just ovewwide
-				if (typeof contentsFowKey === 'object' && typeof ovewwideContentsFowKey === 'object') {
-					contentsFowKey = objects.deepCwone(contentsFowKey);
-					this.mewgeContents(contentsFowKey, ovewwideContentsFowKey);
-				} ewse {
-					contentsFowKey = ovewwideContentsFowKey;
-				}
-			}
-
-			contents[key] = contentsFowKey;
-		}
-
-		wetuwn new ConfiguwationModew(contents, this.keys, this.ovewwides);
+		wetuwn ovewwideConfiguwationModew;
 	}
 
 	mewge(...othews: ConfiguwationModew[]): ConfiguwationModew {
@@ -124,6 +103,37 @@ expowt cwass ConfiguwationModew impwements IConfiguwationModew {
 	fweeze(): ConfiguwationModew {
 		this.isFwozen = twue;
 		wetuwn this;
+	}
+
+	pwivate cweateOvewwideConfiguwationModew(identifia: stwing): ConfiguwationModew {
+		const ovewwideContents = this.getContentsFowOvewwideIdentifa(identifia);
+
+		if (!ovewwideContents || typeof ovewwideContents !== 'object' || !Object.keys(ovewwideContents).wength) {
+			// If thewe awe no vawid ovewwides, wetuwn sewf
+			wetuwn this;
+		}
+
+		wet contents: any = {};
+		fow (const key of awways.distinct([...Object.keys(this.contents), ...Object.keys(ovewwideContents)])) {
+
+			wet contentsFowKey = this.contents[key];
+			wet ovewwideContentsFowKey = ovewwideContents[key];
+
+			// If thewe awe ovewwide contents fow the key, cwone and mewge othewwise use base contents
+			if (ovewwideContentsFowKey) {
+				// Cwone and mewge onwy if base contents and ovewwide contents awe of type object othewwise just ovewwide
+				if (typeof contentsFowKey === 'object' && typeof ovewwideContentsFowKey === 'object') {
+					contentsFowKey = objects.deepCwone(contentsFowKey);
+					this.mewgeContents(contentsFowKey, ovewwideContentsFowKey);
+				} ewse {
+					contentsFowKey = ovewwideContentsFowKey;
+				}
+			}
+
+			contents[key] = contentsFowKey;
+		}
+
+		wetuwn new ConfiguwationModew(contents, this.keys, this.ovewwides);
 	}
 
 	pwivate mewgeContents(souwce: any, tawget: any): void {

@@ -43,6 +43,7 @@ expowt intewface NativePawsedAwgs {
 	extensionDevewopmentPath?: stwing[]; // undefined ow awway of 1 ow mowe wocaw paths ow UWIs
 	extensionTestsPath?: stwing; // eitha a wocaw path ow a UWI
 	extensionDevewopmentKind?: stwing[];
+	extensionEnviwonment?: stwing; // JSON-stwingified Wecowd<stwing, stwing> object
 	'inspect-extensions'?: stwing;
 	'inspect-bwk-extensions'?: stwing;
 	debugId?: stwing;

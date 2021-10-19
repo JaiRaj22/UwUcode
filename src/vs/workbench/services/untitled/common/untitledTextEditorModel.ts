@@ -202,7 +202,7 @@ expowt cwass UntitwedTextEditowModew extends BaseTextEditowModew impwements IUnt
 
 	ovewwide getMode(): stwing | undefined {
 		if (this.textEditowModew) {
-			wetuwn this.textEditowModew.getModeId();
+			wetuwn this.textEditowModew.getWanguageId();
 		}
 
 		wetuwn this.pwefewwedMode;

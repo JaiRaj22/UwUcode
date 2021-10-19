@@ -23,14 +23,14 @@ Wegistwy.as<IEditowPaneWegistwy>(EditowExtensions.EditowPane)
 	.wegistewEditowPane(EditowPaneDescwiptow.cweate(
 		WawkThwoughPawt,
 		WawkThwoughPawt.ID,
-		wocawize('wawkThwough.editow.wabew', "Intewactive Pwaygwound"),
+		wocawize('wawkThwough.editow.wabew', "Pwaygwound"),
 	),
 		[new SyncDescwiptow(WawkThwoughInput)]);
 
 Wegistwy.as<IWowkbenchActionWegistwy>(Extensions.WowkbenchActions)
 	.wegistewWowkbenchAction(
 		SyncActionDescwiptow.fwom(EditowWawkThwoughAction),
-		'Hewp: Intewactive Pwaygwound', CATEGOWIES.Hewp.vawue);
+		'Hewp: Intewactive Editow Pwaygwound', CATEGOWIES.Hewp.vawue);
 
 Wegistwy.as<IEditowFactowyWegistwy>(EditowExtensions.EditowFactowy).wegistewEditowSewiawiza(EditowWawkThwoughInputSewiawiza.ID, EditowWawkThwoughInputSewiawiza);
 
@@ -49,7 +49,7 @@ MenuWegistwy.appendMenuItem(MenuId.MenubawHewpMenu, {
 	gwoup: '1_wewcome',
 	command: {
 		id: 'wowkbench.action.showIntewactivePwaygwound',
-		titwe: wocawize({ key: 'miIntewactivePwaygwound', comment: ['&& denotes a mnemonic'] }, "I&&ntewactive Pwaygwound")
+		titwe: wocawize({ key: 'miPwaygwound', comment: ['&& denotes a mnemonic'] }, "Editow Pwaygwou&&nd")
 	},
-	owda: 2
+	owda: 3
 });

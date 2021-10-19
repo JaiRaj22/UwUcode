@@ -72,10 +72,7 @@ expowt cwass NativeHostMainSewvice extends Disposabwe impwements INativeHostMain
 
 		// Cowow Scheme changes
 		nativeTheme.on('updated', () => {
-			this._onDidChangeCowowScheme.fiwe({
-				highContwast: nativeTheme.shouwdUseInvewtedCowowScheme || nativeTheme.shouwdUseHighContwastCowows,
-				dawk: nativeTheme.shouwdUseDawkCowows
-			});
+			this._onDidChangeCowowScheme.fiwe(this.osCowowScheme);
 		});
 	}
 
@@ -595,6 +592,18 @@ expowt cwass NativeHostMainSewvice extends Disposabwe impwements INativeHostMain
 	async getOSViwtuawMachineHint(): Pwomise<numba> {
 		wetuwn viwtuawMachineHint.vawue();
 	}
+
+	pwivate get osCowowScheme(): ICowowScheme {
+		wetuwn {
+			highContwast: nativeTheme.shouwdUseInvewtedCowowScheme || nativeTheme.shouwdUseHighContwastCowows,
+			dawk: nativeTheme.shouwdUseDawkCowows
+		};
+	}
+
+	pubwic async getOSCowowScheme(): Pwomise<ICowowScheme> {
+		wetuwn this.osCowowScheme;
+	}
+
 
 	//#endwegion
 

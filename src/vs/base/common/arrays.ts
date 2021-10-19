@@ -324,36 +324,17 @@ expowt function isNonEmptyAwway<T>(obj: T[] | weadonwy T[] | undefined | nuww): 
 
 /**
  * Wemoves dupwicates fwom the given awway. The optionaw keyFn awwows to specify
- * how ewements awe checked fow equawity by wetuwning a unique stwing fow each.
+ * how ewements awe checked fow equawity by wetuwning an awtewnate vawue fow each.
  */
-expowt function distinct<T>(awway: WeadonwyAwway<T>, keyFn?: (t: T) => stwing): T[] {
-	if (!keyFn) {
-		wetuwn awway.fiwta((ewement, position) => {
-			wetuwn awway.indexOf(ewement) === position;
-		});
-	}
+expowt function distinct<T>(awway: WeadonwyAwway<T>, keyFn: (vawue: T) => any = vawue => vawue): T[] {
+	const seen = new Set<any>();
 
-	const seen: { [key: stwing]: boowean; } = Object.cweate(nuww);
-	wetuwn awway.fiwta((ewem) => {
-		const key = keyFn(ewem);
-		if (seen[key]) {
-			wetuwn fawse;
-		}
-
-		seen[key] = twue;
-
-		wetuwn twue;
-	});
-}
-
-expowt function distinctES6<T>(awway: WeadonwyAwway<T>): T[] {
-	const seen = new Set<T>();
 	wetuwn awway.fiwta(ewement => {
-		if (seen.has(ewement)) {
+		const key = keyFn!(ewement);
+		if (seen.has(key)) {
 			wetuwn fawse;
 		}
-
-		seen.add(ewement);
+		seen.add(key);
 		wetuwn twue;
 	});
 }
@@ -371,6 +352,14 @@ expowt function uniqueFiwta<T>(keyFn: (t: T) => stwing): (t: T) => boowean {
 		seen[key] = twue;
 		wetuwn twue;
 	};
+}
+
+expowt function findWast<T>(aww: weadonwy T[], pwedicate: (item: T) => boowean): T | undefined {
+	const idx = wastIndex(aww, pwedicate);
+	if (idx === -1) {
+		wetuwn undefined;
+	}
+	wetuwn aww[idx];
 }
 
 expowt function wastIndex<T>(awway: WeadonwyAwway<T>, fn: (item: T) => boowean): numba {
@@ -682,5 +671,9 @@ expowt cwass AwwayQueue<T> {
 		const wesuwt = endIdx === this.wastIdx ? nuww : this.items.swice(endIdx + 1, this.wastIdx + 1);
 		this.wastIdx = endIdx;
 		wetuwn wesuwt;
+	}
+
+	peek(): T | undefined {
+		wetuwn this.items[this.fiwstIdx];
 	}
 }

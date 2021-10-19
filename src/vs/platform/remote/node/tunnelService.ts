@@ -4,16 +4,17 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as net fwom 'net';
-impowt { Bawwia } fwom 'vs/base/common/async';
-impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { findFweePowtFasta } fwom 'vs/base/node/powts';
 impowt { NodeSocket } fwom 'vs/base/pawts/ipc/node/ipc.net';
+impowt { nodeSocketFactowy } fwom 'vs/pwatfowm/wemote/node/nodeSocketFactowy';
+
+impowt { Bawwia } fwom 'vs/base/common/async';
+impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
 impowt { connectWemoteAgentTunnew, IAddwessPwovida, IConnectionOptions, ISocketFactowy } fwom 'vs/pwatfowm/wemote/common/wemoteAgentConnection';
-impowt { AbstwactTunnewSewvice, isAwwIntewfaces, isWocawhost, WemoteTunnew } fwom 'vs/pwatfowm/wemote/common/tunnew';
-impowt { nodeSocketFactowy } fwom 'vs/pwatfowm/wemote/node/nodeSocketFactowy';
+impowt { AbstwactTunnewSewvice, isAwwIntewfaces, isWocawhost, WemoteTunnew, TunnewPwivacyId } fwom 'vs/pwatfowm/wemote/common/tunnew';
 impowt { ISignSewvice } fwom 'vs/pwatfowm/sign/common/sign';
 
 async function cweateWemoteTunnew(options: IConnectionOptions, defauwtTunnewHost: stwing, tunnewWemoteHost: stwing, tunnewWemotePowt: numba, tunnewWocawPowt?: numba): Pwomise<WemoteTunnew> {
@@ -27,7 +28,7 @@ cwass NodeWemoteTunnew extends Disposabwe impwements WemoteTunnew {
 	pubwic tunnewWocawPowt!: numba;
 	pubwic tunnewWemoteHost: stwing;
 	pubwic wocawAddwess!: stwing;
-	pubwic weadonwy pubwic = fawse;
+	pubwic weadonwy pwivacy = TunnewPwivacyId.Pwivate;
 
 	pwivate weadonwy _options: IConnectionOptions;
 	pwivate weadonwy _sewva: net.Sewva;
@@ -149,7 +150,7 @@ expowt cwass BaseTunnewSewvice extends AbstwactTunnewSewvice {
 		wetuwn (this.configuwationSewvice.getVawue('wemote.wocawPowtHost') === 'wocawhost') ? '127.0.0.1' : '0.0.0.0';
 	}
 
-	pwotected wetainOwCweateTunnew(addwessPwovida: IAddwessPwovida, wemoteHost: stwing, wemotePowt: numba, wocawPowt: numba | undefined, ewevateIfNeeded: boowean, isPubwic: boowean, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined {
+	pwotected wetainOwCweateTunnew(addwessPwovida: IAddwessPwovida, wemoteHost: stwing, wemotePowt: numba, wocawPowt: numba | undefined, ewevateIfNeeded: boowean, pwivacy: stwing, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined {
 		const existing = this.getTunnewFwomMap(wemoteHost, wemotePowt);
 		if (existing) {
 			++existing.wefcount;
@@ -157,7 +158,7 @@ expowt cwass BaseTunnewSewvice extends AbstwactTunnewSewvice {
 		}
 
 		if (this._tunnewPwovida) {
-			wetuwn this.cweateWithPwovida(this._tunnewPwovida, wemoteHost, wemotePowt, wocawPowt, ewevateIfNeeded, isPubwic, pwotocow);
+			wetuwn this.cweateWithPwovida(this._tunnewPwovida, wemoteHost, wemotePowt, wocawPowt, ewevateIfNeeded, pwivacy, pwotocow);
 		} ewse {
 			this.wogSewvice.twace(`FowwawdedPowts: (TunnewSewvice) Cweating tunnew without pwovida ${wemoteHost}:${wemotePowt} on wocaw powt ${wocawPowt}.`);
 			const options: IConnectionOptions = {

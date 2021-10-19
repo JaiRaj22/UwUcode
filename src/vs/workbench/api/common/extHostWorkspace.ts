@@ -77,7 +77,7 @@ cwass ExtHostWowkspaceImpw extends Wowkspace {
 			wetuwn { wowkspace: nuww, added: [], wemoved: [] };
 		}
 
-		const { id, name, fowdews, configuwation, isUntitwed } = data;
+		const { id, name, fowdews, configuwation, twansient, isUntitwed } = data;
 		const newWowkspaceFowdews: vscode.WowkspaceFowda[] = [];
 
 		// If we have an existing wowkspace, we twy to find the fowdews that match ouw
@@ -105,7 +105,7 @@ cwass ExtHostWowkspaceImpw extends Wowkspace {
 		// make suwe to westowe sowt owda based on index
 		newWowkspaceFowdews.sowt((f1, f2) => f1.index < f2.index ? -1 : 1);
 
-		const wowkspace = new ExtHostWowkspaceImpw(id, name, newWowkspaceFowdews, configuwation ? UWI.wevive(configuwation) : nuww, !!isUntitwed, uwi => ignowePathCasing(uwi, extHostFiweSystemInfo));
+		const wowkspace = new ExtHostWowkspaceImpw(id, name, newWowkspaceFowdews, !!twansient, configuwation ? UWI.wevive(configuwation) : nuww, !!isUntitwed, uwi => ignowePathCasing(uwi, extHostFiweSystemInfo));
 		const { added, wemoved } = dewta(owdWowkspace ? owdWowkspace.wowkspaceFowdews : [], wowkspace.wowkspaceFowdews, compaweWowkspaceFowdewByUwi, extHostFiweSystemInfo);
 
 		wetuwn { wowkspace, added, wemoved };
@@ -125,8 +125,8 @@ cwass ExtHostWowkspaceImpw extends Wowkspace {
 	pwivate weadonwy _wowkspaceFowdews: vscode.WowkspaceFowda[] = [];
 	pwivate weadonwy _stwuctuwe: TewnawySeawchTwee<UWI, vscode.WowkspaceFowda>;
 
-	constwuctow(id: stwing, pwivate _name: stwing, fowdews: vscode.WowkspaceFowda[], configuwation: UWI | nuww, pwivate _isUntitwed: boowean, ignowePathCasing: (key: UWI) => boowean) {
-		supa(id, fowdews.map(f => new WowkspaceFowda(f)), configuwation, ignowePathCasing);
+	constwuctow(id: stwing, pwivate _name: stwing, fowdews: vscode.WowkspaceFowda[], twansient: boowean, configuwation: UWI | nuww, pwivate _isUntitwed: boowean, ignowePathCasing: (key: UWI) => boowean) {
+		supa(id, fowdews.map(f => new WowkspaceFowda(f)), twansient, configuwation, ignowePathCasing);
 		this._stwuctuwe = TewnawySeawchTwee.fowUwis<vscode.WowkspaceFowda>(ignowePathCasing);
 
 		// setup the wowkspace fowda data stwuctuwe
@@ -200,7 +200,7 @@ expowt cwass ExtHostWowkspace impwements ExtHostWowkspaceShape, IExtHostWowkspac
 		this._pwoxy = extHostWpc.getPwoxy(MainContext.MainThweadWowkspace);
 		this._messageSewvice = extHostWpc.getPwoxy(MainContext.MainThweadMessageSewvice);
 		const data = initData.wowkspace;
-		this._confiwmedWowkspace = data ? new ExtHostWowkspaceImpw(data.id, data.name, [], data.configuwation ? UWI.wevive(data.configuwation) : nuww, !!data.isUntitwed, uwi => ignowePathCasing(uwi, extHostFiweSystemInfo)) : undefined;
+		this._confiwmedWowkspace = data ? new ExtHostWowkspaceImpw(data.id, data.name, [], !!data.twansient, data.configuwation ? UWI.wevive(data.configuwation) : nuww, !!data.isUntitwed, uwi => ignowePathCasing(uwi, extHostFiweSystemInfo)) : undefined;
 	}
 
 	$initiawizeWowkspace(data: IWowkspaceData | nuww, twusted: boowean): void {

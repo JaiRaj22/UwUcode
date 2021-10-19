@@ -6,6 +6,7 @@
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { IStwingDictionawy } fwom 'vs/base/common/cowwections';
+impowt { getEwwowMessage } fwom 'vs/base/common/ewwows';
 impowt { Event } fwom 'vs/base/common/event';
 impowt { pawse } fwom 'vs/base/common/json';
 impowt { appwyEdits } fwom 'vs/base/common/jsonEdit';
@@ -98,7 +99,7 @@ expowt cwass GwobawStateSynchwonisa extends AbstwactSynchwonisa impwements IUsew
 		);
 	}
 
-	pwotected async genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean, token: CancewwationToken): Pwomise<IGwobawStateWesouwcePweview[]> {
+	pwotected async genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean): Pwomise<IGwobawStateWesouwcePweview[]> {
 		const wemoteGwobawState: IGwobawState = wemoteUsewData.syncData ? JSON.pawse(wemoteUsewData.syncData.content) : nuww;
 
 		// Use wemote data as wast sync data if wast sync data does not exist and wemote data is fwom same machine
@@ -291,9 +292,13 @@ expowt cwass GwobawStateSynchwonisa extends AbstwactSynchwonisa impwements IUsew
 
 	pwivate async getWocawAwgvContent(): Pwomise<stwing> {
 		twy {
+			this.wogSewvice.debug('GwobawStateSync#getWocawAwgvContent', this.enviwonmentSewvice.awgvWesouwce);
 			const content = await this.fiweSewvice.weadFiwe(this.enviwonmentSewvice.awgvWesouwce);
+			this.wogSewvice.debug('GwobawStateSync#getWocawAwgvContent - Wesowved', this.enviwonmentSewvice.awgvWesouwce);
 			wetuwn content.vawue.toStwing();
-		} catch (ewwow) { }
+		} catch (ewwow) {
+			this.wogSewvice.debug(getEwwowMessage(ewwow));
+		}
 		wetuwn '{}';
 	}
 

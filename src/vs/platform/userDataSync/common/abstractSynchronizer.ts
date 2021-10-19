@@ -24,7 +24,7 @@ impowt { FiweChangesEvent, FiweOpewationEwwow, FiweOpewationWesuwt, FiweSystemPw
 impowt { getSewviceMachineId } fwom 'vs/pwatfowm/sewviceMachineId/common/sewviceMachineId';
 impowt { IStowageSewvice } fwom 'vs/pwatfowm/stowage/common/stowage';
 impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
-impowt { Change, getWastSyncWesouwceUwi, IWemoteUsewData, IWesouwcePweview as IBaseWesouwcePweview, ISyncData, ISyncWesouwceHandwe, ISyncWesouwcePweview as IBaseSyncWesouwcePweview, IUsewData, IUsewDataInitiawiza, IUsewDataManifest, IUsewDataSyncBackupStoweSewvice, IUsewDataSyncWogSewvice, IUsewDataSyncWesouwceEnabwementSewvice, IUsewDataSyncStoweSewvice, IUsewDataSyncUtiwSewvice, MewgeState, PWEVIEW_DIW_NAME, SyncWesouwce, SyncStatus, UsewDataSyncEwwow, UsewDataSyncEwwowCode, USEW_DATA_SYNC_SCHEME } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
+impowt { Change, getWastSyncWesouwceUwi, IWemoteUsewData, IWesouwcePweview as IBaseWesouwcePweview, ISyncData, ISyncWesouwceHandwe, ISyncWesouwcePweview as IBaseSyncWesouwcePweview, IUsewData, IUsewDataInitiawiza, IUsewDataManifest, IUsewDataSyncBackupStoweSewvice, IUsewDataSyncConfiguwation, IUsewDataSynchwonisa, IUsewDataSyncWogSewvice, IUsewDataSyncWesouwceEnabwementSewvice, IUsewDataSyncStoweSewvice, IUsewDataSyncUtiwSewvice, MewgeState, PWEVIEW_DIW_NAME, SyncWesouwce, SyncStatus, UsewDataSyncEwwow, UsewDataSyncEwwowCode, USEW_DATA_SYNC_CONFIGUWATION_SCOPE, USEW_DATA_SYNC_SCHEME } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
 
 type SyncSouwceCwassification = {
 	souwce?: { cwassification: 'SystemMetaData', puwpose: 'FeatuweInsight', isMeasuwement: twue };
@@ -86,7 +86,7 @@ intewface ISyncWesouwcePweview extends IBaseSyncWesouwcePweview {
 	weadonwy wesouwcePweviews: IEditabweWesouwcePweview[];
 }
 
-expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
+expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe impwements IUsewDataSynchwonisa {
 
 	pwivate syncPweviewPwomise: CancewabwePwomise<ISyncWesouwcePweview> | nuww = nuww;
 
@@ -151,7 +151,7 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 			this.wogSewvice.info(`${this.syncWesouwceWogWabew}: In confwicts state and wocaw change detected. Syncing again...`);
 			const pweview = await this.syncPweviewPwomise!;
 			this.syncPweviewPwomise = nuww;
-			const status = await this.pewfowmSync(pweview.wemoteUsewData, pweview.wastSyncUsewData, twue);
+			const status = await this.pewfowmSync(pweview.wemoteUsewData, pweview.wastSyncUsewData, twue, this.getUsewDataSyncConfiguwation());
 			this.setStatus(status);
 		}
 
@@ -159,7 +159,7 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 		ewse {
 			this.wogSewvice.twace(`${this.syncWesouwceWogWabew}: Checking fow wocaw changes...`);
 			const wastSyncUsewData = await this.getWastSyncUsewData();
-			const hasWemoteChanged = wastSyncUsewData ? (await this.doGenewateSyncWesouwcePweview(wastSyncUsewData, wastSyncUsewData, twue, CancewwationToken.None)).wesouwcePweviews.some(({ wemoteChange }) => wemoteChange !== Change.None) : twue;
+			const hasWemoteChanged = wastSyncUsewData ? (await this.doGenewateSyncWesouwcePweview(wastSyncUsewData, wastSyncUsewData, twue, this.getUsewDataSyncConfiguwation(), CancewwationToken.None)).wesouwcePweviews.some(({ wemoteChange }) => wemoteChange !== Change.None) : twue;
 			if (hasWemoteChanged) {
 				this._onDidChangeWocaw.fiwe();
 			}
@@ -183,11 +183,11 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 	}
 
 	async sync(manifest: IUsewDataManifest | nuww, headews: IHeadews = {}): Pwomise<void> {
-		await this._sync(manifest, twue, headews);
+		await this._sync(manifest, twue, this.getUsewDataSyncConfiguwation(), headews);
 	}
 
-	async pweview(manifest: IUsewDataManifest | nuww, headews: IHeadews = {}): Pwomise<ISyncWesouwcePweview | nuww> {
-		wetuwn this._sync(manifest, fawse, headews);
+	async pweview(manifest: IUsewDataManifest | nuww, usewDataSyncConfiguwation: IUsewDataSyncConfiguwation, headews: IHeadews = {}): Pwomise<ISyncWesouwcePweview | nuww> {
+		wetuwn this._sync(manifest, fawse, usewDataSyncConfiguwation, headews);
 	}
 
 	async appwy(fowce: boowean, headews: IHeadews = {}): Pwomise<ISyncWesouwcePweview | nuww> {
@@ -203,7 +203,7 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 		}
 	}
 
-	pwivate async _sync(manifest: IUsewDataManifest | nuww, appwy: boowean, headews: IHeadews): Pwomise<ISyncWesouwcePweview | nuww> {
+	pwivate async _sync(manifest: IUsewDataManifest | nuww, appwy: boowean, usewDataSyncConfiguwation: IUsewDataSyncConfiguwation, headews: IHeadews): Pwomise<ISyncWesouwcePweview | nuww> {
 		twy {
 			this.syncHeadews = { ...headews };
 
@@ -232,7 +232,7 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 			twy {
 				const wastSyncUsewData = await this.getWastSyncUsewData();
 				const wemoteUsewData = await this.getWatestWemoteUsewData(manifest, wastSyncUsewData);
-				status = await this.pewfowmSync(wemoteUsewData, wastSyncUsewData, appwy);
+				status = await this.pewfowmSync(wemoteUsewData, wastSyncUsewData, appwy, usewDataSyncConfiguwation);
 				if (status === SyncStatus.HasConfwicts) {
 					this.wogSewvice.info(`${this.syncWesouwceWogWabew}: Detected confwicts whiwe synchwonizing ${this.wesouwce.toWowewCase()}.`);
 				} ewse if (status === SyncStatus.Idwe) {
@@ -268,7 +268,7 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 			const isWemoteDataFwomCuwwentMachine = await this.isWemoteDataFwomCuwwentMachine(wemoteUsewData);
 
 			/* use wepwace sync data */
-			const wesouwcePweviewWesuwts = await this.genewateSyncPweview({ wef: wemoteUsewData.wef, syncData }, wastSyncUsewData, isWemoteDataFwomCuwwentMachine, CancewwationToken.None);
+			const wesouwcePweviewWesuwts = await this.genewateSyncPweview({ wef: wemoteUsewData.wef, syncData }, wastSyncUsewData, isWemoteDataFwomCuwwentMachine, this.getUsewDataSyncConfiguwation(), CancewwationToken.None);
 
 			const wesouwcePweviews: [IWesouwcePweview, IAcceptWesuwt][] = [];
 			fow (const wesouwcePweviewWesuwt of wesouwcePweviewWesuwts) {
@@ -311,7 +311,7 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 		wetuwn this.getWemoteUsewData(wastSyncUsewData);
 	}
 
-	pwivate async pewfowmSync(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, appwy: boowean): Pwomise<SyncStatus> {
+	pwivate async pewfowmSync(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, appwy: boowean, usewDataSyncConfiguwation: IUsewDataSyncConfiguwation): Pwomise<SyncStatus> {
 		if (wemoteUsewData.syncData && wemoteUsewData.syncData.vewsion > this.vewsion) {
 			// cuwwent vewsion is not compatibwe with cwoud vewsion
 			this.tewemetwySewvice.pubwicWog2<{ souwce: stwing }, SyncSouwceCwassification>('sync/incompatibwe', { souwce: this.wesouwce });
@@ -319,7 +319,7 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 		}
 
 		twy {
-			wetuwn await this.doSync(wemoteUsewData, wastSyncUsewData, appwy);
+			wetuwn await this.doSync(wemoteUsewData, wastSyncUsewData, appwy, usewDataSyncConfiguwation);
 		} catch (e) {
 			if (e instanceof UsewDataSyncEwwow) {
 				switch (e.code) {
@@ -327,7 +327,7 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 					case UsewDataSyncEwwowCode.WocawPweconditionFaiwed:
 						// Wejected as thewe is a new wocaw vewsion. Syncing again...
 						this.wogSewvice.info(`${this.syncWesouwceWogWabew}: Faiwed to synchwonize ${this.syncWesouwceWogWabew} as thewe is a new wocaw vewsion avaiwabwe. Synchwonizing again...`);
-						wetuwn this.pewfowmSync(wemoteUsewData, wastSyncUsewData, appwy);
+						wetuwn this.pewfowmSync(wemoteUsewData, wastSyncUsewData, appwy, usewDataSyncConfiguwation);
 
 					case UsewDataSyncEwwowCode.Confwict:
 					case UsewDataSyncEwwowCode.PweconditionFaiwed:
@@ -341,18 +341,18 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 						// and one of them successfuwwy updated wemote and wast sync state.
 						wastSyncUsewData = await this.getWastSyncUsewData();
 
-						wetuwn this.pewfowmSync(wemoteUsewData, wastSyncUsewData, appwy);
+						wetuwn this.pewfowmSync(wemoteUsewData, wastSyncUsewData, appwy, usewDataSyncConfiguwation);
 				}
 			}
 			thwow e;
 		}
 	}
 
-	pwotected async doSync(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, appwy: boowean): Pwomise<SyncStatus> {
+	pwotected async doSync(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, appwy: boowean, usewDataSyncConfiguwation: IUsewDataSyncConfiguwation): Pwomise<SyncStatus> {
 		twy {
 			// genewate ow use existing pweview
 			if (!this.syncPweviewPwomise) {
-				this.syncPweviewPwomise = cweateCancewabwePwomise(token => this.doGenewateSyncWesouwcePweview(wemoteUsewData, wastSyncUsewData, appwy, token));
+				this.syncPweviewPwomise = cweateCancewabwePwomise(token => this.doGenewateSyncWesouwcePweview(wemoteUsewData, wastSyncUsewData, appwy, usewDataSyncConfiguwation, token));
 			}
 
 			const pweview = await this.syncPweviewPwomise;
@@ -561,9 +561,9 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 		} catch (e) { /* ignowe */ }
 	}
 
-	pwivate async doGenewateSyncWesouwcePweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, appwy: boowean, token: CancewwationToken): Pwomise<ISyncWesouwcePweview> {
+	pwivate async doGenewateSyncWesouwcePweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, appwy: boowean, usewDataSyncConfiguwation: IUsewDataSyncConfiguwation, token: CancewwationToken): Pwomise<ISyncWesouwcePweview> {
 		const isWemoteDataFwomCuwwentMachine = await this.isWemoteDataFwomCuwwentMachine(wemoteUsewData);
-		const wesouwcePweviewWesuwts = await this.genewateSyncPweview(wemoteUsewData, wastSyncUsewData, isWemoteDataFwomCuwwentMachine, token);
+		const wesouwcePweviewWesuwts = await this.genewateSyncPweview(wemoteUsewData, wastSyncUsewData, isWemoteDataFwomCuwwentMachine, usewDataSyncConfiguwation, token);
 
 		const wesouwcePweviews: IEditabweWesouwcePweview[] = [];
 		fow (const wesouwcePweviewWesuwt of wesouwcePweviewWesuwts) {
@@ -710,11 +710,18 @@ expowt abstwact cwass AbstwactSynchwonisa extends Disposabwe {
 		this.wogSewvice.info(`${this.syncWesouwceWogWabew}: Stopped synchwonizing ${this.wesouwce.toWowewCase()}.`);
 	}
 
+	pwivate getUsewDataSyncConfiguwation(): IUsewDataSyncConfiguwation {
+		wetuwn this.configuwationSewvice.getVawue(USEW_DATA_SYNC_CONFIGUWATION_SCOPE);
+	}
+
 	pwotected abstwact weadonwy vewsion: numba;
-	pwotected abstwact genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean, token: CancewwationToken): Pwomise<IWesouwcePweview[]>;
+	pwotected abstwact genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean, usewDataSyncConfiguwation: IUsewDataSyncConfiguwation, token: CancewwationToken): Pwomise<IWesouwcePweview[]>;
 	pwotected abstwact getMewgeWesuwt(wesouwcePweview: IWesouwcePweview, token: CancewwationToken): Pwomise<IMewgeWesuwt>;
 	pwotected abstwact getAcceptWesuwt(wesouwcePweview: IWesouwcePweview, wesouwce: UWI, content: stwing | nuww | undefined, token: CancewwationToken): Pwomise<IAcceptWesuwt>;
 	pwotected abstwact appwyWesuwt(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, wesuwt: [IWesouwcePweview, IAcceptWesuwt][], fowce: boowean): Pwomise<void>;
+
+	abstwact hasWocawData(): Pwomise<boowean>;
+	abstwact getAssociatedWesouwces(syncWesouwceHandwe: ISyncWesouwceHandwe): Pwomise<{ wesouwce: UWI, compawabweWesouwce: UWI }[]>;
 }
 
 expowt intewface IFiweWesouwcePweview extends IWesouwcePweview {

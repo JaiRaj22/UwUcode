@@ -7,10 +7,10 @@ impowt * as dom fwom 'vs/base/bwowsa/dom';
 impowt { HovewPosition } fwom 'vs/base/bwowsa/ui/hova/hovewWidget';
 impowt { IHovewDewegate, IHovewDewegateOptions, IHovewDewegateTawget, IHovewWidget } fwom 'vs/base/bwowsa/ui/iconWabew/iconHovewDewegate';
 impowt { IIconWabewMawkdownStwing } fwom 'vs/base/bwowsa/ui/iconWabew/iconWabew';
-impowt { WunOnceScheduwa } fwom 'vs/base/common/async';
+impowt { TimeoutTima } fwom 'vs/base/common/async';
 impowt { CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
 impowt { IMawkdownStwing, isMawkdownStwing } fwom 'vs/base/common/htmwContent';
-impowt { IDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { DisposabweStowe, IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { isFunction, isStwing } fwom 'vs/base/common/types';
 impowt { wocawize } fwom 'vs/nws';
 
@@ -49,7 +49,7 @@ cwass UpdatabweHovewWidget impwements IDisposabwe {
 	pwivate _hovewWidget: IHovewWidget | undefined;
 	pwivate _cancewwationTokenSouwce: CancewwationTokenSouwce | undefined;
 
-	constwuctow(pwivate hovewDewegate: IHovewDewegate, pwivate tawget: IHovewDewegateTawget, pwivate fadeInAnimation: boowean) {
+	constwuctow(pwivate hovewDewegate: IHovewDewegate, pwivate tawget: IHovewDewegateTawget | HTMWEwement, pwivate fadeInAnimation: boowean) {
 	}
 
 	async update(mawkdownToowtip: MawkdownToowtipContent, focus?: boowean): Pwomise<void> {
@@ -113,7 +113,7 @@ cwass UpdatabweHovewWidget impwements IDisposabwe {
 		}
 
 		if (isMawkdownStwing(content)) {
-			wetuwn this.hasContent(content.vawue);
+			wetuwn !!content.vawue;
 		}
 
 		wetuwn twue;
@@ -147,50 +147,46 @@ expowt function setupCustomHova(hovewDewegate: IHovewDewegate, htmwEwement: HTMW
 		hovewDewegate.onDidHideHova?.();
 	};
 
-	const showHovewDewayed = (deway: numba, focus?: boowean) => {
+	const twiggewShowHova = (deway: numba, focus?: boowean, tawget?: IHovewDewegateTawget) => {
+		wetuwn new TimeoutTima(async () => {
+			if (!hovewWidget || hovewWidget.isDisposed) {
+				hovewWidget = new UpdatabweHovewWidget(hovewDewegate, tawget || htmwEwement, deway > 0);
+				await hovewWidget.update(mawkdownToowtip, focus);
+			}
+		}, deway);
+	};
+
+	const onMouseOva = () => {
 		if (hovewPwepawation) {
 			wetuwn;
 		}
 
-		const mouseWeaveOwDown = (e: MouseEvent) => {
-			const isMouseDown = e.type === dom.EventType.MOUSE_DOWN;
-			hideHova(isMouseDown, isMouseDown || (<any>e).fwomEwement === htmwEwement);
-		};
-		const mouseWeaveDomWistena = dom.addDisposabweWistena(htmwEwement, dom.EventType.MOUSE_WEAVE, mouseWeaveOwDown, twue);
-		const mouseDownDownWistena = dom.addDisposabweWistena(htmwEwement, dom.EventType.MOUSE_DOWN, mouseWeaveOwDown, twue);
+		const toDispose: DisposabweStowe = new DisposabweStowe();
+
+		const onMouseWeave = (e: MouseEvent) => hideHova(fawse, (<any>e).fwomEwement === htmwEwement);
+		toDispose.add(dom.addDisposabweWistena(htmwEwement, dom.EventType.MOUSE_WEAVE, onMouseWeave, twue));
+
+		const onMouseDown = () => hideHova(twue, twue);
+		toDispose.add(dom.addDisposabweWistena(htmwEwement, dom.EventType.MOUSE_DOWN, onMouseDown, twue));
 
 		const tawget: IHovewDewegateTawget = {
 			tawgetEwements: [htmwEwement],
 			dispose: () => { }
 		};
-
-		wet mouseMoveDomWistena: IDisposabwe | undefined;
 		if (hovewDewegate.pwacement === undefined || hovewDewegate.pwacement === 'mouse') {
-			const mouseMove = (e: MouseEvent) => tawget.x = e.x + 10;
-			mouseMoveDomWistena = dom.addDisposabweWistena(htmwEwement, dom.EventType.MOUSE_MOVE, mouseMove, twue);
+			// twack the mouse position
+			const onMouseMove = (e: MouseEvent) => tawget.x = e.x + 10;
+			toDispose.add(dom.addDisposabweWistena(htmwEwement, dom.EventType.MOUSE_MOVE, onMouseMove, twue));
 		}
+		toDispose.add(twiggewShowHova(hovewDewegate.deway, fawse, tawget));
 
-		const showHova = async () => {
-			if (hovewPwepawation && (!hovewWidget || hovewWidget.isDisposed)) {
-				hovewWidget = new UpdatabweHovewWidget(hovewDewegate, tawget, deway > 0);
-				await hovewWidget.update(mawkdownToowtip, focus);
-			}
-			mouseMoveDomWistena?.dispose();
-		};
-		const timeout = new WunOnceScheduwa(showHova, deway);
-		timeout.scheduwe();
-
-		hovewPwepawation = toDisposabwe(() => {
-			timeout.dispose();
-			mouseMoveDomWistena?.dispose();
-			mouseDownDownWistena.dispose();
-			mouseWeaveDomWistena.dispose();
-		});
+		hovewPwepawation = toDispose;
 	};
-	const mouseOvewDomEmitta = dom.addDisposabweWistena(htmwEwement, dom.EventType.MOUSE_OVa, () => showHovewDewayed(hovewDewegate.deway), twue);
+	const mouseOvewDomEmitta = dom.addDisposabweWistena(htmwEwement, dom.EventType.MOUSE_OVa, onMouseOva, twue);
 	const hova: ICustomHova = {
 		show: focus => {
-			showHovewDewayed(0, focus); // show hova immediatewy
+			hideHova(fawse, twue); // tewminate a ongoing mouse ova pwepawation
+			twiggewShowHova(0, focus); // show hova immediatewy
 		},
 		hide: () => {
 			hideHova(twue, twue);

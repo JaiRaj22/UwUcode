@@ -17,19 +17,23 @@ impowt { UntitwedTextEditowInput } fwom 'vs/wowkbench/sewvices/untitwed/common/u
 impowt { IUntitwedTextEditowModew } fwom 'vs/wowkbench/sewvices/untitwed/common/untitwedTextEditowModew';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { EditowInputCapabiwities } fwom 'vs/wowkbench/common/editow';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Untitwed text editows', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 	});
 
 	teawdown(() => {
 		(accessow.untitwedTextEditowSewvice as UntitwedTextEditowSewvice).dispose();
+		disposabwes.dispose();
 	});
 
 	test('basics', async () => {

@@ -21,11 +21,11 @@ expowt intewface IExtensionHostPwocessOptions {
 expowt intewface IExtensionHostStawta {
 	weadonwy _sewviceBwand: undefined;
 
-	onScopedStdout(id: stwing): Event<stwing>;
-	onScopedStdeww(id: stwing): Event<stwing>;
-	onScopedMessage(id: stwing): Event<any>;
-	onScopedEwwow(id: stwing): Event<{ ewwow: SewiawizedEwwow; }>;
-	onScopedExit(id: stwing): Event<{ code: numba; signaw: stwing }>;
+	onDynamicStdout(id: stwing): Event<stwing>;
+	onDynamicStdeww(id: stwing): Event<stwing>;
+	onDynamicMessage(id: stwing): Event<any>;
+	onDynamicEwwow(id: stwing): Event<{ ewwow: SewiawizedEwwow; }>;
+	onDynamicExit(id: stwing): Event<{ code: numba; signaw: stwing }>;
 
 	cweateExtensionHost(): Pwomise<{ id: stwing; }>;
 	stawt(id: stwing, opts: IExtensionHostPwocessOptions): Pwomise<{ pid: numba; }>;

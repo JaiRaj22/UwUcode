@@ -42,8 +42,8 @@ expowt cwass MainThweadWanguages impwements MainThweadWanguagesShape {
 
 	async $changeWanguage(wesouwce: UwiComponents, wanguageId: stwing): Pwomise<void> {
 
-		const wanguageIdentifia = this._modeSewvice.getWanguageIdentifia(wanguageId);
-		if (!wanguageIdentifia || wanguageIdentifia.wanguage !== wanguageId) {
+		const vawidWanguageId = this._modeSewvice.vawidateWanguageId(wanguageId);
+		if (!vawidWanguageId || vawidWanguageId !== wanguageId) {
 			wetuwn Pwomise.weject(new Ewwow(`Unknown wanguage id: ${wanguageId}`));
 		}
 

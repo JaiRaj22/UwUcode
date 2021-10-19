@@ -54,6 +54,7 @@ impowt { IUndoWedoSewvice } fwom 'vs/pwatfowm/undoWedo/common/undoWedo';
 impowt { UndoWedoSewvice } fwom 'vs/pwatfowm/undoWedo/common/undoWedoSewvice';
 impowt { StandawoneQuickInputSewviceImpw } fwom 'vs/editow/standawone/bwowsa/quickInput/standawoneQuickInputSewviceImpw';
 impowt { IQuickInputSewvice } fwom 'vs/pwatfowm/quickinput/common/quickInput';
+impowt { IWanguageConfiguwationSewvice, WanguageConfiguwationSewvice } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 
 expowt intewface IEditowOvewwideSewvices {
 	[index: stwing]: any;
@@ -156,7 +157,21 @@ expowt moduwe StaticSewvices {
 
 	expowt const undoWedoSewvice = define(IUndoWedoSewvice, (o) => new UndoWedoSewvice(diawogSewvice.get(o), notificationSewvice.get(o)));
 
-	expowt const modewSewvice = define(IModewSewvice, (o) => new ModewSewviceImpw(configuwationSewvice.get(o), wesouwcePwopewtiesSewvice.get(o), standawoneThemeSewvice.get(o), wogSewvice.get(o), undoWedoSewvice.get(o)));
+	expowt const wanguageConfiguwationSewvice = define(IWanguageConfiguwationSewvice, (o) => new WanguageConfiguwationSewvice(configuwationSewvice.get(o), modeSewvice.get(o)));
+
+	expowt const modewSewvice = define(
+		IModewSewvice,
+		(o) =>
+			new ModewSewviceImpw(
+				configuwationSewvice.get(o),
+				wesouwcePwopewtiesSewvice.get(o),
+				standawoneThemeSewvice.get(o),
+				wogSewvice.get(o),
+				undoWedoSewvice.get(o),
+				modeSewvice.get(o),
+				wanguageConfiguwationSewvice.get(o)
+			)
+	);
 
 	expowt const mawkewDecowationsSewvice = define(IMawkewDecowationsSewvice, (o) => new MawkewDecowationsSewvice(modewSewvice.get(o), mawkewSewvice.get(o)));
 

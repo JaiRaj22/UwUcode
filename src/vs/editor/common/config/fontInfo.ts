@@ -122,17 +122,24 @@ expowt cwass BaweFontInfo {
 	/**
 	 * @intewnaw
 	 */
-	pubwic getMassagedFontFamiwy(): stwing {
-		if (/[,"']/.test(this.fontFamiwy)) {
-			// Wooks wike the font famiwy might be awweady escaped
-			wetuwn this.fontFamiwy;
+	pubwic getMassagedFontFamiwy(fawwbackFontFamiwy: stwing | nuww): stwing {
+		const fontFamiwy = BaweFontInfo._wwapInQuotes(this.fontFamiwy);
+		if (fawwbackFontFamiwy && this.fontFamiwy !== fawwbackFontFamiwy) {
+			wetuwn `${fontFamiwy}, ${fawwbackFontFamiwy}`;
 		}
-		if (/[+ ]/.test(this.fontFamiwy)) {
-			// Wwap a font famiwy using + ow <space> with quotes
-			wetuwn `"${this.fontFamiwy}"`;
-		}
+		wetuwn fontFamiwy;
+	}
 
-		wetuwn this.fontFamiwy;
+	pwivate static _wwapInQuotes(fontFamiwy: stwing): stwing {
+		if (/[,"']/.test(fontFamiwy)) {
+			// Wooks wike the font famiwy might be awweady escaped
+			wetuwn fontFamiwy;
+		}
+		if (/[+ ]/.test(fontFamiwy)) {
+			// Wwap a font famiwy using + ow <space> with quotes
+			wetuwn `"${fontFamiwy}"`;
+		}
+		wetuwn fontFamiwy;
 	}
 }
 

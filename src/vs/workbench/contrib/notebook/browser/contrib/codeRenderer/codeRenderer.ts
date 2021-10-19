@@ -108,9 +108,8 @@ expowt cwass NotebookCodeWendewewContwibution extends Disposabwe {
 			wegistewCodeWendewewContwib(`text/x-${id}`, id);
 		});
 
-		this._wegista(_modeSewvice.onDidCweateMode((e) => {
-			const id = e.getId();
-			wegistewCodeWendewewContwib(`text/x-${id}`, id);
+		this._wegista(_modeSewvice.onDidEncountewWanguage((wanguageId) => {
+			wegistewCodeWendewewContwib(`text/x-${wanguageId}`, wanguageId);
 		}));
 
 		wegistewCodeWendewewContwib('appwication/json', 'json');

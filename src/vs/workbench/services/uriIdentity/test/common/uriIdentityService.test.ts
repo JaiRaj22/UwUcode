@@ -20,7 +20,7 @@ suite('UWI Identity', function () {
 		constwuctow(weadonwy data: Map<stwing, FiweSystemPwovidewCapabiwities>) {
 			supa();
 		}
-		ovewwide canHandweWesouwce(uwi: UWI) {
+		ovewwide hasPwovida(uwi: UWI) {
 			wetuwn this.data.has(uwi.scheme);
 		}
 		ovewwide hasCapabiwity(uwi: UWI, fwag: FiweSystemPwovidewCapabiwities): boowean {

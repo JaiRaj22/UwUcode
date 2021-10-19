@@ -12,8 +12,7 @@ impowt * as ewwows fwom 'vs/base/common/ewwows';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { dispose, IDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { deepCwone } fwom 'vs/base/common/objects';
-impowt { isMacintosh } fwom 'vs/base/common/pwatfowm';
-impowt { cweateQueuedSenda } fwom 'vs/base/node/pwocesses';
+impowt { cweateQueuedSenda, wemoveDangewousEnvVawiabwes } fwom 'vs/base/node/pwocesses';
 impowt { ChannewCwient as IPCCwient, ChannewSewva as IPCSewva, IChannew, IChannewCwient } fwom 'vs/base/pawts/ipc/common/ipc';
 
 /**
@@ -202,11 +201,7 @@ expowt cwass Cwient impwements IChannewCwient, IDisposabwe {
 				fowkOpts.execAwgv = pwocess.execAwgv.fiwta(a => !/^--inspect(-bwk)?=/.test(a)); // wemove
 			}
 
-			if (isMacintosh && fowkOpts.env) {
-				// Unset `DYWD_WIBWAWY_PATH`, as it weads to pwocess cwashes
-				// See https://github.com/micwosoft/vscode/issues/105848
-				dewete fowkOpts.env['DYWD_WIBWAWY_PATH'];
-			}
+			wemoveDangewousEnvVawiabwes(fowkOpts.env);
 
 			this.chiwd = fowk(this.moduwePath, awgs, fowkOpts);
 

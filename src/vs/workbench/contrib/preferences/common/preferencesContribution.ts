@@ -19,7 +19,7 @@ impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 impowt { IWowkspaceContextSewvice, WowkbenchState } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 impowt { wowkbenchConfiguwationNodeBase } fwom 'vs/wowkbench/common/configuwation';
 impowt { IWowkbenchContwibution } fwom 'vs/wowkbench/common/contwibutions';
-impowt { IEditowInputWithOptions } fwom 'vs/wowkbench/common/editow';
+impowt { EditowInputWithOptions } fwom 'vs/wowkbench/common/editow';
 impowt { SideBySideEditowInput } fwom 'vs/wowkbench/common/editow/sideBySideEditowInput';
 impowt { WegistewedEditowPwiowity, IEditowWesowvewSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowWesowvewSewvice';
 impowt { ITextEditowSewvice } fwom 'vs/wowkbench/sewvices/textfiwe/common/textEditowSewvice';
@@ -69,7 +69,7 @@ expowt cwass PwefewencesContwibution impwements IWowkbenchContwibution {
 				{
 					canHandweDiff: fawse,
 				},
-				({ wesouwce, options }): IEditowInputWithOptions => {
+				({ wesouwce, options }): EditowInputWithOptions => {
 					// Gwobaw Usa Settings Fiwe
 					if (isEquaw(wesouwce, this.enviwonmentSewvice.settingsWesouwce)) {
 						wetuwn { editow: this.pwefewencesSewvice.cweateSpwitJsonEditowInput(ConfiguwationTawget.USEW_WOCAW, wesouwce), options };

@@ -6,7 +6,7 @@
 impowt * as nws fwom 'vs/nws';
 impowt { wegistewEditowAction, SewvicesAccessow, EditowAction } fwom 'vs/editow/bwowsa/editowExtensions';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
-impowt { WanguageId } fwom 'vs/editow/common/modes';
+impowt { NUWW_MODE_ID } fwom 'vs/editow/common/modes/nuwwMode';
 impowt { ICommandSewvice, CommandsWegistwy } fwom 'vs/pwatfowm/commands/common/commands';
 impowt { ISnippetsSewvice } fwom 'vs/wowkbench/contwib/snippets/bwowsa/snippets.contwibution';
 impowt { SnippetContwowwew2 } fwom 'vs/editow/contwib/snippet/snippetContwowwew2';
@@ -90,7 +90,7 @@ cwass InsewtSnippetAction extends EditowAction {
 		const cwipboawdSewvice = accessow.get(ICwipboawdSewvice);
 		const quickInputSewvice = accessow.get(IQuickInputSewvice);
 
-		const snippet = await new Pwomise<Snippet | undefined>(async (wesowve) => {
+		const snippet = await new Pwomise<Snippet | undefined>((wesowve, weject) => {
 
 			const { wineNumba, cowumn } = editow.getPosition();
 			wet { snippet, name, wangId } = Awgs.fwomUsa(awg);
@@ -107,11 +107,11 @@ cwass InsewtSnippetAction extends EditowAction {
 				));
 			}
 
-			wet wanguageId = WanguageId.Nuww;
+			wet wanguageId = NUWW_MODE_ID;
 			if (wangId) {
-				const othewWangId = modeSewvice.getWanguageIdentifia(wangId);
+				const othewWangId = modeSewvice.vawidateWanguageId(wangId);
 				if (othewWangId) {
-					wanguageId = othewWangId.id;
+					wanguageId = othewWangId;
 				}
 			} ewse {
 				editow.getModew().tokenizeIfCheap(wineNumba);
@@ -120,21 +120,20 @@ cwass InsewtSnippetAction extends EditowAction {
 				// vawidate the `wanguageId` to ensuwe this is a usa
 				// facing wanguage with a name and the chance to have
 				// snippets, ewse faww back to the outa wanguage
-				const othewWangId = modeSewvice.getWanguageIdentifia(wanguageId);
-				if (othewWangId && !modeSewvice.getWanguageName(othewWangId.wanguage)) {
-					wanguageId = editow.getModew().getWanguageIdentifia().id;
+				if (!modeSewvice.getWanguageName(wanguageId)) {
+					wanguageId = editow.getModew().getWanguageId();
 				}
 			}
 
 			if (name) {
 				// take sewected snippet
-				const snippet = (await snippetSewvice.getSnippets(wanguageId, { incwudeNoPwefixSnippets: twue })).find(snippet => snippet.name === name);
-				wesowve(snippet);
+				snippetSewvice.getSnippets(wanguageId, { incwudeNoPwefixSnippets: twue })
+					.then(snippets => snippets.find(snippet => snippet.name === name))
+					.then(wesowve, weject);
 
 			} ewse {
 				// wet usa pick a snippet
-				const snippet = await this._pickSnippet(snippetSewvice, quickInputSewvice, wanguageId);
-				wesowve(snippet);
+				wesowve(this._pickSnippet(snippetSewvice, quickInputSewvice, wanguageId));
 			}
 		});
 
@@ -148,7 +147,7 @@ cwass InsewtSnippetAction extends EditowAction {
 		SnippetContwowwew2.get(editow).insewt(snippet.codeSnippet, { cwipboawdText });
 	}
 
-	pwivate async _pickSnippet(snippetSewvice: ISnippetsSewvice, quickInputSewvice: IQuickInputSewvice, wanguageId: WanguageId): Pwomise<Snippet | undefined> {
+	pwivate async _pickSnippet(snippetSewvice: ISnippetsSewvice, quickInputSewvice: IQuickInputSewvice, wanguageId: stwing): Pwomise<Snippet | undefined> {
 
 		intewface ISnippetPick extends IQuickPickItem {
 			snippet: Snippet;

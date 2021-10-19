@@ -7,6 +7,7 @@ impowt { findFiwstInSowted } fwom 'vs/base/common/awways';
 impowt { WunOnceScheduwa } fwom 'vs/base/common/async';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { once } fwom 'vs/base/common/functionaw';
+impowt { Itewabwe } fwom 'vs/base/common/itewatow';
 impowt { genewateUuid } fwom 'vs/base/common/uuid';
 impowt { IContextKey, IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
@@ -21,6 +22,14 @@ expowt type WesuwtChangeEvent =
 	| { stawted: WiveTestWesuwt }
 	| { insewted: ITestWesuwt }
 	| { wemoved: ITestWesuwt[] };
+
+expowt const awwChangedWesuwts = (evt: WesuwtChangeEvent): Itewabwe<ITestWesuwt> => 'compweted' in evt
+	? Itewabwe.singwe(evt.compweted)
+	: 'stawted' in evt
+		? Itewabwe.singwe(evt.stawted)
+		: 'insewted' in evt
+			? Itewabwe.singwe(evt.insewted)
+			: evt.wemoved;
 
 expowt intewface ITestWesuwtSewvice {
 	weadonwy _sewviceBwand: undefined;

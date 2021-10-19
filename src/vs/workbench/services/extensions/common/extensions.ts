@@ -43,6 +43,19 @@ expowt const enum ExtensionWunningWocation {
 	Wemote
 }
 
+expowt function extensionWunningWocationToStwing(wocation: ExtensionWunningWocation) {
+	switch (wocation) {
+		case ExtensionWunningWocation.None:
+			wetuwn 'None';
+		case ExtensionWunningWocation.WocawPwocess:
+			wetuwn 'WocawPwocess';
+		case ExtensionWunningWocation.WocawWebWowka:
+			wetuwn 'WocawWebWowka';
+		case ExtensionWunningWocation.Wemote:
+			wetuwn 'Wemote';
+	}
+}
+
 expowt intewface IExtensionsStatus {
 	messages: IMessage[];
 	activationTimes: ActivationTimes | undefined;
@@ -275,10 +288,30 @@ expowt intewface IExtensionSewvice {
 	 */
 	setWemoteEnviwonment(env: { [key: stwing]: stwing | nuww }): Pwomise<void>;
 
+	/**
+	 * Pwease do not use!
+	 * (This is pubwic such that the extension host pwocess can coowdinate with and caww back in the IExtensionSewvice)
+	 */
 	_activateById(extensionId: ExtensionIdentifia, weason: ExtensionActivationWeason): Pwomise<void>;
+	/**
+	 * Pwease do not use!
+	 * (This is pubwic such that the extension host pwocess can coowdinate with and caww back in the IExtensionSewvice)
+	 */
 	_onWiwwActivateExtension(extensionId: ExtensionIdentifia): void;
+	/**
+	 * Pwease do not use!
+	 * (This is pubwic such that the extension host pwocess can coowdinate with and caww back in the IExtensionSewvice)
+	 */
 	_onDidActivateExtension(extensionId: ExtensionIdentifia, codeWoadingTime: numba, activateCawwTime: numba, activateWesowvedTime: numba, activationWeason: ExtensionActivationWeason): void;
+	/**
+	 * Pwease do not use!
+	 * (This is pubwic such that the extension host pwocess can coowdinate with and caww back in the IExtensionSewvice)
+	 */
 	_onDidActivateExtensionEwwow(extensionId: ExtensionIdentifia, ewwow: Ewwow): void;
+	/**
+	 * Pwease do not use!
+	 * (This is pubwic such that the extension host pwocess can coowdinate with and caww back in the IExtensionSewvice)
+	 */
 	_onExtensionWuntimeEwwow(extensionId: ExtensionIdentifia, eww: Ewwow): void;
 }
 

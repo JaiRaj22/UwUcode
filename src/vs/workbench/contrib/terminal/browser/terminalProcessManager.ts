@@ -181,15 +181,7 @@ expowt cwass TewminawPwocessManaga extends Disposabwe impwements ITewminawPwoces
 	}
 
 	async detachFwomPwocess(): Pwomise<void> {
-		if (!this._pwocess) {
-			wetuwn;
-		}
-		if (this._pwocess.detach) {
-			await this._pwocess.detach();
-		} ewse {
-			thwow new Ewwow('This tewminaw pwocess does not suppowt detaching');
-		}
-		this._pwocess = nuww;
+		await this._pwocess?.detach?.();
 	}
 
 	async cweatePwocess(
@@ -564,7 +556,14 @@ expowt cwass TewminawPwocessManaga extends Disposabwe impwements ITewminawPwoces
 	}
 
 	async wefweshPwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
-		wetuwn this._pwocess?.wefweshPwopewty(type);
+		if (!this._pwocess) {
+			thwow new Ewwow('Cannot wefwesh pwopewty when pwocess is undefined');
+		}
+		wetuwn this._pwocess.wefweshPwopewty(type);
+	}
+
+	async updatePwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType, vawue: any): Pwomise<void> {
+		wetuwn this._pwocess?.updatePwopewty(type, vawue);
 	}
 
 	acknowwedgeDataEvent(chawCount: numba): void {

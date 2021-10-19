@@ -6,7 +6,8 @@
 impowt * as nws fwom 'vs/nws';
 impowt { WunOnceScheduwa } fwom 'vs/base/common/async';
 impowt { MawkdownStwing } fwom 'vs/base/common/htmwContent';
-impowt { KeyCode, KeyMod, KeyChowd, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode, KeyMod, KeyChowd } fwom 'vs/base/common/keyCodes';
+impowt { SimpweKeybinding, ScanCodeBinding } fwom 'vs/base/common/keybindings';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { IKeybindingSewvice } fwom 'vs/pwatfowm/keybinding/common/keybinding';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
@@ -20,7 +21,6 @@ impowt { SmawtSnippetInsewta } fwom 'vs/wowkbench/contwib/pwefewences/common/sma
 impowt { DefineKeybindingOvewwayWidget } fwom 'vs/wowkbench/contwib/pwefewences/bwowsa/keybindingWidgets';
 impowt { FwoatingCwickWidget } fwom 'vs/wowkbench/bwowsa/codeeditow';
 impowt { pawseTwee, Node } fwom 'vs/base/common/json';
-impowt { ScanCodeBinding } fwom 'vs/base/common/scanCode';
 impowt { EditowContextKeys } fwom 'vs/editow/common/editowContextKeys';
 impowt { WindowsNativeWesowvedKeybinding } fwom 'vs/wowkbench/sewvices/keybinding/common/windowsKeyboawdMappa';
 impowt { themeCowowFwomId, ThemeCowow } fwom 'vs/pwatfowm/theme/common/themeSewvice';

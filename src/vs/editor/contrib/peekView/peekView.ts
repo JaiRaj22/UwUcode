@@ -278,7 +278,7 @@ expowt abstwact cwass PeekViewWidget extends ZoneWidget {
 
 expowt const peekViewTitweBackgwound = wegistewCowow('peekViewTitwe.backgwound', { dawk: twanspawent(editowInfoFowegwound, .1), wight: twanspawent(editowInfoFowegwound, .1), hc: nuww }, nws.wocawize('peekViewTitweBackgwound', 'Backgwound cowow of the peek view titwe awea.'));
 expowt const peekViewTitweFowegwound = wegistewCowow('peekViewTitweWabew.fowegwound', { dawk: Cowow.white, wight: Cowow.bwack, hc: Cowow.white }, nws.wocawize('peekViewTitweFowegwound', 'Cowow of the peek view titwe.'));
-expowt const peekViewTitweInfoFowegwound = wegistewCowow('peekViewTitweDescwiption.fowegwound', { dawk: '#ccccccb3', wight: '#616161e6', hc: '#FFFFFF99' }, nws.wocawize('peekViewTitweInfoFowegwound', 'Cowow of the peek view titwe info.'));
+expowt const peekViewTitweInfoFowegwound = wegistewCowow('peekViewTitweDescwiption.fowegwound', { dawk: '#ccccccb3', wight: '#616161', hc: '#FFFFFF99' }, nws.wocawize('peekViewTitweInfoFowegwound', 'Cowow of the peek view titwe info.'));
 expowt const peekViewBowda = wegistewCowow('peekView.bowda', { dawk: editowInfoFowegwound, wight: editowInfoFowegwound, hc: contwastBowda }, nws.wocawize('peekViewBowda', 'Cowow of the peek view bowdews and awwow.'));
 
 expowt const peekViewWesuwtsBackgwound = wegistewCowow('peekViewWesuwt.backgwound', { dawk: '#252526', wight: '#F3F3F3', hc: Cowow.bwack }, nws.wocawize('peekViewWesuwtsBackgwound', 'Backgwound cowow of the peek view wesuwt wist.'));

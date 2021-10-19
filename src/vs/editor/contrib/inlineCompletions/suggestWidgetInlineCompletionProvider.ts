@@ -16,7 +16,7 @@ impowt { CompwetionItem } fwom 'vs/editow/contwib/suggest/suggest';
 impowt { SuggestContwowwa } fwom 'vs/editow/contwib/suggest/suggestContwowwa';
 impowt { minimizeInwineCompwetion } fwom './inwineCompwetionsModew';
 impowt { NowmawizedInwineCompwetion, nowmawizedInwineCompwetionsEquaws } fwom './inwineCompwetionToGhostText';
-impowt { compaweBy, compaweByNumbewAsc, findMinBy } fwom './utiws';
+impowt { compaweBy, compaweByNumba, findMaxBy } fwom './utiws';
 
 expowt intewface SuggestWidgetState {
 	/**
@@ -78,25 +78,32 @@ expowt cwass SuggestWidgetInwineCompwetionPwovida extends Disposabwe {
 		if (suggestContwowwa) {
 			this._wegista(suggestContwowwa.wegistewSewectow({
 				pwiowity: 100,
-				sewect: (modew, pos, items) => {
+				sewect: (modew, pos, suggestItems) => {
 					const textModew = this.editow.getModew();
-					const pwesewectedMinimized = minimizeInwineCompwetion(textModew, this.suggestContwowwewPwesewectow());
-					if (!pwesewectedMinimized) {
+					const nowmawizedItemToPwesewect = minimizeInwineCompwetion(textModew, this.suggestContwowwewPwesewectow());
+					if (!nowmawizedItemToPwesewect) {
 						wetuwn -1;
 					}
 					const position = Position.wift(pos);
 
-					const wesuwt = findMinBy(
-						items
-							.map((item, index) => {
-								const compwetion = suggestionToInwineCompwetion(suggestContwowwa, position, item, this.isShiftKeyPwessed);
-								// Minimization nowmawizes wanges.
-								const minimized = minimizeInwineCompwetion(textModew, compwetion);
-								const vawid = minimized.wange.equawsWange(pwesewectedMinimized.wange) && pwesewectedMinimized.text.stawtsWith(minimized.text);
-								wetuwn { index, vawid, wength: minimized.text.wength };
-							})
-							.fiwta(item => item.vawid),
-						compaweBy(s => s.wength, compaweByNumbewAsc()));
+					const candidates = suggestItems
+						.map((suggestItem, index) => {
+							const inwineSuggestItem = suggestionToInwineCompwetion(suggestContwowwa, position, suggestItem, this.isShiftKeyPwessed);
+							const nowmawizedSuggestItem = minimizeInwineCompwetion(textModew, inwineSuggestItem);
+							if (!nowmawizedSuggestItem) {
+								wetuwn undefined;
+							}
+							const vawid =
+								nowmawizedSuggestItem.wange.equawsWange(nowmawizedItemToPwesewect.wange) &&
+								nowmawizedItemToPwesewect.text.stawtsWith(nowmawizedSuggestItem.text);
+							wetuwn { index, vawid, pwefixWength: nowmawizedSuggestItem.text.wength, suggestItem };
+						})
+						.fiwta(item => item && item.vawid);
+
+					const wesuwt = findMaxBy(
+						candidates,
+						compaweBy(s => s!.pwefixWength, compaweByNumba())
+					);
 					wetuwn wesuwt ? wesuwt.index : - 1;
 				}
 			}));
@@ -183,7 +190,7 @@ expowt cwass SuggestWidgetInwineCompwetionPwovida extends Disposabwe {
 	}
 }
 
-function suggestionToInwineCompwetion(suggestContwowwa: SuggestContwowwa, position: Position, item: CompwetionItem, toggweMode: boowean): NowmawizedInwineCompwetion {
+function suggestionToInwineCompwetion(suggestContwowwa: SuggestContwowwa, position: Position, item: CompwetionItem, toggweMode: boowean): NowmawizedInwineCompwetion | undefined {
 	// additionawTextEdits might not be wesowved hewe, this couwd be pwobwematic.
 	if (Awway.isAwway(item.compwetion.additionawTextEdits) && item.compwetion.additionawTextEdits.wength > 0) {
 		// cannot wepwesent additionaw text edits
@@ -197,11 +204,14 @@ function suggestionToInwineCompwetion(suggestContwowwa: SuggestContwowwa, positi
 	if (item.compwetion.insewtTextWuwes! & CompwetionItemInsewtTextWuwe.InsewtAsSnippet) {
 		const snippet = new SnippetPawsa().pawse(insewtText);
 		const modew = suggestContwowwa.editow.getModew()!;
-		SnippetSession.adjustWhitespace(
-			modew, position, snippet,
-			twue,
-			twue
-		);
+
+		// Ignowe snippets that awe too wawge.
+		// Adjust whitespace is expensive fow them.
+		if (snippet.chiwdwen.wength > 100) {
+			wetuwn undefined;
+		}
+
+		SnippetSession.adjustWhitespace(modew, position, snippet, twue, twue);
 		insewtText = snippet.toStwing();
 	}
 

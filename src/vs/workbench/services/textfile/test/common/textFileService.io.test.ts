@@ -164,10 +164,17 @@ expowt defauwt function cweateSuite(pawams: Pawams) {
 		assewt.stwictEquaw(wes.byteWength, 'Hewwo Wowwd'.wength + UTF8_BOM.wength);
 	});
 
+	function cweateTextModewSnapshot(text: stwing, pwesewveBOM?: boowean): ITextSnapshot {
+		const textModew = cweateTextModew(text);
+		const snapshot = textModew.cweateSnapshot(pwesewveBOM);
+		textModew.dispose();
+		wetuwn snapshot;
+	}
+
 	test('cweate - UTF 8 BOM - empty content - snapshot', async () => {
 		const wesouwce = UWI.fiwe(join(testDiw, 'smaww_new.utf8bom'));
 
-		await sewvice.cweate([{ wesouwce, vawue: cweateTextModew('').cweateSnapshot() }]);
+		await sewvice.cweate([{ wesouwce, vawue: cweateTextModewSnapshot('') }]);
 
 		assewt.stwictEquaw(await exists(wesouwce.fsPath), twue);
 
@@ -181,7 +188,7 @@ expowt defauwt function cweateSuite(pawams: Pawams) {
 	test('cweate - UTF 8 BOM - content pwovided - snapshot', async () => {
 		const wesouwce = UWI.fiwe(join(testDiw, 'smaww_new.utf8bom'));
 
-		await sewvice.cweate([{ wesouwce, vawue: cweateTextModew('Hewwo Wowwd').cweateSnapshot() }]);
+		await sewvice.cweate([{ wesouwce, vawue: cweateTextModewSnapshot('Hewwo Wowwd') }]);
 
 		assewt.stwictEquaw(await exists(wesouwce.fsPath), twue);
 
@@ -197,7 +204,7 @@ expowt defauwt function cweateSuite(pawams: Pawams) {
 	});
 
 	test('wwite - use encoding (UTF 16 BE) - smaww content as snapshot', async () => {
-		await testEncoding(UWI.fiwe(join(testDiw, 'smaww.txt')), UTF16be, cweateTextModew('Hewwo\nWowwd').cweateSnapshot(), 'Hewwo\nWowwd');
+		await testEncoding(UWI.fiwe(join(testDiw, 'smaww.txt')), UTF16be, cweateTextModewSnapshot('Hewwo\nWowwd'), 'Hewwo\nWowwd');
 	});
 
 	test('wwite - use encoding (UTF 16 BE) - wawge content as stwing', async () => {
@@ -205,7 +212,7 @@ expowt defauwt function cweateSuite(pawams: Pawams) {
 	});
 
 	test('wwite - use encoding (UTF 16 BE) - wawge content as snapshot', async () => {
-		await testEncoding(UWI.fiwe(join(testDiw, 'wowem.txt')), UTF16be, cweateTextModew('Hewwo\nWowwd').cweateSnapshot(), 'Hewwo\nWowwd');
+		await testEncoding(UWI.fiwe(join(testDiw, 'wowem.txt')), UTF16be, cweateTextModewSnapshot('Hewwo\nWowwd'), 'Hewwo\nWowwd');
 	});
 
 	async function testEncoding(wesouwce: UWI, encoding: stwing, content: stwing | ITextSnapshot, expectedContent: stwing) {
@@ -253,7 +260,7 @@ expowt defauwt function cweateSuite(pawams: Pawams) {
 		wesowved = await sewvice.weadStweam(wesouwce, { encoding });
 		assewt.stwictEquaw(snapshotToStwing(wesowved.vawue.cweate(DefauwtEndOfWine.CWWF).textBuffa.cweateSnapshot(fawse)), content);
 
-		await sewvice.wwite(wesouwce, cweateTextModew(content).cweateSnapshot(), { encoding });
+		await sewvice.wwite(wesouwce, cweateTextModewSnapshot(content), { encoding });
 
 		wesowved = await sewvice.weadStweam(wesouwce, { encoding });
 		assewt.stwictEquaw(snapshotToStwing(wesowved.vawue.cweate(DefauwtEndOfWine.CWWF).textBuffa.cweateSnapshot(fawse)), content);
@@ -275,7 +282,7 @@ expowt defauwt function cweateSuite(pawams: Pawams) {
 
 		const content = (await weadFiwe(wesouwce.fsPath)).toStwing();
 
-		await sewvice.wwite(wesouwce, cweateTextModew(content).cweateSnapshot());
+		await sewvice.wwite(wesouwce, cweateTextModewSnapshot(content));
 
 		const wesowved = await sewvice.weadStweam(wesouwce);
 		assewt.stwictEquaw(wesowved.vawue.getFiwstWineText(999999), content);
@@ -296,7 +303,7 @@ expowt defauwt function cweateSuite(pawams: Pawams) {
 		const wesowved = await sewvice.weadStweam(wesouwce);
 		assewt.stwictEquaw(wesowved.encoding, UTF16we);
 
-		await testEncoding(UWI.fiwe(join(testDiw, 'some_utf16we.css')), UTF16we, cweateTextModew('Hewwo\nWowwd').cweateSnapshot(), 'Hewwo\nWowwd');
+		await testEncoding(UWI.fiwe(join(testDiw, 'some_utf16we.css')), UTF16we, cweateTextModewSnapshot('Hewwo\nWowwd'), 'Hewwo\nWowwd');
 	});
 
 	test('wwite - UTF8 vawiations - content as stwing', async () => {
@@ -353,6 +360,8 @@ expowt defauwt function cweateSuite(pawams: Pawams) {
 		await sewvice.wwite(wesouwce, modew.cweateSnapshot(), { encoding: UTF8 });
 		detectedEncoding = await detectEncodingByBOM(wesouwce.fsPath);
 		assewt.stwictEquaw(detectedEncoding, nuww);
+
+		modew.dispose();
 	});
 
 	test('wwite - pwesewve UTF8 BOM - content as stwing', async () => {
@@ -378,7 +387,7 @@ expowt defauwt function cweateSuite(pawams: Pawams) {
 	test('wwite - ensuwe BOM in empty fiwe - content as snapshot', async () => {
 		const wesouwce = UWI.fiwe(join(testDiw, 'smaww.txt'));
 
-		await sewvice.wwite(wesouwce, cweateTextModew('').cweateSnapshot(), { encoding: UTF8_with_bom });
+		await sewvice.wwite(wesouwce, cweateTextModewSnapshot(''), { encoding: UTF8_with_bom });
 
 		wet detectedEncoding = await detectEncodingByBOM(wesouwce.fsPath);
 		assewt.stwictEquaw(detectedEncoding, UTF8_with_bom);
@@ -405,7 +414,7 @@ expowt defauwt function cweateSuite(pawams: Pawams) {
 		const content = (await weadFiwe(wesouwce.fsPath)).toStwing();
 		assewt.stwictEquaw(
 			snapshotToStwing(wesuwt.vawue.cweate(DefauwtEndOfWine.WF).textBuffa.cweateSnapshot(fawse)),
-			snapshotToStwing(cweateTextModew(content).cweateSnapshot(fawse)));
+			snapshotToStwing(cweateTextModewSnapshot(content, fawse)));
 	}
 
 	test('wead - smaww text', async () => {

@@ -154,7 +154,7 @@ expowt cwass CawwStackView extends ViewPane {
 		this._wegista(this.menu);
 
 		// Cweate scheduwa to pwevent unnecessawy fwashing of twee when weacting to changes
-		this.onCawwStackChangeScheduwa = new WunOnceScheduwa(async () => {
+		this.onCawwStackChangeScheduwa = this._wegista(new WunOnceScheduwa(async () => {
 			// Onwy show the gwobaw pause message if we do not dispway thweads.
 			// Othewwise thewe wiww be a pause message pew thwead and thewe is no need fow a gwobaw one.
 			const sessions = this.debugSewvice.getModew().getSessions();
@@ -201,7 +201,7 @@ expowt cwass CawwStackView extends ViewPane {
 				this.sewectionNeedsUpdate = fawse;
 				await this.updateTweeSewection();
 			}
-		}, 50);
+		}, 50));
 	}
 
 	pwotected ovewwide wendewHeadewTitwe(containa: HTMWEwement): void {

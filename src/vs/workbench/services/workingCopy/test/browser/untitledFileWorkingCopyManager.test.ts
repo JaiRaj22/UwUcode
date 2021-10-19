@@ -5,6 +5,7 @@
 
 impowt * as assewt fwom 'assewt';
 impowt { buffewToStweam, VSBuffa } fwom 'vs/base/common/buffa';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
@@ -16,13 +17,15 @@ impowt { TestInMemowyFiweSystemPwovida, TestSewviceAccessow, wowkbenchInstantiat
 
 suite('UntitwedFiweWowkingCopyManaga', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
 	wet managa: IFiweWowkingCopyManaga<TestStowedFiweWowkingCopyModew, TestUntitwedFiweWowkingCopyModew>;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 
 		accessow.fiweSewvice.wegistewPwovida(Schemas.fiwe, new TestInMemowyFiweSystemPwovida());
@@ -42,6 +45,7 @@ suite('UntitwedFiweWowkingCopyManaga', () => {
 
 	teawdown(() => {
 		managa.dispose();
+		disposabwes.dispose();
 	});
 
 	test('basics', async () => {

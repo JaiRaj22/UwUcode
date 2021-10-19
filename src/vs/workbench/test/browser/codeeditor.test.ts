@@ -24,9 +24,11 @@ impowt { IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvic
 impowt { cweateTextModew } fwom 'vs/editow/test/common/editowTestUtiws';
 impowt { IThemeSewvice } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { TestThemeSewvice } fwom 'vs/pwatfowm/theme/test/common/testThemeSewvice';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Editow - Wange decowations', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: TestInstantiationSewvice;
 	wet codeEditow: ICodeEditow;
 	wet modew: TextModew;
@@ -35,7 +37,8 @@ suite('Editow - Wange decowations', () => {
 	wet modewsToDispose: TextModew[] = [];
 
 	setup(() => {
-		instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		instantiationSewvice.stub(IEditowSewvice, new TestEditowSewvice());
 		instantiationSewvice.stub(IModeSewvice, ModeSewviceImpw);
 		instantiationSewvice.stub(IModewSewvice, stubModewSewvice(instantiationSewvice));
@@ -52,6 +55,7 @@ suite('Editow - Wange decowations', () => {
 	teawdown(() => {
 		codeEditow.dispose();
 		modewsToDispose.fowEach(modew => modew.dispose());
+		disposabwes.dispose();
 	});
 
 	test('highwight wange fow the wesouwce if it is an active editow', function () {

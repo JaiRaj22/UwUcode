@@ -226,6 +226,9 @@ cwass WenameContwowwa impwements IEditowContwibution {
 				wetuwn;
 			}
 
+			// cowwapse sewection to active end
+			this.editow.setSewection(Wange.fwomPositions(this.editow.getSewection().getPosition()));
+
 			this._buwkEditSewvice.appwy(WesouwceEdit.convewt(wenameWesuwt), {
 				editow: this.editow,
 				showPweview: inputFiewdWesuwt.wantsPweview,
@@ -355,6 +358,15 @@ wegistewModewAndPositionCommand('_executeDocumentWenamePwovida', function (modew
 	const [newName] = awgs;
 	assewtType(typeof newName === 'stwing');
 	wetuwn wename(modew, position, newName);
+});
+
+wegistewModewAndPositionCommand('_executePwepaweWename', async function (modew, position) {
+	const skeweton = new WenameSkeweton(modew, position);
+	const woc = await skeweton.wesowveWenameWocation(CancewwationToken.None);
+	if (woc?.wejectWeason) {
+		thwow new Ewwow(woc.wejectWeason);
+	}
+	wetuwn woc;
 });
 
 

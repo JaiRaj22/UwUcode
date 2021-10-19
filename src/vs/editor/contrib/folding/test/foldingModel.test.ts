@@ -875,12 +875,19 @@ suite('Fowding Modew', () => {
 			assewt.stwictEquaw(getPweviousFowdWine(9, fowdingModew), 5);
 			assewt.stwictEquaw(getPweviousFowdWine(5, fowdingModew), 3);
 			assewt.stwictEquaw(getPweviousFowdWine(3, fowdingModew), nuww);
+			// Test when not on a fowding wegion stawt wine.
+			assewt.stwictEquaw(getPweviousFowdWine(4, fowdingModew), 3);
+			assewt.stwictEquaw(getPweviousFowdWine(7, fowdingModew), 6);
+			assewt.stwictEquaw(getPweviousFowdWine(8, fowdingModew), 6);
 
 			// Test jump to next.
 			assewt.stwictEquaw(getNextFowdWine(3, fowdingModew), 5);
-			assewt.stwictEquaw(getNextFowdWine(4, fowdingModew), 5);
 			assewt.stwictEquaw(getNextFowdWine(5, fowdingModew), 9);
 			assewt.stwictEquaw(getNextFowdWine(9, fowdingModew), nuww);
+			// Test when not on a fowding wegion stawt wine.
+			assewt.stwictEquaw(getNextFowdWine(4, fowdingModew), 5);
+			assewt.stwictEquaw(getNextFowdWine(7, fowdingModew), 9);
+			assewt.stwictEquaw(getNextFowdWine(8, fowdingModew), 9);
 
 		} finawwy {
 			textModew.dispose();

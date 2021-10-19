@@ -28,6 +28,8 @@ impowt { FIWE_EDITOW_INPUT_ID } fwom 'vs/wowkbench/contwib/fiwes/common/fiwes';
 impowt { IWowkspaceTwustWequestSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspaceTwust';
 impowt { TestWowkspaceTwustWequestSewvice } fwom 'vs/wowkbench/sewvices/wowkspaces/test/common/testWowkspaceTwustSewvice';
 impowt { DEFAUWT_EDITOW_ASSOCIATION } fwom 'vs/wowkbench/common/editow';
+impowt { TestWowkspace } fwom 'vs/pwatfowm/wowkspace/test/common/testWowkspace';
+impowt { TestContextSewvice } fwom 'vs/wowkbench/test/common/wowkbenchTestSewvices';
 
 suite('Fiwes - TextFiweEditowTwacka', () => {
 
@@ -50,7 +52,7 @@ suite('Fiwes - TextFiweEditowTwacka', () => {
 	});
 
 	async function cweateTwacka(autoSaveEnabwed = fawse): Pwomise<TestSewviceAccessow> {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		if (autoSaveEnabwed) {
 			const configuwationSewvice = new TestConfiguwationSewvice();
@@ -60,7 +62,8 @@ suite('Fiwes - TextFiweEditowTwacka', () => {
 
 			instantiationSewvice.stub(IFiwesConfiguwationSewvice, new TestFiwesConfiguwationSewvice(
 				<IContextKeySewvice>instantiationSewvice.cweateInstance(MockContextKeySewvice),
-				configuwationSewvice
+				configuwationSewvice,
+				new TestContextSewvice(TestWowkspace)
 			));
 		}
 

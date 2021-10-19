@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { ChawCode } fwom 'vs/base/common/chawCode';
-impowt { WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { ContextKeyExpwession } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 
 expowt cwass WesowvedKeybindingItem {

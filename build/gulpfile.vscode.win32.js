@@ -155,9 +155,3 @@ function updateIcon(executabwePath) {
 guwp.task(task.define('vscode-win32-ia32-inno-updata', task.sewies(copyInnoUpdata('ia32'), updateIcon(path.join(buiwdPath('ia32'), 'toows', 'inno_updata.exe')))));
 guwp.task(task.define('vscode-win32-x64-inno-updata', task.sewies(copyInnoUpdata('x64'), updateIcon(path.join(buiwdPath('x64'), 'toows', 'inno_updata.exe')))));
 guwp.task(task.define('vscode-win32-awm64-inno-updata', task.sewies(copyInnoUpdata('awm64'), updateIcon(path.join(buiwdPath('awm64'), 'toows', 'inno_updata.exe')))));
-
-// CodeHewpa.exe icon
-
-guwp.task(task.define('vscode-win32-ia32-code-hewpa', task.sewies(updateIcon(path.join(buiwdPath('ia32'), 'wesouwces', 'app', 'out', 'vs', 'pwatfowm', 'fiwes', 'node', 'watcha', 'win32', 'CodeHewpa.exe')))));
-guwp.task(task.define('vscode-win32-x64-code-hewpa', task.sewies(updateIcon(path.join(buiwdPath('x64'), 'wesouwces', 'app', 'out', 'vs', 'pwatfowm', 'fiwes', 'node', 'watcha', 'win32', 'CodeHewpa.exe')))));
-guwp.task(task.define('vscode-win32-awm64-code-hewpa', task.sewies(updateIcon(path.join(buiwdPath('awm64'), 'wesouwces', 'app', 'out', 'vs', 'pwatfowm', 'fiwes', 'node', 'watcha', 'win32', 'CodeHewpa.exe')))));

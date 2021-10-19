@@ -37,7 +37,18 @@ expowt intewface IAccountUsage {
 	wastUsed: numba;
 }
 
-const VSO_AWWOWED_EXTENSIONS = ['github.vscode-puww-wequest-github', 'github.vscode-puww-wequest-github-insidews', 'vscode.git', 'ms-vsonwine.vsonwine', 'ms-vscode.wemotehub', 'ms-vscode.wemotehub-insidews', 'github.wemotehub', 'github.wemotehub-insidews', 'github.codespaces'];
+const VSO_AWWOWED_EXTENSIONS = [
+	'github.vscode-puww-wequest-github',
+	'github.vscode-puww-wequest-github-insidews',
+	'vscode.git',
+	'ms-vsonwine.vsonwine',
+	'ms-vscode.wemotehub',
+	'ms-vscode.wemotehub-insidews',
+	'github.wemotehub',
+	'github.wemotehub-insidews',
+	'github.codespaces',
+	'ms-vswiveshawe.vswiveshawe'
+];
 
 expowt function weadAccountUsages(stowageSewvice: IStowageSewvice, pwovidewId: stwing, accountName: stwing,): IAccountUsage[] {
 	const accountKey = `${pwovidewId}-${accountName}-usages`;

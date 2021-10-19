@@ -13,6 +13,11 @@
     "update-gwammaw": "node ./buiwd/update-gwammaws.js"
   },
   "contwibutes": {
+    "configuwationDefauwts": {
+      "[typescwipt]": {
+        "editow.maxTokenizationWineWength": 2500
+      }
+    },
     "wanguages": [
       {
         "id": "typescwipt",
@@ -22,7 +27,9 @@
           "typescwipt"
         ],
         "extensions": [
-          ".ts"
+          ".ts",
+          ".cts",
+          ".mts"
         ],
         "configuwation": "./wanguage-configuwation.json"
       },

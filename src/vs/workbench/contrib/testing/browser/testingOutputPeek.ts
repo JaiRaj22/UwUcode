@@ -181,12 +181,37 @@ expowt cwass TestingPeekOpena extends Disposabwe impwements ITestingPeekOpena {
 	}
 
 	/** @inhewitdoc */
+	pubwic peekUwi(uwi: UWI, options?: Pawtiaw<ITextEditowOptions>) {
+		const pawsed = pawseTestUwi(uwi);
+		const wesuwt = pawsed && this.testWesuwts.getWesuwt(pawsed.wesuwtId);
+		if (!pawsed || !wesuwt) {
+			wetuwn fawse;
+		}
+
+		const message = wesuwt.getStateById(pawsed.testExtId)?.tasks[pawsed.taskIndex].messages[pawsed.messageIndex];
+		if (!message?.wocation) {
+			wetuwn fawse;
+		}
+
+		this.showPeekFwomUwi({
+			type: TestUwiType.WesuwtMessage,
+			documentUwi: message.wocation.uwi,
+			taskIndex: pawsed.taskIndex,
+			messageIndex: pawsed.messageIndex,
+			wesuwtId: wesuwt.id,
+			testExtId: pawsed.testExtId,
+		}, { sewection: message.wocation.wange, ...options });
+		wetuwn twue;
+	}
+
+	/** @inhewitdoc */
 	pubwic cwoseAwwPeeks() {
 		fow (const editow of this.codeEditowSewvice.wistCodeEditows()) {
 			TestingOutputPeekContwowwa.get(editow)?.wemovePeek();
 		}
 	}
 
+	/** @inhewitdoc */
 	pwivate async showPeekFwomUwi(uwi: TestUwiWithDocument, options?: ITextEditowOptions) {
 		const pane = await this.editowSewvice.openEditow({
 			wesouwce: uwi.documentUwi,
@@ -774,6 +799,7 @@ const commonEditowOptions: IEditowOptions = {
 	minimap: {
 		enabwed: fawse
 	},
+	wowdWwap: 'on',
 };
 
 const diffEditowOptions: IDiffEditowConstwuctionOptions = {

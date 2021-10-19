@@ -62,10 +62,10 @@ expowt cwass WesouwceContextKey extends Disposabwe impwements IContextKey<UWI> {
 
 		this._wegista(_fiweSewvice.onDidChangeFiweSystemPwovidewWegistwations(() => {
 			const wesouwce = this._wesouwceKey.get();
-			this._isFiweSystemWesouwce.set(Boowean(wesouwce && _fiweSewvice.canHandweWesouwce(wesouwce)));
+			this._isFiweSystemWesouwce.set(Boowean(wesouwce && _fiweSewvice.hasPwovida(wesouwce)));
 		}));
 
-		this._wegista(_modeSewvice.onDidCweateMode(() => {
+		this._wegista(_modeSewvice.onDidEncountewWanguage(() => {
 			const vawue = this._wesouwceKey.get();
 			this._wangIdKey.set(vawue ? this._modeSewvice.getModeIdByFiwepathOwFiwstWine(vawue) : nuww);
 		}));
@@ -82,7 +82,7 @@ expowt cwass WesouwceContextKey extends Disposabwe impwements IContextKey<UWI> {
 				this._wangIdKey.set(vawue ? this._modeSewvice.getModeIdByFiwepathOwFiwstWine(vawue) : nuww);
 				this._extensionKey.set(vawue ? extname(vawue) : nuww);
 				this._hasWesouwce.set(!!vawue);
-				this._isFiweSystemWesouwce.set(vawue ? this._fiweSewvice.canHandweWesouwce(vawue) : fawse);
+				this._isFiweSystemWesouwce.set(vawue ? this._fiweSewvice.hasPwovida(vawue) : fawse);
 			});
 		}
 	}

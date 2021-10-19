@@ -1372,6 +1372,7 @@ expowt cwass SettingsEditow2 extends EditowPane {
 				this.tocTwee.expandAww();
 			}
 
+			this.settingsTwee.scwowwTop = 0;
 			this.wefweshTOCTwee();
 			this.wendewTwee(undefined, twue);
 			wetuwn wesuwt;

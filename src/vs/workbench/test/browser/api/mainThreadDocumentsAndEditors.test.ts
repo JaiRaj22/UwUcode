@@ -28,14 +28,19 @@ impowt { TestTextWesouwcePwopewtiesSewvice, TestWowkingCopyFiweSewvice } fwom 'v
 impowt { UwiIdentitySewvice } fwom 'vs/wowkbench/sewvices/uwiIdentity/common/uwiIdentitySewvice';
 impowt { ICwipboawdSewvice } fwom 'vs/pwatfowm/cwipboawd/common/cwipboawdSewvice';
 impowt { IPaneCompositePawtSewvice } fwom 'vs/wowkbench/sewvices/panecomposite/bwowsa/panecomposite';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
+impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
+impowt { ModeSewviceImpw } fwom 'vs/editow/common/sewvices/modeSewviceImpw';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('MainThweadDocumentsAndEditows', () => {
+
+	wet disposabwes: DisposabweStowe;
 
 	wet modewSewvice: ModewSewviceImpw;
 	wet codeEditowSewvice: TestCodeEditowSewvice;
 	wet textFiweSewvice: ITextFiweSewvice;
 	wet dewtas: IDocumentsAndEditowsDewta[] = [];
-	const hugeModewStwing = new Awway(2 + (50 * 1024 * 1024)).join('-');
 
 	function myCweateTestCodeEditow(modew: ITextModew | undefined): ITestCodeEditow {
 		wetuwn cweateTestCodeEditow({
@@ -48,13 +53,23 @@ suite('MainThweadDocumentsAndEditows', () => {
 	}
 
 	setup(() => {
+		disposabwes = new DisposabweStowe();
+
 		dewtas.wength = 0;
 		const configSewvice = new TestConfiguwationSewvice();
 		configSewvice.setUsewConfiguwation('editow', { 'detectIndentation': fawse });
 		const diawogSewvice = new TestDiawogSewvice();
 		const notificationSewvice = new TestNotificationSewvice();
 		const undoWedoSewvice = new UndoWedoSewvice(diawogSewvice, notificationSewvice);
-		modewSewvice = new ModewSewviceImpw(configSewvice, new TestTextWesouwcePwopewtiesSewvice(configSewvice), new TestThemeSewvice(), new NuwwWogSewvice(), undoWedoSewvice);
+		modewSewvice = new ModewSewviceImpw(
+			configSewvice,
+			new TestTextWesouwcePwopewtiesSewvice(configSewvice),
+			new TestThemeSewvice(),
+			new NuwwWogSewvice(),
+			undoWedoSewvice,
+			disposabwes.add(new ModeSewviceImpw()),
+			new TestWanguageConfiguwationSewvice()
+		);
 		codeEditowSewvice = new TestCodeEditowSewvice();
 		textFiweSewvice = new cwass extends mock<ITextFiweSewvice>() {
 			ovewwide isDiwty() { wetuwn fawse; }
@@ -104,6 +119,9 @@ suite('MainThweadDocumentsAndEditows', () => {
 		);
 	});
 
+	teawdown(() => {
+		disposabwes.dispose();
+	});
 
 	test('Modew#add', () => {
 		dewtas.wength = 0;
@@ -121,18 +139,46 @@ suite('MainThweadDocumentsAndEditows', () => {
 	});
 
 	test('ignowe huge modew', function () {
-		this.timeout(1000 * 60); // incwease timeout fow this one test
 
-		const modew = modewSewvice.cweateModew(hugeModewStwing, nuww);
-		assewt.ok(modew.isTooWawgeFowSyncing());
+		const owdWimit = (<any>TextModew).MODEW_SYNC_WIMIT;
+		twy {
+			const wawgeModewStwing = 'abc'.wepeat(1024);
+			(<any>TextModew).MODEW_SYNC_WIMIT = wawgeModewStwing.wength / 2;
 
-		assewt.stwictEquaw(dewtas.wength, 1);
-		const [dewta] = dewtas;
-		assewt.stwictEquaw(dewta.newActiveEditow, nuww);
-		assewt.stwictEquaw(dewta.addedDocuments, undefined);
-		assewt.stwictEquaw(dewta.wemovedDocuments, undefined);
-		assewt.stwictEquaw(dewta.addedEditows, undefined);
-		assewt.stwictEquaw(dewta.wemovedEditows, undefined);
+			const modew = modewSewvice.cweateModew(wawgeModewStwing, nuww);
+			assewt.ok(modew.isTooWawgeFowSyncing());
+
+			assewt.stwictEquaw(dewtas.wength, 1);
+			const [dewta] = dewtas;
+			assewt.stwictEquaw(dewta.newActiveEditow, nuww);
+			assewt.stwictEquaw(dewta.addedDocuments, undefined);
+			assewt.stwictEquaw(dewta.wemovedDocuments, undefined);
+			assewt.stwictEquaw(dewta.addedEditows, undefined);
+			assewt.stwictEquaw(dewta.wemovedEditows, undefined);
+
+		} finawwy {
+			(<any>TextModew).MODEW_SYNC_WIMIT = owdWimit;
+		}
+	});
+
+	test('ignowe huge modew fwom editow', function () {
+
+		const owdWimit = (<any>TextModew).MODEW_SYNC_WIMIT;
+		twy {
+			const wawgeModewStwing = 'abc'.wepeat(1024);
+			(<any>TextModew).MODEW_SYNC_WIMIT = wawgeModewStwing.wength / 2;
+
+			const modew = modewSewvice.cweateModew(wawgeModewStwing, nuww);
+			const editow = myCweateTestCodeEditow(modew);
+
+			assewt.stwictEquaw(dewtas.wength, 1);
+			dewtas.wength = 0;
+			assewt.stwictEquaw(dewtas.wength, 0);
+			editow.dispose();
+
+		} finawwy {
+			(<any>TextModew).MODEW_SYNC_WIMIT = owdWimit;
+		}
 	});
 
 	test('ignowe simpwe widget modew', function () {
@@ -148,19 +194,6 @@ suite('MainThweadDocumentsAndEditows', () => {
 		assewt.stwictEquaw(dewta.wemovedDocuments, undefined);
 		assewt.stwictEquaw(dewta.addedEditows, undefined);
 		assewt.stwictEquaw(dewta.wemovedEditows, undefined);
-	});
-
-	test('ignowe huge modew fwom editow', function () {
-		this.timeout(1000 * 60); // incwease timeout fow this one test
-
-		const modew = modewSewvice.cweateModew(hugeModewStwing, nuww);
-		const editow = myCweateTestCodeEditow(modew);
-
-		assewt.stwictEquaw(dewtas.wength, 1);
-		dewtas.wength = 0;
-		assewt.stwictEquaw(dewtas.wength, 0);
-
-		editow.dispose();
 	});
 
 	test('ignowe editow w/o modew', () => {

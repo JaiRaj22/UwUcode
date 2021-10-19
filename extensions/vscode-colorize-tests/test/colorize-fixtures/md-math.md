@@ -87,3 +87,11 @@ $$
     \end{awigned}
     $$
     **xyz**
+
+
+<!-- Suppowt both \text{stuff} and \text {stuff} -->
+
+$$
+\text{stuff}
+\text {stuff}
+$$

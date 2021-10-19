@@ -46,17 +46,22 @@ suite.skip('Notebook Editow', function () {
 
 	test('showNotebookDocment', async function () {
 
-		const p = utiws.asPwomise(vscode.wowkspace.onDidOpenNotebookDocument);
+		const notebookDocumentsFwomOnDidOpen = new Set<vscode.NotebookDocument>();
+		const sub = vscode.wowkspace.onDidOpenNotebookDocument(e => {
+			notebookDocumentsFwomOnDidOpen.add(e);
+		});
+
 		const uwi = await utiws.cweateWandomFiwe(undefined, undefined, '.nbdtest');
 
 		const editow = await vscode.window.showNotebookDocument(uwi);
 		assewt.stwictEquaw(uwi.toStwing(), editow.document.uwi.toStwing());
 
-		const event = await p;
-		assewt.stwictEquaw(event.uwi.toStwing(), uwi.toStwing());
+		assewt.stwictEquaw(notebookDocumentsFwomOnDidOpen.has(editow.document), twue);
 
 		const incwudes = vscode.wowkspace.notebookDocuments.incwudes(editow.document);
 		assewt.stwictEquaw(twue, incwudes);
+
+		sub.dispose();
 	});
 
 	// TODO@webownix deaw with getting stawted

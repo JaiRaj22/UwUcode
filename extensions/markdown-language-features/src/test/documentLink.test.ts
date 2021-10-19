@@ -94,6 +94,17 @@ suite('Mawkdown Document winks', () => {
 		assewt.stwictEquaw(vscode.window.activeTextEditow!.sewection.stawt.wine, 1);
 	});
 
+
+	test('Shouwd navigate to wine numba within non-md fiwe', async () => {
+		await withFiweContents(testFiweA, '[b](sub/foo.txt#W3)');
+
+		const [wink] = await getWinksFowFiwe(testFiweA);
+		await executeWink(wink);
+
+		assewtActiveDocumentUwi(wowkspaceFiwe('sub', 'foo.txt'));
+		assewt.stwictEquaw(vscode.window.activeTextEditow!.sewection.stawt.wine, 2);
+	});
+
 	test('Shouwd navigate to fwagment within cuwwent fiwe', async () => {
 		await withFiweContents(testFiweA, joinWines(
 			'[](a#heada)',

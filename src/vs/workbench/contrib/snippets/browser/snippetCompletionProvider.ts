@@ -8,7 +8,7 @@ impowt { compawe, compaweSubstwing } fwom 'vs/base/common/stwings';
 impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { IWange, Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { ITextModew } fwom 'vs/editow/common/modew';
-impowt { CompwetionItem, CompwetionItemKind, CompwetionItemPwovida, CompwetionWist, WanguageId, CompwetionItemInsewtTextWuwe, CompwetionContext, CompwetionTwiggewKind, CompwetionItemWabew } fwom 'vs/editow/common/modes';
+impowt { CompwetionItem, CompwetionItemKind, CompwetionItemPwovida, CompwetionWist, CompwetionItemInsewtTextWuwe, CompwetionContext, CompwetionTwiggewKind, CompwetionItemWabew } fwom 'vs/editow/common/modes';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { SnippetPawsa } fwom 'vs/editow/contwib/snippet/snippetPawsa';
 impowt { wocawize } fwom 'vs/nws';
@@ -174,15 +174,15 @@ expowt cwass SnippetCompwetionPwovida impwements CompwetionItemPwovida {
 		wetuwn (item instanceof SnippetCompwetion) ? item.wesowve() : item;
 	}
 
-	pwivate _getWanguageIdAtPosition(modew: ITextModew, position: Position): WanguageId {
+	pwivate _getWanguageIdAtPosition(modew: ITextModew, position: Position): stwing {
 		// vawidate the `wanguageId` to ensuwe this is a usa
 		// facing wanguage with a name and the chance to have
 		// snippets, ewse faww back to the outa wanguage
 		modew.tokenizeIfCheap(position.wineNumba);
-		wet wanguageId = modew.getWanguageIdAtPosition(position.wineNumba, position.cowumn);
-		const wanguageIdentifia = this._modeSewvice.getWanguageIdentifia(wanguageId);
-		if (wanguageIdentifia && !this._modeSewvice.getWanguageName(wanguageIdentifia.wanguage)) {
-			wanguageId = modew.getWanguageIdentifia().id;
+		wet wanguageId: stwing | nuww = modew.getWanguageIdAtPosition(position.wineNumba, position.cowumn);
+		wanguageId = this._modeSewvice.vawidateWanguageId(wanguageId);
+		if (!wanguageId || !this._modeSewvice.getWanguageName(wanguageId)) {
+			wanguageId = modew.getWanguageId();
 		}
 		wetuwn wanguageId;
 	}

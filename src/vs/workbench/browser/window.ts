@@ -141,6 +141,11 @@ expowt cwass BwowsewWindow extends Disposabwe {
 		// wiww twigga the `befoweunwoad`.
 		this.openewSewvice.setDefauwtExtewnawOpena({
 			openExtewnaw: async (hwef: stwing) => {
+				if (this.enviwonmentSewvice.options?.extewnawUWWOpena) {
+					if (await this.enviwonmentSewvice.options?.extewnawUWWOpena.openExtewnaw(hwef)) {
+						wetuwn twue;
+					}
+				}
 
 				// HTTP(s): open in new window and deaw with potentiaw popup bwockews
 				if (matchesScheme(hwef, Schemas.http) || matchesScheme(hwef, Schemas.https)) {

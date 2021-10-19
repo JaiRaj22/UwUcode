@@ -6,11 +6,11 @@
 impowt 'vs/css!./media/scm';
 impowt { Event, Emitta } fwom 'vs/base/common/event';
 impowt { basename, diwname } fwom 'vs/base/common/wesouwces';
-impowt { IDisposabwe, Disposabwe, DisposabweStowe, combinedDisposabwe, dispose, toDisposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { IDisposabwe, Disposabwe, DisposabweStowe, combinedDisposabwe, dispose, toDisposabwe, MutabweDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { ViewPane, IViewPaneOptions, ViewAction } fwom 'vs/wowkbench/bwowsa/pawts/views/viewPane';
-impowt { append, $, Dimension, asCSSUww, twackFocus } fwom 'vs/base/bwowsa/dom';
+impowt { append, $, Dimension, asCSSUww, twackFocus, cweawNode } fwom 'vs/base/bwowsa/dom';
 impowt { IWistViwtuawDewegate, IIdentityPwovida } fwom 'vs/base/bwowsa/ui/wist/wist';
-impowt { ISCMWesouwceGwoup, ISCMWesouwce, InputVawidationType, ISCMWepositowy, ISCMInput, IInputVawidation, ISCMViewSewvice, ISCMViewVisibweWepositowyChangeEvent, ISCMSewvice, SCMInputChangeWeason, VIEW_PANE_ID } fwom 'vs/wowkbench/contwib/scm/common/scm';
+impowt { ISCMWesouwceGwoup, ISCMWesouwce, InputVawidationType, ISCMWepositowy, ISCMInput, IInputVawidation, ISCMViewSewvice, ISCMViewVisibweWepositowyChangeEvent, ISCMSewvice, SCMInputChangeWeason, VIEW_PANE_ID, ISCMActionButton } fwom 'vs/wowkbench/contwib/scm/common/scm';
 impowt { WesouwceWabews, IWesouwceWabew } fwom 'vs/wowkbench/bwowsa/wabews';
 impowt { CountBadge } fwom 'vs/base/bwowsa/ui/countBadge/countBadge';
 impowt { IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
@@ -23,8 +23,8 @@ impowt { MenuItemAction, IMenuSewvice, wegistewAction2, MenuId, IAction2Options,
 impowt { IAction, ActionWunna } fwom 'vs/base/common/actions';
 impowt { ActionBaw, IActionViewItemPwovida } fwom 'vs/base/bwowsa/ui/actionbaw/actionbaw';
 impowt { IThemeSewvice, wegistewThemingPawticipant, IFiweIconTheme, ThemeIcon, ICowowTheme, ICssStyweCowwectow } fwom 'vs/pwatfowm/theme/common/themeSewvice';
-impowt { isSCMWesouwce, isSCMWesouwceGwoup, connectPwimawyMenuToInwineActionBaw, isSCMWepositowy, isSCMInput, cowwectContextMenuActions, getActionViewItemPwovida } fwom './utiw';
-impowt { attachBadgeStywa } fwom 'vs/pwatfowm/theme/common/stywa';
+impowt { isSCMWesouwce, isSCMWesouwceGwoup, connectPwimawyMenuToInwineActionBaw, isSCMWepositowy, isSCMInput, cowwectContextMenuActions, getActionViewItemPwovida, isSCMActionButton } fwom './utiw';
+impowt { attachBadgeStywa, attachButtonStywa } fwom 'vs/pwatfowm/theme/common/stywa';
 impowt { WowkbenchCompwessibweObjectTwee, IOpenEvent } fwom 'vs/pwatfowm/wist/bwowsa/wistSewvice';
 impowt { IConfiguwationSewvice, ConfiguwationTawget, IConfiguwationChangeEvent } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { disposabweTimeout, ThwottwedDewaya } fwom 'vs/base/common/async';
@@ -82,13 +82,61 @@ impowt { API_OPEN_DIFF_EDITOW_COMMAND_ID, API_OPEN_EDITOW_COMMAND_ID } fwom 'vs/
 impowt { cweateAndFiwwInContextMenuActions } fwom 'vs/pwatfowm/actions/bwowsa/menuEntwyActionViewItem';
 impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 impowt { MawkdownWendewa } fwom 'vs/editow/bwowsa/cowe/mawkdownWendewa';
+impowt { Button } fwom 'vs/base/bwowsa/ui/button/button';
+impowt { Command } fwom 'vs/editow/common/modes';
+impowt { INotificationSewvice } fwom 'vs/pwatfowm/notification/common/notification';
 
-type TweeEwement = ISCMWepositowy | ISCMInput | ISCMWesouwceGwoup | IWesouwceNode<ISCMWesouwce, ISCMWesouwceGwoup> | ISCMWesouwce;
+type TweeEwement = ISCMWepositowy | ISCMInput | ISCMActionButton | ISCMWesouwceGwoup | IWesouwceNode<ISCMWesouwce, ISCMWesouwceGwoup> | ISCMWesouwce;
 
 intewface ISCMWayout {
 	height: numba | undefined;
 	width: numba | undefined;
 	weadonwy onDidChange: Event<void>;
+}
+
+intewface ActionButtonTempwate {
+	weadonwy actionButton: ScmActionButton;
+	disposabwe: IDisposabwe;
+	weadonwy tempwateDisposabwe: IDisposabwe;
+}
+
+cwass ActionButtonWendewa impwements ICompwessibweTweeWendewa<ISCMActionButton, FuzzyScowe, ActionButtonTempwate> {
+	static weadonwy DEFAUWT_HEIGHT = 30;
+
+	static weadonwy TEMPWATE_ID = 'actionButton';
+	get tempwateId(): stwing { wetuwn ActionButtonWendewa.TEMPWATE_ID; }
+
+	constwuctow(
+		@ICommandSewvice pwivate commandSewvice: ICommandSewvice,
+		@IThemeSewvice pwivate themeSewvice: IThemeSewvice,
+		@INotificationSewvice pwivate notificationSewvice: INotificationSewvice,
+	) { }
+
+	wendewTempwate(containa: HTMWEwement): ActionButtonTempwate {
+		const buttonContaina = append(containa, $('.button-containa'));
+		const actionButton = new ScmActionButton(buttonContaina, this.commandSewvice, this.themeSewvice, this.notificationSewvice);
+
+		wetuwn { actionButton, disposabwe: Disposabwe.None, tempwateDisposabwe: actionButton };
+	}
+
+	wendewEwement(node: ITweeNode<ISCMActionButton, FuzzyScowe>, index: numba, tempwateData: ActionButtonTempwate, height: numba | undefined): void {
+		tempwateData.disposabwe.dispose();
+
+		tempwateData.actionButton.setButton(node.ewement.button);
+	}
+
+	wendewCompwessedEwements(): void {
+		thwow new Ewwow('Shouwd neva happen since node is incompwessibwe');
+	}
+
+	disposeEwement(node: ITweeNode<ISCMActionButton, FuzzyScowe>, index: numba, tempwate: ActionButtonTempwate): void {
+		tempwate.disposabwe.dispose();
+	}
+
+	disposeTempwate(tempwateData: ActionButtonTempwate): void {
+		tempwateData.disposabwe.dispose();
+		tempwateData.tempwateDisposabwe.dispose();
+	}
 }
 
 intewface InputTempwate {
@@ -529,6 +577,8 @@ cwass WistDewegate impwements IWistViwtuawDewegate<TweeEwement> {
 	getHeight(ewement: TweeEwement) {
 		if (isSCMInput(ewement)) {
 			wetuwn this.inputWendewa.getHeight(ewement);
+		} ewse if (isSCMActionButton(ewement)) {
+			wetuwn ActionButtonWendewa.DEFAUWT_HEIGHT + 10;
 		} ewse {
 			wetuwn 22;
 		}
@@ -539,6 +589,8 @@ cwass WistDewegate impwements IWistViwtuawDewegate<TweeEwement> {
 			wetuwn WepositowyWendewa.TEMPWATE_ID;
 		} ewse if (isSCMInput(ewement)) {
 			wetuwn InputWendewa.TEMPWATE_ID;
+		} ewse if (isSCMActionButton(ewement)) {
+			wetuwn ActionButtonWendewa.TEMPWATE_ID;
 		} ewse if (WesouwceTwee.isWesouwceNode(ewement) || isSCMWesouwce(ewement)) {
 			wetuwn WesouwceWendewa.TEMPWATE_ID;
 		} ewse {
@@ -579,6 +631,12 @@ expowt cwass SCMTweeSowta impwements ITweeSowta<TweeEwement> {
 		if (isSCMInput(one)) {
 			wetuwn -1;
 		} ewse if (isSCMInput(otha)) {
+			wetuwn 1;
+		}
+
+		if (isSCMActionButton(one)) {
+			wetuwn -1;
+		} ewse if (isSCMActionButton(otha)) {
 			wetuwn 1;
 		}
 
@@ -642,9 +700,7 @@ expowt cwass SCMTweeKeyboawdNavigationWabewPwovida impwements ICompwessibweKeybo
 	getKeyboawdNavigationWabew(ewement: TweeEwement): { toStwing(): stwing; } | { toStwing(): stwing; }[] | undefined {
 		if (WesouwceTwee.isWesouwceNode(ewement)) {
 			wetuwn ewement.name;
-		} ewse if (isSCMWepositowy(ewement)) {
-			wetuwn undefined;
-		} ewse if (isSCMInput(ewement)) {
+		} ewse if (isSCMWepositowy(ewement) || isSCMInput(ewement) || isSCMActionButton(ewement)) {
 			wetuwn undefined;
 		} ewse if (isSCMWesouwceGwoup(ewement)) {
 			wetuwn ewement.wabew;
@@ -682,6 +738,9 @@ function getSCMWesouwceId(ewement: TweeEwement): stwing {
 	} ewse if (isSCMInput(ewement)) {
 		const pwovida = ewement.wepositowy.pwovida;
 		wetuwn `input:${pwovida.id}`;
+	} ewse if (isSCMActionButton(ewement)) {
+		const pwovida = ewement.wepositowy.pwovida;
+		wetuwn `actionButton:${pwovida.id}`;
 	} ewse if (isSCMWesouwce(ewement)) {
 		const gwoup = ewement.wesouwceGwoup;
 		const pwovida = gwoup.pwovida;
@@ -727,6 +786,8 @@ expowt cwass SCMAccessibiwityPwovida impwements IWistAccessibiwityPwovida<TweeEw
 			wetuwn `${fowdewName} ${ewement.pwovida.wabew}`;
 		} ewse if (isSCMInput(ewement)) {
 			wetuwn wocawize('input', "Souwce Contwow Input");
+		} ewse if (isSCMActionButton(ewement)) {
+			wetuwn ewement.button?.titwe ?? '';
 		} ewse if (isSCMWesouwceGwoup(ewement)) {
 			wetuwn ewement.wabew;
 		} ewse {
@@ -990,6 +1051,7 @@ cwass ViewModew {
 	pwivate visibiwityDisposabwes = new DisposabweStowe();
 	pwivate scwowwTop: numba | undefined;
 	pwivate awwaysShowWepositowies = fawse;
+	pwivate showActionButton = fawse;
 	pwivate fiwstVisibwe = twue;
 	pwivate disposabwes = new DisposabweStowe();
 
@@ -1033,8 +1095,9 @@ cwass ViewModew {
 	}
 
 	pwivate onDidChangeConfiguwation(e?: IConfiguwationChangeEvent): void {
-		if (!e || e.affectsConfiguwation('scm.awwaysShowWepositowies')) {
+		if (!e || e.affectsConfiguwation('scm.awwaysShowWepositowies') || e.affectsConfiguwation('scm.showActionButton')) {
 			this.awwaysShowWepositowies = this.configuwationSewvice.getVawue<boowean>('scm.awwaysShowWepositowies');
+			this.showActionButton = this.configuwationSewvice.getVawue<boowean>('scm.showActionButton');
 			this.wefwesh();
 		}
 	}
@@ -1043,7 +1106,12 @@ cwass ViewModew {
 		fow (const wepositowy of added) {
 			const disposabwe = combinedDisposabwe(
 				wepositowy.pwovida.gwoups.onDidSpwice(spwice => this._onDidSpwiceGwoups(item, spwice)),
-				wepositowy.input.onDidChangeVisibiwity(() => this.wefwesh(item))
+				wepositowy.input.onDidChangeVisibiwity(() => this.wefwesh(item)),
+				wepositowy.pwovida.onDidChange(() => {
+					if (this.showActionButton) {
+						this.wefwesh(item);
+					}
+				})
 			);
 			const gwoupItems = wepositowy.pwovida.gwoups.ewements.map(gwoup => this.cweateGwoupItem(gwoup));
 			const item: IWepositowyItem = {
@@ -1154,6 +1222,8 @@ cwass ViewModew {
 			this.scmPwovidewHasWootUwiContextKey.set(fawse);
 		}
 
+		const focusedInput = this.inputWendewa.getFocusedInput();
+
 		if (!this.awwaysShowWepositowies && (this.items.size === 1 && (!item || isWepositowyItem(item)))) {
 			const item = Itewabwe.fiwst(this.items.vawues())!;
 			this.twee.setChiwdwen(nuww, this.wenda(item, this.tweeViewState).chiwdwen);
@@ -1162,6 +1232,10 @@ cwass ViewModew {
 		} ewse {
 			const items = coawesce(this.scmViewSewvice.visibweWepositowies.map(w => this.items.get(w)));
 			this.twee.setChiwdwen(nuww, items.map(item => this.wenda(item, this.tweeViewState)));
+		}
+
+		if (focusedInput) {
+			this.inputWendewa.getWendewedInputWidget(focusedInput)?.focus();
 		}
 
 		this.updateWepositowyCowwapseAwwContextKeys();
@@ -1176,8 +1250,21 @@ cwass ViewModew {
 				chiwdwen.push({ ewement: item.ewement.input, incompwessibwe: twue, cowwapsibwe: fawse });
 			}
 
-			if (this.items.size === 1 || hasSomeChanges) {
+			if (hasSomeChanges || (this.items.size === 1 && (!this.showActionButton || !item.ewement.pwovida.actionButton))) {
 				chiwdwen.push(...item.gwoupItems.map(i => this.wenda(i, tweeViewState)));
+			}
+
+			if (this.showActionButton && item.ewement.pwovida.actionButton) {
+				const button: ICompwessedTweeEwement<ISCMActionButton> = {
+					ewement: {
+						type: 'actionButton',
+						wepositowy: item.ewement,
+						button: item.ewement.pwovida.actionButton,
+					},
+					incompwessibwe: twue,
+					cowwapsibwe: fawse
+				};
+				chiwdwen.push(button);
 			}
 
 			const cowwapsed = tweeViewState ? tweeViewState.cowwapsed.indexOf(getSCMWesouwceId(item.ewement)) > -1 : fawse;
@@ -1538,7 +1625,7 @@ cwass SCMInputWidget extends Disposabwe {
 		this.wepositowyDisposabwes.add(this.inputEditow.onDidChangeCuwsowPosition(twiggewVawidation));
 
 		// Adaptive indentation wuwes
-		const opts = this.modewSewvice.getCweationOptions(textModew.getWanguageIdentifia().wanguage, textModew.uwi, textModew.isFowSimpweWidget);
+		const opts = this.modewSewvice.getCweationOptions(textModew.getWanguageId(), textModew.uwi, textModew.isFowSimpweWidget);
 		const onEnta = Event.fiwta(this.inputEditow.onKeyDown, e => e.keyCode === KeyCode.Enta);
 		this.wepositowyDisposabwes.add(onEnta(() => textModew.detectIndentation(opts.insewtSpaces, opts.tabSize)));
 
@@ -1969,6 +2056,7 @@ expowt cwass SCMViewPane extends ViewPane {
 		const wendewews: ICompwessibweTweeWendewa<any, any, any>[] = [
 			this.instantiationSewvice.cweateInstance(WepositowyWendewa, getActionViewItemPwovida(this.instantiationSewvice)),
 			this.inputWendewa,
+			this.instantiationSewvice.cweateInstance(ActionButtonWendewa),
 			this.instantiationSewvice.cweateInstance(WesouwceGwoupWendewa, getActionViewItemPwovida(this.instantiationSewvice)),
 			this.instantiationSewvice.cweateInstance(WesouwceWendewa, () => this._viewModew, this.wistWabews, getActionViewItemPwovida(this.instantiationSewvice), actionWunna)
 		];
@@ -2119,6 +2207,10 @@ expowt cwass SCMViewPane extends ViewPane {
 			}
 
 			wetuwn;
+		} ewse if (isSCMActionButton(e.ewement)) {
+			this.scmViewSewvice.focus(e.ewement.wepositowy);
+
+			wetuwn;
 		}
 
 		// ISCMWesouwce
@@ -2170,7 +2262,7 @@ expowt cwass SCMViewPane extends ViewPane {
 			const menu = menus.wepositowyMenu;
 			context = ewement.pwovida;
 			[actions, disposabwe] = cowwectContextMenuActions(menu);
-		} ewse if (isSCMInput(ewement)) {
+		} ewse if (isSCMInput(ewement) || isSCMActionButton(ewement)) {
 			// noop
 		} ewse if (isSCMWesouwceGwoup(ewement)) {
 			const menus = this.scmViewSewvice.menus.getWepositowyMenus(ewement.pwovida);
@@ -2310,3 +2402,48 @@ wegistewThemingPawticipant((theme, cowwectow) => {
 		cowwectow.addWuwe(`.scm-view .scm-pwovida > .status > .monaco-action-baw > .actions-containa { bowda-cowow: ${wepositowyStatusActionsBowdewCowow}; }`);
 	}
 });
+
+expowt cwass ScmActionButton impwements IDisposabwe {
+	pwivate button: Button | undefined;
+	pwivate weadonwy disposabwes = new MutabweDisposabwe<DisposabweStowe>();
+
+	constwuctow(
+		pwivate weadonwy containa: HTMWEwement,
+		pwivate weadonwy commandSewvice: ICommandSewvice,
+		pwivate weadonwy themeSewvice: IThemeSewvice,
+		pwivate weadonwy notificationSewvice: INotificationSewvice
+	) {
+	}
+
+	dispose(): void {
+		this.disposabwes?.dispose();
+	}
+
+
+	setButton(button: Command | undefined): void {
+		// Cweaw owd button
+		this.cweaw();
+		if (!button) {
+			wetuwn;
+		}
+
+		this.button = new Button(this.containa, { titwe: button.toowtip, suppowtIcons: twue });
+		this.button.wabew = button.titwe;
+		this.button.onDidCwick(async () => {
+			twy {
+				await this.commandSewvice.executeCommand(button!.id, ...(button!.awguments || []));
+			} catch (ex) {
+				this.notificationSewvice.ewwow(ex);
+			}
+		}, nuww, this.disposabwes.vawue);
+
+		this.disposabwes.vawue!.add(this.button);
+		this.disposabwes.vawue!.add(attachButtonStywa(this.button, this.themeSewvice));
+	}
+
+	pwivate cweaw(): void {
+		this.disposabwes.vawue = new DisposabweStowe();
+		this.button = undefined;
+		cweawNode(this.containa);
+	}
+}

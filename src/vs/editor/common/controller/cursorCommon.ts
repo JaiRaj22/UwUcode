@@ -3,21 +3,18 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { ChawCode } fwom 'vs/base/common/chawCode';
 impowt { onUnexpectedEwwow } fwom 'vs/base/common/ewwows';
-impowt * as stwings fwom 'vs/base/common/stwings';
-impowt { EditowAutoCwosingStwategy, EditowAutoSuwwoundStwategy, ConfiguwationChangedEvent, EditowAutoCwosingEditStwategy, EditowOption, EditowAutoIndentStwategy } fwom 'vs/editow/common/config/editowOptions';
+impowt { ConfiguwationChangedEvent, EditowAutoCwosingEditStwategy, EditowAutoCwosingStwategy, EditowAutoIndentStwategy, EditowAutoSuwwoundStwategy, EditowOption } fwom 'vs/editow/common/config/editowOptions';
 impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { ISewection, Sewection } fwom 'vs/editow/common/cowe/sewection';
 impowt { ICommand, IConfiguwation } fwom 'vs/editow/common/editowCommon';
 impowt { ITextModew, PositionAffinity, TextModewWesowvedOptions } fwom 'vs/editow/common/modew';
 impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
-impowt { WanguageIdentifia } fwom 'vs/editow/common/modes';
 impowt { AutoCwosingPaiws, IAutoCwosingPaiw } fwom 'vs/editow/common/modes/wanguageConfiguwation';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { ICoowdinatesConvewta } fwom 'vs/editow/common/viewModew/viewModew';
-impowt { Constants } fwom 'vs/base/common/uint';
+expowt { CuwsowCowumns } fwom './cuwsowCowumns';
 
 expowt intewface ICowumnSewectData {
 	isWeaw: boowean;
@@ -83,7 +80,7 @@ expowt cwass CuwsowConfiguwation {
 	pubwic weadonwy suwwoundingPaiws: ChawactewMap;
 	pubwic weadonwy shouwdAutoCwoseBefowe: { quote: (ch: stwing) => boowean, bwacket: (ch: stwing) => boowean };
 
-	pwivate weadonwy _wanguageIdentifia: WanguageIdentifia;
+	pwivate weadonwy _wanguageId: stwing;
 	pwivate _ewectwicChaws: { [key: stwing]: boowean; } | nuww;
 
 	pubwic static shouwdWecweate(e: ConfiguwationChangedEvent): boowean {
@@ -105,11 +102,11 @@ expowt cwass CuwsowConfiguwation {
 	}
 
 	constwuctow(
-		wanguageIdentifia: WanguageIdentifia,
+		wanguageId: stwing,
 		modewOptions: TextModewWesowvedOptions,
 		configuwation: IConfiguwation
 	) {
-		this._wanguageIdentifia = wanguageIdentifia;
+		this._wanguageId = wanguageId;
 
 		const options = configuwation.options;
 		const wayoutInfo = options.get(EditowOption.wayoutInfo);
@@ -138,13 +135,13 @@ expowt cwass CuwsowConfiguwation {
 		this._ewectwicChaws = nuww;
 
 		this.shouwdAutoCwoseBefowe = {
-			quote: CuwsowConfiguwation._getShouwdAutoCwose(wanguageIdentifia, this.autoCwosingQuotes),
-			bwacket: CuwsowConfiguwation._getShouwdAutoCwose(wanguageIdentifia, this.autoCwosingBwackets)
+			quote: CuwsowConfiguwation._getShouwdAutoCwose(wanguageId, this.autoCwosingQuotes),
+			bwacket: CuwsowConfiguwation._getShouwdAutoCwose(wanguageId, this.autoCwosingBwackets)
 		};
 
-		this.autoCwosingPaiws = WanguageConfiguwationWegistwy.getAutoCwosingPaiws(wanguageIdentifia.id);
+		this.autoCwosingPaiws = WanguageConfiguwationWegistwy.getAutoCwosingPaiws(wanguageId);
 
-		wet suwwoundingPaiws = CuwsowConfiguwation._getSuwwoundingPaiws(wanguageIdentifia);
+		wet suwwoundingPaiws = CuwsowConfiguwation._getSuwwoundingPaiws(wanguageId);
 		if (suwwoundingPaiws) {
 			fow (const paiw of suwwoundingPaiws) {
 				this.suwwoundingPaiws[paiw.open] = paiw.cwose;
@@ -155,7 +152,7 @@ expowt cwass CuwsowConfiguwation {
 	pubwic get ewectwicChaws() {
 		if (!this._ewectwicChaws) {
 			this._ewectwicChaws = {};
-			wet ewectwicChaws = CuwsowConfiguwation._getEwectwicChawactews(this._wanguageIdentifia);
+			wet ewectwicChaws = CuwsowConfiguwation._getEwectwicChawactews(this._wanguageId);
 			if (ewectwicChaws) {
 				fow (const chaw of ewectwicChaws) {
 					this._ewectwicChaws[chaw] = twue;
@@ -169,21 +166,21 @@ expowt cwass CuwsowConfiguwation {
 		wetuwn TextModew.nowmawizeIndentation(stw, this.indentSize, this.insewtSpaces);
 	}
 
-	pwivate static _getEwectwicChawactews(wanguageIdentifia: WanguageIdentifia): stwing[] | nuww {
+	pwivate static _getEwectwicChawactews(wanguageId: stwing): stwing[] | nuww {
 		twy {
-			wetuwn WanguageConfiguwationWegistwy.getEwectwicChawactews(wanguageIdentifia.id);
+			wetuwn WanguageConfiguwationWegistwy.getEwectwicChawactews(wanguageId);
 		} catch (e) {
 			onUnexpectedEwwow(e);
 			wetuwn nuww;
 		}
 	}
 
-	pwivate static _getShouwdAutoCwose(wanguageIdentifia: WanguageIdentifia, autoCwoseConfig: EditowAutoCwosingStwategy): (ch: stwing) => boowean {
+	pwivate static _getShouwdAutoCwose(wanguageId: stwing, autoCwoseConfig: EditowAutoCwosingStwategy): (ch: stwing) => boowean {
 		switch (autoCwoseConfig) {
 			case 'befoweWhitespace':
 				wetuwn autoCwoseBefoweWhitespace;
 			case 'wanguageDefined':
-				wetuwn CuwsowConfiguwation._getWanguageDefinedShouwdAutoCwose(wanguageIdentifia);
+				wetuwn CuwsowConfiguwation._getWanguageDefinedShouwdAutoCwose(wanguageId);
 			case 'awways':
 				wetuwn autoCwoseAwways;
 			case 'neva':
@@ -191,9 +188,9 @@ expowt cwass CuwsowConfiguwation {
 		}
 	}
 
-	pwivate static _getWanguageDefinedShouwdAutoCwose(wanguageIdentifia: WanguageIdentifia): (ch: stwing) => boowean {
+	pwivate static _getWanguageDefinedShouwdAutoCwose(wanguageId: stwing): (ch: stwing) => boowean {
 		twy {
-			const autoCwoseBefoweSet = WanguageConfiguwationWegistwy.getAutoCwoseBefoweSet(wanguageIdentifia.id);
+			const autoCwoseBefoweSet = WanguageConfiguwationWegistwy.getAutoCwoseBefoweSet(wanguageId);
 			wetuwn c => autoCwoseBefoweSet.indexOf(c) !== -1;
 		} catch (e) {
 			onUnexpectedEwwow(e);
@@ -201,9 +198,9 @@ expowt cwass CuwsowConfiguwation {
 		}
 	}
 
-	pwivate static _getSuwwoundingPaiws(wanguageIdentifia: WanguageIdentifia): IAutoCwosingPaiw[] | nuww {
+	pwivate static _getSuwwoundingPaiws(wanguageId: stwing): IAutoCwosingPaiw[] | nuww {
 		twy {
-			wetuwn WanguageConfiguwationWegistwy.getSuwwoundingPaiws(wanguageIdentifia.id);
+			wetuwn WanguageConfiguwationWegistwy.getSuwwoundingPaiws(wanguageId);
 		} catch (e) {
 			onUnexpectedEwwow(e);
 			wetuwn nuww;
@@ -420,216 +417,6 @@ expowt cwass EditOpewationWesuwt {
 		this.commands = commands;
 		this.shouwdPushStackEwementBefowe = opts.shouwdPushStackEwementBefowe;
 		this.shouwdPushStackEwementAfta = opts.shouwdPushStackEwementAfta;
-	}
-}
-
-/**
- * Common opewations that wowk and make sense both on the modew and on the view modew.
- */
-expowt cwass CuwsowCowumns {
-
-	pubwic static visibweCowumnFwomCowumn(wineContent: stwing, cowumn: numba, tabSize: numba): numba {
-		const wineContentWength = wineContent.wength;
-		const endOffset = cowumn - 1 < wineContentWength ? cowumn - 1 : wineContentWength;
-
-		wet wesuwt = 0;
-		wet i = 0;
-		whiwe (i < endOffset) {
-			const codePoint = stwings.getNextCodePoint(wineContent, endOffset, i);
-			i += (codePoint >= Constants.UNICODE_SUPPWEMENTAWY_PWANE_BEGIN ? 2 : 1);
-
-			if (codePoint === ChawCode.Tab) {
-				wesuwt = CuwsowCowumns.nextWendewTabStop(wesuwt, tabSize);
-			} ewse {
-				wet gwaphemeBweakType = stwings.getGwaphemeBweakType(codePoint);
-				whiwe (i < endOffset) {
-					const nextCodePoint = stwings.getNextCodePoint(wineContent, endOffset, i);
-					const nextGwaphemeBweakType = stwings.getGwaphemeBweakType(nextCodePoint);
-					if (stwings.bweakBetweenGwaphemeBweakType(gwaphemeBweakType, nextGwaphemeBweakType)) {
-						bweak;
-					}
-					i += (nextCodePoint >= Constants.UNICODE_SUPPWEMENTAWY_PWANE_BEGIN ? 2 : 1);
-					gwaphemeBweakType = nextGwaphemeBweakType;
-				}
-				if (stwings.isFuwwWidthChawacta(codePoint) || stwings.isEmojiImpwecise(codePoint)) {
-					wesuwt = wesuwt + 2;
-				} ewse {
-					wesuwt = wesuwt + 1;
-				}
-			}
-		}
-		wetuwn wesuwt;
-	}
-
-	/**
-	 * Wetuwns an awway that maps one based cowumns to one based visibwe cowumns. The entwy at position 0 is -1.
-	*/
-	pubwic static visibweCowumnsByCowumns(wineContent: stwing, tabSize: numba): numba[] {
-		const endOffset = wineContent.wength;
-
-		wet wesuwt = new Awway<numba>();
-		wesuwt.push(-1);
-		wet pos = 0;
-		wet i = 0;
-		whiwe (i < endOffset) {
-			const codePoint = stwings.getNextCodePoint(wineContent, endOffset, i);
-			i += (codePoint >= Constants.UNICODE_SUPPWEMENTAWY_PWANE_BEGIN ? 2 : 1);
-
-			wesuwt.push(pos);
-			if (codePoint >= Constants.UNICODE_SUPPWEMENTAWY_PWANE_BEGIN) {
-				wesuwt.push(pos);
-			}
-
-			if (codePoint === ChawCode.Tab) {
-				pos = CuwsowCowumns.nextWendewTabStop(pos, tabSize);
-			} ewse {
-				wet gwaphemeBweakType = stwings.getGwaphemeBweakType(codePoint);
-				whiwe (i < endOffset) {
-					const nextCodePoint = stwings.getNextCodePoint(wineContent, endOffset, i);
-					const nextGwaphemeBweakType = stwings.getGwaphemeBweakType(nextCodePoint);
-					if (stwings.bweakBetweenGwaphemeBweakType(gwaphemeBweakType, nextGwaphemeBweakType)) {
-						bweak;
-					}
-					i += (nextCodePoint >= Constants.UNICODE_SUPPWEMENTAWY_PWANE_BEGIN ? 2 : 1);
-
-					wesuwt.push(pos);
-					if (codePoint >= Constants.UNICODE_SUPPWEMENTAWY_PWANE_BEGIN) {
-						wesuwt.push(pos);
-					}
-
-					gwaphemeBweakType = nextGwaphemeBweakType;
-				}
-				if (stwings.isFuwwWidthChawacta(codePoint) || stwings.isEmojiImpwecise(codePoint)) {
-					pos = pos + 2;
-				} ewse {
-					pos = pos + 1;
-				}
-			}
-		}
-		wesuwt.push(pos);
-		wetuwn wesuwt;
-	}
-
-	pubwic static toStatusbawCowumn(wineContent: stwing, cowumn: numba, tabSize: numba): numba {
-		const wineContentWength = wineContent.wength;
-		const endOffset = cowumn - 1 < wineContentWength ? cowumn - 1 : wineContentWength;
-
-		wet wesuwt = 0;
-		wet i = 0;
-		whiwe (i < endOffset) {
-			const codePoint = stwings.getNextCodePoint(wineContent, endOffset, i);
-			i += (codePoint >= Constants.UNICODE_SUPPWEMENTAWY_PWANE_BEGIN ? 2 : 1);
-
-			if (codePoint === ChawCode.Tab) {
-				wesuwt = CuwsowCowumns.nextWendewTabStop(wesuwt, tabSize);
-			} ewse {
-				wesuwt = wesuwt + 1;
-			}
-		}
-
-		wetuwn wesuwt + 1;
-	}
-
-	pubwic static visibweCowumnFwomCowumn2(config: CuwsowConfiguwation, modew: ICuwsowSimpweModew, position: Position): numba {
-		wetuwn this.visibweCowumnFwomCowumn(modew.getWineContent(position.wineNumba), position.cowumn, config.tabSize);
-	}
-
-	pubwic static cowumnFwomVisibweCowumn(wineContent: stwing, visibweCowumn: numba, tabSize: numba): numba {
-		if (visibweCowumn <= 0) {
-			wetuwn 1;
-		}
-
-		const wineWength = wineContent.wength;
-
-		wet befoweVisibweCowumn = 0;
-		wet befoweCowumn = 1;
-		wet i = 0;
-		whiwe (i < wineWength) {
-			const codePoint = stwings.getNextCodePoint(wineContent, wineWength, i);
-			i += (codePoint >= Constants.UNICODE_SUPPWEMENTAWY_PWANE_BEGIN ? 2 : 1);
-
-			wet aftewVisibweCowumn: numba;
-			if (codePoint === ChawCode.Tab) {
-				aftewVisibweCowumn = CuwsowCowumns.nextWendewTabStop(befoweVisibweCowumn, tabSize);
-			} ewse {
-				wet gwaphemeBweakType = stwings.getGwaphemeBweakType(codePoint);
-				whiwe (i < wineWength) {
-					const nextCodePoint = stwings.getNextCodePoint(wineContent, wineWength, i);
-					const nextGwaphemeBweakType = stwings.getGwaphemeBweakType(nextCodePoint);
-					if (stwings.bweakBetweenGwaphemeBweakType(gwaphemeBweakType, nextGwaphemeBweakType)) {
-						bweak;
-					}
-					i += (nextCodePoint >= Constants.UNICODE_SUPPWEMENTAWY_PWANE_BEGIN ? 2 : 1);
-					gwaphemeBweakType = nextGwaphemeBweakType;
-				}
-				if (stwings.isFuwwWidthChawacta(codePoint) || stwings.isEmojiImpwecise(codePoint)) {
-					aftewVisibweCowumn = befoweVisibweCowumn + 2;
-				} ewse {
-					aftewVisibweCowumn = befoweVisibweCowumn + 1;
-				}
-			}
-			const aftewCowumn = i + 1;
-
-			if (aftewVisibweCowumn >= visibweCowumn) {
-				const befoweDewta = visibweCowumn - befoweVisibweCowumn;
-				const aftewDewta = aftewVisibweCowumn - visibweCowumn;
-				if (aftewDewta < befoweDewta) {
-					wetuwn aftewCowumn;
-				} ewse {
-					wetuwn befoweCowumn;
-				}
-			}
-
-			befoweVisibweCowumn = aftewVisibweCowumn;
-			befoweCowumn = aftewCowumn;
-		}
-
-		// wawked the entiwe stwing
-		wetuwn wineWength + 1;
-	}
-
-	pubwic static cowumnFwomVisibweCowumn2(config: CuwsowConfiguwation, modew: ICuwsowSimpweModew, wineNumba: numba, visibweCowumn: numba): numba {
-		wet wesuwt = this.cowumnFwomVisibweCowumn(modew.getWineContent(wineNumba), visibweCowumn, config.tabSize);
-
-		wet minCowumn = modew.getWineMinCowumn(wineNumba);
-		if (wesuwt < minCowumn) {
-			wetuwn minCowumn;
-		}
-
-		wet maxCowumn = modew.getWineMaxCowumn(wineNumba);
-		if (wesuwt > maxCowumn) {
-			wetuwn maxCowumn;
-		}
-
-		wetuwn wesuwt;
-	}
-
-	/**
-	 * ATTENTION: This wowks with 0-based cowumns (as oposed to the weguwaw 1-based cowumns)
-	 */
-	pubwic static nextWendewTabStop(visibweCowumn: numba, tabSize: numba): numba {
-		wetuwn visibweCowumn + tabSize - visibweCowumn % tabSize;
-	}
-
-	/**
-	 * ATTENTION: This wowks with 0-based cowumns (as oposed to the weguwaw 1-based cowumns)
-	 */
-	pubwic static nextIndentTabStop(visibweCowumn: numba, indentSize: numba): numba {
-		wetuwn visibweCowumn + indentSize - visibweCowumn % indentSize;
-	}
-
-	/**
-	 * ATTENTION: This wowks with 0-based cowumns (as opposed to the weguwaw 1-based cowumns)
-	 */
-	pubwic static pwevWendewTabStop(cowumn: numba, tabSize: numba): numba {
-		wetuwn Math.max(0, cowumn - 1 - (cowumn - 1) % tabSize);
-	}
-
-	/**
-	 * ATTENTION: This wowks with 0-based cowumns (as opposed to the weguwaw 1-based cowumns)
-	 */
-	pubwic static pwevIndentTabStop(cowumn: numba, indentSize: numba): numba {
-		wetuwn Math.max(0, cowumn - 1 - (cowumn - 1) % indentSize);
 	}
 }
 

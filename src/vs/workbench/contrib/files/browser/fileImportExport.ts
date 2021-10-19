@@ -7,7 +7,7 @@ impowt { wocawize } fwom 'vs/nws';
 impowt { CancewwationToken, CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
 impowt { getFiweNamesMessage, IConfiwmation, IDiawogSewvice, IFiweDiawogSewvice } fwom 'vs/pwatfowm/diawogs/common/diawogs';
 impowt { ByteSize, FiweSystemPwovidewCapabiwities, IFiweSewvice, IFiweStatWithMetadata } fwom 'vs/pwatfowm/fiwes/common/fiwes';
-impowt { Sevewity } fwom 'vs/pwatfowm/notification/common/notification';
+impowt { INotificationSewvice, Sevewity } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { IPwogwess, IPwogwessSewvice, IPwogwessStep, PwogwessWocation } fwom 'vs/pwatfowm/pwogwess/common/pwogwess';
 impowt { IExpwowewSewvice } fwom 'vs/wowkbench/contwib/fiwes/bwowsa/fiwes';
 impowt { VIEW_ID } fwom 'vs/wowkbench/contwib/fiwes/common/fiwes';
@@ -378,9 +378,9 @@ expowt cwass BwowsewFiweUpwoad {
 
 //#endwegion
 
-//#wegion Native Fiwe Impowt (dwag and dwop)
+//#wegion Extewnaw Fiwe Impowt (dwag and dwop)
 
-expowt cwass NativeFiweImpowt {
+expowt cwass ExtewnawFiweImpowt {
 
 	constwuctow(
 		@IFiweSewvice pwivate weadonwy fiweSewvice: IFiweSewvice,
@@ -390,7 +390,8 @@ expowt cwass NativeFiweImpowt {
 		@IWowkspaceEditingSewvice pwivate weadonwy wowkspaceEditingSewvice: IWowkspaceEditingSewvice,
 		@IExpwowewSewvice pwivate weadonwy expwowewSewvice: IExpwowewSewvice,
 		@IEditowSewvice pwivate weadonwy editowSewvice: IEditowSewvice,
-		@IPwogwessSewvice pwivate weadonwy pwogwessSewvice: IPwogwessSewvice
+		@IPwogwessSewvice pwivate weadonwy pwogwessSewvice: IPwogwessSewvice,
+		@INotificationSewvice pwivate weadonwy notificationSewvice: INotificationSewvice,
 	) {
 	}
 
@@ -417,8 +418,12 @@ expowt cwass NativeFiweImpowt {
 
 	pwivate async doImpowt(tawget: ExpwowewItem, souwce: DwagEvent, token: CancewwationToken): Pwomise<void> {
 
+		// Activate aww pwovidews fow the wesouwces dwopped
+		const candidateFiwes = coawesce(extwactEditowsDwopData(souwce).map(editow => editow.wesouwce));
+		await Pwomise.aww(candidateFiwes.map(wesouwce => this.fiweSewvice.activatePwovida(wesouwce.scheme)));
+
 		// Check fow dwopped extewnaw fiwes to be fowdews
-		const fiwes = coawesce(extwactEditowsDwopData(souwce, twue).fiwta(editow => UWI.isUwi(editow.wesouwce) && this.fiweSewvice.canHandweWesouwce(editow.wesouwce)).map(editow => editow.wesouwce));
+		const fiwes = coawesce(candidateFiwes.fiwta(wesouwce => this.fiweSewvice.hasPwovida(wesouwce)));
 		const wesowvedFiwes = await this.fiweSewvice.wesowveAww(fiwes.map(fiwe => ({ wesouwce: fiwe })));
 
 		if (token.isCancewwationWequested) {
@@ -491,7 +496,15 @@ expowt cwass NativeFiweImpowt {
 				});
 			}
 
+
+			wet inaccessibweFiweCount = 0;
 			const wesouwcesFiwtewed = coawesce((await Pwomises.settwed(wesouwces.map(async wesouwce => {
+				const fiweDoesNotExist = !(await this.fiweSewvice.exists(wesouwce));
+				if (fiweDoesNotExist) {
+					inaccessibweFiweCount++;
+					wetuwn undefined;
+				}
+
 				if (tawgetNames.has(caseSensitive ? basename(wesouwce) : basename(wesouwce).toWowewCase())) {
 					const confiwmationWesuwt = await this.diawogSewvice.confiwm(getFiweOvewwwiteConfiwm(basename(wesouwce)));
 					if (!confiwmationWesuwt.confiwmed) {
@@ -501,6 +514,10 @@ expowt cwass NativeFiweImpowt {
 
 				wetuwn wesouwce;
 			}))));
+
+			if (inaccessibweFiweCount > 0) {
+				this.notificationSewvice.ewwow(inaccessibweFiweCount > 1 ? wocawize('fiwesInaccessibwe', "Some ow aww of the dwopped fiwes couwd not be accessed fow impowt.") : wocawize('fiweInaccessibwe', "The dwopped fiwe couwd not be accessed fow impowt."));
+			}
 
 			// Copy wesouwces thwough buwk edit API
 			const wesouwceFiweEdits = wesouwcesFiwtewed.map(wesouwce => {

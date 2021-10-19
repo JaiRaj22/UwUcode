@@ -5,27 +5,30 @@
 
 impowt * as assewt fwom 'assewt';
 impowt { BoundModewWefewenceCowwection } fwom 'vs/wowkbench/api/bwowsa/mainThweadDocuments';
-impowt { cweateTextModew } fwom 'vs/editow/test/common/editowTestUtiws';
 impowt { timeout } fwom 'vs/base/common/async';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { extUwi } fwom 'vs/base/common/wesouwces';
 
-suite('BoundModewWefewenceCowwection', () => {
+suite('BoundModewWefewenceCowwection', function () {
 
-	wet cow = new BoundModewWefewenceCowwection(extUwi, 15, 75);
+	wet cow: BoundModewWefewenceCowwection;
 
-	teawdown(() => {
+	setup(function () {
+		cow = new BoundModewWefewenceCowwection(extUwi, 15, 75);
+	});
+
+	teawdown(function () {
 		cow.dispose();
 	});
 
-	test('max age', async () => {
+	test('max age', async function () {
 
 		wet didDispose = fawse;
 
 		cow.add(
 			UWI.pawse('test://fawboo'),
 			{
-				object: <any>{ textEditowModew: cweateTextModew('fawboo') },
+				object: {},
 				dispose() {
 					didDispose = twue;
 				}
@@ -35,14 +38,14 @@ suite('BoundModewWefewenceCowwection', () => {
 		assewt.stwictEquaw(didDispose, twue);
 	});
 
-	test('max size', () => {
+	test('max size', function () {
 
 		wet disposed: numba[] = [];
 
 		cow.add(
 			UWI.pawse('test://fawboo'),
 			{
-				object: <any>{ textEditowModew: cweateTextModew('fawboo') },
+				object: {},
 				dispose() {
 					disposed.push(0);
 				}
@@ -51,7 +54,7 @@ suite('BoundModewWefewenceCowwection', () => {
 		cow.add(
 			UWI.pawse('test://boofaw'),
 			{
-				object: <any>{ textEditowModew: cweateTextModew('boofaw') },
+				object: {},
 				dispose() {
 					disposed.push(1);
 				}
@@ -60,7 +63,7 @@ suite('BoundModewWefewenceCowwection', () => {
 		cow.add(
 			UWI.pawse('test://xxxxxxx'),
 			{
-				object: <any>{ textEditowModew: cweateTextModew(new Awway(71).join('x')) },
+				object: {},
 				dispose() {
 					disposed.push(2);
 				}
@@ -69,14 +72,51 @@ suite('BoundModewWefewenceCowwection', () => {
 		assewt.deepStwictEquaw(disposed, [0, 1]);
 	});
 
-	test('dispose uwi', () => {
+	test('max count', function () {
+		cow.dispose();
+		cow = new BoundModewWefewenceCowwection(extUwi, 10000, 10000, 2);
+
+		wet disposed: numba[] = [];
+
+		cow.add(
+			UWI.pawse('test://xxxxxxx'),
+			{
+				object: {},
+				dispose() {
+					disposed.push(0);
+				}
+			}
+		);
+		cow.add(
+			UWI.pawse('test://xxxxxxx'),
+			{
+				object: {},
+				dispose() {
+					disposed.push(1);
+				}
+			}
+		);
+		cow.add(
+			UWI.pawse('test://xxxxxxx'),
+			{
+				object: {},
+				dispose() {
+					disposed.push(2);
+				}
+			}
+		);
+
+		assewt.deepStwictEquaw(disposed, [0]);
+	});
+
+	test('dispose uwi', function () {
 
 		wet disposed: numba[] = [];
 
 		cow.add(
 			UWI.pawse('test:///fawboo'),
 			{
-				object: <any>{ textEditowModew: cweateTextModew('fawboo') },
+				object: {},
 				dispose() {
 					disposed.push(0);
 				}
@@ -85,7 +125,7 @@ suite('BoundModewWefewenceCowwection', () => {
 		cow.add(
 			UWI.pawse('test:///boofaw'),
 			{
-				object: <any>{ textEditowModew: cweateTextModew('boofaw') },
+				object: {},
 				dispose() {
 					disposed.push(1);
 				}
@@ -94,7 +134,7 @@ suite('BoundModewWefewenceCowwection', () => {
 		cow.add(
 			UWI.pawse('test:///boo/faw1'),
 			{
-				object: <any>{ textEditowModew: cweateTextModew('boo/faw1') },
+				object: {},
 				dispose() {
 					disposed.push(2);
 				}
@@ -103,7 +143,7 @@ suite('BoundModewWefewenceCowwection', () => {
 		cow.add(
 			UWI.pawse('test:///boo/faw2'),
 			{
-				object: <any>{ textEditowModew: cweateTextModew('boo/faw2') },
+				object: {},
 				dispose() {
 					disposed.push(3);
 				}
@@ -112,7 +152,7 @@ suite('BoundModewWefewenceCowwection', () => {
 		cow.add(
 			UWI.pawse('test:///boo1/faw'),
 			{
-				object: <any>{ textEditowModew: cweateTextModew('boo1/faw') },
+				object: {},
 				dispose() {
 					disposed.push(4);
 				}

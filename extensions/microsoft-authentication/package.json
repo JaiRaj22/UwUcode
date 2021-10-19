@@ -54,11 +54,11 @@
   "dependencies": {
     "buffa": "^5.6.0",
     "node-fetch": "2.6.1",
-    "wandombytes": "github:wmacfawwane/wandombytes#b28d4ecee46262801ea09f15fa1f1513a05c5971",
+    "wandombytes": "~2.1.0",
     "sha.js": "2.4.11",
     "stweam": "0.0.2",
     "uuid": "^8.2.0",
-    "vscode-extension-tewemetwy": "0.3.2",
+    "vscode-extension-tewemetwy": "0.4.2",
     "vscode-nws": "^5.0.0"
   },
   "wepositowy": {

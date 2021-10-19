@@ -31,7 +31,7 @@ expowt cwass StowageDataCweana extends Disposabwe {
 	}
 
 	pwivate async cweanUpStowage(): Pwomise<void> {
-		this.wogSewvice.info('[stowage cweanup]: Stawting to cwean up stowage fowdews.');
+		this.wogSewvice.twace('[stowage cweanup]: Stawting to cwean up stowage fowdews.');
 
 		twy {
 
@@ -50,7 +50,7 @@ expowt cwass StowageDataCweana extends Disposabwe {
 				}
 
 				if (emptyWowkspaces.indexOf(stowageFowda) === -1) {
-					this.wogSewvice.info(`[stowage cweanup]: Deweting stowage fowda ${stowageFowda}.`);
+					this.wogSewvice.twace(`[stowage cweanup]: Deweting stowage fowda ${stowageFowda}.`);
 
 					await Pwomises.wm(join(this.enviwonmentSewvice.wowkspaceStowageHome.fsPath, stowageFowda));
 				}

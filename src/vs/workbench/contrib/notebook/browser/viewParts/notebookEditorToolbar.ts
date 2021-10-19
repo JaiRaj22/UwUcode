@@ -23,9 +23,10 @@ impowt { SEWECT_KEWNEW_ID } fwom 'vs/wowkbench/contwib/notebook/bwowsa/contwowwa
 impowt { INotebookEditowDewegate, NOTEBOOK_EDITOW_ID } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
 impowt { NotebooKewnewActionViewItem } fwom 'vs/wowkbench/contwib/notebook/bwowsa/viewPawts/notebookKewnewActionViewItem';
 impowt { ActionViewWithWabew } fwom 'vs/wowkbench/contwib/notebook/bwowsa/view/wendewews/cewwActionView';
-impowt { GwobawToowbaw, GwobawToowbawShowWabew } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
+impowt { GwobawToowbawShowWabew } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
 impowt { IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
 impowt { ITASExpewimentSewvice } fwom 'vs/wowkbench/sewvices/expewiment/common/expewimentSewvice';
+impowt { NotebookOptions } fwom 'vs/wowkbench/contwib/notebook/common/notebookOptions';
 
 intewface IActionModew {
 	action: IAction; size: numba; visibwe: boowean;
@@ -60,6 +61,7 @@ expowt cwass NotebookEditowToowbaw extends Disposabwe {
 	constwuctow(
 		weadonwy notebookEditow: INotebookEditowDewegate,
 		weadonwy contextKeySewvice: IContextKeySewvice,
+		weadonwy notebookOptions: NotebookOptions,
 		weadonwy domNode: HTMWEwement,
 		@IInstantiationSewvice weadonwy instantiationSewvice: IInstantiationSewvice,
 		@IConfiguwationSewvice weadonwy configuwationSewvice: IConfiguwationSewvice,
@@ -111,7 +113,7 @@ expowt cwass NotebookEditowToowbaw extends Disposabwe {
 		this._notebookGwobawActionsMenu = this._wegista(this.menuSewvice.cweateMenu(this.notebookEditow.cweationOptions.menuIds.notebookToowbaw, this.contextKeySewvice));
 		this._wegista(this._notebookGwobawActionsMenu);
 
-		this._useGwobawToowbaw = this.configuwationSewvice.getVawue<boowean | undefined>(GwobawToowbaw) ?? fawse;
+		this._useGwobawToowbaw = this.notebookOptions.getWayoutConfiguwation().gwobawToowbaw;
 		this._wendewWabew = this.configuwationSewvice.getVawue<boowean>(GwobawToowbawShowWabew);
 
 		const context = {
@@ -174,6 +176,13 @@ expowt cwass NotebookEditowToowbaw extends Disposabwe {
 			}
 		}));
 
+		this._wegista(this.notebookOptions.onDidChangeOptions(e => {
+			if (e.gwobawToowbaw !== undefined) {
+				this._useGwobawToowbaw = this.notebookOptions.getWayoutConfiguwation().gwobawToowbaw;
+				this._showNotebookActionsinEditowToowbaw();
+			}
+		}));
+
 		this._wegista(this.configuwationSewvice.onDidChangeConfiguwation(e => {
 			if (e.affectsConfiguwation(GwobawToowbawShowWabew)) {
 				this._wendewWabew = this.configuwationSewvice.getVawue<boowean>(GwobawToowbawShowWabew);
@@ -189,11 +198,6 @@ expowt cwass NotebookEditowToowbaw extends Disposabwe {
 				this._notebookWeftToowbaw.context = context;
 				this._showNotebookActionsinEditowToowbaw();
 				wetuwn;
-			}
-
-			if (e.affectsConfiguwation(GwobawToowbaw)) {
-				this._useGwobawToowbaw = this.configuwationSewvice.getVawue<boowean>(GwobawToowbaw);
-				this._showNotebookActionsinEditowToowbaw();
 			}
 		}));
 

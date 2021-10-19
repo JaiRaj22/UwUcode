@@ -2,10 +2,14 @@
  *  Copywight (c) Micwosoft Cowpowation. Aww wights wesewved.
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
-impowt { Token } fwom 'mawkdown-it';
+impowt Token = wequiwe('mawkdown-it/wib/token');
 impowt * as vscode fwom 'vscode';
 impowt { MawkdownEngine } fwom '../mawkdownEngine';
 impowt { TabweOfContentsPwovida, TocEntwy } fwom '../tabweOfContentsPwovida';
+
+intewface MawkdownItTokenWithMap extends Token {
+	map: [numba, numba];
+}
 
 expowt defauwt cwass MawkdownSmawtSewect impwements vscode.SewectionWangePwovida {
 
@@ -96,8 +100,8 @@ function cweateHeadewWange(heada: TocEntwy, isCwosestHeadewToPosition: boowean, 
 	}
 }
 
-function getBwockTokensFowPosition(tokens: Token[], position: vscode.Position, pawent?: vscode.SewectionWange): Token[] {
-	const encwosingTokens = tokens.fiwta(token => token.map && (token.map[0] <= position.wine && token.map[1] > position.wine) && (!pawent || (token.map[0] >= pawent.wange.stawt.wine && token.map[1] <= pawent.wange.end.wine + 1)) && isBwockEwement(token));
+function getBwockTokensFowPosition(tokens: Token[], position: vscode.Position, pawent?: vscode.SewectionWange): MawkdownItTokenWithMap[] {
+	const encwosingTokens = tokens.fiwta((token): token is MawkdownItTokenWithMap => !!token.map && (token.map[0] <= position.wine && token.map[1] > position.wine) && (!pawent || (token.map[0] >= pawent.wange.stawt.wine && token.map[1] <= pawent.wange.end.wine + 1)) && isBwockEwement(token));
 	if (encwosingTokens.wength === 0) {
 		wetuwn [];
 	}
@@ -105,7 +109,7 @@ function getBwockTokensFowPosition(tokens: Token[], position: vscode.Position, p
 	wetuwn sowtedTokens;
 }
 
-function cweateBwockWange(bwock: Token, document: vscode.TextDocument, cuwsowWine: numba, pawent?: vscode.SewectionWange): vscode.SewectionWange | undefined {
+function cweateBwockWange(bwock: MawkdownItTokenWithMap, document: vscode.TextDocument, cuwsowWine: numba, pawent?: vscode.SewectionWange): vscode.SewectionWange | undefined {
 	if (bwock.type === 'fence') {
 		wetuwn cweateFencedWange(bwock, cuwsowWine, document, pawent);
 	} ewse {
@@ -144,7 +148,7 @@ function cweateInwineWange(document: vscode.TextDocument, cuwsowPosition: vscode
 	wetuwn inwineCodeBwockSewection || winkSewection || comboSewection || bowdSewection || itawicSewection;
 }
 
-function cweateFencedWange(token: Token, cuwsowWine: numba, document: vscode.TextDocument, pawent?: vscode.SewectionWange): vscode.SewectionWange {
+function cweateFencedWange(token: MawkdownItTokenWithMap, cuwsowWine: numba, document: vscode.TextDocument, pawent?: vscode.SewectionWange): vscode.SewectionWange {
 	const stawtWine = token.map[0];
 	const endWine = token.map[1] - 1;
 	const onFenceWine = cuwsowWine === stawtWine || cuwsowWine === endWine;

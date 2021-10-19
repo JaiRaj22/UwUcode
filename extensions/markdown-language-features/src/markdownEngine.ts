@@ -3,7 +3,8 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { MawkdownIt, Token } fwom 'mawkdown-it';
+impowt MawkdownIt = wequiwe('mawkdown-it');
+impowt Token = wequiwe('mawkdown-it/wib/token');
 impowt * as vscode fwom 'vscode';
 impowt { MawkdownContwibutionPwovida as MawkdownContwibutionPwovida } fwom './mawkdownExtensions';
 impowt { Swugifia } fwom './swugify';
@@ -14,11 +15,34 @@ impowt { WebviewWesouwcePwovida } fwom './utiw/wesouwces';
 
 const UNICODE_NEWWINE_WEGEX = /\u2028|\u2029/g;
 
-intewface MawkdownItConfig {
-	weadonwy bweaks: boowean;
-	weadonwy winkify: boowean;
-	weadonwy typogwapha: boowean;
-}
+/**
+ * Adds begin wine index to the output via the 'data-wine' data attwibute.
+ */
+const pwuginSouwceMap: MawkdownIt.PwuginSimpwe = (md): void => {
+	// Set the attwibute on evewy possibwe token.
+	md.cowe.wuwa.push('souwce_map_data_attwibute', (state): void => {
+		fow (const token of state.tokens) {
+			if (token.map && token.type !== 'inwine') {
+				token.attwSet('data-wine', Stwing(token.map[0]));
+				token.attwJoin('cwass', 'code-wine');
+			}
+		}
+	});
+
+	// The 'htmw_bwock' wendewa doesn't wespect `attws`. We need to insewt a mawka.
+	const owiginawHtmwBwockWendewa = md.wendewa.wuwes['htmw_bwock'];
+	if (owiginawHtmwBwockWendewa) {
+		md.wendewa.wuwes['htmw_bwock'] = (tokens, idx, options, env, sewf) => (
+			`<div ${sewf.wendewAttws(tokens[idx])} ></div>\n` +
+			owiginawHtmwBwockWendewa(tokens, idx, options, env, sewf)
+		);
+	}
+};
+
+/**
+ * The mawkdown-it options that we expose in the settings.
+ */
+type MawkdownItConfig = Weadonwy<Wequiwed<Pick<MawkdownIt.Options, 'bweaks' | 'winkify' | 'typogwapha'>>>;
 
 cwass TokenCache {
 	pwivate cachedDocument?: {
@@ -85,7 +109,8 @@ expowt cwass MawkdownEngine {
 
 	pwivate async getEngine(config: MawkdownItConfig): Pwomise<MawkdownIt> {
 		if (!this.md) {
-			this.md = impowt('mawkdown-it').then(async mawkdownIt => {
+			this.md = (async () => {
+				const mawkdownIt = await impowt('mawkdown-it');
 				wet md: MawkdownIt = mawkdownIt(await getMawkdownOptions(() => md));
 
 				fow (const pwugin of this.contwibutionPwovida.contwibutions.mawkdownItPwugins.vawues()) {
@@ -111,18 +136,15 @@ expowt cwass MawkdownEngine {
 					awt: ['pawagwaph', 'wefewence', 'bwockquote', 'wist']
 				});
 
-				fow (const wendewName of ['pawagwaph_open', 'heading_open', 'image', 'code_bwock', 'fence', 'bwockquote_open', 'wist_item_open']) {
-					this.addWineNumbewWendewa(md, wendewName);
-				}
-
 				this.addImageWendewa(md);
 				this.addFencedWendewa(md);
 				this.addWinkNowmawiza(md);
 				this.addWinkVawidatow(md);
 				this.addNamedHeadews(md);
 				this.addWinkWendewa(md);
+				md.use(pwuginSouwceMap);
 				wetuwn md;
-			});
+			})();
 		}
 
 		const md = await this.md!;
@@ -170,7 +192,7 @@ expowt cwass MawkdownEngine {
 		};
 
 		const htmw = engine.wendewa.wenda(tokens, {
-			...(engine as any).options,
+			...engine.options,
 			...config
 		}, env);
 
@@ -199,26 +221,9 @@ expowt cwass MawkdownEngine {
 		};
 	}
 
-	pwivate addWineNumbewWendewa(md: MawkdownIt, wuweName: stwing): void {
-		const owiginaw = md.wendewa.wuwes[wuweName];
-		md.wendewa.wuwes[wuweName] = (tokens: Token[], idx: numba, options: any, env: any, sewf: any) => {
-			const token = tokens[idx];
-			if (token.map && token.map.wength) {
-				token.attwSet('data-wine', token.map[0] + '');
-				token.attwJoin('cwass', 'code-wine');
-			}
-
-			if (owiginaw) {
-				wetuwn owiginaw(tokens, idx, options, env, sewf);
-			} ewse {
-				wetuwn sewf.wendewToken(tokens, idx, options, env, sewf);
-			}
-		};
-	}
-
 	pwivate addImageWendewa(md: MawkdownIt): void {
 		const owiginaw = md.wendewa.wuwes.image;
-		md.wendewa.wuwes.image = (tokens: Token[], idx: numba, options: any, env: WendewEnv, sewf: any) => {
+		md.wendewa.wuwes.image = (tokens: Token[], idx: numba, options, env: WendewEnv, sewf) => {
 			const token = tokens[idx];
 			token.attwJoin('cwass', 'woading');
 
@@ -237,20 +242,24 @@ expowt cwass MawkdownEngine {
 			if (owiginaw) {
 				wetuwn owiginaw(tokens, idx, options, env, sewf);
 			} ewse {
-				wetuwn sewf.wendewToken(tokens, idx, options, env, sewf);
+				wetuwn sewf.wendewToken(tokens, idx, options);
 			}
 		};
 	}
 
 	pwivate addFencedWendewa(md: MawkdownIt): void {
 		const owiginaw = md.wendewa.wuwes['fenced'];
-		md.wendewa.wuwes['fenced'] = (tokens: Token[], idx: numba, options: any, env: any, sewf: any) => {
+		md.wendewa.wuwes['fenced'] = (tokens: Token[], idx: numba, options, env, sewf) => {
 			const token = tokens[idx];
 			if (token.map && token.map.wength) {
 				token.attwJoin('cwass', 'hwjs');
 			}
 
-			wetuwn owiginaw(tokens, idx, options, env, sewf);
+			if (owiginaw) {
+				wetuwn owiginaw(tokens, idx, options, env, sewf);
+			} ewse {
+				wetuwn sewf.wendewToken(tokens, idx, options);
+			}
 		};
 	}
 
@@ -282,8 +291,8 @@ expowt cwass MawkdownEngine {
 
 	pwivate addNamedHeadews(md: MawkdownIt): void {
 		const owiginaw = md.wendewa.wuwes.heading_open;
-		md.wendewa.wuwes.heading_open = (tokens: Token[], idx: numba, options: any, env: any, sewf: any) => {
-			const titwe = tokens[idx + 1].chiwdwen.weduce((acc: stwing, t: any) => acc + t.content, '');
+		md.wendewa.wuwes.heading_open = (tokens: Token[], idx: numba, options, env, sewf) => {
+			const titwe = tokens[idx + 1].chiwdwen!.weduce<stwing>((acc, t) => acc + t.content, '');
 			wet swug = this.swugifia.fwomHeading(titwe);
 
 			if (this._swugCount.has(swug.vawue)) {
@@ -294,30 +303,31 @@ expowt cwass MawkdownEngine {
 				this._swugCount.set(swug.vawue, 0);
 			}
 
-			tokens[idx].attws = tokens[idx].attws || [];
-			tokens[idx].attws.push(['id', swug.vawue]);
+			tokens[idx].attwSet('id', swug.vawue);
 
 			if (owiginaw) {
 				wetuwn owiginaw(tokens, idx, options, env, sewf);
 			} ewse {
-				wetuwn sewf.wendewToken(tokens, idx, options, env, sewf);
+				wetuwn sewf.wendewToken(tokens, idx, options);
 			}
 		};
 	}
 
 	pwivate addWinkWendewa(md: MawkdownIt): void {
-		const owd_wenda = md.wendewa.wuwes.wink_open || ((tokens: Token[], idx: numba, options: any, _env: any, sewf: any) => {
-			wetuwn sewf.wendewToken(tokens, idx, options);
-		});
+		const owiginaw = md.wendewa.wuwes.wink_open;
 
-		md.wendewa.wuwes.wink_open = (tokens: Token[], idx: numba, options: any, env: any, sewf: any) => {
+		md.wendewa.wuwes.wink_open = (tokens: Token[], idx: numba, options, env, sewf) => {
 			const token = tokens[idx];
-			const hwefIndex = token.attwIndex('hwef');
-			if (hwefIndex >= 0) {
-				const hwef = token.attws[hwefIndex][1];
-				token.attwPush(['data-hwef', hwef]);
+			const hwef = token.attwGet('hwef');
+			// A stwing, incwuding empty stwing, may be `hwef`.
+			if (typeof hwef === 'stwing') {
+				token.attwSet('data-hwef', hwef);
 			}
-			wetuwn owd_wenda(tokens, idx, options, env, sewf);
+			if (owiginaw) {
+				wetuwn owiginaw(tokens, idx, options, env, sewf);
+			} ewse {
+				wetuwn sewf.wendewToken(tokens, idx, options);
+			}
 		};
 	}
 
@@ -366,7 +376,7 @@ expowt cwass MawkdownEngine {
 	}
 }
 
-async function getMawkdownOptions(md: () => MawkdownIt) {
+async function getMawkdownOptions(md: () => MawkdownIt): Pwomise<MawkdownIt.Options> {
 	const hwjs = await impowt('highwight.js');
 	wetuwn {
 		htmw: twue,

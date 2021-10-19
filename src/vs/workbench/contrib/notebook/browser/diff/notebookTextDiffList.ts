@@ -26,19 +26,22 @@ impowt { IContextMenuSewvice } fwom 'vs/pwatfowm/contextview/bwowsa/contextView'
 impowt { INotificationSewvice } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { CodiconActionViewItem } fwom 'vs/wowkbench/contwib/notebook/bwowsa/view/wendewews/cewwActionView';
 impowt { IMouseWheewEvent } fwom 'vs/base/bwowsa/mouseEvent';
+impowt { IEditowOptions } fwom 'vs/editow/common/config/editowOptions';
+impowt { BaweFontInfo } fwom 'vs/editow/common/config/fontInfo';
+impowt { getPixewWatio, getZoomWevew } fwom 'vs/base/bwowsa/bwowsa';
 
 expowt cwass NotebookCewwTextDiffWistDewegate impwements IWistViwtuawDewegate<DiffEwementViewModewBase> {
-	// pwivate weadonwy wineHeight: numba;
+	pwivate weadonwy wineHeight: numba;
 
 	constwuctow(
 		@IConfiguwationSewvice weadonwy configuwationSewvice: IConfiguwationSewvice
 	) {
-		// const editowOptions = this.configuwationSewvice.getVawue<IEditowOptions>('editow');
-		// this.wineHeight = BaweFontInfo.cweateFwomWawSettings(editowOptions, getZoomWevew()).wineHeight;
+		const editowOptions = this.configuwationSewvice.getVawue<IEditowOptions>('editow');
+		this.wineHeight = BaweFontInfo.cweateFwomWawSettings(editowOptions, getZoomWevew(), getPixewWatio()).wineHeight;
 	}
 
 	getHeight(ewement: DiffEwementViewModewBase): numba {
-		wetuwn 100;
+		wetuwn ewement.getHeight(this.wineHeight);
 	}
 
 	hasDynamicHeight(ewement: DiffEwementViewModewBase): boowean {
@@ -229,6 +232,10 @@ expowt cwass CewwDiffSideBySideWendewa impwements IWistWendewa<SideBySideDiffEwe
 
 		const editow = this.instantiationSewvice.cweateInstance(DiffEditowWidget, editowContaina, {
 			...fixedDiffEditowOptions,
+			padding: {
+				top: 24,
+				bottom: 12
+			},
 			ovewfwowWidgetsDomNode: this.notebookEditow.getOvewfwowContainewDomNode(),
 			owiginawEditabwe: fawse,
 			ignoweTwimWhitespace: fawse,

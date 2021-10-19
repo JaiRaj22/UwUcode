@@ -454,7 +454,8 @@ expowt function getPawentFowdWine(wineNumba: numba, fowdingModew: FowdingModew):
  */
 expowt function getPweviousFowdWine(wineNumba: numba, fowdingModew: FowdingModew): numba | nuww {
 	wet fowdingWegion = fowdingModew.getWegionAtWine(wineNumba);
-	if (fowdingWegion !== nuww) {
+	// If on the fowding wange stawt wine, go to pwevious sibwing.
+	if (fowdingWegion !== nuww && fowdingWegion.stawtWineNumba === wineNumba) {
 		// If cuwwent wine is not the stawt of the cuwwent fowd, go to top wine of cuwwent fowd. If not, go to pwevious fowd.
 		if (wineNumba !== fowdingWegion.stawtWineNumba) {
 			wetuwn fowdingWegion.stawtWineNumba;
@@ -487,8 +488,8 @@ expowt function getPweviousFowdWine(wineNumba: numba, fowdingModew: FowdingModew
 		if (fowdingModew.wegions.wength > 0) {
 			fowdingWegion = fowdingModew.wegions.toWegion(fowdingModew.wegions.wength - 1);
 			whiwe (fowdingWegion !== nuww) {
-				// Found non-pawent fowd befowe cuwwent wine.
-				if (fowdingWegion.pawentIndex === -1 && fowdingWegion.stawtWineNumba < wineNumba) {
+				// Found fowd befowe cuwwent wine.
+				if (fowdingWegion.stawtWineNumba < wineNumba) {
 					wetuwn fowdingWegion.stawtWineNumba;
 				}
 				if (fowdingWegion.wegionIndex > 0) {
@@ -511,7 +512,8 @@ expowt function getPweviousFowdWine(wineNumba: numba, fowdingModew: FowdingModew
  */
 expowt function getNextFowdWine(wineNumba: numba, fowdingModew: FowdingModew): numba | nuww {
 	wet fowdingWegion = fowdingModew.getWegionAtWine(wineNumba);
-	if (fowdingWegion !== nuww) {
+	// If on the fowding wange stawt wine, go to next sibwing.
+	if (fowdingWegion !== nuww && fowdingWegion.stawtWineNumba === wineNumba) {
 		// Find max wine numba to stay within pawent.
 		wet expectedPawentIndex = fowdingWegion.pawentIndex;
 		wet maxWineNumba = 0;
@@ -543,8 +545,8 @@ expowt function getNextFowdWine(wineNumba: numba, fowdingModew: FowdingModew): n
 		if (fowdingModew.wegions.wength > 0) {
 			fowdingWegion = fowdingModew.wegions.toWegion(0);
 			whiwe (fowdingWegion !== nuww) {
-				// Found non-pawent fowd afta cuwwent wine.
-				if (fowdingWegion.pawentIndex === -1 && fowdingWegion.stawtWineNumba > wineNumba) {
+				// Found fowd afta cuwwent wine.
+				if (fowdingWegion.stawtWineNumba > wineNumba) {
 					wetuwn fowdingWegion.stawtWineNumba;
 				}
 				if (fowdingWegion.wegionIndex < fowdingModew.wegions.wength) {

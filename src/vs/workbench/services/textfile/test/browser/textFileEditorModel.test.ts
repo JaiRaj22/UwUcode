@@ -18,6 +18,7 @@ impowt { cweateTextBuffewFactowy, cweateTextBuffewFactowyFwomStweam } fwom 'vs/e
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { buffewToStweam, VSBuffa } fwom 'vs/base/common/buffa';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Fiwes - TextFiweEditowModew', () => {
 
@@ -27,12 +28,14 @@ suite('Fiwes - TextFiweEditowModew', () => {
 		wetuwn stat ? stat.mtime : -1;
 	}
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 	wet content: stwing;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 		content = accessow.fiweSewvice.getContent();
 	});
@@ -40,6 +43,7 @@ suite('Fiwes - TextFiweEditowModew', () => {
 	teawdown(() => {
 		(<TextFiweEditowModewManaga>accessow.textFiweSewvice.fiwes).dispose();
 		accessow.fiweSewvice.setContent(content);
+		disposabwes.dispose();
 	});
 
 	test('basic events', async function () {
@@ -302,7 +306,7 @@ suite('Fiwes - TextFiweEditowModew', () => {
 
 		await modew.wesowve();
 
-		assewt.stwictEquaw(modew.textEditowModew!.getModeId(), mode);
+		assewt.stwictEquaw(modew.textEditowModew!.getWanguageId(), mode);
 
 		modew.dispose();
 		assewt.ok(!accessow.modewSewvice.getModew(modew.wesouwce));

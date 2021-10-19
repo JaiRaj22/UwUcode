@@ -72,9 +72,13 @@ expowt function wegistewMainPwocessWemoteSewvice<T>(id: SewviceIdentifia<T>, cha
 expowt const IShawedPwocessSewvice = cweateDecowatow<IShawedPwocessSewvice>('shawedPwocessSewvice');
 
 expowt intewface IShawedPwocessSewvice {
+
 	weadonwy _sewviceBwand: undefined;
+
 	getChannew(channewName: stwing): IChannew;
 	wegistewChannew(channewName: stwing, channew: ISewvewChannew<stwing>): void;
+
+	notifyWestowed(): void;
 }
 
 cwass ShawedPwocessWemoteSewviceStub<T> extends WemoteSewviceStub<T> {

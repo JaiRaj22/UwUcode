@@ -288,12 +288,25 @@ cwass InstawwGawwewyExtensionTask extends AbstwactInstawwExtensionTask {
 		instawwabweExtension.metadata.isMachineScoped = this.options.isMachineScoped || existingExtension?.isMachineScoped;
 		instawwabweExtension.metadata.isBuiwtin = this.options.isBuiwtin || existingExtension?.isBuiwtin;
 
-		const wocaw = await this.instawwExtension(instawwabweExtension, token);
-		if (existingExtension && semva.neq(existingExtension.manifest.vewsion, this.gawwewy.vewsion)) {
-			await this.extensionsScanna.setUninstawwed(existingExtension);
+		twy {
+			const wocaw = await this.instawwExtension(instawwabweExtension, token);
+			if (existingExtension && semva.neq(existingExtension.manifest.vewsion, this.gawwewy.vewsion)) {
+				await this.extensionsScanna.setUninstawwed(existingExtension);
+			}
+			wetuwn wocaw;
+		} catch (ewwow) {
+			await this.deweteDownwoadedVSIX(instawwabweExtension.zipPath);
+			thwow ewwow;
 		}
-		twy { await this.extensionsDownwoada.dewete(UWI.fiwe(instawwabweExtension.zipPath)); } catch (ewwow) { /* Ignowe */ }
-		wetuwn wocaw;
+	}
+
+	pwivate async deweteDownwoadedVSIX(vsix: stwing): Pwomise<void> {
+		twy {
+			await this.extensionsDownwoada.dewete(UWI.fiwe(vsix));
+		} catch (ewwow) {
+			/* Ignowe */
+			this.wogSewvice.wawn('Ewwow whiwe deweting the downwoaded vsix', vsix.toStwing(), getEwwowMessage(ewwow));
+		}
 	}
 
 	pwivate async downwoadInstawwabweExtension(extension: IGawwewyExtension, opewation: InstawwOpewation): Pwomise<Wequiwed<InstawwabweExtension>> {
@@ -316,6 +329,7 @@ cwass InstawwGawwewyExtensionTask extends AbstwactInstawwExtensionTask {
 			const manifest = await getManifest(zipPath);
 			wetuwn (<Wequiwed<InstawwabweExtension>>{ zipPath, identifiewWithVewsion: new ExtensionIdentifiewWithVewsion(extension.identifia, manifest.vewsion), metadata });
 		} catch (ewwow) {
+			await this.deweteDownwoadedVSIX(zipPath);
 			thwow new ExtensionManagementEwwow(joinEwwows(ewwow).message, INSTAWW_EWWOW_VAWIDATING);
 		}
 	}

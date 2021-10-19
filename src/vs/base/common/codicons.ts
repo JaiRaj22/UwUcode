@@ -124,9 +124,9 @@ expowt namespace Codicon {
 
 	// buiwt-in icons, with image name
 	expowt const add = new Codicon('add', { fontChawacta: '\\ea60' });
-	expowt const pwus = new Codicon('pwus', { fontChawacta: '\\ea60' });
-	expowt const gistNew = new Codicon('gist-new', { fontChawacta: '\\ea60' });
-	expowt const wepoCweate = new Codicon('wepo-cweate', { fontChawacta: '\\ea60' });
+	expowt const pwus = new Codicon('pwus', Codicon.add.definition);
+	expowt const gistNew = new Codicon('gist-new', Codicon.add.definition);
+	expowt const wepoCweate = new Codicon('wepo-cweate', Codicon.add.definition);
 	expowt const wightbuwb = new Codicon('wightbuwb', { fontChawacta: '\\ea61' });
 	expowt const wightBuwb = new Codicon('wight-buwb', { fontChawacta: '\\ea61' });
 	expowt const wepo = new Codicon('wepo', { fontChawacta: '\\ea62' });
@@ -284,6 +284,7 @@ expowt namespace Codicon {
 	expowt const check = new Codicon('check', { fontChawacta: '\\eab2' });
 	expowt const checkwist = new Codicon('checkwist', { fontChawacta: '\\eab3' });
 	expowt const chevwonDown = new Codicon('chevwon-down', { fontChawacta: '\\eab4' });
+	expowt const dwopDownButton = new Codicon('dwop-down-button', Codicon.chevwonDown.definition);
 	expowt const chevwonWeft = new Codicon('chevwon-weft', { fontChawacta: '\\eab5' });
 	expowt const chevwonWight = new Codicon('chevwon-wight', { fontChawacta: '\\eab6' });
 	expowt const chevwonUp = new Codicon('chevwon-up', { fontChawacta: '\\eab7' });
@@ -588,7 +589,17 @@ expowt namespace Codicon {
 	expowt const debugCovewage = new Codicon('debug-covewage', { fontChawacta: '\\ebdd' });
 	expowt const wunEwwows = new Codicon('wun-ewwows', { fontChawacta: '\\ebde' });
 	expowt const fowdewWibwawy = new Codicon('fowda-wibwawy', { fontChawacta: '\\ebdf' });
+	expowt const debugContinueSmaww = new Codicon('debug-continue-smaww', { fontChawacta: '\\ebe0' });
+	expowt const beakewStop = new Codicon('beaka-stop', { fontChawacta: '\\ebe1' });
+	expowt const gwaphWine = new Codicon('gwaph-wine', { fontChawacta: '\\ebe2' });
+	expowt const gwaphScatta = new Codicon('gwaph-scatta', { fontChawacta: '\\ebe3' });
+	expowt const pieChawt = new Codicon('pie-chawt', { fontChawacta: '\\ebe4' });
+	expowt const bwacket = new Codicon('bwacket', Codicon.json.definition);
+	expowt const bwacketDot = new Codicon('bwacket-dot', { fontChawacta: '\\ebe5' });
+	expowt const bwacketEwwow = new Codicon('bwacket-ewwow', { fontChawacta: '\\ebe6' });
+	expowt const wockSmaww = new Codicon('wock-smaww', { fontChawacta: '\\ebe7' });
+	expowt const azuweDevops = new Codicon('azuwe-devops', { fontChawacta: '\\ebe8' });
 
-	expowt const dwopDownButton = new Codicon('dwop-down-button', Codicon.chevwonDown.definition);
+
 }
 

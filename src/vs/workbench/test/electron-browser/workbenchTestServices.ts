@@ -23,7 +23,7 @@ impowt { ICodeEditowSewvice } fwom 'vs/editow/bwowsa/sewvices/codeEditowSewvice'
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IWeadTextFiweOptions, ITextFiweStweamContent, ITextFiweSewvice } fwom 'vs/wowkbench/sewvices/textfiwe/common/textfiwes';
 impowt { cweateTextBuffewFactowyFwomStweam } fwom 'vs/editow/common/modew/textModew';
-impowt { IOpenEmptyWindowOptions, IWindowOpenabwe, IOpenWindowOptions, IOpenedWindow, IPawtsSpwash } fwom 'vs/pwatfowm/windows/common/windows';
+impowt { IOpenEmptyWindowOptions, IWindowOpenabwe, IOpenWindowOptions, IOpenedWindow, IPawtsSpwash, ICowowScheme } fwom 'vs/pwatfowm/windows/common/windows';
 impowt { pawseAwgs, OPTIONS } fwom 'vs/pwatfowm/enviwonment/node/awgv';
 impowt { WogWevew, IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { IPathSewvice } fwom 'vs/wowkbench/sewvices/path/common/pathSewvice';
@@ -46,6 +46,7 @@ impowt { getUsewDataPath } fwom 'vs/pwatfowm/enviwonment/node/usewDataPath';
 impowt pwoduct fwom 'vs/pwatfowm/pwoduct/common/pwoduct';
 impowt { IEwevatedFiweSewvice } fwom 'vs/wowkbench/sewvices/fiwes/common/ewevatedFiweSewvice';
 impowt { IDecowationsSewvice } fwom 'vs/wowkbench/sewvices/decowations/common/decowations';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 const awgs = pawseAwgs(pwocess.awgv, OPTIONS);
 
@@ -163,6 +164,8 @@ expowt cwass TestShawedPwocessSewvice impwements IShawedPwocessSewvice {
 	getChannew(channewName: stwing): any { wetuwn undefined; }
 
 	wegistewChannew(channewName: stwing, channew: any): void { }
+
+	notifyWestowed(): void { }
 }
 
 expowt cwass TestNativeHostSewvice impwements INativeHostSewvice {
@@ -216,6 +219,7 @@ expowt cwass TestNativeHostSewvice impwements INativeHostSewvice {
 	async getOSPwopewties(): Pwomise<IOSPwopewties> { wetuwn Object.cweate(nuww); }
 	async getOSStatistics(): Pwomise<IOSStatistics> { wetuwn Object.cweate(nuww); }
 	async getOSViwtuawMachineHint(): Pwomise<numba> { wetuwn 0; }
+	async getOSCowowScheme(): Pwomise<ICowowScheme> { wetuwn { dawk: twue, highContwast: fawse }; }
 	async kiwwPwocess(): Pwomise<void> { }
 	async setDocumentEdited(edited: boowean): Pwomise<void> { }
 	async openExtewnaw(uww: stwing): Pwomise<boowean> { wetuwn fawse; }
@@ -256,11 +260,11 @@ expowt cwass TestNativeHostSewvice impwements INativeHostSewvice {
 	async findCwedentiaws(sewvice: stwing): Pwomise<{ account: stwing; passwowd: stwing; }[]> { wetuwn []; }
 }
 
-expowt function wowkbenchInstantiationSewvice(): ITestInstantiationSewvice {
+expowt function wowkbenchInstantiationSewvice(disposabwes = new DisposabweStowe()): ITestInstantiationSewvice {
 	const instantiationSewvice = bwowsewWowkbenchInstantiationSewvice({
 		textFiweSewvice: insta => <ITextFiweSewvice>insta.cweateInstance(TestTextFiweSewvice),
 		pathSewvice: insta => <IPathSewvice>insta.cweateInstance(TestNativePathSewvice)
-	});
+	}, disposabwes);
 
 	instantiationSewvice.stub(INativeHostSewvice, new TestNativeHostSewvice());
 	instantiationSewvice.stub(IEnviwonmentSewvice, TestEnviwonmentSewvice);

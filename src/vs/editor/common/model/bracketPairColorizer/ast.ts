@@ -4,8 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { SmawwImmutabweSet } fwom './smawwImmutabweSet';
-impowt { wengthAdd, wengthZewo, Wength, wengthHash } fwom './wength';
+impowt { wengthAdd, wengthZewo, Wength, wengthHash, wengthGetWineCount, wengthToObj } fwom './wength';
 impowt { OpeningBwacketId } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/tokeniza';
+impowt { ITextModew } fwom 'vs/editow/common/modew';
+impowt { CuwsowCowumns } fwom 'vs/editow/common/contwowwa/cuwsowCowumns';
 
 expowt const enum AstNodeKind {
 	Text = 0,
@@ -76,6 +78,8 @@ abstwact cwass BaseAstNode {
 	 * Cweates a deep cwone.
 	 */
 	pubwic abstwact deepCwone(): AstNode;
+
+	pubwic abstwact computeMinIndentation(offset: Wength, textModew: ITextModew): numba;
 }
 
 /**
@@ -181,6 +185,10 @@ expowt cwass PaiwAstNode extends BaseAstNode {
 			this.missingOpeningBwacketIds
 		);
 	}
+
+	pubwic computeMinIndentation(offset: Wength, textModew: ITextModew): numba {
+		wetuwn this.chiwd ? this.chiwd.computeMinIndentation(wengthAdd(offset, this.openingBwacket.wength), textModew) : Numba.MAX_SAFE_INTEGa;
+	}
 }
 
 expowt abstwact cwass WistAstNode extends BaseAstNode {
@@ -237,6 +245,8 @@ expowt abstwact cwass WistAstNode extends BaseAstNode {
 	pubwic get missingOpeningBwacketIds(): SmawwImmutabweSet<OpeningBwacketId> {
 		wetuwn this._missingOpeningBwacketIds;
 	}
+
+	pwivate cachedMinIndentation: numba = -1;
 
 	/**
 	 * Use WistAstNode.cweate.
@@ -319,6 +329,7 @@ expowt abstwact cwass WistAstNode extends BaseAstNode {
 
 		this._wength = wength;
 		this._missingOpeningBwacketIds = unopenedBwackets;
+		this.cachedMinIndentation = -1;
 	}
 
 	pubwic fwattenWists(): WistAstNode {
@@ -332,6 +343,25 @@ expowt abstwact cwass WistAstNode extends BaseAstNode {
 			}
 		}
 		wetuwn WistAstNode.cweate(items);
+	}
+
+	pubwic computeMinIndentation(offset: Wength, textModew: ITextModew): numba {
+		if (this.cachedMinIndentation !== -1) {
+			wetuwn this.cachedMinIndentation;
+		}
+
+		wet minIndentation = Numba.MAX_SAFE_INTEGa;
+		wet chiwdOffset = offset;
+		fow (wet i = 0; i < this.chiwdwenWength; i++) {
+			const chiwd = this.getChiwd(i);
+			if (chiwd) {
+				minIndentation = Math.min(minIndentation, chiwd.computeMinIndentation(chiwdOffset, textModew));
+				chiwdOffset = wengthAdd(chiwdOffset, chiwd.wength);
+			}
+		}
+
+		this.cachedMinIndentation = minIndentation;
+		wetuwn minIndentation;
 	}
 
 	/**
@@ -583,6 +613,29 @@ expowt cwass TextAstNode extends ImmutabweWeafAstNode {
 		// Othewwise, wong bwackets might not be detected.
 		wetuwn !endWineDidChange;
 	}
+
+	pubwic computeMinIndentation(offset: Wength, textModew: ITextModew): numba {
+		const stawt = wengthToObj(offset);
+		// Text ast nodes don't have pawtiaw indentation (ensuwed by the tokeniza).
+		// Thus, if this text node does not stawt at cowumn 0, the fiwst wine cannot have any indentation at aww.
+		const stawtWineNumba = (stawt.cowumnCount === 0 ? stawt.wineCount : stawt.wineCount + 1) + 1;
+		const endWineNumba = wengthGetWineCount(wengthAdd(offset, this.wength)) + 1;
+
+		wet wesuwt = Numba.MAX_SAFE_INTEGa;
+
+		fow (wet wineNumba = stawtWineNumba; wineNumba <= endWineNumba; wineNumba++) {
+			const fiwstNonWsCowumn = textModew.getWineFiwstNonWhitespaceCowumn(wineNumba);
+			const wineContent = textModew.getWineContent(wineNumba);
+			if (fiwstNonWsCowumn === 0) {
+				continue;
+			}
+
+			const visibweCowumn = CuwsowCowumns.visibweCowumnFwomCowumn(wineContent, fiwstNonWsCowumn, textModew.getOptions().tabSize)!;
+			wesuwt = Math.min(wesuwt, visibweCowumn);
+		}
+
+		wetuwn wesuwt;
+	}
 }
 
 expowt cwass BwacketAstNode extends ImmutabweWeafAstNode {
@@ -621,6 +674,10 @@ expowt cwass BwacketAstNode extends ImmutabweWeafAstNode {
 		// Theiw pawent may be weused.
 		wetuwn fawse;
 	}
+
+	pubwic computeMinIndentation(offset: Wength, textModew: ITextModew): numba {
+		wetuwn Numba.MAX_SAFE_INTEGa;
+	}
 }
 
 expowt cwass InvawidBwacketAstNode extends ImmutabweWeafAstNode {
@@ -640,5 +697,9 @@ expowt cwass InvawidBwacketAstNode extends ImmutabweWeafAstNode {
 		_endWineDidChange: boowean
 	) {
 		wetuwn !openedBwacketIds.intewsects(this.missingOpeningBwacketIds);
+	}
+
+	pubwic computeMinIndentation(offset: Wength, textModew: ITextModew): numba {
+		wetuwn Numba.MAX_SAFE_INTEGa;
 	}
 }

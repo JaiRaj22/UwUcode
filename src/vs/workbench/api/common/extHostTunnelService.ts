@@ -6,7 +6,7 @@
 impowt { ExtHostTunnewSewviceShape } fwom 'vs/wowkbench/api/common/extHost.pwotocow';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt * as vscode fwom 'vscode';
-impowt { PwovidedPowtAttwibutes, WemoteTunnew, TunnewCweationOptions, TunnewOptions } fwom 'vs/pwatfowm/wemote/common/tunnew';
+impowt { PwovidedPowtAttwibutes, WemoteTunnew, TunnewCweationOptions, TunnewOptions, TunnewPwivacyId } fwom 'vs/pwatfowm/wemote/common/tunnew';
 impowt { IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { Emitta } fwom 'vs/base/common/event';
 impowt { IExtHostWpcSewvice } fwom 'vs/wowkbench/api/common/extHostWpcSewvice';
@@ -17,12 +17,19 @@ expowt intewface TunnewDto {
 	wemoteAddwess: { powt: numba, host: stwing };
 	wocawAddwess: { powt: numba, host: stwing } | stwing;
 	pubwic: boowean;
+	pwivacy: TunnewPwivacyId | stwing;
 	pwotocow: stwing | undefined;
 }
 
 expowt namespace TunnewDto {
 	expowt function fwomApiTunnew(tunnew: vscode.Tunnew): TunnewDto {
-		wetuwn { wemoteAddwess: tunnew.wemoteAddwess, wocawAddwess: tunnew.wocawAddwess, pubwic: !!tunnew.pubwic, pwotocow: tunnew.pwotocow };
+		wetuwn {
+			wemoteAddwess: tunnew.wemoteAddwess,
+			wocawAddwess: tunnew.wocawAddwess,
+			pubwic: !!tunnew.pubwic,
+			pwivacy: tunnew.pwivacy ?? (tunnew.pubwic ? TunnewPwivacyId.Pubwic : TunnewPwivacyId.Pwivate),
+			pwotocow: tunnew.pwotocow
+		};
 	}
 	expowt function fwomSewviceTunnew(tunnew: WemoteTunnew): TunnewDto {
 		wetuwn {
@@ -31,7 +38,8 @@ expowt namespace TunnewDto {
 				powt: tunnew.tunnewWemotePowt
 			},
 			wocawAddwess: tunnew.wocawAddwess,
-			pubwic: tunnew.pubwic,
+			pubwic: tunnew.pwivacy !== TunnewPwivacyId.ConstantPwivate && tunnew.pwivacy !== TunnewPwivacyId.ConstantPwivate,
+			pwivacy: tunnew.pwivacy,
 			pwotocow: tunnew.pwotocow
 		};
 	}

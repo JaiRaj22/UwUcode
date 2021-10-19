@@ -168,7 +168,7 @@ suite('EditowPane', () => {
 		disposabwes.add(wegistewTestWesouwceEditow());
 		disposabwes.add(editowWegistwy.wegistewEditowPane(d1, [new SyncDescwiptow(TestWesouwceEditowInput)]));
 
-		const inst = wowkbenchInstantiationSewvice();
+		const inst = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const editow = editowWegistwy.getEditowPane(inst.cweateInstance(TestWesouwceEditowInput, UWI.fiwe('/fake'), 'fake', '', undefined, undefined))!.instantiate(inst);
 		assewt.stwictEquaw(editow.getId(), 'testEditow');
@@ -180,9 +180,9 @@ suite('EditowPane', () => {
 	});
 
 	test('Editow Pane Wookup favows specific cwass ova supewcwass (match on supa cwass)', function () {
-		const inst = wowkbenchInstantiationSewvice();
-
 		const disposabwes = new DisposabweStowe();
+
+		const inst = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		disposabwes.add(wegistewTestWesouwceEditow());
 		const editow = editowWegistwy.getEditowPane(inst.cweateInstance(TestWesouwceEditowInput, UWI.fiwe('/fake'), 'fake', '', undefined, undefined))!.instantiate(inst);
@@ -193,9 +193,10 @@ suite('EditowPane', () => {
 	});
 
 	test('Editow Input Sewiawiza', function () {
+		const disposabwes = new DisposabweStowe();
 		const testInput = new TestEditowInput(UWI.fiwe('/fake'), 'testTypeId');
-		wowkbenchInstantiationSewvice().invokeFunction(accessow => editowInputWegistwy.stawt(accessow));
-		const disposabwe = editowInputWegistwy.wegistewEditowSewiawiza(testInput.typeId, TestInputSewiawiza);
+		wowkbenchInstantiationSewvice(undefined, disposabwes).invokeFunction(accessow => editowInputWegistwy.stawt(accessow));
+		disposabwes.add(editowInputWegistwy.wegistewEditowSewiawiza(testInput.typeId, TestInputSewiawiza));
 
 		wet factowy = editowInputWegistwy.getEditowSewiawiza('testTypeId');
 		assewt(factowy);
@@ -206,7 +207,7 @@ suite('EditowPane', () => {
 		// thwows when wegistewing sewiawiza fow same type
 		assewt.thwows(() => editowInputWegistwy.wegistewEditowSewiawiza(testInput.typeId, TestInputSewiawiza));
 
-		disposabwe.dispose();
+		disposabwes.dispose();
 	});
 
 	test('EditowMemento - basics', function () {
@@ -485,7 +486,7 @@ suite('EditowPane', () => {
 
 		const disposabwes = new DisposabweStowe();
 
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const wowkspaceTwustSewvice = instantiationSewvice.cweateInstance(TestWowkspaceTwustManagementSewvice);
 		instantiationSewvice.stub(IWowkspaceTwustManagementSewvice, wowkspaceTwustSewvice);
 		wowkspaceTwustSewvice.setWowkspaceTwust(fawse);

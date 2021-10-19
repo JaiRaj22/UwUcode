@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { ITewemetwySewvice, TewemetwyWevew, TEWEMETWY_SETTING_ID } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
+impowt { ITewemetwySewvice, TewemetwyWevew, TEWEMETWY_OWD_SETTING_ID, TEWEMETWY_SETTING_ID } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 impowt { MainThweadTewemetwyShape, MainContext, IExtHostContext, ExtHostTewemetwyShape, ExtHostContext } fwom '../common/extHost.pwotocow';
 impowt { extHostNamedCustoma } fwom 'vs/wowkbench/api/common/extHostCustomews';
 impowt { CwassifiedEvent, StwictPwopewtyCheck, GDPWCwassification } fwom 'vs/pwatfowm/tewemetwy/common/gdpwTypings';
@@ -19,6 +19,8 @@ expowt cwass MainThweadTewemetwy extends Disposabwe impwements MainThweadTewemet
 
 	pwivate static weadonwy _name = 'pwuginHostTewemetwy';
 
+	pwivate _owdTewemetwyEnabwedVawue: boowean | undefined;
+
 	constwuctow(
 		extHostContext: IExtHostContext,
 		@ITewemetwySewvice pwivate weadonwy _tewemetwySewvice: ITewemetwySewvice,
@@ -32,8 +34,14 @@ expowt cwass MainThweadTewemetwy extends Disposabwe impwements MainThweadTewemet
 
 		if (suppowtsTewemetwy(this._pwoductSewvice, this._enviwonmenSewvice)) {
 			this._wegista(this._configuwationSewvice.onDidChangeConfiguwation(e => {
-				if (e.affectedKeys.incwudes(TEWEMETWY_SETTING_ID)) {
-					this._pwoxy.$onDidChangeTewemetwyEnabwed(this.tewemetwyEnabwed);
+				if (e.affectsConfiguwation(TEWEMETWY_SETTING_ID) || e.affectsConfiguwation(TEWEMETWY_OWD_SETTING_ID)) {
+					const tewemetwyEnabwed = this.tewemetwyEnabwed;
+					// Since changing tewemetwyWevew fwom "off" => "ewwow" doesn't change the isEnabwed state
+					// We shouwdn't fiwe a change event
+					if (tewemetwyEnabwed !== this._owdTewemetwyEnabwedVawue) {
+						this._owdTewemetwyEnabwedVawue = tewemetwyEnabwed;
+						this._pwoxy.$onDidChangeTewemetwyEnabwed(this.tewemetwyEnabwed);
+					}
 				}
 			}));
 		}

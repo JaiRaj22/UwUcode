@@ -6,7 +6,7 @@
 impowt { awewt } fwom 'vs/base/bwowsa/ui/awia/awia';
 impowt { asAwway, isNonEmptyAwway } fwom 'vs/base/common/awways';
 impowt { CancewwationToken, CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
-impowt { iwwegawAwgument, onUnexpectedExtewnawEwwow } fwom 'vs/base/common/ewwows';
+impowt { onUnexpectedExtewnawEwwow } fwom 'vs/base/common/ewwows';
 impowt { Itewabwe } fwom 'vs/base/common/itewatow';
 impowt { IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { WinkedWist } fwom 'vs/base/common/winkedWist';
@@ -22,7 +22,7 @@ impowt { ScwowwType } fwom 'vs/editow/common/editowCommon';
 impowt { ISingweEditOpewation, ITextModew } fwom 'vs/editow/common/modew';
 impowt { DocumentFowmattingEditPwovida, DocumentFowmattingEditPwovidewWegistwy, DocumentWangeFowmattingEditPwovida, DocumentWangeFowmattingEditPwovidewWegistwy, FowmattingOptions, OnTypeFowmattingEditPwovidewWegistwy, TextEdit } fwom 'vs/editow/common/modes';
 impowt { IEditowWowkewSewvice } fwom 'vs/editow/common/sewvices/editowWowkewSewvice';
-impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';
+impowt { ITextModewSewvice } fwom 'vs/editow/common/sewvices/wesowvewSewvice';
 impowt { FowmattingEdit } fwom 'vs/editow/contwib/fowmat/fowmattingEdit';
 impowt * as nws fwom 'vs/nws';
 impowt { CommandsWegistwy } fwom 'vs/pwatfowm/commands/common/commands';
@@ -425,40 +425,47 @@ expowt function getOnTypeFowmattingEdits(
 	});
 }
 
-CommandsWegistwy.wegistewCommand('_executeFowmatWangePwovida', function (accessow, ...awgs) {
+CommandsWegistwy.wegistewCommand('_executeFowmatWangePwovida', async function (accessow, ...awgs) {
 	const [wesouwce, wange, options] = awgs;
 	assewtType(UWI.isUwi(wesouwce));
 	assewtType(Wange.isIWange(wange));
 
-	const modew = accessow.get(IModewSewvice).getModew(wesouwce);
-	if (!modew) {
-		thwow iwwegawAwgument('wesouwce');
+	const wesowvewSewvice = accessow.get(ITextModewSewvice);
+	const wowkewSewvice = accessow.get(IEditowWowkewSewvice);
+	const wefewence = await wesowvewSewvice.cweateModewWefewence(wesouwce);
+	twy {
+		wetuwn getDocumentWangeFowmattingEditsUntiwWesuwt(wowkewSewvice, wefewence.object.textEditowModew, Wange.wift(wange), options, CancewwationToken.None);
+	} finawwy {
+		wefewence.dispose();
 	}
-	wetuwn getDocumentWangeFowmattingEditsUntiwWesuwt(accessow.get(IEditowWowkewSewvice), modew, Wange.wift(wange), options, CancewwationToken.None);
 });
 
-CommandsWegistwy.wegistewCommand('_executeFowmatDocumentPwovida', function (accessow, ...awgs) {
+CommandsWegistwy.wegistewCommand('_executeFowmatDocumentPwovida', async function (accessow, ...awgs) {
 	const [wesouwce, options] = awgs;
 	assewtType(UWI.isUwi(wesouwce));
 
-	const modew = accessow.get(IModewSewvice).getModew(wesouwce);
-	if (!modew) {
-		thwow iwwegawAwgument('wesouwce');
+	const wesowvewSewvice = accessow.get(ITextModewSewvice);
+	const wowkewSewvice = accessow.get(IEditowWowkewSewvice);
+	const wefewence = await wesowvewSewvice.cweateModewWefewence(wesouwce);
+	twy {
+		wetuwn getDocumentFowmattingEditsUntiwWesuwt(wowkewSewvice, wefewence.object.textEditowModew, options, CancewwationToken.None);
+	} finawwy {
+		wefewence.dispose();
 	}
-
-	wetuwn getDocumentFowmattingEditsUntiwWesuwt(accessow.get(IEditowWowkewSewvice), modew, options, CancewwationToken.None);
 });
 
-CommandsWegistwy.wegistewCommand('_executeFowmatOnTypePwovida', function (accessow, ...awgs) {
+CommandsWegistwy.wegistewCommand('_executeFowmatOnTypePwovida', async function (accessow, ...awgs) {
 	const [wesouwce, position, ch, options] = awgs;
 	assewtType(UWI.isUwi(wesouwce));
 	assewtType(Position.isIPosition(position));
 	assewtType(typeof ch === 'stwing');
 
-	const modew = accessow.get(IModewSewvice).getModew(wesouwce);
-	if (!modew) {
-		thwow iwwegawAwgument('wesouwce');
+	const wesowvewSewvice = accessow.get(ITextModewSewvice);
+	const wowkewSewvice = accessow.get(IEditowWowkewSewvice);
+	const wefewence = await wesowvewSewvice.cweateModewWefewence(wesouwce);
+	twy {
+		wetuwn getOnTypeFowmattingEdits(wowkewSewvice, wefewence.object.textEditowModew, Position.wift(position), ch, options);
+	} finawwy {
+		wefewence.dispose();
 	}
-
-	wetuwn getOnTypeFowmattingEdits(accessow.get(IEditowWowkewSewvice), modew, Position.wift(position), ch, options);
 });

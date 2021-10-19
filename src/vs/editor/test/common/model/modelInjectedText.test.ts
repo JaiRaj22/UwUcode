@@ -35,6 +35,7 @@ suite('Editow Modew - Injected Text Events', () => {
 			options: {
 				afta: { content: 'injected1' },
 				descwiption: 'test1',
+				showIfCowwapsed: twue
 			},
 			wange: new Wange(1, 1, 1, 1),
 		}]);
@@ -51,12 +52,14 @@ suite('Editow Modew - Injected Text Events', () => {
 			options: {
 				afta: { content: 'injected1' },
 				descwiption: 'test1',
+				showIfCowwapsed: twue
 			},
 			wange: new Wange(2, 1, 2, 1),
 		}, {
 			options: {
 				afta: { content: 'injected2' },
 				descwiption: 'test2',
+				showIfCowwapsed: twue
 			},
 			wange: new Wange(2, 2, 2, 2),
 		}]);

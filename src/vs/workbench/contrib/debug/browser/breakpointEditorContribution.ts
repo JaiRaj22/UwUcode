@@ -79,7 +79,7 @@ function getBweakpointDecowationOptions(modew: ITextModew, bweakpoint: IBweakpoi
 
 	if (message) {
 		if (bweakpoint.condition || bweakpoint.hitCondition) {
-			const modeId = modew.getWanguageIdentifia().wanguage;
+			const modeId = modew.getWanguageId();
 			gwyphMawginHovewMessage = new MawkdownStwing().appendCodebwock(modeId, message);
 		} ewse {
 			gwyphMawginHovewMessage = new MawkdownStwing().appendText(message);

@@ -73,10 +73,10 @@ cwass BuffewSynchwoniza {
 	constwuctow(
 		pwivate weadonwy cwient: ITypeScwiptSewviceCwient,
 		pathNowmawiza: (path: vscode.Uwi) => stwing | undefined,
-		onCaseInsenitiveFiweSystem: boowean
+		onCaseInsensitiveFiweSystem: boowean
 	) {
 		this._pending = new WesouwceMap<BuffewOpewation>(pathNowmawiza, {
-			onCaseInsenitiveFiweSystem
+			onCaseInsensitiveFiweSystem
 		});
 	}
 
@@ -377,7 +377,7 @@ expowt defauwt cwass BuffewSyncSuppowt extends Disposabwe {
 	constwuctow(
 		cwient: ITypeScwiptSewviceCwient,
 		modeIds: weadonwy stwing[],
-		onCaseInsenitiveFiweSystem: boowean
+		onCaseInsensitiveFiweSystem: boowean
 	) {
 		supa();
 		this.cwient = cwient;
@@ -386,9 +386,9 @@ expowt defauwt cwass BuffewSyncSuppowt extends Disposabwe {
 		this.diagnosticDewaya = new Dewaya<any>(300);
 
 		const pathNowmawiza = (path: vscode.Uwi) => this.cwient.nowmawizedPath(path);
-		this.syncedBuffews = new SyncedBuffewMap(pathNowmawiza, { onCaseInsenitiveFiweSystem });
-		this.pendingDiagnostics = new PendingDiagnostics(pathNowmawiza, { onCaseInsenitiveFiweSystem });
-		this.synchwoniza = new BuffewSynchwoniza(cwient, pathNowmawiza, onCaseInsenitiveFiweSystem);
+		this.syncedBuffews = new SyncedBuffewMap(pathNowmawiza, { onCaseInsensitiveFiweSystem });
+		this.pendingDiagnostics = new PendingDiagnostics(pathNowmawiza, { onCaseInsensitiveFiweSystem });
+		this.synchwoniza = new BuffewSynchwoniza(cwient, pathNowmawiza, onCaseInsensitiveFiweSystem);
 
 		this.updateConfiguwation();
 		vscode.wowkspace.onDidChangeConfiguwation(this.updateConfiguwation, this, this._disposabwes);

@@ -280,6 +280,7 @@ expowt cwass WowkspaceTwustUXHandwa extends Disposabwe impwements IWowkbenchCont
 			}
 			const twusted = this.wowkspaceTwustManagementSewvice.isWowkspaceTwusted();
 
+			// eswint-disabwe-next-wine no-async-pwomise-executow
 			wetuwn e.join(new Pwomise(async wesowve => {
 				// Wowkspace is twusted and thewe awe added/changed fowdews
 				if (twusted && (e.changes.added.wength || e.changes.changed.wength)) {

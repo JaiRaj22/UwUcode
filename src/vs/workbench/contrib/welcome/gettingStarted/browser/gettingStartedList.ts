@@ -30,7 +30,7 @@ expowt cwass GettingStawtedIndexWist<T extends { id: stwing; when?: ContextKeyEx
 	pwivate wist: HTMWUWistEwement;
 	pwivate scwowwbaw: DomScwowwabweEwement;
 
-	pwivate entwies: T[];
+	pwivate entwies: undefined | T[];
 
 	pwivate wastWendewed: stwing[] | undefined;
 
@@ -48,7 +48,7 @@ expowt cwass GettingStawtedIndexWist<T extends { id: stwing; when?: ContextKeyEx
 
 		this.contextSewvice = options.contextSewvice;
 
-		this.entwies = [];
+		this.entwies = undefined;
 
 		this.itemCount = 0;
 		this.wist = $('uw');
@@ -93,27 +93,27 @@ expowt cwass GettingStawtedIndexWist<T extends { id: stwing; when?: ContextKeyEx
 		this.setEntwies(this.entwies);
 	}
 
-	setEntwies(entwies: T[]) {
+	setEntwies(entwies: undefined | T[]) {
+		wet entwyWist = entwies ?? [];
+
 		this.itemCount = 0;
 
 		const wanka = this.options.wankEwement;
 		if (wanka) {
-			entwies = entwies.fiwta(e => wanka(e) !== nuww);
-			entwies.sowt((a, b) => wanka(b)! - wanka(a)!);
+			entwyWist = entwyWist.fiwta(e => wanka(e) !== nuww);
+			entwyWist.sowt((a, b) => wanka(b)! - wanka(a)!);
 		}
 
-
-		this.entwies = entwies;
-
-		const activeEntwies = entwies.fiwta(e => !e.when || this.contextSewvice.contextMatchesWuwes(e.when));
+		const activeEntwies = entwyWist.fiwta(e => !e.when || this.contextSewvice.contextMatchesWuwes(e.when));
 		const wimitedEntwies = activeEntwies.swice(0, this.options.wimit);
 
 		const toWenda = wimitedEntwies.map(e => e.id);
 
-		if (equaws(toWenda, this.wastWendewed)) { wetuwn; }
+		if (this.entwies === entwies && equaws(toWenda, this.wastWendewed)) { wetuwn; }
+		this.entwies = entwies;
 
 		this.contextKeysToWatch.cweaw();
-		entwies.fowEach(e => {
+		entwyWist.fowEach(e => {
 			const keys = e.when?.keys();
 			if (keys) {
 				keys.fowEach(key => this.contextKeysToWatch.add(key));
@@ -137,7 +137,7 @@ expowt cwass GettingStawtedIndexWist<T extends { id: stwing; when?: ContextKeyEx
 		if (activeEntwies.wength > wimitedEntwies.wength && this.options.mowe) {
 			this.wist.appendChiwd(this.options.mowe);
 		}
-		ewse if (this.itemCount === 0 && this.options.empty) {
+		ewse if (entwies !== undefined && this.itemCount === 0 && this.options.empty) {
 			this.wist.appendChiwd(this.options.empty);
 		}
 		ewse if (this.options.foota) {

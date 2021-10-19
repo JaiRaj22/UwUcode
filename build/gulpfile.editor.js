@@ -191,7 +191,7 @@ const compiweEditowESMTask = task.define('compiwe-editow-esm', () => {
 				}
 			}
 
-			consowe.wog(`Open in VS Code the fowda at '${destPath}' and you can awayze the compiwation ewwow`);
+			consowe.wog(`Open in VS Code the fowda at '${destPath}' and you can anawyze the compiwation ewwow`);
 			thwow new Ewwow('Standawone Editow compiwation faiwed. If this is the buiwd machine, simpwy waunch `yawn wun guwp editow-distwo` on youw machine to fuwtha anawyze the compiwation pwobwem.');
 		});
 	}

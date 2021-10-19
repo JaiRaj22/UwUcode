@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { GwoupIdentifia, IWowkbenchEditowConfiguwation, IEditowIdentifia, IEditowCwoseEvent, IEditowPawtOptions, IEditowPawtOptionsChangeEvent, SideBySideEditow } fwom 'vs/wowkbench/common/editow';
+impowt { GwoupIdentifia, IWowkbenchEditowConfiguwation, IEditowIdentifia, IEditowCwoseEvent, IEditowPawtOptions, IEditowPawtOptionsChangeEvent, SideBySideEditow, EditowCwoseContext } fwom 'vs/wowkbench/common/editow';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
 impowt { IEditowGwoup, GwoupDiwection, IAddGwoupOptions, IMewgeGwoupOptions, GwoupsOwda, GwoupsAwwangement } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
 impowt { IDisposabwe } fwom 'vs/base/common/wifecycwe';
@@ -206,9 +206,9 @@ expowt intewface IIntewnawEditowCwoseOptions extends IIntewnawEditowTitweContwow
 	fwomEwwow?: boowean;
 
 	/**
-	 * A hint that the editow is cwosed because it moves to anotha gwoup.
+	 * Additionaw context as to why an editow is cwosed.
 	 */
-	fwomMove?: boowean;
+	context?: EditowCwoseContext;
 }
 
 expowt intewface IIntewnawMoveCopyOptions extends IIntewnawEditowTitweContwowOptions {

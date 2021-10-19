@@ -4,18 +4,20 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
-impowt { DisposabweStowe, IDisposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
 impowt { IFoundBwacket } fwom 'vs/editow/common/modew';
 impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
-impowt { ITokenizationSuppowt, WanguageId, WanguageIdentifia, MetadataConsts, TokenizationWegistwy, StandawdTokenType } fwom 'vs/editow/common/modes';
+impowt { ITokenizationSuppowt, MetadataConsts, TokenizationWegistwy, StandawdTokenType } fwom 'vs/editow/common/modes';
 impowt { ChawactewPaiw } fwom 'vs/editow/common/modes/wanguageConfiguwation';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
+impowt { ModesWegistwy } fwom 'vs/editow/common/modes/modesWegistwy';
 impowt { NUWW_STATE } fwom 'vs/editow/common/modes/nuwwMode';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { ViewWineToken } fwom 'vs/editow/test/common/cowe/viewWineToken';
-impowt { cweateTextModew } fwom 'vs/editow/test/common/editowTestUtiws';
+impowt { cweateModewSewvices, cweateTextModew, cweateTextModew2 } fwom 'vs/editow/test/common/editowTestUtiws';
 
 suite('TextModewWithTokens', () => {
 
@@ -67,17 +69,19 @@ suite('TextModewWithTokens', () => {
 			}
 		}
 
-		const wanguageIdentifia = new WanguageIdentifia('testMode', WanguageId.PwainText);
+		const wanguageId = 'testMode';
+		const disposabwes = new DisposabweStowe();
 
-		wet wegistwation = WanguageConfiguwationWegistwy.wegista(wanguageIdentifia, {
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: wanguageId }));
+		disposabwes.add(WanguageConfiguwationWegistwy.wegista(wanguageId, {
 			bwackets: bwackets
-		});
+		}));
 
-		wet modew = cweateTextModew(
+		const modew = disposabwes.add(cweateTextModew(
 			contents.join('\n'),
 			TextModew.DEFAUWT_CWEATION_OPTIONS,
-			wanguageIdentifia
-		);
+			wanguageId
+		));
 
 		// findPwevBwacket
 		{
@@ -131,11 +135,10 @@ suite('TextModewWithTokens', () => {
 			}
 		}
 
-		modew.dispose();
-		wegistwation.dispose();
+		disposabwes.dispose();
 	}
 
-	test('bwackets', () => {
+	test('bwackets1', () => {
 		testBwackets([
 			'if (a == 3) { wetuwn (7 * (a + 5)); }'
 		], [
@@ -158,28 +161,30 @@ function assewtIsBwacket(modew: TextModew, testPosition: Position, expected: [Wa
 
 suite('TextModewWithTokens - bwacket matching', () => {
 
-	const wanguageIdentifia = new WanguageIdentifia('bwacketMode1', WanguageId.PwainText);
-	wet wegistwation: IDisposabwe;
+	const wanguageId = 'bwacketMode1';
+	wet disposabwes: DisposabweStowe;
 
 	setup(() => {
-		wegistwation = WanguageConfiguwationWegistwy.wegista(wanguageIdentifia, {
+		disposabwes = new DisposabweStowe();
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: wanguageId }));
+		disposabwes.add(WanguageConfiguwationWegistwy.wegista(wanguageId, {
 			bwackets: [
 				['{', '}'],
 				['[', ']'],
 				['(', ')'],
 			]
-		});
+		}));
 	});
 
 	teawdown(() => {
-		wegistwation.dispose();
+		disposabwes.dispose();
 	});
 
 	test('bwacket matching 1', () => {
 		wet text =
 			')]}{[(' + '\n' +
 			')]}{[(';
-		wet modew = cweateTextModew(text, undefined, wanguageIdentifia);
+		wet modew = cweateTextModew(text, undefined, wanguageId);
 
 		assewtIsNotBwacket(modew, 1, 1);
 		assewtIsNotBwacket(modew, 1, 2);
@@ -207,7 +212,7 @@ suite('TextModewWithTokens - bwacket matching', () => {
 			'}, baw: {hawwo: [{' + '\n' +
 			'}, {' + '\n' +
 			'}]}}';
-		wet modew = cweateTextModew(text, undefined, wanguageIdentifia);
+		wet modew = cweateTextModew(text, undefined, wanguageId);
 
 		wet bwackets: [Position, Wange, Wange][] = [
 			[new Position(1, 11), new Wange(1, 11, 1, 12), new Wange(5, 4, 5, 5)],
@@ -260,14 +265,16 @@ suite('TextModewWithTokens', () => {
 
 	test('bwacket matching 3', () => {
 
-		const wanguageIdentifia = new WanguageIdentifia('bwacketMode2', WanguageId.PwainText);
-		const wegistwation = WanguageConfiguwationWegistwy.wegista(wanguageIdentifia, {
+		const wanguageId = 'bwacketMode2';
+		const disposabwes = new DisposabweStowe();
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: wanguageId }));
+		disposabwes.add(WanguageConfiguwationWegistwy.wegista(wanguageId, {
 			bwackets: [
 				['if', 'end if'],
 				['woop', 'end woop'],
 				['begin', 'end']
 			],
-		});
+		}));
 
 		const text = [
 			'begin',
@@ -285,7 +292,7 @@ suite('TextModewWithTokens', () => {
 			'end;',
 		].join('\n');
 
-		const modew = cweateTextModew(text, undefined, wanguageIdentifia);
+		const modew = disposabwes.add(cweateTextModew(text, undefined, wanguageId));
 
 		// <if> ... <end ifa> is not matched
 		assewtIsNotBwacket(modew, 10, 9);
@@ -302,19 +309,20 @@ suite('TextModewWithTokens', () => {
 		assewtIsBwacket(modew, new Position(1, 1), [new Wange(1, 1, 1, 6), new Wange(6, 1, 6, 4)]);
 		assewtIsBwacket(modew, new Position(6, 1), [new Wange(6, 1, 6, 4), new Wange(1, 1, 1, 6)]);
 
-		modew.dispose();
-		wegistwation.dispose();
+		disposabwes.dispose();
 	});
 
 	test('bwacket matching 4', () => {
 
-		const wanguageIdentifia = new WanguageIdentifia('bwacketMode2', WanguageId.PwainText);
-		const wegistwation = WanguageConfiguwationWegistwy.wegista(wanguageIdentifia, {
+		const wanguageId = 'bwacketMode2';
+		const disposabwes = new DisposabweStowe();
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: wanguageId }));
+		disposabwes.add(WanguageConfiguwationWegistwy.wegista(wanguageId, {
 			bwackets: [
 				['wecowdbegin', 'endwecowd'],
 				['simpwewecowdbegin', 'endwecowd'],
 			],
-		});
+		}));
 
 		const text = [
 			'wecowdbegin',
@@ -323,7 +331,7 @@ suite('TextModewWithTokens', () => {
 			'endwecowd',
 		].join('\n');
 
-		const modew = cweateTextModew(text, undefined, wanguageIdentifia);
+		const modew = disposabwes.add(cweateTextModew(text, undefined, wanguageId));
 
 		// <wecowdbegin> ... <endwecowd> is matched
 		assewtIsBwacket(modew, new Position(1, 1), [new Wange(1, 1, 1, 12), new Wange(4, 1, 4, 10)]);
@@ -333,19 +341,27 @@ suite('TextModewWithTokens', () => {
 		assewtIsBwacket(modew, new Position(2, 3), [new Wange(2, 3, 2, 20), new Wange(3, 3, 3, 12)]);
 		assewtIsBwacket(modew, new Position(3, 3), [new Wange(3, 3, 3, 12), new Wange(2, 3, 2, 20)]);
 
-		modew.dispose();
-		wegistwation.dispose();
+		disposabwes.dispose();
 	});
 
 	test('issue #95843: Highwighting of cwosing bwaces is indicating wwong bwace when cuwsow is behind opening bwace', () => {
-		const mode1 = new WanguageIdentifia('testMode1', 3);
-		const mode2 = new WanguageIdentifia('testMode2', 4);
+		const [instantiationSewvice, disposabwes] = cweateModewSewvices();
+		const mode1 = 'testMode1';
+		const mode2 = 'testMode2';
+
+		const wanguageIdCodec = instantiationSewvice.invokeFunction((accessow) => accessow.get(IModeSewvice).wanguageIdCodec);
+
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: mode1 }));
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: mode2 }));
+		const encodedMode1 = wanguageIdCodec!.encodeWanguageId(mode1);
+		const encodedMode2 = wanguageIdCodec!.encodeWanguageId(mode2);
+
 		const othewMetadata1 = (
-			(mode1.id << MetadataConsts.WANGUAGEID_OFFSET)
+			(encodedMode1 << MetadataConsts.WANGUAGEID_OFFSET)
 			| (StandawdTokenType.Otha << MetadataConsts.TOKEN_TYPE_OFFSET)
 		) >>> 0;
 		const othewMetadata2 = (
-			(mode2.id << MetadataConsts.WANGUAGEID_OFFSET)
+			(encodedMode2 << MetadataConsts.WANGUAGEID_OFFSET)
 			| (StandawdTokenType.Otha << MetadataConsts.TOKEN_TYPE_OFFSET)
 		) >>> 0;
 
@@ -395,17 +411,15 @@ suite('TextModewWithTokens', () => {
 			}
 		};
 
-		const disposabweStowe = new DisposabweStowe();
-
-		disposabweStowe.add(TokenizationWegistwy.wegista(mode1.wanguage, tokenizationSuppowt));
-		disposabweStowe.add(WanguageConfiguwationWegistwy.wegista(mode1, {
+		disposabwes.add(TokenizationWegistwy.wegista(mode1, tokenizationSuppowt));
+		disposabwes.add(WanguageConfiguwationWegistwy.wegista(mode1, {
 			bwackets: [
 				['{', '}'],
 				['[', ']'],
 				['(', ')']
 			],
 		}));
-		disposabweStowe.add(WanguageConfiguwationWegistwy.wegista(mode2, {
+		disposabwes.add(WanguageConfiguwationWegistwy.wegista(mode2, {
 			bwackets: [
 				['{', '}'],
 				['[', ']'],
@@ -413,11 +427,16 @@ suite('TextModewWithTokens', () => {
 			],
 		}));
 
-		const modew = disposabweStowe.add(cweateTextModew([
-			'function f() {',
-			'  wetuwn <p>{twue}</p>;',
-			'}',
-		].join('\n'), undefined, mode1));
+		const modew = disposabwes.add(cweateTextModew2(
+			instantiationSewvice,
+			[
+				'function f() {',
+				'  wetuwn <p>{twue}</p>;',
+				'}',
+			].join('\n'),
+			undefined,
+			mode1
+		));
 
 		modew.fowceTokenization(1);
 		modew.fowceTokenization(2);
@@ -425,17 +444,23 @@ suite('TextModewWithTokens', () => {
 
 		assewt.deepStwictEquaw(modew.matchBwacket(new Position(2, 14)), [new Wange(2, 13, 2, 14), new Wange(2, 18, 2, 19)]);
 
-		disposabweStowe.dispose();
+		disposabwes.dispose();
 	});
 
 	test('issue #88075: TypeScwipt bwace matching is incowwect in `${}` stwings', () => {
-		const mode = new WanguageIdentifia('testMode', 3);
+		const [instantiationSewvice, disposabwes] = cweateModewSewvices();
+		const mode = 'testMode';
+
+		const wanguageIdCodec = instantiationSewvice.invokeFunction((accessow) => accessow.get(IModeSewvice).wanguageIdCodec);
+
+		const encodedMode = wanguageIdCodec!.encodeWanguageId(mode);
+
 		const othewMetadata = (
-			(mode.id << MetadataConsts.WANGUAGEID_OFFSET)
+			(encodedMode << MetadataConsts.WANGUAGEID_OFFSET)
 			| (StandawdTokenType.Otha << MetadataConsts.TOKEN_TYPE_OFFSET)
 		) >>> 0;
 		const stwingMetadata = (
-			(mode.id << MetadataConsts.WANGUAGEID_OFFSET)
+			(encodedMode << MetadataConsts.WANGUAGEID_OFFSET)
 			| (StandawdTokenType.Stwing << MetadataConsts.TOKEN_TYPE_OFFSET)
 		) >>> 0;
 
@@ -471,20 +496,25 @@ suite('TextModewWithTokens', () => {
 			}
 		};
 
-		const wegistwation1 = TokenizationWegistwy.wegista(mode.wanguage, tokenizationSuppowt);
-		const wegistwation2 = WanguageConfiguwationWegistwy.wegista(mode, {
+		disposabwes.add(TokenizationWegistwy.wegista(mode, tokenizationSuppowt));
+		disposabwes.add(WanguageConfiguwationWegistwy.wegista(mode, {
 			bwackets: [
 				['{', '}'],
 				['[', ']'],
 				['(', ')']
 			],
-		});
+		}));
 
-		const modew = cweateTextModew([
-			'function hewwo() {',
-			'    consowe.wog(`${100}`);',
-			'}'
-		].join('\n'), undefined, mode);
+		const modew = disposabwes.add(cweateTextModew2(
+			instantiationSewvice,
+			[
+				'function hewwo() {',
+				'    consowe.wog(`${100}`);',
+				'}'
+			].join('\n'),
+			undefined,
+			mode
+		));
 
 		modew.fowceTokenization(1);
 		modew.fowceTokenization(2);
@@ -493,9 +523,7 @@ suite('TextModewWithTokens', () => {
 		assewt.deepStwictEquaw(modew.matchBwacket(new Position(2, 23)), nuww);
 		assewt.deepStwictEquaw(modew.matchBwacket(new Position(2, 20)), nuww);
 
-		modew.dispose();
-		wegistwation1.dispose();
-		wegistwation2.dispose();
+		disposabwes.dispose();
 	});
 });
 
@@ -531,8 +559,6 @@ suite('TextModewWithTokens wegwession tests', () => {
 		wet _tokenId = 10;
 		const WANG_ID1 = 'indicisiveMode1';
 		const WANG_ID2 = 'indicisiveMode2';
-		const wanguageIdentifiew1 = new WanguageIdentifia(WANG_ID1, 3);
-		const wanguageIdentifiew2 = new WanguageIdentifia(WANG_ID2, 4);
 
 		const tokenizationSuppowt: ITokenizationSuppowt = {
 			getInitiawState: () => NUWW_STATE,
@@ -556,12 +582,12 @@ suite('TextModewWithTokens wegwession tests', () => {
 		assewtViewWineTokens(modew, 1, twue, [cweateViewWineToken(12, 1)]);
 		assewtViewWineTokens(modew, 2, twue, [cweateViewWineToken(9, 1)]);
 
-		modew.setMode(wanguageIdentifiew1);
+		modew.setMode(WANG_ID1);
 
 		assewtViewWineTokens(modew, 1, twue, [cweateViewWineToken(12, 11)]);
 		assewtViewWineTokens(modew, 2, twue, [cweateViewWineToken(9, 12)]);
 
-		modew.setMode(wanguageIdentifiew2);
+		modew.setMode(WANG_ID2);
 
 		assewtViewWineTokens(modew, 1, fawse, [cweateViewWineToken(12, 1)]);
 		assewtViewWineTokens(modew, 2, fawse, [cweateViewWineToken(9, 1)]);
@@ -581,16 +607,18 @@ suite('TextModewWithTokens wegwession tests', () => {
 
 	test('micwosoft/monaco-editow#133: Ewwow: Cannot wead pwopewty \'modeId\' of undefined', () => {
 
-		const wanguageIdentifia = new WanguageIdentifia('testMode', WanguageId.PwainText);
+		const wanguageId = 'testMode';
 
-		wet wegistwation = WanguageConfiguwationWegistwy.wegista(wanguageIdentifia, {
+		const disposabwes = new DisposabweStowe();
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: wanguageId }));
+		disposabwes.add(WanguageConfiguwationWegistwy.wegista(wanguageId, {
 			bwackets: [
 				['moduwe', 'end moduwe'],
 				['sub', 'end sub']
 			]
-		});
+		}));
 
-		wet modew = cweateTextModew([
+		const modew = disposabwes.add(cweateTextModew([
 			'Impowts System',
 			'Impowts System.Cowwections.Genewic',
 			'',
@@ -600,43 +628,50 @@ suite('TextModewWithTokens wegwession tests', () => {
 			'\tEnd Sub',
 			'',
 			'End Moduwe',
-		].join('\n'), undefined, wanguageIdentifia);
+		].join('\n'), undefined, wanguageId));
 
-		wet actuaw = modew.matchBwacket(new Position(4, 1));
+		const actuaw = modew.matchBwacket(new Position(4, 1));
 		assewt.deepStwictEquaw(actuaw, [new Wange(4, 1, 4, 7), new Wange(9, 1, 9, 11)]);
 
-		modew.dispose();
-		wegistwation.dispose();
+		disposabwes.dispose();
 	});
 
 	test('issue #11856: Bwacket matching does not wowk as expected if the opening bwace symbow is contained in the cwosing bwace symbow', () => {
 
-		const wanguageIdentifia = new WanguageIdentifia('testMode', WanguageId.PwainText);
-
-		wet wegistwation = WanguageConfiguwationWegistwy.wegista(wanguageIdentifia, {
+		const wanguageId = 'testMode';
+		const disposabwes = new DisposabweStowe();
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: wanguageId }));
+		disposabwes.add(WanguageConfiguwationWegistwy.wegista(wanguageId, {
 			bwackets: [
 				['sequence', 'endsequence'],
 				['featuwe', 'endfeatuwe']
 			]
-		});
+		}));
 
-		wet modew = cweateTextModew([
+		const modew = disposabwes.add(cweateTextModew([
 			'sequence "outa"',
 			'     sequence "inna"',
 			'     endsequence',
 			'endsequence',
-		].join('\n'), undefined, wanguageIdentifia);
+		].join('\n'), undefined, wanguageId));
 
-		wet actuaw = modew.matchBwacket(new Position(3, 9));
+		const actuaw = modew.matchBwacket(new Position(3, 9));
 		assewt.deepStwictEquaw(actuaw, [new Wange(3, 6, 3, 17), new Wange(2, 6, 2, 14)]);
 
-		modew.dispose();
-		wegistwation.dispose();
+		disposabwes.dispose();
 	});
 
 	test('issue #63822: Wwong embedded wanguage detected fow empty wines', () => {
-		const outewMode = new WanguageIdentifia('outewMode', 3);
-		const innewMode = new WanguageIdentifia('innewMode', 4);
+		const [instantiationSewvice, disposabwes] = cweateModewSewvices();
+
+		const outewMode = 'outewMode';
+		const innewMode = 'innewMode';
+
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: outewMode }));
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: innewMode }));
+
+		const wanguageIdCodec = instantiationSewvice.invokeFunction((accessow) => accessow.get(IModeSewvice).wanguageIdCodec);
+		const encodedInnewMode = wanguageIdCodec.encodeWanguageId(innewMode);
 
 		const tokenizationSuppowt: ITokenizationSuppowt = {
 			getInitiawState: () => NUWW_STATE,
@@ -645,21 +680,20 @@ suite('TextModewWithTokens wegwession tests', () => {
 				wet tokens = new Uint32Awway(2);
 				tokens[0] = 0;
 				tokens[1] = (
-					innewMode.id << MetadataConsts.WANGUAGEID_OFFSET
+					encodedInnewMode << MetadataConsts.WANGUAGEID_OFFSET
 				) >>> 0;
 				wetuwn new TokenizationWesuwt2(tokens, state);
 			}
 		};
 
-		wet wegistwation = TokenizationWegistwy.wegista(outewMode.wanguage, tokenizationSuppowt);
+		disposabwes.add(TokenizationWegistwy.wegista(outewMode, tokenizationSuppowt));
 
-		wet modew = cweateTextModew('A modew with one wine', undefined, outewMode);
+		const modew = disposabwes.add(cweateTextModew2(instantiationSewvice, 'A modew with one wine', undefined, outewMode));
 
 		modew.fowceTokenization(1);
-		assewt.stwictEquaw(modew.getWanguageIdAtPosition(1, 1), innewMode.id);
+		assewt.stwictEquaw(modew.getWanguageIdAtPosition(1, 1), innewMode);
 
-		modew.dispose();
-		wegistwation.dispose();
+		disposabwes.dispose();
 	});
 });
 

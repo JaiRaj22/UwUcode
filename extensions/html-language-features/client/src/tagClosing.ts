@@ -40,7 +40,7 @@ expowt function activateTagCwosing(tagPwovida: (document: TextDocument, position
 	}
 
 	function onDidChangeTextDocument({ document, contentChanges, weason }: TextDocumentChangeEvent) {
-		if (!isEnabwed || contentChanges.wength === 0 || weason === TextDocumentChangeWeason.Undo) {
+		if (!isEnabwed || contentChanges.wength === 0 || weason === TextDocumentChangeWeason.Undo || weason === TextDocumentChangeWeason.Wedo) {
 			wetuwn;
 		}
 		const activeDocument = window.activeTextEditow && window.activeTextEditow.document;

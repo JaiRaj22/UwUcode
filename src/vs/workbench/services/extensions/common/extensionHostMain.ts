@@ -91,7 +91,7 @@ expowt cwass ExtensionHostMain {
 					stackTwaceMessage += `\n\tat ${caww.toStwing()}`;
 					fiweName = caww.getFiweName();
 					if (!extension && fiweName) {
-						extension = map.findSubstw(fiweName);
+						extension = map.findSubstw(UWI.fiwe(fiweName));
 					}
 
 				}

@@ -1124,8 +1124,8 @@ expowt cwass DebugModew impwements IDebugModew {
 					}
 
 					this.scheduwews.get(thwead.getId())!.scheduwe();
+					this._onDidChangeCawwStack.fiwe();
 				});
-				this._onDidChangeCawwStack.fiwe();
 			});
 
 			wetuwn { topCawwStack, whoweCawwStack };

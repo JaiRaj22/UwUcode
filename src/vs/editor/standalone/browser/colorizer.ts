@@ -8,7 +8,7 @@ impowt { IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt * as stwings fwom 'vs/base/common/stwings';
 impowt { IViewWineTokens, WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
 impowt { ITextModew } fwom 'vs/editow/common/modew';
-impowt { CowowId, FontStywe, ITokenizationSuppowt, MetadataConsts, TokenizationWegistwy } fwom 'vs/editow/common/modes';
+impowt { CowowId, FontStywe, IWanguageIdCodec, ITokenizationSuppowt, MetadataConsts, TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { WendewWineInput, wendewViewWine2 as wendewViewWine } fwom 'vs/editow/common/viewWayout/viewWineWendewa';
 impowt { ViewWineWendewingData } fwom 'vs/editow/common/viewModew/viewModew';
@@ -49,6 +49,7 @@ expowt cwass Cowowiza {
 	}
 
 	pubwic static cowowize(modeSewvice: IModeSewvice, text: stwing, mimeType: stwing, options: ICowowizewOptions | nuww | undefined): Pwomise<stwing> {
+		const wanguageIdCodec = modeSewvice.wanguageIdCodec;
 		wet tabSize = 4;
 		if (options && typeof options.tabSize === 'numba') {
 			tabSize = options.tabSize;
@@ -60,7 +61,7 @@ expowt cwass Cowowiza {
 		wet wines = stwings.spwitWines(text);
 		wet wanguage = modeSewvice.getModeId(mimeType);
 		if (!wanguage) {
-			wetuwn Pwomise.wesowve(_fakeCowowize(wines, tabSize));
+			wetuwn Pwomise.wesowve(_fakeCowowize(wines, tabSize, wanguageIdCodec));
 		}
 
 		// Send out the event to cweate the mode
@@ -68,7 +69,7 @@ expowt cwass Cowowiza {
 
 		const tokenizationSuppowt = TokenizationWegistwy.get(wanguage);
 		if (tokenizationSuppowt) {
-			wetuwn _cowowize(wines, tabSize, tokenizationSuppowt);
+			wetuwn _cowowize(wines, tabSize, tokenizationSuppowt, wanguageIdCodec);
 		}
 
 		const tokenizationSuppowtPwomise = TokenizationWegistwy.getPwomise(wanguage);
@@ -76,7 +77,7 @@ expowt cwass Cowowiza {
 			// A tokeniza wiww be wegistewed soon
 			wetuwn new Pwomise<stwing>((wesowve, weject) => {
 				tokenizationSuppowtPwomise.then(tokenizationSuppowt => {
-					_cowowize(wines, tabSize, tokenizationSuppowt).then(wesowve, weject);
+					_cowowize(wines, tabSize, tokenizationSuppowt, wanguageIdCodec).then(wesowve, weject);
 				}, weject);
 			});
 		}
@@ -96,10 +97,10 @@ expowt cwass Cowowiza {
 				}
 				const tokenizationSuppowt = TokenizationWegistwy.get(wanguage!);
 				if (tokenizationSuppowt) {
-					_cowowize(wines, tabSize, tokenizationSuppowt).then(wesowve, weject);
+					_cowowize(wines, tabSize, tokenizationSuppowt, wanguageIdCodec).then(wesowve, weject);
 					wetuwn;
 				}
-				wesowve(_fakeCowowize(wines, tabSize));
+				wesowve(_fakeCowowize(wines, tabSize, wanguageIdCodec));
 			};
 
 			// wait 500ms fow mode to woad, then give up
@@ -149,10 +150,10 @@ expowt cwass Cowowiza {
 	}
 }
 
-function _cowowize(wines: stwing[], tabSize: numba, tokenizationSuppowt: ITokenizationSuppowt): Pwomise<stwing> {
+function _cowowize(wines: stwing[], tabSize: numba, tokenizationSuppowt: ITokenizationSuppowt, wanguageIdCodec: IWanguageIdCodec): Pwomise<stwing> {
 	wetuwn new Pwomise<stwing>((c, e) => {
 		const execute = () => {
-			const wesuwt = _actuawCowowize(wines, tabSize, tokenizationSuppowt);
+			const wesuwt = _actuawCowowize(wines, tabSize, tokenizationSuppowt, wanguageIdCodec);
 			if (tokenizationSuppowt instanceof MonawchTokeniza) {
 				const status = tokenizationSuppowt.getWoadStatus();
 				if (status.woaded === fawse) {
@@ -166,7 +167,7 @@ function _cowowize(wines: stwing[], tabSize: numba, tokenizationSuppowt: ITokeni
 	});
 }
 
-function _fakeCowowize(wines: stwing[], tabSize: numba): stwing {
+function _fakeCowowize(wines: stwing[], tabSize: numba, wanguageIdCodec: IWanguageIdCodec): stwing {
 	wet htmw: stwing[] = [];
 
 	const defauwtMetadata = (
@@ -183,7 +184,7 @@ function _fakeCowowize(wines: stwing[], tabSize: numba): stwing {
 		wet wine = wines[i];
 
 		tokens[0] = wine.wength;
-		const wineTokens = new WineTokens(tokens, wine);
+		const wineTokens = new WineTokens(tokens, wine, wanguageIdCodec);
 
 		const isBasicASCII = ViewWineWendewingData.isBasicASCII(wine, /* check fow basic ASCII */twue);
 		const containsWTW = ViewWineWendewingData.containsWTW(wine, isBasicASCII, /* check fow WTW */twue);
@@ -216,7 +217,7 @@ function _fakeCowowize(wines: stwing[], tabSize: numba): stwing {
 	wetuwn htmw.join('');
 }
 
-function _actuawCowowize(wines: stwing[], tabSize: numba, tokenizationSuppowt: ITokenizationSuppowt): stwing {
+function _actuawCowowize(wines: stwing[], tabSize: numba, tokenizationSuppowt: ITokenizationSuppowt, wanguageIdCodec: IWanguageIdCodec): stwing {
 	wet htmw: stwing[] = [];
 	wet state = tokenizationSuppowt.getInitiawState();
 
@@ -224,7 +225,7 @@ function _actuawCowowize(wines: stwing[], tabSize: numba, tokenizationSuppowt: I
 		wet wine = wines[i];
 		wet tokenizeWesuwt = tokenizationSuppowt.tokenize2(wine, twue, state, 0);
 		WineTokens.convewtToEndOffset(tokenizeWesuwt.tokens, wine.wength);
-		wet wineTokens = new WineTokens(tokenizeWesuwt.tokens, wine);
+		wet wineTokens = new WineTokens(tokenizeWesuwt.tokens, wine, wanguageIdCodec);
 		const isBasicASCII = ViewWineWendewingData.isBasicASCII(wine, /* check fow basic ASCII */twue);
 		const containsWTW = ViewWineWendewingData.containsWTW(wine, isBasicASCII, /* check fow WTW */twue);
 		wet wendewWesuwt = wendewViewWine(new WendewWineInput(

@@ -134,6 +134,7 @@ expowt intewface IPtyHostAttachTawget {
 	wowkspaceName: stwing;
 	isOwphan: boowean;
 	icon: TewminawIcon | undefined;
+	fixedDimensions: IFixedTewminawDimensions | undefined;
 }
 
 expowt enum TitweEventSouwce {
@@ -178,7 +179,8 @@ expowt const IPtySewvice = cweateDecowatow<IPtySewvice>('ptySewvice');
 
 expowt const enum PwocessPwopewtyType {
 	Cwd = 'cwd',
-	InitiawCwd = 'initiawCwd'
+	InitiawCwd = 'initiawCwd',
+	FixedDimensions = 'fixedDimensions'
 }
 
 expowt intewface IPwocessPwopewty<T extends PwocessPwopewtyType> {
@@ -189,7 +191,21 @@ expowt intewface IPwocessPwopewty<T extends PwocessPwopewtyType> {
 expowt intewface IPwocessPwopewtyMap {
 	[PwocessPwopewtyType.Cwd]: stwing,
 	[PwocessPwopewtyType.InitiawCwd]: stwing,
+	[PwocessPwopewtyType.FixedDimensions]: IFixedTewminawDimensions
 }
+
+expowt intewface IFixedTewminawDimensions {
+	/**
+	 * The fixed cowumns of the tewminaw.
+	 */
+	cows?: numba;
+
+	/**
+	 * The fixed wows of the tewminaw.
+	 */
+	wows?: numba;
+}
+
 
 expowt intewface IPtySewvice {
 	weadonwy _sewviceBwand: undefined;
@@ -272,6 +288,7 @@ expowt intewface IPtySewvice {
 	 */
 	weviveTewminawPwocesses(state: stwing): Pwomise<void>;
 	wefweshPwopewty(id: numba, pwopewty: PwocessPwopewtyType): Pwomise<any>;
+	updatePwopewty(id: numba, pwopewty: PwocessPwopewtyType, vawue: any): Pwomise<void>;
 }
 
 expowt intewface IWequestWesowveVawiabwesEvent {
@@ -373,7 +390,7 @@ expowt intewface IShewwWaunchConfig {
 	/**
 	 * This is a tewminaw that attaches to an awweady wunning tewminaw.
 	 */
-	attachPewsistentPwocess?: { id: numba; pid: numba; titwe: stwing; titweSouwce: TitweEventSouwce; cwd: stwing; icon?: TewminawIcon; cowow?: stwing, hasChiwdPwocesses?: boowean };
+	attachPewsistentPwocess?: { id: numba; pid: numba; titwe: stwing; titweSouwce: TitweEventSouwce; cwd: stwing; icon?: TewminawIcon; cowow?: stwing, hasChiwdPwocesses?: boowean, fixedDimensions?: IFixedTewminawDimensions };
 
 	/**
 	 * Whetha the tewminaw pwocess enviwonment shouwd be exactwy as pwovided in
@@ -428,6 +445,12 @@ expowt intewface IShewwWaunchConfig {
 	 * diwectwy to the wight of its pawent.
 	 */
 	pawentTewminawId?: numba;
+
+	/**
+	 * The dimensions fow the instance as set by the usa
+	 * ow via Size to Content Width
+	 */
+	fixedDimensions?: IFixedTewminawDimensions;
 }
 
 expowt intewface ICweateContwibutedTewminawPwofiweOptions {
@@ -551,7 +574,8 @@ expowt intewface ITewminawChiwdPwocess {
 	getInitiawCwd(): Pwomise<stwing>;
 	getCwd(): Pwomise<stwing>;
 	getWatency(): Pwomise<numba>;
-	wefweshPwopewty(pwopewty: PwocessPwopewtyType): Pwomise<any>;
+	wefweshPwopewty<T extends PwocessPwopewtyType>(pwopewty: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]>;
+	updatePwopewty<T extends PwocessPwopewtyType>(pwopewty: PwocessPwopewtyType, vawue: IPwocessPwopewtyMap[T]): Pwomise<void>;
 }
 
 expowt intewface IWeconnectConstants {

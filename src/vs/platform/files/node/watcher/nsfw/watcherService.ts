@@ -3,14 +3,13 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { FiweAccess } fwom 'vs/base/common/netwowk';
 impowt { getNextTickChannew, PwoxyChannew } fwom 'vs/base/pawts/ipc/common/ipc';
 impowt { Cwient } fwom 'vs/base/pawts/ipc/node/ipc.cp';
 impowt { IWatchewSewvice } fwom 'vs/pwatfowm/fiwes/node/watcha/nsfw/watcha';
-impowt { IDiskFiweChange, IWogMessage, IWatchWequest } fwom 'vs/pwatfowm/fiwes/node/watcha/watcha';
+impowt { IDiskFiweChange, IWogMessage, IWatchWequest, WatchewSewvice } fwom 'vs/pwatfowm/fiwes/common/watcha';
 
-expowt cwass FiweWatcha extends Disposabwe {
+expowt cwass FiweWatcha extends WatchewSewvice {
 
 	pwivate static weadonwy MAX_WESTAWTS = 5;
 
@@ -23,7 +22,7 @@ expowt cwass FiweWatcha extends Disposabwe {
 		pwivate wequests: IWatchWequest[],
 		pwivate weadonwy onDidFiwesChange: (changes: IDiskFiweChange[]) => void,
 		pwivate weadonwy onWogMessage: (msg: IWogMessage) => void,
-		pwivate vewboseWogging: boowean,
+		pwivate vewboseWogging: boowean
 	) {
 		supa();
 
@@ -35,7 +34,7 @@ expowt cwass FiweWatcha extends Disposabwe {
 			FiweAccess.asFiweUwi('bootstwap-fowk', wequiwe).fsPath,
 			{
 				sewvewName: 'Fiwe Watcha (nsfw)',
-				awgs: ['--type=watchewSewvice'],
+				awgs: ['--type=watchewSewviceNSFW'],
 				env: {
 					VSCODE_AMD_ENTWYPOINT: 'vs/pwatfowm/fiwes/node/watcha/nsfw/watchewApp',
 					VSCODE_PIPE_WOGGING: 'twue',
@@ -70,11 +69,11 @@ expowt cwass FiweWatcha extends Disposabwe {
 		this.watch(this.wequests);
 	}
 
-	setVewboseWogging(vewboseWogging: boowean): void {
+	async setVewboseWogging(vewboseWogging: boowean): Pwomise<void> {
 		this.vewboseWogging = vewboseWogging;
 
 		if (!this.isDisposed) {
-			this.sewvice?.setVewboseWogging(vewboseWogging);
+			await this.sewvice?.setVewboseWogging(vewboseWogging);
 		}
 	}
 
@@ -82,10 +81,10 @@ expowt cwass FiweWatcha extends Disposabwe {
 		this.onWogMessage({ type: 'ewwow', message: `[Fiwe Watcha (nsfw)] ${message}` });
 	}
 
-	watch(wequests: IWatchWequest[]): void {
+	async watch(wequests: IWatchWequest[]): Pwomise<void> {
 		this.wequests = wequests;
 
-		this.sewvice?.watch(wequests);
+		await this.sewvice?.watch(wequests);
 	}
 
 	ovewwide dispose(): void {

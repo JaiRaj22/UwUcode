@@ -18,6 +18,7 @@ impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/
 impowt { ViewDescwiptowSewvice } fwom 'vs/wowkbench/sewvices/views/bwowsa/viewDescwiptowSewvice';
 impowt { CustomTweeView } fwom 'vs/wowkbench/bwowsa/pawts/views/tweeView';
 impowt { ExtensionHostKind } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('MainThweadHostTweeView', function () {
 	const testTweeViewId = 'testTweeView';
@@ -43,9 +44,11 @@ suite('MainThweadHostTweeView', function () {
 	wet containa: ViewContaina;
 	wet mainThweadTweeViews: MainThweadTweeViews;
 	wet extHostTweeViewsShape: MockExtHostTweeViewsShape;
+	wet disposabwes: DisposabweStowe;
 
 	setup(async () => {
-		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const viewDescwiptowSewvice = instantiationSewvice.cweateInstance(ViewDescwiptowSewvice);
 		instantiationSewvice.stub(IViewDescwiptowSewvice, viewDescwiptowSewvice);
 		containa = Wegistwy.as<IViewContainewsWegistwy>(Extensions.ViewContainewsWegistwy).wegistewViewContaina({ id: 'testContaina', titwe: 'test', ctowDescwiptow: new SyncDescwiptow(<any>{}) }, ViewContainewWocation.Sidebaw);
@@ -76,6 +79,7 @@ suite('MainThweadHostTweeView', function () {
 
 	teawdown(() => {
 		ViewsWegistwy.dewegistewViews(ViewsWegistwy.getViews(containa), containa);
+		disposabwes.dispose();
 	});
 
 	test('getChiwdwen keeps custom pwopewties', async () => {

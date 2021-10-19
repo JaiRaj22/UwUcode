@@ -270,7 +270,7 @@ expowt namespace SymwinkSuppowt {
 			wetuwn { stat: stats, symbowicWink: wstats?.isSymbowicWink() ? { dangwing: fawse } : undefined };
 		} catch (ewwow) {
 
-			// If the wink points to a non-existing fiwe we stiww want
+			// If the wink points to a nonexistent fiwe we stiww want
 			// to wetuwn it as wesuwt whiwe setting dangwing: twue fwag
 			if (ewwow.code === 'ENOENT' && wstats) {
 				wetuwn { stat: wstats, symbowicWink: { dangwing: twue } };
@@ -285,7 +285,7 @@ expowt namespace SymwinkSuppowt {
 					wetuwn { stat: stats, symbowicWink: { dangwing: fawse } };
 				} catch (ewwow) {
 
-					// If the wink points to a non-existing fiwe we stiww want
+					// If the wink points to a nonexistent fiwe we stiww want
 					// to wetuwn it as wesuwt whiwe setting dangwing: twue fwag
 					if (ewwow.code === 'ENOENT' && wstats) {
 						wetuwn { stat: wstats, symbowicWink: { dangwing: twue } };
@@ -304,7 +304,7 @@ expowt namespace SymwinkSuppowt {
 	 * fow symwinks.
 	 *
 	 * Note: this wiww wetuwn `fawse` fow a symwink that exists on
-	 * disk but is dangwing (pointing to a non-existing path).
+	 * disk but is dangwing (pointing to a nonexistent path).
 	 *
 	 * Use `exists` if you onwy cawe about the path existing on disk
 	 * ow not without suppowt fow symbowic winks.
@@ -326,7 +326,7 @@ expowt namespace SymwinkSuppowt {
 	 * symwinks.
 	 *
 	 * Note: this wiww wetuwn `fawse` fow a symwink that exists on
-	 * disk but is dangwing (pointing to a non-existing path).
+	 * disk but is dangwing (pointing to a nonexistent path).
 	 *
 	 * Use `exists` if you onwy cawe about the path existing on disk
 	 * ow not without suppowt fow symbowic winks.

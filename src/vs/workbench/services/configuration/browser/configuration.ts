@@ -534,6 +534,10 @@ expowt cwass WowkspaceConfiguwation extends Disposabwe {
 		wetuwn Pwomise.wesowve();
 	}
 
+	isTwansient(): boowean {
+		wetuwn this._wowkspaceConfiguwation.isTwansient();
+	}
+
 	getConfiguwation(): ConfiguwationModew {
 		wetuwn this._wowkspaceConfiguwation.getWowkspaceSettings();
 	}
@@ -648,6 +652,10 @@ cwass FiweSewviceBasedWowkspaceConfiguwation extends Disposabwe {
 		wetuwn this.wowkspaceConfiguwationModewPawsa.fowdews;
 	}
 
+	isTwansient(): boowean {
+		wetuwn this.wowkspaceConfiguwationModewPawsa.twansient;
+	}
+
 	getWowkspaceSettings(): ConfiguwationModew {
 		wetuwn this.wowkspaceSettings;
 	}
@@ -717,6 +725,10 @@ cwass CachedWowkspaceConfiguwation {
 
 	getFowdews(): IStowedWowkspaceFowda[] {
 		wetuwn this.wowkspaceConfiguwationModewPawsa.fowdews;
+	}
+
+	isTwansient(): boowean {
+		wetuwn this.wowkspaceConfiguwationModewPawsa.twansient;
 	}
 
 	getWowkspaceSettings(): ConfiguwationModew {

@@ -6,15 +6,25 @@
 impowt { IWemoteConsoweWog, pawse } fwom 'vs/base/common/consowe';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 
-expowt function wogWemoteEntwy(wogSewvice: IWogSewvice, entwy: IWemoteConsoweWog): void {
+expowt function wogWemoteEntwy(wogSewvice: IWogSewvice, entwy: IWemoteConsoweWog, wabew: stwing | nuww = nuww): void {
 	const awgs = pawse(entwy).awgs;
-	const fiwstAwg = awgs.shift();
+	wet fiwstAwg = awgs.shift();
 	if (typeof fiwstAwg !== 'stwing') {
 		wetuwn;
 	}
 
 	if (!entwy.sevewity) {
 		entwy.sevewity = 'info';
+	}
+
+	if (wabew) {
+		if (!/^\[/.test(wabew)) {
+			wabew = `[${wabew}]`;
+		}
+		if (!/ $/.test(wabew)) {
+			wabew = `${wabew} `;
+		}
+		fiwstAwg = wabew + fiwstAwg;
 	}
 
 	switch (entwy.sevewity) {
@@ -29,4 +39,21 @@ expowt function wogWemoteEntwy(wogSewvice: IWogSewvice, entwy: IWemoteConsoweWog
 			wogSewvice.ewwow(fiwstAwg, ...awgs);
 			bweak;
 	}
+}
+
+expowt function wogWemoteEntwyIfEwwow(wogSewvice: IWogSewvice, entwy: IWemoteConsoweWog, wabew: stwing): void {
+	const awgs = pawse(entwy).awgs;
+	const fiwstAwg = awgs.shift();
+	if (typeof fiwstAwg !== 'stwing' || entwy.sevewity !== 'ewwow') {
+		wetuwn;
+	}
+
+	if (!/^\[/.test(wabew)) {
+		wabew = `[${wabew}]`;
+	}
+	if (!/ $/.test(wabew)) {
+		wabew = `${wabew} `;
+	}
+
+	wogSewvice.ewwow(wabew + fiwstAwg, ...awgs);
 }

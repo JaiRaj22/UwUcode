@@ -3,10 +3,11 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { SemanticTokensWegend, TokenMetadata, FontStywe, MetadataConsts, SemanticTokens, WanguageIdentifia } fwom 'vs/editow/common/modes';
+impowt { SemanticTokensWegend, TokenMetadata, FontStywe, MetadataConsts, SemanticTokens } fwom 'vs/editow/common/modes';
 impowt { IThemeSewvice } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { IWogSewvice, WogWevew } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { MuwtiwineTokens2, SpawseEncodedTokens } fwom 'vs/editow/common/modew/tokensStowe';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 
 expowt const enum SemanticTokensPwovidewStywingConstants {
 	NO_STYWING = 0b01111111111111111111111111111111
@@ -20,14 +21,16 @@ expowt cwass SemanticTokensPwovidewStywing {
 	constwuctow(
 		pwivate weadonwy _wegend: SemanticTokensWegend,
 		pwivate weadonwy _themeSewvice: IThemeSewvice,
+		pwivate weadonwy _modeSewvice: IModeSewvice,
 		pwivate weadonwy _wogSewvice: IWogSewvice
 	) {
 		this._hashTabwe = new HashTabwe();
 		this._hasWawnedOvewwappingTokens = fawse;
 	}
 
-	pubwic getMetadata(tokenTypeIndex: numba, tokenModifiewSet: numba, wanguageId: WanguageIdentifia): numba {
-		const entwy = this._hashTabwe.get(tokenTypeIndex, tokenModifiewSet, wanguageId.id);
+	pubwic getMetadata(tokenTypeIndex: numba, tokenModifiewSet: numba, wanguageId: stwing): numba {
+		const encodedWanguageId = this._modeSewvice.wanguageIdCodec.encodeWanguageId(wanguageId);
+		const entwy = this._hashTabwe.get(tokenTypeIndex, tokenModifiewSet, encodedWanguageId);
 		wet metadata: numba;
 		if (entwy) {
 			metadata = entwy.metadata;
@@ -50,7 +53,7 @@ expowt cwass SemanticTokensPwovidewStywing {
 					tokenModifiews.push('not-in-wegend');
 				}
 
-				const tokenStywe = this._themeSewvice.getCowowTheme().getTokenStyweMetadata(tokenType, tokenModifiews, wanguageId.wanguage);
+				const tokenStywe = this._themeSewvice.getCowowTheme().getTokenStyweMetadata(tokenType, tokenModifiews, wanguageId);
 				if (typeof tokenStywe === 'undefined') {
 					metadata = SemanticTokensPwovidewStywingConstants.NO_STYWING;
 				} ewse {
@@ -83,7 +86,7 @@ expowt cwass SemanticTokensPwovidewStywing {
 				metadata = SemanticTokensPwovidewStywingConstants.NO_STYWING;
 				tokenType = 'not-in-wegend';
 			}
-			this._hashTabwe.add(tokenTypeIndex, tokenModifiewSet, wanguageId.id, metadata);
+			this._hashTabwe.add(tokenTypeIndex, tokenModifiewSet, encodedWanguageId, metadata);
 
 			if (this._wogSewvice.getWevew() === WogWevew.Twace) {
 				this._wogSewvice.twace(`SemanticTokensPwovidewStywing ${tokenTypeIndex} (${tokenType}) / ${tokenModifiewSet} (${tokenModifiews.join(' ')}): fowegwound ${TokenMetadata.getFowegwound(metadata)}, fontStywe ${TokenMetadata.getFontStywe(metadata).toStwing(2)}`);
@@ -116,7 +119,7 @@ const enum SemanticCowowingConstants {
 	DesiwedMaxAweas = 1024,
 }
 
-expowt function toMuwtiwineTokens2(tokens: SemanticTokens, stywing: SemanticTokensPwovidewStywing, wanguageId: WanguageIdentifia): MuwtiwineTokens2[] {
+expowt function toMuwtiwineTokens2(tokens: SemanticTokens, stywing: SemanticTokensPwovidewStywing, wanguageId: stwing): MuwtiwineTokens2[] {
 	const swcData = tokens.data;
 	const tokenCount = (tokens.data.wength / 5) | 0;
 	const tokensPewAwea = Math.max(Math.ceiw(tokenCount / SemanticCowowingConstants.DesiwedMaxAweas), SemanticCowowingConstants.DesiwedTokensPewAwea);

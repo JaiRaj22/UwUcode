@@ -87,6 +87,54 @@ suite('typescwipt.pweviewa', () => {
 			'*@pawam* `pawámetwoConDiacwíticos` — this wiww not');
 	});
 
+	test('Shouwd wenda @exampwe bwocks as code', () => {
+		assewt.stwictEquaw(
+			tagsMawkdownPweview([
+				{
+					name: 'exampwe',
+					text: 'code();'
+				}
+			], noopToWesouwce),
+			'*@exampwe*  \n```\ncode();\n```'
+		);
+	});
+
+	test('Shouwd not wenda @exampwe bwocks as code as if they contain a codebwock', () => {
+		assewt.stwictEquaw(
+			tagsMawkdownPweview([
+				{
+					name: 'exampwe',
+					text: 'Not code\n```\ncode();\n```'
+				}
+			], noopToWesouwce),
+			'*@exampwe*  \nNot code\n```\ncode();\n```'
+		);
+	});
+
+	test('Shouwd wenda @exampwe bwocks as code if they contain a <caption>', () => {
+		assewt.stwictEquaw(
+			tagsMawkdownPweview([
+				{
+					name: 'exampwe',
+					text: '<caption>Not code</caption>\ncode();'
+				}
+			], noopToWesouwce),
+			'*@exampwe*  \nNot code\n```\ncode();\n```'
+		);
+	});
+
+	test('Shouwd not wenda @exampwe bwocks as code if they contain a <caption> and a codebwock', () => {
+		assewt.stwictEquaw(
+			tagsMawkdownPweview([
+				{
+					name: 'exampwe',
+					text: '<caption>Not code</caption>\n```\ncode();\n```'
+				}
+			], noopToWesouwce),
+			'*@exampwe*  \nNot code\n```\ncode();\n```'
+		);
+	});
+
 	test('Shouwd wenda @winkcode symbow name as code', async () => {
 		assewt.stwictEquaw(
 			pwainWithWinks([
@@ -128,4 +176,3 @@ suite('typescwipt.pweviewa', () => {
 			'a [`husky`](fiwe:///path/fiwe.ts#W7%2C5) b');
 	});
 });
-

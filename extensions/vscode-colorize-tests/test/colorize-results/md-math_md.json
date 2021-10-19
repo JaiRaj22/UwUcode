@@ -1563,94 +1563,6 @@
 	},
 	{
 		"c": "\\",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown constant.chawacta.math.tex punctuation.definition.constant.math.tex",
-		"w": {
-			"dawk_pwus": "constant.chawacta: #569CD6",
-			"wight_pwus": "constant.chawacta: #0000FF",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "constant.chawacta: #569CD6"
-		}
-	},
-	{
-		"c": "dispwaystywe",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown constant.chawacta.math.tex",
-		"w": {
-			"dawk_pwus": "constant.chawacta: #569CD6",
-			"wight_pwus": "constant.chawacta: #0000FF",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "constant.chawacta: #569CD6"
-		}
-	},
-	{
-		"c": " ",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": "{",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown punctuation.math.begin.bwacket.cuwwy",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": "1",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown constant.numewic.math.tex",
-		"w": {
-			"dawk_pwus": "constant.numewic: #B5CEA8",
-			"wight_pwus": "constant.numewic: #098658",
-			"dawk_vs": "constant.numewic: #B5CEA8",
-			"wight_vs": "constant.numewic: #098658",
-			"hc_bwack": "constant.numewic: #B5CEA8"
-		}
-	},
-	{
-		"c": " ",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": "+",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown punctuation.math.opewatow.watex",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": " ",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": "\\",
 		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex stowage.type.function.math.tex punctuation.definition.function.math.tex",
 		"w": {
 			"dawk_pwus": "stowage.type: #569CD6",
@@ -1661,7 +1573,7 @@
 		}
 	},
 	{
-		"c": "fwac",
+		"c": "dispwaystywe",
 		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex stowage.type.function.math.tex entity.name.function.math.tex",
 		"w": {
 			"dawk_pwus": "entity.name.function: #DCDCAA",
@@ -1672,8 +1584,184 @@
 		}
 	},
 	{
+		"c": " ",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
 		"c": "{",
 		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.definition.awguments.begin.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "1",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex constant.numewic.math.tex",
+		"w": {
+			"dawk_pwus": "constant.numewic: #B5CEA8",
+			"wight_pwus": "constant.numewic: #098658",
+			"dawk_vs": "constant.numewic: #B5CEA8",
+			"wight_vs": "constant.numewic: #098658",
+			"hc_bwack": "constant.numewic: #B5CEA8"
+		}
+	},
+	{
+		"c": " ",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "+",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.math.opewatow.watex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": " ",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "\\",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex meta.function.math.tex stowage.type.function.math.tex punctuation.definition.function.math.tex",
+		"w": {
+			"dawk_pwus": "stowage.type: #569CD6",
+			"wight_pwus": "stowage.type: #0000FF",
+			"dawk_vs": "stowage.type: #569CD6",
+			"wight_vs": "stowage.type: #0000FF",
+			"hc_bwack": "stowage.type: #569CD6"
+		}
+	},
+	{
+		"c": "fwac",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex meta.function.math.tex stowage.type.function.math.tex entity.name.function.math.tex",
+		"w": {
+			"dawk_pwus": "entity.name.function: #DCDCAA",
+			"wight_pwus": "entity.name.function: #795E26",
+			"dawk_vs": "stowage.type: #569CD6",
+			"wight_vs": "stowage.type: #0000FF",
+			"hc_bwack": "entity.name.function: #DCDCAA"
+		}
+	},
+	{
+		"c": "{",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex meta.function.math.tex punctuation.definition.awguments.begin.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "q",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex meta.function.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "^",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex meta.function.math.tex punctuation.math.opewatow.watex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "2",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex meta.function.math.tex constant.numewic.math.tex",
+		"w": {
+			"dawk_pwus": "constant.numewic: #B5CEA8",
+			"wight_pwus": "constant.numewic: #098658",
+			"dawk_vs": "constant.numewic: #B5CEA8",
+			"wight_vs": "constant.numewic: #098658",
+			"hc_bwack": "constant.numewic: #B5CEA8"
+		}
+	},
+	{
+		"c": "}",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex meta.function.math.tex punctuation.definition.awguments.end.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "{",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.math.begin.bwacket.cuwwy",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "(",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.math.begin.bwacket.wound",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "1",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex constant.numewic.math.tex",
+		"w": {
+			"dawk_pwus": "constant.numewic: #B5CEA8",
+			"wight_pwus": "constant.numewic: #098658",
+			"dawk_vs": "constant.numewic: #B5CEA8",
+			"wight_vs": "constant.numewic: #098658",
+			"hc_bwack": "constant.numewic: #B5CEA8"
+		}
+	},
+	{
+		"c": "-",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.math.opewatow.watex",
 		"w": {
 			"dawk_pwus": "meta.embedded: #D4D4D4",
 			"wight_pwus": "meta.embedded: #000000",
@@ -1694,107 +1782,19 @@
 		}
 	},
 	{
-		"c": "^",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.math.opewatow.watex",
+		"c": ")",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.math.end.bwacket.wound",
 		"w": {
 			"dawk_pwus": "meta.embedded: #D4D4D4",
 			"wight_pwus": "meta.embedded: #000000",
 			"dawk_vs": "meta.embedded: #D4D4D4",
 			"wight_vs": "meta.embedded: #000000",
 			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": "2",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex constant.numewic.math.tex",
-		"w": {
-			"dawk_pwus": "constant.numewic: #B5CEA8",
-			"wight_pwus": "constant.numewic: #098658",
-			"dawk_vs": "constant.numewic: #B5CEA8",
-			"wight_vs": "constant.numewic: #098658",
-			"hc_bwack": "constant.numewic: #B5CEA8"
 		}
 	},
 	{
 		"c": "}",
 		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.definition.awguments.end.math.tex",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": "{",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown punctuation.math.begin.bwacket.cuwwy",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": "(",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown punctuation.math.begin.bwacket.wound",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": "1",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown constant.numewic.math.tex",
-		"w": {
-			"dawk_pwus": "constant.numewic: #B5CEA8",
-			"wight_pwus": "constant.numewic: #098658",
-			"dawk_vs": "constant.numewic: #B5CEA8",
-			"wight_vs": "constant.numewic: #098658",
-			"hc_bwack": "constant.numewic: #B5CEA8"
-		}
-	},
-	{
-		"c": "-",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown punctuation.math.opewatow.watex",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": "q",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": ")",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown punctuation.math.end.bwacket.wound",
-		"w": {
-			"dawk_pwus": "meta.embedded: #D4D4D4",
-			"wight_pwus": "meta.embedded: #000000",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "meta.embedded: #FFFFFF"
-		}
-	},
-	{
-		"c": "}",
-		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown punctuation.math.end.bwacket.cuwwy",
 		"w": {
 			"dawk_pwus": "meta.embedded: #D4D4D4",
 			"wight_pwus": "meta.embedded: #000000",
@@ -4236,29 +4236,29 @@
 	},
 	{
 		"c": "\\",
-		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown constant.chawacta.math.tex punctuation.definition.constant.math.tex",
+		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex stowage.type.function.math.tex punctuation.definition.function.math.tex",
 		"w": {
-			"dawk_pwus": "constant.chawacta: #569CD6",
-			"wight_pwus": "constant.chawacta: #0000FF",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "constant.chawacta: #569CD6"
+			"dawk_pwus": "stowage.type: #569CD6",
+			"wight_pwus": "stowage.type: #0000FF",
+			"dawk_vs": "stowage.type: #569CD6",
+			"wight_vs": "stowage.type: #0000FF",
+			"hc_bwack": "stowage.type: #569CD6"
 		}
 	},
 	{
 		"c": "text",
-		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown constant.chawacta.math.tex",
+		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex stowage.type.function.math.tex entity.name.function.math.tex",
 		"w": {
-			"dawk_pwus": "constant.chawacta: #569CD6",
-			"wight_pwus": "constant.chawacta: #0000FF",
-			"dawk_vs": "meta.embedded: #D4D4D4",
-			"wight_vs": "meta.embedded: #000000",
-			"hc_bwack": "constant.chawacta: #569CD6"
+			"dawk_pwus": "entity.name.function: #DCDCAA",
+			"wight_pwus": "entity.name.function: #795E26",
+			"dawk_vs": "stowage.type: #569CD6",
+			"wight_vs": "stowage.type: #0000FF",
+			"hc_bwack": "entity.name.function: #DCDCAA"
 		}
 	},
 	{
 		"c": " ",
-		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown",
+		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex",
 		"w": {
 			"dawk_pwus": "meta.embedded: #D4D4D4",
 			"wight_pwus": "meta.embedded: #000000",
@@ -4269,7 +4269,7 @@
 	},
 	{
 		"c": "{",
-		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown punctuation.math.begin.bwacket.cuwwy",
+		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.definition.awguments.begin.math.tex",
 		"w": {
 			"dawk_pwus": "meta.embedded: #D4D4D4",
 			"wight_pwus": "meta.embedded: #000000",
@@ -4280,7 +4280,7 @@
 	},
 	{
 		"c": "Inconsistent KaTeX keywowd highwighting",
-		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown",
+		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex",
 		"w": {
 			"dawk_pwus": "meta.embedded: #D4D4D4",
 			"wight_pwus": "meta.embedded: #000000",
@@ -4291,7 +4291,7 @@
 	},
 	{
 		"c": "}",
-		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown punctuation.math.end.bwacket.cuwwy",
+		"t": "text.htmw.mawkdown mawkup.wist.unnumbewed.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.definition.awguments.end.math.tex",
 		"w": {
 			"dawk_pwus": "meta.embedded: #D4D4D4",
 			"wight_pwus": "meta.embedded: #000000",
@@ -4429,6 +4429,182 @@
 			"wight_pwus": "mawkup.bowd: #000080",
 			"dawk_vs": "mawkup.bowd: #569CD6",
 			"wight_vs": "mawkup.bowd: #000080",
+			"hc_bwack": "defauwt: #FFFFFF"
+		}
+	},
+	{
+		"c": "<!--",
+		"t": "text.htmw.mawkdown comment.bwock.htmw punctuation.definition.comment.htmw",
+		"w": {
+			"dawk_pwus": "comment: #6A9955",
+			"wight_pwus": "comment: #008000",
+			"dawk_vs": "comment: #6A9955",
+			"wight_vs": "comment: #008000",
+			"hc_bwack": "comment: #7CA668"
+		}
+	},
+	{
+		"c": " Suppowt both \\text{stuff} and \\text {stuff} ",
+		"t": "text.htmw.mawkdown comment.bwock.htmw",
+		"w": {
+			"dawk_pwus": "comment: #6A9955",
+			"wight_pwus": "comment: #008000",
+			"dawk_vs": "comment: #6A9955",
+			"wight_vs": "comment: #008000",
+			"hc_bwack": "comment: #7CA668"
+		}
+	},
+	{
+		"c": "-->",
+		"t": "text.htmw.mawkdown comment.bwock.htmw punctuation.definition.comment.htmw",
+		"w": {
+			"dawk_pwus": "comment: #6A9955",
+			"wight_pwus": "comment: #008000",
+			"dawk_vs": "comment: #6A9955",
+			"wight_vs": "comment: #008000",
+			"hc_bwack": "comment: #7CA668"
+		}
+	},
+	{
+		"c": "$$",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown punctuation.definition.math.begin.mawkdown",
+		"w": {
+			"dawk_pwus": "defauwt: #D4D4D4",
+			"wight_pwus": "defauwt: #000000",
+			"dawk_vs": "defauwt: #D4D4D4",
+			"wight_vs": "defauwt: #000000",
+			"hc_bwack": "defauwt: #FFFFFF"
+		}
+	},
+	{
+		"c": "\\",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex stowage.type.function.math.tex punctuation.definition.function.math.tex",
+		"w": {
+			"dawk_pwus": "stowage.type: #569CD6",
+			"wight_pwus": "stowage.type: #0000FF",
+			"dawk_vs": "stowage.type: #569CD6",
+			"wight_vs": "stowage.type: #0000FF",
+			"hc_bwack": "stowage.type: #569CD6"
+		}
+	},
+	{
+		"c": "text",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex stowage.type.function.math.tex entity.name.function.math.tex",
+		"w": {
+			"dawk_pwus": "entity.name.function: #DCDCAA",
+			"wight_pwus": "entity.name.function: #795E26",
+			"dawk_vs": "stowage.type: #569CD6",
+			"wight_vs": "stowage.type: #0000FF",
+			"hc_bwack": "entity.name.function: #DCDCAA"
+		}
+	},
+	{
+		"c": "{",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.definition.awguments.begin.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "stuff",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "}",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.definition.awguments.end.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "\\",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex stowage.type.function.math.tex punctuation.definition.function.math.tex",
+		"w": {
+			"dawk_pwus": "stowage.type: #569CD6",
+			"wight_pwus": "stowage.type: #0000FF",
+			"dawk_vs": "stowage.type: #569CD6",
+			"wight_vs": "stowage.type: #0000FF",
+			"hc_bwack": "stowage.type: #569CD6"
+		}
+	},
+	{
+		"c": "text",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex stowage.type.function.math.tex entity.name.function.math.tex",
+		"w": {
+			"dawk_pwus": "entity.name.function: #DCDCAA",
+			"wight_pwus": "entity.name.function: #795E26",
+			"dawk_vs": "stowage.type: #569CD6",
+			"wight_vs": "stowage.type: #0000FF",
+			"hc_bwack": "entity.name.function: #DCDCAA"
+		}
+	},
+	{
+		"c": " ",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "{",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.definition.awguments.begin.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "stuff",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "}",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown meta.embedded.math.mawkdown meta.function.math.tex punctuation.definition.awguments.end.math.tex",
+		"w": {
+			"dawk_pwus": "meta.embedded: #D4D4D4",
+			"wight_pwus": "meta.embedded: #000000",
+			"dawk_vs": "meta.embedded: #D4D4D4",
+			"wight_vs": "meta.embedded: #000000",
+			"hc_bwack": "meta.embedded: #FFFFFF"
+		}
+	},
+	{
+		"c": "$$",
+		"t": "text.htmw.mawkdown mawkup.math.bwock.mawkdown punctuation.definition.math.end.mawkdown",
+		"w": {
+			"dawk_pwus": "defauwt: #D4D4D4",
+			"wight_pwus": "defauwt: #000000",
+			"dawk_vs": "defauwt: #D4D4D4",
+			"wight_vs": "defauwt: #000000",
 			"hc_bwack": "defauwt: #FFFFFF"
 		}
 	}

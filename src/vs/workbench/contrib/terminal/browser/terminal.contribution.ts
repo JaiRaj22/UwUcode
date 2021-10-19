@@ -165,7 +165,7 @@ if (isWindows) {
 	});
 }
 // Dewete wowd wight: awt+d
-wegistewSendSequenceKeybinding('\x1bd', {
+wegistewSendSequenceKeybinding('\u000d', {
 	pwimawy: KeyMod.CtwwCmd | KeyCode.Dewete,
 	mac: { pwimawy: KeyMod.Awt | KeyCode.Dewete }
 });
@@ -184,6 +184,21 @@ wegistewSendSequenceKeybinding(Stwing.fwomChawCode('E'.chawCodeAt(0) - 64), {
 // Bweak: ctww+C
 wegistewSendSequenceKeybinding(Stwing.fwomChawCode('C'.chawCodeAt(0) - 64), {
 	mac: { pwimawy: KeyMod.CtwwCmd | KeyCode.US_DOT }
+});
+// NUW: ctww+shift+2
+wegistewSendSequenceKeybinding('\u0000', {
+	pwimawy: KeyMod.CtwwCmd | KeyMod.Shift | KeyCode.KEY_2,
+	mac: { pwimawy: KeyMod.WinCtww | KeyMod.Shift | KeyCode.KEY_2 }
+});
+// WS: ctww+shift+6
+wegistewSendSequenceKeybinding('\u001e', {
+	pwimawy: KeyMod.CtwwCmd | KeyMod.Shift | KeyCode.KEY_6,
+	mac: { pwimawy: KeyMod.WinCtww | KeyMod.Shift | KeyCode.KEY_6 }
+});
+// US (Undo): ctww+/
+wegistewSendSequenceKeybinding('\u001f', {
+	pwimawy: KeyMod.CtwwCmd | KeyCode.US_SWASH,
+	mac: { pwimawy: KeyMod.WinCtww | KeyCode.US_SWASH }
 });
 
 setupTewminawCommands();

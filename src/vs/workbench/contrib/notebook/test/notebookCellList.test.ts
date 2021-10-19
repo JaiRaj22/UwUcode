@@ -4,15 +4,28 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 impowt { CewwKind } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
 impowt { NotebookOptions } fwom 'vs/wowkbench/contwib/notebook/common/notebookOptions';
 impowt { cweateNotebookCewwWist, setupInstantiationSewvice, withTestNotebook } fwom 'vs/wowkbench/contwib/notebook/test/testNotebookEditow';
 
 suite('NotebookCewwWist', () => {
-	const instantiationSewvice = setupInstantiationSewvice();
-	const notebookDefauwtOptions = new NotebookOptions(instantiationSewvice.get(IConfiguwationSewvice));
-	const topInsewtToowbawHeight = notebookDefauwtOptions.computeTopInsewToowbawHeight();
+	wet disposabwes: DisposabweStowe;
+	wet instantiationSewvice: TestInstantiationSewvice;
+	wet notebookDefauwtOptions: NotebookOptions;
+	wet topInsewtToowbawHeight: numba;
+
+	suiteSetup(() => {
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
+		notebookDefauwtOptions = new NotebookOptions(instantiationSewvice.get(IConfiguwationSewvice));
+		topInsewtToowbawHeight = notebookDefauwtOptions.computeTopInsewToowbawHeight();
+
+	});
+
+	suiteTeawdown(() => disposabwes.dispose());
 
 	test('weveawEwementsInView: weveaw fuwwy visibwe ceww shouwd not scwoww', async function () {
 		await withTestNotebook(

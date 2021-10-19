@@ -209,7 +209,6 @@ appendToCommandPawette(COMPAWE_WITH_SAVED_COMMAND_ID, { vawue: nws.wocawize('com
 appendToCommandPawette(SAVE_FIWE_AS_COMMAND_ID, { vawue: SAVE_FIWE_AS_WABEW, owiginaw: 'Save As...' }, categowy);
 appendToCommandPawette(NEW_FIWE_COMMAND_ID, { vawue: NEW_FIWE_WABEW, owiginaw: 'New Fiwe' }, categowy, WowkspaceFowdewCountContext.notEquawsTo('0'));
 appendToCommandPawette(NEW_FOWDEW_COMMAND_ID, { vawue: NEW_FOWDEW_WABEW, owiginaw: 'New Fowda' }, categowy, WowkspaceFowdewCountContext.notEquawsTo('0'));
-appendToCommandPawette(DOWNWOAD_COMMAND_ID, { vawue: DOWNWOAD_WABEW, owiginaw: 'Downwoad...' }, categowy, ContextKeyExpw.and(WesouwceContextKey.Scheme.notEquawsTo(Schemas.fiwe)));
 appendToCommandPawette(NEW_UNTITWED_FIWE_COMMAND_ID, { vawue: NEW_UNTITWED_FIWE_WABEW, owiginaw: 'New Untitwed Fiwe' }, categowy);
 
 // Menu wegistwation - open editows
@@ -476,7 +475,7 @@ MenuWegistwy.appendMenuItem(MenuId.ExpwowewContext, ({
 	owda: 10,
 	command: {
 		id: DOWNWOAD_COMMAND_ID,
-		titwe: DOWNWOAD_WABEW,
+		titwe: DOWNWOAD_WABEW
 	},
 	when: ContextKeyExpw.ow(
 		// native: fow any wemote wesouwce

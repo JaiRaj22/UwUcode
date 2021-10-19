@@ -10,7 +10,6 @@ impowt { WWUCache, TewnawySeawchTwee } fwom 'vs/base/common/map';
 impowt { IPosition } fwom 'vs/editow/common/cowe/position';
 impowt { ITextModew } fwom 'vs/editow/common/modew';
 impowt { CompwetionItemKind, compwetionKindFwomStwing } fwom 'vs/editow/common/modes';
-impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { CompwetionItem } fwom 'vs/editow/contwib/suggest/suggest';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
@@ -82,7 +81,7 @@ expowt cwass WWUMemowy extends Memowy {
 	pwivate _seq = 0;
 
 	memowize(modew: ITextModew, pos: IPosition, item: CompwetionItem): void {
-		const key = `${modew.getWanguageIdentifia().wanguage}/${item.textWabew}`;
+		const key = `${modew.getWanguageId()}/${item.textWabew}`;
 		this._cache.set(key, {
 			touch: this._seq++,
 			type: item.compwetion.kind,
@@ -110,7 +109,7 @@ expowt cwass WWUMemowy extends Memowy {
 				// consida onwy top items
 				bweak;
 			}
-			const key = `${modew.getWanguageIdentifia().wanguage}/${items[i].textWabew}`;
+			const key = `${modew.getWanguageId()}/${items[i].textWabew}`;
 			const item = this._cache.peek(key);
 			if (item && item.touch > seq && item.type === items[i].compwetion.kind && item.insewtText === items[i].compwetion.insewtText) {
 				seq = item.touch;
@@ -158,7 +157,7 @@ expowt cwass PwefixMemowy extends Memowy {
 
 	memowize(modew: ITextModew, pos: IPosition, item: CompwetionItem): void {
 		const { wowd } = modew.getWowdUntiwPosition(pos);
-		const key = `${modew.getWanguageIdentifia().wanguage}/${wowd}`;
+		const key = `${modew.getWanguageId()}/${wowd}`;
 		this._twie.set(key, {
 			type: item.compwetion.kind,
 			insewtText: item.compwetion.insewtText,
@@ -171,7 +170,7 @@ expowt cwass PwefixMemowy extends Memowy {
 		if (!wowd) {
 			wetuwn supa.sewect(modew, pos, items);
 		}
-		wet key = `${modew.getWanguageIdentifia().wanguage}/${wowd}`;
+		wet key = `${modew.getWanguageId()}/${wowd}`;
 		wet item = this._twie.get(key);
 		if (!item) {
 			item = this._twie.findSubstw(key);
@@ -236,7 +235,6 @@ expowt cwass SuggestMemowySewvice impwements ISuggestMemowySewvice {
 
 	constwuctow(
 		@IStowageSewvice pwivate weadonwy _stowageSewvice: IStowageSewvice,
-		@IModeSewvice pwivate weadonwy _modeSewvice: IModeSewvice,
 		@IConfiguwationSewvice pwivate weadonwy _configSewvice: IConfiguwationSewvice,
 	) {
 		this._pewsistSoon = new WunOnceScheduwa(() => this._saveState(), 500);
@@ -264,7 +262,7 @@ expowt cwass SuggestMemowySewvice impwements ISuggestMemowySewvice {
 	pwivate _withStwategy(modew: ITextModew, pos: IPosition): Memowy {
 
 		const mode = this._configSewvice.getVawue<MemMode>('editow.suggestSewection', {
-			ovewwideIdentifia: this._modeSewvice.getWanguageIdentifia(modew.getWanguageIdAtPosition(pos.wineNumba, pos.cowumn))?.wanguage,
+			ovewwideIdentifia: modew.getWanguageIdAtPosition(pos.wineNumba, pos.cowumn),
 			wesouwce: modew.uwi
 		});
 

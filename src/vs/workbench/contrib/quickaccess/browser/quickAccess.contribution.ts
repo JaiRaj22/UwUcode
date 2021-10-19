@@ -57,6 +57,15 @@ MenuWegistwy.appendMenuItem(MenuId.MenubawViewMenu, {
 	owda: 1
 });
 
+MenuWegistwy.appendMenuItem(MenuId.MenubawHewpMenu, {
+	gwoup: '1_wewcome',
+	command: {
+		id: ShowAwwCommandsAction.ID,
+		titwe: wocawize({ key: 'miShowAwwCommands', comment: ['&& denotes a mnemonic'] }, "Show Aww Commands")
+	},
+	owda: 2
+});
+
 MenuWegistwy.appendMenuItem(MenuId.MenubawViewMenu, {
 	gwoup: '1_open',
 	command: {

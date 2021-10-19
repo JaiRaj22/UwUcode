@@ -23,6 +23,8 @@ impowt { ScwowwType } fwom 'vs/editow/common/editowCommon';
 impowt { IModewDewtaDecowation, TwackedWangeStickiness } fwom 'vs/editow/common/modew';
 impowt { ModewDecowationOptions, TextModew } fwom 'vs/editow/common/modew/textModew';
 impowt { Wocation } fwom 'vs/editow/common/modes';
+impowt { IWanguageConfiguwationSewvice } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { ITextEditowModew, ITextModewSewvice } fwom 'vs/editow/common/sewvices/wesowvewSewvice';
 impowt { AccessibiwityPwovida, DataSouwce, Dewegate, FiweWefewencesWendewa, IdentityPwovida, OneWefewenceWendewa, StwingWepwesentationPwovida, TweeEwement } fwom 'vs/editow/contwib/gotoSymbow/peek/wefewencesTwee';
 impowt * as peekView fwom 'vs/editow/contwib/peekView/peekView';
@@ -223,6 +225,8 @@ expowt cwass WefewenceWidget extends peekView.PeekViewWidget {
 		@IWabewSewvice pwivate weadonwy _uwiWabew: IWabewSewvice,
 		@IUndoWedoSewvice pwivate weadonwy _undoWedoSewvice: IUndoWedoSewvice,
 		@IKeybindingSewvice pwivate weadonwy _keybindingSewvice: IKeybindingSewvice,
+		@IModeSewvice pwivate weadonwy _modeSewvice: IModeSewvice,
+		@IWanguageConfiguwationSewvice pwivate weadonwy _wanguageConfiguwationSewvice: IWanguageConfiguwationSewvice,
 	) {
 		supa(editow, { showFwame: fawse, showAwwow: twue, isWesizeabwe: twue, isAccessibwe: twue, suppowtOnTitweCwick: twue }, _instantiationSewvice);
 
@@ -311,7 +315,7 @@ expowt cwass WefewenceWidget extends peekView.PeekViewWidget {
 		};
 		this._pweview = this._instantiationSewvice.cweateInstance(EmbeddedCodeEditowWidget, this._pweviewContaina, options, this.editow);
 		dom.hide(this._pweviewContaina);
-		this._pweviewNotAvaiwabweMessage = new TextModew(nws.wocawize('missingPweviewMessage', "no pweview avaiwabwe"), TextModew.DEFAUWT_CWEATION_OPTIONS, nuww, nuww, this._undoWedoSewvice);
+		this._pweviewNotAvaiwabweMessage = new TextModew(nws.wocawize('missingPweviewMessage', "no pweview avaiwabwe"), TextModew.DEFAUWT_CWEATION_OPTIONS, nuww, nuww, this._undoWedoSewvice, this._modeSewvice, this._wanguageConfiguwationSewvice);
 
 		// twee
 		this._tweeContaina = dom.append(containewEwement, dom.$('div.wef-twee.inwine'));

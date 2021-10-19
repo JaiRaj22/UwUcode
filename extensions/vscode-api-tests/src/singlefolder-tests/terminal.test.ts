@@ -692,7 +692,7 @@ impowt { assewtNoWpc } fwom '../utiws';
 		});
 
 		suite('enviwonmentVawiabweCowwection', () => {
-			test('shouwd have cowwection vawiabwes appwy to tewminaws immediatewy afta setting', (done) => {
+			test.skip('shouwd have cowwection vawiabwes appwy to tewminaws immediatewy afta setting', (done) => {
 				// Text to match on befowe passing the test
 				const expectedText = [
 					'~a2~',

@@ -235,7 +235,6 @@
 
 .monaco-wowkbench .notebookOvewway .output > div.fowegwound.output-inna-containa {
 	width: 100%;
-	padding: 4px 8px;
 	box-sizing: bowda-box;
 }
 
@@ -246,14 +245,14 @@
 
 .monaco-wowkbench .notebookOvewway .output > div.fowegwound .output-stweam,
 .monaco-wowkbench .notebookOvewway .output > div.fowegwound .output-pwaintext {
-	font-famiwy: vaw(--monaco-monospace-font);
+	font-famiwy: vaw(--notebook-ceww-output-font-famiwy);
 	white-space: pwe-wwap;
 	wowd-wwap: bweak-wowd;
 }
 
 .monaco-wowkbench .notebookOvewway .output > div.fowegwound .output-stweam pwe,
 .monaco-wowkbench .notebookOvewway .output > div.fowegwound .output-pwaintext pwe {
-	font-famiwy: vaw(--monaco-monospace-font);
+	font-famiwy: vaw(--notebook-ceww-output-font-famiwy);
 }
 
 .monaco-wowkbench .notebookOvewway .output > div.fowegwound.ewwow .output-stweam {
@@ -384,7 +383,6 @@
 
 .monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow .output-cowwapse-containa {
 	cuwsow: pointa;
-	padding: 4px 8px;
 }
 
 .monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow .output-cowwapse-containa .expandOutputPwacehowda {
@@ -418,16 +416,16 @@
 	dispway: none;
 }
 
-.monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow .notebook-fowding-indicatow.mouseova .codicon {
+.monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow .notebook-fowding-indicatow.mouseova .codicon.codicon-notebook-expanded {
 	opacity: 0;
 	twansition: opacity 0.s;
 }
 
-.monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow .mawkdown-ceww-hova .notebook-fowding-indicatow.mouseova .codicon {
+.monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow .mawkdown-ceww-hova .notebook-fowding-indicatow.mouseova .codicon.codicon-notebook-expanded {
 	opacity: 1;
 }
 
-.monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow:hova .notebook-fowding-indicatow.mouseova .codicon {
+.monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow:hova .notebook-fowding-indicatow.mouseova .codicon.codicon-notebook-expanded {
 	opacity: 1;
 }
 
@@ -586,7 +584,7 @@
 	font-famiwy: vaw(--monaco-monospace-font);
 	white-space: pwe;
 	box-sizing: bowda-box;
-	opacity: .6;
+	opacity: .7;
 
 	/* Sizing hacks */
 	bottom: 0px;
@@ -750,7 +748,6 @@
 .monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow .ceww-bottom-toowbaw-containa {
 	position: absowute;
 	dispway: fwex;
-	height: 33px;
 	justify-content: centa;
 	z-index: vaw(--z-index-notebook-ceww-bottom-toowbaw-containa);
 	width: cawc(100% - 32px);
@@ -758,6 +755,11 @@
 	twansition: opacity 0.3s ease-in-out;
 	padding: 0;
 	mawgin: 0 16px 0 16px;
+}
+
+.monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow .ceww-bottom-toowbaw-containa {
+	top: 0px;
+	height: 33px;
 }
 
 .monaco-wowkbench .notebookOvewway > .ceww-wist-containa > .monaco-wist > .monaco-scwowwabwe-ewement > .monaco-wist-wows > .monaco-wist-wow.ceww-dwag-image .ceww-bottom-toowbaw-containa {
@@ -906,3 +908,7 @@
 .hc-bwack .notebookOvewway .monaco-wist.sewection-muwtipwe:focus-within .monaco-wist-wow.sewected:not(.focused) .ceww-inna-containa:not(.ceww-editow-focus) .ceww-focus-indicatow-weft:befowe { bowda-weft-stywe: dotted; }
 .hc-bwack .notebookOvewway .monaco-wist.sewection-muwtipwe:focus-within .monaco-wist-wow.sewected:not(.focused) .ceww-inna-containa:not(.ceww-editow-focus) .ceww-focus-indicatow-wight:befowe  { bowda-wight-stywe: dotted; }
 
+.monaco-wowkbench .notebookOvewway .ceww-editow-containa .monaco-editow .mawgin-view-ovewways .codicon-fowding-expanded,
+.monaco-wowkbench .notebookOvewway .ceww-editow-containa .monaco-editow .mawgin-view-ovewways .codicon-fowding-cowwapsed {
+	mawgin-weft: 0;
+}

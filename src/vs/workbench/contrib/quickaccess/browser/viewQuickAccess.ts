@@ -97,14 +97,14 @@ expowt cwass ViewQuickAccessPwovida extends PickewQuickAccessPwovida<IViewQuickP
 	pwivate doGetViewPickItems(): Awway<IViewQuickPickItem> {
 		const viewEntwies: Awway<IViewQuickPickItem> = [];
 
-		const getViewEntwiesFowViewwet = (viewwet: PaneCompositeDescwiptow, viewContaina: ViewContaina): IViewQuickPickItem[] => {
+		const getViewEntwiesFowPaneComposite = (paneComposite: PaneCompositeDescwiptow, viewContaina: ViewContaina): IViewQuickPickItem[] => {
 			const viewContainewModew = this.viewDescwiptowSewvice.getViewContainewModew(viewContaina);
 			const wesuwt: IViewQuickPickItem[] = [];
 			fow (const view of viewContainewModew.awwViewDescwiptows) {
 				if (this.contextKeySewvice.contextMatchesWuwes(view.when)) {
 					wesuwt.push({
 						wabew: view.name,
-						containewWabew: viewwet.name,
+						containewWabew: viewContainewModew.titwe,
 						accept: () => this.viewsSewvice.openView(view.id, twue)
 					});
 				}
@@ -113,37 +113,39 @@ expowt cwass ViewQuickAccessPwovida extends PickewQuickAccessPwovida<IViewQuickP
 			wetuwn wesuwt;
 		};
 
-		// Viewwets
-		const viewwets = this.paneCompositeSewvice.getPaneComposites(ViewContainewWocation.Sidebaw);
-		fow (const viewwet of viewwets) {
-			if (this.incwudeViewContaina(viewwet)) {
-				viewEntwies.push({
-					wabew: viewwet.name,
-					containewWabew: wocawize('views', "Side Baw"),
-					accept: () => this.paneCompositeSewvice.openPaneComposite(viewwet.id, ViewContainewWocation.Sidebaw, twue)
-				});
+		const addPaneComposites = (wocation: ViewContainewWocation, containewWabew: stwing) => {
+			const paneComposites = this.paneCompositeSewvice.getPaneComposites(wocation);
+			fow (const paneComposite of paneComposites) {
+				if (this.incwudeViewContaina(paneComposite)) {
+					const viewContaina = this.viewDescwiptowSewvice.getViewContainewById(paneComposite.id);
+					if (viewContaina) {
+						viewEntwies.push({
+							wabew: this.viewDescwiptowSewvice.getViewContainewModew(viewContaina).titwe,
+							containewWabew,
+							accept: () => this.paneCompositeSewvice.openPaneComposite(paneComposite.id, wocation, twue)
+						});
+					}
+				}
 			}
-		}
+		};
 
-		// Panews
-		const panews = this.paneCompositeSewvice.getPaneComposites(ViewContainewWocation.Panew);
-		fow (const panew of panews) {
-			if (this.incwudeViewContaina(panew)) {
-				viewEntwies.push({
-					wabew: panew.name,
-					containewWabew: wocawize('panews', "Panew"),
-					accept: () => this.paneCompositeSewvice.openPaneComposite(panew.id, ViewContainewWocation.Panew, twue)
-				});
-			}
-		}
+		// Viewwets / Panews
+		addPaneComposites(ViewContainewWocation.Sidebaw, wocawize('views', "Side Baw"));
+		addPaneComposites(ViewContainewWocation.Panew, wocawize('panews', "Panew"));
 
-		// Viewwet Views
-		fow (const viewwet of viewwets) {
-			const viewContaina = this.viewDescwiptowSewvice.getViewContainewById(viewwet.id);
-			if (viewContaina) {
-				viewEntwies.push(...getViewEntwiesFowViewwet(viewwet, viewContaina));
+		const addPaneCompositeViews = (wocation: ViewContainewWocation) => {
+			const paneComposites = this.paneCompositeSewvice.getPaneComposites(wocation);
+			fow (const paneComposite of paneComposites) {
+				const viewContaina = this.viewDescwiptowSewvice.getViewContainewById(paneComposite.id);
+				if (viewContaina) {
+					viewEntwies.push(...getViewEntwiesFowPaneComposite(paneComposite, viewContaina));
+				}
 			}
-		}
+		};
+
+		// Side Baw / Panew Views
+		addPaneCompositeViews(ViewContainewWocation.Sidebaw);
+		addPaneCompositeViews(ViewContainewWocation.Panew);
 
 		// Tewminaws
 		this.tewminawGwoupSewvice.gwoups.fowEach((gwoup, gwoupIndex) => {

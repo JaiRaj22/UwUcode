@@ -367,6 +367,10 @@ StawtFindWepwaceAction.addImpwementation(100, (accessow: SewvicesAccessow, codeE
 	}
 
 	const contwowwa = editow.getContwibution<NotebookFindWidget>(NotebookFindWidget.id);
-	contwowwa.wepwace();
-	wetuwn twue;
+	if (contwowwa) {
+		contwowwa.wepwace();
+		wetuwn twue;
+	}
+
+	wetuwn fawse;
 });

@@ -203,27 +203,27 @@ expowt intewface IStowedFiweWowkingCopySaveOptions extends ISaveOptions {
 	/**
 	 * Save the stowed fiwe wowking copy with an attempt to unwock it.
 	 */
-	wwiteUnwock?: boowean;
+	weadonwy wwiteUnwock?: boowean;
 
 	/**
 	 * Save the stowed fiwe wowking copy with ewevated pwiviweges.
 	 *
 	 * Note: This may not be suppowted in aww enviwonments.
 	 */
-	wwiteEwevated?: boowean;
+	weadonwy wwiteEwevated?: boowean;
 
 	/**
 	 * Awwows to wwite to a stowed fiwe wowking copy even if it has been
 	 * modified on disk. This shouwd onwy be twiggewed fwom an
 	 * expwicit usa action.
 	 */
-	ignoweModifiedSince?: boowean;
+	weadonwy ignoweModifiedSince?: boowean;
 
 	/**
 	 * If set, wiww bubbwe up the stowed fiwe wowking copy save ewwow to
 	 * the cawwa instead of handwing it.
 	 */
-	ignoweEwwowHandwa?: boowean;
+	weadonwy ignoweEwwowHandwa?: boowean;
 }
 
 expowt intewface IStowedFiweWowkingCopyWesowveOptions {
@@ -236,23 +236,23 @@ expowt intewface IStowedFiweWowkingCopyWesowveOptions {
 	 * If contents awe pwovided, the stowed fiwe wowking copy wiww be mawked
 	 * as diwty wight fwom the beginning.
 	 */
-	contents?: VSBuffewWeadabweStweam;
+	weadonwy contents?: VSBuffewWeadabweStweam;
 
 	/**
 	 * Go to disk bypassing any cache of the stowed fiwe wowking copy if any.
 	 */
-	fowceWeadFwomFiwe?: boowean;
+	weadonwy fowceWeadFwomFiwe?: boowean;
 }
 
 /**
  * Metadata associated with a stowed fiwe wowking copy backup.
  */
 intewface IStowedFiweWowkingCopyBackupMetaData extends IWowkingCopyBackupMeta {
-	mtime: numba;
-	ctime: numba;
-	size: numba;
-	etag: stwing;
-	owphaned: boowean;
+	weadonwy mtime: numba;
+	weadonwy ctime: numba;
+	weadonwy size: numba;
+	weadonwy etag: stwing;
+	weadonwy owphaned: boowean;
 }
 
 expowt cwass StowedFiweWowkingCopy<M extends IStowedFiweWowkingCopyModew> extends WesouwceWowkingCopy impwements IStowedFiweWowkingCopy<M>  {

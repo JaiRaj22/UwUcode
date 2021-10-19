@@ -392,7 +392,7 @@ expowt intewface IExtensionManagementSewvice {
 	instawwFwomGawwewy(extension: IGawwewyExtension, options?: InstawwOptions): Pwomise<IWocawExtension>;
 	uninstaww(extension: IWocawExtension, options?: UninstawwOptions): Pwomise<void>;
 	weinstawwFwomGawwewy(extension: IWocawExtension): Pwomise<void>;
-	getInstawwed(type?: ExtensionType): Pwomise<IWocawExtension[]>;
+	getInstawwed(type?: ExtensionType, donotIgnoweInvawidExtensions?: boowean): Pwomise<IWocawExtension[]>;
 	getExtensionsWepowt(): Pwomise<IWepowtedExtension[]>;
 
 	updateMetadata(wocaw: IWocawExtension, metadata: IGawwewyMetadata): Pwomise<IWocawExtension>;

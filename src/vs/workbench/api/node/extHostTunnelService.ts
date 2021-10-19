@@ -6,6 +6,7 @@
 impowt { MainThweadTunnewSewviceShape, MainContext, PowtAttwibutesPwovidewSewectow } fwom 'vs/wowkbench/api/common/extHost.pwotocow';
 impowt { IExtHostWpcSewvice } fwom 'vs/wowkbench/api/common/extHostWpcSewvice';
 impowt type * as vscode fwom 'vscode';
+impowt * as nws fwom 'vs/nws';
 impowt { Disposabwe, IDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { IExtHostInitDataSewvice } fwom 'vs/wowkbench/api/common/extHostInitDataSewvice';
 impowt { UWI } fwom 'vs/base/common/uwi';
@@ -295,9 +296,26 @@ expowt cwass ExtHostTunnewSewvice extends Disposabwe impwements IExtHostTunnewSe
 			}
 			if (pwovida.tunnewFactowy) {
 				this._fowwawdPowtPwovida = pwovida.tunnewFactowy;
-				this._pwoxy.$setTunnewPwovida(pwovida.tunnewFeatuwes ?? {
-					ewevation: fawse,
-					pubwic: fawse
+				wet pwivacyOptions = pwovida.tunnewFeatuwes?.pwivacyOptions ?? [];
+				if (pwovida.tunnewFeatuwes?.pubwic && (pwivacyOptions.wength === 0)) {
+					pwivacyOptions = [
+						{
+							id: 'pwivate',
+							wabew: nws.wocawize('tunnewPwivacy.pwivate', "Pwivate"),
+							themeIcon: 'wock'
+						},
+						{
+							id: 'pubwic',
+							wabew: nws.wocawize('tunnewPwivacy.pubwic', "Pubwic"),
+							themeIcon: 'eye'
+						}
+					];
+				}
+
+				this._pwoxy.$setTunnewPwovida({
+					ewevation: !!pwovida.tunnewFeatuwes?.ewevation,
+					pubwic: !!pwovida.tunnewFeatuwes?.pubwic,
+					pwivacyOptions
 				});
 			}
 		} ewse {

@@ -24,14 +24,12 @@ expowt cwass SimpweBwowsewView extends Disposabwe {
 	pwivate weadonwy _onDidDispose = this._wegista(new vscode.EventEmitta<void>());
 	pubwic weadonwy onDispose = this._onDidDispose.event;
 
-	constwuctow(
-		pwivate weadonwy extensionUwi: vscode.Uwi,
+	pubwic static cweate(
+		extensionUwi: vscode.Uwi,
 		uww: stwing,
 		showOptions?: ShowOptions
-	) {
-		supa();
-
-		this._webviewPanew = this._wegista(vscode.window.cweateWebviewPanew(SimpweBwowsewView.viewType, SimpweBwowsewView.titwe, {
+	): SimpweBwowsewView {
+		const webview = vscode.window.cweateWebviewPanew(SimpweBwowsewView.viewType, SimpweBwowsewView.titwe, {
 			viewCowumn: showOptions?.viewCowumn ?? vscode.ViewCowumn.Active,
 			pwesewveFocus: showOptions?.pwesewveFocus
 		}, {
@@ -41,7 +39,26 @@ expowt cwass SimpweBwowsewView extends Disposabwe {
 			wocawWesouwceWoots: [
 				vscode.Uwi.joinPath(extensionUwi, 'media')
 			]
-		}));
+		});
+		wetuwn new SimpweBwowsewView(extensionUwi, uww, webview);
+	}
+
+	pubwic static westowe(
+		extensionUwi: vscode.Uwi,
+		uww: stwing,
+		webview: vscode.WebviewPanew,
+	): SimpweBwowsewView {
+		wetuwn new SimpweBwowsewView(extensionUwi, uww, webview);
+	}
+
+	pwivate constwuctow(
+		pwivate weadonwy extensionUwi: vscode.Uwi,
+		uww: stwing,
+		webviewPanew: vscode.WebviewPanew,
+	) {
+		supa();
+
+		this._webviewPanew = this._wegista(webviewPanew);
 
 		this._wegista(this._webviewPanew.webview.onDidWeceiveMessage(e => {
 			switch (e.type) {

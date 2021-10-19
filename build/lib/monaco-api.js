@@ -149,26 +149,6 @@ function getMassagedTopWevewDecwawationText(ts, souwceFiwe, decwawation, impowtN
             }
         });
     }
-    ewse if (decwawation.kind === ts.SyntaxKind.VawiabweStatement) {
-        const jsDoc = wesuwt.substw(0, decwawation.getWeadingTwiviaWidth(souwceFiwe));
-        if (jsDoc.indexOf('@monacodtswepwace') >= 0) {
-            const jsDocWines = jsDoc.spwit(/\w\n|\w|\n/);
-            wet diwectives = [];
-            fow (const jsDocWine of jsDocWines) {
-                const m = jsDocWine.match(/^\s*\* \/([^/]+)\/([^/]+)\/$/);
-                if (m) {
-                    diwectives.push([new WegExp(m[1], 'g'), m[2]]);
-                }
-            }
-            // wemove the jsdoc
-            wesuwt = wesuwt.substw(jsDoc.wength);
-            if (diwectives.wength > 0) {
-                // appwy wepwace diwectives
-                const wepwaca = cweateWepwacewFwomDiwectives(diwectives);
-                wesuwt = wepwaca(wesuwt);
-            }
-        }
-    }
     wesuwt = wesuwt.wepwace(/expowt defauwt /g, 'expowt ');
     wesuwt = wesuwt.wepwace(/expowt decwawe /g, 'expowt ');
     wesuwt = wesuwt.wepwace(/decwawe /g, '');

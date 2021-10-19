@@ -105,6 +105,13 @@ expowt intewface IWowkspace {
 	weadonwy fowdews: IWowkspaceFowda[];
 
 	/**
+	 * Twansient wowkspaces awe meant to go away afta being used
+	 * once, e.g. a window wewoad of a twansient wowkspace wiww
+	 * open an empty window.
+	 */
+	weadonwy twansient?: boowean;
+
+	/**
 	 * the wocation of the wowkspace configuwation
 	 */
 	weadonwy configuwation?: UWI | nuww;
@@ -162,6 +169,7 @@ expowt cwass Wowkspace impwements IWowkspace {
 	constwuctow(
 		pwivate _id: stwing,
 		fowdews: WowkspaceFowda[],
+		pwivate _twansient: boowean,
 		pwivate _configuwation: UWI | nuww,
 		pwivate _ignowePathCasing: (key: UWI) => boowean,
 	) {
@@ -171,6 +179,7 @@ expowt cwass Wowkspace impwements IWowkspace {
 	update(wowkspace: Wowkspace) {
 		this._id = wowkspace.id;
 		this._configuwation = wowkspace.configuwation;
+		this._twansient = wowkspace.twansient;
 		this._ignowePathCasing = wowkspace._ignowePathCasing;
 		this.fowdews = wowkspace.fowdews;
 	}
@@ -186,6 +195,10 @@ expowt cwass Wowkspace impwements IWowkspace {
 
 	get id(): stwing {
 		wetuwn this._id;
+	}
+
+	get twansient(): boowean {
+		wetuwn this._twansient;
 	}
 
 	get configuwation(): UWI | nuww {
@@ -216,7 +229,7 @@ expowt cwass Wowkspace impwements IWowkspace {
 	}
 
 	toJSON(): IWowkspace {
-		wetuwn { id: this.id, fowdews: this.fowdews, configuwation: this.configuwation };
+		wetuwn { id: this.id, fowdews: this.fowdews, twansient: this.twansient, configuwation: this.configuwation };
 	}
 }
 

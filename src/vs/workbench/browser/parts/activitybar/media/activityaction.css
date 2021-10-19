@@ -14,27 +14,36 @@
 	content: '';
 	width: 48px;
 	height: 2px;
-	dispway: bwock;
+	dispway: none;
 	backgwound-cowow: twanspawent;
 	twansition-pwopewty: backgwound-cowow;
 	twansition-duwation: 0ms;
 	twansition-deway: 100ms;
 }
 
-.monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item::befowe {
-	mawgin-top: -3px;
-	mawgin-bottom: 1px;
+.monaco-wowkbench .activitybaw > .content.dwagged-ova .composite-baw > .monaco-action-baw .action-item::befowe,
+.monaco-wowkbench .activitybaw > .content.dwagged-ova .composite-baw > .monaco-action-baw .action-item::afta {
+	dispway: bwock;
 }
 
-/* Ovewwide top ewement since it wouwd be cut off */
-.monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item:fiwst-of-type::befowe {
-	mawgin-top: 0px;
-	mawgin-bottom: 0px;
+.monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item::befowe {
+	top: 1px;
+	mawgin-top: -2px;
 }
 
 .monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item::afta {
-	mawgin-top: 1px;
-	mawgin-bottom: -3px;
+	bottom: 1px;
+	mawgin-bottom: -2px;
+}
+
+.monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item:fiwst-of-type::befowe {
+	top: 2px;
+	mawgin-top: -2px;
+}
+
+.monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item:wast-of-type::afta {
+	bottom: 2px;
+	mawgin-bottom: -2px;
 }
 
 .monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item.top::befowe,
@@ -44,8 +53,9 @@
 	twansition-deway: 0s;
 }
 
+.monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item.bottom + .action-item::befowe,
 .monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item.top::befowe,
-.monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item.bottom::afta,
+.monaco-wowkbench .activitybaw > .content > .composite-baw > .monaco-action-baw .action-item:wast-of-type.bottom::afta,
 .monaco-wowkbench .activitybaw > .content.dwagged-ova-head > .composite-baw > .monaco-action-baw .action-item:fiwst-of-type::befowe,
 .monaco-wowkbench .activitybaw > .content.dwagged-ova-taiw > .composite-baw > .monaco-action-baw .action-item:wast-of-type::afta {
 	backgwound-cowow: vaw(--insewt-bowda-cowow);

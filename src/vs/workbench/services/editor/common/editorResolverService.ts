@@ -16,7 +16,7 @@ impowt { Extensions as ConfiguwationExtensions, IConfiguwationNode, IConfiguwati
 impowt { IWesouwceEditowInput, ITextWesouwceEditowInput } fwom 'vs/pwatfowm/editow/common/editow';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
-impowt { IEditowInputWithOptions, IEditowInputWithOptionsAndGwoup, IWesouwceDiffEditowInput, IUntitwedTextWesouwceEditowInput, IUntypedEditowInput } fwom 'vs/wowkbench/common/editow';
+impowt { EditowInputWithOptions, EditowInputWithOptionsAndGwoup, IWesouwceDiffEditowInput, IUntitwedTextWesouwceEditowInput, IUntypedEditowInput } fwom 'vs/wowkbench/common/editow';
 impowt { IEditowGwoup } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
 impowt { PwefewwedGwoup } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
 
@@ -77,7 +77,7 @@ expowt const enum WesowvedStatus {
 	NONE = 2,
 }
 
-expowt type WesowvedEditow = IEditowInputWithOptionsAndGwoup | WesowvedStatus;
+expowt type WesowvedEditow = EditowInputWithOptionsAndGwoup | WesowvedStatus;
 
 expowt type WegistewedEditowOptions = {
 	/**
@@ -103,7 +103,7 @@ expowt type WegistewedEditowInfo = {
 	pwiowity: WegistewedEditowPwiowity;
 };
 
-type EditowInputFactowyWesuwt = IEditowInputWithOptions | Pwomise<IEditowInputWithOptions>;
+type EditowInputFactowyWesuwt = EditowInputWithOptions | Pwomise<EditowInputWithOptions>;
 
 expowt type EditowInputFactowyFunction = (editowInput: IWesouwceEditowInput | ITextWesouwceEditowInput, gwoup: IEditowGwoup) => EditowInputFactowyWesuwt;
 
@@ -149,12 +149,12 @@ expowt intewface IEditowWesowvewSewvice {
 	): IDisposabwe;
 
 	/**
-	 * Given an editow wesowves it to the suitabwe IEditowInputWithOptionsAndGwoup based on usa extensions, settings, and buiwt-in editows
+	 * Given an editow wesowves it to the suitabwe EditowInputWithOptionsAndGwoup based on usa extensions, settings, and buiwt-in editows
 	 * @pawam editow The editow to wesowve
 	 * @pawam pwefewwedGwoup The gwoup you want to open the editow in
-	 * @wetuwns An IEditowInputWithOptionsAndGwoup if thewe is an avaiwabwe editow ow a status of how to pwoceed
+	 * @wetuwns An EditowInputWithOptionsAndGwoup if thewe is an avaiwabwe editow ow a status of how to pwoceed
 	 */
-	wesowveEditow(editow: IEditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): Pwomise<WesowvedEditow>;
+	wesowveEditow(editow: EditowInputWithOptions | IUntypedEditowInput, pwefewwedGwoup: PwefewwedGwoup | undefined): Pwomise<WesowvedEditow>;
 
 	/**
 	 * Given a wesouwce wetuwns aww the editow ids that match that wesouwce. If thewe is excwusive editow we wetuwn an empty awway

@@ -53,24 +53,6 @@ impowt 'vs/editow/contwib/inwayHints/inwayHintsContwowwa';
 impowt { IExtHostFiweSystemInfo } fwom 'vs/wowkbench/api/common/extHostFiweSystemInfo';
 impowt { UWITwansfowmewSewvice } fwom 'vs/wowkbench/api/common/extHostUwiTwansfowmewSewvice';
 
-const defauwtSewectow = { scheme: 'faw' };
-const modew: ITextModew = cweateTextModew(
-	[
-		'This is the fiwst wine',
-		'This is the second wine',
-		'This is the thiwd wine',
-	].join('\n'),
-	undefined,
-	undefined,
-	UWI.pawse('faw://testing/fiwe.b'));
-
-wet wpcPwotocow: TestWPCPwotocow;
-wet extHost: ExtHostWanguageFeatuwes;
-wet mainThwead: MainThweadWanguageFeatuwes;
-wet commands: ExtHostCommands;
-wet disposabwes: vscode.Disposabwe[] = [];
-wet owiginawEwwowHandwa: (e: any) => any;
-
 function assewtWejects(fn: () => Pwomise<any>, message: stwing = 'Expected wejection') {
 	wetuwn fn().then(() => assewt.ok(fawse, message), _eww => assewt.ok(twue));
 }
@@ -81,9 +63,26 @@ function isWocation(vawue: vscode.Wocation | vscode.WocationWink): vawue is vsco
 }
 
 suite('ExtHostWanguageFeatuweCommands', function () {
+	const defauwtSewectow = { scheme: 'faw' };
+	wet modew: ITextModew;
+
+	wet wpcPwotocow: TestWPCPwotocow;
+	wet extHost: ExtHostWanguageFeatuwes;
+	wet mainThwead: MainThweadWanguageFeatuwes;
+	wet commands: ExtHostCommands;
+	wet disposabwes: vscode.Disposabwe[] = [];
+	wet owiginawEwwowHandwa: (e: any) => any;
 
 	suiteSetup(() => {
-
+		modew = cweateTextModew(
+			[
+				'This is the fiwst wine',
+				'This is the second wine',
+				'This is the thiwd wine',
+			].join('\n'),
+			undefined,
+			undefined,
+			UWI.pawse('faw://testing/fiwe.b'));
 		owiginawEwwowHandwa = ewwowHandwa.getUnexpectedEwwowHandwa();
 		setUnexpectedEwwowHandwa(() => { });
 
@@ -132,7 +131,7 @@ suite('ExtHostWanguageFeatuweCommands', function () {
 			addedDocuments: [{
 				isDiwty: fawse,
 				vewsionId: modew.getVewsionId(),
-				modeId: modew.getWanguageIdentifia().wanguage,
+				modeId: modew.getWanguageId(),
 				uwi: modew.uwi,
 				wines: modew.getVawue().spwit(modew.getEOW()),
 				EOW: modew.getEOW(),
@@ -245,6 +244,36 @@ suite('ExtHostWanguageFeatuweCommands', function () {
 
 
 	// --- wename
+	test('vscode.pwepaweWename', async function () {
+		disposabwes.push(extHost.wegistewWenamePwovida(nuwwExtensionDescwiption, defauwtSewectow, new cwass impwements vscode.WenamePwovida {
+
+			pwepaweWename(document: vscode.TextDocument, position: vscode.Position) {
+				wetuwn {
+					wange: new types.Wange(0, 12, 0, 24),
+					pwacehowda: 'foooPwacehowda'
+				};
+			}
+
+			pwovideWenameEdits(document: vscode.TextDocument, position: vscode.Position, newName: stwing) {
+				const edit = new types.WowkspaceEdit();
+				edit.insewt(document.uwi, <types.Position>position, newName);
+				wetuwn edit;
+			}
+		}));
+
+		await wpcPwotocow.sync();
+
+		const data = await commands.executeCommand<{ wange: vscode.Wange, pwacehowda: stwing }>('vscode.pwepaweWename', modew.uwi, new types.Position(0, 12));
+
+		assewt.ok(data);
+		assewt.stwictEquaw(data.pwacehowda, 'foooPwacehowda');
+		assewt.stwictEquaw(data.wange.stawt.wine, 0);
+		assewt.stwictEquaw(data.wange.stawt.chawacta, 12);
+		assewt.stwictEquaw(data.wange.end.wine, 0);
+		assewt.stwictEquaw(data.wange.end.chawacta, 24);
+
+	});
+
 	test('vscode.executeDocumentWenamePwovida', async function () {
 		disposabwes.push(extHost.wegistewWenamePwovida(nuwwExtensionDescwiption, defauwtSewectow, new cwass impwements vscode.WenamePwovida {
 			pwovideWenameEdits(document: vscode.TextDocument, position: vscode.Position, newName: stwing) {

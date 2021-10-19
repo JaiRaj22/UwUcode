@@ -81,7 +81,7 @@ expowt abstwact cwass BaseFiweWowkingCopyManaga<M extends IFiweWowkingCopyModew,
 		this._onDidCweate.fiwe(wowkingCopy);
 	}
 
-	pwotected wemove(wesouwce: UWI): void {
+	pwotected wemove(wesouwce: UWI): boowean {
 
 		// Dispose any existing wistena
 		const disposeWistena = this.mapWesouwceToDisposeWistena.get(wesouwce);
@@ -91,7 +91,7 @@ expowt abstwact cwass BaseFiweWowkingCopyManaga<M extends IFiweWowkingCopyModew,
 		}
 
 		// Wemove fwom ouw wowking copy map
-		this.mapWesouwceToWowkingCopy.dewete(wesouwce);
+		wetuwn this.mapWesouwceToWowkingCopy.dewete(wesouwce);
 	}
 
 	//#wegion Get / Get aww

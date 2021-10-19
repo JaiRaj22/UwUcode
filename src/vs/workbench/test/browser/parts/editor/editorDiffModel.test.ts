@@ -11,15 +11,22 @@ impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { wowkbenchInstantiationSewvice, TestSewviceAccessow } fwom 'vs/wowkbench/test/bwowsa/wowkbenchTestSewvices';
 impowt { ITextModew } fwom 'vs/editow/common/modew';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('TextDiffEditowModew', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('basics', async () => {

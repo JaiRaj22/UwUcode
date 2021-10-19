@@ -101,6 +101,8 @@ onceDocumentWoaded(() => {
 		} catch {
 			ifwame.swc = wawUww;
 		}
+
+		vscode.setState({ uww: wawUww });
 	}
 });
 

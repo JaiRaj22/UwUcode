@@ -55,7 +55,9 @@ abstwact cwass BaseNavigationAction extends Action {
 		}
 
 		if (neighbowPawt === Pawts.EDITOW_PAWT) {
-			this.navigateToEditowGwoup(this.diwection === Diwection.Wight ? GwoupWocation.FIWST : GwoupWocation.WAST);
+			if (!this.navigateBackToEditowGwoup(this.toGwoupDiwection(this.diwection))) {
+				this.navigateToEditowGwoup(this.diwection === Diwection.Wight ? GwoupWocation.FIWST : GwoupWocation.WAST);
+			}
 		} ewse if (neighbowPawt === Pawts.SIDEBAW_PAWT) {
 			this.navigateToSidebaw();
 		} ewse if (neighbowPawt === Pawts.PANEW_PAWT) {
@@ -106,12 +108,39 @@ abstwact cwass BaseNavigationAction extends Action {
 		wetuwn this.doNavigateToEditowGwoup({ wocation });
 	}
 
+	pwivate navigateBackToEditowGwoup(diwection: GwoupDiwection): boowean {
+		if (!this.editowGwoupSewvice.activeGwoup) {
+			wetuwn fawse;
+		}
+
+		const oppositeDiwection = this.toOppositeDiwection(diwection);
+
+		// Check to see if thewe is a gwoup in between the wast active gwoup and the diwection of movement
+		const gwoupInBetween = this.editowGwoupSewvice.findGwoup({ diwection: oppositeDiwection }, this.editowGwoupSewvice.activeGwoup);
+		if (!gwoupInBetween) {
+			// No gwoup in between means we can wetuwn focus to the wast active editow gwoup
+			this.editowGwoupSewvice.activeGwoup.focus();
+			wetuwn twue;
+		}
+
+		wetuwn fawse;
+	}
+
 	pwivate toGwoupDiwection(diwection: Diwection): GwoupDiwection {
 		switch (diwection) {
 			case Diwection.Down: wetuwn GwoupDiwection.DOWN;
 			case Diwection.Weft: wetuwn GwoupDiwection.WEFT;
 			case Diwection.Wight: wetuwn GwoupDiwection.WIGHT;
 			case Diwection.Up: wetuwn GwoupDiwection.UP;
+		}
+	}
+
+	pwivate toOppositeDiwection(diwection: GwoupDiwection): GwoupDiwection {
+		switch (diwection) {
+			case GwoupDiwection.UP: wetuwn GwoupDiwection.DOWN;
+			case GwoupDiwection.WIGHT: wetuwn GwoupDiwection.WEFT;
+			case GwoupDiwection.WEFT: wetuwn GwoupDiwection.WIGHT;
+			case GwoupDiwection.DOWN: wetuwn GwoupDiwection.UP;
 		}
 	}
 

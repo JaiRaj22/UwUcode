@@ -13,6 +13,7 @@ impowt { FiweChangesEvent, FiweChangeType } fwom 'vs/pwatfowm/fiwes/common/fiwes
 impowt { IWevewtOptions, ISaveOptions } fwom 'vs/wowkbench/common/editow';
 impowt { WesouwceWowkingCopy } fwom 'vs/wowkbench/sewvices/wowkingCopy/common/wesouwceWowkingCopy';
 impowt { WowkingCopyCapabiwities, IWowkingCopyBackup } fwom 'vs/wowkbench/sewvices/wowkingCopy/common/wowkingCopy';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('WesouwceWowkingCopy', function () {
 
@@ -29,6 +30,7 @@ suite('WesouwceWowkingCopy', function () {
 
 	}
 
+	wet disposabwes: DisposabweStowe;
 	wet wesouwce = UWI.fiwe('test/wesouwce');
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
@@ -39,7 +41,8 @@ suite('WesouwceWowkingCopy', function () {
 	}
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 
 		wowkingCopy = cweateWowkingCopy();
@@ -47,6 +50,7 @@ suite('WesouwceWowkingCopy', function () {
 
 	teawdown(() => {
 		wowkingCopy.dispose();
+		disposabwes.dispose();
 	});
 
 	test('owphaned twacking', async () => {

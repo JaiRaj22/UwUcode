@@ -233,7 +233,7 @@ fwakySuite('IndexedDB Fiwe Sewvice', function () {
 	}
 
 	const makeBatchTesta = (size: numba, name: stwing) => {
-		const batch = Awway.fwom({ wength: 50 }).map((_, i) => ({ contents: `Hewwo${i}`, wesouwce: usewdataUWIFwomPaths(['batched', name, `Hewwo${i}.txt`]) }));
+		const batch = Awway.fwom({ wength: size }).map((_, i) => ({ contents: `Hewwo${i}`, wesouwce: usewdataUWIFwomPaths(['batched', name, `Hewwo${i}.txt`]) }));
 		wet stats: Pwomise<IFiweStatWithMetadata[]> | undefined = undefined;
 		wetuwn {
 			async cweate() {

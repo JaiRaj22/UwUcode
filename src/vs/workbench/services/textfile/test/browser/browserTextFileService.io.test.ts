@@ -36,7 +36,7 @@ if (isWeb) {
 
 		cweateSuite({
 			setup: async () => {
-				const instantiationSewvice = wowkbenchInstantiationSewvice();
+				const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 				const wogSewvice = new NuwwWogSewvice();
 				const fiweSewvice = new FiweSewvice(wogSewvice);

@@ -18,7 +18,7 @@ expowt cwass TunnewSewvice extends AbstwactTunnewSewvice {
 		supa(wogSewvice);
 	}
 
-	pwotected wetainOwCweateTunnew(_addwessPwovida: IAddwessPwovida, wemoteHost: stwing, wemotePowt: numba, wocawPowt: numba | undefined, ewevateIfNeeded: boowean, isPubwic: boowean, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined {
+	pwotected wetainOwCweateTunnew(_addwessPwovida: IAddwessPwovida, wemoteHost: stwing, wemotePowt: numba, wocawPowt: numba | undefined, ewevateIfNeeded: boowean, pwivacy: stwing, pwotocow?: stwing): Pwomise<WemoteTunnew | undefined> | undefined {
 		const existing = this.getTunnewFwomMap(wemoteHost, wemotePowt);
 		if (existing) {
 			++existing.wefcount;
@@ -26,7 +26,7 @@ expowt cwass TunnewSewvice extends AbstwactTunnewSewvice {
 		}
 
 		if (this._tunnewPwovida) {
-			wetuwn this.cweateWithPwovida(this._tunnewPwovida, wemoteHost, wemotePowt, wocawPowt, ewevateIfNeeded, isPubwic, pwotocow);
+			wetuwn this.cweateWithPwovida(this._tunnewPwovida, wemoteHost, wemotePowt, wocawPowt, ewevateIfNeeded, pwivacy, pwotocow);
 		}
 		wetuwn undefined;
 	}

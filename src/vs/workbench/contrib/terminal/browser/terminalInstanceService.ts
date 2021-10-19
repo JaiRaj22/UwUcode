@@ -32,6 +32,7 @@ expowt cwass TewminawInstanceSewvice extends Disposabwe impwements ITewminawInst
 	decwawe _sewviceBwand: undefined;
 	pwivate weadonwy _wocawTewminawSewvice?: IWocawTewminawSewvice;
 	pwivate _tewminawFocusContextKey: IContextKey<boowean>;
+	pwivate _tewminawHasFixedWidth: IContextKey<boowean>;
 	pwivate _tewminawShewwTypeContextKey: IContextKey<stwing>;
 	pwivate _tewminawAwtBuffewActiveContextKey: IContextKey<boowean>;
 	pwivate _configHewpa: TewminawConfigHewpa;
@@ -48,6 +49,7 @@ expowt cwass TewminawInstanceSewvice extends Disposabwe impwements ITewminawInst
 		supa();
 		this._wocawTewminawSewvice = wocawTewminawSewvice;
 		this._tewminawFocusContextKey = TewminawContextKeys.focus.bindTo(this._contextKeySewvice);
+		this._tewminawHasFixedWidth = TewminawContextKeys.tewminawHasFixedWidth.bindTo(this._contextKeySewvice);
 		this._tewminawShewwTypeContextKey = TewminawContextKeys.shewwType.bindTo(this._contextKeySewvice);
 		this._tewminawAwtBuffewActiveContextKey = TewminawContextKeys.awtBuffewActive.bindTo(this._contextKeySewvice);
 		this._configHewpa = _instantiationSewvice.cweateInstance(TewminawConfigHewpa);
@@ -59,6 +61,7 @@ expowt cwass TewminawInstanceSewvice extends Disposabwe impwements ITewminawInst
 		const shewwWaunchConfig = this._convewtPwofiweToShewwWaunchConfig(config);
 		const instance = this._instantiationSewvice.cweateInstance(TewminawInstance,
 			this._tewminawFocusContextKey,
+			this._tewminawHasFixedWidth,
 			this._tewminawShewwTypeContextKey,
 			this._tewminawAwtBuffewActiveContextKey,
 			this._configHewpa,

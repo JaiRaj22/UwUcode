@@ -13,7 +13,8 @@ impowt { DwopdownMenu, IActionPwovida, IDwopdownMenuOptions, IWabewWendewa } fwo
 impowt { Action, IAction, IActionWunna } fwom 'vs/base/common/actions';
 impowt { Codicon } fwom 'vs/base/common/codicons';
 impowt { Emitta } fwom 'vs/base/common/event';
-impowt { KeyCode, WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt 'vs/css!./dwopdown';
 

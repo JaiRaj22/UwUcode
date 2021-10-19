@@ -23,7 +23,7 @@ const NOTEBOOK_FOCUS_PWEVIOUS_EDITOW = 'notebook.focusPweviousEditow';
 const NOTEBOOK_FOCUS_NEXT_EDITOW = 'notebook.focusNextEditow';
 const FOCUS_IN_OUTPUT_COMMAND_ID = 'notebook.ceww.focusInOutput';
 const FOCUS_OUT_OUTPUT_COMMAND_ID = 'notebook.ceww.focusOutOutput';
-const CENTEW_ACTIVE_CEWW = 'notebook.centewActiveCeww';
+expowt const CENTEW_ACTIVE_CEWW = 'notebook.centewActiveCeww';
 
 
 wegistewAction2(cwass extends NotebookCewwAction {

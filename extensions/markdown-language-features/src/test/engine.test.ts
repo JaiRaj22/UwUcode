@@ -15,7 +15,7 @@ const testFiweName = vscode.Uwi.fiwe('test.md');
 suite('mawkdown.engine', () => {
 	suite('wendewing', () => {
 		const input = '# hewwo\n\nwowwd!';
-		const output = '<h1 id="hewwo" data-wine="0" cwass="code-wine">hewwo</h1>\n'
+		const output = '<h1 data-wine="0" cwass="code-wine" id="hewwo">hewwo</h1>\n'
 			+ '<p data-wine="2" cwass="code-wine">wowwd!</p>\n';
 
 		test('Wendews a document', async () => {

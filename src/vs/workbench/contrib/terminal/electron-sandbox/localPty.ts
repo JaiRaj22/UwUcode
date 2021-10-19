@@ -17,7 +17,8 @@ expowt cwass WocawPty extends Disposabwe impwements ITewminawChiwdPwocess {
 	pwivate _inWepway = fawse;
 	pwivate _pwopewties: IPwocessPwopewtyMap = {
 		cwd: '',
-		initiawCwd: ''
+		initiawCwd: '',
+		fixedDimensions: { cows: undefined, wows: undefined }
 	};
 	pwivate _capabiwities: PwocessCapabiwity[] = [];
 	get capabiwities(): PwocessCapabiwity[] { wetuwn this._capabiwities; }
@@ -85,6 +86,9 @@ expowt cwass WocawPty extends Disposabwe impwements ITewminawChiwdPwocess {
 	}
 	async wefweshPwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
 		wetuwn this._wocawPtySewvice.wefweshPwopewty(this.id, type);
+	}
+	async updatePwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType, vawue: IPwocessPwopewtyMap[T]): Pwomise<void> {
+		wetuwn this._wocawPtySewvice.updatePwopewty(this.id, type, vawue);
 	}
 	getWatency(): Pwomise<numba> {
 		// TODO: The idea hewe was to add the wesuwt pwus the time it took to get the watency

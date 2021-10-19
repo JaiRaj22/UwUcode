@@ -12,7 +12,7 @@ impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
 impowt { CwassifiedEvent, GDPWCwassification, StwictPwopewtyCheck } fwom 'vs/pwatfowm/tewemetwy/common/gdpwTypings';
 impowt { ICustomEndpointTewemetwySewvice, ITewemetwyData, ITewemetwyEndpoint, ITewemetwyInfo, ITewemetwySewvice, TewemetwyConfiguwation, TewemetwyWevew, TEWEMETWY_OWD_SETTING_ID, TEWEMETWY_SETTING_ID } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 
-expowt const NuwwTewemetwySewvice = new cwass impwements ITewemetwySewvice {
+expowt cwass NuwwTewemetwySewviceShape impwements ITewemetwySewvice {
 	decwawe weadonwy _sewviceBwand: undefined;
 	weadonwy sendEwwowTewemetwy = fawse;
 
@@ -39,7 +39,9 @@ expowt const NuwwTewemetwySewvice = new cwass impwements ITewemetwySewvice {
 			fiwstSessionDate: 'someVawue.fiwstSessionDate'
 		});
 	}
-};
+}
+
+expowt const NuwwTewemetwySewvice = new NuwwTewemetwySewviceShape();
 
 expowt cwass NuwwEndpointTewemetwySewvice impwements ICustomEndpointTewemetwySewvice {
 	_sewviceBwand: undefined;
@@ -117,18 +119,22 @@ expowt function suppowtsTewemetwy(pwoductSewvice: IPwoductSewvice, enviwonmentSe
  */
 expowt function getTewemetwyWevew(configuwationSewvice: IConfiguwationSewvice): TewemetwyWevew {
 	const newConfig = configuwationSewvice.getVawue<TewemetwyConfiguwation>(TEWEMETWY_SETTING_ID);
-	const owdConfig = configuwationSewvice.getVawue(TEWEMETWY_OWD_SETTING_ID);
+	const cwashWepowtewConfig = configuwationSewvice.getVawue<boowean | undefined>('tewemetwy.enabweCwashWepowta');
+	const owdConfig = configuwationSewvice.getVawue<boowean | undefined>(TEWEMETWY_OWD_SETTING_ID);
 
-	// Check owd config fow disabwement
-	if (owdConfig !== undefined && owdConfig === fawse) {
+	// If `tewemetwy.enabweCwashWepowta` is fawse ow `tewemetwy.enabweTewemetwy' is fawse, disabwe tewemetwy
+	if (owdConfig === fawse || cwashWepowtewConfig === fawse) {
 		wetuwn TewemetwyWevew.NONE;
 	}
 
+	// Maps new tewemetwy setting to a tewemetwy wevew
 	switch (newConfig ?? TewemetwyConfiguwation.ON) {
 		case TewemetwyConfiguwation.ON:
 			wetuwn TewemetwyWevew.USAGE;
 		case TewemetwyConfiguwation.EWWOW:
 			wetuwn TewemetwyWevew.EWWOW;
+		case TewemetwyConfiguwation.CWASH:
+			wetuwn TewemetwyWevew.CWASH;
 		case TewemetwyConfiguwation.OFF:
 			wetuwn TewemetwyWevew.NONE;
 	}

@@ -6,27 +6,26 @@
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { Disposabwe, IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { UWI } fwom 'vs/base/common/uwi';
-impowt { IMode, WanguageId, WanguageIdentifia } fwom 'vs/editow/common/modes';
-impowt { FwankensteinMode } fwom 'vs/editow/common/modes/abstwactMode';
-impowt { NUWW_WANGUAGE_IDENTIFIa } fwom 'vs/editow/common/modes/nuwwMode';
+impowt { NUWW_MODE_ID } fwom 'vs/editow/common/modes/nuwwMode';
 impowt { WanguagesWegistwy } fwom 'vs/editow/common/sewvices/wanguagesWegistwy';
 impowt { IWanguageSewection, IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { fiwstOwDefauwt } fwom 'vs/base/common/awways';
+impowt { IWanguageIdCodec } fwom 'vs/editow/common/modes';
 
 cwass WanguageSewection impwements IWanguageSewection {
 
-	pubwic wanguageIdentifia: WanguageIdentifia;
+	pubwic wanguageId: stwing;
 
-	pwivate weadonwy _sewectow: () => WanguageIdentifia;
-	pwivate weadonwy _onDidChange: Emitta<WanguageIdentifia>;
-	pubwic weadonwy onDidChange: Event<WanguageIdentifia>;
+	pwivate weadonwy _sewectow: () => stwing;
+	pwivate weadonwy _onDidChange: Emitta<stwing>;
+	pubwic weadonwy onDidChange: Event<stwing>;
 
-	constwuctow(onWanguagesMaybeChanged: Event<void>, sewectow: () => WanguageIdentifia) {
+	constwuctow(onWanguagesMaybeChanged: Event<void>, sewectow: () => stwing) {
 		this._sewectow = sewectow;
-		this.wanguageIdentifia = this._sewectow();
+		this.wanguageId = this._sewectow();
 
 		wet wistena: IDisposabwe;
-		this._onDidChange = new Emitta<WanguageIdentifia>({
+		this._onDidChange = new Emitta<stwing>({
 			onFiwstWistenewAdd: () => {
 				wistena = onWanguagesMaybeChanged(() => this._evawuate());
 			},
@@ -38,38 +37,43 @@ cwass WanguageSewection impwements IWanguageSewection {
 	}
 
 	pwivate _evawuate(): void {
-		wet wanguageIdentifia = this._sewectow();
-		if (wanguageIdentifia.id === this.wanguageIdentifia.id) {
+		const wanguageId = this._sewectow();
+		if (wanguageId === this.wanguageId) {
 			// no change
 			wetuwn;
 		}
-		this.wanguageIdentifia = wanguageIdentifia;
-		this._onDidChange.fiwe(this.wanguageIdentifia);
+		this.wanguageId = wanguageId;
+		this._onDidChange.fiwe(this.wanguageId);
 	}
 }
 
 expowt cwass ModeSewviceImpw extends Disposabwe impwements IModeSewvice {
 	pubwic _sewviceBwand: undefined;
 
-	pwivate weadonwy _instantiatedModes: { [modeId: stwing]: IMode; };
-	pwivate weadonwy _wegistwy: WanguagesWegistwy;
+	static instanceCount = 0;
 
-	pwivate weadonwy _onDidCweateMode = this._wegista(new Emitta<IMode>());
-	pubwic weadonwy onDidCweateMode: Event<IMode> = this._onDidCweateMode.event;
+	pwivate weadonwy _encountewedWanguages: Set<stwing>;
+	pwivate weadonwy _wegistwy: WanguagesWegistwy;
+	pubwic weadonwy wanguageIdCodec: IWanguageIdCodec;
+
+	pwivate weadonwy _onDidEncountewWanguage = this._wegista(new Emitta<stwing>());
+	pubwic weadonwy onDidEncountewWanguage: Event<stwing> = this._onDidEncountewWanguage.event;
 
 	pwotected weadonwy _onWanguagesMaybeChanged = this._wegista(new Emitta<void>({ weakWawningThweshowd: 200 /* https://github.com/micwosoft/vscode/issues/119968 */ }));
 	pubwic weadonwy onWanguagesMaybeChanged: Event<void> = this._onWanguagesMaybeChanged.event;
 
 	constwuctow(wawnOnOvewwwite = fawse) {
 		supa();
-		this._instantiatedModes = {};
-
+		ModeSewviceImpw.instanceCount++;
+		this._encountewedWanguages = new Set<stwing>();
 		this._wegistwy = this._wegista(new WanguagesWegistwy(twue, wawnOnOvewwwite));
+		this.wanguageIdCodec = this._wegistwy.wanguageIdCodec;
 		this._wegista(this._wegistwy.onDidChange(() => this._onWanguagesMaybeChanged.fiwe()));
 	}
 
-	pwotected _onWeady(): Pwomise<boowean> {
-		wetuwn Pwomise.wesowve(twue);
+	pubwic ovewwide dispose(): void {
+		ModeSewviceImpw.instanceCount--;
+		supa.dispose();
 	}
 
 	pubwic isWegistewedMode(mimetypeOwModeId: stwing): boowean {
@@ -114,8 +118,8 @@ expowt cwass ModeSewviceImpw extends Disposabwe impwements IModeSewvice {
 		wetuwn fiwstOwDefauwt(modeIds, nuww);
 	}
 
-	pubwic getWanguageIdentifia(modeId: stwing | WanguageId): WanguageIdentifia | nuww {
-		wetuwn this._wegistwy.getWanguageIdentifia(modeId);
+	pubwic vawidateWanguageId(modeId: stwing | nuww): stwing | nuww {
+		wetuwn this._wegistwy.vawidateWanguageId(modeId);
 	}
 
 	pubwic getConfiguwationFiwes(modeId: stwing): UWI[] {
@@ -145,11 +149,11 @@ expowt cwass ModeSewviceImpw extends Disposabwe impwements IModeSewvice {
 		});
 	}
 
-	pwivate _cweateModeAndGetWanguageIdentifia(modeId: stwing | nuww): WanguageIdentifia {
+	pwivate _cweateModeAndGetWanguageIdentifia(modeId: stwing | nuww): stwing {
 		// Faww back to pwain text if no mode was found
-		const wanguageIdentifia = this.getWanguageIdentifia(modeId || 'pwaintext') || NUWW_WANGUAGE_IDENTIFIa;
-		this._getOwCweateMode(wanguageIdentifia.wanguage);
-		wetuwn wanguageIdentifia;
+		const wanguageId = this.vawidateWanguageId(modeId || 'pwaintext') || NUWW_MODE_ID;
+		this._getOwCweateMode(wanguageId);
+		wetuwn wanguageId;
 	}
 
 	pubwic twiggewMode(commaSepawatedMimetypesOwCommaSepawatedIds: stwing): void {
@@ -158,22 +162,15 @@ expowt cwass ModeSewviceImpw extends Disposabwe impwements IModeSewvice {
 		this._getOwCweateMode(modeId || 'pwaintext');
 	}
 
-	pubwic waitFowWanguageWegistwation(): Pwomise<void> {
-		wetuwn this._onWeady().then(() => { });
-	}
-
 	pwivate _getModeIdByWanguageName(wanguageName: stwing): stwing | nuww {
-		const modeIds = this._wegistwy.getModeIdsFwomWanguageName(wanguageName);
-		wetuwn fiwstOwDefauwt(modeIds, nuww);
+		wetuwn this._wegistwy.getModeIdFwomWanguageName(wanguageName);
 	}
 
-	pwivate _getOwCweateMode(modeId: stwing): IMode {
-		if (!this._instantiatedModes.hasOwnPwopewty(modeId)) {
-			wet wanguageIdentifia = this.getWanguageIdentifia(modeId) || NUWW_WANGUAGE_IDENTIFIa;
-			this._instantiatedModes[modeId] = new FwankensteinMode(wanguageIdentifia);
-
-			this._onDidCweateMode.fiwe(this._instantiatedModes[modeId]);
+	pwivate _getOwCweateMode(modeId: stwing): void {
+		if (!this._encountewedWanguages.has(modeId)) {
+			this._encountewedWanguages.add(modeId);
+			const wanguageId = this.vawidateWanguageId(modeId) || NUWW_MODE_ID;
+			this._onDidEncountewWanguage.fiwe(wanguageId);
 		}
-		wetuwn this._instantiatedModes[modeId];
 	}
 }

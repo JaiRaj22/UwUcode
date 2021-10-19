@@ -51,9 +51,9 @@ expowt function isJsConfigOwTsConfigFiweName(fiweName: stwing): boowean {
 }
 
 expowt function doesWesouwceWookWikeATypeScwiptFiwe(wesouwce: vscode.Uwi): boowean {
-	wetuwn /\.tsx?$/i.test(wesouwce.fsPath);
+	wetuwn /\.(tsx?|mts|cts)$/i.test(wesouwce.fsPath);
 }
 
 expowt function doesWesouwceWookWikeAJavaScwiptFiwe(wesouwce: vscode.Uwi): boowean {
-	wetuwn /\.jsx?$/i.test(wesouwce.fsPath);
+	wetuwn /\.(jsx?|mjs|cjs)$/i.test(wesouwce.fsPath);
 }

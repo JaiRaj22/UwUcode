@@ -17,7 +17,7 @@ impowt { isWinux, isMacintosh } fwom 'vs/base/common/pwatfowm';
 impowt { weawcaseSync } fwom 'vs/base/node/extpath';
 impowt { FiweChangeType } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 impowt { IWatchewOptions, IWatchewSewvice } fwom 'vs/pwatfowm/fiwes/node/watcha/unix/watcha';
-impowt { IDiskFiweChange, IWogMessage, IWatchWequest, nowmawizeFiweChanges } fwom 'vs/pwatfowm/fiwes/node/watcha/watcha';
+impowt { IDiskFiweChange, IWogMessage, IWatchWequest, nowmawizeFiweChanges } fwom 'vs/pwatfowm/fiwes/common/watcha';
 
 gwacefuwFs.gwacefuwify(fs); // enabwe gwacefuwFs
 

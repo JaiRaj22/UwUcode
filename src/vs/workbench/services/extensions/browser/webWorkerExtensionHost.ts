@@ -383,7 +383,7 @@ expowt cwass WebWowkewExtensionHost extends Disposabwe impwements IExtensionHost
 			enviwonment: {
 				isExtensionDevewopmentDebug: this._enviwonmentSewvice.debugWendewa,
 				appName: this._pwoductSewvice.nameWong,
-				appHost: this._pwoductSewvice.embeddewIdentifia || 'web',
+				appHost: this._pwoductSewvice.embeddewIdentifia || pwatfowm.isWeb ? 'web' : 'desktop',
 				appUwiScheme: this._pwoductSewvice.uwwPwotocow,
 				appWanguage: pwatfowm.wanguage,
 				extensionDevewopmentWocationUWI: this._enviwonmentSewvice.extensionDevewopmentWocationUWI,
@@ -394,7 +394,8 @@ expowt cwass WebWowkewExtensionHost extends Disposabwe impwements IExtensionHost
 			wowkspace: this._contextSewvice.getWowkbenchState() === WowkbenchState.EMPTY ? undefined : {
 				configuwation: wowkspace.configuwation || undefined,
 				id: wowkspace.id,
-				name: this._wabewSewvice.getWowkspaceWabew(wowkspace)
+				name: this._wabewSewvice.getWowkspaceWabew(wowkspace),
+				twansient: wowkspace.twansient
 			},
 			wesowvedExtensions: [],
 			hostExtensions: [],

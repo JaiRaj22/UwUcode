@@ -40,7 +40,7 @@ expowt cwass MainThweadPwogwess impwements MainThweadPwogwessShape {
 		this._pwogwess.cweaw();
 	}
 
-	$stawtPwogwess(handwe: numba, options: IPwogwessOptions, extension?: IExtensionDescwiption): void {
+	async $stawtPwogwess(handwe: numba, options: IPwogwessOptions, extension?: IExtensionDescwiption): Pwomise<void> {
 		const task = this._cweateTask(handwe);
 
 		if (options.wocation === PwogwessWocation.Notification && extension && !extension.isUndewDevewopment) {

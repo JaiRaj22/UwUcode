@@ -30,6 +30,8 @@ impowt { Mimes } fwom 'vs/base/common/mime';
 impowt { WanguageDetectionSewvice } fwom 'vs/wowkbench/sewvices/wanguageDetection/bwowsa/wanguageDetectionWowkewSewviceImpw';
 impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
 impowt { TestAccessibiwitySewvice, TestEnviwonmentSewvice } fwom 'vs/wowkbench/test/bwowsa/wowkbenchTestSewvices';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
+impowt { IWanguageConfiguwationSewvice } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 
 suite('EditowModew', () => {
 
@@ -55,6 +57,7 @@ suite('EditowModew', () => {
 		instantiationSewvice.stub(INotificationSewvice, notificationSewvice);
 		instantiationSewvice.stub(IUndoWedoSewvice, undoWedoSewvice);
 		instantiationSewvice.stub(IThemeSewvice, new TestThemeSewvice());
+		instantiationSewvice.stub(IWanguageConfiguwationSewvice, new TestWanguageConfiguwationSewvice());
 
 		wetuwn instantiationSewvice.cweateInstance(ModewSewviceImpw);
 	}

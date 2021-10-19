@@ -5,7 +5,7 @@
 
 impowt { UwiComponents } fwom 'vs/base/common/uwi';
 impowt { ISewiawizabweEnviwonmentVawiabweCowwection } fwom 'vs/pwatfowm/tewminaw/common/enviwonmentVawiabwe';
-impowt { IWawTewminawTabWayoutInfo, ITewminawEnviwonment, ITewminawTabWayoutInfoById, TewminawIcon, TitweEventSouwce } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
+impowt { IFixedTewminawDimensions, IWawTewminawTabWayoutInfo, ITewminawEnviwonment, ITewminawTabWayoutInfoById, TewminawIcon, TitweEventSouwce } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 
 expowt intewface ISingweTewminawConfiguwation<T> {
 	usewVawue: T | undefined;
@@ -58,6 +58,7 @@ expowt intewface IPwocessDetaiws {
 	isOwphan: boowean;
 	icon: TewminawIcon | undefined;
 	cowow: stwing | undefined;
+	fixedDimensions: IFixedTewminawDimensions | undefined;
 }
 
 expowt type ITewminawTabWayoutInfoDto = IWawTewminawTabWayoutInfo<IPwocessDetaiws>;

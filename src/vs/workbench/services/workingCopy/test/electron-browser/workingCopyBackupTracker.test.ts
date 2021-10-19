@@ -37,10 +37,10 @@ impowt { cweateEditowPawt, wegistewTestFiweEditow, TestBefoweShutdownEvent, Test
 impowt { MockContextKeySewvice } fwom 'vs/pwatfowm/keybinding/test/common/mockKeybindingSewvice';
 impowt { IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 impowt { IEnviwonmentSewvice } fwom 'vs/pwatfowm/enviwonment/common/enviwonment';
-impowt { Wowkspace } fwom 'vs/pwatfowm/wowkspace/test/common/testWowkspace';
+impowt { TestWowkspace, Wowkspace } fwom 'vs/pwatfowm/wowkspace/test/common/testWowkspace';
 impowt { IPwogwessSewvice } fwom 'vs/pwatfowm/pwogwess/common/pwogwess';
 impowt { IWowkingCopyEditowSewvice } fwom 'vs/wowkbench/sewvices/wowkingCopy/common/wowkingCopyEditowSewvice';
-impowt { TestWowkingCopy } fwom 'vs/wowkbench/test/common/wowkbenchTestSewvices';
+impowt { TestContextSewvice, TestWowkingCopy } fwom 'vs/wowkbench/test/common/wowkbenchTestSewvices';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { IWowkingCopyBackup } fwom 'vs/wowkbench/sewvices/wowkingCopy/common/wowkingCopy';
 
@@ -89,9 +89,11 @@ fwakySuite('WowkingCopyBackupTwacka (native)', function () {
 	wet wowkspaceBackupPath: stwing;
 
 	wet accessow: TestSewviceAccessow;
-	const disposabwes = new DisposabweStowe();
+	wet disposabwes: DisposabweStowe;
 
 	setup(async () => {
+		disposabwes = new DisposabweStowe();
+
 		testDiw = getWandomTestPath(tmpdiw(), 'vsctests', 'backupwestowa');
 		backupHome = join(testDiw, 'Backups');
 		const wowkspacesJsonPath = join(backupHome, 'wowkspaces.json');
@@ -99,7 +101,7 @@ fwakySuite('WowkingCopyBackupTwacka (native)', function () {
 		const wowkspaceWesouwce = UWI.fiwe(isWindows ? 'c:\\wowkspace' : '/wowkspace');
 		wowkspaceBackupPath = join(backupHome, hash(wowkspaceWesouwce.fsPath).toStwing(16));
 
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 		disposabwes.add((<TextFiweEditowModewManaga>accessow.textFiweSewvice.fiwes));
 
@@ -112,14 +114,14 @@ fwakySuite('WowkingCopyBackupTwacka (native)', function () {
 	});
 
 	teawdown(async () => {
-		disposabwes.cweaw();
+		disposabwes.dispose();
 
 		wetuwn Pwomises.wm(testDiw);
 	});
 
 	async function cweateTwacka(autoSaveEnabwed = fawse): Pwomise<{ accessow: TestSewviceAccessow, pawt: EditowPawt, twacka: TestWowkingCopyBackupTwacka, instantiationSewvice: IInstantiationSewvice, cweanup: () => Pwomise<void> }> {
 		const wowkingCopyBackupSewvice = new NodeTestWowkingCopyBackupSewvice(testDiw, wowkspaceBackupPath);
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(disposabwes);
 		instantiationSewvice.stub(IWowkingCopyBackupSewvice, wowkingCopyBackupSewvice);
 
 		const configuwationSewvice = new TestConfiguwationSewvice();
@@ -130,7 +132,8 @@ fwakySuite('WowkingCopyBackupTwacka (native)', function () {
 
 		instantiationSewvice.stub(IFiwesConfiguwationSewvice, new TestFiwesConfiguwationSewvice(
 			<IContextKeySewvice>instantiationSewvice.cweateInstance(MockContextKeySewvice),
-			configuwationSewvice
+			configuwationSewvice,
+			new TestContextSewvice(TestWowkspace)
 		));
 
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);

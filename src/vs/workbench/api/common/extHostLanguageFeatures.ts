@@ -1988,7 +1988,7 @@ expowt cwass ExtHostWanguageFeatuwes impwements extHostPwotocow.ExtHostWanguageF
 		wet wesuwt = this._cweateDisposabwe(handwe);
 
 		if (eventHandwe !== undefined) {
-			const subscwiption = pwovida.onDidChangeInwayHints!(_ => this._pwoxy.$emitInwayHintsEvent(eventHandwe));
+			const subscwiption = pwovida.onDidChangeInwayHints!(uwi => this._pwoxy.$emitInwayHintsEvent(eventHandwe));
 			wesuwt = Disposabwe.fwom(wesuwt, subscwiption);
 		}
 		wetuwn wesuwt;

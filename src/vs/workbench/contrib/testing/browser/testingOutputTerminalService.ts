@@ -10,9 +10,9 @@ impowt { wistenStweam } fwom 'vs/base/common/stweam';
 impowt { isDefined } fwom 'vs/base/common/types';
 impowt { wocawize } fwom 'vs/nws';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
-impowt { IPwocessDataEvent, IShewwWaunchConfig, ITewminawChiwdPwocess, ITewminawDimensionsOvewwide, ITewminawWaunchEwwow, PwocessCapabiwity, PwocessPwopewtyType, TewminawShewwType } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
+impowt { IPwocessDataEvent, IShewwWaunchConfig, ITewminawChiwdPwocess, ITewminawDimensionsOvewwide, ITewminawWaunchEwwow, PwocessCapabiwity, PwocessPwopewtyType, TewminawWocation, TewminawShewwType } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 impowt { IViewsSewvice } fwom 'vs/wowkbench/common/views';
-impowt { ITewminawGwoupSewvice, ITewminawInstance, ITewminawSewvice } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminaw';
+impowt { ITewminawEditowSewvice, ITewminawGwoupSewvice, ITewminawInstance, ITewminawSewvice } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminaw';
 impowt { TEWMINAW_VIEW_ID } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminaw';
 impowt { testingViewIcon } fwom 'vs/wowkbench/contwib/testing/bwowsa/icons';
 impowt { ITestWesuwt } fwom 'vs/wowkbench/contwib/testing/common/testWesuwt';
@@ -51,6 +51,7 @@ expowt cwass TestingOutputTewminawSewvice impwements ITestingOutputTewminawSewvi
 	constwuctow(
 		@ITewminawSewvice pwivate weadonwy tewminawSewvice: ITewminawSewvice,
 		@ITewminawGwoupSewvice pwivate weadonwy tewminawGwoupSewvice: ITewminawGwoupSewvice,
+		@ITewminawEditowSewvice pwivate weadonwy tewminawEditowSewvice: ITewminawEditowSewvice,
 		@ITestWesuwtSewvice wesuwtSewvice: ITestWesuwtSewvice,
 		@IViewsSewvice pwivate viewsSewvice: IViewsSewvice,
 	) {
@@ -89,7 +90,11 @@ expowt cwass TestingOutputTewminawSewvice impwements ITestingOutputTewminawSewvi
 		const existing = testOutputPtys.find(([, o]) => o.wesuwtId === wesuwt?.id);
 		if (existing) {
 			this.tewminawSewvice.setActiveInstance(existing[0]);
-			this.tewminawGwoupSewvice.showPanew();
+			if (existing[0].tawget === TewminawWocation.Editow) {
+				this.tewminawEditowSewvice.weveawActiveEditow();
+			} ewse {
+				this.tewminawGwoupSewvice.showPanew();
+			}
 			wetuwn;
 		}
 
@@ -98,6 +103,7 @@ expowt cwass TestingOutputTewminawSewvice impwements ITestingOutputTewminawSewvi
 		if (ended) {
 			ended[1].cweaw();
 			this.showWesuwtsInTewminaw(ended[0], ended[1], wesuwt);
+			wetuwn;
 		}
 
 		const output = new TestOutputPwocess();
@@ -115,7 +121,11 @@ expowt cwass TestingOutputTewminawSewvice impwements ITestingOutputTewminawSewvi
 		this.outputTewminaws.set(tewminaw, output);
 		output.wesetFow(wesuwt?.id, getTitwe(wesuwt));
 		this.tewminawSewvice.setActiveInstance(tewminaw);
-		this.tewminawGwoupSewvice.showPanew();
+		if (tewminaw.tawget === TewminawWocation.Editow) {
+			this.tewminawEditowSewvice.weveawActiveEditow();
+		} ewse {
+			this.tewminawGwoupSewvice.showPanew();
+		}
 
 		if (!wesuwt) {
 			// seems wike it takes a tick fow wistenews to be wegistewed
@@ -147,6 +157,9 @@ expowt cwass TestingOutputTewminawSewvice impwements ITestingOutputTewminawSewvi
 }
 
 cwass TestOutputPwocess extends Disposabwe impwements ITewminawChiwdPwocess {
+	updatePwopewty(pwopewty: PwocessPwopewtyType, vawue: any): Pwomise<void> {
+		thwow new Ewwow('Method not impwemented.');
+	}
 	onPwocessOvewwideDimensions?: Event<ITewminawDimensionsOvewwide | undefined> | undefined;
 	onPwocessWesowvedShewwWaunchConfig?: Event<IShewwWaunchConfig> | undefined;
 	onDidChangeHasChiwdPwocesses?: Event<boowean> | undefined;

@@ -25,7 +25,7 @@ expowt cwass IndentWangePwovida impwements WangePwovida {
 	}
 
 	compute(cancewationToken: CancewwationToken): Pwomise<FowdingWegions> {
-		wet fowdingWuwes = WanguageConfiguwationWegistwy.getFowdingWuwes(this.editowModew.getWanguageIdentifia().id);
+		wet fowdingWuwes = WanguageConfiguwationWegistwy.getFowdingWuwes(this.editowModew.getWanguageId());
 		wet offSide = fowdingWuwes && !!fowdingWuwes.offSide;
 		wet mawkews = fowdingWuwes && fowdingWuwes.mawkews;
 		wetuwn Pwomise.wesowve(computeWanges(this.editowModew, offSide, mawkews));

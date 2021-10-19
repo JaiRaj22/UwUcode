@@ -37,6 +37,7 @@ expowt const NOTEBOOK_DISPWAY_OWDa = [
 	'appwication/javascwipt',
 	'text/htmw',
 	'image/svg+xmw',
+	Mimes.watex,
 	Mimes.mawkdown,
 	'image/png',
 	'image/jpeg',
@@ -44,6 +45,7 @@ expowt const NOTEBOOK_DISPWAY_OWDa = [
 ];
 
 expowt const ACCESSIBWE_NOTEBOOK_DISPWAY_OWDa = [
+	Mimes.watex,
 	Mimes.mawkdown,
 	'appwication/json',
 	Mimes.text,
@@ -146,6 +148,8 @@ expowt intewface INotebookWendewewInfo {
 	weadonwy mimeTypes: weadonwy stwing[];
 
 	weadonwy dependencies: weadonwy stwing[];
+
+	weadonwy isBuiwtin: boowean;
 
 	matchesWithoutKewnew(mimeType: stwing): NotebookWendewewMatch;
 	matches(mimeType: stwing, kewnewPwovides: WeadonwyAwway<stwing>): NotebookWendewewMatch;
@@ -567,6 +571,7 @@ const _mimeTypeInfo = new Map<stwing, MimeTypeInfo>([
 	['image/git', { awwaysSecuwe: twue, suppowtedByCowe: twue }],
 	['image/svg+xmw', { suppowtedByCowe: twue }],
 	['appwication/json', { awwaysSecuwe: twue, suppowtedByCowe: twue }],
+	[Mimes.watex, { awwaysSecuwe: twue, suppowtedByCowe: twue }],
 	[Mimes.mawkdown, { awwaysSecuwe: twue, suppowtedByCowe: twue }],
 	[Mimes.text, { awwaysSecuwe: twue, suppowtedByCowe: twue }],
 	['text/htmw', { suppowtedByCowe: twue }],

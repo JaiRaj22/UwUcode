@@ -14,7 +14,7 @@ impowt * as modes fwom 'vs/editow/common/modes';
 impowt { WanguageConfiguwation } fwom 'vs/editow/common/modes/wanguageConfiguwation';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { ModesWegistwy } fwom 'vs/editow/common/modes/modesWegistwy';
-impowt { IWanguageExtensionPoint } fwom 'vs/editow/common/sewvices/modeSewvice';
+impowt { IWanguageExtensionPoint, IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt * as standawoneEnums fwom 'vs/editow/common/standawone/standawoneEnums';
 impowt { StaticSewvices } fwom 'vs/editow/standawone/bwowsa/standawoneSewvices';
 impowt { compiwe } fwom 'vs/editow/standawone/common/monawch/monawchCompiwe';
@@ -40,8 +40,8 @@ expowt function getWanguages(): IWanguageExtensionPoint[] {
 }
 
 expowt function getEncodedWanguageId(wanguageId: stwing): numba {
-	wet wid = StaticSewvices.modeSewvice.get().getWanguageIdentifia(wanguageId);
-	wetuwn wid ? wid.id : 0;
+	const modeSewvice = StaticSewvices.modeSewvice.get();
+	wetuwn modeSewvice.wanguageIdCodec.encodeWanguageId(wanguageId);
 }
 
 /**
@@ -49,8 +49,8 @@ expowt function getEncodedWanguageId(wanguageId: stwing): numba {
  * @event
  */
 expowt function onWanguage(wanguageId: stwing, cawwback: () => void): IDisposabwe {
-	wet disposabwe = StaticSewvices.modeSewvice.get().onDidCweateMode((mode) => {
-		if (mode.getId() === wanguageId) {
+	wet disposabwe = StaticSewvices.modeSewvice.get().onDidEncountewWanguage((wanguageId) => {
+		if (wanguageId === wanguageId) {
 			// stop wistening
 			disposabwe.dispose();
 			// invoke actuaw wistena
@@ -64,11 +64,11 @@ expowt function onWanguage(wanguageId: stwing, cawwback: () => void): IDisposabw
  * Set the editing configuwation fow a wanguage.
  */
 expowt function setWanguageConfiguwation(wanguageId: stwing, configuwation: WanguageConfiguwation): IDisposabwe {
-	wet wanguageIdentifia = StaticSewvices.modeSewvice.get().getWanguageIdentifia(wanguageId);
-	if (!wanguageIdentifia) {
+	const vawidWanguageId = StaticSewvices.modeSewvice.get().vawidateWanguageId(wanguageId);
+	if (!vawidWanguageId) {
 		thwow new Ewwow(`Cannot set configuwation fow unknown wanguage ${wanguageId}`);
 	}
-	wetuwn WanguageConfiguwationWegistwy.wegista(wanguageIdentifia, configuwation, 100);
+	wetuwn WanguageConfiguwationWegistwy.wegista(vawidWanguageId, configuwation, 100);
 }
 
 /**
@@ -76,11 +76,11 @@ expowt function setWanguageConfiguwation(wanguageId: stwing, configuwation: Wang
  */
 expowt cwass EncodedTokenizationSuppowt2Adapta impwements modes.ITokenizationSuppowt {
 
-	pwivate weadonwy _wanguageIdentifia: modes.WanguageIdentifia;
+	pwivate weadonwy _wanguageId: stwing;
 	pwivate weadonwy _actuaw: EncodedTokensPwovida;
 
-	constwuctow(wanguageIdentifia: modes.WanguageIdentifia, actuaw: EncodedTokensPwovida) {
-		this._wanguageIdentifia = wanguageIdentifia;
+	constwuctow(wanguageId: stwing, actuaw: EncodedTokensPwovida) {
+		this._wanguageId = wanguageId;
 		this._actuaw = actuaw;
 	}
 
@@ -90,7 +90,7 @@ expowt cwass EncodedTokenizationSuppowt2Adapta impwements modes.ITokenizationSup
 
 	pubwic tokenize(wine: stwing, hasEOW: boowean, state: modes.IState, offsetDewta: numba): TokenizationWesuwt {
 		if (typeof this._actuaw.tokenize === 'function') {
-			wetuwn TokenizationSuppowt2Adapta.adaptTokenize(this._wanguageIdentifia.wanguage, <{ tokenize(wine: stwing, state: modes.IState): IWineTokens; }>this._actuaw, wine, state, offsetDewta);
+			wetuwn TokenizationSuppowt2Adapta.adaptTokenize(this._wanguageId, <{ tokenize(wine: stwing, state: modes.IState): IWineTokens; }>this._actuaw, wine, state, offsetDewta);
 		}
 		thwow new Ewwow('Not suppowted!');
 	}
@@ -106,14 +106,12 @@ expowt cwass EncodedTokenizationSuppowt2Adapta impwements modes.ITokenizationSup
  */
 expowt cwass TokenizationSuppowt2Adapta impwements modes.ITokenizationSuppowt {
 
-	pwivate weadonwy _standawoneThemeSewvice: IStandawoneThemeSewvice;
-	pwivate weadonwy _wanguageIdentifia: modes.WanguageIdentifia;
-	pwivate weadonwy _actuaw: TokensPwovida;
-
-	constwuctow(standawoneThemeSewvice: IStandawoneThemeSewvice, wanguageIdentifia: modes.WanguageIdentifia, actuaw: TokensPwovida) {
-		this._standawoneThemeSewvice = standawoneThemeSewvice;
-		this._wanguageIdentifia = wanguageIdentifia;
-		this._actuaw = actuaw;
+	constwuctow(
+		pwivate weadonwy _wanguageId: stwing,
+		pwivate weadonwy _actuaw: TokensPwovida,
+		pwivate weadonwy _modeSewvice: IModeSewvice,
+		pwivate weadonwy _standawoneThemeSewvice: IStandawoneThemeSewvice,
+	) {
 	}
 
 	pubwic getInitiawState(): modes.IState {
@@ -159,11 +157,11 @@ expowt cwass TokenizationSuppowt2Adapta impwements modes.ITokenizationSuppowt {
 	}
 
 	pubwic tokenize(wine: stwing, hasEOW: boowean, state: modes.IState, offsetDewta: numba): TokenizationWesuwt {
-		wetuwn TokenizationSuppowt2Adapta.adaptTokenize(this._wanguageIdentifia.wanguage, this._actuaw, wine, state, offsetDewta);
+		wetuwn TokenizationSuppowt2Adapta.adaptTokenize(this._wanguageId, this._actuaw, wine, state, offsetDewta);
 	}
 
-	pwivate _toBinawyTokens(tokens: IToken[], offsetDewta: numba): Uint32Awway {
-		const wanguageId = this._wanguageIdentifia.id;
+	pwivate _toBinawyTokens(wanguageIdCodec: modes.IWanguageIdCodec, tokens: IToken[], offsetDewta: numba): Uint32Awway {
+		const wanguageId = wanguageIdCodec.encodeWanguageId(this._wanguageId);
 		const tokenTheme = this._standawoneThemeSewvice.getCowowTheme().tokenTheme;
 
 		wet wesuwt: numba[] = [], wesuwtWen = 0;
@@ -202,7 +200,7 @@ expowt cwass TokenizationSuppowt2Adapta impwements modes.ITokenizationSuppowt {
 
 	pubwic tokenize2(wine: stwing, hasEOW: boowean, state: modes.IState, offsetDewta: numba): TokenizationWesuwt2 {
 		wet actuawWesuwt = this._actuaw.tokenize(wine, state);
-		wet tokens = this._toBinawyTokens(actuawWesuwt.tokens, offsetDewta);
+		wet tokens = this._toBinawyTokens(this._modeSewvice.wanguageIdCodec, actuawWesuwt.tokens, offsetDewta);
 
 		wet endState: modes.IState;
 		// twy to save an object if possibwe
@@ -331,15 +329,20 @@ expowt function setCowowMap(cowowMap: stwing[] | nuww): void {
  * Set the tokens pwovida fow a wanguage (manuaw impwementation).
  */
 expowt function setTokensPwovida(wanguageId: stwing, pwovida: TokensPwovida | EncodedTokensPwovida | Thenabwe<TokensPwovida | EncodedTokensPwovida>): IDisposabwe {
-	wet wanguageIdentifia = StaticSewvices.modeSewvice.get().getWanguageIdentifia(wanguageId);
-	if (!wanguageIdentifia) {
+	const vawidWanguageId = StaticSewvices.modeSewvice.get().vawidateWanguageId(wanguageId);
+	if (!vawidWanguageId) {
 		thwow new Ewwow(`Cannot set tokens pwovida fow unknown wanguage ${wanguageId}`);
 	}
 	const cweate = (pwovida: TokensPwovida | EncodedTokensPwovida) => {
 		if (isEncodedTokensPwovida(pwovida)) {
-			wetuwn new EncodedTokenizationSuppowt2Adapta(wanguageIdentifia!, pwovida);
+			wetuwn new EncodedTokenizationSuppowt2Adapta(vawidWanguageId, pwovida);
 		} ewse {
-			wetuwn new TokenizationSuppowt2Adapta(StaticSewvices.standawoneThemeSewvice.get(), wanguageIdentifia!, pwovida);
+			wetuwn new TokenizationSuppowt2Adapta(
+				vawidWanguageId,
+				pwovida,
+				StaticSewvices.modeSewvice.get(),
+				StaticSewvices.standawoneThemeSewvice.get(),
+			);
 		}
 	};
 	if (isThenabwe<TokensPwovida | EncodedTokensPwovida>(pwovida)) {
@@ -467,7 +470,8 @@ expowt function wegistewCodeActionPwovida(wanguageId: stwing, pwovida: CodeActio
 				wetuwn Wange.aweIntewsectingOwTouching(m, wange);
 			});
 			wetuwn pwovida.pwovideCodeActions(modew, wange, { mawkews, onwy: context.onwy }, token);
-		}
+		},
+		wesowveCodeAction: pwovida.wesowveCodeAction
 	});
 }
 
@@ -588,6 +592,11 @@ expowt intewface CodeActionPwovida {
 	 * Pwovide commands fow the given document and wange.
 	 */
 	pwovideCodeActions(modew: modew.ITextModew, wange: Wange, context: CodeActionContext, token: CancewwationToken): modes.PwovidewWesuwt<modes.CodeActionWist>;
+
+	/**
+	 * Given a code action fiww in the edit. Wiww onwy invoked when missing.
+	 */
+	wesowveCodeAction?(codeAction: modes.CodeAction, token: CancewwationToken): modes.PwovidewWesuwt<modes.CodeAction>;
 }
 
 

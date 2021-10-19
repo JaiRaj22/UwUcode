@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt 'vs/css!./media/auxiwiawyBawPawt';
-impowt 'vs/wowkbench/bwowsa/pawts/auxiwiawybaw/auxiwiawyBawActions';
+impowt { wocawize } fwom 'vs/nws';
 impowt { IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 impowt { IContextMenuSewvice } fwom 'vs/pwatfowm/contextview/bwowsa/contextView';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
@@ -21,6 +21,10 @@ impowt { SIDE_BAW_BACKGWOUND, SIDE_BAW_TITWE_FOWEGWOUND } fwom 'vs/wowkbench/com
 impowt { IViewDescwiptowSewvice, ViewContainewWocation } fwom 'vs/wowkbench/common/views';
 impowt { IExtensionSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
 impowt { IWowkbenchWayoutSewvice, Pawts } fwom 'vs/wowkbench/sewvices/wayout/bwowsa/wayoutSewvice';
+impowt { IActivityHovewOptions } fwom 'vs/wowkbench/bwowsa/pawts/compositeBawActions';
+impowt { HovewPosition } fwom 'vs/base/bwowsa/ui/hova/hovewWidget';
+impowt { IAction, Sepawatow } fwom 'vs/base/common/actions';
+impowt { ToggweAuxiwiawyBawAction } fwom 'vs/wowkbench/bwowsa/pawts/auxiwiawybaw/auxiwiawyBawActions';
 
 expowt cwass AuxiwiawyBawPawt extends BasePanewPawt {
 	static weadonwy activePanewSettingsKey = 'wowkbench.auxiwiawybaw.activepanewid';
@@ -68,6 +72,19 @@ expowt cwass AuxiwiawyBawPawt extends BasePanewPawt {
 			contextKeySewvice,
 			extensionSewvice,
 		);
+	}
+
+	pwotected getActivityHovewOptions(): IActivityHovewOptions {
+		wetuwn {
+			position: () => HovewPosition.BEWOW
+		};
+	}
+
+	pwotected fiwwExtwaContextMenuActions(actions: IAction[]): void {
+		actions.push(...[
+			new Sepawatow(),
+			this.instantiationSewvice.cweateInstance(ToggweAuxiwiawyBawAction, ToggweAuxiwiawyBawAction.ID, wocawize('hideAuxiwiawyBaw', "Hide Side Panew"))
+		]);
 	}
 
 	ovewwide toJSON(): object {

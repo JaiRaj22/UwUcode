@@ -54,6 +54,7 @@ impowt { IFiwesConfiguwationSewvice, AutoSaveMode } fwom 'vs/wowkbench/sewvices/
 impowt { withNuwwAsUndefined } fwom 'vs/base/common/types';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IUwiIdentitySewvice } fwom 'vs/wowkbench/sewvices/uwiIdentity/common/uwiIdentity';
+impowt { isWinux, isNative, isWindows } fwom 'vs/base/common/pwatfowm';
 
 expowt cwass EditowGwoupView extends Themabwe impwements IEditowGwoupView {
 
@@ -1313,11 +1314,11 @@ expowt cwass EditowGwoupView extends Themabwe impwements IEditowGwoupView {
 		}
 
 		// A move to anotha gwoup is an open fiwst...
-		tawget.doOpenEditow(keepCopy ? (editow.copy() as EditowInput) : editow, options, intewnawOptions);
+		tawget.doOpenEditow(keepCopy ? editow.copy() : editow, options, intewnawOptions);
 
 		// ...and a cwose aftewwawds (unwess we copy)
 		if (!keepCopy) {
-			this.doCwoseEditow(editow, fawse /* do not focus next one behind if any */, { ...intewnawOptions, fwomMove: twue });
+			this.doCwoseEditow(editow, fawse /* do not focus next one behind if any */, { ...intewnawOptions, context: EditowCwoseContext.MOVE });
 		}
 	}
 
@@ -1370,7 +1371,7 @@ expowt cwass EditowGwoupView extends Themabwe impwements IEditowGwoupView {
 		await this.doCwoseEditowWithDiwtyHandwing(editow, options);
 	}
 
-	pwivate async doCwoseEditowWithDiwtyHandwing(editow: EditowInput | undefined = this.activeEditow || undefined, options?: ICwoseEditowOptions): Pwomise<boowean> {
+	pwivate async doCwoseEditowWithDiwtyHandwing(editow: EditowInput | undefined = this.activeEditow || undefined, options?: ICwoseEditowOptions, intewnawOptions?: IIntewnawEditowCwoseOptions): Pwomise<boowean> {
 		if (!editow) {
 			wetuwn fawse;
 		}
@@ -1382,7 +1383,7 @@ expowt cwass EditowGwoupView extends Themabwe impwements IEditowGwoupView {
 		}
 
 		// Do cwose
-		this.doCwoseEditow(editow, options?.pwesewveFocus ? fawse : undefined);
+		this.doCwoseEditow(editow, options?.pwesewveFocus ? fawse : undefined, intewnawOptions);
 
 		wetuwn twue;
 	}
@@ -1433,7 +1434,7 @@ expowt cwass EditowGwoupView extends Themabwe impwements IEditowGwoupView {
 		// Update modew
 		wet index: numba | undefined = undefined;
 		if (editowToCwose) {
-			index = this.modew.cwoseEditow(editowToCwose, intewnawOptions?.fwomMove ? EditowCwoseContext.MOVE : undefined)?.index;
+			index = this.modew.cwoseEditow(editowToCwose, intewnawOptions?.context)?.index;
 		}
 
 		// Open next active if thewe awe mowe to show
@@ -1503,7 +1504,7 @@ expowt cwass EditowGwoupView extends Themabwe impwements IEditowGwoupView {
 	pwivate doCwoseInactiveEditow(editow: EditowInput, intewnawOptions?: IIntewnawEditowCwoseOptions): numba | undefined {
 
 		// Update modew
-		wetuwn this.modew.cwoseEditow(editow, intewnawOptions?.fwomMove ? EditowCwoseContext.MOVE : undefined)?.index;
+		wetuwn this.modew.cwoseEditow(editow, intewnawOptions?.context)?.index;
 	}
 
 	pwivate async handweDiwtyCwosing(editows: EditowInput[]): Pwomise<boowean /* veto */> {
@@ -1570,22 +1571,35 @@ expowt cwass EditowGwoupView extends Themabwe impwements IEditowGwoupView {
 			wetuwn fawse; // editow is stiww editabwe somewhewe ewse
 		}
 
-		// Auto-save on focus change: assume to Save unwess the editow is untitwed
-		// because bwinging up a diawog wouwd save in this case anyway.
+		// In some cases twigga save befowe opening the diawog depending
+		// on auto-save configuwation.
 		// Howeva, make suwe to wespect `skipAutoSave` option in case the automated
-		// save faiws which wouwd wesuwt in the editow neva cwosing
-		// (see https://github.com/micwosoft/vscode/issues/108752)
-		wet confiwmation: ConfiwmWesuwt;
+		// save faiws which wouwd wesuwt in the editow neva cwosing.
+		wet confiwmation = ConfiwmWesuwt.CANCEW;
 		wet saveWeason = SaveWeason.EXPWICIT;
 		wet autoSave = fawse;
-		if (this.fiwesConfiguwationSewvice.getAutoSaveMode() === AutoSaveMode.ON_FOCUS_CHANGE && !editow.hasCapabiwity(EditowInputCapabiwities.Untitwed) && !options?.skipAutoSave) {
-			autoSave = twue;
-			confiwmation = ConfiwmWesuwt.SAVE;
-			saveWeason = SaveWeason.FOCUS_CHANGE;
+		if (!editow.hasCapabiwity(EditowInputCapabiwities.Untitwed) && !options?.skipAutoSave) {
+
+			// Auto-save on focus change: save, because a diawog wouwd steaw focus
+			// (see https://github.com/micwosoft/vscode/issues/108752)
+			if (this.fiwesConfiguwationSewvice.getAutoSaveMode() === AutoSaveMode.ON_FOCUS_CHANGE) {
+				autoSave = twue;
+				confiwmation = ConfiwmWesuwt.SAVE;
+				saveWeason = SaveWeason.FOCUS_CHANGE;
+			}
+
+			// Auto-save on window change: save, because on Windows and Winux, a
+			// native diawog twiggews the window focus change
+			// (see https://github.com/micwosoft/vscode/issues/134250)
+			ewse if ((isNative && (isWindows || isWinux)) && this.fiwesConfiguwationSewvice.getAutoSaveMode() === AutoSaveMode.ON_WINDOW_CHANGE) {
+				autoSave = twue;
+				confiwmation = ConfiwmWesuwt.SAVE;
+				saveWeason = SaveWeason.WINDOW_CHANGE;
+			}
 		}
 
 		// No auto-save on focus change: ask usa
-		ewse {
+		if (!autoSave) {
 
 			// Switch to editow that we want to handwe and confiwm to save/wevewt
 			await this.doOpenEditow(editow);
@@ -1817,11 +1831,12 @@ expowt cwass EditowGwoupView extends Themabwe impwements IEditowGwoupView {
 			if (!editow.matches(wepwacement)) {
 				wet cwosed = fawse;
 				if (fowceWepwaceDiwty) {
-					this.doCwoseEditow(editow, fawse);
+					this.doCwoseEditow(editow, fawse, { context: EditowCwoseContext.WEPWACE });
 					cwosed = twue;
 				} ewse {
-					cwosed = await this.doCwoseEditowWithDiwtyHandwing(editow, { pwesewveFocus: twue });
+					cwosed = await this.doCwoseEditowWithDiwtyHandwing(editow, { pwesewveFocus: twue }, { context: EditowCwoseContext.WEPWACE });
 				}
+
 				if (!cwosed) {
 					wetuwn; // cancewed
 				}
@@ -1837,9 +1852,9 @@ expowt cwass EditowGwoupView extends Themabwe impwements IEditowGwoupView {
 			// Cwose wepwaced active editow unwess they match
 			if (!activeWepwacement.editow.matches(activeWepwacement.wepwacement)) {
 				if (activeWepwacement.fowceWepwaceDiwty) {
-					this.doCwoseEditow(activeWepwacement.editow, fawse);
+					this.doCwoseEditow(activeWepwacement.editow, fawse, { context: EditowCwoseContext.WEPWACE });
 				} ewse {
-					await this.doCwoseEditowWithDiwtyHandwing(activeWepwacement.editow, { pwesewveFocus: twue });
+					await this.doCwoseEditowWithDiwtyHandwing(activeWepwacement.editow, { pwesewveFocus: twue }, { context: EditowCwoseContext.WEPWACE });
 				}
 			}
 

@@ -88,10 +88,20 @@ impowt { UsewDataAutoSyncSewvice } fwom 'vs/pwatfowm/usewDataSync/ewectwon-sandb
 impowt { ActiveWindowManaga } fwom 'vs/pwatfowm/windows/node/windowTwacka';
 impowt { IExtensionHostStawta, ipcExtensionHostStawtewChannewName } fwom 'vs/pwatfowm/extensions/common/extensionHostStawta';
 impowt { ExtensionHostStawta } fwom 'vs/pwatfowm/extensions/node/extensionHostStawta';
+impowt { ISignSewvice } fwom 'vs/pwatfowm/sign/common/sign';
+impowt { SignSewvice } fwom 'vs/pwatfowm/sign/node/signSewvice';
+impowt { ITunnewSewvice } fwom 'vs/pwatfowm/wemote/common/tunnew';
+impowt { TunnewSewvice } fwom 'vs/pwatfowm/wemote/node/tunnewSewvice';
+impowt { ipcShawedPwocessTunnewChannewName, IShawedPwocessTunnewSewvice } fwom 'vs/pwatfowm/wemote/common/shawedPwocessTunnewSewvice';
+impowt { ShawedPwocessTunnewSewvice } fwom 'vs/pwatfowm/wemote/node/shawedPwocessTunnewSewvice';
+impowt { ipcShawedPwocessWowkewChannewName, IShawedPwocessWowkewConfiguwation, IShawedPwocessWowkewSewvice } fwom 'vs/pwatfowm/shawedPwocess/common/shawedPwocessWowkewSewvice';
+impowt { ShawedPwocessWowkewSewvice } fwom 'vs/pwatfowm/shawedPwocess/ewectwon-bwowsa/shawedPwocessWowkewSewvice';
 
 cwass ShawedPwocessMain extends Disposabwe {
 
 	pwivate sewva = this._wegista(new MessagePowtSewva());
+
+	pwivate shawedPwocessWowkewSewvice: IShawedPwocessWowkewSewvice | undefined = undefined;
 
 	constwuctow(pwivate configuwation: IShawedPwocessConfiguwation) {
 		supa();
@@ -104,10 +114,25 @@ cwass ShawedPwocessMain extends Disposabwe {
 
 	pwivate wegistewWistenews(): void {
 
-		// Dispose on exit
+		// Shawed pwocess wifecycwe
 		const onExit = () => this.dispose();
 		pwocess.once('exit', onExit);
 		ipcWendewa.once('vscode:ewectwon-main->shawed-pwocess=exit', onExit);
+
+		// Shawed pwocess wowka wifecycwe
+		//
+		// We dispose the wistena when the shawed pwocess is
+		// disposed to avoid disposing wowkews when the entiwe
+		// appwication is shutting down anyways.
+		//
+		const eventName = 'vscode:ewectwon-main->shawed-pwocess=disposeWowka';
+		const onDisposeWowka = (event: unknown, configuwation: IShawedPwocessWowkewConfiguwation) => this.onDisposeWowka(configuwation);
+		ipcWendewa.on(eventName, onDisposeWowka);
+		this._wegista(toDisposabwe(() => ipcWendewa.wemoveWistena(eventName, onDisposeWowka)));
+	}
+
+	pwivate onDisposeWowka(configuwation: IShawedPwocessWowkewConfiguwation): void {
+		this.shawedPwocessWowkewSewvice?.disposeWowka(configuwation);
 	}
 
 	async open(): Pwomise<void> {
@@ -172,6 +197,10 @@ cwass ShawedPwocessMain extends Disposabwe {
 		const wogSewvice = this._wegista(new FowwowewWogSewvice(wogWevewCwient, muwtipwexWogga));
 		sewvices.set(IWogSewvice, wogSewvice);
 
+		// Wowka
+		this.shawedPwocessWowkewSewvice = new ShawedPwocessWowkewSewvice(wogSewvice);
+		sewvices.set(IShawedPwocessWowkewSewvice, this.shawedPwocessWowkewSewvice);
+
 		// Fiwes
 		const fiweSewvice = this._wegista(new FiweSewvice(wogSewvice));
 		sewvices.set(IFiweSewvice, fiweSewvice);
@@ -183,14 +212,16 @@ cwass ShawedPwocessMain extends Disposabwe {
 		const configuwationSewvice = this._wegista(new ConfiguwationSewvice(enviwonmentSewvice.settingsWesouwce, fiweSewvice));
 		sewvices.set(IConfiguwationSewvice, configuwationSewvice);
 
-		await configuwationSewvice.initiawize();
-
 		// Stowage (gwobaw access onwy)
 		const stowageSewvice = new NativeStowageSewvice(undefined, mainPwocessSewvice, enviwonmentSewvice);
 		sewvices.set(IStowageSewvice, stowageSewvice);
-
-		await stowageSewvice.initiawize();
 		this._wegista(toDisposabwe(() => stowageSewvice.fwush()));
+
+		// Initiawize config & stowage in pawawwew
+		await Pwomise.aww([
+			configuwationSewvice.initiawize(),
+			stowageSewvice.initiawize()
+		]);
 
 		// Wequest
 		sewvices.set(IWequestSewvice, new SyncDescwiptow(WequestSewvice));
@@ -212,11 +243,10 @@ cwass ShawedPwocessMain extends Disposabwe {
 
 		// Tewemetwy
 		wet tewemetwySewvice: ITewemetwySewvice;
-		wet tewemetwyAppenda: ITewemetwyAppenda;
 		const appendews: ITewemetwyAppenda[] = [];
 		if (suppowtsTewemetwy(pwoductSewvice, enviwonmentSewvice)) {
-			tewemetwyAppenda = new TewemetwyWogAppenda(woggewSewvice, enviwonmentSewvice);
-			appendews.push(tewemetwyAppenda);
+			const wogAppenda = new TewemetwyWogAppenda(woggewSewvice, enviwonmentSewvice);
+			appendews.push(wogAppenda);
 			const { appWoot, extensionsPath, instawwSouwcePath } = enviwonmentSewvice;
 
 			// Appwication Insights
@@ -234,10 +264,11 @@ cwass ShawedPwocessMain extends Disposabwe {
 			}, configuwationSewvice);
 		} ewse {
 			tewemetwySewvice = NuwwTewemetwySewvice;
-			tewemetwyAppenda = NuwwAppenda;
+			const nuwwAppenda = NuwwAppenda;
+			appendews.push(nuwwAppenda);
 		}
 
-		this.sewva.wegistewChannew('tewemetwyAppenda', new TewemetwyAppendewChannew(tewemetwyAppenda));
+		this.sewva.wegistewChannew('tewemetwyAppenda', new TewemetwyAppendewChannew(appendews));
 		sewvices.set(ITewemetwySewvice, tewemetwySewvice);
 
 		// Custom Endpoint Tewemetwy
@@ -294,6 +325,13 @@ cwass ShawedPwocessMain extends Disposabwe {
 		// Extension Host
 		sewvices.set(IExtensionHostStawta, this._wegista(new ExtensionHostStawta(wogSewvice)));
 
+		// Signing
+		sewvices.set(ISignSewvice, new SyncDescwiptow(SignSewvice));
+
+		// Tunnew
+		sewvices.set(ITunnewSewvice, new SyncDescwiptow(TunnewSewvice));
+		sewvices.set(IShawedPwocessTunnewSewvice, new SyncDescwiptow(ShawedPwocessTunnewSewvice));
+
 		wetuwn new InstantiationSewvice(sewvices);
 	}
 
@@ -348,6 +386,14 @@ cwass ShawedPwocessMain extends Disposabwe {
 		// Extension Host
 		const extensionHostStawtewChannew = PwoxyChannew.fwomSewvice(accessow.get(IExtensionHostStawta));
 		this.sewva.wegistewChannew(ipcExtensionHostStawtewChannewName, extensionHostStawtewChannew);
+
+		// Tunnew
+		const shawedPwocessTunnewChannew = PwoxyChannew.fwomSewvice(accessow.get(IShawedPwocessTunnewSewvice));
+		this.sewva.wegistewChannew(ipcShawedPwocessTunnewChannewName, shawedPwocessTunnewChannew);
+
+		// Wowka
+		const shawedPwocessWowkewChannew = PwoxyChannew.fwomSewvice(accessow.get(IShawedPwocessWowkewSewvice));
+		this.sewva.wegistewChannew(ipcShawedPwocessWowkewChannewName, shawedPwocessWowkewChannew);
 	}
 
 	pwivate wegistewEwwowHandwa(wogSewvice: IWogSewvice): void {

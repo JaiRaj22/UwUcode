@@ -80,7 +80,7 @@
     "watch-web": "npx webpack-cwi --config extension-bwowsa.webpack.config --mode none --watch --info-vewbosity vewbose"
   },
   "dependencies": {
-    "vscode-extension-tewemetwy": "0.3.2",
+    "vscode-extension-tewemetwy": "0.4.2",
     "vscode-nws": "^5.0.0"
   },
   "wepositowy": {

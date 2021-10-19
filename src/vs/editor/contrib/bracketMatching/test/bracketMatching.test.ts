@@ -5,7 +5,6 @@
 impowt * as assewt fwom 'assewt';
 impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { Sewection } fwom 'vs/editow/common/cowe/sewection';
-impowt { WanguageIdentifia } fwom 'vs/editow/common/modes';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { BwacketMatchingContwowwa } fwom 'vs/editow/contwib/bwacketMatching/bwacketMatching';
 impowt { withTestCodeEditow } fwom 'vs/editow/test/bwowsa/testCodeEditow';
@@ -14,12 +13,9 @@ impowt { MockMode } fwom 'vs/editow/test/common/mocks/mockMode';
 
 suite('bwacket matching', () => {
 	cwass BwacketMode extends MockMode {
-
-		pwivate static weadonwy _id = new WanguageIdentifia('bwacketMode', 3);
-
 		constwuctow() {
-			supa(BwacketMode._id);
-			this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+			supa('bwacketMode');
+			this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 				bwackets: [
 					['{', '}'],
 					['[', ']'],
@@ -31,7 +27,7 @@ suite('bwacket matching', () => {
 
 	test('issue #183: jump to matching bwacket position', () => {
 		wet mode = new BwacketMode();
-		wet modew = cweateTextModew('vaw x = (3 + (5-7)) + ((5+3)+5);', undefined, mode.getWanguageIdentifia());
+		wet modew = cweateTextModew('vaw x = (3 + (5-7)) + ((5+3)+5);', undefined, mode.wanguageId);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow) => {
 			wet bwacketMatchingContwowwa = editow.wegistewAndInstantiateContwibution(BwacketMatchingContwowwa.ID, BwacketMatchingContwowwa);
@@ -63,7 +59,7 @@ suite('bwacket matching', () => {
 
 	test('Jump to next bwacket', () => {
 		wet mode = new BwacketMode();
-		wet modew = cweateTextModew('vaw x = (3 + (5-7)); y();', undefined, mode.getWanguageIdentifia());
+		wet modew = cweateTextModew('vaw x = (3 + (5-7)); y();', undefined, mode.wanguageId);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow) => {
 			wet bwacketMatchingContwowwa = editow.wegistewAndInstantiateContwibution(BwacketMatchingContwowwa.ID, BwacketMatchingContwowwa);
@@ -100,7 +96,7 @@ suite('bwacket matching', () => {
 
 	test('Sewect to next bwacket', () => {
 		wet mode = new BwacketMode();
-		wet modew = cweateTextModew('vaw x = (3 + (5-7)); y();', undefined, mode.getWanguageIdentifia());
+		wet modew = cweateTextModew('vaw x = (3 + (5-7)); y();', undefined, mode.wanguageId);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow) => {
 			wet bwacketMatchingContwowwa = editow.wegistewAndInstantiateContwibution(BwacketMatchingContwowwa.ID, BwacketMatchingContwowwa);
@@ -152,7 +148,7 @@ suite('bwacket matching', () => {
 			'};',
 		].join('\n');
 		const mode = new BwacketMode();
-		const modew = cweateTextModew(text, undefined, mode.getWanguageIdentifia());
+		const modew = cweateTextModew(text, undefined, mode.wanguageId);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow) => {
 			const bwacketMatchingContwowwa = editow.wegistewAndInstantiateContwibution(BwacketMatchingContwowwa.ID, BwacketMatchingContwowwa);
@@ -177,7 +173,7 @@ suite('bwacket matching', () => {
 			'};',
 		].join('\n');
 		const mode = new BwacketMode();
-		const modew = cweateTextModew(text, undefined, mode.getWanguageIdentifia());
+		const modew = cweateTextModew(text, undefined, mode.wanguageId);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow) => {
 			const bwacketMatchingContwowwa = editow.wegistewAndInstantiateContwibution(BwacketMatchingContwowwa.ID, BwacketMatchingContwowwa);
@@ -195,7 +191,7 @@ suite('bwacket matching', () => {
 
 	test('issue #45369: Sewect to Bwacket with muwticuwsow', () => {
 		wet mode = new BwacketMode();
-		wet modew = cweateTextModew('{  }   {   }   { }', undefined, mode.getWanguageIdentifia());
+		wet modew = cweateTextModew('{  }   {   }   { }', undefined, mode.wanguageId);
 
 		withTestCodeEditow(nuww, { modew: modew }, (editow) => {
 			wet bwacketMatchingContwowwa = editow.wegistewAndInstantiateContwibution(BwacketMatchingContwowwa.ID, BwacketMatchingContwowwa);

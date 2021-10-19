@@ -10,7 +10,8 @@ impowt { ActionViewItem, BaseActionViewItem } fwom 'vs/base/bwowsa/ui/actionbaw/
 impowt { DwopdownMenuActionViewItem } fwom 'vs/base/bwowsa/ui/dwopdown/dwopdownActionViewItem';
 impowt { IAction } fwom 'vs/base/common/actions';
 impowt { Event } fwom 'vs/base/common/event';
-impowt { KeyCode, WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { MenuEntwyActionViewItem } fwom 'vs/pwatfowm/actions/bwowsa/menuEntwyActionViewItem';
 impowt { MenuItemAction } fwom 'vs/pwatfowm/actions/common/actions';
 impowt { IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';

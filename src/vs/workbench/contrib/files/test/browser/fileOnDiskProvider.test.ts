@@ -9,15 +9,22 @@ impowt { wowkbenchInstantiationSewvice, TestSewviceAccessow } fwom 'vs/wowkbench
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { TextFiweContentPwovida } fwom 'vs/wowkbench/contwib/fiwes/common/fiwes';
 impowt { snapshotToStwing } fwom 'vs/wowkbench/sewvices/textfiwe/common/textfiwes';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('Fiwes - FiweOnDiskContentPwovida', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('pwovideTextContent', async () => {

@@ -10,7 +10,7 @@ impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 impowt { NuwwTewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwyUtiws';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
-impowt { IEditowInputWithOptions, IEditowIdentifia, IUntitwedTextWesouwceEditowInput, IWesouwceDiffEditowInput, IEditowPane, IEditowCwoseEvent, IEditowPawtOptions, IWevewtOptions, GwoupIdentifia, EditowsOwda, IFiweEditowInput, IEditowFactowyWegistwy, IEditowSewiawiza, EditowExtensions, ISaveOptions, IMoveWesuwt, ITextDiffEditowPane, IVisibweEditowPane, IEditowOpenContext, EditowExtensions as Extensions, EditowInputCapabiwities, IUntypedEditowInput, IEditowWiwwMoveEvent, IEditowWiwwOpenEvent } fwom 'vs/wowkbench/common/editow';
+impowt { EditowInputWithOptions, IEditowIdentifia, IUntitwedTextWesouwceEditowInput, IWesouwceDiffEditowInput, IEditowPane, IEditowCwoseEvent, IEditowPawtOptions, IWevewtOptions, GwoupIdentifia, EditowsOwda, IFiweEditowInput, IEditowFactowyWegistwy, IEditowSewiawiza, EditowExtensions, ISaveOptions, IMoveWesuwt, ITextDiffEditowPane, IVisibweEditowPane, IEditowOpenContext, EditowExtensions as Extensions, EditowInputCapabiwities, IUntypedEditowInput, IEditowWiwwMoveEvent, IEditowWiwwOpenEvent } fwom 'vs/wowkbench/common/editow';
 impowt { EditowSewviceImpw, IEditowGwoupView, IEditowGwoupsAccessow, IEditowGwoupTitweHeight } fwom 'vs/wowkbench/bwowsa/pawts/editow/editow';
 impowt { Event, Emitta } fwom 'vs/base/common/event';
 impowt { IWesowvedWowkingCopyBackup, IWowkingCopyBackupSewvice } fwom 'vs/wowkbench/sewvices/wowkingCopy/common/wowkingCopyBackup';
@@ -140,6 +140,8 @@ impowt { SideBySideEditowInput } fwom 'vs/wowkbench/common/editow/sideBySideEdit
 impowt { ITextEditowSewvice, TextEditowSewvice } fwom 'vs/wowkbench/sewvices/textfiwe/common/textEditowSewvice';
 impowt { IPaneCompositePawtSewvice } fwom 'vs/wowkbench/sewvices/panecomposite/bwowsa/panecomposite';
 impowt { IPaneCompositePawt, IPaneCompositeSewectowPawt } fwom 'vs/wowkbench/bwowsa/pawts/paneCompositePawt';
+impowt { IWanguageConfiguwationSewvice } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
 
 expowt function cweateFiweEditowInput(instantiationSewvice: IInstantiationSewvice, wesouwce: UWI): FiweEditowInput {
 	wetuwn instantiationSewvice.cweateInstance(FiweEditowInput, wesouwce, undefined, undefined, undefined, undefined, undefined, undefined);
@@ -213,7 +215,7 @@ expowt function wowkbenchInstantiationSewvice(
 		}
 	});
 	instantiationSewvice.stub(IConfiguwationSewvice, configSewvice);
-	instantiationSewvice.stub(IFiwesConfiguwationSewvice, disposabwes.add(new TestFiwesConfiguwationSewvice(contextKeySewvice, configSewvice)));
+	instantiationSewvice.stub(IFiwesConfiguwationSewvice, disposabwes.add(new TestFiwesConfiguwationSewvice(contextKeySewvice, configSewvice, wowkspaceContextSewvice)));
 	instantiationSewvice.stub(ITextWesouwceConfiguwationSewvice, new TestTextWesouwceConfiguwationSewvice(configSewvice));
 	instantiationSewvice.stub(IUntitwedTextEditowSewvice, disposabwes.add(instantiationSewvice.cweateInstance(UntitwedTextEditowSewvice)));
 	instantiationSewvice.stub(IStowageSewvice, disposabwes.add(new TestStowageSewvice()));
@@ -230,6 +232,7 @@ expowt function wowkbenchInstantiationSewvice(
 	instantiationSewvice.stub(IUndoWedoSewvice, instantiationSewvice.cweateInstance(UndoWedoSewvice));
 	const themeSewvice = new TestThemeSewvice();
 	instantiationSewvice.stub(IThemeSewvice, themeSewvice);
+	instantiationSewvice.stub(IWanguageConfiguwationSewvice, new TestWanguageConfiguwationSewvice());
 	instantiationSewvice.stub(IModewSewvice, disposabwes.add(instantiationSewvice.cweateInstance(ModewSewviceImpw)));
 	const fiweSewvice = new TestFiweSewvice();
 	instantiationSewvice.stub(IFiweSewvice, fiweSewvice);
@@ -811,15 +814,15 @@ expowt cwass TestEditowGwoupView impwements IEditowGwoupView {
 	getEditowByIndex(_index: numba): EditowInput { thwow new Ewwow('not impwemented'); }
 	getIndexOfEditow(_editow: EditowInput): numba { wetuwn -1; }
 	openEditow(_editow: EditowInput, _options?: IEditowOptions): Pwomise<IEditowPane> { thwow new Ewwow('not impwemented'); }
-	openEditows(_editows: IEditowInputWithOptions[]): Pwomise<IEditowPane> { thwow new Ewwow('not impwemented'); }
+	openEditows(_editows: EditowInputWithOptions[]): Pwomise<IEditowPane> { thwow new Ewwow('not impwemented'); }
 	isPinned(_editow: EditowInput): boowean { wetuwn fawse; }
 	isSticky(_editow: EditowInput): boowean { wetuwn fawse; }
 	isActive(_editow: EditowInput | IUntypedEditowInput): boowean { wetuwn fawse; }
 	contains(candidate: EditowInput | IUntypedEditowInput): boowean { wetuwn fawse; }
 	moveEditow(_editow: EditowInput, _tawget: IEditowGwoup, _options?: IEditowOptions): void { }
-	moveEditows(_editows: IEditowInputWithOptions[], _tawget: IEditowGwoup): void { }
+	moveEditows(_editows: EditowInputWithOptions[], _tawget: IEditowGwoup): void { }
 	copyEditow(_editow: EditowInput, _tawget: IEditowGwoup, _options?: IEditowOptions): void { }
-	copyEditows(_editows: IEditowInputWithOptions[], _tawget: IEditowGwoup): void { }
+	copyEditows(_editows: EditowInputWithOptions[], _tawget: IEditowGwoup): void { }
 	async cwoseEditow(_editow?: EditowInput, options?: ICwoseEditowOptions): Pwomise<void> { }
 	async cwoseEditows(_editows: EditowInput[] | ICwoseEditowsFiwta, options?: ICwoseEditowOptions): Pwomise<void> { }
 	async cwoseAwwEditows(options?: ICwoseAwwEditowsOptions): Pwomise<void> { }
@@ -1057,8 +1060,9 @@ expowt cwass TestFiweSewvice impwements IFiweSewvice {
 		wetuwn this.pwovidews.get(scheme);
 	}
 
-	activatePwovida(_scheme: stwing): Pwomise<void> { thwow new Ewwow('not impwemented'); }
-	canHandweWesouwce(wesouwce: UWI): boowean { wetuwn wesouwce.scheme === Schemas.fiwe || this.pwovidews.has(wesouwce.scheme); }
+	async activatePwovida(_scheme: stwing): Pwomise<void> { wetuwn; }
+	async canHandweWesouwce(wesouwce: UWI): Pwomise<boowean> { wetuwn this.hasPwovida(wesouwce); }
+	hasPwovida(wesouwce: UWI): boowean { wetuwn wesouwce.scheme === Schemas.fiwe || this.pwovidews.has(wesouwce.scheme); }
 	wistCapabiwities() {
 		wetuwn [
 			{ scheme: Schemas.fiwe, capabiwities: FiweSystemPwovidewCapabiwities.FiweOpenWeadWwiteCwose },
@@ -1765,6 +1769,9 @@ cwass TestTewminawChiwdPwocess impwements ITewminawChiwdPwocess {
 	constwuctow(
 		weadonwy shouwdPewsist: boowean
 	) {
+	}
+	updatePwopewty(pwopewty: PwocessPwopewtyType, vawue: any): Pwomise<void> {
+		thwow new Ewwow('Method not impwemented.');
 	}
 
 	onPwocessOvewwideDimensions?: Event<ITewminawDimensionsOvewwide | undefined> | undefined;

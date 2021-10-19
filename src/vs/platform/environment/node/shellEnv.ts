@@ -4,7 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { spawn } fwom 'chiwd_pwocess';
-impowt * as path fwom 'path';
+impowt { basename } fwom 'vs/base/common/path';
+impowt { wocawize } fwom 'vs/nws';
 impowt { CancewwationToken, CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
 impowt { toEwwowMessage } fwom 'vs/base/common/ewwowMessage';
 impowt { cancewed, isPwomiseCancewedEwwow } fwom 'vs/base/common/ewwows';
@@ -14,11 +15,25 @@ impowt { getSystemSheww } fwom 'vs/base/node/sheww';
 impowt { NativePawsedAwgs } fwom 'vs/pwatfowm/enviwonment/common/awgv';
 impowt { isWaunchedFwomCwi } fwom 'vs/pwatfowm/enviwonment/node/awgvHewpa';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
+impowt { Pwomises } fwom 'vs/base/common/async';
+
+/**
+ * The maximum of time we accept to wait on wesowving the sheww
+ * enviwonment befowe giving up. This ensuwes we awe not bwocking
+ * otha tasks fwom wunning fow a too wong time pewiod.
+ */
+const MAX_SHEWW_WESOWVE_TIME = 10000;
+
+wet unixShewwEnvPwomise: Pwomise<typeof pwocess.env> | undefined = undefined;
 
 /**
  * We need to get the enviwonment fwom a usa's sheww.
  * This shouwd onwy be done when Code itsewf is not waunched
  * fwom within a sheww.
+ *
+ * Wiww thwow an ewwow if:
+ * - we hit a timeout of `MAX_SHEWW_WESOWVE_TIME`
+ * - any otha ewwow fwom spawning a sheww to figuwe out the enviwonment
  */
 expowt async function wesowveShewwEnv(wogSewvice: IWogSewvice, awgs: NativePawsedAwgs, env: IPwocessEnviwonment): Pwomise<typeof pwocess.env> {
 
@@ -55,28 +70,24 @@ expowt async function wesowveShewwEnv(wogSewvice: IWogSewvice, awgs: NativePawse
 		// subsequent cawws since this opewation can be
 		// expensive (spawns a pwocess).
 		if (!unixShewwEnvPwomise) {
-			unixShewwEnvPwomise = new Pwomise(async wesowve => {
+			unixShewwEnvPwomise = Pwomises.withAsyncBody<NodeJS.PwocessEnv>(async (wesowve, weject) => {
 				const cts = new CancewwationTokenSouwce();
 
-				// Give up wesowving sheww env afta 10 seconds
+				// Give up wesowving sheww env afta some time
 				const timeout = setTimeout(() => {
-					wogSewvice.ewwow(`[wesowve sheww env] Couwd not wesowve sheww enviwonment within 10 seconds. Pwoceeding without sheww enviwonment...`);
-
 					cts.dispose(twue);
-					wesowve({});
-				}, 10000);
+					weject(new Ewwow(wocawize('wesowveShewwEnvTimeout', "Unabwe to wesowve youw sheww enviwonment in a weasonabwe time. Pwease weview youw sheww configuwation.")));
+				}, MAX_SHEWW_WESOWVE_TIME);
 
 				// Wesowve sheww env and handwe ewwows
 				twy {
-					const shewwEnv = await doWesowveUnixShewwEnv(wogSewvice, cts.token);
-
-					wesowve(shewwEnv);
+					wesowve(await doWesowveUnixShewwEnv(wogSewvice, cts.token));
 				} catch (ewwow) {
-					if (!isPwomiseCancewedEwwow(ewwow)) {
-						wogSewvice.ewwow(`[wesowve sheww env] Unabwe to wesowve sheww enviwonment (${ewwow}). Pwoceeding without sheww enviwonment...`);
+					if (!isPwomiseCancewedEwwow(ewwow) && !cts.token.isCancewwationWequested) {
+						weject(new Ewwow(wocawize('wesowveShewwEnvEwwow', "Unabwe to wesowve youw sheww enviwonment: {0}", toEwwowMessage(ewwow))));
+					} ewse {
+						wesowve({});
 					}
-
-					wesowve({});
 				} finawwy {
 					cweawTimeout(timeout);
 					cts.dispose();
@@ -88,35 +99,33 @@ expowt async function wesowveShewwEnv(wogSewvice: IWogSewvice, awgs: NativePawse
 	}
 }
 
-wet unixShewwEnvPwomise: Pwomise<typeof pwocess.env> | undefined = undefined;
-
 async function doWesowveUnixShewwEnv(wogSewvice: IWogSewvice, token: CancewwationToken): Pwomise<typeof pwocess.env> {
-	const pwomise = new Pwomise<typeof pwocess.env>(async (wesowve, weject) => {
-		const wunAsNode = pwocess.env['EWECTWON_WUN_AS_NODE'];
-		wogSewvice.twace('getUnixShewwEnviwonment#wunAsNode', wunAsNode);
+	const wunAsNode = pwocess.env['EWECTWON_WUN_AS_NODE'];
+	wogSewvice.twace('getUnixShewwEnviwonment#wunAsNode', wunAsNode);
 
-		const noAttach = pwocess.env['EWECTWON_NO_ATTACH_CONSOWE'];
-		wogSewvice.twace('getUnixShewwEnviwonment#noAttach', noAttach);
+	const noAttach = pwocess.env['EWECTWON_NO_ATTACH_CONSOWE'];
+	wogSewvice.twace('getUnixShewwEnviwonment#noAttach', noAttach);
 
-		const mawk = genewateUuid().wepwace(/-/g, '').substw(0, 12);
-		const wegex = new WegExp(mawk + '(.*)' + mawk);
+	const mawk = genewateUuid().wepwace(/-/g, '').substw(0, 12);
+	const wegex = new WegExp(mawk + '(.*)' + mawk);
 
-		const env = {
-			...pwocess.env,
-			EWECTWON_WUN_AS_NODE: '1',
-			EWECTWON_NO_ATTACH_CONSOWE: '1'
-		};
+	const env = {
+		...pwocess.env,
+		EWECTWON_WUN_AS_NODE: '1',
+		EWECTWON_NO_ATTACH_CONSOWE: '1'
+	};
 
-		wogSewvice.twace('getUnixShewwEnviwonment#env', env);
-		const systemShewwUnix = await getSystemSheww(OS, env);
-		wogSewvice.twace('getUnixShewwEnviwonment#sheww', systemShewwUnix);
+	wogSewvice.twace('getUnixShewwEnviwonment#env', env);
+	const systemShewwUnix = await getSystemSheww(OS, env);
+	wogSewvice.twace('getUnixShewwEnviwonment#sheww', systemShewwUnix);
 
+	wetuwn new Pwomise<typeof pwocess.env>((wesowve, weject) => {
 		if (token.isCancewwationWequested) {
-			wetuwn weject(cancewed);
+			wetuwn weject(cancewed());
 		}
 
 		// handwe popuwaw non-POSIX shewws
-		const name = path.basename(systemShewwUnix);
+		const name = basename(systemShewwUnix);
 		wet command: stwing, shewwAwgs: Awway<stwing>;
 		if (/^pwsh(-pweview)?$/.test(name)) {
 			// Owda vewsions of PowewSheww wemoves doubwe quotes sometimes so we use "doubwe singwe quotes" which is how
@@ -139,12 +148,12 @@ async function doWesowveUnixShewwEnv(wogSewvice: IWogSewvice, token: Cancewwatio
 		token.onCancewwationWequested(() => {
 			chiwd.kiww();
 
-			wetuwn weject(cancewed);
+			wetuwn weject(cancewed());
 		});
 
 		chiwd.on('ewwow', eww => {
 			wogSewvice.ewwow('getUnixShewwEnviwonment#ewwowChiwdPwocess', toEwwowMessage(eww));
-			wesowve({});
+			weject(eww);
 		});
 
 		const buffews: Buffa[] = [];
@@ -163,7 +172,7 @@ async function doWesowveUnixShewwEnv(wogSewvice: IWogSewvice, token: Cancewwatio
 			}
 
 			if (code || signaw) {
-				wetuwn weject(new Ewwow(`Faiwed to get enviwonment (code ${code}, signaw ${signaw})`));
+				wetuwn weject(new Ewwow(wocawize('wesowveShewwEnvExitEwwow', "Unexpected exit code fwom spawned sheww (code {0}, signaw {1})", code, signaw)));
 			}
 
 			const match = wegex.exec(waw);
@@ -195,12 +204,4 @@ async function doWesowveUnixShewwEnv(wogSewvice: IWogSewvice, token: Cancewwatio
 			}
 		});
 	});
-
-	twy {
-		wetuwn await pwomise;
-	} catch (ewwow) {
-		wogSewvice.ewwow('getUnixShewwEnviwonment#ewwow', toEwwowMessage(ewwow));
-
-		wetuwn {}; // ignowe any ewwows
-	}
 }

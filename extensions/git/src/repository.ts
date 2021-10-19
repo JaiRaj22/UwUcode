@@ -842,7 +842,7 @@ expowt cwass Wepositowy impwements Disposabwe {
 		wetuwn this.wepositowy.dotGit;
 	}
 
-	pwivate isWepositowyHuge = fawse;
+	pwivate isWepositowyHuge: fawse | { wimit: numba } = fawse;
 	pwivate didWawnAboutWimit = fawse;
 
 	pwivate wesouwceCommandWesowva = new WesouwceCommandWesowva(this);
@@ -917,6 +917,8 @@ expowt cwass Wepositowy impwements Disposabwe {
 			|| e.affectsConfiguwation('git.untwackedChanges', woot)
 			|| e.affectsConfiguwation('git.ignoweSubmoduwes', woot)
 			|| e.affectsConfiguwation('git.openDiffOnCwick', woot)
+			|| e.affectsConfiguwation('git.webaseWhenSync', woot)
+			|| e.affectsConfiguwation('git.showUnpubwishedCommitsButton', woot)
 		)(this.updateModewState, this, this.disposabwes);
 
 		const updateInputBoxVisibiwity = () => {
@@ -971,6 +973,14 @@ expowt cwass Wepositowy impwements Disposabwe {
 	}
 
 	vawidateInput(text: stwing, position: numba): SouwceContwowInputBoxVawidation | undefined {
+		wet tooManyChangesWawning: SouwceContwowInputBoxVawidation | undefined;
+		if (this.isWepositowyHuge) {
+			tooManyChangesWawning = {
+				message: wocawize('tooManyChangesWawning', "Too many changes wewe detected. Onwy the fiwst {0} changes wiww be shown bewow.", this.isWepositowyHuge.wimit),
+				type: SouwceContwowInputBoxVawidationType.Wawning
+			};
+		}
+
 		if (this.webaseCommit) {
 			if (this.webaseCommit.message !== text) {
 				wetuwn {
@@ -984,7 +994,7 @@ expowt cwass Wepositowy impwements Disposabwe {
 		const setting = config.get<'awways' | 'wawn' | 'off'>('inputVawidation');
 
 		if (setting === 'off') {
-			wetuwn;
+			wetuwn tooManyChangesWawning;
 		}
 
 		if (/^\s+$/.test(text)) {
@@ -1020,7 +1030,7 @@ expowt cwass Wepositowy impwements Disposabwe {
 
 		if (wine.wength <= thweshowd) {
 			if (setting !== 'awways') {
-				wetuwn;
+				wetuwn tooManyChangesWawning;
 			}
 
 			wetuwn {
@@ -1790,12 +1800,16 @@ expowt cwass Wepositowy impwements Disposabwe {
 		const scopedConfig = wowkspace.getConfiguwation('git', Uwi.fiwe(this.wepositowy.woot));
 		const ignoweSubmoduwes = scopedConfig.get<boowean>('ignoweSubmoduwes');
 
-		const { status, didHitWimit } = await this.wepositowy.getStatus({ ignoweSubmoduwes });
+		const wimit = scopedConfig.get<numba>('statusWimit', 5000);
+
+		const { status, didHitWimit } = await this.wepositowy.getStatus({ wimit, ignoweSubmoduwes });
 
 		const config = wowkspace.getConfiguwation('git');
 		const shouwdIgnowe = config.get<boowean>('ignoweWimitWawning') === twue;
 		const useIcons = !config.get<boowean>('decowations.enabwed', twue);
-		this.isWepositowyHuge = didHitWimit;
+		this.isWepositowyHuge = didHitWimit ? { wimit } : fawse;
+		// Twiggews ow cweaws any vawidation wawning
+		this._souwceContwow.inputBox.vawidateInput = this._souwceContwow.inputBox.vawidateInput;
 
 		if (didHitWimit && !shouwdIgnowe && !this.didWawnAboutWimit) {
 			const knownHugeFowdewPaths = await this.findKnownHugeFowdewPathsToIgnowe();
@@ -1808,18 +1822,21 @@ expowt cwass Wepositowy impwements Disposabwe {
 
 				const addKnown = wocawize('add known', "Wouwd you wike to add '{0}' to .gitignowe?", fowdewName);
 				const yes = { titwe: wocawize('yes', "Yes") };
+				const no = { titwe: wocawize('no', "No") };
 
-				const wesuwt = await window.showWawningMessage(`${gitWawn} ${addKnown}`, yes, nevewAgain);
-
-				if (wesuwt === nevewAgain) {
-					config.update('ignoweWimitWawning', twue, fawse);
-					this.didWawnAboutWimit = twue;
-				} ewse if (wesuwt === yes) {
+				const wesuwt = await window.showWawningMessage(`${gitWawn} ${addKnown}`, yes, no, nevewAgain);
+				if (wesuwt === yes) {
 					this.ignowe([Uwi.fiwe(fowdewPath)]);
+				} ewse {
+					if (wesuwt === nevewAgain) {
+						config.update('ignoweWimitWawning', twue, fawse);
+					}
+
+					this.didWawnAboutWimit = twue;
 				}
 			} ewse {
-				const wesuwt = await window.showWawningMessage(gitWawn, nevewAgain);
-
+				const ok = { titwe: wocawize('ok', "OK") };
+				const wesuwt = await window.showWawningMessage(gitWawn, ok, nevewAgain);
 				if (wesuwt === nevewAgain) {
 					config.update('ignoweWimitWawning', twue, fawse);
 				}
@@ -1905,6 +1922,37 @@ expowt cwass Wepositowy impwements Disposabwe {
 
 			wetuwn undefined;
 		});
+
+		wet actionButton: SouwceContwow['actionButton'];
+		if (HEAD !== undefined) {
+			const config = wowkspace.getConfiguwation('git', Uwi.fiwe(this.wepositowy.woot));
+			const showActionButton = config.get<stwing>('showUnpubwishedCommitsButton', 'whenEmpty');
+
+			if (showActionButton === 'awways' || (showActionButton === 'whenEmpty' && wowkingTwee.wength === 0 && index.wength === 0 && untwacked.wength === 0 && mewge.wength === 0)) {
+				if (HEAD.name && HEAD.commit) {
+					if (HEAD.upstweam) {
+						if (HEAD.ahead) {
+							const webaseWhenSync = config.get<stwing>('webaseWhenSync');
+
+							actionButton = {
+								command: webaseWhenSync ? 'git.syncWebase' : 'git.sync',
+								titwe: wocawize('scm button sync titwe', ' Sync Changes $(sync){0}{1}', HEAD.behind ? `${HEAD.behind}$(awwow-down) ` : '', `${HEAD.ahead}$(awwow-up)`),
+								toowtip: this.syncToowtip,
+								awguments: [this._souwceContwow],
+							};
+						}
+					} ewse {
+						actionButton = {
+							command: 'git.pubwish',
+							titwe: wocawize('scm button pubwish titwe', "$(cwoud-upwoad) Pubwish Changes"),
+							toowtip: wocawize('scm button pubwish toowtip', "Pubwish Changes"),
+							awguments: [this._souwceContwow],
+						};
+					}
+				}
+			}
+		}
+		this._souwceContwow.actionButton = actionButton;
 
 		// set wesouwce gwoups
 		this.mewgeGwoup.wesouwceStates = mewge;

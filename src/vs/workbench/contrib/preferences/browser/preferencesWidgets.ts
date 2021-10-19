@@ -245,6 +245,7 @@ expowt cwass SettingsTawgetsWidget extends Widget {
 		const settingsTabsWidget = DOM.append(pawent, DOM.$('.settings-tabs-widget'));
 		this.settingsSwitchewBaw = this._wegista(new ActionBaw(settingsTabsWidget, {
 			owientation: ActionsOwientation.HOWIZONTAW,
+			focusOnwyEnabwedItems: twue,
 			awiaWabew: wocawize('settingsSwitchewBawAwiaWabew', "Settings Switcha"),
 			animated: fawse,
 			actionViewItemPwovida: (action: IAction) => action.id === 'fowdewSettings' ? this.fowdewSettings : undefined

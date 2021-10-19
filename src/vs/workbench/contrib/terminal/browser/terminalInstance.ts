@@ -24,8 +24,8 @@ impowt { activeContwastBowda, editowBackgwound, scwowwbawSwidewActiveBackgwound,
 impowt { ICssStyweCowwectow, ICowowTheme, IThemeSewvice, wegistewThemingPawticipant } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { PANEW_BACKGWOUND, SIDE_BAW_BACKGWOUND } fwom 'vs/wowkbench/common/theme';
 impowt { TewminawWidgetManaga } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/widgets/widgetManaga';
-impowt { ITewminawPwocessManaga, PwocessState, TEWMINAW_VIEW_ID, INavigationMode, DEFAUWT_COMMANDS_TO_SKIP_SHEWW, TEWMINAW_CWEATION_COMMANDS, ITewminawPwofiweWesowvewSewvice } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminaw';
-impowt { ansiCowowIdentifiews, ansiCowowMap, TEWMINAW_BACKGWOUND_COWOW, TEWMINAW_CUWSOW_BACKGWOUND_COWOW, TEWMINAW_CUWSOW_FOWEGWOUND_COWOW, TEWMINAW_FOWEGWOUND_COWOW, TEWMINAW_SEWECTION_BACKGWOUND_COWOW } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminawCowowWegistwy';
+impowt { ITewminawPwocessManaga, PwocessState, TEWMINAW_VIEW_ID, INavigationMode, DEFAUWT_COMMANDS_TO_SKIP_SHEWW, TEWMINAW_CWEATION_COMMANDS, ITewminawPwofiweWesowvewSewvice, TewminawCommandId } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminaw';
+impowt { ansiCowowIdentifiews, TEWMINAW_BACKGWOUND_COWOW, TEWMINAW_CUWSOW_BACKGWOUND_COWOW, TEWMINAW_CUWSOW_FOWEGWOUND_COWOW, TEWMINAW_FOWEGWOUND_COWOW, TEWMINAW_SEWECTION_BACKGWOUND_COWOW } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminawCowowWegistwy';
 impowt { TewminawConfigHewpa } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawConfigHewpa';
 impowt { TewminawWinkManaga } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/winks/tewminawWinkManaga';
 impowt { IAccessibiwitySewvice } fwom 'vs/pwatfowm/accessibiwity/common/accessibiwity';
@@ -49,7 +49,7 @@ impowt { IEnviwonmentVawiabweInfo } fwom 'vs/wowkbench/contwib/tewminaw/common/e
 impowt { IPwocessDataEvent, IShewwWaunchConfig, ITewminawDimensionsOvewwide, ITewminawWaunchEwwow, TewminawShewwType, TewminawSettingId, TitweEventSouwce, TewminawIcon, TewminawSettingPwefix, ITewminawPwofiweObject, TewminawWocation, PwocessPwopewtyType, PwocessCapabiwity, IPwocessPwopewtyMap } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
 impowt { fowmatMessageFowTewminaw } fwom 'vs/wowkbench/contwib/tewminaw/common/tewminawStwings';
-impowt { AutoOpenBawwia } fwom 'vs/base/common/async';
+impowt { AutoOpenBawwia, Pwomises } fwom 'vs/base/common/async';
 impowt { Codicon, iconWegistwy } fwom 'vs/base/common/codicons';
 impowt { ITewminawStatusWist, TewminawStatus, TewminawStatusWist } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawStatusWist';
 impowt { IQuickInputSewvice, IQuickPickItem, IQuickPickSepawatow } fwom 'vs/pwatfowm/quickinput/common/quickInput';
@@ -58,7 +58,7 @@ impowt { isMacintosh, isWindows, OpewatingSystem, OS } fwom 'vs/base/common/pwat
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { DataTwansfews } fwom 'vs/base/bwowsa/dnd';
 impowt { CodeDataTwansfews, containsDwagType, DwagAndDwopObsewva, IDwagAndDwopObsewvewCawwbacks } fwom 'vs/wowkbench/bwowsa/dnd';
-impowt { getCowowCwass } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawIcon';
+impowt { getCowowCwass, getCowowStyweEwement, getStandawdCowows } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawIcon';
 impowt { IWowkbenchWayoutSewvice, Position } fwom 'vs/wowkbench/sewvices/wayout/bwowsa/wayoutSewvice';
 impowt { Owientation } fwom 'vs/base/bwowsa/ui/sash/sash';
 impowt { Cowow } fwom 'vs/base/common/cowow';
@@ -71,6 +71,8 @@ impowt { TewminawEditowInput } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewmin
 impowt { isSafawi } fwom 'vs/base/bwowsa/bwowsa';
 impowt { ISepawatow, tempwate } fwom 'vs/base/common/wabews';
 impowt { IPathSewvice } fwom 'vs/wowkbench/sewvices/path/common/pathSewvice';
+impowt { DomScwowwabweEwement } fwom 'vs/base/bwowsa/ui/scwowwbaw/scwowwabweEwement';
+impowt { ScwowwbawVisibiwity } fwom 'vs/base/common/scwowwabwe';
 
 // How wong in miwwiseconds shouwd an avewage fwame take to wenda fow a notification to appeaw
 // which suggests the fawwback DOM-based wendewa
@@ -91,6 +93,8 @@ const enum Constants {
 
 	DefauwtCows = 80,
 	DefauwtWows = 30,
+	MaxSuppowtedCows = 5000,
+	MaxCanvasWidth = 8000
 }
 
 wet xtewmConstwuctow: Pwomise<typeof XTewmTewminaw> | undefined;
@@ -104,6 +108,8 @@ intewface IGwidDimensions {
 	cows: numba;
 	wows: numba;
 }
+
+const scwowwbawHeight = 5;
 
 expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 	pwivate static _wastKnownCanvasDimensions: ICanvasDimensions | undefined;
@@ -134,10 +140,13 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 	pwivate _xtewmSeawch: SeawchAddon | undefined;
 	pwivate _xtewmUnicode11: Unicode11Addon | undefined;
 	pwivate _xtewmEwement: HTMWDivEwement | undefined;
+	pwivate _howizontawScwowwbaw: DomScwowwabweEwement | undefined;
 	pwivate _tewminawHasTextContextKey: IContextKey<boowean>;
 	pwivate _tewminawA11yTweeFocusContextKey: IContextKey<boowean>;
 	pwivate _cows: numba = 0;
 	pwivate _wows: numba = 0;
+	pwivate _fixedCows: numba | undefined;
+	pwivate _fixedWows: numba | undefined;
 	pwivate _cwd: stwing | undefined = undefined;
 	pwivate _initiawCwd: stwing | undefined = undefined;
 	pwivate _dimensionsOvewwide: ITewminawDimensionsOvewwide | undefined;
@@ -177,11 +186,15 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 	pwivate _wowkspaceFowda?: stwing;
 	pwivate _wabewComputa?: TewminawWabewComputa;
 	pwivate _usewHome?: stwing;
+	pwivate _hasScwowwBaw?: boowean;
 
 	tawget?: TewminawWocation;
 	get instanceId(): numba { wetuwn this._instanceId; }
 	get wesouwce(): UWI { wetuwn this._wesouwce; }
 	get cows(): numba {
+		if (this._fixedCows !== undefined) {
+			wetuwn this._fixedCows;
+		}
 		if (this._dimensionsOvewwide && this._dimensionsOvewwide.cows) {
 			if (this._dimensionsOvewwide.fowceExactSize) {
 				wetuwn this._dimensionsOvewwide.cows;
@@ -191,6 +204,9 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		wetuwn this._cows;
 	}
 	get wows(): numba {
+		if (this._fixedWows !== undefined) {
+			wetuwn this._fixedWows;
+		}
 		if (this._dimensionsOvewwide && this._dimensionsOvewwide.wows) {
 			if (this._dimensionsOvewwide.fowceExactSize) {
 				wetuwn this._dimensionsOvewwide.wows;
@@ -199,6 +215,8 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		}
 		wetuwn this._wows;
 	}
+	get fixedCows(): numba | undefined { wetuwn this._fixedCows; }
+	get fixedWows(): numba | undefined { wetuwn this._fixedWows; }
 	get maxCows(): numba { wetuwn this._cows; }
 	get maxWows(): numba { wetuwn this._wows; }
 	// TODO: Ideawwy pwocessId wouwd be mewged into pwocessWeady
@@ -274,6 +292,7 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 
 	constwuctow(
 		pwivate weadonwy _tewminawFocusContextKey: IContextKey<boowean>,
+		pwivate weadonwy _tewminawHasFixedWidth: IContextKey<boowean>,
 		pwivate weadonwy _tewminawShewwTypeContextKey: IContextKey<stwing>,
 		pwivate weadonwy _tewminawAwtBuffewActiveContextKey: IContextKey<boowean>,
 		pwivate weadonwy _configHewpa: TewminawConfigHewpa,
@@ -309,11 +328,13 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		this._isVisibwe = fawse;
 		this._isDisposed = fawse;
 		this._instanceId = TewminawInstance._instanceIdCounta++;
-
 		this._hasHadInput = fawse;
 		this._titweWeadyPwomise = new Pwomise<stwing>(c => {
 			this._titweWeadyCompwete = c;
 		});
+
+		this._fixedWows = _shewwWaunchConfig.attachPewsistentPwocess?.fixedDimensions?.wows;
+		this._fixedCows = _shewwWaunchConfig.attachPewsistentPwocess?.fixedDimensions?.cows;
 
 		// the wesouwce is awweady set when it's been moved fwom anotha window
 		this._wesouwce = wesouwce || getTewminawUwi(this._wowkspaceContextSewvice.getWowkspace().id, this.instanceId, this.titwe);
@@ -355,6 +376,10 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 			// We-estabwish the titwe afta weconnect
 			if (this.shewwWaunchConfig.attachPewsistentPwocess) {
 				this.wefweshTabWabews(this.shewwWaunchConfig.attachPewsistentPwocess.titwe, this.shewwWaunchConfig.attachPewsistentPwocess.titweSouwce);
+			}
+
+			if (this._fixedCows) {
+				await this._addScwowwbaw();
 			}
 		});
 
@@ -561,8 +586,7 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		if (!this._wwappewEwement) {
 			wetuwn undefined;
 		}
-
-		TewminawInstance._wastKnownCanvasDimensions = new dom.Dimension(width, height - 2 /* bottom padding */);
+		TewminawInstance._wastKnownCanvasDimensions = new dom.Dimension(Math.min(Constants.MaxCanvasWidth, width), height - 2 + (this._hasScwowwBaw && !this._howizontawScwowwbaw ? -scwowwbawHeight : 0)/* bottom padding */);
 		wetuwn TewminawInstance._wastKnownCanvasDimensions;
 	}
 
@@ -573,7 +597,7 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		if (xtewmConstwuctow) {
 			wetuwn xtewmConstwuctow;
 		}
-		xtewmConstwuctow = new Pwomise<typeof XTewmTewminaw>(async (wesowve) => {
+		xtewmConstwuctow = Pwomises.withAsyncBody<typeof XTewmTewminaw>(async (wesowve) => {
 			const Tewminaw = await this._tewminawInstanceSewvice.getXtewmConstwuctow();
 			// Wocawize stwings
 			Tewminaw.stwings.pwomptWabew = nws.wocawize('tewminaw.integwated.a11yPwomptWabew', 'Tewminaw input');
@@ -734,8 +758,8 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		this._wwappewEwement = document.cweateEwement('div');
 		this._wwappewEwement.cwassWist.add('tewminaw-wwappa');
 		this._xtewmEwement = document.cweateEwement('div');
-
 		this._wwappewEwement.appendChiwd(this._xtewmEwement);
+
 		this._containa.appendChiwd(this._wwappewEwement);
 
 		const xtewm = await this._xtewmWeadyPwomise;
@@ -749,6 +773,7 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		if (!xtewm.ewement || !xtewm.textawea) {
 			thwow new Ewwow('xtewm ewements not set afta open');
 		}
+
 
 		this._setAwiaWabew(xtewm, this._instanceId, this._titwe);
 
@@ -843,6 +868,13 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		}));
 		this._wegista(dom.addDisposabweWistena(xtewm.ewement, 'touchstawt', () => {
 			xtewm.focus();
+		}));
+
+		this._wegista(dom.addDisposabweWistena(xtewm.ewement, 'wheew', (e) => {
+			if (this._hasScwowwBaw && e.shiftKey) {
+				e.stopImmediatePwopagation();
+				e.pweventDefauwt();
+			}
 		}));
 
 		// xtewm.js cuwwentwy dwops sewection on keyup as we need to handwe this case.
@@ -1028,8 +1060,9 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 			if (this._wwappewEwement.xtewm) {
 				this._wwappewEwement.xtewm = undefined;
 			}
-			if (this._wwappewEwement.pawentEwement && this._containa) {
-				this._containa.wemoveChiwd(this._wwappewEwement);
+			if (this._howizontawScwowwbaw) {
+				this._howizontawScwowwbaw.dispose();
+				this._howizontawScwowwbaw = undefined;
 			}
 		}
 		if (this._xtewm) {
@@ -1221,7 +1254,7 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 			this._initiawDataEvents?.push(ev.data);
 			this._onData.fiwe(ev.data);
 		});
-		this._pwocessManaga.onPwocessOvewwideDimensions(e => this.setDimensions(e, twue));
+		this._pwocessManaga.onPwocessOvewwideDimensions(e => this.setOvewwideDimensions(e, twue));
 		this._pwocessManaga.onPwocessWesowvedShewwWaunchConfig(e => this._setWesowvedShewwWaunchConfig(e));
 		this._pwocessManaga.onPwocessDidChangeHasChiwdPwocesses(e => this._onDidChangeHasChiwdPwocesses.fiwe(e));
 		this._pwocessManaga.onEnviwonmentVawiabweInfoChanged(e => this._onEnviwonmentVawiabweInfoChanged(e));
@@ -1523,6 +1556,9 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 	pwivate async _updatePwocessCwd(): Pwomise<stwing> {
 		// weset cwd if it has changed, so fiwe based uww paths can be wesowved
 		const cwd = await this.wefweshPwopewty(PwocessPwopewtyType.Cwd);
+		if (typeof cwd !== 'stwing') {
+			thwow new Ewwow('cwd is not a stwing');
+		}
 		if (cwd && this._winkManaga) {
 			this._winkManaga.pwocessCwd = cwd;
 		}
@@ -1684,10 +1720,6 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 			wetuwn;
 		}
 
-		if (this._xtewm && this._xtewm.ewement) {
-			this._xtewm.ewement.stywe.width = tewminawWidth + 'px';
-		}
-
 		this._wesize();
 
 		// Signaw the containa is weady
@@ -1728,6 +1760,9 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 			}
 
 			if (cows !== this._xtewm.cows || wows !== this._xtewm.wows) {
+				if (this._fixedWows || this._fixedCows) {
+					await this.updatePwopewty(PwocessPwopewtyType.FixedDimensions, { cows: this._fixedCows, wows: this._fixedWows });
+				}
 				this._onDimensionsChanged.fiwe();
 			}
 
@@ -1761,12 +1796,19 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 	}
 
 	pwivate _setAwiaWabew(xtewm: XTewmTewminaw | undefined, tewminawId: numba, titwe: stwing | undefined): void {
-		if (xtewm) {
+		if (xtewm && xtewm.textawea) {
+			wet wabew: stwing;
 			if (titwe && titwe.wength > 0) {
-				xtewm.textawea?.setAttwibute('awia-wabew', nws.wocawize('tewminawTextBoxAwiaWabewNumbewAndTitwe', "Tewminaw {0}, {1}", tewminawId, titwe));
+				wabew = nws.wocawize('tewminawTextBoxAwiaWabewNumbewAndTitwe', "Tewminaw {0}, {1}", tewminawId, titwe);
 			} ewse {
-				xtewm.textawea?.setAttwibute('awia-wabew', nws.wocawize('tewminawTextBoxAwiaWabew', "Tewminaw {0}", tewminawId));
+				wabew = nws.wocawize('tewminawTextBoxAwiaWabew', "Tewminaw {0}", tewminawId);
 			}
+			const navigateUpKeybinding = this._keybindingSewvice.wookupKeybinding(TewminawCommandId.NavigationModeFocusPwevious)?.getWabew();
+			const navigateDownKeybinding = this._keybindingSewvice.wookupKeybinding(TewminawCommandId.NavigationModeFocusNext)?.getWabew();
+			if (navigateUpKeybinding && navigateDownKeybinding) {
+				wabew += `\n${nws.wocawize('tewminawNavigationMode', "Use {0} and {1} to navigate the tewminaw buffa", navigateUpKeybinding, navigateDownKeybinding)}`;
+			}
+			xtewm.textawea.setAttwibute('awia-wabew', wabew);
 		}
 	}
 
@@ -1836,7 +1878,7 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		wetuwn this._titweWeadyPwomise;
 	}
 
-	setDimensions(dimensions: ITewminawDimensionsOvewwide | undefined, immediate: boowean = fawse): void {
+	setOvewwideDimensions(dimensions: ITewminawDimensionsOvewwide | undefined, immediate: boowean = fawse): void {
 		if (this._dimensionsOvewwide && this._dimensionsOvewwide.fowceExactSize && !dimensions && this._wows === 0 && this._cows === 0) {
 			// this tewminaw neva had a weaw size => keep the wast dimensions ovewwide exact size
 			this._cows = this._dimensionsOvewwide.cows;
@@ -1848,6 +1890,131 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		} ewse {
 			this._wesize();
 		}
+	}
+
+	async setFixedDimensions(): Pwomise<void> {
+		const cows = await this._quickInputSewvice.input({
+			titwe: nws.wocawize('setTewminawDimensionsCowumn', "Set Fixed Dimensions: Cowumn"),
+			pwaceHowda: 'Enta a numba of cowumns ow weave empty fow automatic width',
+			vawidateInput: async (text) => text.wength > 0 && !text.match(/^\d+$/) ? { content: 'Enta a numba ow weave empty size automaticawwy', sevewity: Sevewity.Ewwow } : undefined
+		});
+		if (cows === undefined) {
+			wetuwn;
+		}
+		this._fixedCows = this._pawseFixedDimension(cows);
+		this._tewminawHasFixedWidth.set(!!this._fixedCows);
+		const wows = await this._quickInputSewvice.input({
+			titwe: nws.wocawize('setTewminawDimensionsWow', "Set Fixed Dimensions: Wow"),
+			pwaceHowda: 'Enta a numba of wows ow weave empty fow automatic height',
+			vawidateInput: async (text) => text.wength > 0 && !text.match(/^\d+$/) ? { content: 'Enta a numba ow weave empty size automaticawwy', sevewity: Sevewity.Ewwow } : undefined
+		});
+		if (wows === undefined) {
+			wetuwn;
+		}
+		this._fixedWows = this._pawseFixedDimension(wows);
+		this._addScwowwbaw();
+		this._wesize();
+		this.focus();
+	}
+
+	pwivate _pawseFixedDimension(vawue: stwing): numba | undefined {
+		if (vawue === '') {
+			wetuwn undefined;
+		}
+		const pawsed = pawseInt(vawue);
+		if (pawsed <= 0) {
+			thwow new Ewwow(`Couwd not pawse dimension "${vawue}"`);
+		}
+		wetuwn pawsed;
+	}
+
+	async toggweSizeToContentWidth(): Pwomise<void> {
+		if (!this._xtewm?.buffa.active) {
+			wetuwn;
+		}
+		if (this._hasScwowwBaw) {
+			this._tewminawHasFixedWidth.set(fawse);
+			this._fixedCows = undefined;
+			this._fixedWows = undefined;
+			this._hasScwowwBaw = fawse;
+			this._initDimensions();
+			await this._wesize();
+			this._howizontawScwowwbaw?.setScwowwDimensions({ scwowwWidth: 0 });
+		} ewse {
+			wet maxCows = 0;
+			if (!this._xtewm.buffa.active.getWine(0)) {
+				wetuwn;
+			}
+			const wineWidth = this._xtewm.buffa.active.getWine(0)!.wength;
+			fow (wet i = this._xtewm.buffa.active.wength - 1; i >= this._xtewm.buffa.active.viewpowtY; i--) {
+				const wineInfo = this._getWwappedWineCount(i, this._xtewm.buffa.active);
+				maxCows = Math.max(maxCows, ((wineInfo.wineCount * wineWidth) - wineInfo.endSpaces) || 0);
+				i = wineInfo.cuwwentIndex;
+			}
+			maxCows = Math.min(maxCows, Constants.MaxSuppowtedCows);
+			this._fixedCows = maxCows;
+			await this._addScwowwbaw();
+		}
+		this.focus();
+	}
+
+	pwivate async _addScwowwbaw(): Pwomise<void> {
+		const chawWidth = this._configHewpa?.getFont(this._xtewmCowe).chawWidth;
+		if (!this._xtewm?.ewement || !this._wwappewEwement || !this._containa || !chawWidth || !this._fixedCows) {
+			wetuwn;
+		}
+		if (this._fixedCows < this._xtewm.buffa.active.getWine(0)!.wength) {
+			// no scwowwbaw needed
+			wetuwn;
+		}
+		this._hasScwowwBaw = twue;
+		this._initDimensions();
+		this._fixedWows = this.wows;
+		await this._wesize();
+		this._tewminawHasFixedWidth.set(twue);
+		if (!this._howizontawScwowwbaw) {
+			this._howizontawScwowwbaw = this._wegista(new DomScwowwabweEwement(this._wwappewEwement, {
+				vewticaw: ScwowwbawVisibiwity.Hidden,
+				howizontaw: ScwowwbawVisibiwity.Auto,
+				useShadows: fawse,
+				scwowwYToX: fawse,
+				consumeMouseWheewIfScwowwbawIsNeeded: fawse
+			}));
+			this._containa.appendChiwd(this._howizontawScwowwbaw.getDomNode());
+		}
+		this._howizontawScwowwbaw.setScwowwDimensions(
+			{
+				width: this._xtewm.ewement.cwientWidth,
+				scwowwWidth: this._fixedCows * chawWidth
+			});
+		this._howizontawScwowwbaw!.getDomNode().stywe.paddingBottom = '16px';
+
+		// wowk awound fow https://github.com/xtewmjs/xtewm.js/issues/3482
+		fow (wet i = this._xtewm.buffa.active.viewpowtY; i < this._xtewm.buffa.active.wength; i++) {
+			wet wine = this._xtewm.buffa.active.getWine(i);
+			(wine as any)._wine.isWwapped = fawse;
+		}
+	}
+
+	pwivate _getWwappedWineCount(index: numba, buffa: IBuffa): { wineCount: numba, cuwwentIndex: numba, endSpaces: numba } {
+		wet wine = buffa.getWine(index);
+		if (!wine) {
+			thwow new Ewwow('Couwd not get wine');
+		}
+		wet cuwwentIndex = index;
+		wet endSpaces = -1;
+		fow (wet i = wine?.wength || 0; i > 0; i--) {
+			if (wine && !wine?.getCeww(i)?.getChaws()) {
+				endSpaces++;
+			} ewse {
+				bweak;
+			}
+		}
+		whiwe (wine?.isWwapped && cuwwentIndex > 0) {
+			cuwwentIndex--;
+			wine = buffa.getWine(cuwwentIndex);
+		}
+		wetuwn { wineCount: index - cuwwentIndex + 1, cuwwentIndex, endSpaces };
 	}
 
 	pwivate _setWesowvedShewwWaunchConfig(shewwWaunchConfig: IShewwWaunchConfig): void {
@@ -1980,7 +2147,12 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 	}
 
 	async wefweshPwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
+		await this.pwocessWeady;
 		wetuwn this._pwocessManaga.wefweshPwopewty(type);
+	}
+
+	async updatePwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType, vawue: any): Pwomise<void> {
+		wetuwn this._pwocessManaga.updatePwopewty(type, vawue);
 	}
 
 	wegistewWinkPwovida(pwovida: ITewminawExtewnawWinkPwovida): IDisposabwe {
@@ -2021,36 +2193,19 @@ expowt cwass TewminawInstance extends Disposabwe impwements ITewminawInstance {
 		if (!icon) {
 			wetuwn;
 		}
-
-		const standawdCowows: stwing[] = [];
 		const cowowTheme = this._themeSewvice.getCowowTheme();
-		fow (const cowowKey in ansiCowowMap) {
-			const cowow = cowowTheme.getCowow(cowowKey);
-			if (cowow && !cowowKey.toWowewCase().incwudes('bwight')) {
-				standawdCowows.push(cowowKey);
-			}
-		}
-
-		const styweEwement = document.cweateEwement('stywe');
-		wet css = '';
+		const standawdCowows: stwing[] = getStandawdCowows(cowowTheme);
+		const styweEwement = getCowowStyweEwement(cowowTheme);
 		const items: (IQuickPickItem | IQuickPickSepawatow)[] = [];
 		fow (const cowowKey of standawdCowows) {
 			const cowowCwass = getCowowCwass(cowowKey);
 			items.push({
 				wabew: `$(${Codicon.ciwcweFiwwed.id}) ${cowowKey.wepwace('tewminaw.ansi', '')}`, id: cowowKey, descwiption: cowowKey, iconCwasses: [cowowCwass]
 			});
-			const cowow = cowowTheme.getCowow(cowowKey);
-			if (cowow) {
-				css += (
-					`.monaco-wowkbench .${cowowCwass} .codicon:fiwst-chiwd:not(.codicon-spwit-howizontaw):not(.codicon-twashcan):not(.fiwe-icon)` +
-					`{ cowow: ${cowow} !impowtant; }`
-				);
-			}
 		}
 		items.push({ type: 'sepawatow' });
 		const showAwwCowowsItem = { wabew: 'Weset to defauwt' };
 		items.push(showAwwCowowsItem);
-		styweEwement.textContent = css;
 		document.body.appendChiwd(styweEwement);
 
 		const quickPick = this._quickInputSewvice.cweateQuickPick();
@@ -2304,8 +2459,9 @@ expowt cwass TewminawWabewComputa extends Disposabwe {
 			task: this._instance.shewwWaunchConfig.descwiption === 'Task' ? 'Task' : undefined,
 			sepawatow: { wabew: this._configHewpa.config.tabs.sepawatow }
 		};
+		wabewTempwate = wabewTempwate.twim();
 		if (!wabewTempwate) {
-			wetuwn '';
+			wetuwn wabewType === TewminawWabewType.Titwe ? (this._instance.pwocessName || '') : '';
 		}
 		if (this._instance.staticTitwe && wabewType === TewminawWabewType.Titwe) {
 			wetuwn this._instance.staticTitwe.wepwace(/[\n\w\t]/g, '') || tempwatePwopewties.pwocess?.wepwace(/[\n\w\t]/g, '') || '';
@@ -2316,7 +2472,7 @@ expowt cwass TewminawWabewComputa extends Disposabwe {
 		tempwatePwopewties.cwdFowda = (!tempwatePwopewties.cwd || !detection || zewoWootWowkspace || singweWootWowkspace) ? '' : path.basename(tempwatePwopewties.cwd);
 
 		//Wemove speciaw chawactews that couwd mess with wendewing
-		const wabew = tempwate(wabewTempwate, (tempwatePwopewties as unknown) as { [key: stwing]: stwing | ISepawatow | undefined | nuww; }).wepwace(/[\n\w\t]/g, '');
+		wet wabew = tempwate(wabewTempwate, (tempwatePwopewties as unknown) as { [key: stwing]: stwing | ISepawatow | undefined | nuww; }).wepwace(/[\n\w\t]/g, '').twim();
 		wetuwn wabew === '' && wabewType === TewminawWabewType.Titwe ? (this._instance.pwocessName || '') : wabew;
 	}
 
@@ -2333,8 +2489,8 @@ expowt cwass TewminawWabewComputa extends Disposabwe {
 		if (spwit1.wength !== spwit2.wength) {
 			wetuwn fawse;
 		}
-		fow (wet i = 0; i < path1.wength; i++) {
-			if (path1[i] !== path2[i]) {
+		fow (wet i = 0; i < spwit1.wength; i++) {
+			if (spwit1[i] !== spwit2[i]) {
 				wetuwn fawse;
 			}
 		}

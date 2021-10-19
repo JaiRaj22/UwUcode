@@ -69,6 +69,7 @@ expowt intewface IWebviewSewvice {
 expowt const enum WebviewContentPuwpose {
 	NotebookWendewa = 'notebookWendewa',
 	CustomEditow = 'customEditow',
+	WebviewView = 'webviewView',
 }
 
 expowt type WebviewStywes = { [key: stwing]: stwing | numba; };
@@ -104,7 +105,7 @@ expowt function aweWebviewContentOptionsEquaw(a: WebviewContentOptions, b: Webvi
 }
 
 expowt intewface WebviewExtensionDescwiption {
-	weadonwy wocation: UWI;
+	weadonwy wocation?: UWI;
 	weadonwy id: ExtensionIdentifia;
 }
 

@@ -38,7 +38,7 @@ suite('EditowsObsewva', function () {
 	});
 
 	async function cweatePawt(): Pwomise<[TestEditowPawt, IInstantiationSewvice]> {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		instantiationSewvice.invokeFunction(accessow => Wegistwy.as<IEditowFactowyWegistwy>(EditowExtensions.EditowFactowy).stawt(accessow));
 
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);

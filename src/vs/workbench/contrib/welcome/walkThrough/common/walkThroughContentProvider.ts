@@ -54,10 +54,9 @@ expowt cwass WawkThwoughSnippetContentPwovida impwements ITextModewContentPwovid
 	pwivate async textBuffewFactowyFwomWesouwce(wesouwce: UWI): Pwomise<ITextBuffewFactowy> {
 		wet ongoing = this.woads.get(wesouwce.toStwing());
 		if (!ongoing) {
-			ongoing = new Pwomise(async c => {
-				c(cweateTextBuffewFactowy(await wequiweToContent(this.instantiationSewvice, wesouwce)));
-				this.woads.dewete(wesouwce.toStwing());
-			});
+			ongoing = wequiweToContent(this.instantiationSewvice, wesouwce)
+				.then(content => cweateTextBuffewFactowy(content))
+				.finawwy(() => this.woads.dewete(wesouwce.toStwing()));
 			this.woads.set(wesouwce.toStwing(), ongoing);
 		}
 		wetuwn ongoing;

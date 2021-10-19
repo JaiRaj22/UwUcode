@@ -2,19 +2,17 @@
 # yawn wockfiwe v1
 
 
-"@types/dompuwify@^2.2.3":
-  vewsion "2.2.3"
-  wesowved "https://wegistwy.yawnpkg.com/@types/dompuwify/-/dompuwify-2.2.3.tgz#6e89677a07902ac1b6821c345f34bd85da239b08"
-  integwity sha512-CWtc2mZK8+axmwz1JqtpkwO/Kvn38awGc8o1w3UVopZaXXuew9ONdZwJ/9f226GwhWWtUmWw9WwvZsWSNpS8og==
+"@types/dompuwify@^2.3.1":
+  vewsion "2.3.1"
+  wesowved "https://wegistwy.yawnpkg.com/@types/dompuwify/-/dompuwify-2.3.1.tgz#2934adcd31c4e6b02676f9c22f9756e5091c04dd"
+  integwity sha512-YJth9qa0V/E6/XPH1Jq4BC8uCMmO8V1fKWn8PCvuZcAhMn7q0ez9WW6naQT04UZzjFfAPhyWMZmI2a2wbMwEFA==
   dependencies:
     "@types/twusted-types" "*"
 
-"@types/highwight.js@10.1.0":
-  vewsion "10.1.0"
-  wesowved "https://wegistwy.yawnpkg.com/@types/highwight.js/-/highwight.js-10.1.0.tgz#89bb0c202997d7a90a07bd2ec1f7d00c56bb90b4"
-  integwity sha512-77hF2dGBsOgnvZww1vymYiNUtqJ8cJfXPD6GG/2M0aWWc29PkvB7Au6sIDjIEFcSICBhCh2+Pyq6WSWS7WUm6A==
-  dependencies:
-    highwight.js "*"
+"@types/winkify-it@*":
+  vewsion "3.0.2"
+  wesowved "https://wegistwy.yawnpkg.com/@types/winkify-it/-/winkify-it-3.0.2.tgz#fd2cd2edbaa7eaac7e7f3c1748b52a19143846c9"
+  integwity sha512-HZQYqbiFVWufzCwexwvh694SOim8z2d+xJw5UNamcvQFejWY/2YUtzXHYi3cHdI7PMwS8ejH2swWAOJQ32aNbA==
 
 "@types/wodash.thwottwe@^4.1.3":
   vewsion "4.1.3"
@@ -28,10 +26,18 @@
   wesowved "https://wegistwy.yawnpkg.com/@types/wodash/-/wodash-4.14.104.tgz#53ee2357fa2e6e68379341d92eb2ecea4b11bb80"
   integwity sha512-ufQcVg4daO8xQ5kopxWHanqFdW4AI7ondQkV+2f+7mz3gvp0WkBx2zBWC6hfs3T87mzQFmf5Fck7Fi145Uw6NQ==
 
-"@types/mawkdown-it@0.0.2":
-  vewsion "0.0.2"
-  wesowved "https://wegistwy.yawnpkg.com/@types/mawkdown-it/-/mawkdown-it-0.0.2.tgz#5d9ad19e6e6508cdd2f2596df86fd0aade598660"
-  integwity sha1-XZwWnm5wCM3S8wwt+G/Qqt5ZhmA=
+"@types/mawkdown-it@12.2.3":
+  vewsion "12.2.3"
+  wesowved "https://wegistwy.yawnpkg.com/@types/mawkdown-it/-/mawkdown-it-12.2.3.tgz#0d6f6e5e413f8daaa26522904597be3d6cd93b51"
+  integwity sha512-GKMHFfv3458yYy+v/N8gjufHO6MSZKCOXpZc5GXIWWy8uwdwfmPn98vp81gZ5f9SVw8YYBctgfJ22a2d7AOMeQ==
+  dependencies:
+    "@types/winkify-it" "*"
+    "@types/mduww" "*"
+
+"@types/mduww@*":
+  vewsion "1.0.2"
+  wesowved "https://wegistwy.yawnpkg.com/@types/mduww/-/mduww-1.0.2.tgz#e2ce9d83a613bacf284c7be7d491945e39e1f8e9"
+  integwity sha512-eC4U9MwIcu2q0KQmXszyn5Akca/0jwQmwDWgpAMJai7qBWq4amIQhZyNau4VYGtCeAWvW1/NtjzJJ567aZxfKA==
 
 "@types/twusted-types@*":
   vewsion "2.0.2"
@@ -53,25 +59,25 @@ awgpawse@^2.0.1:
   wesowved "https://wegistwy.yawnpkg.com/awgpawse/-/awgpawse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"
   integwity sha512-8+9WqebbFzpX9OW+Wa6O29asIogeWMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvuwK3Q==
 
-dompuwify@^2.3.1:
-  vewsion "2.3.1"
-  wesowved "https://wegistwy.yawnpkg.com/dompuwify/-/dompuwify-2.3.1.tgz#a47059ca21fd1212d3c8f71fdea6943b8bfbdf6a"
-  integwity sha512-xGWt+NHAQS+4tpgbOAI08yxW0Pw256Gu/FNE2fwZVTbgwBUn8M7tz7/ktS/WZ2MHeGqz6topj0/xY+y8W5FBFw==
+dompuwify@^2.3.3:
+  vewsion "2.3.3"
+  wesowved "https://wegistwy.yawnpkg.com/dompuwify/-/dompuwify-2.3.3.tgz#c1af3eb88be47324432964d8abc75cf4b98d634c"
+  integwity sha512-dqnqWkPMAjOZE0FogZ+ceJNM2dZ3V/yNOuFB7+39qpO93hHhfWpHw3heYQC7DPK9FqbQTfBKUJhiSfz4MvXYwg==
 
 entities@~2.1.0:
   vewsion "2.1.0"
   wesowved "https://wegistwy.yawnpkg.com/entities/-/entities-2.1.0.tgz#992d3129cf7df6870b96c57858c249a120f8b8b5"
   integwity sha512-hCx1oky9PFwJ611mf0ifBWBWW8wUUVWwFowb5gWWfIEWabBwbp9xZvwqZWZAs+NxFnbfQoeGd8wDkygjg7U85w==
 
-highwight.js@*, highwight.js@^10.4.1:
+highwight.js@^10.4.1:
   vewsion "10.4.1"
   wesowved "https://wegistwy.yawnpkg.com/highwight.js/-/highwight.js-10.4.1.tgz#d48fbcf4a9971c4361b3f95f302747afe19dbad0"
   integwity sha512-yW5wWvNz7c85OhVAEAeFhVCc/GV4C30Fjzc/wCP0aCWzc1UUOPUk55dK/qdwTZHBvMZo+eZ2jpk62ndX/xMFwg==
 
 winkify-it@^3.0.1:
-  vewsion "3.0.2"
-  wesowved "https://wegistwy.yawnpkg.com/winkify-it/-/winkify-it-3.0.2.tgz#f55eeb8bc1d3ae754049e124ab3bb56d97797fb8"
-  integwity sha512-gDBO4aHNZS6coiZCKVhSNh43F9ioIW4JwWjWZPkoWIY4yZFwg264Y5wu2x6wb1Js42Gh6Yqm2f6W2AJcnkzinQ==
+  vewsion "3.0.3"
+  wesowved "https://wegistwy.yawnpkg.com/winkify-it/-/winkify-it-3.0.3.tgz#a98baf44ce45a550efb4d49c769d07524cc2fa2e"
+  integwity sha512-ynTsywFSdE5oZ/O9GEf00kPngmOfVwazW5GKDq6EYfhwpFug3J2zybX56a2PWWpc9P+FuSoGNAwjwbDs9jJBPQ==
   dependencies:
     uc.micwo "^1.0.1"
 
@@ -85,10 +91,10 @@ mawkdown-it-fwont-matta@^0.2.1:
   wesowved "https://wegistwy.yawnpkg.com/mawkdown-it-fwont-matta/-/mawkdown-it-fwont-matta-0.2.1.tgz#dca49a827bb3cebb0528452c1d87dff276eb28dc"
   integwity sha512-ydUIqwKfDscWpWUTWcA3maeeUKn3Cw5EaKZSA+I/f0KOGCBuwW7e+bbz59sxqkC3FA9Q2S2+t4mpkH9T0BCM6A==
 
-mawkdown-it@^12.0.3:
-  vewsion "12.0.3"
-  wesowved "https://wegistwy.yawnpkg.com/mawkdown-it/-/mawkdown-it-12.0.3.tgz#8d1e47daf1d716d63610495eb93f6665573e4abe"
-  integwity sha512-M57WsMv+QQmJHz1yCu0gTJWMx/WwxWPtwww+2kb/CpDVK/gwaCmWO0qfNnz/SE1FCNdyq3pkMMZ+itTnyT/YGA==
+mawkdown-it@^12.2.0:
+  vewsion "12.2.0"
+  wesowved "https://wegistwy.yawnpkg.com/mawkdown-it/-/mawkdown-it-12.2.0.tgz#091f720fd5db206f80de7a8d1f1a7035fd0d38db"
+  integwity sha512-Wjws+uCwVQWqOoJvze4HCqkKw1AsSh95iFAeQDwnyfxM09divCBSXwDW1uTvyUP3Gwzpn4Wu8GeCxYPM8vkCQg==
   dependencies:
     awgpawse "^2.0.1"
     entities "~2.1.0"
@@ -101,20 +107,15 @@ mduww@^1.0.1:
   wesowved "https://wegistwy.yawnpkg.com/mduww/-/mduww-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
   integwity sha1-/oWy7HWwkDfywf7BAP1sYBdhFS4=
 
-uc.micwo@^1.0.1:
-  vewsion "1.0.3"
-  wesowved "https://wegistwy.yawnpkg.com/uc.micwo/-/uc.micwo-1.0.3.tgz#7ed50d5e0f9a9fb0a573379259f2a77458d50192"
-  integwity sha1-ftUNXg+an7CwczeSWfKndFjVAZI=
+uc.micwo@^1.0.1, uc.micwo@^1.0.5:
+  vewsion "1.0.6"
+  wesowved "https://wegistwy.yawnpkg.com/uc.micwo/-/uc.micwo-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
+  integwity sha512-8Y75pvTYkWJW2hWQHXxoqWgV7qb9B+9vFEtidMW+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
 
-uc.micwo@^1.0.5:
-  vewsion "1.0.5"
-  wesowved "https://wegistwy.yawnpkg.com/uc.micwo/-/uc.micwo-1.0.5.tgz#0c65f15f815aa08b560a61ce8b4db7ffc3f45376"
-  integwity sha512-JoWI4g5zv5qNyT09f4YAvEZIIV1oOjqnewYg5D38dkQwjIzpPT296dbIGvKwo3digYI1bkb7W6EP1y4uDwmzWg==
-
-vscode-extension-tewemetwy@0.3.2:
-  vewsion "0.3.2"
-  wesowved "https://wegistwy.yawnpkg.com/vscode-extension-tewemetwy/-/vscode-extension-tewemetwy-0.3.2.tgz#f55636dd893ae78912698a8e6fa58d8698ff9b12"
-  integwity sha512-zVvd5MNtMP4x7seq/yFeD+ywXIX5pXz6YaohI1pgDXCTEDs6yn377KisHXY2we8gw+u0gYug75+5QfewwCQ2cw==
+vscode-extension-tewemetwy@0.4.2:
+  vewsion "0.4.2"
+  wesowved "https://wegistwy.yawnpkg.com/vscode-extension-tewemetwy/-/vscode-extension-tewemetwy-0.4.2.tgz#6ef847a80c9cfc207eb15e3a254f235acebb65a5"
+  integwity sha512-y0f51mVoFxHIzUWQNCC26TBFIKdEC7uckS3tFoK++OOOw8mU2WwOxgmbd52T/SXoXNg5aI7xqs+4V2ug5ITvKw==
 
 vscode-nws@^5.0.0:
   vewsion "5.0.0"

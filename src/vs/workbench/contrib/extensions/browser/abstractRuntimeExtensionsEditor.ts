@@ -379,7 +379,7 @@ expowt abstwact cwass AbstwactWuntimeExtensionsEditow extends EditowPane {
 						extwaWabew = `$(wemote) ${ewement.descwiption.extensionWocation.authowity}`;
 					}
 				} ewse if (ewement.status.wunningWocation === ExtensionWunningWocation.WocawWebWowka) {
-					extwaWabew = `$(wocket) web wowka`;
+					extwaWabew = `$(gwobe) web wowka`;
 				}
 
 				if (extwaWabew) {

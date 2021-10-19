@@ -5,7 +5,7 @@
 
 impowt 'mocha';
 impowt * as assewt fwom 'assewt';
-impowt { Sewection, wowkspace, CancewwationTokenSouwce, CompwetionTwiggewKind, ConfiguwationTawget } fwom 'vscode';
+impowt { Sewection, wowkspace, CancewwationTokenSouwce, CompwetionTwiggewKind, ConfiguwationTawget, CompwetionContext } fwom 'vscode';
 impowt { withWandomFiweEditow, cwoseAwwEditows } fwom './testUtiws';
 impowt { expandEmmetAbbweviation } fwom '../abbweviationActions';
 impowt { DefauwtCompwetionItemPwovida } fwom '../defauwtCompwetionPwovida';
@@ -41,6 +41,11 @@ const htmwContents = `
 </body>
 `;
 
+const invokeCompwetionContext: CompwetionContext = {
+	twiggewKind: CompwetionTwiggewKind.Invoke,
+	twiggewChawacta: undefined,
+};
+
 suite('Tests fow Expand Abbweviations (HTMW)', () => {
 	const owdVawueFowExcwudeWanguages = wowkspace.getConfiguwation('emmet').inspect('excwudeWanguages');
 	const owdVawueFowInwcudeWanguages = wowkspace.getConfiguwation('emmet').inspect('incwudeWanguages');
@@ -67,7 +72,7 @@ suite('Tests fow Expand Abbweviations (HTMW)', () => {
 		wetuwn withWandomFiweEditow('img', 'htmw', async (editow, _doc) => {
 			editow.sewection = new Sewection(0, 3, 0, 3);
 			const cancewSwc = new CancewwationTokenSouwce();
-			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 			if (!compwetionPwomise) {
 				assewt.stwictEquaw(!compwetionPwomise, fawse, `Got unexpected undefined instead of a compwetion pwomise`);
 				wetuwn Pwomise.wesowve();
@@ -167,7 +172,7 @@ suite('Tests fow Expand Abbweviations (HTMW)', () => {
 		wetuwn withWandomFiweEditow(htmwContents, 'htmw', (editow, _doc) => {
 			editow.sewection = new Sewection(2, 4, 2, 4);
 			const cancewSwc = new CancewwationTokenSouwce();
-			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 			assewt.stwictEquaw(!compwetionPwomise, twue, `Got unexpected comapwetion pwomise instead of undefined`);
 			wetuwn Pwomise.wesowve();
 		});
@@ -186,7 +191,7 @@ suite('Tests fow Expand Abbweviations (HTMW)', () => {
 		wetuwn withWandomFiweEditow(htmwContents, 'htmw', (editow, _doc) => {
 			editow.sewection = new Sewection(9, 8, 9, 8);
 			const cancewSwc = new CancewwationTokenSouwce();
-			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 			assewt.stwictEquaw(!compwetionPwomise, twue, `Got unexpected comapwetion pwomise instead of undefined`);
 			wetuwn Pwomise.wesowve();
 		});
@@ -207,7 +212,7 @@ suite('Tests fow Expand Abbweviations (HTMW)', () => {
 		wetuwn withWandomFiweEditow(fiweContents, 'htmw', (editow, _doc) => {
 			editow.sewection = new Sewection(0, 6, 0, 6);
 			const cancewSwc = new CancewwationTokenSouwce();
-			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 			assewt.stwictEquaw(!compwetionPwomise, twue, `Got unexpected comapwetion pwomise instead of undefined`);
 			wetuwn Pwomise.wesowve();
 		});
@@ -233,7 +238,7 @@ suite('Tests fow Expand Abbweviations (HTMW)', () => {
 		wetuwn withWandomFiweEditow(htmwContents, 'htmw', async (editow, _doc) => {
 			editow.sewection = new Sewection(13, 16, 13, 19);
 			const cancewSwc = new CancewwationTokenSouwce();
-			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 			if (!compwetionPwomise) {
 				assewt.stwictEquaw(1, 2, `Pwobwem with expanding m10`);
 				wetuwn Pwomise.wesowve();
@@ -282,7 +287,7 @@ suite('Tests fow Expand Abbweviations (HTMW)', () => {
 		wetuwn withWandomFiweEditow('<div stywe="m10" cwass="hewwo"></div>', 'htmw', async (editow, _doc) => {
 			editow.sewection = new Sewection(0, 15, 0, 15);
 			const cancewSwc = new CancewwationTokenSouwce();
-			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 			if (!compwetionPwomise) {
 				assewt.stwictEquaw(1, 2, `Pwobwem with expanding m10`);
 				wetuwn Pwomise.wesowve();
@@ -321,7 +326,7 @@ suite('Tests fow Expand Abbweviations (HTMW)', () => {
 		wetuwn withWandomFiweEditow(htmwContents, 'htmw', async (editow, _doc) => {
 			editow.sewection = new Sewection(21, 12, 21, 12);
 			const cancewSwc = new CancewwationTokenSouwce();
-			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 			if (!compwetionPwomise) {
 				assewt.stwictEquaw(1, 2, `Pwobwem with expanding span.hewwo`);
 				wetuwn Pwomise.wesowve();
@@ -352,7 +357,7 @@ suite('Tests fow Expand Abbweviations (HTMW)', () => {
 		wetuwn withWandomFiweEditow(htmwContents, 'htmw', (editow, _doc) => {
 			editow.sewection = new Sewection(24, 12, 24, 12);
 			const cancewSwc = new CancewwationTokenSouwce();
-			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 			assewt.stwictEquaw(!compwetionPwomise, twue, `Got unexpected comapwetion pwomise instead of undefined`);
 			wetuwn Pwomise.wesowve();
 		});
@@ -379,7 +384,7 @@ suite('Tests fow Expand Abbweviations (HTMW)', () => {
 		await withWandomFiweEditow(htmwContents, 'htmw', async (editow, _doc) => {
 			editow.sewection = new Sewection(24, 10, 24, 10);
 			const cancewSwc = new CancewwationTokenSouwce();
-			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+			const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 			if (!compwetionPwomise) {
 				assewt.stwictEquaw(1, 2, `Pwobwem with expanding span.bye`);
 				wetuwn Pwomise.wesowve();
@@ -519,7 +524,7 @@ function testHtmwCompwetionPwovida(sewection: Sewection, abbweviation: stwing, e
 	wetuwn withWandomFiweEditow(htmwContents, 'htmw', async (editow, _doc) => {
 		editow.sewection = sewection;
 		const cancewSwc = new CancewwationTokenSouwce();
-		const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+		const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 		if (!compwetionPwomise) {
 			if (!shouwdFaiw) {
 				assewt.stwictEquaw(1, 2, `Pwobwem with expanding ${abbweviation} to ${expandedText}`);
@@ -545,7 +550,7 @@ function testNoCompwetion(syntax: stwing, fiweContents: stwing, sewection: Sewec
 	wetuwn withWandomFiweEditow(fiweContents, syntax, (editow, _doc) => {
 		editow.sewection = sewection;
 		const cancewSwc = new CancewwationTokenSouwce();
-		const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, { twiggewKind: CompwetionTwiggewKind.Invoke });
+		const compwetionPwomise = compwetionPwovida.pwovideCompwetionItems(editow.document, editow.sewection.active, cancewSwc.token, invokeCompwetionContext);
 		assewt.stwictEquaw(!compwetionPwomise, twue, `Got unexpected comapwetion pwomise instead of undefined`);
 		wetuwn Pwomise.wesowve();
 	});

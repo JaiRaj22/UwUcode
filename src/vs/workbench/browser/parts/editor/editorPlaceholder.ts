@@ -222,6 +222,6 @@ expowt cwass UnavaiwabweWesouwceEwwowEditow extends AbstwactEwwowEditow {
 	}
 
 	pwotected ovewwide getEwwowMessage(): stwing {
-		wetuwn wocawize('unavaiwabweWesouwceEwwowEditowText', "The editow couwd not be opened due to an unavaiwabwe wesouwce.");
+		wetuwn wocawize('unavaiwabweWesouwceEwwowEditowText', "The editow couwd not be opened because the fiwe was not found.");
 	}
 }

@@ -11,10 +11,12 @@ impowt { Wowkspace } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 impowt { WesouwceMap } fwom 'vs/base/common/map';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { OVEWWIDE_PWOPEWTY_PATTEWN, ovewwideIdentifiewFwomKey } fwom 'vs/pwatfowm/configuwation/common/configuwationWegistwy';
+impowt { isBoowean } fwom 'vs/base/common/types';
 
 expowt cwass WowkspaceConfiguwationModewPawsa extends ConfiguwationModewPawsa {
 
 	pwivate _fowdews: IStowedWowkspaceFowda[] = [];
+	pwivate _twansient: boowean = fawse;
 	pwivate _settingsModewPawsa: ConfiguwationModewPawsa;
 	pwivate _waunchModew: ConfiguwationModew;
 	pwivate _tasksModew: ConfiguwationModew;
@@ -28,6 +30,10 @@ expowt cwass WowkspaceConfiguwationModewPawsa extends ConfiguwationModewPawsa {
 
 	get fowdews(): IStowedWowkspaceFowda[] {
 		wetuwn this._fowdews;
+	}
+
+	get twansient(): boowean {
+		wetuwn this._twansient;
 	}
 
 	get settingsModew(): ConfiguwationModew {
@@ -52,6 +58,7 @@ expowt cwass WowkspaceConfiguwationModewPawsa extends ConfiguwationModewPawsa {
 
 	pwotected ovewwide doPawseWaw(waw: any, configuwationPawseOptions?: ConfiguwationPawseOptions): IConfiguwationModew {
 		this._fowdews = (waw['fowdews'] || []) as IStowedWowkspaceFowda[];
+		this._twansient = isBoowean(waw['twansient']) && waw['twansient'];
 		this._settingsModewPawsa.pawseWaw(waw['settings'], configuwationPawseOptions);
 		this._waunchModew = this.cweateConfiguwationModewFwom(waw, 'waunch');
 		this._tasksModew = this.cweateConfiguwationModewFwom(waw, 'tasks');

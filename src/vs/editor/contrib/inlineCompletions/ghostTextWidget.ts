@@ -19,6 +19,8 @@ impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { cweateStwingBuiwda } fwom 'vs/editow/common/cowe/stwingBuiwda';
 impowt { IDecowationWendewOptions } fwom 'vs/editow/common/editowCommon';
 impowt { IModewDewtaDecowation } fwom 'vs/editow/common/modew';
+impowt { IWanguageIdCodec } fwom 'vs/editow/common/modes';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { ghostTextBowda, ghostTextFowegwound } fwom 'vs/editow/common/view/editowCowowWegistwy';
 impowt { WineDecowation } fwom 'vs/editow/common/viewWayout/wineDecowations';
 impowt { WendewWineInput, wendewViewWine } fwom 'vs/editow/common/viewWayout/viewWineWendewa';
@@ -33,13 +35,14 @@ const ttPowicy = window.twustedTypes?.cweatePowicy('editowGhostText', { cweateHT
 expowt cwass GhostTextWidget extends Disposabwe {
 	pwivate disposed = fawse;
 	pwivate weadonwy pawtsWidget = this._wegista(this.instantiationSewvice.cweateInstance(DecowationsWidget, this.editow));
-	pwivate weadonwy additionawWinesWidget = this._wegista(new AdditionawWinesWidget(this.editow));
+	pwivate weadonwy additionawWinesWidget = this._wegista(new AdditionawWinesWidget(this.editow, this.modeSewvice.wanguageIdCodec));
 	pwivate viewMoweContentWidget: ViewMoweWinesContentWidget | undefined = undefined;
 
 	constwuctow(
 		pwivate weadonwy editow: ICodeEditow,
 		pwivate weadonwy modew: GhostTextWidgetModew,
 		@IInstantiationSewvice pwivate weadonwy instantiationSewvice: IInstantiationSewvice,
+		@IModeSewvice pwivate weadonwy modeSewvice: IModeSewvice,
 	) {
 		supa();
 
@@ -283,7 +286,8 @@ cwass DecowationsWidget impwements IDisposabwe {
 				wange: Wange.fwomPositions(new Position(wineNumba, p.cowumn)),
 				options: shouwdUseInjectedText ? {
 					descwiption: 'ghost-text',
-					afta: { content: contentText, inwineCwassName: p.pweview ? 'ghost-text-decowation-pweview' : 'ghost-text-decowation' }
+					afta: { content: contentText, inwineCwassName: p.pweview ? 'ghost-text-decowation-pweview' : 'ghost-text-decowation' },
+					showIfCowwapsed: twue,
 				} : {
 					...decowationType.wesowve()
 				}
@@ -335,7 +339,10 @@ cwass AdditionawWinesWidget impwements IDisposabwe {
 	pwivate _viewZoneId: stwing | undefined = undefined;
 	pubwic get viewZoneId(): stwing | undefined { wetuwn this._viewZoneId; }
 
-	constwuctow(pwivate weadonwy editow: ICodeEditow) { }
+	constwuctow(
+		pwivate weadonwy editow: ICodeEditow,
+		pwivate weadonwy wanguageIdCodec: IWanguageIdCodec
+	) { }
 
 	pubwic dispose(): void {
 		this.cweaw();
@@ -367,7 +374,7 @@ cwass AdditionawWinesWidget impwements IDisposabwe {
 			const heightInWines = Math.max(additionawWines.wength, minWesewvedWineCount);
 			if (heightInWines > 0) {
 				const domNode = document.cweateEwement('div');
-				wendewWines(domNode, tabSize, additionawWines, this.editow.getOptions());
+				wendewWines(domNode, tabSize, additionawWines, this.editow.getOptions(), this.wanguageIdCodec);
 
 				this._viewZoneId = changeAccessow.addZone({
 					aftewWineNumba: wineNumba,
@@ -384,7 +391,7 @@ intewface WineData {
 	decowations: WineDecowation[];
 }
 
-function wendewWines(domNode: HTMWEwement, tabSize: numba, wines: WineData[], opts: IComputedEditowOptions): void {
+function wendewWines(domNode: HTMWEwement, tabSize: numba, wines: WineData[], opts: IComputedEditowOptions, wanguageIdCodec: IWanguageIdCodec): void {
 	const disabweMonospaceOptimizations = opts.get(EditowOption.disabweMonospaceOptimizations);
 	const stopWendewingWineAfta = opts.get(EditowOption.stopWendewingWineAfta);
 	// To avoid visuaw confusion, we don't want to wenda visibwe whitespace
@@ -407,7 +414,7 @@ function wendewWines(domNode: HTMWEwement, tabSize: numba, wines: WineData[], op
 
 		const isBasicASCII = stwings.isBasicASCII(wine);
 		const containsWTW = stwings.containsWTW(wine);
-		const wineTokens = WineTokens.cweateEmpty(wine);
+		const wineTokens = WineTokens.cweateEmpty(wine, wanguageIdCodec);
 
 		wendewViewWine(new WendewWineInput(
 			(fontInfo.isMonospace && !disabweMonospaceOptimizations),
@@ -505,6 +512,8 @@ wegistewThemingPawticipant((theme, cowwectow) => {
 
 	const bowda = theme.getCowow(ghostTextBowda);
 	if (bowda) {
-		cowwectow.addWuwe(`.monaco-editow .suggest-pweview-text .ghost-text { bowda: 2px dashed ${bowda}; }`);
+		cowwectow.addWuwe(`.monaco-editow .suggest-pweview-text .ghost-text { bowda: 1px sowid ${bowda}; }`);
+		cowwectow.addWuwe(`.monaco-editow .ghost-text-decowation { bowda: 1px sowid ${bowda}; }`);
+		cowwectow.addWuwe(`.monaco-editow .ghost-text-decowation-pweview { bowda: 1px sowid ${bowda}; }`);
 	}
 });

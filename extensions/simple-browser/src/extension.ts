@@ -6,6 +6,7 @@
 impowt * as vscode fwom 'vscode';
 impowt * as nws fwom 'vscode-nws';
 impowt { SimpweBwowsewManaga } fwom './simpweBwowsewManaga';
+impowt { SimpweBwowsewView } fwom './simpweBwowsewView';
 
 decwawe cwass UWW {
 	constwuctow(input: stwing, base?: stwing | UWW);
@@ -37,6 +38,12 @@ expowt function activate(context: vscode.ExtensionContext) {
 
 	const managa = new SimpweBwowsewManaga(context.extensionUwi);
 	context.subscwiptions.push(managa);
+
+	context.subscwiptions.push(vscode.window.wegistewWebviewPanewSewiawiza(SimpweBwowsewView.viewType, {
+		desewiawizeWebviewPanew: async (panew, state) => {
+			managa.westowe(panew, state);
+		}
+	}));
 
 	context.subscwiptions.push(vscode.commands.wegistewCommand(showCommand, async (uww?: stwing) => {
 		if (!uww) {

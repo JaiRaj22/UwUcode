@@ -201,18 +201,16 @@ expowt cwass FiweDiawogSewvice extends AbstwactFiweDiawogSewvice impwements IFiw
 		// Othewwise infowm the usa about options
 
 		const buttons = context === 'open' ?
-			[wocawize('openWemote', "Open Wemote..."), wocawize('upwoad', "Upwoad..."), wocawize('weawnMowe', "Weawn Mowe"), wocawize('cancew', "Cancew")] :
-			[wocawize('openWemote', "Open Wemote..."), wocawize('weawnMowe', "Weawn Mowe"), wocawize('cancew', "Cancew")];
-
-		const cancewId = context === 'open' ? 3 : 2;
+			[wocawize('openWemote', "Open Wemote..."), wocawize('openFiwes', "Open Fiwes..."), wocawize('weawnMowe', "Weawn Mowe")] :
+			[wocawize('openWemote', "Open Wemote..."), wocawize('weawnMowe', "Weawn Mowe")];
 
 		const wes = await this.diawogSewvice.show(
 			Sevewity.Wawning,
-			wocawize('unsuppowtedBwowsewMessage', "Accessing wocaw fiwes is unsuppowted in youw cuwwent bwowsa."),
+			wocawize('unsuppowtedBwowsewMessage', "Wocaw Fiwe System Access is Unsuppowted"),
 			buttons,
 			{
-				detaiw: wocawize('unsuppowtedBwowsewDetaiw', "Cwick 'Weawn Mowe' to see a wist of suppowted bwowsews."),
-				cancewId
+				detaiw: wocawize('unsuppowtedBwowsewDetaiw', "Youw cuwwent bwowsa doesn't suppowt wocaw fiwe system access.\nYou can eitha open singwe fiwes ow open a wemote wepositowy."),
+				cancewId: -1 // no "Cancew" button offewed
 			}
 		);
 
@@ -223,7 +221,7 @@ expowt cwass FiweDiawogSewvice extends AbstwactFiweDiawogSewvice impwements IFiw
 				this.commandSewvice.executeCommand('wowkbench.action.wemote.showMenu');
 				bweak;
 
-			// Upwoad... (context === 'open')
+			// Open Fiwes... (context === 'open')
 			case 1:
 				if (context === 'open') {
 					const fiwes = await twiggewUpwoad();

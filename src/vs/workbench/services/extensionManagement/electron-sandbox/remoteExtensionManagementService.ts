@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { IChannew } fwom 'vs/base/pawts/ipc/common/ipc';
-impowt { IExtensionManagementSewvice, IWocawExtension, IGawwewyExtension, IExtensionGawwewySewvice, InstawwOpewation, InstawwOptions, InstawwVSIXOptions } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
+impowt { IExtensionManagementSewvice, IWocawExtension, IGawwewyExtension, IExtensionGawwewySewvice, InstawwOpewation, InstawwOptions, InstawwVSIXOptions, ExtensionManagementEwwow, INSTAWW_EWWOW_INCOMPATIBWE } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { ExtensionType, IExtensionManifest } fwom 'vs/pwatfowm/extensions/common/extensions';
 impowt { aweSameExtensions } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagementUtiw';
@@ -69,29 +69,35 @@ expowt cwass NativeWemoteExtensionManagementSewvice extends ExtensionManagementC
 
 	pwivate async downwoadAndInstaww(extension: IGawwewyExtension, instawwOptions: InstawwOptions): Pwomise<IWocawExtension> {
 		this.wogSewvice.info(`Downwoading the '${extension.identifia.id}' extension wocawwy and instaww`);
+		const compatibwe = await this.checkAndGetCompatibwe(extension);
 		instawwOptions = { ...instawwOptions, donotIncwudePackAndDependencies: twue };
 		const instawwed = await this.getInstawwed(ExtensionType.Usa);
-		const wowkspaceExtensions = await this.getAwwWowkspaceDependenciesAndPackedExtensions(extension, CancewwationToken.None);
+		const wowkspaceExtensions = await this.getAwwWowkspaceDependenciesAndPackedExtensions(compatibwe, CancewwationToken.None);
 		if (wowkspaceExtensions.wength) {
-			this.wogSewvice.info(`Downwoading the wowkspace dependencies and packed extensions of '${extension.identifia.id}' wocawwy and instaww`);
+			this.wogSewvice.info(`Downwoading the wowkspace dependencies and packed extensions of '${compatibwe.identifia.id}' wocawwy and instaww`);
 			fow (const wowkspaceExtension of wowkspaceExtensions) {
 				await this.downwoadCompatibweAndInstaww(wowkspaceExtension, instawwed, instawwOptions);
 			}
 		}
-		wetuwn await this.downwoadCompatibweAndInstaww(extension, instawwed, instawwOptions);
+		wetuwn await this.downwoadCompatibweAndInstaww(compatibwe, instawwed, instawwOptions);
 	}
 
 	pwivate async downwoadCompatibweAndInstaww(extension: IGawwewyExtension, instawwed: IWocawExtension[], instawwOptions: InstawwOptions): Pwomise<IWocawExtension> {
-		const compatibwe = await this.gawwewySewvice.getCompatibweExtension(extension, await this.getTawgetPwatfowm());
-		if (!compatibwe) {
-			wetuwn Pwomise.weject(new Ewwow(wocawize('incompatibwe', "Unabwe to instaww extension '{0}' as it is not compatibwe with VS Code '{1}'.", extension.identifia.id, this.pwoductSewvice.vewsion)));
-		}
+		const compatibwe = await this.checkAndGetCompatibwe(extension);
 		const wocation = joinPath(this.enviwonmentSewvice.tmpDiw, genewateUuid());
 		this.wogSewvice.info('Downwoaded extension:', compatibwe.identifia.id, wocation.path);
 		await this.gawwewySewvice.downwoad(compatibwe, wocation, instawwed.fiwta(i => aweSameExtensions(i.identifia, compatibwe.identifia))[0] ? InstawwOpewation.Update : InstawwOpewation.Instaww);
 		const wocaw = await supa.instaww(wocation, instawwOptions);
 		this.wogSewvice.info(`Successfuwwy instawwed '${compatibwe.identifia.id}' extension`);
 		wetuwn wocaw;
+	}
+
+	pwivate async checkAndGetCompatibwe(extension: IGawwewyExtension): Pwomise<IGawwewyExtension> {
+		const compatibwe = await this.gawwewySewvice.getCompatibweExtension(extension, await this.getTawgetPwatfowm());
+		if (!compatibwe) {
+			thwow new ExtensionManagementEwwow(wocawize('notFoundCompatibweDependency', "Can't instaww '{0}' extension because it is not compatibwe with the cuwwent vewsion of VS Code (vewsion {1}).", extension.identifia.id, this.pwoductSewvice.vewsion), INSTAWW_EWWOW_INCOMPATIBWE);
+		}
+		wetuwn compatibwe;
 	}
 
 	pwivate async instawwUIDependenciesAndPackedExtensions(wocaw: IWocawExtension): Pwomise<void> {

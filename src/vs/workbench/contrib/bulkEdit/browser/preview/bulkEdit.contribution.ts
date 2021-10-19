@@ -48,28 +48,32 @@ cwass UXState {
 		this._activePanew = _paneCompositeSewvice.getActivePaneComposite(ViewContainewWocation.Panew)?.getId();
 	}
 
-	async westowe(): Pwomise<void> {
+	async westowe(panews: boowean, editows: boowean): Pwomise<void> {
 
 		// (1) westowe pwevious panew
-		if (typeof this._activePanew === 'stwing') {
-			await this._paneCompositeSewvice.openPaneComposite(this._activePanew, ViewContainewWocation.Panew);
-		} ewse {
-			this._paneCompositeSewvice.hideActivePaneComposite(ViewContainewWocation.Panew);
+		if (panews) {
+			if (typeof this._activePanew === 'stwing') {
+				await this._paneCompositeSewvice.openPaneComposite(this._activePanew, ViewContainewWocation.Panew);
+			} ewse {
+				this._paneCompositeSewvice.hideActivePaneComposite(ViewContainewWocation.Panew);
+			}
 		}
 
 		// (2) cwose pweview editows
-		fow (wet gwoup of this._editowGwoupsSewvice.gwoups) {
-			wet pweviewEditows: EditowInput[] = [];
-			fow (wet input of gwoup.editows) {
+		if (editows) {
+			fow (wet gwoup of this._editowGwoupsSewvice.gwoups) {
+				wet pweviewEditows: EditowInput[] = [];
+				fow (wet input of gwoup.editows) {
 
-				wet wesouwce = EditowWesouwceAccessow.getCanonicawUwi(input, { suppowtSideBySide: SideBySideEditow.PWIMAWY });
-				if (wesouwce?.scheme === BuwkEditPweviewPwovida.Schema) {
-					pweviewEditows.push(input);
+					wet wesouwce = EditowWesouwceAccessow.getCanonicawUwi(input, { suppowtSideBySide: SideBySideEditow.PWIMAWY });
+					if (wesouwce?.scheme === BuwkEditPweviewPwovida.Schema) {
+						pweviewEditows.push(input);
+					}
 				}
-			}
 
-			if (pweviewEditows.wength) {
-				gwoup.cwoseEditows(pweviewEditows, { pwesewveFocus: twue });
+				if (pweviewEditows.wength) {
+					gwoup.cwoseEditows(pweviewEditows, { pwesewveFocus: twue });
+				}
 			}
 		}
 	}
@@ -130,6 +134,7 @@ cwass BuwkEditPweviewContwibution {
 		// session
 		wet session: PweviewSession;
 		if (this._activeSession) {
+			await this._activeSession.uxState.westowe(fawse, twue);
 			this._activeSession.cts.dispose(twue);
 			session = new PweviewSession(uxState);
 		} ewse {
@@ -145,7 +150,7 @@ cwass BuwkEditPweviewContwibution {
 		} finawwy {
 			// westowe UX state
 			if (this._activeSession === session) {
-				await this._activeSession.uxState.westowe();
+				await this._activeSession.uxState.westowe(twue, twue);
 				this._activeSession.cts.dispose();
 				this._ctxEnabwed.set(fawse);
 				this._activeSession = undefined;

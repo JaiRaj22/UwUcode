@@ -64,11 +64,6 @@
 		"body": ["1. ${1:fiwst}", "2. ${2:second}", "3. ${3:thiwd}", "$0"],
 		"descwiption": "Insewt owdewed wist"
 	},
-	"Insewt definition wist": {
-	        "pwefix": "definition wist",
-		"body": ["${1:tewm}", ": ${2:definition}", "$0"],
-		"descwiption": "Insewt definition wist"
-	},
 	"Insewt howizontaw wuwe": {
 		"pwefix": "howizontaw wuwe",
 		"body": "----------\n",

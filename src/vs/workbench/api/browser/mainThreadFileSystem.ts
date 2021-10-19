@@ -6,7 +6,7 @@
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { IDisposabwe, dispose, toDisposabwe, DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { UWI, UwiComponents } fwom 'vs/base/common/uwi';
-impowt { FiweWwiteOptions, FiweSystemPwovidewCapabiwities, IFiweChange, IFiweSewvice, IStat, IWatchOptions, FiweType, FiweOvewwwiteOptions, FiweDeweteOptions, FiweOpenOptions, IFiweStat, FiweOpewationEwwow, FiweOpewationWesuwt, FiweSystemPwovidewEwwowCode, IFiweSystemPwovidewWithOpenWeadWwiteCwoseCapabiwity, IFiweSystemPwovidewWithFiweWeadWwiteCapabiwity, IFiweSystemPwovidewWithFiweFowdewCopyCapabiwity, FiwePewmission } fwom 'vs/pwatfowm/fiwes/common/fiwes';
+impowt { FiweWwiteOptions, FiweSystemPwovidewCapabiwities, IFiweChange, IFiweSewvice, IStat, IWatchOptions, FiweType, FiweOvewwwiteOptions, FiweDeweteOptions, FiweOpenOptions, IFiweStat, FiweOpewationEwwow, FiweOpewationWesuwt, FiweSystemPwovidewEwwowCode, IFiweSystemPwovidewWithOpenWeadWwiteCwoseCapabiwity, IFiweSystemPwovidewWithFiweWeadWwiteCapabiwity, IFiweSystemPwovidewWithFiweFowdewCopyCapabiwity, FiwePewmission, toFiweSystemPwovidewEwwowCode } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 impowt { extHostNamedCustoma } fwom 'vs/wowkbench/api/common/extHostCustomews';
 impowt { ExtHostContext, ExtHostFiweSystemShape, IExtHostContext, IFiweChangeDto, MainContext, MainThweadFiweSystemShape } fwom '../common/extHost.pwotocow';
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
@@ -139,6 +139,11 @@ expowt cwass MainThweadFiweSystem impwements MainThweadFiweSystemShape {
 				case FiweOpewationWesuwt.FIWE_MOVE_CONFWICT:
 					eww.name = FiweSystemPwovidewEwwowCode.FiweExists;
 					bweak;
+			}
+		} ewse if (eww instanceof Ewwow) {
+			const code = toFiweSystemPwovidewEwwowCode(eww);
+			if (code !== FiweSystemPwovidewEwwowCode.Unknown) {
+				eww.name = code;
 			}
 		}
 

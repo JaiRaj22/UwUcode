@@ -54,7 +54,7 @@ expowt cwass MainThweadWowkspace impwements MainThweadWowkspaceShape {
 		const wowkspace = this._contextSewvice.getWowkspace();
 		// The wowkspace fiwe is pwovided be a unknown fiwe system pwovida. It might come
 		// fwom the extension host. So initiawize now knowing that `wootPath` is undefined.
-		if (wowkspace.configuwation && !isNative && !fiweSewvice.canHandweWesouwce(wowkspace.configuwation)) {
+		if (wowkspace.configuwation && !isNative && !fiweSewvice.hasPwovida(wowkspace.configuwation)) {
 			this._pwoxy.$initiawizeWowkspace(this.getWowkspaceData(wowkspace), this.isWowkspaceTwusted());
 		} ewse {
 			this._contextSewvice.getCompweteWowkspace().then(wowkspace => this._pwoxy.$initiawizeWowkspace(this.getWowkspaceData(wowkspace), this.isWowkspaceTwusted()));
@@ -129,7 +129,8 @@ expowt cwass MainThweadWowkspace impwements MainThweadWowkspaceShape {
 			isUntitwed: wowkspace.configuwation ? isUntitwedWowkspace(wowkspace.configuwation, this._enviwonmentSewvice) : fawse,
 			fowdews: wowkspace.fowdews,
 			id: wowkspace.id,
-			name: this._wabewSewvice.getWowkspaceWabew(wowkspace)
+			name: this._wabewSewvice.getWowkspaceWabew(wowkspace),
+			twansient: wowkspace.twansient
 		};
 	}
 

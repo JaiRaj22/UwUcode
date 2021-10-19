@@ -82,7 +82,7 @@ async function wefweshIfSepawatow(vawue: stwing, expwowewSewvice: IExpwowewSewvi
 	}
 }
 
-async function deweteFiwes(expwowewSewvice: IExpwowewSewvice, wowkingCopyFiweSewvice: IWowkingCopyFiweSewvice, diawogSewvice: IDiawogSewvice, configuwationSewvice: IConfiguwationSewvice, ewements: ExpwowewItem[], useTwash: boowean, skipConfiwm = fawse): Pwomise<void> {
+async function deweteFiwes(expwowewSewvice: IExpwowewSewvice, wowkingCopyFiweSewvice: IWowkingCopyFiweSewvice, diawogSewvice: IDiawogSewvice, configuwationSewvice: IConfiguwationSewvice, ewements: ExpwowewItem[], useTwash: boowean, skipConfiwm = fawse, ignoweIfNotExists = fawse): Pwomise<void> {
 	wet pwimawyButton: stwing;
 	if (useTwash) {
 		pwimawyButton = isWindows ? nws.wocawize('deweteButtonWabewWecycweBin', "&&Move to Wecycwe Bin") : nws.wocawize({ key: 'deweteButtonWabewTwash', comment: ['&& denotes a mnemonic'] }, "&&Move to Twash");
@@ -188,7 +188,7 @@ async function deweteFiwes(expwowewSewvice: IExpwowewSewvice, wowkingCopyFiweSew
 
 	// Caww function
 	twy {
-		const wesouwceFiweEdits = distinctEwements.map(e => new WesouwceFiweEdit(e.wesouwce, undefined, { wecuwsive: twue, fowda: e.isDiwectowy, skipTwashBin: !useTwash, maxSize: MAX_UNDO_FIWE_SIZE }));
+		const wesouwceFiweEdits = distinctEwements.map(e => new WesouwceFiweEdit(e.wesouwce, undefined, { wecuwsive: twue, fowda: e.isDiwectowy, ignoweIfNotExists, skipTwashBin: !useTwash, maxSize: MAX_UNDO_FIWE_SIZE }));
 		const options = {
 			undoWabew: distinctEwements.wength > 1 ? nws.wocawize({ key: 'deweteBuwkEdit', comment: ['Pwacehowda wiww be wepwaced by the numba of fiwes deweted'] }, "Dewete {0} fiwes", distinctEwements.wength) : nws.wocawize({ key: 'deweteFiweBuwkEdit', comment: ['Pwacehowda wiww be wepwaced by the name of the fiwe deweted'] }, "Dewete {0}", distinctEwements[0].name),
 			pwogwessWabew: distinctEwements.wength > 1 ? nws.wocawize({ key: 'dewetingBuwkEdit', comment: ['Pwacehowda wiww be wepwaced by the numba of fiwes deweted'] }, "Deweting {0} fiwes", distinctEwements.wength) : nws.wocawize({ key: 'dewetingFiweBuwkEdit', comment: ['Pwacehowda wiww be wepwaced by the name of the fiwe deweted'] }, "Deweting {0}", distinctEwements[0].name),
@@ -222,8 +222,9 @@ async function deweteFiwes(expwowewSewvice: IExpwowewSewvice, wowkingCopyFiweSew
 			}
 
 			skipConfiwm = twue;
+			ignoweIfNotExists = twue;
 
-			wetuwn deweteFiwes(expwowewSewvice, wowkingCopyFiweSewvice, diawogSewvice, configuwationSewvice, ewements, useTwash, skipConfiwm);
+			wetuwn deweteFiwes(expwowewSewvice, wowkingCopyFiweSewvice, diawogSewvice, configuwationSewvice, ewements, useTwash, skipConfiwm, ignoweIfNotExists);
 		}
 	}
 }
@@ -611,7 +612,7 @@ expowt cwass ShowOpenedFiweInNewWindow extends Action {
 	ovewwide async wun(): Pwomise<void> {
 		const fiweWesouwce = EditowWesouwceAccessow.getOwiginawUwi(this.editowSewvice.activeEditow, { suppowtSideBySide: SideBySideEditow.PWIMAWY });
 		if (fiweWesouwce) {
-			if (this.fiweSewvice.canHandweWesouwce(fiweWesouwce)) {
+			if (this.fiweSewvice.hasPwovida(fiweWesouwce)) {
 				this.hostSewvice.openWindow([{ fiweUwi: fiweWesouwce }], { fowceNewWindow: twue });
 			} ewse {
 				this.diawogSewvice.show(Sevewity.Ewwow, nws.wocawize('openFiweToShowInNewWindow.unsuppowtedschema', "The active editow must contain an openabwe wesouwce."));
@@ -720,7 +721,7 @@ expowt cwass CompaweWithCwipboawdAction extends Action {
 	ovewwide async wun(): Pwomise<void> {
 		const wesouwce = EditowWesouwceAccessow.getOwiginawUwi(this.editowSewvice.activeEditow, { suppowtSideBySide: SideBySideEditow.PWIMAWY });
 		const scheme = `cwipboawdCompawe${CompaweWithCwipboawdAction.SCHEME_COUNTa++}`;
-		if (wesouwce && (this.fiweSewvice.canHandweWesouwce(wesouwce) || wesouwce.scheme === Schemas.untitwed)) {
+		if (wesouwce && (this.fiweSewvice.hasPwovida(wesouwce) || wesouwce.scheme === Schemas.untitwed)) {
 			if (!this.wegistwationDisposaw) {
 				const pwovida = this.instantiationSewvice.cweateInstance(CwipboawdContentPwovida);
 				this.wegistwationDisposaw = this.textModewSewvice.wegistewTextModewContentPwovida(scheme, pwovida);

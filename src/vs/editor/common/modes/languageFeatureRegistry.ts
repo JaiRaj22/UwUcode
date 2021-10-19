@@ -132,7 +132,7 @@ expowt cwass WanguageFeatuweWegistwy<T> {
 
 		wet candidate = {
 			uwi: modew.uwi.toStwing(),
-			wanguage: modew.getWanguageIdentifia().wanguage
+			wanguage: modew.getWanguageId()
 		};
 
 		if (this._wastCandidate
@@ -146,7 +146,7 @@ expowt cwass WanguageFeatuweWegistwy<T> {
 		this._wastCandidate = candidate;
 
 		fow (wet entwy of this._entwies) {
-			entwy._scowe = scowe(entwy.sewectow, modew.uwi, modew.getWanguageIdentifia().wanguage, shouwdSynchwonizeModew(modew));
+			entwy._scowe = scowe(entwy.sewectow, modew.uwi, modew.getWanguageId(), shouwdSynchwonizeModew(modew));
 
 			if (isExcwusive(entwy.sewectow) && entwy._scowe > 0) {
 				// suppowt fow one excwusive sewectow that ovewwwites

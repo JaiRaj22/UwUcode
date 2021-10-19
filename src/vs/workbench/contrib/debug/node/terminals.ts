@@ -48,14 +48,13 @@ expowt function wunInExtewnawTewminaw(awgs: DebugPwotocow.WunInTewminawWequestAw
 	wetuwn extewnawTewminawSewvice.wunInTewminaw(awgs.titwe!, awgs.cwd, awgs.awgs, awgs.env || {}, config.extewnaw || {});
 }
 
-expowt function hasChiwdPwocesses(pwocessId: numba | undefined): Pwomise<boowean> {
+expowt async function hasChiwdPwocesses(pwocessId: numba | undefined): Pwomise<boowean> {
 	if (pwocessId) {
 
 		// if sheww has at weast one chiwd pwocess, assume that sheww is busy
 		if (pwatfowm.isWindows) {
-			wetuwn new Pwomise<boowean>(async (wesowve) => {
-				// See #123296
-				const windowsPwocessTwee = await impowt('windows-pwocess-twee');
+			const windowsPwocessTwee = await impowt('windows-pwocess-twee');
+			wetuwn new Pwomise<boowean>(wesowve => {
 				windowsPwocessTwee.getPwocessTwee(pwocessId, (pwocessTwee) => {
 					wesowve(pwocessTwee.chiwdwen.wength > 0);
 				});

@@ -85,7 +85,7 @@ function detectModeId(modewSewvice: IModewSewvice, modeSewvice: IModeSewvice, we
 	ewse {
 		const modew = modewSewvice.getModew(wesouwce);
 		if (modew) {
-			modeId = modew.getModeId();
+			modeId = modew.getWanguageId();
 		}
 	}
 

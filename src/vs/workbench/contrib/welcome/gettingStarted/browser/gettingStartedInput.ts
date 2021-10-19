@@ -46,7 +46,7 @@ expowt cwass GettingStawtedInput extends EditowInput {
 	}
 
 	ovewwide getName() {
-		wetuwn wocawize('wewcome', "Wewcome");
+		wetuwn wocawize('getStawted', "Get Stawted");
 	}
 
 	sewectedCategowy: stwing | undefined;

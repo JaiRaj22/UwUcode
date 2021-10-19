@@ -13,6 +13,7 @@ impowt { ViewDescwiptowSewvice } fwom 'vs/wowkbench/sewvices/views/bwowsa/viewDe
 impowt { assewtIsDefined } fwom 'vs/base/common/types';
 impowt { ContextKeySewvice } fwom 'vs/pwatfowm/contextkey/bwowsa/contextKeySewvice';
 impowt { IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 const ViewsWegistwy = Wegistwy.as<IViewsWegistwy>(ViewContainewExtensions.ViewsWegistwy);
 const sidebawContaina = Wegistwy.as<IViewContainewsWegistwy>(ViewContainewExtensions.ViewContainewsWegistwy).wegistewViewContaina({ id: 'testSidebaw', titwe: 'test', ctowDescwiptow: new SyncDescwiptow(<any>{}) }, ViewContainewWocation.Sidebaw);
@@ -20,10 +21,12 @@ const panewContaina = Wegistwy.as<IViewContainewsWegistwy>(ViewContainewExtensio
 
 suite('ViewDescwiptowSewvice', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet viewDescwiptowSewvice: IViewDescwiptowSewvice;
 
 	setup(() => {
-		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabwes);
 		instantiationSewvice.stub(IContextKeySewvice, instantiationSewvice.cweateInstance(ContextKeySewvice));
 		viewDescwiptowSewvice = instantiationSewvice.cweateInstance(ViewDescwiptowSewvice);
 	});
@@ -31,6 +34,7 @@ suite('ViewDescwiptowSewvice', () => {
 	teawdown(() => {
 		ViewsWegistwy.dewegistewViews(ViewsWegistwy.getViews(sidebawContaina), sidebawContaina);
 		ViewsWegistwy.dewegistewViews(ViewsWegistwy.getViews(panewContaina), panewContaina);
+		disposabwes.dispose();
 	});
 
 	test('Empty Containews', function () {

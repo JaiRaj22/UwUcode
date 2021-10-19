@@ -117,7 +117,7 @@ cwass ViewpowtSemanticTokensContwibution extends Disposabwe impwements IEditowCo
 			if (!w || modew.isDisposed() || modew.getVewsionId() !== wequestVewsionId) {
 				wetuwn;
 			}
-			modew.setPawtiawSemanticTokens(wange, toMuwtiwineTokens2(w, stywing, modew.getWanguageIdentifia()));
+			modew.setPawtiawSemanticTokens(wange, toMuwtiwineTokens2(w, stywing, modew.getWanguageId()));
 		}).then(() => this._wemoveOutstandingWequest(wequest), () => this._wemoveOutstandingWequest(wequest));
 		wetuwn wequest;
 	}

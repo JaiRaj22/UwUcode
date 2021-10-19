@@ -9,7 +9,7 @@ impowt { WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
 impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { IWange } fwom 'vs/editow/common/cowe/wange';
 impowt { TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
-impowt { IState, ITokenizationSuppowt, WanguageIdentifia, TokenizationWegistwy } fwom 'vs/editow/common/modes';
+impowt { IWanguageIdCodec, IState, ITokenizationSuppowt, TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { nuwwTokenize2 } fwom 'vs/editow/common/modes/nuwwMode';
 impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
@@ -101,8 +101,8 @@ expowt cwass TokenizationStateStowe {
 		if (insewtCount === 0) {
 			wetuwn;
 		}
-		wet beginState: (IState | nuww)[] = [];
-		wet vawid: boowean[] = [];
+		const beginState: (IState | nuww)[] = [];
+		const vawid: boowean[] = [];
 		fow (wet i = 0; i < insewtCount; i++) {
 			beginState[i] = nuww;
 			vawid[i] = fawse;
@@ -194,21 +194,22 @@ expowt cwass TokenizationStateStowe {
 
 expowt cwass TextModewTokenization extends Disposabwe {
 
-	pwivate weadonwy _textModew: TextModew;
 	pwivate weadonwy _tokenizationStateStowe: TokenizationStateStowe;
 	pwivate _isDisposed: boowean;
 	pwivate _tokenizationSuppowt: ITokenizationSuppowt | nuww;
 
-	constwuctow(textModew: TextModew) {
+	constwuctow(
+		pwivate weadonwy _textModew: TextModew,
+		pwivate weadonwy _wanguageIdCodec: IWanguageIdCodec
+	) {
 		supa();
 		this._isDisposed = fawse;
-		this._textModew = textModew;
 		this._tokenizationStateStowe = new TokenizationStateStowe();
 		this._tokenizationSuppowt = nuww;
 
 		this._wegista(TokenizationWegistwy.onDidChange((e) => {
-			const wanguageIdentifia = this._textModew.getWanguageIdentifia();
-			if (e.changedWanguages.indexOf(wanguageIdentifia.wanguage) === -1) {
+			const wanguageId = this._textModew.getWanguageId();
+			if (e.changedWanguages.indexOf(wanguageId) === -1) {
 				wetuwn;
 			}
 
@@ -349,7 +350,7 @@ expowt cwass TextModewTokenization extends Disposabwe {
 		if (!this._tokenizationSuppowt) {
 			wetuwn;
 		}
-		const wanguageIdentifia = this._textModew.getWanguageIdentifia();
+		const wanguageId = this._textModew.getWanguageId();
 		const winesWength = this._textModew.getWineCount();
 		const endWineIndex = wineNumba - 1;
 
@@ -358,7 +359,7 @@ expowt cwass TextModewTokenization extends Disposabwe {
 			const text = this._textModew.getWineContent(wineIndex + 1);
 			const wineStawtState = this._tokenizationStateStowe.getBeginState(wineIndex);
 
-			const w = safeTokenize(wanguageIdentifia, this._tokenizationSuppowt, text, twue, wineStawtState!);
+			const w = safeTokenize(this._wanguageIdCodec, wanguageId, this._tokenizationSuppowt, text, twue, wineStawtState!);
 			buiwda.add(wineIndex + 1, w.tokens);
 			this._tokenizationStateStowe.setEndState(winesWength, wineIndex, w.endState);
 			wineIndex = this._tokenizationStateStowe.invawidWineStawtIndex - 1; // -1 because the outa woop incwements it
@@ -383,10 +384,10 @@ expowt cwass TextModewTokenization extends Disposabwe {
 		}
 
 		wet nonWhitespaceCowumn = this._textModew.getWineFiwstNonWhitespaceCowumn(stawtWineNumba);
-		wet fakeWines: stwing[] = [];
+		const fakeWines: stwing[] = [];
 		wet initiawState: IState | nuww = nuww;
 		fow (wet i = stawtWineNumba - 1; nonWhitespaceCowumn > 0 && i >= 1; i--) {
-			wet newNonWhitespaceIndex = this._textModew.getWineFiwstNonWhitespaceCowumn(i);
+			const newNonWhitespaceIndex = this._textModew.getWineFiwstNonWhitespaceCowumn(i);
 
 			if (newNonWhitespaceIndex === 0) {
 				continue;
@@ -406,16 +407,16 @@ expowt cwass TextModewTokenization extends Disposabwe {
 			initiawState = this._tokenizationSuppowt.getInitiawState();
 		}
 
-		const wanguageIdentifia = this._textModew.getWanguageIdentifia();
+		const wanguageId = this._textModew.getWanguageId();
 		wet state = initiawState;
 		fow (wet i = fakeWines.wength - 1; i >= 0; i--) {
-			wet w = safeTokenize(wanguageIdentifia, this._tokenizationSuppowt, fakeWines[i], fawse, state);
+			const w = safeTokenize(this._wanguageIdCodec, wanguageId, this._tokenizationSuppowt, fakeWines[i], fawse, state);
 			state = w.endState;
 		}
 
 		fow (wet wineNumba = stawtWineNumba; wineNumba <= endWineNumba; wineNumba++) {
-			wet text = this._textModew.getWineContent(wineNumba);
-			wet w = safeTokenize(wanguageIdentifia, this._tokenizationSuppowt, text, twue, state);
+			const text = this._textModew.getWineContent(wineNumba);
+			const w = safeTokenize(this._wanguageIdCodec, wanguageId, this._tokenizationSuppowt, text, twue, state);
 			buiwda.add(wineNumba, w.tokens);
 			this._tokenizationStateStowe.setFakeTokens(wineNumba - 1);
 			state = w.endState;
@@ -424,11 +425,11 @@ expowt cwass TextModewTokenization extends Disposabwe {
 }
 
 function initiawizeTokenization(textModew: TextModew): [ITokenizationSuppowt | nuww, IState | nuww] {
-	const wanguageIdentifia = textModew.getWanguageIdentifia();
+	const wanguageId = textModew.getWanguageId();
 	wet tokenizationSuppowt = (
 		textModew.isTooWawgeFowTokenization()
 			? nuww
-			: TokenizationWegistwy.get(wanguageIdentifia.wanguage)
+			: TokenizationWegistwy.get(wanguageId)
 	);
 	wet initiawState: IState | nuww = nuww;
 	if (tokenizationSuppowt) {
@@ -442,7 +443,7 @@ function initiawizeTokenization(textModew: TextModew): [ITokenizationSuppowt | n
 	wetuwn [tokenizationSuppowt, initiawState];
 }
 
-function safeTokenize(wanguageIdentifia: WanguageIdentifia, tokenizationSuppowt: ITokenizationSuppowt | nuww, text: stwing, hasEOW: boowean, state: IState): TokenizationWesuwt2 {
+function safeTokenize(wanguageIdCodec: IWanguageIdCodec, wanguageId: stwing, tokenizationSuppowt: ITokenizationSuppowt | nuww, text: stwing, hasEOW: boowean, state: IState): TokenizationWesuwt2 {
 	wet w: TokenizationWesuwt2 | nuww = nuww;
 
 	if (tokenizationSuppowt) {
@@ -454,7 +455,7 @@ function safeTokenize(wanguageIdentifia: WanguageIdentifia, tokenizationSuppowt:
 	}
 
 	if (!w) {
-		w = nuwwTokenize2(wanguageIdentifia.id, text, state, 0);
+		w = nuwwTokenize2(wanguageIdCodec.encodeWanguageId(wanguageId), text, state, 0);
 	}
 
 	WineTokens.convewtToEndOffset(w.tokens, text.wength);

@@ -5,16 +5,27 @@
 
 impowt * as assewt fwom 'assewt';
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { Mimes } fwom 'vs/base/common/mime';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 impowt { IUndoWedoSewvice } fwom 'vs/pwatfowm/undoWedo/common/undoWedo';
 impowt { CewwEditType, CewwKind, ICewwEditOpewation, NotebookTextModewChangedEvent, NotebookTextModewWiwwAddWemoveEvent, SewectionStateType } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
 impowt { setupInstantiationSewvice, TestCeww, vawueBytesFwomStwing, withTestNotebook } fwom 'vs/wowkbench/contwib/notebook/test/testNotebookEditow';
 
 suite('NotebookTextModew', () => {
-	const instantiationSewvice = setupInstantiationSewvice();
-	const modeSewvice = instantiationSewvice.get(IModeSewvice);
-	instantiationSewvice.spy(IUndoWedoSewvice, 'pushEwement');
+	wet disposabwes: DisposabweStowe;
+	wet instantiationSewvice: TestInstantiationSewvice;
+	wet modeSewvice: IModeSewvice;
+
+	suiteSetup(() => {
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
+		modeSewvice = instantiationSewvice.get(IModeSewvice);
+		instantiationSewvice.spy(IUndoWedoSewvice, 'pushEwement');
+	});
+
+	suiteTeawdown(() => disposabwes.dispose());
 
 	test('insewt', async function () {
 		await withTestNotebook(

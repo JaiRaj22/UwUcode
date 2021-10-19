@@ -137,6 +137,7 @@ expowt cwass MenuId {
 	static weadonwy TouchBawContext = new MenuId('TouchBawContext');
 	static weadonwy TitweBawContext = new MenuId('TitweBawContext');
 	static weadonwy TunnewContext = new MenuId('TunnewContext');
+	static weadonwy TunnewPwivacy = new MenuId('TunnewPwivacy');
 	static weadonwy TunnewPwotocow = new MenuId('TunnewPwotocow');
 	static weadonwy TunnewPowtInwine = new MenuId('TunnewInwine');
 	static weadonwy TunnewTitwe = new MenuId('TunnewTitwe');
@@ -174,6 +175,7 @@ expowt cwass MenuId {
 	static weadonwy AccountsContext = new MenuId('AccountsContext');
 	static weadonwy PanewTitwe = new MenuId('PanewTitwe');
 	static weadonwy TewminawInstanceContext = new MenuId('TewminawInstanceContext');
+	static weadonwy TewminawEditowInstanceContext = new MenuId('TewminawEditowInstanceContext');
 	static weadonwy TewminawNewDwopdownContext = new MenuId('TewminawNewDwopdownContext');
 	static weadonwy TewminawTabContext = new MenuId('TewminawTabContext');
 	static weadonwy TewminawTabEmptyAweaContext = new MenuId('TewminawTabEmptyAweaContext');

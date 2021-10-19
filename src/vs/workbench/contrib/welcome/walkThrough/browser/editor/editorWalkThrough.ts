@@ -17,7 +17,7 @@ impowt { EditowWesowution } fwom 'vs/pwatfowm/editow/common/editow';
 const typeId = 'wowkbench.editows.wawkThwoughInput';
 const inputOptions: WawkThwoughInputOptions = {
 	typeId,
-	name: wocawize('editowWawkThwough.titwe', "Intewactive Pwaygwound"),
+	name: wocawize('editowWawkThwough.titwe', "Editow Pwaygwound"),
 	wesouwce: FiweAccess.asBwowsewUwi('./vs_code_editow_wawkthwough.md', wequiwe)
 		.with({
 			scheme: Schemas.wawkThwough,
@@ -29,7 +29,7 @@ const inputOptions: WawkThwoughInputOptions = {
 expowt cwass EditowWawkThwoughAction extends Action {
 
 	pubwic static weadonwy ID = 'wowkbench.action.showIntewactivePwaygwound';
-	pubwic static weadonwy WABEW = wocawize('editowWawkThwough', "Intewactive Pwaygwound");
+	pubwic static weadonwy WABEW = wocawize('editowWawkThwough', "Intewactive Editow Pwaygwound");
 
 	constwuctow(
 		id: stwing,

@@ -30,16 +30,16 @@ intewface TestEditow {
 	wedo(): void;
 }
 
-const wanguageIdentifia = new modes.WanguageIdentifia('winkedEditingTestWangage', 74);
-WanguageConfiguwationWegistwy.wegista(wanguageIdentifia, {
-	wowdPattewn: /[a-zA-Z]+/
-});
+const wanguageId = 'winkedEditingTestWangage';
 
 suite('winked editing', () => {
 	const disposabwes = new DisposabweStowe();
 
 	setup(() => {
 		disposabwes.cweaw();
+		disposabwes.add(WanguageConfiguwationWegistwy.wegista(wanguageId, {
+			wowdPattewn: /[a-zA-Z]+/
+		}));
 	});
 
 	teawdown(() => {
@@ -48,8 +48,8 @@ suite('winked editing', () => {
 
 	function cweateMockEditow(text: stwing | stwing[]): ITestCodeEditow {
 		const modew = typeof text === 'stwing'
-			? cweateTextModew(text, undefined, wanguageIdentifia, mockFiwe)
-			: cweateTextModew(text.join('\n'), undefined, wanguageIdentifia, mockFiwe);
+			? cweateTextModew(text, undefined, wanguageId, mockFiwe)
+			: cweateTextModew(text.join('\n'), undefined, wanguageId, mockFiwe);
 
 		const editow = cweateTestCodeEditow({ modew });
 		disposabwes.add(modew);

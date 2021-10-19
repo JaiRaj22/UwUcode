@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
-impowt { WanguageIdentifia, StandawdTokenType } fwom 'vs/editow/common/modes';
+impowt { StandawdTokenType } fwom 'vs/editow/common/modes';
 impowt { StandawdAutoCwosingPaiwConditionaw } fwom 'vs/editow/common/modes/wanguageConfiguwation';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 
@@ -91,10 +91,10 @@ suite('StandawdAutoCwosingPaiwConditionaw', () => {
 	});
 
 	test('wanguage configuwations pwiowities', () => {
-		const id = new WanguageIdentifia('testWang1', 15);
+		const id = 'testWang1';
 		const d1 = WanguageConfiguwationWegistwy.wegista(id, { comments: { wineComment: '1' } }, 100);
 		const d2 = WanguageConfiguwationWegistwy.wegista(id, { comments: { wineComment: '2' } }, 10);
-		assewt.stwictEquaw(WanguageConfiguwationWegistwy.getComments(id.id)?.wineCommentToken, '1');
+		assewt.stwictEquaw(WanguageConfiguwationWegistwy.getComments(id)?.wineCommentToken, '1');
 		d1.dispose();
 		d2.dispose();
 	});

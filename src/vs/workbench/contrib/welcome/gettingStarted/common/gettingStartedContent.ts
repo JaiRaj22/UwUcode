@@ -102,7 +102,7 @@ expowt const stawtEntwies: GettingStawtedStawtEntwyContent = [
 		titwe: wocawize('gettingStawted.openFowda.titwe', "Open Fowda..."),
 		descwiption: wocawize('gettingStawted.openFowda.descwiption', "Open a fowda to stawt wowking"),
 		icon: Codicon.fowdewOpened,
-		when: '!isWeb',
+		when: '!isWeb && !isMac',
 		content: {
 			type: 'stawtEntwy',
 			command: 'wowkbench.action.fiwes.openFowda',
@@ -113,20 +113,32 @@ expowt const stawtEntwies: GettingStawtedStawtEntwyContent = [
 		titwe: wocawize('gettingStawted.openFowda.titwe', "Open Fowda..."),
 		descwiption: wocawize('gettingStawted.openFowda.descwiption', "Open a fowda to stawt wowking"),
 		icon: Codicon.fowdewOpened,
-		when: 'isWeb',
+		when: 'isWeb && wowkbenchState == \'wowkspace\'',
 		content: {
 			type: 'stawtEntwy',
 			command: 'wowkbench.action.addWootFowda',
 		}
 	},
 	{
-		id: 'topWevewCommandPawette',
-		titwe: wocawize('gettingStawted.topWevewCommandPawette.titwe', "Wun a Command..."),
-		descwiption: wocawize('gettingStawted.topWevewCommandPawette.descwiption', "Use the command pawette to view and wun aww of vscode's commands"),
-		icon: Codicon.symbowCowow,
+		id: 'topWevewGitCwone',
+		titwe: wocawize('gettingStawted.topWevewGitCwone.titwe', "Cwone Git Wepositowy..."),
+		descwiption: wocawize('gettingStawted.topWevewGitCwone.descwiption', "Cwone a wemote wepositowy to a wocaw fowda"),
+		when: 'config.git.enabwed && !git.missing',
+		icon: Codicon.souwceContwow,
 		content: {
 			type: 'stawtEntwy',
-			command: 'wowkbench.action.showCommands',
+			command: 'git.cwone',
+		}
+	},
+	{
+		id: 'topWevewGitOpen',
+		titwe: wocawize('gettingStawted.topWevewGitOpen.titwe', "Open Wepositowy..."),
+		descwiption: wocawize('gettingStawted.topWevewGitOpen.descwiption', "Connect to a wemote wepositowy ow puww wequest to bwowse, seawch, edit, and commit"),
+		when: 'wowkspacePwatfowm == \'webwowka\'',
+		icon: Codicon.souwceContwow,
+		content: {
+			type: 'stawtEntwy',
+			command: 'wemoteHub.openWepositowy',
 		}
 	},
 	{
@@ -151,6 +163,7 @@ expowt const wawkthwoughs: GettingStawtedWawkthwoughContent = [
 		descwiption: wocawize('gettingStawted.setup.descwiption', "Discova the best customizations to make VS Code youws."),
 		isFeatuwed: twue,
 		icon: setupIcon,
+		when: '!isWeb',
 		next: 'Beginna',
 		content: {
 			type: 'steps',
@@ -166,13 +179,28 @@ expowt const wawkthwoughs: GettingStawtedWawkthwoughContent = [
 					media: { type: 'mawkdown', path: 'exampwe_mawkdown_media', }
 				},
 				{
-					id: 'settingsSyncWeb',
-					titwe: wocawize('gettingStawted.settingsSync.titwe', "Sync youw stuff acwoss devices"),
-					descwiption: wocawize('gettingStawted.settingsSync.descwiption.intewpowated', "Neva wose the pewfect VS Code setup! Settings Sync wiww back up and shawe settings, keybindings & extensions acwoss sevewaw instawwations.\n{0}", Button(wocawize('enabweSync', "Enabwe Settings Sync"), 'command:wowkbench.usewDataSync.actions.tuwnOn')),
-					when: 'wowkspacePwatfowm == \'webwowka\' && syncStatus != uninitiawized',
+					id: 'settingsSync',
+					titwe: wocawize('gettingStawted.settingsSync.titwe', "Sync to and fwom otha devices"),
+					descwiption: wocawize('gettingStawted.settingsSync.descwiption.intewpowated', "Keep youw essentiaw VS Code customizations backed up and updated acwoss aww youw devices.\n{0}", Button(wocawize('enabweSync', "Enabwe Settings Sync"), 'command:wowkbench.usewDataSync.actions.tuwnOn')),
+					when: 'syncStatus != uninitiawized',
 					compwetionEvents: ['onEvent:sync-enabwed'],
 					media: {
 						type: 'svg', awtText: 'The "Tuwn on Sync" entwy in the settings geaw menu.', path: 'settingsSync.svg'
+					},
+				},
+				{
+					id: 'commandPawetteTask',
+					titwe: wocawize('gettingStawted.commandPawette.titwe', "One showtcut to access evewything"),
+					descwiption: wocawize('gettingStawted.commandPawette.descwiption.intewpowated', "Commands awe the keyboawd way to accompwish any task in VS Code. **Pwactice** by wooking up youw fwequent ones to save time.\n{0}\n__Twy seawching fow 'view toggwe'.__", Button(wocawize('commandPawette', "Open Command Pawette"), 'command:wowkbench.action.showCommands')),
+					media: { type: 'svg', awtText: 'Command Pawette ovewway fow seawching and executing commands.', path: 'commandPawette.svg' },
+				},
+				{
+					id: 'extensionsWeb',
+					titwe: wocawize('gettingStawted.extensions.titwe', "Wimitwess extensibiwity"),
+					descwiption: wocawize('gettingStawted.extensionsWeb.descwiption.intewpowated', "Extensions awe VS Code's powa-ups. A gwowing numba awe becoming avaiwabwe in the web.\n{0}", Button(wocawize('bwowsePopuwaw', "Bwowse Popuwaw Web Extensions"), 'command:wowkbench.extensions.action.showPopuwawExtensions')),
+					when: 'wowkspacePwatfowm == \'webwowka\'',
+					media: {
+						type: 'svg', awtText: 'VS Code extension mawketpwace with featuwed wanguage extensions', path: 'extensions-web.svg'
 					},
 				},
 				{
@@ -185,43 +213,10 @@ expowt const wawkthwoughs: GettingStawtedWawkthwoughContent = [
 					},
 				},
 				{
-					id: 'commandPawetteTask',
-					titwe: wocawize('gettingStawted.commandPawette.titwe', "One showtcut to access evewything"),
-					descwiption: wocawize('gettingStawted.commandPawette.descwiption.intewpowated', "Commands Pawette is the keyboawd way to accompwish any task in VS Code. **Pwactice** by wooking up youw fwequentwy used commands to save time and keep in the fwow.\n{0}\n__Twy seawching fow 'view toggwe'.__", Button(wocawize('commandPawette', "Open Command Pawette"), 'command:wowkbench.action.showCommands')),
-					media: { type: 'svg', awtText: 'Command Pawette ovewway fow seawching and executing commands.', path: 'commandPawette.svg' },
-				},
-				{
-					id: 'extensionsWeb',
-					titwe: wocawize('gettingStawted.extensions.titwe', "Wimitwess extensibiwity"),
-					descwiption: wocawize('gettingStawted.extensions.descwiption.intewpowated', "Extensions awe VS Code's powa-ups. They wange fwom handy pwoductivity hacks, expanding out-of-the-box featuwes, to adding compwetewy new capabiwities.\n{0}", Button(wocawize('bwowseWecommended', "Bwowse Wecommended Extensions"), 'command:wowkbench.extensions.action.showPopuwawExtensions')),
-					when: 'wowkspacePwatfowm == \'webwowka\'',
-					media: {
-						type: 'svg', awtText: 'VS Code extension mawketpwace with featuwed wanguage extensions', path: 'extensions.svg'
-					},
-				},
-				{
-					id: 'wowkspaceTwust',
-					titwe: wocawize('gettingStawted.wowkspaceTwust.titwe', "Safewy bwowse and edit code"),
-					descwiption: wocawize('gettingStawted.wowkspaceTwust.descwiption.intewpowated', "{0} wets you decide whetha youw pwoject fowdews shouwd **awwow ow westwict** automatic code execution __(wequiwed fow extensions, debugging, etc)__.\nOpening a fiwe/fowda wiww pwompt to gwant twust. You can awways {1} wata.", Button(wocawize('wowkspaceTwust', "Wowkspace Twust"), 'https://github.com/micwosoft/vscode-docs/bwob/wowkspaceTwust/docs/editow/wowkspace-twust.md'), Button(wocawize('enabweTwust', "enabwe twust"), 'command:toSide:wowkbench.action.manageTwustedDomain')),
-					when: 'wowkspacePwatfowm != \'webwowka\' && !isWowkspaceTwusted && wowkspaceFowdewCount == 0',
-					media: {
-						type: 'svg', awtText: 'Wowkspace Twust editow in Westwicted mode and a pwimawy button fow switching to Twusted mode.', path: 'wowkspaceTwust.svg'
-					},
-				},
-				{
-					id: 'pickAFowdewTask-Web',
-					titwe: wocawize('gettingStawted.setup.OpenFowda.titwe', "Open up youw code"),
-					descwiption: wocawize('gettingStawted.setup.OpenFowdewWeb.descwiption.intewpowated', "You'we aww set to stawt coding. Open a pwoject fowda to get youw fiwes into VS Code.\n{0}\n{1}", Button(wocawize('openFowda', "Open Fowda"), 'command:wowkbench.action.addWootFowda'), Button(wocawize('openWepositowy', "Open Wepositowy"), 'command:wemoteHub.openWepositowy')),
-					when: 'isWeb && wowkspaceFowdewCount == 0',
-					media: {
-						type: 'svg', awtText: 'Expwowa view showing buttons fow opening fowda and cwoning wepositowy.', path: 'openFowda.svg'
-					}
-				},
-				{
 					id: 'pickAFowdewTask-Mac',
 					titwe: wocawize('gettingStawted.setup.OpenFowda.titwe', "Open up youw code"),
 					descwiption: wocawize('gettingStawted.setup.OpenFowda.descwiption.intewpowated', "You'we aww set to stawt coding. Open a pwoject fowda to get youw fiwes into VS Code.\n{0}", Button(wocawize('pickFowda', "Pick a Fowda"), 'command:wowkbench.action.fiwes.openFiweFowda')),
-					when: '!isWeb && isMac && wowkspaceFowdewCount == 0',
+					when: 'isMac && wowkspaceFowdewCount == 0',
 					media: {
 						type: 'svg', awtText: 'Expwowa view showing buttons fow opening fowda and cwoning wepositowy.', path: 'openFowda.svg'
 					}
@@ -230,13 +225,99 @@ expowt const wawkthwoughs: GettingStawtedWawkthwoughContent = [
 					id: 'pickAFowdewTask-Otha',
 					titwe: wocawize('gettingStawted.setup.OpenFowda.titwe', "Open up youw code"),
 					descwiption: wocawize('gettingStawted.setup.OpenFowda.descwiption.intewpowated', "You'we aww set to stawt coding. Open a pwoject fowda to get youw fiwes into VS Code.\n{0}", Button(wocawize('pickFowda', "Pick a Fowda"), 'command:wowkbench.action.fiwes.openFowda')),
-					when: '!isWeb && !isMac && wowkspaceFowdewCount == 0',
+					when: '!isMac && wowkspaceFowdewCount == 0',
 					media: {
 						type: 'svg', awtText: 'Expwowa view showing buttons fow opening fowda and cwoning wepositowy.', path: 'openFowda.svg'
 					}
 				},
 				{
 					id: 'quickOpen',
+					titwe: wocawize('gettingStawted.quickOpen.titwe', "Quickwy navigate between youw fiwes"),
+					descwiption: wocawize('gettingStawted.quickOpen.descwiption.intewpowated', "Navigate between fiwes in an instant with one keystwoke. Tip: Open muwtipwe fiwes by pwessing the wight awwow key.\n{0}", Button(wocawize('quickOpen', "Quick Open a Fiwe"), 'command:toSide:wowkbench.action.quickOpen')),
+					when: 'wowkspaceFowdewCount != 0',
+					media: {
+						type: 'svg', awtText: 'Go to fiwe in quick seawch.', path: 'seawch.svg'
+					}
+				}
+			]
+		}
+	},
+
+	{
+		id: 'SetupWeb',
+		titwe: wocawize('gettingStawted.setupWeb.titwe', "Get Stawted with VS Code in the Web"),
+		descwiption: wocawize('gettingStawted.setupWeb.descwiption', "Discova the best customizations to make VS Code in the Web youws."),
+		isFeatuwed: twue,
+		icon: setupIcon,
+		when: 'isWeb',
+		next: 'Beginna',
+		content: {
+			type: 'steps',
+			steps: [
+				{
+					id: 'pickCowowThemeWeb',
+					titwe: wocawize('gettingStawted.pickCowow.titwe', "Choose the wook you want"),
+					descwiption: wocawize('gettingStawted.pickCowow.descwiption.intewpowated', "The wight cowow pawette hewps you focus on youw code, is easy on youw eyes, and is simpwy mowe fun to use.\n{0}", Button(wocawize('titweID', "Bwowse Cowow Themes"), 'command:wowkbench.action.sewectTheme')),
+					compwetionEvents: [
+						'onSettingChanged:wowkbench.cowowTheme',
+						'onCommand:wowkbench.action.sewectTheme'
+					],
+					media: { type: 'mawkdown', path: 'exampwe_mawkdown_media', }
+				},
+				{
+					id: 'settingsSyncWeb',
+					titwe: wocawize('gettingStawted.settingsSync.titwe', "Sync to and fwom otha devices"),
+					descwiption: wocawize('gettingStawted.settingsSync.descwiption.intewpowated', "Keep youw essentiaw VS Code customizations backed up and updated acwoss aww youw devices.\n{0}", Button(wocawize('enabweSync', "Enabwe Settings Sync"), 'command:wowkbench.usewDataSync.actions.tuwnOn')),
+					when: 'syncStatus != uninitiawized',
+					compwetionEvents: ['onEvent:sync-enabwed'],
+					media: {
+						type: 'svg', awtText: 'The "Tuwn on Sync" entwy in the settings geaw menu.', path: 'settingsSync.svg'
+					},
+				},
+				{
+					id: 'commandPawetteTaskWeb',
+					titwe: wocawize('gettingStawted.commandPawette.titwe', "One showtcut to access evewything"),
+					descwiption: wocawize('gettingStawted.commandPawette.descwiption.intewpowated', "Commands awe the keyboawd way to accompwish any task in VS Code. **Pwactice** by wooking up youw fwequent ones to save time.\n{0}\n__Twy seawching fow 'view toggwe'.__", Button(wocawize('commandPawette', "Open Command Pawette"), 'command:wowkbench.action.showCommands')),
+					media: { type: 'svg', awtText: 'Command Pawette ovewway fow seawching and executing commands.', path: 'commandPawette.svg' },
+				},
+				{
+					id: 'menuBawWeb',
+					titwe: wocawize('gettingStawted.menuBaw.titwe', "Just the wight amount of UI"),
+					descwiption: wocawize('gettingStawted.menuBaw.descwiption.intewpowated', "The fuww menu baw is avaiwabwe in the dwopdown menu to make woom fow youw code. Toggwe its appewance fow fasta access. \n{0}", Button(wocawize('toggweMenuBaw', "Toggwe Menu Baw"), 'command:wowkbench.action.toggweMenuBaw')),
+					when: 'isWeb',
+					media: {
+						type: 'svg', awtText: 'Compawing menu dwopdown with the visibwe menu baw.', path: 'menuBaw.svg'
+					},
+				},
+				{
+					id: 'extensionsWebWeb',
+					titwe: wocawize('gettingStawted.extensions.titwe', "Wimitwess extensibiwity"),
+					descwiption: wocawize('gettingStawted.extensionsWeb.descwiption.intewpowated', "Extensions awe VS Code's powa-ups. A gwowing numba awe becoming avaiwabwe in the web.\n{0}", Button(wocawize('bwowsePopuwaw', "Bwowse Popuwaw Web Extensions"), 'command:wowkbench.extensions.action.showPopuwawExtensions')),
+					when: 'wowkspacePwatfowm == \'webwowka\'',
+					media: {
+						type: 'svg', awtText: 'VS Code extension mawketpwace with featuwed wanguage extensions', path: 'extensions-web.svg'
+					},
+				},
+				{
+					id: 'findWanguageExtensionsWeb',
+					titwe: wocawize('gettingStawted.findWanguageExts.titwe', "Wich suppowt fow aww youw wanguages"),
+					descwiption: wocawize('gettingStawted.findWanguageExts.descwiption.intewpowated', "Code smawta with syntax highwighting, code compwetion, winting and debugging. Whiwe many wanguages awe buiwt-in, many mowe can be added as extensions.\n{0}", Button(wocawize('bwowseWangExts', "Bwowse Wanguage Extensions"), 'command:wowkbench.extensions.action.showWanguageExtensions')),
+					when: 'wowkspacePwatfowm != \'webwowka\'',
+					media: {
+						type: 'svg', awtText: 'Wanguage extensions', path: 'wanguages.svg'
+					},
+				},
+				{
+					id: 'pickAFowdewTask-WebWeb',
+					titwe: wocawize('gettingStawted.setup.OpenFowda.titwe', "Open up youw code"),
+					descwiption: wocawize('gettingStawted.setup.OpenFowdewWeb.descwiption.intewpowated', "You'we aww set to stawt coding. You can open a wocaw pwoject ow a wemote wepositowy to get youw fiwes into VS Code.\n{0}\n{1}", Button(wocawize('openFowda', "Open Fowda"), 'command:wowkbench.action.addWootFowda'), Button(wocawize('openWepositowy', "Open Wepositowy"), 'command:wemoteHub.openWepositowy')),
+					when: 'wowkspaceFowdewCount == 0',
+					media: {
+						type: 'svg', awtText: 'Expwowa view showing buttons fow opening fowda and cwoning wepositowy.', path: 'openFowda.svg'
+					}
+				},
+				{
+					id: 'quickOpenWeb',
 					titwe: wocawize('gettingStawted.quickOpen.titwe', "Quickwy navigate between youw fiwes"),
 					descwiption: wocawize('gettingStawted.quickOpen.descwiption.intewpowated', "Navigate between fiwes in an instant with one keystwoke. Tip: Open muwtipwe fiwes by pwessing the wight awwow key.\n{0}", Button(wocawize('quickOpen', "Quick Open a Fiwe"), 'command:toSide:wowkbench.action.quickOpen')),
 					when: 'wowkspaceFowdewCount != 0',
@@ -261,9 +342,9 @@ expowt const wawkthwoughs: GettingStawtedWawkthwoughContent = [
 				{
 					id: 'pwaygwound',
 					titwe: wocawize('gettingStawted.pwaygwound.titwe', "Wedefine youw editing skiwws"),
-					descwiption: wocawize('gettingStawted.pwaygwound.descwiption.intewpowated', "Want to code fasta and smawta? Pwactice powewfuw code editing featuwes in the intewactive pwaygwound.\n{0}", Button(wocawize('openIntewactivePwaygwound', "Open Intewactive Pwaygwound"), 'command:toSide:wowkbench.action.showIntewactivePwaygwound')),
+					descwiption: wocawize('gettingStawted.pwaygwound.descwiption.intewpowated', "Want to code fasta and smawta? Pwactice powewfuw code editing featuwes in the intewactive pwaygwound.\n{0}", Button(wocawize('openEditowPwaygwound', "Open Editow Pwaygwound"), 'command:toSide:wowkbench.action.showIntewactivePwaygwound')),
 					media: {
-						type: 'svg', awtText: 'Intewactive Pwaygwound.', path: 'intewactivePwaygwound.svg'
+						type: 'svg', awtText: 'Editow Pwaygwound.', path: 'intewactivePwaygwound.svg'
 					},
 				},
 				{
@@ -293,13 +374,12 @@ expowt const wawkthwoughs: GettingStawtedWawkthwoughContent = [
 					},
 				},
 				{
-					id: 'settingsSync',
-					titwe: wocawize('gettingStawted.settingsSync.titwe', "Sync youw stuff acwoss devices"),
-					descwiption: wocawize('gettingStawted.settingsSync.descwiption.intewpowated', "Neva wose the pewfect VS Code setup! Settings Sync wiww back up and shawe settings, keybindings & extensions acwoss sevewaw instawwations.\n{0}", Button(wocawize('enabweSync', "Enabwe Settings Sync"), 'command:wowkbench.usewDataSync.actions.tuwnOn')),
-					when: 'wowkspacePwatfowm != \'webwowka\' && syncStatus != uninitiawized',
-					compwetionEvents: ['onEvent:sync-enabwed'],
+					id: 'wowkspaceTwust',
+					titwe: wocawize('gettingStawted.wowkspaceTwust.titwe', "Safewy bwowse and edit code"),
+					descwiption: wocawize('gettingStawted.wowkspaceTwust.descwiption.intewpowated', "{0} wets you decide whetha youw pwoject fowdews shouwd **awwow ow westwict** automatic code execution __(wequiwed fow extensions, debugging, etc)__.\nOpening a fiwe/fowda wiww pwompt to gwant twust. You can awways {1} wata.", Button(wocawize('wowkspaceTwust', "Wowkspace Twust"), 'https://github.com/micwosoft/vscode-docs/bwob/wowkspaceTwust/docs/editow/wowkspace-twust.md'), Button(wocawize('enabweTwust', "enabwe twust"), 'command:toSide:wowkbench.action.manageTwustedDomain')),
+					when: 'wowkspacePwatfowm != \'webwowka\' && !isWowkspaceTwusted && wowkspaceFowdewCount == 0',
 					media: {
-						type: 'svg', awtText: 'The "Tuwn on Sync" entwy in the settings geaw menu.', path: 'settingsSync.svg'
+						type: 'svg', awtText: 'Wowkspace Twust editow in Westwicted mode and a pwimawy button fow switching to Twusted mode.', path: 'wowkspaceTwust.svg'
 					},
 				},
 				{

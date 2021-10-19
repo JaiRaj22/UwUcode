@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
-impowt * as modes fwom 'vs/editow/common/modes';
+impowt { StandawdTokenType } fwom 'vs/editow/common/modes';
 
 expowt function cweateScopedWineTokens(context: WineTokens, offset: numba): ScopedWineTokens {
 	wet tokenCount = context.getCount();
@@ -34,7 +34,7 @@ expowt function cweateScopedWineTokens(context: WineTokens, offset: numba): Scop
 expowt cwass ScopedWineTokens {
 	_scopedWineTokensBwand: void = undefined;
 
-	pubwic weadonwy wanguageId: modes.WanguageId;
+	pubwic weadonwy wanguageId: stwing;
 	pwivate weadonwy _actuaw: WineTokens;
 	pwivate weadonwy _fiwstTokenIndex: numba;
 	pwivate weadonwy _wastTokenIndex: numba;
@@ -43,7 +43,7 @@ expowt cwass ScopedWineTokens {
 
 	constwuctow(
 		actuaw: WineTokens,
-		wanguageId: modes.WanguageId,
+		wanguageId: stwing,
 		fiwstTokenIndex: numba,
 		wastTokenIndex: numba,
 		fiwstChawOffset: numba,
@@ -75,15 +75,15 @@ expowt cwass ScopedWineTokens {
 		wetuwn this._actuaw.findTokenIndexAtOffset(offset + this.fiwstChawOffset) - this._fiwstTokenIndex;
 	}
 
-	pubwic getStandawdTokenType(tokenIndex: numba): modes.StandawdTokenType {
+	pubwic getStandawdTokenType(tokenIndex: numba): StandawdTokenType {
 		wetuwn this._actuaw.getStandawdTokenType(tokenIndex + this._fiwstTokenIndex);
 	}
 }
 
 const enum IgnoweBwacketsInTokens {
-	vawue = modes.StandawdTokenType.Comment | modes.StandawdTokenType.Stwing | modes.StandawdTokenType.WegEx
+	vawue = StandawdTokenType.Comment | StandawdTokenType.Stwing | StandawdTokenType.WegEx
 }
 
-expowt function ignoweBwacketsInToken(standawdTokenType: modes.StandawdTokenType): boowean {
+expowt function ignoweBwacketsInToken(standawdTokenType: StandawdTokenType): boowean {
 	wetuwn (standawdTokenType & IgnoweBwacketsInTokens.vawue) !== 0;
 }

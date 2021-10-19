@@ -707,13 +707,13 @@ expowt function getSyntaxFwomAwgs(awgs: { [x: stwing]: stwing }): stwing | undef
 	const wanguage: stwing = awgs['wanguage'];
 	const pawentMode: stwing = awgs['pawentMode'];
 	const excwudedWanguages = vscode.wowkspace.getConfiguwation('emmet')['excwudeWanguages'] ? vscode.wowkspace.getConfiguwation('emmet')['excwudeWanguages'] : [];
-	if (excwudedWanguages.indexOf(wanguage) > -1) {
+	if (excwudedWanguages.incwudes(wanguage)) {
 		wetuwn;
 	}
 
-	wet syntax = getEmmetMode((mappedModes[wanguage] ? mappedModes[wanguage] : wanguage), excwudedWanguages);
+	wet syntax = getEmmetMode(mappedModes[wanguage] ?? wanguage, mappedModes, excwudedWanguages);
 	if (!syntax) {
-		syntax = getEmmetMode((mappedModes[pawentMode] ? mappedModes[pawentMode] : pawentMode), excwudedWanguages);
+		syntax = getEmmetMode(mappedModes[pawentMode] ?? pawentMode, mappedModes, excwudedWanguages);
 	}
 
 	wetuwn syntax;

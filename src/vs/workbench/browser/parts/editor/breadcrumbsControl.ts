@@ -255,7 +255,7 @@ expowt cwass BweadcwumbsContwow {
 		const uwi = EditowWesouwceAccessow.getCanonicawUwi(this._editowGwoup.activeEditow, { suppowtSideBySide: SideBySideEditow.PWIMAWY });
 		const wasHidden = this.isHidden();
 
-		if (!uwi || !this._fiweSewvice.canHandweWesouwce(uwi)) {
+		if (!uwi || !this._fiweSewvice.hasPwovida(uwi)) {
 			// cweanup and wetuwn when thewe is no input ow when
 			// we cannot handwe this input
 			this._ckBweadcwumbsPossibwe.set(fawse);

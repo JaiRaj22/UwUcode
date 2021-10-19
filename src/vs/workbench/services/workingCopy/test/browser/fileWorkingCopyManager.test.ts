@@ -14,16 +14,19 @@ impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { IFiweWowkingCopyManaga, FiweWowkingCopyManaga } fwom 'vs/wowkbench/sewvices/wowkingCopy/common/fiweWowkingCopyManaga';
 impowt { TestUntitwedFiweWowkingCopyModew, TestUntitwedFiweWowkingCopyModewFactowy } fwom 'vs/wowkbench/sewvices/wowkingCopy/test/bwowsa/untitwedFiweWowkingCopy.test';
 impowt { UntitwedFiweWowkingCopy } fwom 'vs/wowkbench/sewvices/wowkingCopy/common/untitwedFiweWowkingCopy';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('FiweWowkingCopyManaga', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
 	wet managa: IFiweWowkingCopyManaga<TestStowedFiweWowkingCopyModew, TestUntitwedFiweWowkingCopyModew>;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 
 		accessow.fiweSewvice.wegistewPwovida(Schemas.fiwe, new TestInMemowyFiweSystemPwovida());
@@ -43,6 +46,7 @@ suite('FiweWowkingCopyManaga', () => {
 
 	teawdown(() => {
 		managa.dispose();
+		disposabwes.dispose();
 	});
 
 	test('onDidCweate, get, wowkingCopies', async () => {

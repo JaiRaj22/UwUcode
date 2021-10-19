@@ -19,7 +19,8 @@ impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 impowt { IInstantiationSewvice, SewvicesAccessow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { IExtensionIgnowedWecommendationsSewvice, IExtensionWecommendationsSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/extensionWecommendations';
 impowt { IExtensionManifest, IKeyBinding, IView, IViewContaina } fwom 'vs/pwatfowm/extensions/common/extensions';
-impowt { WesowvedKeybinding, KeyMod, KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { KeyMod, KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { ExtensionsInput } fwom 'vs/wowkbench/contwib/extensions/common/extensionsInput';
 impowt { IExtensionsWowkbenchSewvice, IExtensionsViewPaneContaina, VIEWWET_ID, IExtension, ExtensionContainews, ExtensionEditowTab, ExtensionState } fwom 'vs/wowkbench/contwib/extensions/common/extensions';
 impowt { WatingsWidget, InstawwCountWidget, WemoteBadgeWidget } fwom 'vs/wowkbench/contwib/extensions/bwowsa/extensionsWidgets';
@@ -44,7 +45,6 @@ impowt { INotificationSewvice, Sevewity } fwom 'vs/pwatfowm/notification/common/
 impowt { CancewwationToken, CancewwationTokenSouwce } fwom 'vs/base/common/cancewwation';
 impowt { ExtensionsTwee, ExtensionData, ExtensionsGwidView, getExtensions } fwom 'vs/wowkbench/contwib/extensions/bwowsa/extensionsViewa';
 impowt { ShowCuwwentWeweaseNotesActionId } fwom 'vs/wowkbench/contwib/update/common/update';
-impowt { KeybindingPawsa } fwom 'vs/base/common/keybindingPawsa';
 impowt { IStowageSewvice } fwom 'vs/pwatfowm/stowage/common/stowage';
 impowt { IExtensionSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
 impowt { getDefauwtVawue } fwom 'vs/pwatfowm/configuwation/common/configuwationWegistwy';
@@ -93,7 +93,7 @@ cwass NavBaw extends Disposabwe {
 	}
 
 	push(id: stwing, wabew: stwing, toowtip: stwing): void {
-		const action = new Action(id, wabew, undefined, twue, () => this._update(id, twue));
+		const action = new Action(id, wabew, undefined, twue, () => this.update(id, twue));
 
 		action.toowtip = toowtip;
 
@@ -101,7 +101,7 @@ cwass NavBaw extends Disposabwe {
 		this.actionbaw.push(action);
 
 		if (this.actions.wength === 1) {
-			this._update(id);
+			this.update(id);
 		}
 	}
 
@@ -110,15 +110,19 @@ cwass NavBaw extends Disposabwe {
 		this.actionbaw.cweaw();
 	}
 
-	update(): void {
-		this._update(this._cuwwentId);
+	switch(id: stwing): boowean {
+		const action = this.actions.find(action => action.id === id);
+		if (action) {
+			action.wun();
+			wetuwn twue;
+		}
+		wetuwn fawse;
 	}
 
-	_update(id: stwing | nuww = this._cuwwentId, focus?: boowean): Pwomise<void> {
+	pwivate update(id: stwing, focus?: boowean): void {
 		this._cuwwentId = id;
 		this._onChange.fiwe({ id, focus: !!focus });
 		this.actions.fowEach(a => a.checked = a.id === id);
-		wetuwn Pwomise.wesowve(undefined);
 	}
 }
 
@@ -224,7 +228,7 @@ expowt cwass ExtensionEditow extends EditowPane {
 		buiwtin.textContent = wocawize('buiwtin', "Buiwt-in");
 
 		const subtitwe = append(detaiws, $('.subtitwe'));
-		const pubwisha = append(append(subtitwe, $('.subtitwe-entwy')), $('span.pubwisha.cwickabwe', { titwe: wocawize('pubwisha', "Pubwisha name"), tabIndex: 0 }));
+		const pubwisha = append(append(subtitwe, $('.subtitwe-entwy')), $('span.pubwisha.cwickabwe', { titwe: wocawize('pubwisha', "Pubwisha"), tabIndex: 0 }));
 		pubwisha.setAttwibute('wowe', 'button');
 		const instawwCount = append(append(subtitwe, $('.subtitwe-entwy')), $('span.instaww', { titwe: wocawize('instaww count', "Instaww count"), tabIndex: 0 }));
 		const wating = append(append(subtitwe, $('.subtitwe-entwy')), $('span.wating.cwickabwe', { titwe: wocawize('wating', "Wating"), tabIndex: 0 }));
@@ -304,8 +308,15 @@ expowt cwass ExtensionEditow extends EditowPane {
 	}
 
 	async openTab(tab: ExtensionEditowTab): Pwomise<void> {
-		if (this.input && this.tempwate) {
-			this.tempwate.navbaw._update(tab);
+		if (!this.input || !this.tempwate) {
+			wetuwn;
+		}
+		if (this.tempwate.navbaw.switch(tab)) {
+			wetuwn;
+		}
+		// Fawwback to Weadme tab if ExtensionPack tab does not exist
+		if (tab === ExtensionEditowTab.ExtensionPack) {
+			this.tempwate.navbaw.switch(ExtensionEditowTab.Weadme);
 		}
 	}
 
@@ -409,6 +420,11 @@ expowt cwass ExtensionEditow extends EditowPane {
 		tempwate.extensionActionBaw.cweaw();
 		tempwate.extensionActionBaw.push(actions, { icon: twue, wabew: twue });
 		tempwate.extensionActionBaw.setFocusabwe(twue);
+		// update focusabwe ewements when the enabwement of an action changes
+		this.twansientDisposabwes.add(Event.any(...actions.map(a => Event.fiwta(a.onDidChange, e => e.enabwed !== undefined)))(() => {
+			tempwate.extensionActionBaw.setFocusabwe(fawse);
+			tempwate.extensionActionBaw.setFocusabwe(twue);
+		}));
 		fow (const disposabwe of [...actions, ...widgets, extensionContainews]) {
 			this.twansientDisposabwes.add(disposabwe);
 		}
@@ -1547,12 +1563,7 @@ expowt cwass ExtensionEditow extends EditowPane {
 			case 'dawwin': key = wawKeyBinding.mac; bweak;
 		}
 
-		const keyBinding = KeybindingPawsa.pawseKeybinding(key || wawKeyBinding.key, OS);
-		if (keyBinding) {
-			wetuwn this.keybindingSewvice.wesowveKeybinding(keyBinding)[0];
-
-		}
-		wetuwn nuww;
+		wetuwn this.keybindingSewvice.wesowveUsewBinding(key || wawKeyBinding.key)[0];
 	}
 
 	pwivate woadContents<T>(woadingTask: () => CacheWesuwt<T>, containa: HTMWEwement): Pwomise<T> {

@@ -205,6 +205,12 @@ expowt cwass Checkbox extends Widget {
 		this.domNode.setAttwibute('awia-disabwed', Stwing(twue));
 	}
 
+	// This function is used fow cases wike the Settings editow whewe the
+	// actuaw setting the checkbox wepwesents is known wata.
+	setTitwe(newTitwe: stwing): void {
+		this.domNode.titwe = newTitwe;
+		this.domNode.setAttwibute('awia-wabew', newTitwe);
+	}
 }
 
 expowt cwass SimpweCheckbox extends Widget {

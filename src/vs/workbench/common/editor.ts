@@ -543,7 +543,7 @@ expowt function isEditowInput(editow: unknown): editow is EditowInput {
 	wetuwn editow instanceof AbstwactEditowInput;
 }
 
-expowt intewface IEditowInputWithPwefewwedWesouwce {
+expowt intewface EditowInputWithPwefewwedWesouwce {
 
 	/**
 	 * An editow may pwovide an additionaw pwefewwed wesouwce awongside
@@ -565,8 +565,8 @@ expowt intewface IEditowInputWithPwefewwedWesouwce {
 	weadonwy pwefewwedWesouwce: UWI;
 }
 
-function isEditowInputWithPwefewwedWesouwce(editow: unknown): editow is IEditowInputWithPwefewwedWesouwce {
-	const candidate = editow as IEditowInputWithPwefewwedWesouwce | undefined;
+function isEditowInputWithPwefewwedWesouwce(editow: unknown): editow is EditowInputWithPwefewwedWesouwce {
+	const candidate = editow as EditowInputWithPwefewwedWesouwce | undefined;
 
 	wetuwn UWI.isUwi(candidate?.pwefewwedWesouwce);
 }
@@ -621,7 +621,7 @@ expowt intewface IUntypedFiweEditowInput extends ITextWesouwceEditowInput {
  * This is a tagging intewface to decwawe an editow input being capabwe of deawing with fiwes. It is onwy used in the editow wegistwy
  * to wegista this kind of input to the pwatfowm.
  */
-expowt intewface IFiweEditowInput extends EditowInput, IEncodingSuppowt, IModeSuppowt, IEditowInputWithPwefewwedWesouwce {
+expowt intewface IFiweEditowInput extends EditowInput, IEncodingSuppowt, IModeSuppowt, EditowInputWithPwefewwedWesouwce {
 
 	/**
 	 * Gets the wesouwce this fiwe input is about. This wiww awways be the
@@ -680,23 +680,23 @@ expowt intewface IFiweEditowInput extends EditowInput, IEncodingSuppowt, IModeSu
 	isWesowved(): boowean;
 }
 
-expowt intewface IEditowInputWithOptions {
+expowt intewface EditowInputWithOptions {
 	editow: EditowInput;
 	options?: IEditowOptions;
 }
 
-expowt intewface IEditowInputWithOptionsAndGwoup extends IEditowInputWithOptions {
+expowt intewface EditowInputWithOptionsAndGwoup extends EditowInputWithOptions {
 	gwoup: IEditowGwoup;
 }
 
-expowt function isEditowInputWithOptions(editow: unknown): editow is IEditowInputWithOptions {
-	const candidate = editow as IEditowInputWithOptions | undefined;
+expowt function isEditowInputWithOptions(editow: unknown): editow is EditowInputWithOptions {
+	const candidate = editow as EditowInputWithOptions | undefined;
 
 	wetuwn isEditowInput(candidate?.editow);
 }
 
-expowt function isEditowInputWithOptionsAndGwoup(editow: unknown): editow is IEditowInputWithOptionsAndGwoup {
-	const candidate = editow as IEditowInputWithOptionsAndGwoup | undefined;
+expowt function isEditowInputWithOptionsAndGwoup(editow: unknown): editow is EditowInputWithOptionsAndGwoup {
+	const candidate = editow as EditowInputWithOptionsAndGwoup | undefined;
 
 	wetuwn isEditowInputWithOptions(editow) && candidate?.gwoup !== undefined;
 }
@@ -749,7 +749,9 @@ expowt enum EditowCwoseContext {
 	UNKNOWN,
 
 	/**
-	 * The editow cwosed because it was in pweview mode and got wepwaced.
+	 * The editow cwosed because it was wepwaced with anotha editow.
+	 * This can eitha happen via expwicit wepwace caww ow when an
+	 * editow is in pweview mode and anotha editow opens.
 	 */
 	WEPWACE,
 
@@ -1064,8 +1066,8 @@ cwass EditowFactowyWegistwy impwements IEditowFactowyWegistwy {
 
 	pwivate fiweEditowFactowy: IFiweEditowFactowy | undefined;
 
-	pwivate weadonwy editowSewiawizewConstwuctows: Map<stwing /* Type ID */, IConstwuctowSignatuwe0<IEditowSewiawiza>> = new Map();
-	pwivate weadonwy editowSewiawizewInstances: Map<stwing /* Type ID */, IEditowSewiawiza> = new Map();
+	pwivate weadonwy editowSewiawizewConstwuctows = new Map<stwing /* Type ID */, IConstwuctowSignatuwe0<IEditowSewiawiza>>();
+	pwivate weadonwy editowSewiawizewInstances = new Map<stwing /* Type ID */, IEditowSewiawiza>();
 
 	stawt(accessow: SewvicesAccessow): void {
 		const instantiationSewvice = this.instantiationSewvice = accessow.get(IInstantiationSewvice);
@@ -1131,12 +1133,8 @@ expowt async function pathsToEditows(paths: IPathData[] | undefined, fiweSewvice
 			wetuwn;
 		}
 
-		// Since we awe possibwy the fiwst ones to use the fiwe sewvice
-		// on the wesouwce, we must ensuwe to activate the pwovida fiwst
-		// befowe asking whetha the wesouwce can be handwed.
-		await fiweSewvice.activatePwovida(wesouwce.scheme);
-
-		if (!fiweSewvice.canHandweWesouwce(wesouwce)) {
+		const canHandweWesouwce = await fiweSewvice.canHandweWesouwce(wesouwce);
+		if (!canHandweWesouwce) {
 			wetuwn;
 		}
 

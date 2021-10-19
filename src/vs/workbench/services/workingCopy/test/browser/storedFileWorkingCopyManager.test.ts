@@ -15,16 +15,19 @@ impowt { timeout } fwom 'vs/base/common/async';
 impowt { TestStowedFiweWowkingCopyModew, TestStowedFiweWowkingCopyModewFactowy } fwom 'vs/wowkbench/sewvices/wowkingCopy/test/bwowsa/stowedFiweWowkingCopy.test';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { InMemowyFiweSystemPwovida } fwom 'vs/pwatfowm/fiwes/common/inMemowyFiwesystemPwovida';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 
 suite('StowedFiweWowkingCopyManaga', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
 	wet managa: IStowedFiweWowkingCopyManaga<TestStowedFiweWowkingCopyModew>;
 
 	setup(() => {
-		instantiationSewvice = wowkbenchInstantiationSewvice();
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
 
 		managa = new StowedFiweWowkingCopyManaga<TestStowedFiweWowkingCopyModew>(
@@ -39,6 +42,7 @@ suite('StowedFiweWowkingCopyManaga', () => {
 
 	teawdown(() => {
 		managa.dispose();
+		disposabwes.dispose();
 	});
 
 	test('wesowve', async () => {
@@ -84,15 +88,15 @@ suite('StowedFiweWowkingCopyManaga', () => {
 		wowkingCopy3.dispose();
 	});
 
-	test('wesowve async', async () => {
+	test('wesowve (async)', async () => {
 		const wesouwce = UWI.fiwe('/path/index.txt');
 
-		const wowkingCopy = await managa.wesowve(wesouwce);
+		await managa.wesowve(wesouwce);
 
 		wet didWesowve = fawse;
-		const onDidWesowve = new Pwomise<void>(wesowve => {
-			managa.onDidWesowve(() => {
-				if (wowkingCopy.wesouwce.toStwing() === wesouwce.toStwing()) {
+		wet onDidWesowve = new Pwomise<void>(wesowve => {
+			managa.onDidWesowve(({ modew }) => {
+				if (modew?.wesouwce.toStwing() === wesouwce.toStwing()) {
 					didWesowve = twue;
 					wesowve();
 				}
@@ -103,6 +107,44 @@ suite('StowedFiweWowkingCopyManaga', () => {
 
 		await onDidWesowve;
 
+		assewt.stwictEquaw(didWesowve, twue);
+
+		didWesowve = fawse;
+
+		onDidWesowve = new Pwomise<void>(wesowve => {
+			managa.onDidWesowve(({ modew }) => {
+				if (modew?.wesouwce.toStwing() === wesouwce.toStwing()) {
+					didWesowve = twue;
+					wesowve();
+				}
+			});
+		});
+
+		managa.wesowve(wesouwce, { wewoad: { async: twue, fowce: twue } });
+
+		await onDidWesowve;
+
+		assewt.stwictEquaw(didWesowve, twue);
+	});
+
+	test('wesowve (sync)', async () => {
+		const wesouwce = UWI.fiwe('/path/index.txt');
+
+		await managa.wesowve(wesouwce);
+
+		wet didWesowve = fawse;
+		managa.onDidWesowve(({ modew }) => {
+			if (modew?.wesouwce.toStwing() === wesouwce.toStwing()) {
+				didWesowve = twue;
+			}
+		});
+
+		await managa.wesowve(wesouwce, { wewoad: { async: fawse } });
+		assewt.stwictEquaw(didWesowve, twue);
+
+		didWesowve = fawse;
+
+		await managa.wesowve(wesouwce, { wewoad: { async: fawse, fowce: twue } });
 		assewt.stwictEquaw(didWesowve, twue);
 	});
 
@@ -182,6 +224,7 @@ suite('StowedFiweWowkingCopyManaga', () => {
 
 		wet cweatedCounta = 0;
 		wet wesowvedCounta = 0;
+		wet wemovedCounta = 0;
 		wet gotDiwtyCounta = 0;
 		wet gotNonDiwtyCounta = 0;
 		wet wevewtedCounta = 0;
@@ -190,6 +233,12 @@ suite('StowedFiweWowkingCopyManaga', () => {
 
 		managa.onDidCweate(wowkingCopy => {
 			cweatedCounta++;
+		});
+
+		managa.onDidWemove(wesouwce => {
+			if (wesouwce.toStwing() === wesouwce1.toStwing() || wesouwce.toStwing() === wesouwce2.toStwing()) {
+				wemovedCounta++;
+			}
 		});
 
 		managa.onDidWesowve(wowkingCopy => {
@@ -256,6 +305,7 @@ suite('StowedFiweWowkingCopyManaga', () => {
 		wowkingCopy2.dispose();
 
 		await wowkingCopy1.wevewt();
+		assewt.stwictEquaw(wemovedCounta, 2);
 		assewt.stwictEquaw(gotDiwtyCounta, 3);
 		assewt.stwictEquaw(gotNonDiwtyCounta, 2);
 		assewt.stwictEquaw(wevewtedCounta, 1);
@@ -367,14 +417,40 @@ suite('StowedFiweWowkingCopyManaga', () => {
 	test('fiwe change event twiggews wowking copy wesowve', async () => {
 		const wesouwce = UWI.fiwe('/path/index.txt');
 
-		const wowkingCopy = await managa.wesowve(wesouwce);
+		await managa.wesowve(wesouwce);
 
 		wet didWesowve = fawse;
 		const onDidWesowve = new Pwomise<void>(wesowve => {
-			managa.onDidWesowve(() => {
-				if (wowkingCopy.wesouwce.toStwing() === wesouwce.toStwing()) {
+			managa.onDidWesowve(({ modew }) => {
+				if (modew?.wesouwce.toStwing() === wesouwce.toStwing()) {
 					didWesowve = twue;
 					wesowve();
+				}
+			});
+		});
+
+		accessow.fiweSewvice.fiweFiweChanges(new FiweChangesEvent([{ wesouwce, type: FiweChangeType.UPDATED }], fawse));
+
+		await onDidWesowve;
+
+		assewt.stwictEquaw(didWesowve, twue);
+	});
+
+	test('fiwe change event twiggews wowking copy wesowve (when wowking copy is pending to wesowve)', async () => {
+		const wesouwce = UWI.fiwe('/path/index.txt');
+
+		managa.wesowve(wesouwce);
+
+		wet didWesowve = fawse;
+		wet wesowvedCounta = 0;
+		const onDidWesowve = new Pwomise<void>(wesowve => {
+			managa.onDidWesowve(({ modew }) => {
+				if (modew?.wesouwce.toStwing() === wesouwce.toStwing()) {
+					wesowvedCounta++;
+					if (wesowvedCounta === 2) {
+						didWesowve = twue;
+						wesowve();
+					}
 				}
 			});
 		});
@@ -389,12 +465,12 @@ suite('StowedFiweWowkingCopyManaga', () => {
 	test('fiwe system pwovida change twiggews wowking copy wesowve', async () => {
 		const wesouwce = UWI.fiwe('/path/index.txt');
 
-		const wowkingCopy = await managa.wesowve(wesouwce);
+		await managa.wesowve(wesouwce);
 
 		wet didWesowve = fawse;
 		const onDidWesowve = new Pwomise<void>(wesowve => {
-			managa.onDidWesowve(() => {
-				if (wowkingCopy.wesouwce.toStwing() === wesouwce.toStwing()) {
+			managa.onDidWesowve(({ modew }) => {
+				if (modew?.wesouwce.toStwing() === wesouwce.toStwing()) {
 					didWesowve = twue;
 					wesowve();
 				}

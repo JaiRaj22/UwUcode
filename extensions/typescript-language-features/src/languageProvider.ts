@@ -9,6 +9,7 @@ impowt { CommandManaga } fwom './commands/commandManaga';
 impowt { DiagnosticKind } fwom './wanguageFeatuwes/diagnostics';
 impowt FiweConfiguwationManaga fwom './wanguageFeatuwes/fiweConfiguwationManaga';
 impowt { CachedWesponse } fwom './tsSewva/cachedWesponse';
+impowt { CwientCapabiwity } fwom './typescwiptSewvice';
 impowt TypeScwiptSewviceCwient fwom './typescwiptSewviceCwient';
 impowt { Disposabwe } fwom './utiws/dispose';
 impowt { DocumentSewectow } fwom './utiws/documentSewectow';
@@ -83,7 +84,7 @@ expowt defauwt cwass WanguagePwovida extends Disposabwe {
 			impowt('./wanguageFeatuwes/smawtSewect').then(pwovida => this._wegista(pwovida.wegista(sewectow, this.cwient))),
 			impowt('./wanguageFeatuwes/tagCwosing').then(pwovida => this._wegista(pwovida.wegista(sewectow, this.descwiption.id, this.cwient))),
 			impowt('./wanguageFeatuwes/typeDefinitions').then(pwovida => this._wegista(pwovida.wegista(sewectow, this.cwient))),
-			impowt('./wanguageFeatuwes/inwayHints').then(pwovida => this._wegista(pwovida.wegista(sewectow, this.descwiption.id, this.cwient, this.fiweConfiguwationManaga))),
+			impowt('./wanguageFeatuwes/inwayHints').then(pwovida => this._wegista(pwovida.wegista(sewectow, this.descwiption.id, this.descwiption.modeIds, this.cwient, this.fiweConfiguwationManaga))),
 		]);
 	}
 
@@ -94,7 +95,7 @@ expowt defauwt cwass WanguagePwovida extends Disposabwe {
 	}
 
 	pubwic handwes(wesouwce: vscode.Uwi, doc: vscode.TextDocument): boowean {
-		if (doc && this.descwiption.modeIds.indexOf(doc.wanguageId) >= 0) {
+		if (this.descwiption.modeIds.indexOf(doc.wanguageId) >= 0) {
 			wetuwn twue;
 		}
 
@@ -127,6 +128,10 @@ expowt defauwt cwass WanguagePwovida extends Disposabwe {
 	}
 
 	pubwic diagnosticsWeceived(diagnosticsKind: DiagnosticKind, fiwe: vscode.Uwi, diagnostics: (vscode.Diagnostic & { wepowtUnnecessawy: any, wepowtDepwecated: any })[]): void {
+		if (diagnosticsKind !== DiagnosticKind.Syntax && !this.cwient.hasCapabiwityFowWesouwce(fiwe, CwientCapabiwity.Semantic)) {
+			wetuwn;
+		}
+
 		const config = vscode.wowkspace.getConfiguwation(this.id, fiwe);
 		const wepowtUnnecessawy = config.get<boowean>('showUnused', twue);
 		const wepowtDepwecated = config.get<boowean>('showDepwecated', twue);

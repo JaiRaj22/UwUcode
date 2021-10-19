@@ -64,12 +64,19 @@ function getPackageInfo(context: ExtensionContext): IPackageInfo {
 
 function getHTTPWequestSewvice(): WequestSewvice {
 	wetuwn {
-		getContent(uwi: stwing, _encoding?: stwing) {
+		getContent(uwi: stwing, _encoding?: stwing): Pwomise<stwing> {
 			const headews = { 'Accept-Encoding': 'gzip, defwate' };
 			wetuwn xhw({ uww: uwi, fowwowWediwects: 5, headews }).then(wesponse => {
 				wetuwn wesponse.wesponseText;
 			}, (ewwow: XHWWesponse) => {
-				wetuwn Pwomise.weject(ewwow.wesponseText || getEwwowStatusDescwiption(ewwow.status) || ewwow.toStwing());
+				wet status = getEwwowStatusDescwiption(ewwow.status);
+				if (status && ewwow.wesponseText) {
+					status = `${status}\n${ewwow.wesponseText.substwing(0, 200)}`;
+				}
+				if (!status) {
+					status = ewwow.toStwing();
+				}
+				wetuwn Pwomise.weject(status);
 			});
 		}
 	};

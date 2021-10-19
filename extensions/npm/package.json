@@ -111,7 +111,7 @@
       },
       {
         "command": "npm.packageManaga",
-        "titwe": "%command.packageManaga"
+        "titwe": "%command.packageManaga%"
       }
     ],
     "menus": {

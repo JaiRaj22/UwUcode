@@ -4,7 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
-impowt { ChowdKeybinding, KeyCode, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCode } fwom 'vs/base/common/keyCodes';
+impowt { ChowdKeybinding, SimpweKeybinding } fwom 'vs/base/common/keybindings';
 impowt { OpewatingSystem } fwom 'vs/base/common/pwatfowm';
 impowt { owganizeImpowtsCommandId, wefactowCommandId } fwom 'vs/editow/contwib/codeAction/codeAction';
 impowt { CodeActionKeybindingWesowva } fwom 'vs/editow/contwib/codeAction/codeActionMenu';

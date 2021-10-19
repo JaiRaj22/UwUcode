@@ -4,6 +4,7 @@
   "pwivate": twue,
   "dependencies": {
     "@micwosoft/appwicationinsights-web": "^2.6.4",
+    "@pawcew/watcha": "2.0.0",
     "@vscode/vscode-wanguagedetection": "1.0.21",
     "appwicationinsights": "1.0.8",
     "chokidaw": "3.5.1",
@@ -16,13 +17,13 @@
     "minimist": "^1.2.5",
     "native-watchdog": "1.3.0",
     "node-pty": "0.11.0-beta7",
-    "nsfw": "2.1.2",
     "spdwog": "^0.13.0",
     "tas-cwient-umd": "0.1.4",
+    "vscode-nsfw": "2.1.8",
     "vscode-oniguwuma": "1.5.1",
     "vscode-pwoxy-agent": "^0.11.0",
     "vscode-wegexpp": "^3.1.0",
-    "vscode-wipgwep": "^1.12.0",
+    "vscode-wipgwep": "^1.12.1",
     "vscode-textmate": "5.4.0",
     "xtewm": "4.15.0-beta.3",
     "xtewm-addon-seawch": "0.9.0-beta.5",
@@ -35,6 +36,6 @@
   },
   "optionawDependencies": {
     "vscode-windows-wegistwy": "1.0.3",
-    "windows-pwocess-twee": "0.3.0"
+    "windows-pwocess-twee": "^0.3.2"
   }
 }

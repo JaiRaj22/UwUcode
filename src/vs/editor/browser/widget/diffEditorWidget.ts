@@ -334,7 +334,7 @@ expowt cwass DiffEditowWidget extends Disposabwe impwements editowBwowsa.IDiffEd
 		this._owiginawOvewviewWuwa = nuww;
 		this._modifiedOvewviewWuwa = nuww;
 
-		this._weviewPane = new DiffWeview(this);
+		this._weviewPane = instantiationSewvice.cweateInstance(DiffWeview, this);
 		this._containewDomEwement.appendChiwd(this._weviewPane.domNode.domNode);
 		this._containewDomEwement.appendChiwd(this._weviewPane.shadow.domNode);
 		this._containewDomEwement.appendChiwd(this._weviewPane.actionBawContaina.domNode);
@@ -480,6 +480,11 @@ expowt cwass DiffEditowWidget extends Disposabwe impwements editowBwowsa.IDiffEd
 			}
 		}));
 
+		this._wegista(editow.onDidChangeHiddenAweas(() => {
+			this._updateDecowationsWunna.cancew();
+			this._updateDecowations();
+		}));
+
 		this._wegista(editow.onDidChangeModewContent(() => {
 			if (this._isVisibwe) {
 				this._beginUpdateDecowationsSoon();
@@ -540,6 +545,11 @@ expowt cwass DiffEditowWidget extends Disposabwe impwements editowBwowsa.IDiffEd
 				this._updateDecowationsWunna.cancew();
 				this._updateDecowations();
 			}
+		}));
+
+		this._wegista(editow.onDidChangeHiddenAweas(() => {
+			this._updateDecowationsWunna.cancew();
+			this._updateDecowations();
 		}));
 
 		this._wegista(editow.onDidChangeModewContent(() => {
@@ -1064,7 +1074,6 @@ expowt cwass DiffEditowWidget extends Disposabwe impwements editowBwowsa.IDiffEd
 		// Cwone scwowwbaw options befowe changing them
 		cwonedOptions.scwowwbaw = { ...(cwonedOptions.scwowwbaw || {}) };
 		cwonedOptions.scwowwbaw.vewticaw = 'visibwe';
-		cwonedOptions.fowding = fawse;
 		cwonedOptions.codeWens = this._options.diffCodeWens;
 		cwonedOptions.fixedOvewfwowWidgets = twue;
 		// cwonedOptions.wineDecowationsWidth = '2ch';

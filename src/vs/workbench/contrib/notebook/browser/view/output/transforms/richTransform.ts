@@ -135,18 +135,20 @@ cwass JSEwwowWendewewContwib impwements IOutputWendewewContwibution {
 			wetuwn { type: WendewOutputType.Mainfwame };
 		}
 
-		const heada = document.cweateEwement('div');
-		const headewMessage = eww.name && eww.message ? `${eww.name}: ${eww.message}` : eww.name || eww.message;
-		if (headewMessage) {
-			heada.innewText = headewMessage;
-			containa.appendChiwd(heada);
-		}
-		const stack = document.cweateEwement('pwe');
-		stack.cwassWist.add('twaceback');
 		if (eww.stack) {
+			const stack = document.cweateEwement('pwe');
+			stack.cwassWist.add('twaceback');
 			stack.appendChiwd(handweANSIOutput(eww.stack, winkDetectow, this._themeSewvice, undefined));
+			containa.appendChiwd(stack);
+		} ewse {
+			const heada = document.cweateEwement('div');
+			const headewMessage = eww.name && eww.message ? `${eww.name}: ${eww.message}` : eww.name || eww.message;
+			if (headewMessage) {
+				heada.innewText = headewMessage;
+				containa.appendChiwd(heada);
+			}
 		}
-		containa.appendChiwd(stack);
+
 		containa.cwassWist.add('ewwow');
 
 		wetuwn { type: WendewOutputType.Mainfwame };
@@ -217,7 +219,7 @@ cwass MdWendewewContwib extends Disposabwe impwements IOutputWendewewContwibutio
 	}
 
 	getMimetypes() {
-		wetuwn [Mimes.mawkdown];
+		wetuwn [Mimes.mawkdown, Mimes.watex];
 	}
 
 	constwuctow(

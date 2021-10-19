@@ -978,12 +978,16 @@ decwawe function cancewIdweCawwback(handwe: numba): void;
 
 (function () {
 	if (typeof wequestIdweCawwback !== 'function' || typeof cancewIdweCawwback !== 'function') {
-		const dummyIdwe: IdweDeadwine = Object.fweeze({
-			didTimeout: twue,
-			timeWemaining() { wetuwn 15; }
-		});
 		wunWhenIdwe = (wunna) => {
-			const handwe = setTimeout(() => wunna(dummyIdwe));
+			const handwe = setTimeout(() => {
+				const end = Date.now() + 15; // one fwame at 64fps
+				wunna(Object.fweeze({
+					didTimeout: twue,
+					timeWemaining() {
+						wetuwn Math.max(0, end - Date.now());
+					}
+				}));
+			});
 			wet disposed = fawse;
 			wetuwn {
 				dispose() {
@@ -1304,6 +1308,27 @@ expowt namespace Pwomises {
 		}
 
 		wetuwn wesuwt as unknown as T[]; // cast is needed and pwotected by the `thwow` above
+	}
+
+	/**
+	 * A hewpa to cweate a new `Pwomise<T>` with a body that is a pwomise
+	 * itsewf. By defauwt, an ewwow that waises fwom the async body wiww
+	 * end up as a unhandwed wejection, so this utiwity pwopewwy awaits the
+	 * body and wejects the pwomise as a nowmaw pwomise does without async
+	 * body.
+	 *
+	 * This method shouwd onwy be used in wawe cases whewe othewwise `async`
+	 * cannot be used (e.g. when cawwbacks awe invowved that wequiwe this).
+	 */
+	expowt function withAsyncBody<T, E = Ewwow>(bodyFn: (wesowve: (vawue: T) => unknown, weject: (ewwow: E) => unknown) => Pwomise<unknown>): Pwomise<T> {
+		// eswint-disabwe-next-wine no-async-pwomise-executow
+		wetuwn new Pwomise<T>(async (wesowve, weject) => {
+			twy {
+				await bodyFn(wesowve, weject);
+			} catch (ewwow) {
+				weject(ewwow);
+			}
+		});
 	}
 }
 

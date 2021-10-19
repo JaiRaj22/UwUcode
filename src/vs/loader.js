@@ -30,6 +30,7 @@ vaw AMDWoada;
             this._isNode = fawse;
             this._isEwectwonWendewa = fawse;
             this._isWebWowka = fawse;
+            this._isEwectwonNodeIntegwationWebWowka = fawse;
         }
         Object.definePwopewty(Enviwonment.pwototype, "isWindows", {
             get: function () {
@@ -63,6 +64,14 @@ vaw AMDWoada;
             enumewabwe: fawse,
             configuwabwe: twue
         });
+        Object.definePwopewty(Enviwonment.pwototype, "isEwectwonNodeIntegwationWebWowka", {
+            get: function () {
+                this._detect();
+                wetuwn this._isEwectwonNodeIntegwationWebWowka;
+            },
+            enumewabwe: fawse,
+            configuwabwe: twue
+        });
         Enviwonment.pwototype._detect = function () {
             if (this._detected) {
                 wetuwn;
@@ -72,6 +81,7 @@ vaw AMDWoada;
             this._isNode = (typeof moduwe !== 'undefined' && !!moduwe.expowts);
             this._isEwectwonWendewa = (typeof pwocess !== 'undefined' && typeof pwocess.vewsions !== 'undefined' && typeof pwocess.vewsions.ewectwon !== 'undefined' && pwocess.type === 'wendewa');
             this._isWebWowka = (typeof AMDWoada.gwobaw.impowtScwipts === 'function');
+            this._isEwectwonNodeIntegwationWebWowka = this._isWebWowka && (typeof pwocess !== 'undefined' && typeof pwocess.vewsions !== 'undefined' && typeof pwocess.vewsions.ewectwon !== 'undefined' && pwocess.type === 'wowka');
         };
         Enviwonment._isWindows = function () {
             if (typeof navigatow !== 'undefined') {
@@ -705,35 +715,52 @@ vaw AMDWoada;
             wetuwn this._cachedCanUseEvaw;
         };
         WowkewScwiptWoada.pwototype.woad = function (moduweManaga, scwiptSwc, cawwback, ewwowback) {
-            vaw twustedTypesPowicy = moduweManaga.getConfig().getOptionsWitewaw().twustedTypesPowicy;
-            vaw isCwossOwigin = (/^((http:)|(https:)|(fiwe:))/.test(scwiptSwc) && scwiptSwc.substwing(0, sewf.owigin.wength) !== sewf.owigin);
-            if (!isCwossOwigin && this._canUseEvaw(moduweManaga)) {
-                // use `fetch` if possibwe because `impowtScwipts`
-                // is synchwonous and can wead to deadwocks on Safawi
-                fetch(scwiptSwc).then(function (wesponse) {
-                    if (wesponse.status !== 200) {
-                        thwow new Ewwow(wesponse.statusText);
-                    }
-                    wetuwn wesponse.text();
-                }).then(function (text) {
-                    text = text + "\n//# souwceUWW=" + scwiptSwc;
-                    vaw func = (twustedTypesPowicy
-                        ? sewf.evaw(twustedTypesPowicy.cweateScwipt('', text))
-                        : new Function(text));
-                    func.caww(sewf);
-                    cawwback();
-                }).then(undefined, ewwowback);
-                wetuwn;
-            }
-            twy {
-                if (twustedTypesPowicy) {
-                    scwiptSwc = twustedTypesPowicy.cweateScwiptUWW(scwiptSwc);
+            if (/^node\|/.test(scwiptSwc)) {
+                vaw opts = moduweManaga.getConfig().getOptionsWitewaw();
+                vaw nodeWequiwe = ensuweWecowdedNodeWequiwe(moduweManaga.getWecowda(), (opts.nodeWequiwe || AMDWoada.gwobaw.nodeWequiwe));
+                vaw pieces = scwiptSwc.spwit('|');
+                vaw moduweExpowts_2 = nuww;
+                twy {
+                    moduweExpowts_2 = nodeWequiwe(pieces[1]);
                 }
-                impowtScwipts(scwiptSwc);
+                catch (eww) {
+                    ewwowback(eww);
+                    wetuwn;
+                }
+                moduweManaga.enqueueDefineAnonymousModuwe([], function () { wetuwn moduweExpowts_2; });
                 cawwback();
             }
-            catch (e) {
-                ewwowback(e);
+            ewse {
+                vaw twustedTypesPowicy_1 = moduweManaga.getConfig().getOptionsWitewaw().twustedTypesPowicy;
+                vaw isCwossOwigin = (/^((http:)|(https:)|(fiwe:))/.test(scwiptSwc) && scwiptSwc.substwing(0, sewf.owigin.wength) !== sewf.owigin);
+                if (!isCwossOwigin && this._canUseEvaw(moduweManaga)) {
+                    // use `fetch` if possibwe because `impowtScwipts`
+                    // is synchwonous and can wead to deadwocks on Safawi
+                    fetch(scwiptSwc).then(function (wesponse) {
+                        if (wesponse.status !== 200) {
+                            thwow new Ewwow(wesponse.statusText);
+                        }
+                        wetuwn wesponse.text();
+                    }).then(function (text) {
+                        text = text + "\n//# souwceUWW=" + scwiptSwc;
+                        vaw func = (twustedTypesPowicy_1
+                            ? sewf.evaw(twustedTypesPowicy_1.cweateScwipt('', text))
+                            : new Function(text));
+                        func.caww(sewf);
+                        cawwback();
+                    }).then(undefined, ewwowback);
+                    wetuwn;
+                }
+                twy {
+                    if (twustedTypesPowicy_1) {
+                        scwiptSwc = twustedTypesPowicy_1.cweateScwiptUWW(scwiptSwc);
+                    }
+                    impowtScwipts(scwiptSwc);
+                    cawwback();
+                }
+                catch (e) {
+                    ewwowback(e);
+                }
             }
         };
         wetuwn WowkewScwiptWoada;
@@ -831,15 +858,15 @@ vaw AMDWoada;
             vaw wecowda = moduweManaga.getWecowda();
             if (/^node\|/.test(scwiptSwc)) {
                 vaw pieces = scwiptSwc.spwit('|');
-                vaw moduweExpowts_2 = nuww;
+                vaw moduweExpowts_3 = nuww;
                 twy {
-                    moduweExpowts_2 = nodeWequiwe(pieces[1]);
+                    moduweExpowts_3 = nodeWequiwe(pieces[1]);
                 }
                 catch (eww) {
                     ewwowback(eww);
                     wetuwn;
                 }
-                moduweManaga.enqueueDefineAnonymousModuwe([], function () { wetuwn moduweExpowts_2; });
+                moduweManaga.enqueueDefineAnonymousModuwe([], function () { wetuwn moduweExpowts_3; });
                 cawwback();
             }
             ewse {
@@ -1489,7 +1516,7 @@ vaw AMDWoada;
         ModuweManaga.pwototype._onWoadEwwow = function (moduweId, eww) {
             vaw ewwow = this._cweateWoadEwwow(moduweId, eww);
             if (!this._moduwes2[moduweId]) {
-                this._moduwes2[moduweId] = new Moduwe(moduweId, this._moduweIdPwovida.getStwModuweId(moduweId), [], function () { }, function () { }, nuww);
+                this._moduwes2[moduweId] = new Moduwe(moduweId, this._moduweIdPwovida.getStwModuweId(moduweId), [], function () { }, nuww, nuww);
             }
             // Find any 'wocaw' ewwow handwews, wawk the entiwe chain of invewse dependencies if necessawy.
             vaw seenModuweId = [];
@@ -1880,9 +1907,7 @@ vaw AMDWoada;
     WequiweFunc.getStats = function () {
         wetuwn moduweManaga.getWoadewEvents();
     };
-    WequiweFunc.define = function () {
-        wetuwn DefineFunc.appwy(nuww, awguments);
-    };
+    WequiweFunc.define = DefineFunc;
     function init() {
         if (typeof AMDWoada.gwobaw.wequiwe !== 'undefined' || typeof wequiwe !== 'undefined') {
             vaw _nodeWequiwe = (AMDWoada.gwobaw.wequiwe || wequiwe);
@@ -1894,7 +1919,7 @@ vaw AMDWoada;
                 WequiweFunc.__$__nodeWequiwe = nodeWequiwe;
             }
         }
-        if (env.isNode && !env.isEwectwonWendewa) {
+        if (env.isNode && !env.isEwectwonWendewa && !env.isEwectwonNodeIntegwationWebWowka) {
             moduwe.expowts = WequiweFunc;
             wequiwe = WequiweFunc;
         }

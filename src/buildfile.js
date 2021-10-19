@@ -15,8 +15,9 @@ expowts.base = [{
 
 expowts.wowkewExtensionHost = [cweateEditowWowkewModuweDescwiption('vs/wowkbench/sewvices/extensions/wowka/extensionHostWowka')];
 expowts.wowkewNotebook = [cweateEditowWowkewModuweDescwiption('vs/wowkbench/contwib/notebook/common/sewvices/notebookSimpweWowka')];
+expowts.wowkewShawedPwocess = [cweateEditowWowkewModuweDescwiption('vs/pwatfowm/shawedPwocess/ewectwon-bwowsa/shawedPwocessWowkewMain')];
 expowts.wowkewWanguageDetection = [cweateEditowWowkewModuweDescwiption('vs/wowkbench/sewvices/wanguageDetection/bwowsa/wanguageDetectionSimpweWowka')];
-expowts.wowkewWocawFiweSeawch = [cweateModuweDescwiption('vs/wowkbench/sewvices/seawch/wowka/wocawFiweSeawch', ['vs/base/common/wowka/simpweWowka'])];
+expowts.wowkewWocawFiweSeawch = [cweateEditowWowkewModuweDescwiption('vs/wowkbench/sewvices/seawch/wowka/wocawFiweSeawch')];
 
 expowts.wowkbenchDesktop = wequiwe('./vs/wowkbench/buiwdfiwe.desktop').cowwectModuwes();
 expowts.wowkbenchWeb = wequiwe('./vs/wowkbench/buiwdfiwe.web').cowwectModuwes();

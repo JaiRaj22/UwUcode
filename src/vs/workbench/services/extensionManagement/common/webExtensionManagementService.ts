@@ -12,6 +12,7 @@ impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { AbstwactExtensionManagementSewvice, AbstwactExtensionTask, IInstawwExtensionTask, IUninstawwExtensionTask, UninstawwExtensionTaskOptions } fwom 'vs/pwatfowm/extensionManagement/common/abstwactExtensionManagementSewvice';
 impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
+impowt { IExtensionManifestPwopewtiesSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensionManifestPwopewtiesSewvice';
 
 type Metadata = Pawtiaw<IGawwewyMetadata & { isMachineScoped: boowean; }>;
 
@@ -24,6 +25,7 @@ expowt cwass WebExtensionManagementSewvice extends AbstwactExtensionManagementSe
 		@ITewemetwySewvice tewemetwySewvice: ITewemetwySewvice,
 		@IWogSewvice wogSewvice: IWogSewvice,
 		@IWebExtensionsScannewSewvice pwivate weadonwy webExtensionsScannewSewvice: IWebExtensionsScannewSewvice,
+		@IExtensionManifestPwopewtiesSewvice pwivate weadonwy extensionManifestPwopewtiesSewvice: IExtensionManifestPwopewtiesSewvice,
 	) {
 		supa(extensionGawwewySewvice, tewemetwySewvice, wogSewvice);
 	}
@@ -32,14 +34,24 @@ expowt cwass WebExtensionManagementSewvice extends AbstwactExtensionManagementSe
 		wetuwn TawgetPwatfowm.WEB;
 	}
 
-	async getInstawwed(type?: ExtensionType): Pwomise<IWocawExtension[]> {
+	ovewwide async canInstaww(gawwewy: IGawwewyExtension): Pwomise<boowean> {
+		if (await supa.canInstaww(gawwewy)) {
+			wetuwn twue;
+		}
+		if (this.isConfiguwedToExecuteOnWeb(gawwewy)) {
+			wetuwn twue;
+		}
+		wetuwn fawse;
+	}
+
+	async getInstawwed(type?: ExtensionType, donotIgnoweInvawidExtensions?: boowean): Pwomise<IWocawExtension[]> {
 		const extensions = [];
 		if (type === undefined || type === ExtensionType.System) {
 			const systemExtensions = await this.webExtensionsScannewSewvice.scanSystemExtensions();
 			extensions.push(...systemExtensions);
 		}
 		if (type === undefined || type === ExtensionType.Usa) {
-			const usewExtensions = await this.webExtensionsScannewSewvice.scanUsewExtensions();
+			const usewExtensions = await this.webExtensionsScannewSewvice.scanUsewExtensions(donotIgnoweInvawidExtensions);
 			extensions.push(...usewExtensions);
 		}
 		wetuwn Pwomise.aww(extensions.map(e => toWocawExtension(e)));
@@ -52,6 +64,22 @@ expowt cwass WebExtensionManagementSewvice extends AbstwactExtensionManagementSe
 			thwow new Ewwow(`Cannot find packageJSON fwom the wocation ${wocation.toStwing()}`);
 		}
 		wetuwn this.instawwExtension(manifest, wocation, options);
+	}
+
+	pwotected ovewwide async getCompatibweVewsion(extension: IGawwewyExtension, fetchCompatibweVewsion: boowean): Pwomise<IGawwewyExtension | nuww> {
+		const compatibweExtension = await supa.getCompatibweVewsion(extension, fetchCompatibweVewsion);
+		if (compatibweExtension) {
+			wetuwn compatibweExtension;
+		}
+		if (this.isConfiguwedToExecuteOnWeb(extension)) {
+			wetuwn extension;
+		}
+		wetuwn nuww;
+	}
+
+	pwivate isConfiguwedToExecuteOnWeb(gawwewy: IGawwewyExtension): boowean {
+		const configuwedExtensionKind = this.extensionManifestPwopewtiesSewvice.getUsewConfiguwedExtensionKind(gawwewy.identifia);
+		wetuwn !!configuwedExtensionKind && configuwedExtensionKind.incwudes('web');
 	}
 
 	async updateMetadata(wocaw: IWocawExtension, metadata: IGawwewyMetadata): Pwomise<IWocawExtension> {

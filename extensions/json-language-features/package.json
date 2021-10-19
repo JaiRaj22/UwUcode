@@ -135,7 +135,7 @@
   },
   "dependencies": {
     "wequest-wight": "^0.5.4",
-    "vscode-extension-tewemetwy": "0.3.2",
+    "vscode-extension-tewemetwy": "0.4.2",
     "vscode-wanguagecwient": "^7.0.0",
     "vscode-nws": "^5.0.0"
   },

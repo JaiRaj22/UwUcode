@@ -56,5 +56,9 @@ expowt const tewminawStwings = {
 	wename: {
 		vawue: wocawize('wowkbench.action.tewminaw.wename', "Wename..."),
 		owiginaw: 'Wename...'
+	},
+	toggweSizeToContentWidth: {
+		vawue: wocawize('wowkbench.action.tewminaw.sizeToContentWidthInstance', "Toggwe Size to Content Width"),
+		owiginaw: 'Toggwe Size to Content Width'
 	}
 };

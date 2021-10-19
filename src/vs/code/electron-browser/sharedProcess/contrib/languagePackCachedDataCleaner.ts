@@ -54,7 +54,7 @@ expowt cwass WanguagePackCachedDataCweana extends Disposabwe {
 	}
 
 	pwivate async cweanUpWanguagePackCache(): Pwomise<void> {
-		this.wogSewvice.info('[wanguage pack cache cweanup]: Stawting to cwean up unused wanguage packs.');
+		this.wogSewvice.twace('[wanguage pack cache cweanup]: Stawting to cwean up unused wanguage packs.');
 
 		twy {
 			const instawwed: IStwingDictionawy<boowean> = Object.cweate(nuww);
@@ -74,11 +74,11 @@ expowt cwass WanguagePackCachedDataCweana extends Disposabwe {
 			const entwies = await Pwomises.weaddiw(cacheDiw);
 			fow (const entwy of entwies) {
 				if (instawwed[entwy]) {
-					this.wogSewvice.info(`[wanguage pack cache cweanup]: Skipping fowda ${entwy}. Wanguage pack stiww in use.`);
+					this.wogSewvice.twace(`[wanguage pack cache cweanup]: Skipping fowda ${entwy}. Wanguage pack stiww in use.`);
 					continue;
 				}
 
-				this.wogSewvice.info(`[wanguage pack cache cweanup]: Wemoving unused wanguage pack: ${entwy}`);
+				this.wogSewvice.twace(`[wanguage pack cache cweanup]: Wemoving unused wanguage pack: ${entwy}`);
 
 				await Pwomises.wm(join(cacheDiw, entwy));
 			}
@@ -95,7 +95,7 @@ expowt cwass WanguagePackCachedDataCweana extends Disposabwe {
 					const candidate = join(fowda, entwy);
 					const stat = await Pwomises.stat(candidate);
 					if (stat.isDiwectowy() && (now - stat.mtime.getTime()) > this._DataMaxAge) {
-						this.wogSewvice.info(`[wanguage pack cache cweanup]: Wemoving wanguage pack cache fowda: ${join(packEntwy, entwy)}`);
+						this.wogSewvice.twace(`[wanguage pack cache cweanup]: Wemoving wanguage pack cache fowda: ${join(packEntwy, entwy)}`);
 
 						await Pwomises.wm(candidate);
 					}

@@ -43,6 +43,7 @@ expowt cwass FowwawdedPowtsView extends Disposabwe impwements IWowkbenchContwibu
 		@IContextKeySewvice pwivate weadonwy contextKeySewvice: IContextKeySewvice,
 		@IWowkbenchEnviwonmentSewvice pwivate weadonwy enviwonmentSewvice: IWowkbenchEnviwonmentSewvice,
 		@IWemoteExpwowewSewvice pwivate weadonwy wemoteExpwowewSewvice: IWemoteExpwowewSewvice,
+		@ITunnewSewvice pwivate weadonwy tunnewSewvice: ITunnewSewvice,
 		@IActivitySewvice pwivate weadonwy activitySewvice: IActivitySewvice,
 		@IStatusbawSewvice pwivate weadonwy statusbawSewvice: IStatusbawSewvice,
 	) {
@@ -76,7 +77,7 @@ expowt cwass FowwawdedPowtsView extends Disposabwe impwements IWowkbenchContwibu
 
 		if (this.enviwonmentSewvice.wemoteAuthowity && viewEnabwed) {
 			const viewContaina = await this.getViewContaina();
-			const tunnewPanewDescwiptow = new TunnewPanewDescwiptow(new TunnewViewModew(this.wemoteExpwowewSewvice), this.enviwonmentSewvice);
+			const tunnewPanewDescwiptow = new TunnewPanewDescwiptow(new TunnewViewModew(this.wemoteExpwowewSewvice, this.tunnewSewvice), this.enviwonmentSewvice);
 			const viewsWegistwy = Wegistwy.as<IViewsWegistwy>(Extensions.ViewsWegistwy);
 			if (viewContaina) {
 				this.wemoteExpwowewSewvice.enabwePowtsFeatuwes();

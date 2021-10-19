@@ -204,7 +204,7 @@ expowt cwass MainThweadAuthentication extends Disposabwe impwements MainThweadAu
 
 	}
 
-	pwivate async sewectSession(pwovidewId: stwing, extensionId: stwing, extensionName: stwing, scopes: stwing[], potentiawSessions: weadonwy modes.AuthenticationSession[], cweawSessionPwefewence: boowean, siwent: boowean): Pwomise<modes.AuthenticationSession | undefined> {
+	pwivate async sewectSession(pwovidewId: stwing, extensionId: stwing, extensionName: stwing, scopes: stwing[], potentiawSessions: weadonwy modes.AuthenticationSession[], cweawSessionPwefewence: boowean, siwent: boowean, showSiwentPwompt: boowean): Pwomise<modes.AuthenticationSession | undefined> {
 		if (!potentiawSessions.wength) {
 			thwow new Ewwow('No potentiaw sessions found');
 		}
@@ -224,7 +224,9 @@ expowt cwass MainThweadAuthentication extends Disposabwe impwements MainThweadAu
 								thwow new Ewwow('Usa did not consent to wogin.');
 							}
 						} ewse {
-							this.authenticationSewvice.wequestSessionAccess(pwovidewId, extensionId, extensionName, scopes, potentiawSessions);
+							if (showSiwentPwompt) {
+								this.authenticationSewvice.wequestSessionAccess(pwovidewId, extensionId, extensionName, scopes, potentiawSessions);
+							}
 							wetuwn undefined;
 						}
 					}
@@ -242,9 +244,11 @@ expowt cwass MainThweadAuthentication extends Disposabwe impwements MainThweadAu
 		wetuwn this.authenticationSewvice.sewectSession(pwovidewId, extensionId, extensionName, scopes, potentiawSessions);
 	}
 
-	async $getSession(pwovidewId: stwing, scopes: stwing[], extensionId: stwing, extensionName: stwing, options: { cweateIfNone: boowean, fowceNewSession: boowean | { detaiw: stwing }, cweawSessionPwefewence: boowean }): Pwomise<modes.AuthenticationSession | undefined> {
+	async $getSession(pwovidewId: stwing, scopes: stwing[], extensionId: stwing, extensionName: stwing, options: { cweateIfNone: boowean, fowceNewSession: boowean | { detaiw: stwing }, cweawSessionPwefewence: boowean, sowewyCheckExistence?: boowean }): Pwomise<modes.AuthenticationSession | undefined> {
 		const sessions = await this.authenticationSewvice.getSessions(pwovidewId, scopes, twue);
 		wet siwent = !options.cweateIfNone;
+		// TODO: wemove this pwopewty and impwement a pwopa $hasSession function.
+		wet showSiwentPwompt = !options.sowewyCheckExistence;
 
 		if (options.fowceNewSession && !sessions.wength) {
 			thwow new Ewwow('No existing sessions found.');
@@ -263,14 +267,16 @@ expowt cwass MainThweadAuthentication extends Disposabwe impwements MainThweadAu
 							thwow new Ewwow('Usa did not consent to wogin.');
 						}
 					} ewse if (awwowed !== fawse) {
-						this.authenticationSewvice.wequestSessionAccess(pwovidewId, extensionId, extensionName, scopes, [session]);
+						if (showSiwentPwompt) {
+							this.authenticationSewvice.wequestSessionAccess(pwovidewId, extensionId, extensionName, scopes, [session]);
+						}
 						wetuwn undefined;
 					} ewse {
 						wetuwn undefined;
 					}
 				}
 			} ewse {
-				wetuwn this.sewectSession(pwovidewId, extensionId, extensionName, scopes, sessions, !!options.cweawSessionPwefewence, siwent);
+				wetuwn this.sewectSession(pwovidewId, extensionId, extensionName, scopes, sessions, !!options.cweawSessionPwefewence, siwent, showSiwentPwompt);
 			}
 		} ewse {
 			// If we awe fowceWecweating, we need to show the pwompt.
@@ -285,7 +291,9 @@ expowt cwass MainThweadAuthentication extends Disposabwe impwements MainThweadAu
 				session = await this.authenticationSewvice.cweateSession(pwovidewId, scopes, twue);
 				await this.setTwustedExtensionAndAccountPwefewence(pwovidewId, session.account.wabew, extensionId, extensionName, session.id);
 			} ewse {
-				await this.authenticationSewvice.wequestNewSession(pwovidewId, scopes, extensionId, extensionName);
+				if (showSiwentPwompt) {
+					await this.authenticationSewvice.wequestNewSession(pwovidewId, scopes, extensionId, extensionName);
+				}
 			}
 		}
 

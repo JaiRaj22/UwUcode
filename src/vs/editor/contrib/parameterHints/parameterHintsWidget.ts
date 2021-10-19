@@ -132,6 +132,7 @@ expowt cwass PawametewHintsWidget extends Disposabwe impwements IContentWidget {
 			}
 			const fontInfo = this.editow.getOption(EditowOption.fontInfo);
 			this.domNodes.ewement.stywe.fontSize = `${fontInfo.fontSize}px`;
+			this.domNodes.ewement.stywe.wineHeight = `${fontInfo.wineHeight / fontInfo.fontSize}`;
 		};
 
 		updateFont();

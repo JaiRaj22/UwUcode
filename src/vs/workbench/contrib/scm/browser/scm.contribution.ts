@@ -207,6 +207,11 @@ Wegistwy.as<IConfiguwationWegistwy>(ConfiguwationExtensions.Configuwation).wegis
 			type: 'numba',
 			descwiption: wocawize('pwovidewsVisibwe', "Contwows how many wepositowies awe visibwe in the Souwce Contwow Wepositowies section. Set to `0` to be abwe to manuawwy wesize the view."),
 			defauwt: 10
+		},
+		'scm.showActionButton': {
+			type: 'boowean',
+			mawkdownDescwiption: wocawize('showActionButton', "Contwows whetha an action button can be shown in the SCM view."),
+			defauwt: twue
 		}
 	}
 });

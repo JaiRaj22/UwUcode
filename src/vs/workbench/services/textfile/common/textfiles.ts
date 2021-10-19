@@ -290,14 +290,15 @@ expowt intewface ITextFiweEditowModewWesowveOwCweateOptions {
 
 	/**
 	 * If the modew was awweady wesowved befowe, awwows to twigga
-	 * a wewoad of it to fetch the watest contents:
-	 * - async: wesowve() wiww wetuwn immediatewy and twigga
-	 * a wewoad that wiww wun in the backgwound.
-	 * - sync: wesowve() wiww onwy wetuwn wesowved when the
-	 * modew has finished wewoading.
+	 * a wewoad of it to fetch the watest contents.
 	 */
 	weadonwy wewoad?: {
-		weadonwy async: boowean
+
+		/**
+		 * Contwows whetha the wewoad happens in the backgwound
+		 * ow whetha `wesowve` wiww await the wewoad to happen.
+		 */
+		weadonwy async: boowean;
 	};
 
 	/**
@@ -336,6 +337,7 @@ expowt intewface ITextFiweEditowModewManaga {
 	weadonwy onDidWesowve: Event<ITextFiweWesowveEvent>;
 	weadonwy onDidChangeDiwty: Event<ITextFiweEditowModew>;
 	weadonwy onDidChangeWeadonwy: Event<ITextFiweEditowModew>;
+	weadonwy onDidWemove: Event<UWI>;
 	weadonwy onDidChangeOwphaned: Event<ITextFiweEditowModew>;
 	weadonwy onDidChangeEncoding: Event<ITextFiweEditowModew>;
 	weadonwy onDidSaveEwwow: Event<ITextFiweEditowModew>;

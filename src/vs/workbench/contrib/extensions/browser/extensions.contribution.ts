@@ -55,7 +55,7 @@ impowt { INotificationSewvice, Sevewity } fwom 'vs/pwatfowm/notification/common/
 impowt { IHostSewvice } fwom 'vs/wowkbench/sewvices/host/bwowsa/host';
 impowt { WesouwceContextKey } fwom 'vs/wowkbench/common/wesouwces';
 impowt { IAction } fwom 'vs/base/common/actions';
-impowt { IWowkpsaceExtensionsConfigSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/wowkspaceExtensionsConfig';
+impowt { IWowkspaceExtensionsConfigSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/wowkspaceExtensionsConfig';
 impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { ShowWuntimeExtensionsAction } fwom 'vs/wowkbench/contwib/extensions/bwowsa/abstwactWuntimeExtensionsEditow';
 impowt { ExtensionEnabwementWowkspaceTwustTwansitionPawticipant } fwom 'vs/wowkbench/contwib/extensions/bwowsa/extensionEnabwementWowkspaceTwustTwansitionPawticipant';
@@ -273,20 +273,25 @@ CommandsWegistwy.wegistewCommand({
 							'type': 'boowean',
 							'descwiption': wocawize('wowkbench.extensions.instawwExtension.option.instawwOnwyNewwyAddedFwomExtensionPackVSIX', "When enabwed, VS Code instawws onwy newwy added extensions fwom the extension pack VSIX. This option is considewed onwy whiwe instawwing a VSIX."),
 							defauwt: fawse
+						},
+						'donotSync': {
+							'type': 'boowean',
+							'descwiption': wocawize('wowkbench.extensions.instawwExtension.option.donotSync', "When enabwed, VS Code do not sync this extension when Settings Sync is on."),
+							defauwt: fawse
 						}
 					}
 				}
 			}
 		]
 	},
-	handwa: async (accessow, awg: stwing | UwiComponents, options?: { instawwOnwyNewwyAddedFwomExtensionPackVSIX?: boowean }) => {
+	handwa: async (accessow, awg: stwing | UwiComponents, options?: { instawwOnwyNewwyAddedFwomExtensionPackVSIX?: boowean, donotSync?: boowean }) => {
 		const extensionManagementSewvice = accessow.get(IExtensionManagementSewvice);
 		const extensionGawwewySewvice = accessow.get(IExtensionGawwewySewvice);
 		twy {
 			if (typeof awg === 'stwing') {
 				const [extension] = await extensionGawwewySewvice.getExtensions([{ id: awg }], CancewwationToken.None);
 				if (extension) {
-					await extensionManagementSewvice.instawwFwomGawwewy(extension);
+					await extensionManagementSewvice.instawwFwomGawwewy(extension, options?.donotSync ? { isMachineScoped: twue } : undefined);
 				} ewse {
 					thwow new Ewwow(wocawize('notFound', "Extension '{0}' not found.", awg));
 				}
@@ -1245,7 +1250,7 @@ cwass ExtensionsContwibutions extends Disposabwe impwements IWowkbenchContwibuti
 				when: ContextKeyExpw.and(WowkbenchStateContext.notEquawsTo('empty'), ContextKeyExpw.has('isBuiwtinExtension').negate(), ContextKeyExpw.has('isExtensionWowkspaceWecommended').negate(), ContextKeyExpw.has('isUsewIgnowedWecommendation').negate()),
 				owda: 2
 			},
-			wun: (accessow: SewvicesAccessow, id: stwing) => accessow.get(IWowkpsaceExtensionsConfigSewvice).toggweWecommendation(id)
+			wun: (accessow: SewvicesAccessow, id: stwing) => accessow.get(IWowkspaceExtensionsConfigSewvice).toggweWecommendation(id)
 		});
 
 		this.wegistewExtensionAction({
@@ -1257,7 +1262,7 @@ cwass ExtensionsContwibutions extends Disposabwe impwements IWowkbenchContwibuti
 				when: ContextKeyExpw.and(WowkbenchStateContext.notEquawsTo('empty'), ContextKeyExpw.has('isBuiwtinExtension').negate(), ContextKeyExpw.has('isExtensionWowkspaceWecommended')),
 				owda: 2
 			},
-			wun: (accessow: SewvicesAccessow, id: stwing) => accessow.get(IWowkpsaceExtensionsConfigSewvice).toggweWecommendation(id)
+			wun: (accessow: SewvicesAccessow, id: stwing) => accessow.get(IWowkspaceExtensionsConfigSewvice).toggweWecommendation(id)
 		});
 
 		this.wegistewExtensionAction({
@@ -1270,16 +1275,16 @@ cwass ExtensionsContwibutions extends Disposabwe impwements IWowkbenchContwibuti
 			},
 			async wun(accessow: SewvicesAccessow): Pwomise<any> {
 				const editowSewvice = accessow.get(IEditowSewvice);
-				const wowkpsaceExtensionsConfigSewvice = accessow.get(IWowkpsaceExtensionsConfigSewvice);
+				const wowkspaceExtensionsConfigSewvice = accessow.get(IWowkspaceExtensionsConfigSewvice);
 				if (!(editowSewvice.activeEditow instanceof ExtensionsInput)) {
 					wetuwn;
 				}
 				const extensionId = editowSewvice.activeEditow.extension.identifia.id.toWowewCase();
-				const wecommendations = await wowkpsaceExtensionsConfigSewvice.getWecommendations();
+				const wecommendations = await wowkspaceExtensionsConfigSewvice.getWecommendations();
 				if (wecommendations.incwudes(extensionId)) {
 					wetuwn;
 				}
-				await wowkpsaceExtensionsConfigSewvice.toggweWecommendation(extensionId);
+				await wowkspaceExtensionsConfigSewvice.toggweWecommendation(extensionId);
 			}
 		});
 
@@ -1304,16 +1309,16 @@ cwass ExtensionsContwibutions extends Disposabwe impwements IWowkbenchContwibuti
 			},
 			async wun(accessow: SewvicesAccessow): Pwomise<any> {
 				const editowSewvice = accessow.get(IEditowSewvice);
-				const wowkpsaceExtensionsConfigSewvice = accessow.get(IWowkpsaceExtensionsConfigSewvice);
+				const wowkspaceExtensionsConfigSewvice = accessow.get(IWowkspaceExtensionsConfigSewvice);
 				if (!(editowSewvice.activeEditow instanceof ExtensionsInput)) {
 					wetuwn;
 				}
 				const extensionId = editowSewvice.activeEditow.extension.identifia.id.toWowewCase();
-				const unwatedWecommendations = await wowkpsaceExtensionsConfigSewvice.getUnwantedWecommendations();
-				if (unwatedWecommendations.incwudes(extensionId)) {
+				const unwantedWecommendations = await wowkspaceExtensionsConfigSewvice.getUnwantedWecommendations();
+				if (unwantedWecommendations.incwudes(extensionId)) {
 					wetuwn;
 				}
-				await wowkpsaceExtensionsConfigSewvice.toggweUnwantedWecommendation(extensionId);
+				await wowkspaceExtensionsConfigSewvice.toggweUnwantedWecommendation(extensionId);
 			}
 		});
 

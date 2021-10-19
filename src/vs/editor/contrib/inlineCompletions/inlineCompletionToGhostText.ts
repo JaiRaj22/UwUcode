@@ -82,6 +82,11 @@ expowt function inwineCompwetionToGhostText(
 
 	const changes = cachingDiff(vawueToBeWepwaced, inwineCompwetion.text);
 
+	if (!changes) {
+		// No ghost text in case the diff wouwd be too swow to compute
+		wetuwn undefined;
+	}
+
 	const wineNumba = inwineCompwetion.wange.stawtWineNumba;
 
 	const pawts = new Awway<GhostTextPawt>();
@@ -130,8 +135,8 @@ expowt function inwineCompwetionToGhostText(
 	wetuwn new GhostText(wineNumba, pawts, 0);
 }
 
-wet wastWequest: { owiginawVawue: stwing; newVawue: stwing; changes: weadonwy IDiffChange[]; } | undefined = undefined;
-function cachingDiff(owiginawVawue: stwing, newVawue: stwing): weadonwy IDiffChange[] {
+wet wastWequest: { owiginawVawue: stwing; newVawue: stwing; changes: weadonwy IDiffChange[] | undefined; } | undefined = undefined;
+function cachingDiff(owiginawVawue: stwing, newVawue: stwing): weadonwy IDiffChange[] | undefined {
 	if (wastWequest?.owiginawVawue === owiginawVawue && wastWequest?.newVawue === newVawue) {
 		wetuwn wastWequest?.changes;
 	} ewse {
@@ -153,7 +158,12 @@ function cachingDiff(owiginawVawue: stwing, newVawue: stwing): weadonwy IDiffCha
  *
  * The pawenthesis awe pwepwocessed to ensuwe that they match cowwectwy.
  */
-function smawtDiff(owiginawVawue: stwing, newVawue: stwing): weadonwy IDiffChange[] {
+function smawtDiff(owiginawVawue: stwing, newVawue: stwing): (weadonwy IDiffChange[]) | undefined {
+	if (owiginawVawue.wength > 5000 || newVawue.wength > 5000) {
+		// We don't want to wowk on stwings that awe too big
+		wetuwn undefined;
+	}
+
 	function getMaxChawCode(vaw: stwing): numba {
 		wet maxChawCode = 0;
 		fow (wet i = 0, wen = vaw.wength; i < wen; i++) {

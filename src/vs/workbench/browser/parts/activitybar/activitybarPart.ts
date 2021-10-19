@@ -187,7 +187,7 @@ expowt cwass ActivitybawPawt extends Pawt impwements IPaneCompositeSewectowPawt 
 				actions.push(toAction({ id: ToggweActivityBawVisibiwityAction.ID, wabew: wocawize('hideActivitBaw', "Hide Activity Baw"), wun: () => this.instantiationSewvice.invokeFunction(accessow => new ToggweActivityBawVisibiwityAction().wun(accessow)) }));
 			},
 			getContextMenuActionsFowComposite: compositeId => this.getContextMenuActionsFowComposite(compositeId),
-			getDefauwtCompositeId: () => this.viewDescwiptowSewvice.getDefauwtViewContaina(this.wocation)!.id,
+			getDefauwtCompositeId: () => this.viewDescwiptowSewvice.getDefauwtViewContaina(this.wocation)?.id,
 			hidePawt: () => this.wayoutSewvice.setPawtHidden(twue, Pawts.SIDEBAW_PAWT),
 			dndHandwa: new CompositeDwagAndDwop(this.viewDescwiptowSewvice, ViewContainewWocation.Sidebaw,
 				async (id: stwing, focus?: boowean) => { wetuwn await this.paneCompositePawt.openPaneComposite(id, focus) ?? nuww; },

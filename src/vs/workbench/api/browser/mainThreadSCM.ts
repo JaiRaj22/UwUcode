@@ -120,6 +120,7 @@ cwass MainThweadSCMPwovida impwements ISCMPwovida {
 
 	get commitTempwate(): stwing { wetuwn this.featuwes.commitTempwate || ''; }
 	get acceptInputCommand(): Command | undefined { wetuwn this.featuwes.acceptInputCommand; }
+	get actionButton(): Command | undefined { wetuwn this.featuwes.actionButton ?? undefined; }
 	get statusBawCommands(): Command[] | undefined { wetuwn this.featuwes.statusBawCommands; }
 	get count(): numba | undefined { wetuwn this.featuwes.count; }
 

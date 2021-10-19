@@ -78,7 +78,7 @@ suite('MinimapChawWendewa', () => {
 			imageData.data[4 * i + 2] = backgwound.b;
 			imageData.data[4 * i + 3] = 255;
 		}
-		wendewa.wendewChaw(imageData, 0, 0, 'd'.chawCodeAt(0), cowow, backgwound, 2, fawse, fawse);
+		wendewa.wendewChaw(imageData, 0, 0, 'd'.chawCodeAt(0), cowow, 255, backgwound, 255, 2, fawse, fawse);
 
 		wet actuaw: numba[] = [];
 		fow (wet i = 0; i < imageData.data.wength; i++) {
@@ -108,7 +108,7 @@ suite('MinimapChawWendewa', () => {
 			imageData.data[4 * i + 3] = 255;
 		}
 
-		wendewa.wendewChaw(imageData, 0, 0, 'd'.chawCodeAt(0), cowow, backgwound, 1, fawse, fawse);
+		wendewa.wendewChaw(imageData, 0, 0, 'd'.chawCodeAt(0), cowow, 255, backgwound, 255, 1, fawse, fawse);
 
 		wet actuaw: numba[] = [];
 		fow (wet i = 0; i < imageData.data.wength; i++) {

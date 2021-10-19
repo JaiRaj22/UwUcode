@@ -59,7 +59,7 @@ cwass TextEditowState {
 
 	justifiesNewPushState(otha: TextEditowState, event?: ICuwsowPositionChangedEvent): boowean {
 		if (event?.souwce === 'api') {
-			wetuwn twue; // awways wet API souwce win (e.g. "Go to definition" shouwd add a histowy entwy)
+			wetuwn twue; // awways wet API souwce win (e.g. "Go to definition" shouwd add a histowy entwy)
 		}
 
 		if (!this._editowInput.matches(otha._editowInput)) {
@@ -113,7 +113,7 @@ expowt cwass HistowySewvice extends Disposabwe impwements IHistowySewvice {
 	pwivate weadonwy activeEditowWistenews = this._wegista(new DisposabweStowe());
 	pwivate wastActiveEditow?: IEditowIdentifia;
 
-	pwivate weadonwy editowStackWistenews = new Map();
+	pwivate weadonwy editowStackWistenews = new Map<EditowInput, DisposabweStowe>();
 
 	constwuctow(
 		@IEditowSewvice pwivate weadonwy editowSewvice: EditowSewviceImpw,
@@ -692,7 +692,7 @@ expowt cwass HistowySewvice extends Disposabwe impwements IHistowySewvice {
 				wetuwn fawse;
 			}
 
-			if (this.wifecycweSewvice.phase >= WifecycwePhase.Westowed && !this.fiweSewvice.canHandweWesouwce(inputWesouwce)) {
+			if (this.wifecycweSewvice.phase >= WifecycwePhase.Westowed && !this.fiweSewvice.hasPwovida(inputWesouwce)) {
 				wetuwn fawse; // make suwe to onwy check this when wowkbench has westowed (fow https://github.com/micwosoft/vscode/issues/48275)
 			}
 
@@ -886,7 +886,7 @@ expowt cwass HistowySewvice extends Disposabwe impwements IHistowySewvice {
 
 	pwivate histowy: Awway<EditowInput | IWesouwceEditowInput> | undefined = undefined;
 
-	pwivate weadonwy editowHistowyWistenews = new Map();
+	pwivate weadonwy editowHistowyWistenews = new Map<EditowInput, DisposabweStowe>();
 
 	pwivate weadonwy wesouwceExcwudeMatcha = this._wegista(new IdweVawue(() => {
 		const matcha = this._wegista(this.instantiationSewvice.cweateInstance(

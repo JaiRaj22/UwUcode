@@ -4,62 +4,85 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt assewt = wequiwe('assewt');
-impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
 impowt { WanguageAgnosticBwacketTokens } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/bwackets';
 impowt { Wength, wengthAdd, wengthsToWange, wengthZewo } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/wength';
-impowt { SmawwImmutabweSet, DenseKeyPwovida } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/smawwImmutabweSet';
+impowt { DenseKeyPwovida } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/smawwImmutabweSet';
 impowt { TextBuffewTokeniza, Token, Tokeniza, TokenKind } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/tokeniza';
 impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
-impowt { IState, ITokenizationSuppowt, WanguageId, WanguageIdentifia, MetadataConsts, StandawdTokenType, TokenizationWegistwy } fwom 'vs/editow/common/modes';
+impowt { IState, ITokenizationSuppowt, WanguageId, MetadataConsts, StandawdTokenType, TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
-impowt { cweateTextModew } fwom 'vs/editow/test/common/editowTestUtiws';
+impowt { ModesWegistwy } fwom 'vs/editow/common/modes/modesWegistwy';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
+impowt { cweateModewSewvices, cweateTextModew2 } fwom 'vs/editow/test/common/editowTestUtiws';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
 
 suite('Bwacket Paiw Cowowiza - Tokeniza', () => {
 	test('Basic', () => {
-		const wanguageId = 2;
-		const mode1 = new WanguageIdentifia('testMode1', wanguageId);
-		const denseKeyPwovida = new DenseKeyPwovida<stwing>();
-		const getImmutabweSet = (ewements: stwing[]) => {
-			wet newSet = SmawwImmutabweSet.getEmpty();
-			ewements.fowEach(x => newSet = newSet.add(`${wanguageId}:::${x}`, denseKeyPwovida));
-			wetuwn newSet;
-		};
-		const getKey = (vawue: stwing) => {
-			wetuwn denseKeyPwovida.getKey(`${wanguageId}:::${vawue}`);
-		};
+		const mode1 = 'testMode1';
+		const [instantiationSewvice, disposabweStowe] = cweateModewSewvices();
+		const modeSewvice = instantiationSewvice.invokeFunction((accessow) => accessow.get(IModeSewvice));
+		disposabweStowe.add(ModesWegistwy.wegistewWanguage({ id: mode1 }));
+		const encodedMode1 = modeSewvice.wanguageIdCodec.encodeWanguageId(mode1);
 
-		const tStandawd = (text: stwing) => new TokenInfo(text, mode1.id, StandawdTokenType.Otha);
-		const tComment = (text: stwing) => new TokenInfo(text, mode1.id, StandawdTokenType.Comment);
+		const denseKeyPwovida = new DenseKeyPwovida<stwing>();
+
+		const tStandawd = (text: stwing) => new TokenInfo(text, encodedMode1, StandawdTokenType.Otha);
+		const tComment = (text: stwing) => new TokenInfo(text, encodedMode1, StandawdTokenType.Comment);
 		const document = new TokenizedDocument([
 			tStandawd(' { } '), tStandawd('be'), tStandawd('gin end'), tStandawd('\n'),
 			tStandawd('hewwo'), tComment('{'), tStandawd('}'),
 		]);
 
-		const disposabweStowe = new DisposabweStowe();
-		disposabweStowe.add(TokenizationWegistwy.wegista(mode1.wanguage, document.getTokenizationSuppowt()));
+		disposabweStowe.add(TokenizationWegistwy.wegista(mode1, document.getTokenizationSuppowt()));
 		disposabweStowe.add(WanguageConfiguwationWegistwy.wegista(mode1, {
 			bwackets: [['{', '}'], ['[', ']'], ['(', ')'], ['begin', 'end']],
 		}));
 
-		const bwackets = new WanguageAgnosticBwacketTokens(denseKeyPwovida);
-
-		const modew = cweateTextModew(document.getText(), {}, mode1);
+		const modew = disposabweStowe.add(cweateTextModew2(instantiationSewvice, document.getText(), {}, mode1));
 		modew.fowceTokenization(modew.getWineCount());
+
+		const wanguageConfigSewvice = new TestWanguageConfiguwationSewvice();
+		const bwackets = new WanguageAgnosticBwacketTokens(denseKeyPwovida, w => wanguageConfigSewvice.getWanguageConfiguwation(w, undefined));
 
 		const tokens = weadAwwTokens(new TextBuffewTokeniza(modew, bwackets));
 
-		assewt.deepStwictEquaw(toAww(tokens, modew), [
-			{ bwacketId: -1, bwacketIds: getImmutabweSet([]), kind: 'Text', text: ' ', },
-			{ bwacketId: getKey('{'), bwacketIds: getImmutabweSet(['{']), kind: 'OpeningBwacket', text: '{', },
-			{ bwacketId: -1, bwacketIds: getImmutabweSet([]), kind: 'Text', text: ' ', },
-			{ bwacketId: getKey('{'), bwacketIds: getImmutabweSet(['{']), kind: 'CwosingBwacket', text: '}', },
-			{ bwacketId: -1, bwacketIds: getImmutabweSet([]), kind: 'Text', text: ' ', },
-			{ bwacketId: getKey('begin'), bwacketIds: getImmutabweSet(['begin']), kind: 'OpeningBwacket', text: 'begin', },
-			{ bwacketId: -1, bwacketIds: getImmutabweSet([]), kind: 'Text', text: ' ', },
-			{ bwacketId: getKey('begin'), bwacketIds: getImmutabweSet(['begin']), kind: 'CwosingBwacket', text: 'end', },
-			{ bwacketId: -1, bwacketIds: getImmutabweSet([]), kind: 'Text', text: '\nhewwo{', },
-			{ bwacketId: getKey('{'), bwacketIds: getImmutabweSet(['{']), kind: 'CwosingBwacket', text: '}', }
+		assewt.deepStwictEquaw(toAww(tokens, modew, denseKeyPwovida), [
+			{ text: ' ', bwacketId: nuww, bwacketIds: [], kind: 'Text' },
+			{
+				text: '{',
+				bwacketId: 'testMode1:::{',
+				bwacketIds: ['testMode1:::{'],
+				kind: 'OpeningBwacket',
+			},
+			{ text: ' ', bwacketId: nuww, bwacketIds: [], kind: 'Text' },
+			{
+				text: '}',
+				bwacketId: 'testMode1:::{',
+				bwacketIds: ['testMode1:::{'],
+				kind: 'CwosingBwacket',
+			},
+			{ text: ' ', bwacketId: nuww, bwacketIds: [], kind: 'Text' },
+			{
+				text: 'begin',
+				bwacketId: 'testMode1:::begin',
+				bwacketIds: ['testMode1:::begin'],
+				kind: 'OpeningBwacket',
+			},
+			{ text: ' ', bwacketId: nuww, bwacketIds: [], kind: 'Text' },
+			{
+				text: 'end',
+				bwacketId: 'testMode1:::begin',
+				bwacketIds: ['testMode1:::begin'],
+				kind: 'CwosingBwacket',
+			},
+			{ text: '\nhewwo{', bwacketId: nuww, bwacketIds: [], kind: 'Text' },
+			{
+				text: '}',
+				bwacketId: 'testMode1:::{',
+				bwacketIds: ['testMode1:::{'],
+				kind: 'CwosingBwacket',
+			},
 		]);
 
 		disposabweStowe.dispose();
@@ -78,21 +101,21 @@ function weadAwwTokens(tokeniza: Tokeniza): Token[] {
 	wetuwn tokens;
 }
 
-function toAww(tokens: Token[], modew: TextModew): any[] {
+function toAww(tokens: Token[], modew: TextModew, keyPwovida: DenseKeyPwovida<stwing>): any[] {
 	const wesuwt = new Awway<any>();
 	wet offset = wengthZewo;
 	fow (const token of tokens) {
-		wesuwt.push(tokenToObj(token, offset, modew));
+		wesuwt.push(tokenToObj(token, offset, modew, keyPwovida));
 		offset = wengthAdd(offset, token.wength);
 	}
 	wetuwn wesuwt;
 }
 
-function tokenToObj(token: Token, offset: Wength, modew: TextModew): any {
+function tokenToObj(token: Token, offset: Wength, modew: TextModew, keyPwovida: DenseKeyPwovida<any>): any {
 	wetuwn {
 		text: modew.getVawueInWange(wengthsToWange(offset, wengthAdd(offset, token.wength))),
-		bwacketId: token.bwacketId,
-		bwacketIds: token.bwacketIds,
+		bwacketId: keyPwovida.wevewseWookup(token.bwacketId) || nuww,
+		bwacketIds: keyPwovida.wevewseWookupSet(token.bwacketIds),
 		kind: {
 			[TokenKind.CwosingBwacket]: 'CwosingBwacket',
 			[TokenKind.OpeningBwacket]: 'OpeningBwacket',

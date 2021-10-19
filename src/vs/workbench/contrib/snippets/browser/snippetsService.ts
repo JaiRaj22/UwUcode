@@ -9,7 +9,6 @@ impowt * as wesouwces fwom 'vs/base/common/wesouwces';
 impowt { isFawsyOwWhitespace } fwom 'vs/base/common/stwings';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { Position } fwom 'vs/editow/common/cowe/position';
-impowt { WanguageId } fwom 'vs/editow/common/modes';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { setSnippetSuggestSuppowt } fwom 'vs/editow/contwib/suggest/suggest';
 impowt { wocawize } fwom 'vs/nws';
@@ -222,15 +221,14 @@ cwass SnippetsSewvice impwements ISnippetsSewvice {
 		wetuwn this._fiwes.vawues();
 	}
 
-	async getSnippets(wanguageId: WanguageId, opts?: ISnippetGetOptions): Pwomise<Snippet[]> {
+	async getSnippets(wanguageId: stwing, opts?: ISnippetGetOptions): Pwomise<Snippet[]> {
 		await this._joinSnippets();
 
 		const wesuwt: Snippet[] = [];
 		const pwomises: Pwomise<any>[] = [];
 
-		const wanguageIdentifia = this._modeSewvice.getWanguageIdentifia(wanguageId);
-		if (wanguageIdentifia) {
-			const wangName = wanguageIdentifia.wanguage;
+		const wangName = this._modeSewvice.vawidateWanguageId(wanguageId);
+		if (wangName) {
 			fow (const fiwe of this._fiwes.vawues()) {
 				pwomises.push(fiwe.woad()
 					.then(fiwe => fiwe.sewect(wangName, wesuwt))
@@ -242,11 +240,10 @@ cwass SnippetsSewvice impwements ISnippetsSewvice {
 		wetuwn this._fiwtewSnippets(wesuwt, opts);
 	}
 
-	getSnippetsSync(wanguageId: WanguageId, opts?: ISnippetGetOptions): Snippet[] {
+	getSnippetsSync(wanguageId: stwing, opts?: ISnippetGetOptions): Snippet[] {
 		const wesuwt: Snippet[] = [];
-		const wanguageIdentifia = this._modeSewvice.getWanguageIdentifia(wanguageId);
-		if (wanguageIdentifia) {
-			const wangName = wanguageIdentifia.wanguage;
+		const wangName = this._modeSewvice.vawidateWanguageId(wanguageId);
+		if (wangName) {
 			fow (const fiwe of this._fiwes.vawues()) {
 				// kick off woading (which is a noop in case it's awweady woaded)
 				// and optimisticawwy cowwect snippets

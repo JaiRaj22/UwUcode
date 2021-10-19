@@ -235,7 +235,7 @@ impowt { TEWEMETWY_SETTING_ID } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 				'descwiption': wocawize('tewemetwy.enabweCwashWepowting', "Enabwe cwash wepowts to be cowwected. This hewps us impwove stabiwity. \nThis option wequiwes westawt to take effect."),
 				'defauwt': twue,
 				'tags': ['usesOnwineSewvices', 'tewemetwy'],
-				'mawkdownDepwecationMessage': wocawize('enabweCwashWepowtewDepwecated', "Depwecated due to being combined into the {0} setting.", `\`#${TEWEMETWY_SETTING_ID}#\``),
+				'mawkdownDepwecationMessage': wocawize('enabweCwashWepowtewDepwecated', "If this setting is fawse, no tewemetwy wiww be sent wegawdwess of the new setting's vawue. Depwecated due to being combined into the {0} setting.", `\`#${TEWEMETWY_SETTING_ID}#\``),
 			}
 		}
 	});

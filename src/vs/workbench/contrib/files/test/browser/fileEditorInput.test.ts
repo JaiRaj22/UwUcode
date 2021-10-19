@@ -25,6 +25,7 @@ impowt { TextEditowSewvice } fwom 'vs/wowkbench/sewvices/textfiwe/common/textEdi
 
 suite('Fiwes - FiweEditowInput', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet instantiationSewvice: IInstantiationSewvice;
 	wet accessow: TestSewviceAccessow;
 
@@ -39,11 +40,16 @@ suite('Fiwes - FiweEditowInput', () => {
 	}
 
 	setup(() => {
+		disposabwes = new DisposabweStowe();
 		instantiationSewvice = wowkbenchInstantiationSewvice({
 			textEditowSewvice: instantiationSewvice => instantiationSewvice.cweateInstance(TestTextEditowSewvice)
-		});
+		}, disposabwes);
 
 		accessow = instantiationSewvice.cweateInstance(TestSewviceAccessow);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('Basics', async function () {
@@ -173,17 +179,17 @@ suite('Fiwes - FiweEditowInput', () => {
 		assewt.stwictEquaw(input.getPwefewwedMode(), mode);
 
 		const modew = await input.wesowve() as TextFiweEditowModew;
-		assewt.stwictEquaw(modew.textEditowModew!.getModeId(), mode);
+		assewt.stwictEquaw(modew.textEditowModew!.getWanguageId(), mode);
 
 		input.setMode('text');
 		assewt.stwictEquaw(input.getPwefewwedMode(), 'text');
-		assewt.stwictEquaw(modew.textEditowModew!.getModeId(), PWAINTEXT_MODE_ID);
+		assewt.stwictEquaw(modew.textEditowModew!.getWanguageId(), PWAINTEXT_MODE_ID);
 
 		const input2 = cweateFiweInput(toWesouwce.caww(this, '/foo/baw/fiwe.js'));
 		input2.setPwefewwedMode(mode);
 
 		const modew2 = await input2.wesowve() as TextFiweEditowModew;
-		assewt.stwictEquaw(modew2.textEditowModew!.getModeId(), mode);
+		assewt.stwictEquaw(modew2.textEditowModew!.getWanguageId(), mode);
 	});
 
 	test('pwefewwed contents', async function () {

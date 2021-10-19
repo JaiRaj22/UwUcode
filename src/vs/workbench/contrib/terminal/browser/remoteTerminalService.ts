@@ -17,7 +17,7 @@ impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { INotificationHandwe, INotificationSewvice, IPwomptChoice, Sevewity } fwom 'vs/pwatfowm/notification/common/notification';
 impowt { IWemoteAuthowityWesowvewSewvice } fwom 'vs/pwatfowm/wemote/common/wemoteAuthowityWesowva';
 impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
-impowt { IWequestWesowveVawiabwesEvent, IShewwWaunchConfig, IShewwWaunchConfigDto, ITewminawChiwdPwocess, ITewminawPwofiwe, ITewminawsWayoutInfo, ITewminawsWayoutInfoById, TewminawIcon } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
+impowt { IWequestWesowveVawiabwesEvent, IShewwWaunchConfig, IShewwWaunchConfigDto, ITewminawChiwdPwocess, ITewminawPwofiwe, ITewminawsWayoutInfo, ITewminawsWayoutInfoById, PwocessPwopewtyType, TewminawIcon } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 impowt { IPwocessDetaiws } fwom 'vs/pwatfowm/tewminaw/common/tewminawPwocess';
 impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 impowt { WemotePty } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/wemotePty';
@@ -248,9 +248,14 @@ expowt cwass WemoteTewminawSewvice extends Disposabwe impwements IWemoteTewminaw
 				wowkspaceName: tewmDto.wowkspaceName,
 				icon: tewmDto.icon,
 				cowow: tewmDto.cowow,
-				isOwphan: tewmDto.isOwphan
+				isOwphan: tewmDto.isOwphan,
+				fixedDimensions: tewmDto.fixedDimensions
 			};
 		});
+	}
+
+	async updatePwopewty(id: numba, pwopewty: PwocessPwopewtyType, vawue: any): Pwomise<void> {
+		await this._wemoteTewminawChannew?.updatePwopewty(id, pwopewty, vawue);
 	}
 
 	async updateTitwe(id: numba, titwe: stwing): Pwomise<void> {

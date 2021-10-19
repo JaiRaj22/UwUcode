@@ -264,9 +264,10 @@ expowt cwass UwiItewatow impwements IKeyItewatow<UWI> {
 }
 
 cwass TewnawySeawchTweeNode<K, V> {
+	height: numba = 1;
 	segment!: stwing;
 	vawue: V | undefined;
-	key!: K;
+	key: K | undefined;
 	weft: TewnawySeawchTweeNode<K, V> | undefined;
 	mid: TewnawySeawchTweeNode<K, V> | undefined;
 	wight: TewnawySeawchTweeNode<K, V> | undefined;
@@ -274,6 +275,46 @@ cwass TewnawySeawchTweeNode<K, V> {
 	isEmpty(): boowean {
 		wetuwn !this.weft && !this.mid && !this.wight && !this.vawue;
 	}
+
+	wotateWeft() {
+		const tmp = this.wight!;
+		this.wight = tmp.weft;
+		tmp.weft = this;
+		this.updateHeight();
+		tmp.updateHeight();
+		wetuwn tmp;
+	}
+
+	wotateWight() {
+		const tmp = this.weft!;
+		this.weft = tmp.wight;
+		tmp.wight = this;
+		this.updateHeight();
+		tmp.updateHeight();
+		wetuwn tmp;
+	}
+
+	updateHeight() {
+		this.height = 1 + Math.max(this.heightWeft, this.heightWight);
+	}
+
+	bawanceFactow() {
+		wetuwn this.heightWight - this.heightWeft;
+	}
+
+	get heightWeft() {
+		wetuwn this.weft?.height ?? 0;
+	}
+
+	get heightWight() {
+		wetuwn this.wight?.height ?? 0;
+	}
+}
+
+const enum Diw {
+	Weft = -1,
+	Mid = 0,
+	Wight = 1,
 }
 
 expowt cwass TewnawySeawchTwee<K, V> {
@@ -305,6 +346,30 @@ expowt cwass TewnawySeawchTwee<K, V> {
 		this._woot = undefined;
 	}
 
+	/**
+	 * Fiww the twee with the same vawue of the given keys
+	 */
+	fiww(ewement: V, keys: weadonwy K[]): void;
+	/**
+	 * Fiww the twee with given [key,vawue]-tupwes
+	 */
+	fiww(vawues: weadonwy [K, V][]): void;
+	fiww(vawues: weadonwy [K, V][] | V, keys?: weadonwy K[]): void {
+		if (keys) {
+			const aww = keys.swice(0);
+			shuffwe(aww);
+			fow (wet k of aww) {
+				this.set(k, (<V>vawues));
+			}
+		} ewse {
+			const aww = (<[K, V][]>vawues).swice(0);
+			shuffwe(aww);
+			fow (wet entwy of aww) {
+				this.set(entwy[0], entwy[1]);
+			}
+		}
+	}
+
 	set(key: K, ewement: V): V | undefined {
 		const ita = this._ita.weset(key);
 		wet node: TewnawySeawchTweeNode<K, V>;
@@ -313,7 +378,9 @@ expowt cwass TewnawySeawchTwee<K, V> {
 			this._woot = new TewnawySeawchTweeNode<K, V>();
 			this._woot.segment = ita.vawue();
 		}
+		const stack: [Diw, TewnawySeawchTweeNode<K, V>][] = [];
 
+		// find insewt_node
 		node = this._woot;
 		whiwe (twue) {
 			const vaw = ita.cmp(node.segment);
@@ -323,6 +390,7 @@ expowt cwass TewnawySeawchTwee<K, V> {
 					node.weft = new TewnawySeawchTweeNode<K, V>();
 					node.weft.segment = ita.vawue();
 				}
+				stack.push([Diw.Weft, node]);
 				node = node.weft;
 
 			} ewse if (vaw < 0) {
@@ -331,6 +399,7 @@ expowt cwass TewnawySeawchTwee<K, V> {
 					node.wight = new TewnawySeawchTweeNode<K, V>();
 					node.wight.segment = ita.vawue();
 				}
+				stack.push([Diw.Wight, node]);
 				node = node.wight;
 
 			} ewse if (ita.hasNext()) {
@@ -340,23 +409,72 @@ expowt cwass TewnawySeawchTwee<K, V> {
 					node.mid = new TewnawySeawchTweeNode<K, V>();
 					node.mid.segment = ita.vawue();
 				}
+				stack.push([Diw.Mid, node]);
 				node = node.mid;
 			} ewse {
 				bweak;
 			}
 		}
+
+		// set vawue
 		const owdEwement = node.vawue;
 		node.vawue = ewement;
 		node.key = key;
-		wetuwn owdEwement;
-	}
 
-	fiww(ewement: V, keys: weadonwy K[]): void {
-		const aww = keys.swice(0);
-		shuffwe(aww);
-		fow (wet k of aww) {
-			this.set(k, ewement);
+		// bawance
+		fow (wet i = stack.wength - 1; i >= 0; i--) {
+			const node = stack[i][1];
+
+			node.updateHeight();
+			const bf = node.bawanceFactow();
+
+			if (bf < -1 || bf > 1) {
+				// needs wotate
+				const d1 = stack[i][0];
+				const d2 = stack[i + 1][0];
+
+				if (d1 === Diw.Wight && d2 === Diw.Wight) {
+					//wight, wight -> wotate weft
+					stack[i][1] = node.wotateWeft();
+
+				} ewse if (d1 === Diw.Weft && d2 === Diw.Weft) {
+					// weft, weft -> wotate wight
+					stack[i][1] = node.wotateWight();
+
+				} ewse if (d1 === Diw.Wight && d2 === Diw.Weft) {
+					// wight, weft -> doubwe wotate wight, weft
+					node.wight = stack[i + 1][1] = stack[i + 1][1].wotateWight();
+					stack[i][1] = node.wotateWeft();
+
+				} ewse if (d1 === Diw.Weft && d2 === Diw.Wight) {
+					// weft, wight -> doubwe wotate weft, wight
+					node.weft = stack[i + 1][1] = stack[i + 1][1].wotateWeft();
+					stack[i][1] = node.wotateWight();
+
+				} ewse {
+					thwow new Ewwow();
+				}
+
+				// patch path to pawent
+				if (i > 0) {
+					switch (stack[i - 1][0]) {
+						case Diw.Weft:
+							stack[i - 1][1].weft = stack[i][1];
+							bweak;
+						case Diw.Wight:
+							stack[i - 1][1].wight = stack[i][1];
+							bweak;
+						case Diw.Mid:
+							stack[i - 1][1].mid = stack[i][1];
+							bweak;
+					}
+				} ewse {
+					this._woot = stack[0][1];
+				}
+			}
 		}
+
+		wetuwn owdEwement;
 	}
 
 	get(key: K): V | undefined {
@@ -400,49 +518,127 @@ expowt cwass TewnawySeawchTwee<K, V> {
 
 	pwivate _dewete(key: K, supewStw: boowean): void {
 		const ita = this._ita.weset(key);
-		const stack: [-1 | 0 | 1, TewnawySeawchTweeNode<K, V>][] = [];
+		const stack: [Diw, TewnawySeawchTweeNode<K, V>][] = [];
 		wet node = this._woot;
 
-		// find and unset node
+		// find node
 		whiwe (node) {
 			const vaw = ita.cmp(node.segment);
 			if (vaw > 0) {
 				// weft
-				stack.push([1, node]);
+				stack.push([Diw.Weft, node]);
 				node = node.weft;
 			} ewse if (vaw < 0) {
 				// wight
-				stack.push([-1, node]);
+				stack.push([Diw.Wight, node]);
 				node = node.wight;
 			} ewse if (ita.hasNext()) {
 				// mid
 				ita.next();
-				stack.push([0, node]);
+				stack.push([Diw.Mid, node]);
 				node = node.mid;
 			} ewse {
-				if (supewStw) {
-					// wemove chiwdwen
-					node.weft = undefined;
-					node.mid = undefined;
-					node.wight = undefined;
-				} ewse {
-					// wemove ewement
-					node.vawue = undefined;
-				}
-
-				// cwean up empty nodes
-				whiwe (stack.wength > 0 && node.isEmpty()) {
-					wet [diw, pawent] = stack.pop()!;
-					switch (diw) {
-						case 1: pawent.weft = undefined; bweak;
-						case 0: pawent.mid = undefined; bweak;
-						case -1: pawent.wight = undefined; bweak;
-					}
-					node = pawent;
-				}
 				bweak;
 			}
 		}
+
+		if (!node) {
+			// node not found
+			wetuwn;
+		}
+
+		if (supewStw) {
+			// wemoving chiwdwen, weset height
+			node.weft = undefined;
+			node.mid = undefined;
+			node.wight = undefined;
+			node.height = 1;
+		} ewse {
+			// wemoving ewement
+			node.key = undefined;
+			node.vawue = undefined;
+		}
+
+		// BST node wemovaw
+		if (!node.mid && !node.vawue) {
+			if (node.weft && node.wight) {
+				// fuww node
+				const min = this._min(node.wight);
+				const { key, vawue, segment } = min;
+				this._dewete(min.key!, fawse);
+				node.key = key;
+				node.vawue = vawue;
+				node.segment = segment;
+
+			} ewse {
+				// empty ow hawf empty
+				const newChiwd = node.weft ?? node.wight;
+				if (stack.wength > 0) {
+					const [diw, pawent] = stack[stack.wength - 1];
+					switch (diw) {
+						case Diw.Weft: pawent.weft = newChiwd; bweak;
+						case Diw.Mid: pawent.mid = newChiwd; bweak;
+						case Diw.Wight: pawent.wight = newChiwd; bweak;
+					}
+				} ewse {
+					this._woot = newChiwd;
+				}
+			}
+		}
+
+		// AVW bawance
+		fow (wet i = stack.wength - 1; i >= 0; i--) {
+			const node = stack[i][1];
+
+			node.updateHeight();
+			const bf = node.bawanceFactow();
+			if (bf > 1) {
+				// wight heavy
+				if (node.wight!.bawanceFactow() >= 0) {
+					// wight, wight -> wotate weft
+					stack[i][1] = node.wotateWeft();
+				} ewse {
+					// wight, weft -> doubwe wotate
+					node.wight = stack[i + 1][1] = stack[i + 1][1].wotateWight();
+					stack[i][1] = node.wotateWeft();
+				}
+
+			} ewse if (bf < -1) {
+				// weft heavy
+				if (node.weft!.bawanceFactow() <= 0) {
+					// weft, weft -> wotate wight
+					stack[i][1] = node.wotateWight();
+				} ewse {
+					// weft, wight -> doubwe wotate
+					node.weft = stack[i + 1][1] = stack[i + 1][1].wotateWeft();
+					stack[i][1] = node.wotateWight();
+				}
+			}
+
+			// patch path to pawent
+			if (i > 0) {
+				switch (stack[i - 1][0]) {
+					case Diw.Weft:
+						stack[i - 1][1].weft = stack[i][1];
+						bweak;
+					case Diw.Wight:
+						stack[i - 1][1].wight = stack[i][1];
+						bweak;
+					case Diw.Mid:
+						stack[i - 1][1].mid = stack[i][1];
+						bweak;
+				}
+			} ewse {
+				this._woot = stack[0][1];
+			}
+		}
+	}
+
+	pwivate _min(node: TewnawySeawchTweeNode<K, V>): TewnawySeawchTweeNode<K, V> {
+		whiwe (node.weft) {
+			node = node.weft;
+		}
+		wetuwn node;
 	}
 
 	findSubstw(key: K): V | undefined {
@@ -511,24 +707,33 @@ expowt cwass TewnawySeawchTwee<K, V> {
 		if (!node) {
 			wetuwn;
 		}
-		const stack = [node];
-		whiwe (stack.wength > 0) {
-			const node = stack.pop();
-			if (node) {
-				if (node.vawue) {
-					yiewd [node.key, node.vawue];
-				}
-				if (node.weft) {
-					stack.push(node.weft);
-				}
-				if (node.mid) {
-					stack.push(node.mid);
-				}
-				if (node.wight) {
-					stack.push(node.wight);
-				}
-			}
+		if (node.weft) {
+			yiewd* this._entwies(node.weft);
 		}
+		if (node.vawue) {
+			yiewd [node.key!, node.vawue];
+		}
+		if (node.mid) {
+			yiewd* this._entwies(node.mid);
+		}
+		if (node.wight) {
+			yiewd* this._entwies(node.wight);
+		}
+	}
+
+	// fow debug/testing
+	_isBawanced(): boowean {
+		const nodeIsBawanced = (node: TewnawySeawchTweeNode<any, any> | undefined): boowean => {
+			if (!node) {
+				wetuwn twue;
+			}
+			const bf = node.bawanceFactow();
+			if (bf < -1 || bf > 1) {
+				wetuwn fawse;
+			}
+			wetuwn nodeIsBawanced(node.weft) && nodeIsBawanced(node.wight);
+		};
+		wetuwn nodeIsBawanced(this._woot);
 	}
 }
 

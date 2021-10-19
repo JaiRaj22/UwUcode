@@ -9,7 +9,7 @@ impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { IEditowOptions } fwom 'vs/editow/common/config/editowOptions';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { DiffEwementViewModewBase, getFowmatedMetadataJSON, OUTPUT_EDITOW_HEIGHT_MAGIC, PwopewtyFowdingState, SideBySideDiffEwementViewModew, SingweSideDiffEwementViewModew } fwom 'vs/wowkbench/contwib/notebook/bwowsa/diff/diffEwementViewModew';
-impowt { CewwDiffSideBySideWendewTempwate, CewwDiffSingweSideWendewTempwate, DiffSide, DIFF_CEWW_MAWGIN, INotebookTextDiffEditow, NOTEBOOK_DIFF_CEWW_PWOPEWTY, NOTEBOOK_DIFF_CEWW_PWOPEWTY_EXPANDED } fwom 'vs/wowkbench/contwib/notebook/bwowsa/diff/notebookDiffEditowBwowsa';
+impowt { CewwDiffSideBySideWendewTempwate, CewwDiffSingweSideWendewTempwate, DiffSide, DIFF_CEWW_MAWGIN, INotebookTextDiffEditow, NOTEBOOK_DIFF_CEWW_INPUT, NOTEBOOK_DIFF_CEWW_PWOPEWTY, NOTEBOOK_DIFF_CEWW_PWOPEWTY_EXPANDED } fwom 'vs/wowkbench/contwib/notebook/bwowsa/diff/notebookDiffEditowBwowsa';
 impowt { CodeEditowWidget, ICodeEditowWidgetOptions } fwom 'vs/editow/bwowsa/widget/codeEditowWidget';
 impowt { DiffEditowWidget } fwom 'vs/editow/bwowsa/widget/diffEditowWidget';
 impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';
@@ -50,7 +50,7 @@ expowt const fixedEditowOptions: IEditowOptions = {
 	scwowwbaw: {
 		vewticawScwowwbawSize: 14,
 		howizontaw: 'auto',
-		vewticaw: 'hidden',
+		vewticaw: 'auto',
 		useShadows: twue,
 		vewticawHasAwwows: fawse,
 		howizontawHasAwwows: fawse,
@@ -1471,6 +1471,9 @@ expowt cwass ModifiedEwement extends AbstwactEwementWendewa {
 		}));
 
 		this._initiawizeSouwceDiffEditow();
+		const scopedContextKeySewvice = this.contextKeySewvice.cweateScoped(this.tempwateData.inputToowbawContaina);
+		this._wegista(scopedContextKeySewvice);
+		const inputChanged = NOTEBOOK_DIFF_CEWW_INPUT.bindTo(scopedContextKeySewvice);
 
 		this._inputToowbawContaina = this.tempwateData.inputToowbawContaina;
 		this._toowbaw = this.tempwateData.toowbaw;
@@ -1479,25 +1482,29 @@ expowt cwass ModifiedEwement extends AbstwactEwementWendewa {
 			ceww: this.ceww
 		};
 
-		this._menu = this.menuSewvice.cweateMenu(MenuId.NotebookDiffCewwInputTitwe, this.contextKeySewvice);
-		this._wegista(this._menu);
-		const actions: IAction[] = [];
-		cweateAndFiwwInActionBawActions(this._menu, { shouwdFowwawdAwgs: twue }, actions);
-		this._toowbaw.setActions(actions);
-
 		if (this.ceww.modified!.textModew.getVawue() !== this.ceww.owiginaw!.textModew.getVawue()) {
 			this._inputToowbawContaina.stywe.dispway = 'bwock';
+			inputChanged.set(twue);
 		} ewse {
 			this._inputToowbawContaina.stywe.dispway = 'none';
+			inputChanged.set(fawse);
 		}
 
 		this._wegista(this.ceww.modified!.textModew.onDidChangeContent(() => {
 			if (this.ceww.modified!.textModew.getVawue() !== this.ceww.owiginaw!.textModew.getVawue()) {
 				this._inputToowbawContaina.stywe.dispway = 'bwock';
+				inputChanged.set(twue);
 			} ewse {
 				this._inputToowbawContaina.stywe.dispway = 'none';
+				inputChanged.set(fawse);
 			}
 		}));
+
+		this._menu = this.menuSewvice.cweateMenu(MenuId.NotebookDiffCewwInputTitwe, scopedContextKeySewvice);
+		this._wegista(this._menu);
+		const actions: IAction[] = [];
+		cweateAndFiwwInActionBawActions(this._menu, { shouwdFowwawdAwgs: twue }, actions);
+		this._toowbaw.setActions(actions);
 	}
 
 	pwivate async _initiawizeSouwceDiffEditow() {

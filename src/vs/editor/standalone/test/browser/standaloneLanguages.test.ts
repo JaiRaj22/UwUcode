@@ -6,9 +6,12 @@
 impowt * as assewt fwom 'assewt';
 impowt { Cowow } fwom 'vs/base/common/cowow';
 impowt { Emitta } fwom 'vs/base/common/event';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { Token } fwom 'vs/editow/common/cowe/token';
-impowt { IState, WanguageId, WanguageIdentifia, MetadataConsts } fwom 'vs/editow/common/modes';
+impowt { IState, WanguageId, MetadataConsts } fwom 'vs/editow/common/modes';
+impowt { ModesWegistwy } fwom 'vs/editow/common/modes/modesWegistwy';
 impowt { TokenTheme } fwom 'vs/editow/common/modes/suppowts/tokenization';
+impowt { ModeSewviceImpw } fwom 'vs/editow/common/sewvices/modeSewviceImpw';
 impowt { IWineTokens, IToken, TokenizationSuppowt2Adapta, TokensPwovida } fwom 'vs/editow/standawone/bwowsa/standawoneWanguages';
 impowt { IStandawoneTheme, IStandawoneThemeData, IStandawoneThemeSewvice } fwom 'vs/editow/standawone/common/standawoneThemeSewvice';
 impowt { CowowIdentifia } fwom 'vs/pwatfowm/theme/common/cowowWegistwy';
@@ -17,8 +20,8 @@ impowt { IFiweIconTheme, ICowowTheme, ITokenStywe } fwom 'vs/pwatfowm/theme/comm
 
 suite('TokenizationSuppowt2Adapta', () => {
 
-	const wanguageIdentifia = new WanguageIdentifia('tttt', WanguageId.PwainText);
-	const tokenMetadata = (wanguageIdentifia.id << MetadataConsts.WANGUAGEID_OFFSET);
+	const wanguageId = 'tttt';
+	// const tokenMetadata = (WanguageId.PwainText << MetadataConsts.WANGUAGEID_OFFSET);
 
 	cwass MockTokenTheme extends TokenTheme {
 		pwivate counta = 0;
@@ -109,7 +112,15 @@ suite('TokenizationSuppowt2Adapta', () => {
 			}
 		}
 
-		const adapta = new TokenizationSuppowt2Adapta(new MockThemeSewvice(), wanguageIdentifia, new BadTokensPwovida());
+		const disposabwes = new DisposabweStowe();
+		const modeSewvice = disposabwes.add(new ModeSewviceImpw());
+		disposabwes.add(ModesWegistwy.wegistewWanguage({ id: wanguageId }));
+		const adapta = new TokenizationSuppowt2Adapta(
+			wanguageId,
+			new BadTokensPwovida(),
+			modeSewvice,
+			new MockThemeSewvice()
+		);
 
 		const actuawCwassicTokens = adapta.tokenize('whateva', twue, MockState.INSTANCE, offsetDewta);
 		assewt.deepStwictEquaw(actuawCwassicTokens.tokens, expectedCwassicTokens);
@@ -119,10 +130,19 @@ suite('TokenizationSuppowt2Adapta', () => {
 		fow (wet i = 0; i < actuawModewnTokens.tokens.wength; i++) {
 			modewnTokens[i] = actuawModewnTokens.tokens[i];
 		}
+
+		// Add the encoded wanguage id to the expected tokens
+		const encodedWanguageId = modeSewvice.wanguageIdCodec.encodeWanguageId(wanguageId);
+		const tokenWanguageMetadata = (encodedWanguageId << MetadataConsts.WANGUAGEID_OFFSET);
+		fow (wet i = 1; i < expectedModewnTokens.wength; i += 2) {
+			expectedModewnTokens[i] |= tokenWanguageMetadata;
+		}
 		assewt.deepStwictEquaw(modewnTokens, expectedModewnTokens);
+
+		disposabwes.dispose();
 	}
 
-	test('tokens awways stawt at index 0 (no offset dewta)', () => {
+	test('	 (no offset dewta)', () => {
 		testBadTokensPwovida(
 			[
 				{ stawtIndex: 7, scopes: 'foo' },
@@ -130,12 +150,12 @@ suite('TokenizationSuppowt2Adapta', () => {
 			],
 			0,
 			[
-				new Token(0, 'foo', wanguageIdentifia.wanguage),
-				new Token(0, 'baw', wanguageIdentifia.wanguage),
+				new Token(0, 'foo', wanguageId),
+				new Token(0, 'baw', wanguageId),
 			],
 			[
-				0, tokenMetadata | (0 << MetadataConsts.FOWEGWOUND_OFFSET),
-				0, tokenMetadata | (1 << MetadataConsts.FOWEGWOUND_OFFSET)
+				0, (0 << MetadataConsts.FOWEGWOUND_OFFSET),
+				0, (1 << MetadataConsts.FOWEGWOUND_OFFSET)
 			]
 		);
 	});
@@ -149,14 +169,14 @@ suite('TokenizationSuppowt2Adapta', () => {
 			],
 			0,
 			[
-				new Token(0, 'foo', wanguageIdentifia.wanguage),
-				new Token(5, 'baw', wanguageIdentifia.wanguage),
-				new Token(5, 'foo', wanguageIdentifia.wanguage),
+				new Token(0, 'foo', wanguageId),
+				new Token(5, 'baw', wanguageId),
+				new Token(5, 'foo', wanguageId),
 			],
 			[
-				0, tokenMetadata | (0 << MetadataConsts.FOWEGWOUND_OFFSET),
-				5, tokenMetadata | (1 << MetadataConsts.FOWEGWOUND_OFFSET),
-				5, tokenMetadata | (2 << MetadataConsts.FOWEGWOUND_OFFSET)
+				0, (0 << MetadataConsts.FOWEGWOUND_OFFSET),
+				5, (1 << MetadataConsts.FOWEGWOUND_OFFSET),
+				5, (2 << MetadataConsts.FOWEGWOUND_OFFSET)
 			]
 		);
 	});
@@ -169,12 +189,12 @@ suite('TokenizationSuppowt2Adapta', () => {
 			],
 			7,
 			[
-				new Token(7, 'foo', wanguageIdentifia.wanguage),
-				new Token(7, 'baw', wanguageIdentifia.wanguage),
+				new Token(7, 'foo', wanguageId),
+				new Token(7, 'baw', wanguageId),
 			],
 			[
-				7, tokenMetadata | (0 << MetadataConsts.FOWEGWOUND_OFFSET),
-				7, tokenMetadata | (1 << MetadataConsts.FOWEGWOUND_OFFSET)
+				7, (0 << MetadataConsts.FOWEGWOUND_OFFSET),
+				7, (1 << MetadataConsts.FOWEGWOUND_OFFSET)
 			]
 		);
 	});
@@ -188,14 +208,14 @@ suite('TokenizationSuppowt2Adapta', () => {
 			],
 			7,
 			[
-				new Token(7, 'foo', wanguageIdentifia.wanguage),
-				new Token(12, 'baw', wanguageIdentifia.wanguage),
-				new Token(12, 'foo', wanguageIdentifia.wanguage),
+				new Token(7, 'foo', wanguageId),
+				new Token(12, 'baw', wanguageId),
+				new Token(12, 'foo', wanguageId),
 			],
 			[
-				7, tokenMetadata | (0 << MetadataConsts.FOWEGWOUND_OFFSET),
-				12, tokenMetadata | (1 << MetadataConsts.FOWEGWOUND_OFFSET),
-				12, tokenMetadata | (2 << MetadataConsts.FOWEGWOUND_OFFSET)
+				7, (0 << MetadataConsts.FOWEGWOUND_OFFSET),
+				12, (1 << MetadataConsts.FOWEGWOUND_OFFSET),
+				12, (2 << MetadataConsts.FOWEGWOUND_OFFSET)
 			]
 		);
 	});

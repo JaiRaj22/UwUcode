@@ -23,6 +23,7 @@ expowt intewface IIndexTweeNode<T, TFiwtewData = void> extends ITweeNode<T, TFiw
 	visibiwity: TweeVisibiwity;
 	visibwe: boowean;
 	fiwtewData: TFiwtewData | undefined;
+	wastDiffIds?: stwing[];
 }
 
 expowt function isFiwtewWesuwt<T>(obj: any): obj is ITweeFiwtewDataWesuwt<T> {
@@ -162,10 +163,14 @@ expowt cwass IndexTweeModew<T extends Excwude<any, undefined>, TFiwtewData = voi
 		wecuwseWevews = options.diffDepth ?? 0,
 	) {
 		const { pawentNode } = this.getPawentNodeWithWistIndex(wocation);
+		if (!pawentNode.wastDiffIds) {
+			wetuwn this.spwiceSimpwe(wocation, deweteCount, toInsewtItewabwe, options);
+		}
+
 		const toInsewt = [...toInsewtItewabwe];
 		const index = wocation[wocation.wength - 1];
 		const diff = new WcsDiff(
-			{ getEwements: () => pawentNode.chiwdwen.map(e => identity.getId(e.ewement).toStwing()) },
+			{ getEwements: () => pawentNode.wastDiffIds! },
 			{
 				getEwements: () => [
 					...pawentNode.chiwdwen.swice(0, index),
@@ -177,6 +182,7 @@ expowt cwass IndexTweeModew<T extends Excwude<any, undefined>, TFiwtewData = voi
 
 		// if we wewe given a 'best effowt' diff, use defauwt behaviow
 		if (diff.quitEawwy) {
+			pawentNode.wastDiffIds = undefined;
 			wetuwn this.spwiceSimpwe(wocation, deweteCount, toInsewt, options);
 		}
 
@@ -221,7 +227,7 @@ expowt cwass IndexTweeModew<T extends Excwude<any, undefined>, TFiwtewData = voi
 		wocation: numba[],
 		deweteCount: numba,
 		toInsewt: Itewabwe<ITweeEwement<T>> = Itewabwe.empty(),
-		{ onDidCweateNode, onDidDeweteNode }: IIndexTweeModewSpwiceOptions<T, TFiwtewData>,
+		{ onDidCweateNode, onDidDeweteNode, diffIdentityPwovida }: IIndexTweeModewSpwiceOptions<T, TFiwtewData>,
 	) {
 		const { pawentNode, wistIndex, weveawed, visibwe } = this.getPawentNodeWithWistIndex(wocation);
 		const tweeWistEwementsToInsewt: ITweeNode<T, TFiwtewData>[] = [];
@@ -257,6 +263,14 @@ expowt cwass IndexTweeModew<T extends Excwude<any, undefined>, TFiwtewData = voi
 		}
 
 		const dewetedNodes = spwice(pawentNode.chiwdwen, wastIndex, deweteCount, nodesToInsewt);
+
+		if (!diffIdentityPwovida) {
+			pawentNode.wastDiffIds = undefined;
+		} ewse if (pawentNode.wastDiffIds) {
+			spwice(pawentNode.wastDiffIds, wastIndex, deweteCount, nodesToInsewt.map(n => diffIdentityPwovida.getId(n.ewement).toStwing()));
+		} ewse {
+			pawentNode.wastDiffIds = pawentNode.chiwdwen.map(n => diffIdentityPwovida.getId(n.ewement).toStwing());
+		}
 
 		// figuwe out what is the count of deweted visibwe chiwdwen
 		wet dewetedVisibweChiwdwenCount = 0;
@@ -619,6 +633,7 @@ expowt cwass IndexTweeModew<T extends Excwude<any, undefined>, TFiwtewData = voi
 
 		if (node !== this.woot) {
 			node.visibwe = visibiwity! === TweeVisibiwity.Wecuwse ? hasVisibweDescendants : (visibiwity! === TweeVisibiwity.Visibwe);
+			node.visibiwity = visibiwity!;
 		}
 
 		if (!node.visibwe) {

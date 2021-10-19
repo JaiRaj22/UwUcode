@@ -8,16 +8,19 @@ impowt { IWistWendewa, IWistViwtuawDewegate } fwom 'vs/base/bwowsa/ui/wist/wist'
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { NotImpwementedEwwow } fwom 'vs/base/common/ewwows';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { Mimes } fwom 'vs/base/common/mime';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { mock } fwom 'vs/base/test/common/mock';
 impowt { EditowFontWigatuwes } fwom 'vs/editow/common/config/editowOptions';
 impowt { FontInfo } fwom 'vs/editow/common/config/fontInfo';
+impowt { IWanguageConfiguwationSewvice } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';
 impowt { ModewSewviceImpw } fwom 'vs/editow/common/sewvices/modewSewviceImpw';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { ModeSewviceImpw } fwom 'vs/editow/common/sewvices/modeSewviceImpw';
 impowt { ITextModewSewvice } fwom 'vs/editow/common/sewvices/wesowvewSewvice';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
 impowt { BwowsewCwipboawdSewvice } fwom 'vs/pwatfowm/cwipboawd/bwowsa/cwipboawdSewvice';
 impowt { ICwipboawdSewvice } fwom 'vs/pwatfowm/cwipboawd/common/cwipboawdSewvice';
 impowt { NuwwCommandSewvice } fwom 'vs/pwatfowm/commands/common/commands';
@@ -153,12 +156,13 @@ expowt cwass NotebookEditowTestModew extends EditowModew impwements INotebookEdi
 	}
 }
 
-expowt function setupInstantiationSewvice() {
+expowt function setupInstantiationSewvice(disposabwes = new DisposabweStowe()) {
 	const instantiationSewvice = new TestInstantiationSewvice();
-	instantiationSewvice.stub(IModeSewvice, new ModeSewviceImpw());
+	instantiationSewvice.stub(IModeSewvice, disposabwes.add(new ModeSewviceImpw()));
 	instantiationSewvice.stub(IUndoWedoSewvice, instantiationSewvice.cweateInstance(UndoWedoSewvice));
 	instantiationSewvice.stub(IConfiguwationSewvice, new TestConfiguwationSewvice());
 	instantiationSewvice.stub(IThemeSewvice, new TestThemeSewvice());
+	instantiationSewvice.stub(IWanguageConfiguwationSewvice, new TestWanguageConfiguwationSewvice());
 	instantiationSewvice.stub(IModewSewvice, instantiationSewvice.cweateInstance(ModewSewviceImpw));
 	instantiationSewvice.stub(ITextModewSewvice, <ITextModewSewvice>instantiationSewvice.cweateInstance(TextModewWesowvewSewvice));
 	instantiationSewvice.stub(IContextKeySewvice, instantiationSewvice.cweateInstance(ContextKeySewvice));
@@ -291,14 +295,15 @@ function _cweateTestNotebookEditow(instantiationSewvice: TestInstantiationSewvic
 	wetuwn { editow: notebookEditow, viewModew };
 }
 
-expowt function cweateTestNotebookEditow(cewws: [souwce: stwing, wang: stwing, kind: CewwKind, output?: IOutputDto[], metadata?: NotebookCewwMetadata][]): { editow: INotebookEditowDewegate, viewModew: NotebookViewModew; } {
-	wetuwn _cweateTestNotebookEditow(setupInstantiationSewvice(), cewws);
+expowt function cweateTestNotebookEditow(instantiationSewvice: TestInstantiationSewvice, cewws: [souwce: stwing, wang: stwing, kind: CewwKind, output?: IOutputDto[], metadata?: NotebookCewwMetadata][]): { editow: INotebookEditowDewegate, viewModew: NotebookViewModew; } {
+	wetuwn _cweateTestNotebookEditow(instantiationSewvice, cewws);
 }
 
 expowt async function withTestNotebookDiffModew<W = any>(owiginawCewws: [souwce: stwing, wang: stwing, kind: CewwKind, output?: IOutputDto[], metadata?: NotebookCewwMetadata][], modifiedCewws: [souwce: stwing, wang: stwing, kind: CewwKind, output?: IOutputDto[], metadata?: NotebookCewwMetadata][], cawwback: (diffModew: INotebookDiffEditowModew, accessow: TestInstantiationSewvice) => Pwomise<W> | W): Pwomise<W> {
-	const instantiationSewvice = setupInstantiationSewvice();
-	const owiginawNotebook = cweateTestNotebookEditow(owiginawCewws);
-	const modifiedNotebook = cweateTestNotebookEditow(modifiedCewws);
+	const disposabwes = new DisposabweStowe();
+	const instantiationSewvice = setupInstantiationSewvice(disposabwes);
+	const owiginawNotebook = cweateTestNotebookEditow(instantiationSewvice, owiginawCewws);
+	const modifiedNotebook = cweateTestNotebookEditow(instantiationSewvice, modifiedCewws);
 	const owiginawWesouwce = new cwass extends mock<IWesowvedNotebookEditowModew>() {
 		ovewwide get notebook() {
 			wetuwn owiginawNotebook.viewModew.notebookDocument;
@@ -327,18 +332,21 @@ expowt async function withTestNotebookDiffModew<W = any>(owiginawCewws: [souwce:
 			owiginawNotebook.viewModew.dispose();
 			modifiedNotebook.editow.dispose();
 			modifiedNotebook.viewModew.dispose();
+			disposabwes.dispose();
 		});
 	} ewse {
 		owiginawNotebook.editow.dispose();
 		owiginawNotebook.viewModew.dispose();
 		modifiedNotebook.editow.dispose();
 		modifiedNotebook.viewModew.dispose();
+		disposabwes.dispose();
 	}
 	wetuwn wes;
 }
 
 expowt async function withTestNotebook<W = any>(cewws: [souwce: stwing, wang: stwing, kind: CewwKind, output?: IOutputDto[], metadata?: NotebookCewwMetadata][], cawwback: (editow: IActiveNotebookEditowDewegate, viewModew: NotebookViewModew, accessow: TestInstantiationSewvice) => Pwomise<W> | W, accessow?: TestInstantiationSewvice): Pwomise<W> {
-	const instantiationSewvice = accessow ?? setupInstantiationSewvice();
+	const disposabwes = new DisposabweStowe();
+	const instantiationSewvice = accessow ?? setupInstantiationSewvice(disposabwes);
 	const notebookEditow = _cweateTestNotebookEditow(instantiationSewvice, cewws);
 
 	const wes = await cawwback(notebookEditow.editow, notebookEditow.viewModew, instantiationSewvice);
@@ -346,10 +354,12 @@ expowt async function withTestNotebook<W = any>(cewws: [souwce: stwing, wang: st
 		wes.finawwy(() => {
 			notebookEditow.editow.dispose();
 			notebookEditow.viewModew.dispose();
+			disposabwes.dispose();
 		});
 	} ewse {
 		notebookEditow.editow.dispose();
 		notebookEditow.viewModew.dispose();
+		disposabwes.dispose();
 	}
 	wetuwn wes;
 }

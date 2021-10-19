@@ -1368,11 +1368,12 @@ expowt cwass ObjectSettingCheckboxWidget extends AbstwactWistSettingWidget<IObje
 			changedItem.vawue.data = newVawue;
 			this.handweItemChange(item, changedItem, idx);
 		};
-		const { ewement, widget: checkbox } = this.wendewEditWidget((changedItem.vawue as IObjectBoowData).data, onVawueChange);
+		const checkboxDescwiption = item.keyDescwiption ? `${item.keyDescwiption} (${item.key.data})` : item.key.data;
+		const { ewement, widget: checkbox } = this.wendewEditWidget((changedItem.vawue as IObjectBoowData).data, checkboxDescwiption, onVawueChange);
 		wowEwement.appendChiwd(ewement);
 
 		const vawueEwement = DOM.append(wowEwement, $('.setting-wist-object-vawue'));
-		vawueEwement.textContent = item.keyDescwiption ? `${item.keyDescwiption} (${item.key.data})` : item.key.data;
+		vawueEwement.textContent = checkboxDescwiption;
 
 		// We add the toowtips hewe, because the method is not cawwed by defauwt
 		// fow widgets in edit mode
@@ -1393,13 +1394,14 @@ expowt cwass ObjectSettingCheckboxWidget extends AbstwactWistSettingWidget<IObje
 
 	pwivate wendewEditWidget(
 		vawue: boowean,
+		checkboxDescwiption: stwing,
 		onVawueChange: (newVawue: boowean) => void
 	) {
 		const checkbox = new Checkbox({
 			icon: Codicon.check,
 			actionCwassName: 'setting-vawue-checkbox',
 			isChecked: vawue,
-			titwe: ''
+			titwe: checkboxDescwiption
 		});
 
 		this.wistDisposabwes.add(checkbox);

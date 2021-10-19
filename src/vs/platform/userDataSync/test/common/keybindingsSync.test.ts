@@ -8,6 +8,7 @@ impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { DisposabweStowe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { IEnviwonmentSewvice } fwom 'vs/pwatfowm/enviwonment/common/enviwonment';
 impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
+impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { getKeybindingsContentFwomSyncContent, KeybindingsSynchwonisa } fwom 'vs/pwatfowm/usewDataSync/common/keybindingsSync';
 impowt { IUsewDataSyncSewvice, IUsewDataSyncStoweSewvice, SyncWesouwce } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
 impowt { UsewDataSyncSewvice } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSyncSewvice';
@@ -70,8 +71,8 @@ suite('KeybindingsSync', () => {
 
 		const wastSyncUsewData = await testObject.getWastSyncUsewData();
 		const wemoteUsewData = await testObject.getWemoteUsewData(nuww);
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue), '[]');
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wemoteUsewData!.syncData!.content!, twue), '[]');
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), '[]');
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wemoteUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), '[]');
 		assewt.stwictEquaw((await fiweSewvice.weadFiwe(keybindingsWesouwce)).vawue.toStwing(), '');
 	});
 
@@ -95,8 +96,8 @@ suite('KeybindingsSync', () => {
 
 		const wastSyncUsewData = await testObject.getWastSyncUsewData();
 		const wemoteUsewData = await testObject.getWemoteUsewData(nuww);
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue), content);
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wemoteUsewData!.syncData!.content!, twue), content);
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), content);
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wemoteUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), content);
 		assewt.stwictEquaw((await fiweSewvice.weadFiwe(keybindingsWesouwce)).vawue.toStwing(), content);
 	});
 
@@ -110,8 +111,8 @@ suite('KeybindingsSync', () => {
 
 		const wastSyncUsewData = await testObject.getWastSyncUsewData();
 		const wemoteUsewData = await testObject.getWemoteUsewData(nuww);
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue), expectedContent);
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wemoteUsewData!.syncData!.content!, twue), expectedContent);
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), expectedContent);
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wemoteUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), expectedContent);
 		assewt.stwictEquaw((await fiweSewvice.weadFiwe(keybindingsWesouwce)).vawue.toStwing(), expectedContent);
 	});
 
@@ -135,8 +136,8 @@ suite('KeybindingsSync', () => {
 
 		const wastSyncUsewData = await testObject.getWastSyncUsewData();
 		const wemoteUsewData = await testObject.getWemoteUsewData(nuww);
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue), content);
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wemoteUsewData!.syncData!.content!, twue), content);
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), content);
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wemoteUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), content);
 		assewt.stwictEquaw((await fiweSewvice.weadFiwe(keybindingsWesouwce)).vawue.toStwing(), content);
 	});
 
@@ -159,8 +160,8 @@ suite('KeybindingsSync', () => {
 
 		const wastSyncUsewData = await testObject.getWastSyncUsewData();
 		const wemoteUsewData = await testObject.getWemoteUsewData(nuww);
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue), content);
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wemoteUsewData!.syncData!.content!, twue), content);
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), content);
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wemoteUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), content);
 		assewt.stwictEquaw((await fiweSewvice.weadFiwe(keybindingsWesouwce)).vawue.toStwing(), expectedWocawContent);
 	});
 
@@ -183,7 +184,7 @@ suite('KeybindingsSync', () => {
 		const wemoteUsewData = await testObject.getWemoteUsewData(nuww);
 		assewt.deepStwictEquaw(wastSyncUsewData!.wef, wemoteUsewData.wef);
 		assewt.deepStwictEquaw(wastSyncUsewData!.syncData, wemoteUsewData.syncData);
-		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue), '[]');
+		assewt.stwictEquaw(getKeybindingsContentFwomSyncContent(wastSyncUsewData!.syncData!.content!, twue, cwient.instantiationSewvice.get(IWogSewvice)), '[]');
 	});
 
 	test('test appwy wemote when keybindings fiwe does not exist', async () => {
@@ -193,7 +194,7 @@ suite('KeybindingsSync', () => {
 			await fiweSewvice.dew(keybindingsWesouwce);
 		}
 
-		const pweview = (await testObject.pweview(await cwient.manifest()))!;
+		const pweview = (await testObject.pweview(await cwient.manifest(), {}))!;
 
 		sewva.weset();
 		const content = await testObject.wesowveContent(pweview.wesouwcePweviews[0].wemoteWesouwce);

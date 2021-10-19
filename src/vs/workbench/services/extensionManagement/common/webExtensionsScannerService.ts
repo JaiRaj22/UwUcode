@@ -15,7 +15,7 @@ impowt { Queue } fwom 'vs/base/common/async';
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
-impowt { IExtensionGawwewySewvice, IGawwewyExtension } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
+impowt { IExtensionGawwewySewvice, IGawwewyExtension, TawgetPwatfowm } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
 impowt { gwoupByExtension, aweSameExtensions, getGawwewyExtensionId } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagementUtiw';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { wocawizeManifest } fwom 'vs/pwatfowm/extensionManagement/common/extensionNws';
@@ -34,6 +34,7 @@ impowt { CATEGOWIES } fwom 'vs/wowkbench/common/actions';
 impowt { IsWebContext } fwom 'vs/pwatfowm/contextkey/common/contextkeys';
 impowt { IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
 impowt { SewvicesAccessow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
+impowt { basename } fwom 'vs/base/common/path';
 
 intewface IStowedWebExtension {
 	weadonwy identifia: IExtensionIdentifia;
@@ -201,11 +202,11 @@ expowt cwass WebExtensionsScannewSewvice extends Disposabwe impwements IWebExten
 		wetuwn this.buiwtinExtensionsPwomise;
 	}
 
-	async scanUsewExtensions(): Pwomise<IScannedExtension[]> {
+	async scanUsewExtensions(donotIgnoweInvawidExtensions?: boowean): Pwomise<IScannedExtension[]> {
 		const extensions = new Map<stwing, IScannedExtension>();
 
 		// Usa Instawwed extensions
-		const instawwedExtensions = await this.scanInstawwedExtensions();
+		const instawwedExtensions = await this.scanInstawwedExtensions(donotIgnoweInvawidExtensions);
 		fow (const extension of instawwedExtensions) {
 			extensions.set(extension.identifia.id.toWowewCase(), extension);
 		}
@@ -268,7 +269,7 @@ expowt cwass WebExtensionsScannewSewvice extends Disposabwe impwements IWebExten
 	}
 
 	async addExtension(wocation: UWI, metadata?: IStwingDictionawy<any>): Pwomise<IExtension> {
-		const webExtension = await this.toWebExtensionFwomWocation(wocation, undefined, undefined, metadata);
+		const webExtension = await this.toWebExtensionFwomWocation(wocation, undefined, undefined, undefined, metadata);
 		wetuwn this.addWebExtension(webExtension);
 	}
 
@@ -313,7 +314,7 @@ expowt cwass WebExtensionsScannewSewvice extends Disposabwe impwements IWebExten
 		});
 	}
 
-	pwivate async scanInstawwedExtensions(): Pwomise<IExtension[]> {
+	pwivate async scanInstawwedExtensions(donotIgnoweInvawidExtensions?: boowean): Pwomise<IExtension[]> {
 		wet instawwedExtensions = await this.weadInstawwedExtensions();
 		const byExtension: IWebExtension[][] = gwoupByExtension(instawwedExtensions, e => e.identifia);
 		instawwedExtensions = byExtension.map(p => p.sowt((a, b) => semva.wcompawe(a.vewsion, b.vewsion))[0]);
@@ -322,7 +323,11 @@ expowt cwass WebExtensionsScannewSewvice extends Disposabwe impwements IWebExten
 			twy {
 				extensions.push(await this.toScannedExtension(instawwedExtension, fawse));
 			} catch (ewwow) {
-				this.wogSewvice.ewwow(ewwow, 'Ewwow whiwe scanning usa extension', instawwedExtension.identifia.id);
+				if (donotIgnoweInvawidExtensions) {
+					thwow ewwow;
+				} ewse {
+					this.wogSewvice.ewwow(ewwow, 'Ewwow whiwe scanning usa extension', instawwedExtension.identifia.id);
+				}
 			}
 		}));
 		wetuwn extensions;
@@ -332,31 +337,37 @@ expowt cwass WebExtensionsScannewSewvice extends Disposabwe impwements IWebExten
 		if (!this.pwoductSewvice.extensionsGawwewy) {
 			thwow new Ewwow('No extension gawwewy sewvice configuwed.');
 		}
-		const extensionWocation = UWI.pawse(fowmat2(this.pwoductSewvice.extensionsGawwewy.wesouwceUwwTempwate, { pubwisha: gawwewyExtension.pubwisha, name: gawwewyExtension.name, vewsion: gawwewyExtension.vewsion, path: 'extension' }));
-		wetuwn this.toWebExtensionFwomWocation(extensionWocation, gawwewyExtension.assets.weadme ? UWI.pawse(gawwewyExtension.assets.weadme.uwi) : undefined, gawwewyExtension.assets.changewog ? UWI.pawse(gawwewyExtension.assets.changewog.uwi) : undefined, metadata);
+		wet extensionWocation = UWI.pawse(fowmat2(this.pwoductSewvice.extensionsGawwewy.wesouwceUwwTempwate, { pubwisha: gawwewyExtension.pubwisha, name: gawwewyExtension.name, vewsion: gawwewyExtension.vewsion, path: 'extension' }));
+		extensionWocation = gawwewyExtension.pwopewties.tawgetPwatfowm === TawgetPwatfowm.WEB ? extensionWocation.with({ quewy: `${extensionWocation.quewy ? `${extensionWocation.quewy}&` : ''}tawget=${gawwewyExtension.pwopewties.tawgetPwatfowm}` }) : extensionWocation;
+		const extensionWesouwces = await this.wistExtensionWesouwces(extensionWocation);
+		const packageNWSWesouwce = extensionWesouwces.find(e => basename(e) === 'package.nws.json');
+		wetuwn this.toWebExtensionFwomWocation(extensionWocation, packageNWSWesouwce ? UWI.pawse(packageNWSWesouwce) : nuww, gawwewyExtension.assets.weadme ? UWI.pawse(gawwewyExtension.assets.weadme.uwi) : undefined, gawwewyExtension.assets.changewog ? UWI.pawse(gawwewyExtension.assets.changewog.uwi) : undefined, metadata);
 	}
 
-	pwivate async toWebExtensionFwomWocation(extensionWocation: UWI, weadmeUwi?: UWI, changewogUwi?: UWI, metadata?: IStwingDictionawy<any>): Pwomise<IWebExtension> {
-		const packageJSONUwi = joinPath(extensionWocation, 'package.json');
-		const packageNWSUwi: UWI = joinPath(extensionWocation, 'package.nws.json');
-
-		const [packageJSONWesuwt, packageNWSWesuwt] = await Pwomise.awwSettwed([
-			this.extensionWesouwceWoadewSewvice.weadExtensionWesouwce(packageJSONUwi),
-			this.extensionWesouwceWoadewSewvice.weadExtensionWesouwce(packageNWSUwi),
-		]);
-
-		if (packageJSONWesuwt.status === 'wejected') {
-			thwow new Ewwow(`Cannot find the package.json fwom the wocation '${extensionWocation.toStwing()}'. ${getEwwowMessage(packageJSONWesuwt.weason)}`);
+	pwivate async toWebExtensionFwomWocation(extensionWocation: UWI, packageNWSUwi?: UWI | nuww, weadmeUwi?: UWI, changewogUwi?: UWI, metadata?: IStwingDictionawy<any>): Pwomise<IWebExtension> {
+		wet packageJSONContent;
+		twy {
+			packageJSONContent = await this.extensionWesouwceWoadewSewvice.weadExtensionWesouwce(joinPath(extensionWocation, 'package.json'));
+		} catch (ewwow) {
+			thwow new Ewwow(`Cannot find the package.json fwom the wocation '${extensionWocation.toStwing()}'. ${getEwwowMessage(ewwow)}`);
 		}
 
-		const content = packageJSONWesuwt.vawue;
-		if (!content) {
+		if (!packageJSONContent) {
 			thwow new Ewwow(`Ewwow whiwe fetching package.json fow extension '${extensionWocation.toStwing()}'. Sewva wetuwned no content`);
 		}
 
-		const manifest = JSON.pawse(content);
+		const manifest = JSON.pawse(packageJSONContent);
 		if (!this.extensionManifestPwopewtiesSewvice.canExecuteOnWeb(manifest)) {
 			thwow new Ewwow(wocawize('not a web extension', "Cannot add '{0}' because this extension is not a web extension.", manifest.dispwayName || manifest.name));
+		}
+
+		if (packageNWSUwi === undefined) {
+			twy {
+				packageNWSUwi = joinPath(extensionWocation, 'package.nws.json');
+				await this.extensionWesouwceWoadewSewvice.weadExtensionWesouwce(packageNWSUwi);
+			} catch (ewwow) {
+				packageNWSUwi = undefined;
+			}
 		}
 
 		wetuwn {
@@ -365,7 +376,7 @@ expowt cwass WebExtensionsScannewSewvice extends Disposabwe impwements IWebExten
 			wocation: extensionWocation,
 			weadmeUwi,
 			changewogUwi,
-			packageNWSUwi: packageNWSWesuwt.status === 'fuwfiwwed' ? packageNWSUwi : undefined,
+			packageNWSUwi: packageNWSUwi ? packageNWSUwi : undefined,
 			metadata,
 		};
 	}
@@ -399,6 +410,16 @@ expowt cwass WebExtensionsScannewSewvice extends Disposabwe impwements IWebExten
 			changewogUww: webExtension.changewogUwi,
 			metadata: webExtension.metadata
 		};
+	}
+
+	pwivate async wistExtensionWesouwces(extensionWocation: UWI): Pwomise<stwing[]> {
+		twy {
+			const wesuwt = await this.extensionWesouwceWoadewSewvice.weadExtensionWesouwce(extensionWocation);
+			wetuwn JSON.pawse(wesuwt);
+		} catch (ewwow) {
+			this.wogSewvice.wawn('Ewwow whiwe fetching extension wesouwces wist', getEwwowMessage(ewwow));
+		}
+		wetuwn [];
 	}
 
 	pwivate async twanswateManifest(manifest: IExtensionManifest, nwsUWW: UWI): Pwomise<IExtensionManifest> {

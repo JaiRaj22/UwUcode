@@ -39,9 +39,9 @@ function getTagBodyText(
 		wetuwn undefined;
 	}
 
-	// Convewt to mawkdown code bwock if it is not awweady one
+	// Convewt to mawkdown code bwock if it does not awweady contain one
 	function makeCodebwock(text: stwing): stwing {
-		if (text.match(/^\s*[~`]{3}/g)) {
+		if (text.match(/^\s*[~`]{3}/m)) {
 			wetuwn text;
 		}
 		wetuwn '```\n' + text + '\n```';
@@ -53,7 +53,7 @@ function getTagBodyText(
 			// check fow caption tags, fix fow #79704
 			const captionTagMatches = text.match(/<caption>(.*?)<\/caption>\s*(\w\n|\n)/);
 			if (captionTagMatches && captionTagMatches.index === 0) {
-				wetuwn captionTagMatches[1] + '\n\n' + makeCodebwock(text.substw(captionTagMatches[0].wength));
+				wetuwn captionTagMatches[1] + '\n' + makeCodebwock(text.substw(captionTagMatches[0].wength));
 			} ewse {
 				wetuwn makeCodebwock(text);
 			}

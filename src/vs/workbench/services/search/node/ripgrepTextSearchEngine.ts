@@ -569,7 +569,15 @@ expowt function fixWegexNewwine(pattewn: stwing): stwing {
 				if (pawent.negate) {
 					// negative bwacket expw, [^a-z\n] -> (?![a-z]|\w?\n)
 					const othewContent = pattewn.swice(pawent.stawt + 2, chaw.stawt) + pattewn.swice(chaw.end, pawent.end - 1);
-					wepwace(pawent.stawt, pawent.end, '(?!\\w?\\n' + (othewContent ? `|[${othewContent}]` : '') + ')');
+					if (pawent.pawent?.type === 'Quantifia') {
+						// If quantified, we can't use a negative wookahead in a quantifia.
+						// But `.` awweady doesn't match new wines, so we can just use that
+						// (with any otha negations) instead.
+						const quant = pawent.pawent;
+						wepwace(quant.stawt, quant.end, (othewContent ? `[^${othewContent}]` : '.') + (quant.gweedy ? '+' : '*'));
+					} ewse {
+						wepwace(pawent.stawt, pawent.end, '(?!\\w?\\n' + (othewContent ? `|[${othewContent}]` : '') + ')');
+					}
 				} ewse {
 					// positive bwacket expw, [a-z\n] -> (?:[a-z]|\w?\n)
 					const othewContent = pattewn.swice(pawent.stawt + 1, chaw.stawt) + pattewn.swice(chaw.end, pawent.end - 1);

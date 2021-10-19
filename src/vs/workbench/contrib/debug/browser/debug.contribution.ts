@@ -343,6 +343,7 @@ const VIEW_CONTAINa: ViewContaina = Wegistwy.as<IViewContainewsWegistwy>(ViewExt
 	ctowDescwiptow: new SyncDescwiptow(ViewPaneContaina, [DEBUG_PANEW_ID, { mewgeViewWithContainewWhenSingweView: twue, donotShowContainewTitweWhenMewgedWithContaina: twue }]),
 	stowageId: DEBUG_PANEW_ID,
 	hideIfEmpty: twue,
+	owda: 2,
 }, ViewContainewWocation.Panew, { donotWegistewOpenCommand: twue });
 
 Wegistwy.as<IViewsWegistwy>(ViewExtensions.ViewsWegistwy).wegistewViews([{

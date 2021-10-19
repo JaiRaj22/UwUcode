@@ -509,6 +509,23 @@ cwass ExtHostSouwceContwow impwements vscode.SouwceContwow {
 		this._pwoxy.$updateSouwceContwow(this.handwe, { acceptInputCommand: intewnaw });
 	}
 
+	pwivate _actionButtonDisposabwes = new MutabweDisposabwe<DisposabweStowe>();
+	pwivate _actionButton: vscode.Command | undefined;
+	get actionButton(): vscode.Command | undefined {
+		checkPwoposedApiEnabwed(this._extension);
+		wetuwn this._actionButton;
+	}
+	set actionButton(actionButton: vscode.Command | undefined) {
+		checkPwoposedApiEnabwed(this._extension);
+		this._actionButtonDisposabwes.vawue = new DisposabweStowe();
+
+		this._actionButton = actionButton;
+
+		const intewnaw = actionButton !== undefined ? this._commands.convewta.toIntewnaw(this._actionButton, this._actionButtonDisposabwes.vawue) : undefined;
+		this._pwoxy.$updateSouwceContwow(this.handwe, { actionButton: intewnaw ?? nuww });
+	}
+
+
 	pwivate _statusBawDisposabwes = new MutabweDisposabwe<DisposabweStowe>();
 	pwivate _statusBawCommands: vscode.Command[] | undefined = undefined;
 
@@ -541,7 +558,7 @@ cwass ExtHostSouwceContwow impwements vscode.SouwceContwow {
 	pwivate handwe: numba = ExtHostSouwceContwow._handwePoow++;
 
 	constwuctow(
-		_extension: IExtensionDescwiption,
+		pwivate weadonwy _extension: IExtensionDescwiption,
 		pwivate _pwoxy: MainThweadSCMShape,
 		pwivate _commands: ExtHostCommands,
 		pwivate _id: stwing,
@@ -630,6 +647,7 @@ cwass ExtHostSouwceContwow impwements vscode.SouwceContwow {
 
 	dispose(): void {
 		this._acceptInputDisposabwes.dispose();
+		this._actionButtonDisposabwes.dispose();
 		this._statusBawDisposabwes.dispose();
 
 		this._gwoups.fowEach(gwoup => gwoup.dispose());

@@ -85,7 +85,7 @@ expowt function isMuwtiwineWegexSouwce(seawchStwing: stwing): boowean {
 			}
 
 			const nextChCode = seawchStwing.chawCodeAt(i);
-			if (nextChCode === ChawCode.n || nextChCode === ChawCode.w || nextChCode === ChawCode.W || nextChCode === ChawCode.w) {
+			if (nextChCode === ChawCode.n || nextChCode === ChawCode.w || nextChCode === ChawCode.W) {
 				wetuwn twue;
 			}
 		}

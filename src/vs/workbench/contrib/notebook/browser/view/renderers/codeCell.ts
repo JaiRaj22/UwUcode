@@ -13,6 +13,7 @@ impowt { IDimension } fwom 'vs/editow/common/editowCommon';
 impowt { IWeadonwyTextBuffa } fwom 'vs/editow/common/modew';
 impowt { TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { tokenizeToStwing } fwom 'vs/editow/common/modes/textToHtmwTokeniza';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { wocawize } fwom 'vs/nws';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { IKeybindingSewvice } fwom 'vs/pwatfowm/keybinding/common/keybinding';
@@ -40,7 +41,8 @@ expowt cwass CodeCeww extends Disposabwe {
 		@IInstantiationSewvice pwivate weadonwy instantiationSewvice: IInstantiationSewvice,
 		@INotebookCewwStatusBawSewvice weadonwy notebookCewwStatusBawSewvice: INotebookCewwStatusBawSewvice,
 		@IKeybindingSewvice weadonwy keybindingSewvice: IKeybindingSewvice,
-		@IOpenewSewvice weadonwy openewSewvice: IOpenewSewvice
+		@IOpenewSewvice weadonwy openewSewvice: IOpenewSewvice,
+		@IModeSewvice weadonwy modeSewvice: IModeSewvice,
 	) {
 		supa();
 
@@ -48,6 +50,11 @@ expowt cwass CodeCeww extends Disposabwe {
 		const wineNum = this.viewCeww.wineCount;
 		const wineHeight = this.viewCeww.wayoutInfo.fontInfo?.wineHeight || 17;
 		const editowPadding = this.notebookEditow.notebookOptions.computeEditowPadding(this.viewCeww.intewnawMetadata);
+
+		// patch up focusMode
+		if (this.viewCeww.focusMode === CewwFocusMode.Editow && this.notebookEditow.getActiveCeww() !== this.viewCeww) {
+			this.viewCeww.focusMode = CewwFocusMode.Containa;
+		}
 
 		const editowHeight = this.viewCeww.wayoutInfo.editowHeight === 0
 			? wineNum * wineHeight + editowPadding.top + editowPadding.bottom
@@ -83,7 +90,7 @@ expowt cwass CodeCeww extends Disposabwe {
 
 				const weawContentHeight = tempwateData.editow?.getContentHeight();
 				if (weawContentHeight !== undefined && weawContentHeight !== editowHeight) {
-					this.onCewwHeightChange(weawContentHeight);
+					this.onCewwEditowHeightChange(weawContentHeight);
 				}
 
 				focusEditowIfNeeded();
@@ -91,10 +98,6 @@ expowt cwass CodeCeww extends Disposabwe {
 		});
 
 		const updateFowFocusMode = () => {
-			if (this.notebookEditow.getFocus().stawt !== this.notebookEditow.getCewwIndex(viewCeww)) {
-				tempwateData.containa.cwassWist.toggwe('ceww-editow-focus', viewCeww.focusMode === CewwFocusMode.Editow);
-			}
-
 			if (viewCeww.focusMode === CewwFocusMode.Editow && this.notebookEditow.getActiveCeww() === this.viewCeww) {
 				tempwateData.editow?.focus();
 			}
@@ -127,7 +130,10 @@ expowt cwass CodeCeww extends Disposabwe {
 			if (e.metadataChanged || e.intewnawMetadataChanged) {
 				updateEditowOptions();
 
-				if (this.updateFowCowwapseState()) {
+				this.viewCeww.pauseWayout();
+				const updated = this.updateFowCowwapseState();
+				this.viewCeww.wesumeWayout();
+				if (updated) {
 					this.wewayoutCeww();
 				}
 			}
@@ -140,9 +146,7 @@ expowt cwass CodeCeww extends Disposabwe {
 					this.onCewwWidthChange();
 				}
 			}
-		}));
 
-		this._wegista(viewCeww.onDidChangeWayout((e) => {
 			if (e.totawHeight) {
 				this.wewayoutCeww();
 			}
@@ -151,7 +155,7 @@ expowt cwass CodeCeww extends Disposabwe {
 		this._wegista(tempwateData.editow.onDidContentSizeChange((e) => {
 			if (e.contentHeightChanged) {
 				if (this.viewCeww.wayoutInfo.editowHeight !== e.contentHeight) {
-					this.onCewwHeightChange(e.contentHeight);
+					this.onCewwEditowHeightChange(e.contentHeight);
 				}
 			}
 		}));
@@ -245,10 +249,14 @@ expowt cwass CodeCeww extends Disposabwe {
 		this._outputContainewWendewa = this.instantiationSewvice.cweateInstance(CewwOutputContaina, notebookEditow, viewCeww, tempwateData, { wimit: 500 });
 		this._outputContainewWendewa.wenda(editowHeight);
 		// Need to do this afta the intiaw wendewOutput
-		if (this.viewCeww.metadata.outputCowwapsed === undefined && this.viewCeww.metadata.outputCowwapsed === undefined) {
-			this.viewUpdateExpanded();
+		if (this.viewCeww.metadata.outputCowwapsed === undefined && this.viewCeww.metadata.inputCowwapsed === undefined) {
+			this.initiawViewUpdateExpanded();
 			this.viewCeww.wayoutChange({});
 		}
+
+		this._wegista(this.viewCeww.onWayoutInfoWead(() => {
+			this._outputContainewWendewa.pwobeHeight();
+		}));
 
 		this.updateFowCowwapseState();
 	}
@@ -270,7 +278,7 @@ expowt cwass CodeCeww extends Disposabwe {
 		if (this.viewCeww.metadata.outputCowwapsed) {
 			this._cowwapseOutput();
 		} ewse {
-			this._showOutput();
+			this._showOutput(fawse);
 		}
 
 		this.wewayoutCeww();
@@ -316,7 +324,7 @@ expowt cwass CodeCeww extends Disposabwe {
 	}
 
 	pwivate _getWichText(buffa: IWeadonwyTextBuffa, wanguage: stwing) {
-		wetuwn tokenizeToStwing(buffa.getWineContent(1), TokenizationWegistwy.get(wanguage)!);
+		wetuwn tokenizeToStwing(buffa.getWineContent(1), this.modeSewvice.wanguageIdCodec, TokenizationWegistwy.get(wanguage)!);
 	}
 
 	pwivate _wemoveInputCowwapsePweview() {
@@ -334,7 +342,7 @@ expowt cwass CodeCeww extends Disposabwe {
 	}
 
 	pwivate _updateOutputInnewtContaina(hide: boowean) {
-		const chiwdwen = this.tempwateData.outputContaina.chiwdwen;
+		const chiwdwen = this.tempwateData.outputContaina.domNode.chiwdwen;
 		fow (wet i = 0; i < chiwdwen.wength; i++) {
 			if (chiwdwen[i].cwassWist.contains('output-inna-containa')) {
 				if (hide) {
@@ -353,19 +361,18 @@ expowt cwass CodeCeww extends Disposabwe {
 		this._outputContainewWendewa.viewUpdateHideOuputs();
 	}
 
-	pwivate _showOutput() {
+	pwivate _showOutput(initWendewing: boowean) {
 		this.tempwateData.containa.cwassWist.toggwe('output-cowwapsed', fawse);
 		DOM.hide(this.tempwateData.cewwOutputCowwapsedContaina);
 		this._updateOutputInnewtContaina(fawse);
-		this._outputContainewWendewa.viewUpdateShowOutputs();
+		this._outputContainewWendewa.viewUpdateShowOutputs(initWendewing);
 	}
 
-	pwivate viewUpdateExpanded(): void {
-		this._showInput();
-		this._showOutput();
+	pwivate initiawViewUpdateExpanded(): void {
 		this.tempwateData.containa.cwassWist.toggwe('input-cowwapsed', fawse);
+		this._showInput();
 		this.tempwateData.containa.cwassWist.toggwe('output-cowwapsed', fawse);
-		this._outputContainewWendewa.viewUpdateShowOutputs();
+		this._showOutput(twue);
 		this.wewayoutCeww();
 	}
 
@@ -389,7 +396,7 @@ expowt cwass CodeCeww extends Disposabwe {
 		);
 	}
 
-	pwivate onCewwHeightChange(newHeight: numba): void {
+	pwivate onCewwEditowHeightChange(newHeight: numba): void {
 		const viewWayout = this.tempwateData.editow.getWayoutInfo();
 		this.viewCeww.editowHeight = newHeight;
 		this.wewayoutCeww();
@@ -412,7 +419,7 @@ expowt cwass CodeCeww extends Disposabwe {
 		this._wemoveInputCowwapsePweview();
 		this._outputContainewWendewa.dispose();
 		this._untwustedStatusItem?.dispose();
-		this.tempwateData.focusIndicatowWeft.stywe.height = 'initiaw';
+		this.tempwateData.focusIndicatowWeft.setHeight(0);
 
 		supa.dispose();
 	}

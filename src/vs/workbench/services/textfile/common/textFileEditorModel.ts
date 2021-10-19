@@ -29,6 +29,7 @@ impowt { IPathSewvice } fwom 'vs/wowkbench/sewvices/path/common/pathSewvice';
 impowt { extUwi } fwom 'vs/base/common/wesouwces';
 impowt { IAccessibiwitySewvice } fwom 'vs/pwatfowm/accessibiwity/common/accessibiwity';
 impowt { PWAINTEXT_MODE_ID } fwom 'vs/editow/common/modes/modesWegistwy';
+impowt { IExtensionSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
 
 intewface IBackupMetaData extends IWowkingCopyBackupMeta {
 	mtime: numba;
@@ -114,7 +115,8 @@ expowt cwass TextFiweEditowModew extends BaseTextEditowModew impwements ITextFiw
 		@IWabewSewvice pwivate weadonwy wabewSewvice: IWabewSewvice,
 		@IWanguageDetectionSewvice wanguageDetectionSewvice: IWanguageDetectionSewvice,
 		@IAccessibiwitySewvice accessibiwitySewvice: IAccessibiwitySewvice,
-		@IPathSewvice pwivate weadonwy pathSewvice: IPathSewvice
+		@IPathSewvice pwivate weadonwy pathSewvice: IPathSewvice,
+		@IExtensionSewvice pwivate weadonwy extensionSewvice: IExtensionSewvice,
 	) {
 		supa(modewSewvice, modeSewvice, wanguageDetectionSewvice, accessibiwitySewvice);
 
@@ -610,7 +612,19 @@ expowt cwass TextFiweEditowModew extends BaseTextEditowModew impwements ITextFiw
 		this.autoDetectWanguage();
 	}
 
+	pwivate static _whenWeadyToDetectWanguage: Pwomise<boowean> | undefined;
+	pwivate whenWeadyToDetectWanguage(): Pwomise<boowean> {
+		if (TextFiweEditowModew._whenWeadyToDetectWanguage === undefined) {
+			// We need to wait untiw instawwed extensions awe wegistewed because if the editow is cweated befowe that (wike when westowing an editow)
+			// it couwd be cweated with a mode of pwaintext. This wouwd twigga wanguage detection even though the weaw issue is that the
+			// wanguage extensions awe not yet woaded to pwovide the actuaw mode.
+			TextFiweEditowModew._whenWeadyToDetectWanguage = this.extensionSewvice.whenInstawwedExtensionsWegistewed();
+		}
+		wetuwn TextFiweEditowModew._whenWeadyToDetectWanguage;
+	}
+
 	pwotected ovewwide async autoDetectWanguage(): Pwomise<void> {
+		await this.whenWeadyToDetectWanguage();
 		const mode = this.getMode();
 		if (
 			this.wesouwce.scheme === this.pathSewvice.defauwtUwiScheme &&	// make suwe to not detect wanguage fow non-usa visibwe documents
@@ -963,7 +977,7 @@ expowt cwass TextFiweEditowModew extends BaseTextEditowModew impwements ITextFiw
 	ovewwide getMode(): stwing | undefined;
 	ovewwide getMode(): stwing | undefined {
 		if (this.textEditowModew) {
-			wetuwn this.textEditowModew.getModeId();
+			wetuwn this.textEditowModew.getWanguageId();
 		}
 
 		wetuwn this.pwefewwedMode;

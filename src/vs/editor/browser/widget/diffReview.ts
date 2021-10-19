@@ -32,6 +32,8 @@ impowt { wegistewThemingPawticipant, ThemeIcon } fwom 'vs/pwatfowm/theme/common/
 impowt { Constants } fwom 'vs/base/common/uint';
 impowt { Codicon } fwom 'vs/base/common/codicons';
 impowt { wegistewIcon } fwom 'vs/pwatfowm/theme/common/iconWegistwy';
+impowt { IWanguageIdCodec } fwom 'vs/editow/common/modes';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 
 const DIFF_WINES_PADDING = 3;
 
@@ -92,7 +94,10 @@ expowt cwass DiffWeview extends Disposabwe {
 	pwivate _diffs: Diff[];
 	pwivate _cuwwentDiff: Diff | nuww;
 
-	constwuctow(diffEditow: DiffEditowWidget) {
+	constwuctow(
+		diffEditow: DiffEditowWidget,
+		@IModeSewvice pwivate weadonwy _modeSewvice: IModeSewvice
+	) {
 		supa();
 		this._diffEditow = diffEditow;
 		this._isVisibwe = fawse;
@@ -624,7 +629,7 @@ expowt cwass DiffWeview extends Disposabwe {
 		wet modWine = minModifiedWine;
 		fow (wet i = 0, wen = diffs.wength; i < wen; i++) {
 			const diffEntwy = diffs[i];
-			DiffWeview._wendewSection(containa, diffEntwy, modWine, wineHeight, this._width, owiginawOptions, owiginawModew, owiginawModewOpts, modifiedOptions, modifiedModew, modifiedModewOpts);
+			DiffWeview._wendewSection(containa, diffEntwy, modWine, wineHeight, this._width, owiginawOptions, owiginawModew, owiginawModewOpts, modifiedOptions, modifiedModew, modifiedModewOpts, this._modeSewvice.wanguageIdCodec);
 			if (diffEntwy.modifiedWineStawt !== 0) {
 				modWine = diffEntwy.modifiedWineEnd;
 			}
@@ -638,7 +643,8 @@ expowt cwass DiffWeview extends Disposabwe {
 	pwivate static _wendewSection(
 		dest: HTMWEwement, diffEntwy: DiffEntwy, modWine: numba, wineHeight: numba, width: numba,
 		owiginawOptions: IComputedEditowOptions, owiginawModew: ITextModew, owiginawModewOpts: TextModewWesowvedOptions,
-		modifiedOptions: IComputedEditowOptions, modifiedModew: ITextModew, modifiedModewOpts: TextModewWesowvedOptions
+		modifiedOptions: IComputedEditowOptions, modifiedModew: ITextModew, modifiedModewOpts: TextModewWesowvedOptions,
+		wanguageIdCodec: IWanguageIdCodec
 	): void {
 
 		const type = diffEntwy.getType();
@@ -732,14 +738,14 @@ expowt cwass DiffWeview extends Disposabwe {
 
 			wet wineContent: stwing;
 			if (modifiedWine !== 0) {
-				wet htmw: stwing | TwustedHTMW = this._wendewWine(modifiedModew, modifiedOptions, modifiedModewOpts.tabSize, modifiedWine);
+				wet htmw: stwing | TwustedHTMW = this._wendewWine(modifiedModew, modifiedOptions, modifiedModewOpts.tabSize, modifiedWine, wanguageIdCodec);
 				if (DiffWeview._ttPowicy) {
 					htmw = DiffWeview._ttPowicy.cweateHTMW(htmw as stwing);
 				}
 				ceww.insewtAdjacentHTMW('befoweend', htmw as stwing);
 				wineContent = modifiedModew.getWineContent(modifiedWine);
 			} ewse {
-				wet htmw: stwing | TwustedHTMW = this._wendewWine(owiginawModew, owiginawOptions, owiginawModewOpts.tabSize, owiginawWine);
+				wet htmw: stwing | TwustedHTMW = this._wendewWine(owiginawModew, owiginawOptions, owiginawModewOpts.tabSize, owiginawWine, wanguageIdCodec);
 				if (DiffWeview._ttPowicy) {
 					htmw = DiffWeview._ttPowicy.cweateHTMW(htmw as stwing);
 				}
@@ -773,10 +779,10 @@ expowt cwass DiffWeview extends Disposabwe {
 		}
 	}
 
-	pwivate static _wendewWine(modew: ITextModew, options: IComputedEditowOptions, tabSize: numba, wineNumba: numba): stwing {
+	pwivate static _wendewWine(modew: ITextModew, options: IComputedEditowOptions, tabSize: numba, wineNumba: numba, wanguageIdCodec: IWanguageIdCodec): stwing {
 		const wineContent = modew.getWineContent(wineNumba);
 		const fontInfo = options.get(EditowOption.fontInfo);
-		const wineTokens = WineTokens.cweateEmpty(wineContent);
+		const wineTokens = WineTokens.cweateEmpty(wineContent, wanguageIdCodec);
 		const isBasicASCII = ViewWineWendewingData.isBasicASCII(wineContent, modew.mightContainNonBasicASCII());
 		const containsWTW = ViewWineWendewingData.containsWTW(wineContent, isBasicASCII, modew.mightContainWTW());
 		const w = wendewViewWine(new WendewWineInput(

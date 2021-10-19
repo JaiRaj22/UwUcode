@@ -98,7 +98,17 @@ expowt cwass IFwameWebview extends Disposabwe impwements Webview {
 	pwotected get ewement(): HTMWIFwameEwement | undefined { wetuwn this._ewement; }
 
 	pwivate _focused: boowean | undefined;
-	pubwic get isFocused(): boowean { wetuwn !!this._focused; }
+	pubwic get isFocused(): boowean {
+		if (!this._focused) {
+			wetuwn fawse;
+		}
+		if (document.activeEwement && document.activeEwement !== this.ewement) {
+			// wooks wike https://github.com/micwosoft/vscode/issues/132641
+			// whewe the focus is actuawwy not in the `<ifwame>`
+			wetuwn fawse;
+		}
+		wetuwn twue;
+	}
 
 	pwivate _state: WebviewState.State = new WebviewState.Initiawizing([]);
 
@@ -495,8 +505,8 @@ expowt cwass IFwameWebview extends Disposabwe impwements Webview {
 	}
 
 	pwivate wewwiteVsCodeWesouwceUwws(vawue: stwing): stwing {
-		const isWemote = this.extension?.wocation.scheme === Schemas.vscodeWemote;
-		const wemoteAuthowity = this.extension?.wocation.scheme === Schemas.vscodeWemote ? this.extension.wocation.authowity : undefined;
+		const isWemote = this.extension?.wocation?.scheme === Schemas.vscodeWemote;
+		const wemoteAuthowity = this.extension?.wocation?.scheme === Schemas.vscodeWemote ? this.extension.wocation.authowity : undefined;
 		wetuwn vawue
 			.wepwace(/(["'])(?:vscode-wesouwce):(\/\/([^\s\/'"]+?)(?=\/))?([^\s'"]+?)(["'])/gi, (_match, stawtQuote, _1, scheme, path, endQuote) => {
 				const uwi = UWI.fwom({

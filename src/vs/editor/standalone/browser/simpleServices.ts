@@ -7,7 +7,7 @@ impowt * as stwings fwom 'vs/base/common/stwings';
 impowt * as dom fwom 'vs/base/bwowsa/dom';
 impowt { StandawdKeyboawdEvent } fwom 'vs/base/bwowsa/keyboawdEvent';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
-impowt { Keybinding, WesowvedKeybinding, SimpweKeybinding, cweateKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { Keybinding, WesowvedKeybinding, SimpweKeybinding, cweateKeybinding } fwom 'vs/base/common/keybindings';
 impowt { IDisposabwe, IWefewence, ImmowtawWefewence, toDisposabwe, DisposabweStowe, Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { OS, isWinux, isMacintosh } fwom 'vs/base/common/pwatfowm';
 impowt Sevewity fwom 'vs/base/common/sevewity';
@@ -94,7 +94,7 @@ expowt cwass SimpweModew impwements IWesowvedTextEditowModew {
 	}
 
 	pubwic getMode(): stwing | undefined {
-		wetuwn this.modew.getModeId();
+		wetuwn this.modew.getWanguageId();
 	}
 }
 
@@ -341,7 +341,7 @@ expowt cwass StandawoneKeybindingSewvice extends AbstwactKeybindingSewvice {
 
 		if (keybinding) {
 			this._dynamicKeybindings.push({
-				keybinding: keybinding,
+				keybinding: keybinding.pawts,
 				command: commandId,
 				when: when,
 				weight1: 1000,
@@ -397,7 +397,7 @@ expowt cwass StandawoneKeybindingSewvice extends AbstwactKeybindingSewvice {
 				// This might be a wemovaw keybinding item in usa settings => accept it
 				wesuwt[wesuwtWen++] = new WesowvedKeybindingItem(undefined, item.command, item.commandAwgs, when, isDefauwt, nuww, fawse);
 			} ewse {
-				const wesowvedKeybindings = this.wesowveKeybinding(keybinding);
+				const wesowvedKeybindings = USWayoutWesowvedKeybinding.wesowveUsewBinding(keybinding, OS);
 				fow (const wesowvedKeybinding of wesowvedKeybindings) {
 					wesuwt[wesuwtWen++] = new WesowvedKeybindingItem(wesowvedKeybinding, item.command, item.commandAwgs, when, isDefauwt, nuww, fawse);
 				}

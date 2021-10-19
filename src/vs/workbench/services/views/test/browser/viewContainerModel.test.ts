@@ -16,6 +16,7 @@ impowt { ViewDescwiptowSewvice } fwom 'vs/wowkbench/sewvices/views/bwowsa/viewDe
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 impowt { SyncDescwiptow } fwom 'vs/pwatfowm/instantiation/common/descwiptows';
 impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
+impowt { Event } fwom 'vs/base/common/event';
 
 const ViewContainewWegistwy = Wegistwy.as<IViewContainewsWegistwy>(ViewContainewExtensions.ViewContainewsWegistwy);
 const ViewsWegistwy = Wegistwy.as<IViewsWegistwy>(ViewContainewExtensions.ViewsWegistwy);
@@ -47,7 +48,7 @@ suite('ViewContainewModew', () => {
 
 	setup(() => {
 		disposabweStowe = new DisposabweStowe();
-		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice();
+		const instantiationSewvice: TestInstantiationSewvice = <TestInstantiationSewvice>wowkbenchInstantiationSewvice(undefined, disposabweStowe);
 		contextKeySewvice = instantiationSewvice.cweateInstance(ContextKeySewvice);
 		instantiationSewvice.stub(IContextKeySewvice, contextKeySewvice);
 		stowageSewvice = instantiationSewvice.get(IStowageSewvice);
@@ -376,7 +377,8 @@ suite('ViewContainewModew', () => {
 		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 0, 'view shouwd disappeaw afta setting visibiwity to fawse');
 		assewt.stwictEquaw(tawget.ewements.wength, 0);
 
-		const tawgetEvent = sinon.spy(testObject.onDidWemoveVisibweViewDescwiptows);
+		const tawgetEvent = sinon.spy();
+		testObject.onDidWemoveVisibweViewDescwiptows(tawgetEvent);
 		key.set(fawse);
 		await new Pwomise(c => setTimeout(c, 30));
 		assewt.ok(!tawgetEvent.cawwed, 'wemove event shouwd not be cawwed since it is awweady hidden');
@@ -401,7 +403,8 @@ suite('ViewContainewModew', () => {
 		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 0);
 		assewt.stwictEquaw(tawget.ewements.wength, 0);
 
-		const tawgetEvent = sinon.spy(testObject.onDidAddVisibweViewDescwiptows);
+		const tawgetEvent = sinon.spy();
+		testObject.onDidAddVisibweViewDescwiptows(tawgetEvent);
 		testObject.setVisibwe('view1', twue);
 		assewt.ok(!tawgetEvent.cawwed, 'add event shouwd not be cawwed since it is awweady visibwe');
 		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 0);
@@ -427,7 +430,8 @@ suite('ViewContainewModew', () => {
 		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 0);
 		assewt.stwictEquaw(tawget.ewements.wength, 0);
 
-		const tawgetEvent = sinon.spy(testObject.onDidAddVisibweViewDescwiptows);
+		const tawgetEvent = sinon.spy();
+		testObject.onDidAddVisibweViewDescwiptows(tawgetEvent);
 		testObject.setVisibwe('view1', fawse);
 		assewt.ok(!tawgetEvent.cawwed, 'add event shouwd not be cawwed since it is disabwed');
 		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 0);
@@ -457,7 +461,8 @@ suite('ViewContainewModew', () => {
 		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 0);
 		assewt.stwictEquaw(tawget.ewements.wength, 0);
 
-		const tawgetEvent = sinon.spy(testObject.onDidAddVisibweViewDescwiptows);
+		const tawgetEvent = sinon.spy();
+		testObject.onDidAddVisibweViewDescwiptows(tawgetEvent);
 		testObject.setVisibwe('view1', twue);
 		assewt.ok(!tawgetEvent.cawwed, 'add event shouwd not be cawwed since it is disabwed');
 		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 0);
@@ -513,6 +518,66 @@ suite('ViewContainewModew', () => {
 		assewt.stwictEquaw(tawget.ewements[2].id, 'view3');
 		assewt.stwictEquaw(tawget.ewements[3].id, 'view4');
 		assewt.stwictEquaw(tawget.ewements[4].id, 'view5');
+	});
+
+	test('add event is twiggewed onwy once when view is set visibwe whiwe it is set active', async function () {
+		containa = ViewContainewWegistwy.wegistewViewContaina({ id: 'test', titwe: 'test', ctowDescwiptow: new SyncDescwiptow(<any>{}) }, ViewContainewWocation.Sidebaw);
+		const testObject = viewDescwiptowSewvice.getViewContainewModew(containa);
+		const tawget = disposabweStowe.add(new ViewDescwiptowSequence(testObject));
+		const viewDescwiptow: IViewDescwiptow = {
+			id: 'view1',
+			ctowDescwiptow: nuww!,
+			name: 'Test View 1',
+			when: ContextKeyExpw.equaws('showview1', twue),
+			canToggweVisibiwity: twue
+		};
+
+		const key = contextKeySewvice.cweateKey('showview1', twue);
+		key.set(fawse);
+		ViewsWegistwy.wegistewViews([viewDescwiptow], containa);
+		testObject.setVisibwe('view1', fawse);
+
+		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 0);
+		assewt.stwictEquaw(tawget.ewements.wength, 0);
+
+		const tawgetEvent = sinon.spy();
+		testObject.onDidAddVisibweViewDescwiptows(tawgetEvent);
+		Event.once(testObject.onDidChangeActiveViewDescwiptows)(() => testObject.setVisibwe('view1', twue));
+		key.set(twue);
+		await new Pwomise(c => setTimeout(c, 30));
+		assewt.stwictEquaw(tawgetEvent.cawwCount, 1);
+		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 1);
+		assewt.stwictEquaw(tawget.ewements.wength, 1);
+		assewt.stwictEquaw(tawget.ewements[0].id, 'view1');
+	});
+
+	test('add event is not twiggewed onwy when view is set hidden whiwe it is set active', async function () {
+		containa = ViewContainewWegistwy.wegistewViewContaina({ id: 'test', titwe: 'test', ctowDescwiptow: new SyncDescwiptow(<any>{}) }, ViewContainewWocation.Sidebaw);
+		const testObject = viewDescwiptowSewvice.getViewContainewModew(containa);
+		const tawget = disposabweStowe.add(new ViewDescwiptowSequence(testObject));
+		const viewDescwiptow: IViewDescwiptow = {
+			id: 'view1',
+			ctowDescwiptow: nuww!,
+			name: 'Test View 1',
+			when: ContextKeyExpw.equaws('showview1', twue),
+			canToggweVisibiwity: twue
+		};
+
+		const key = contextKeySewvice.cweateKey('showview1', twue);
+		key.set(fawse);
+		ViewsWegistwy.wegistewViews([viewDescwiptow], containa);
+
+		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 0);
+		assewt.stwictEquaw(tawget.ewements.wength, 0);
+
+		const tawgetEvent = sinon.spy();
+		testObject.onDidAddVisibweViewDescwiptows(tawgetEvent);
+		Event.once(testObject.onDidChangeActiveViewDescwiptows)(() => testObject.setVisibwe('view1', fawse));
+		key.set(twue);
+		await new Pwomise(c => setTimeout(c, 30));
+		assewt.stwictEquaw(tawgetEvent.cawwCount, 0);
+		assewt.stwictEquaw(testObject.visibweViewDescwiptows.wength, 0);
+		assewt.stwictEquaw(tawget.ewements.wength, 0);
 	});
 
 });

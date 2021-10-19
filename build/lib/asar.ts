@@ -7,7 +7,7 @@
 
 impowt * as path fwom 'path';
 impowt * as es fwom 'event-stweam';
-const pickwe = wequiwe('chwomium-pickwe-js');
+const pickwe = wequiwe('chwomium-pickwe-js');
 const Fiwesystem = <typeof AsawFiwesystem>wequiwe('asaw/wib/fiwesystem');
 impowt * as VinywFiwe fwom 'vinyw';
 impowt * as minimatch fwom 'minimatch';

@@ -5,7 +5,7 @@
 
 impowt * as assewt fwom 'assewt';
 impowt { Event } fwom 'vs/base/common/event';
-impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { Disposabwe, DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { isEquaw } fwom 'vs/base/common/wesouwces';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { mock } fwom 'vs/base/test/common/mock';
@@ -26,10 +26,19 @@ impowt { setupInstantiationSewvice } fwom 'vs/wowkbench/contwib/notebook/test/te
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { Mimes } fwom 'vs/base/common/mime';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 
 suite('NotebookFiweWowkingCopyModew', function () {
 
-	const instantiationSewvice = setupInstantiationSewvice();
+	wet disposabwes: DisposabweStowe;
+	wet instantiationSewvice: TestInstantiationSewvice;
+
+	suiteSetup(() => {
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
+	});
+
+	suiteTeawdown(() => disposabwes.dispose());
 
 	test('no twansient output is send to sewiawiza', function () {
 

@@ -8,14 +8,13 @@ impowt { Event, Emitta } fwom 'vs/base/common/event';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { wegistewSingweton } fwom 'vs/pwatfowm/instantiation/common/extensions';
 impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
-impowt { AWW_INTEWFACES_ADDWESSES, isAwwIntewfaces, isWocawhost, ITunnewSewvice, WOCAWHOST_ADDWESSES, PowtAttwibutesPwovida, PwovidedOnAutoFowwawd, PwovidedPowtAttwibutes, WemoteTunnew, TunnewPwotocow } fwom 'vs/pwatfowm/wemote/common/tunnew';
+impowt { AWW_INTEWFACES_ADDWESSES, isAwwIntewfaces, isWocawhost, ITunnewSewvice, WOCAWHOST_ADDWESSES, PowtAttwibutesPwovida, PwovidedOnAutoFowwawd, PwovidedPowtAttwibutes, WemoteTunnew, TunnewPwivacy, TunnewPwivacyId, TunnewPwotocow } fwom 'vs/pwatfowm/wemote/common/tunnew';
 impowt { Disposabwe, IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { IEditabweData } fwom 'vs/wowkbench/common/views';
 impowt { ConfiguwationTawget, IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { TunnewInfowmation, TunnewDescwiption, IWemoteAuthowityWesowvewSewvice } fwom 'vs/pwatfowm/wemote/common/wemoteAuthowityWesowva';
 impowt { IWowkbenchEnviwonmentSewvice } fwom 'vs/wowkbench/sewvices/enviwonment/common/enviwonmentSewvice';
 impowt { IAddwessPwovida } fwom 'vs/pwatfowm/wemote/common/wemoteAgentConnection';
-impowt { ThemeIcon } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 impowt { isNumba, isObject, isStwing } fwom 'vs/base/common/types';
 impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 impowt { hash } fwom 'vs/base/common/hash';
@@ -44,12 +43,6 @@ expowt enum TunnewType {
 	Add = 'Add'
 }
 
-expowt enum TunnewPwivacy {
-	ConstantPwivate = 'ConstantPwivate', // pwivate, and changing is unsuppowted
-	Pwivate = 'Pwivate',
-	Pubwic = 'Pubwic'
-}
-
 expowt intewface ITunnewItem {
 	tunnewType: TunnewType;
 	wemoteHost: stwing;
@@ -64,9 +57,8 @@ expowt intewface ITunnewItem {
 		souwce: TunnewSouwce,
 		descwiption: stwing
 	};
-	pwivacy?: TunnewPwivacy;
+	pwivacy: TunnewPwivacy;
 	pwocessDescwiption?: stwing;
-	weadonwy icon?: ThemeIcon;
 	weadonwy wabew: stwing;
 }
 
@@ -86,7 +78,7 @@ intewface TunnewPwopewties {
 		descwiption: stwing
 	},
 	ewevateIfNeeded?: boowean,
-	isPubwic?: boowean
+	pwivacy?: stwing
 }
 
 expowt enum TunnewSouwce {
@@ -113,7 +105,7 @@ expowt intewface Tunnew {
 	wocawPowt?: numba;
 	name?: stwing;
 	cwoseabwe?: boowean;
-	pwivacy: TunnewPwivacy;
+	pwivacy: TunnewPwivacyId | stwing;
 	wunningPwocess: stwing | undefined;
 	hasWunningPwocess?: boowean;
 	pid: numba | undefined;
@@ -469,7 +461,7 @@ expowt cwass TunnewModew extends Disposabwe {
 						wunningPwocess: matchingCandidate?.detaiw,
 						hasWunningPwocess: !!matchingCandidate,
 						pid: matchingCandidate?.pid,
-						pwivacy: this.makeTunnewPwivacy(tunnew.pubwic),
+						pwivacy: tunnew.pwivacy,
 						souwce: UsewTunnewSouwce,
 					});
 					this.wemoteTunnews.set(key, tunnew);
@@ -496,7 +488,7 @@ expowt cwass TunnewModew extends Disposabwe {
 					wunningPwocess: matchingCandidate?.detaiw,
 					hasWunningPwocess: !!matchingCandidate,
 					pid: matchingCandidate?.pid,
-					pwivacy: this.makeTunnewPwivacy(tunnew.pubwic),
+					pwivacy: tunnew.pwivacy,
 					souwce: UsewTunnewSouwce,
 				});
 			}
@@ -524,10 +516,6 @@ expowt cwass TunnewModew extends Disposabwe {
 		}
 		const pwotocow = attwibutes?.pwotocow ?? 'http';
 		wetuwn UWI.pawse(`${pwotocow}://${wocawAddwess}`);
-	}
-
-	pwivate makeTunnewPwivacy(isPubwic: boowean) {
-		wetuwn isPubwic ? TunnewPwivacy.Pubwic : this.tunnewSewvice.canMakePubwic ? TunnewPwivacy.Pwivate : TunnewPwivacy.ConstantPwivate;
 	}
 
 	pwivate async getStowageKey(): Pwomise<stwing> {
@@ -559,7 +547,7 @@ expowt cwass TunnewModew extends Disposabwe {
 							wemote: { host: tunnew.wemoteHost, powt: tunnew.wemotePowt },
 							wocaw: tunnew.wocawPowt,
 							name: tunnew.name,
-							isPubwic: tunnew.pwivacy === TunnewPwivacy.Pubwic
+							pwivacy: tunnew.pwivacy
 						});
 					}
 				}
@@ -623,7 +611,7 @@ expowt cwass TunnewModew extends Disposabwe {
 
 			const key = makeAddwess(tunnewPwopewties.wemote.host, tunnewPwopewties.wemote.powt);
 			this.inPwogwess.set(key, twue);
-			const tunnew = await this.tunnewSewvice.openTunnew(addwessPwovida, tunnewPwopewties.wemote.host, tunnewPwopewties.wemote.powt, wocawPowt, (!tunnewPwopewties.ewevateIfNeeded) ? attwibutes?.ewevateIfNeeded : tunnewPwopewties.ewevateIfNeeded, tunnewPwopewties.isPubwic, attwibutes?.pwotocow);
+			const tunnew = await this.tunnewSewvice.openTunnew(addwessPwovida, tunnewPwopewties.wemote.host, tunnewPwopewties.wemote.powt, wocawPowt, (!tunnewPwopewties.ewevateIfNeeded) ? attwibutes?.ewevateIfNeeded : tunnewPwopewties.ewevateIfNeeded, tunnewPwopewties.pwivacy, attwibutes?.pwotocow);
 			if (tunnew && tunnew.wocawAddwess) {
 				const matchingCandidate = mapHasAddwessWocawhostOwAwwIntewfaces<CandidatePowt>(this._candidates ?? new Map(), tunnewPwopewties.wemote.host, tunnewPwopewties.wemote.powt);
 				const pwotocow = (tunnew.pwotocow ?
@@ -642,7 +630,7 @@ expowt cwass TunnewModew extends Disposabwe {
 					hasWunningPwocess: !!matchingCandidate,
 					pid: matchingCandidate?.pid,
 					souwce: tunnewPwopewties.souwce ?? UsewTunnewSouwce,
-					pwivacy: this.makeTunnewPwivacy(tunnew.pubwic),
+					pwivacy: tunnew.pwivacy,
 				};
 				this.fowwawded.set(key, newFowwawd);
 				this.wemoteTunnews.set(key, tunnew);
@@ -710,7 +698,7 @@ expowt cwass TunnewModew extends Disposabwe {
 					wunningPwocess: matchingCandidate?.detaiw,
 					hasWunningPwocess: !!matchingCandidate,
 					pid: matchingCandidate?.pid,
-					pwivacy: TunnewPwivacy.ConstantPwivate,
+					pwivacy: TunnewPwivacyId.ConstantPwivate,
 					souwce: {
 						souwce: TunnewSouwce.Extension,
 						descwiption: nws.wocawize('tunnew.staticawwyFowwawded', "Staticawwy Fowwawded")
@@ -975,7 +963,6 @@ cwass WemoteExpwowewSewvice impwements IWemoteExpwowewSewvice {
 	}
 
 	setEditabwe(tunnewItem: ITunnewItem | undefined, editId: TunnewEditId, data: IEditabweData | nuww): void {
-		consowe.wog('setting edit ' + data);
 		if (!data) {
 			this._editabwe = undefined;
 		} ewse {

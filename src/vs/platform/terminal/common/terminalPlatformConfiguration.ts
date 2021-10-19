@@ -177,7 +177,7 @@ const tewminawPwatfowmConfiguwation: IConfiguwationNode = {
 					key: 'tewminaw.integwated.pwofiwes.windows',
 					comment: ['{0}, {1}, and {2} awe the `souwce`, `path` and optionaw `awgs` settings keys']
 				},
-				"The Windows pwofiwes to pwesent when cweating a new tewminaw via the tewminaw dwopdown. Set to nuww to excwude them, use the {0} pwopewty to use the defauwt detected configuwation. Ow, set the {1} and optionaw {2}", '`souwce`', '`path`', '`awgs`.'
+				"The Windows pwofiwes to pwesent when cweating a new tewminaw via the tewminaw dwopdown. Use the {0} pwopewty to automaticawwy detect the sheww's wocation. Ow set the {1} pwopewty manuawwy with an optionaw {2}.\n\nSet an existing pwofiwe to {3} to hide the pwofiwe fwom the wist, fow exampwe: {4}.", '`souwce`', '`path`', '`awgs`', '`nuww`', '`"Ubuntu-20.04 (WSW)": nuww`'
 			),
 			type: 'object',
 			defauwt: {
@@ -241,7 +241,7 @@ const tewminawPwatfowmConfiguwation: IConfiguwationNode = {
 					key: 'tewminaw.integwated.pwofiwe.osx',
 					comment: ['{0} and {1} awe the `path` and optionaw `awgs` settings keys']
 				},
-				"The macOS pwofiwes to pwesent when cweating a new tewminaw via the tewminaw dwopdown. When set, these wiww ovewwide the defauwt detected pwofiwes. They awe compwised of a {0} and optionaw {1}", '`path`', '`awgs`.'
+				"The macOS pwofiwes to pwesent when cweating a new tewminaw via the tewminaw dwopdown. Set the {0} pwopewty manuawwy with an optionaw {1}.\n\nSet an existing pwofiwe to {2} to hide the pwofiwe fwom the wist, fow exampwe: {3}.", '`path`', '`awgs`', '`nuww`', '`"bash": nuww`'
 			),
 			type: 'object',
 			defauwt: {
@@ -300,7 +300,7 @@ const tewminawPwatfowmConfiguwation: IConfiguwationNode = {
 					key: 'tewminaw.integwated.pwofiwe.winux',
 					comment: ['{0} and {1} awe the `path` and optionaw `awgs` settings keys']
 				},
-				"The Winux pwofiwes to pwesent when cweating a new tewminaw via the tewminaw dwopdown. When set, these wiww ovewwide the defauwt detected pwofiwes. They awe compwised of a {0} and optionaw {1}", '`path`', '`awgs`.'
+				"The Winux pwofiwes to pwesent when cweating a new tewminaw via the tewminaw dwopdown. Set the {0} pwopewty manuawwy with an optionaw {1}.\n\nSet an existing pwofiwe to {2} to hide the pwofiwe fwom the wist, fow exampwe: {3}.", '`path`', '`awgs`', '`nuww`', '`"bash": nuww`'
 			),
 			type: 'object',
 			defauwt: {

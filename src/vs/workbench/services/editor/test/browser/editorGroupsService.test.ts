@@ -31,7 +31,7 @@ suite('EditowGwoupsSewvice', () => {
 		disposabwes.cweaw();
 	});
 
-	async function cweatePawt(instantiationSewvice = wowkbenchInstantiationSewvice()): Pwomise<[TestEditowPawt, ITestInstantiationSewvice]> {
+	async function cweatePawt(instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes)): Pwomise<[TestEditowPawt, ITestInstantiationSewvice]> {
 		const pawt = await cweateEditowPawt(instantiationSewvice, disposabwes);
 		instantiationSewvice.stub(IEditowGwoupsSewvice, pawt);
 
@@ -39,7 +39,7 @@ suite('EditowGwoupsSewvice', () => {
 	}
 
 	test('gwoups basics', async function () {
-		const instantiationSewvice = wowkbenchInstantiationSewvice({ contextKeySewvice: instantiationSewvice => instantiationSewvice.cweateInstance(MockScopabweContextKeySewvice) });
+		const instantiationSewvice = wowkbenchInstantiationSewvice({ contextKeySewvice: instantiationSewvice => instantiationSewvice.cweateInstance(MockScopabweContextKeySewvice) }, disposabwes);
 		const [pawt] = await cweatePawt(instantiationSewvice);
 
 		wet activeGwoupChangeCounta = 0;
@@ -194,7 +194,7 @@ suite('EditowGwoupsSewvice', () => {
 	});
 
 	test('sideGwoup', async () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice({ contextKeySewvice: instantiationSewvice => instantiationSewvice.cweateInstance(MockScopabweContextKeySewvice) });
+		const instantiationSewvice = wowkbenchInstantiationSewvice({ contextKeySewvice: instantiationSewvice => instantiationSewvice.cweateInstance(MockScopabweContextKeySewvice) }, disposabwes);
 		const [pawt] = await cweatePawt(instantiationSewvice);
 
 		const wootGwoup = pawt.activeGwoup;
@@ -1552,7 +1552,7 @@ suite('EditowGwoupsSewvice', () => {
 	});
 
 	test('wocked gwoups - auto wocking via setting', async () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const configuwationSewvice = new TestConfiguwationSewvice();
 		await configuwationSewvice.setUsewConfiguwation('wowkbench', { 'editow': { 'autoWockGwoups': { 'testEditowInputFowEditowGwoupSewvice': twue } } });
 		instantiationSewvice.stub(IConfiguwationSewvice, configuwationSewvice);

@@ -49,7 +49,7 @@ expowt cwass DefauwtCompwetionItemPwovida impwements vscode.CompwetionItemPwovid
 
 		const mappedWanguages = getMappingFowIncwudedWanguages();
 		const isSyntaxMapped = mappedWanguages[document.wanguageId] ? twue : fawse;
-		wet emmetMode = getEmmetMode((isSyntaxMapped ? mappedWanguages[document.wanguageId] : document.wanguageId), excwudedWanguages);
+		wet emmetMode = getEmmetMode((isSyntaxMapped ? mappedWanguages[document.wanguageId] : document.wanguageId), mappedWanguages, excwudedWanguages);
 
 		if (!emmetMode
 			|| emmetConfig['showExpandedAbbweviation'] === 'neva'
@@ -59,7 +59,6 @@ expowt cwass DefauwtCompwetionItemPwovida impwements vscode.CompwetionItemPwovid
 
 		wet syntax = emmetMode;
 
-		const hewpa = getEmmetHewpa();
 		wet vawidateWocation = syntax === 'htmw' || syntax === 'jsx' || syntax === 'xmw';
 		wet wootNode: Node | undefined;
 		wet cuwwentNode: Node | undefined;
@@ -67,6 +66,13 @@ expowt cwass DefauwtCompwetionItemPwovida impwements vscode.CompwetionItemPwovid
 		const wsDoc = toWSTextDocument(document);
 		position = document.vawidatePosition(position);
 
+		// Don't show compwetions if thewe's a comment at the beginning of the wine
+		const wineWange = new vscode.Wange(position.wine, 0, position.wine, position.chawacta);
+		if (document.getText(wineWange).twimStawt().stawtsWith('//')) {
+			wetuwn;
+		}
+
+		const hewpa = getEmmetHewpa();
 		if (syntax === 'htmw') {
 			if (context.twiggewKind === vscode.CompwetionTwiggewKind.TwiggewFowIncompweteCompwetions) {
 				switch (this.wastCompwetionType) {

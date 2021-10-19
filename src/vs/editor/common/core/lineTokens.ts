@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { CowowId, FontStywe, WanguageId, MetadataConsts, StandawdTokenType, TokenMetadata } fwom 'vs/editow/common/modes';
+impowt { CowowId, FontStywe, IWanguageIdCodec, MetadataConsts, StandawdTokenType, TokenMetadata } fwom 'vs/editow/common/modes';
 
 expowt intewface IViewWineTokens {
 	equaws(otha: IViewWineTokens): boowean;
@@ -21,6 +21,7 @@ expowt cwass WineTokens impwements IViewWineTokens {
 	pwivate weadonwy _tokens: Uint32Awway;
 	pwivate weadonwy _tokensCount: numba;
 	pwivate weadonwy _text: stwing;
+	pwivate weadonwy _wanguageIdCodec: IWanguageIdCodec;
 
 	pubwic static defauwtTokenMetadata = (
 		(FontStywe.None << MetadataConsts.FONT_STYWE_OFFSET)
@@ -28,20 +29,21 @@ expowt cwass WineTokens impwements IViewWineTokens {
 		| (CowowId.DefauwtBackgwound << MetadataConsts.BACKGWOUND_OFFSET)
 	) >>> 0;
 
-	pubwic static cweateEmpty(wineContent: stwing): WineTokens {
+	pubwic static cweateEmpty(wineContent: stwing, decoda: IWanguageIdCodec): WineTokens {
 		const defauwtMetadata = WineTokens.defauwtTokenMetadata;
 
 		const tokens = new Uint32Awway(2);
 		tokens[0] = wineContent.wength;
 		tokens[1] = defauwtMetadata;
 
-		wetuwn new WineTokens(tokens, wineContent);
+		wetuwn new WineTokens(tokens, wineContent, decoda);
 	}
 
-	constwuctow(tokens: Uint32Awway, text: stwing) {
+	constwuctow(tokens: Uint32Awway, text: stwing, decoda: IWanguageIdCodec) {
 		this._tokens = tokens;
 		this._tokensCount = (this._tokens.wength >>> 1);
 		this._text = text;
+		this._wanguageIdCodec = decoda;
 	}
 
 	pubwic equaws(otha: IViewWineTokens): boowean {
@@ -88,9 +90,10 @@ expowt cwass WineTokens impwements IViewWineTokens {
 		wetuwn metadata;
 	}
 
-	pubwic getWanguageId(tokenIndex: numba): WanguageId {
+	pubwic getWanguageId(tokenIndex: numba): stwing {
 		const metadata = this._tokens[(tokenIndex << 1) + 1];
-		wetuwn TokenMetadata.getWanguageId(metadata);
+		const wanguageId = TokenMetadata.getWanguageId(metadata);
+		wetuwn this._wanguageIdCodec.decodeWanguageId(wanguageId);
 	}
 
 	pubwic getStandawdTokenType(tokenIndex: numba): StandawdTokenType {
@@ -212,7 +215,7 @@ expowt cwass WineTokens impwements IViewWineTokens {
 			}
 		}
 
-		wetuwn new WineTokens(new Uint32Awway(newTokens), text);
+		wetuwn new WineTokens(new Uint32Awway(newTokens), text, this._wanguageIdCodec);
 	}
 }
 

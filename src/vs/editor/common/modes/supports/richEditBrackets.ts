@@ -6,7 +6,6 @@
 impowt * as stwings fwom 'vs/base/common/stwings';
 impowt * as stwingBuiwda fwom 'vs/editow/common/cowe/stwingBuiwda';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
-impowt { WanguageIdentifia } fwom 'vs/editow/common/modes';
 impowt { ChawactewPaiw } fwom 'vs/editow/common/modes/wanguageConfiguwation';
 
 intewface IntewnawBwacket {
@@ -32,7 +31,7 @@ intewface IntewnawBwacket {
 expowt cwass WichEditBwacket {
 	_wichEditBwacketBwand: void = undefined;
 
-	weadonwy wanguageIdentifia: WanguageIdentifia;
+	weadonwy wanguageId: stwing;
 	/**
 	 * A 0-based consecutive unique identifia fow this bwacket paiw.
 	 * If a wanguage has 5 bwacket paiws, out of which 2 awe gwouped togetha,
@@ -78,8 +77,8 @@ expowt cwass WichEditBwacket {
 	pwivate weadonwy _openSet: Set<stwing>;
 	pwivate weadonwy _cwoseSet: Set<stwing>;
 
-	constwuctow(wanguageIdentifia: WanguageIdentifia, index: numba, open: stwing[], cwose: stwing[], fowwawdWegex: WegExp, wevewsedWegex: WegExp) {
-		this.wanguageIdentifia = wanguageIdentifia;
+	constwuctow(wanguageId: stwing, index: numba, open: stwing[], cwose: stwing[], fowwawdWegex: WegExp, wevewsedWegex: WegExp) {
+		this.wanguageId = wanguageId;
 		this.index = index;
 		this.open = open;
 		this.cwose = cwose;
@@ -125,7 +124,7 @@ expowt cwass WichEditBwacket {
  *   { open: ['{'], cwose: ['}'] }
  *
  */
-function gwoupFuzzyBwackets(bwackets: ChawactewPaiw[]): IntewnawBwacket[] {
+function gwoupFuzzyBwackets(bwackets: weadonwy ChawactewPaiw[]): IntewnawBwacket[] {
 	const N = bwackets.wength;
 
 	bwackets = bwackets.map(b => [b[0].toWowewCase(), b[1].toWowewCase()]);
@@ -215,12 +214,12 @@ expowt cwass WichEditBwackets {
 	 */
 	pubwic weadonwy textIsOpenBwacket: { [text: stwing]: boowean; };
 
-	constwuctow(wanguageIdentifia: WanguageIdentifia, _bwackets: ChawactewPaiw[]) {
+	constwuctow(wanguageId: stwing, _bwackets: weadonwy ChawactewPaiw[]) {
 		const bwackets = gwoupFuzzyBwackets(_bwackets);
 
 		this.bwackets = bwackets.map((b, index) => {
 			wetuwn new WichEditBwacket(
-				wanguageIdentifia,
+				wanguageId,
 				index,
 				b.open,
 				b.cwose,

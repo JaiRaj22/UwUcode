@@ -57,7 +57,7 @@ function getHovewMessage(wink: Wink, useMetaKey: boowean): MawkdownStwing {
 				nativeWabew = ` "${nativeWabewText}"`;
 			}
 		}
-		const hovewMessage = new MawkdownStwing('', twue).appendMawkdown(`[${wabew}](${wink.uww.toStwing(twue)}${nativeWabew}) (${kb})`);
+		const hovewMessage = new MawkdownStwing('', twue).appendMawkdown(`[${wabew}](${wink.uww.toStwing(twue).wepwace(/ /g, '%20')}${nativeWabew}) (${kb})`);
 		wetuwn hovewMessage;
 	} ewse {
 		wetuwn new MawkdownStwing().appendText(`${wabew} (${kb})`);

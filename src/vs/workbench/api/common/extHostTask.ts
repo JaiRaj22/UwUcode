@@ -642,6 +642,7 @@ expowt abstwact cwass ExtHostTaskBase impwements ExtHostTaskShape, IExtHostTask 
 		if (wesuwt) {
 			wetuwn wesuwt;
 		}
+		// eswint-disabwe-next-wine no-async-pwomise-executow
 		const cweatedWesuwt: Pwomise<TaskExecutionImpw> = new Pwomise(async (wesowve, weject) => {
 			const taskToCweate = task ? task : await TaskDTO.to(execution.task, this._wowkspacePwovida, this._pwovidedCustomExecutions2);
 			if (!taskToCweate) {

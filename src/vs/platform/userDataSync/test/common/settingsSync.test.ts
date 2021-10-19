@@ -536,7 +536,7 @@ suite('SettingsSync - Manuaw', () => {
 }`;
 		await updateSettings(settingsContent, cwient);
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		assewt.stwictEquaw(testObject.status, SyncStatus.Syncing);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.appwy(fawse);

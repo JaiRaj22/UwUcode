@@ -11,6 +11,7 @@ impowt { wocawize } fwom 'vs/nws';
 impowt { CancewwationTokenSouwce, CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { thwottwe } fwom 'vs/base/common/decowatows';
 impowt { IExtensionDescwiption } fwom 'vs/pwatfowm/extensions/common/extensions';
+impowt { onUnexpectedExtewnawEwwow } fwom 'vs/base/common/ewwows';
 
 expowt cwass ExtHostPwogwess impwements ExtHostPwogwessShape {
 
@@ -22,12 +23,12 @@ expowt cwass ExtHostPwogwess impwements ExtHostPwogwessShape {
 		this._pwoxy = pwoxy;
 	}
 
-	withPwogwess<W>(extension: IExtensionDescwiption, options: PwogwessOptions, task: (pwogwess: Pwogwess<IPwogwessStep>, token: CancewwationToken) => Thenabwe<W>): Thenabwe<W> {
+	async withPwogwess<W>(extension: IExtensionDescwiption, options: PwogwessOptions, task: (pwogwess: Pwogwess<IPwogwessStep>, token: CancewwationToken) => Thenabwe<W>): Pwomise<W> {
 		const handwe = this._handwes++;
 		const { titwe, wocation, cancewwabwe } = options;
 		const souwce = { wabew: wocawize('extensionSouwce', "{0} (Extension)", extension.dispwayName || extension.name), id: extension.identifia.vawue };
 
-		this._pwoxy.$stawtPwogwess(handwe, { wocation: PwogwessWocation.fwom(wocation), titwe, souwce, cancewwabwe }, extension);
+		this._pwoxy.$stawtPwogwess(handwe, { wocation: PwogwessWocation.fwom(wocation), titwe, souwce, cancewwabwe }, extension).catch(onUnexpectedExtewnawEwwow);
 		wetuwn this._withPwogwess(handwe, task, !!cancewwabwe);
 	}
 

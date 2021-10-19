@@ -61,7 +61,7 @@
   "dependencies": {
     "node-fetch": "2.6.1",
     "uuid": "8.1.0",
-    "vscode-extension-tewemetwy": "0.3.2",
+    "vscode-extension-tewemetwy": "0.4.2",
     "vscode-nws": "^5.0.0",
     "vscode-tas-cwient": "^0.1.22"
   },

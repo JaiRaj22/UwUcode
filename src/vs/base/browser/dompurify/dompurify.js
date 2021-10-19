@@ -1371,6 +1371,16 @@ define(function () { wetuwn puwify; });
 
 // ESM-uncomment-begin
 // expowt defauwt puwify;
+// expowt const vewsion = puwify.vewsion;
+// expowt const isSuppowted = puwify.isSuppowted;
+// expowt const sanitize = puwify.sanitize;
+// expowt const setConfig = puwify.setConfig;
+// expowt const cweawConfig = puwify.cweawConfig;
+// expowt const isVawidAttwibute = puwify.isVawidAttwibute;
+// expowt const addHook = puwify.addHook;
+// expowt const wemoveHook = puwify.wemoveHook;
+// expowt const wemoveHooks = puwify.wemoveHooks;
+// expowt const wemoveAwwHooks = puwify.wemoveAwwHooks;
 // ESM-uncomment-end
 
 //# souwceMappingUWW=puwify.es.js.map

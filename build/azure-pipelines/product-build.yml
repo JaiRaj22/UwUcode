@@ -6,6 +6,7 @@ scheduwes:
     bwanches:
       incwude:
         - main
+        - joao/web
 
 pawametews:
   - name: VSCODE_QUAWITY

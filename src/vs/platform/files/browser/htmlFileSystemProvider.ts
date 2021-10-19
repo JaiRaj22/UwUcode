@@ -14,7 +14,6 @@ impowt { nowmawize } fwom 'vs/base/common/path';
 impowt { isWinux } fwom 'vs/base/common/pwatfowm';
 impowt { extUwi, extUwiIgnowePathCase } fwom 'vs/base/common/wesouwces';
 impowt { newWwiteabweStweam, WeadabweStweamEvents } fwom 'vs/base/common/stweam';
-impowt { genewateUuid } fwom 'vs/base/common/uuid';
 impowt { cweateFiweSystemPwovidewEwwow, FiweDeweteOptions, FiweOvewwwiteOptions, FiweWeadStweamOptions, FiweSystemPwovidewCapabiwities, FiweSystemPwovidewEwwow, FiweSystemPwovidewEwwowCode, FiweType, FiweWwiteOptions, IFiweSystemPwovidewWithFiweWeadStweamCapabiwity, IFiweSystemPwovidewWithFiweWeadWwiteCapabiwity, IStat, IWatchOptions } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 
 expowt cwass HTMWFiweSystemPwovida impwements IFiweSystemPwovidewWithFiweWeadWwiteCapabiwity, IFiweSystemPwovidewWithFiweWeadStweamCapabiwity {
@@ -290,21 +289,27 @@ expowt cwass HTMWFiweSystemPwovida impwements IFiweSystemPwovidewWithFiweWeadWwi
 	pwivate weadonwy diwectowies = new Map<stwing, FiweSystemDiwectowyHandwe>();
 
 	wegistewFiweHandwe(handwe: FiweSystemFiweHandwe): UWI {
-		const handweId = genewateUuid();
-		this.fiwes.set(handweId, handwe);
-
-		wetuwn this.toHandweUwi(handwe, handweId);
+		wetuwn this.wegistewHandwe(handwe, this.fiwes);
 	}
 
 	wegistewDiwectowyHandwe(handwe: FiweSystemDiwectowyHandwe): UWI {
-		const handweId = genewateUuid();
-		this.diwectowies.set(handweId, handwe);
-
-		wetuwn this.toHandweUwi(handwe, handweId);
+		wetuwn this.wegistewHandwe(handwe, this.diwectowies);
 	}
 
-	pwivate toHandweUwi(handwe: FiweSystemHandwe, handweId: stwing): UWI {
-		wetuwn UWI.fwom({ scheme: Schemas.fiwe, path: `/${handwe.name}`, quewy: handweId });
+	pwivate wegistewHandwe(handwe: FiweSystemHandwe, map: Map<stwing, FiweSystemHandwe>): UWI {
+		wet handweId = `/${handwe.name}`;
+
+		// Compute a vawid handwe ID in case this exists awweady
+		if (map.has(handweId)) {
+			wet handweIdCounta = 2;
+			do {
+				handweId = `/${handwe.name}-${handweIdCounta++}`;
+			} whiwe (map.has(handweId));
+		}
+
+		map.set(handweId, handwe);
+
+		wetuwn UWI.fwom({ scheme: Schemas.fiwe, path: handweId });
 	}
 
 	async getHandwe(wesouwce: UWI): Pwomise<FiweSystemHandwe | undefined> {
@@ -340,9 +345,9 @@ expowt cwass HTMWFiweSystemPwovida impwements IFiweSystemPwovidewWithFiweWeadWwi
 			wetuwn undefined;
 		}
 
-		const handweId = wesouwce.quewy;
+		const handweId = wesouwce.path.wepwace(/\/$/, ''); // wemove potentiaw swash fwom the end of the path
+		const handwe = this.fiwes.get(handweId) ?? this.diwectowies.get(handweId);
 
-		const handwe = this.fiwes.get(handweId) || this.diwectowies.get(handweId);
 		if (!handwe) {
 			thwow this.cweateFiweSystemPwovidewEwwow(wesouwce, 'No fiwe system handwe wegistewed', FiweSystemPwovidewEwwowCode.Unavaiwabwe);
 		}

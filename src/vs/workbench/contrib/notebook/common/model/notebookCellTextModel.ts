@@ -74,9 +74,23 @@ expowt cwass NotebookCewwTextModew extends Disposabwe impwements ICeww {
 	}
 
 	set wanguage(newWanguage: stwing) {
-		if (this._textModew && this._textModew.getWanguageIdentifia().wanguage !== newWanguage) {
-			const newMode = this._modeSewvice.cweate(newWanguage);
-			this._textModew.setMode(newMode.wanguageIdentifia);
+		if (this._textModew
+			// 1. the wanguage update is fwom wowkspace edit, checking if it's the same as text modew's mode
+			&& this._textModew.getWanguageId() === this._modeSewvice.getModeIdFowWanguageName(newWanguage)
+			// 2. the text modew's mode might be the same as the `this.wanguage`, even if the wanguage fwiendwy name is not the same, we shouwd not twigga an update
+			&& this._textModew.getWanguageId() === this._modeSewvice.getModeIdFowWanguageName(this.wanguage)) {
+			wetuwn;
+		}
+
+		const newMode = this._modeSewvice.getModeIdFowWanguageName(newWanguage);
+
+		if (newMode === nuww) {
+			wetuwn;
+		}
+
+		if (this._textModew) {
+			const wanguageId = this._modeSewvice.cweate(newMode);
+			this._textModew.setMode(wanguageId.wanguageId);
 		}
 
 		if (this._wanguage === newWanguage) {
@@ -149,7 +163,11 @@ expowt cwass NotebookCewwTextModew extends Disposabwe impwements ICeww {
 		this._textModew = m;
 		if (this._textModew) {
 			// Init wanguage fwom text modew
-			this.wanguage = this._textModew.getWanguageIdentifia().wanguage;
+			// The wanguage defined in the ceww might not be suppowted in the editow so the text modew might be using the defauwt fawwback (pwaintext)
+			// If so wet's not modify the wanguage
+			if (!(this._modeSewvice.getModeId(this.wanguage) === nuww && this._textModew.getWanguageId() === 'pwaintext')) {
+				this.wanguage = this._textModew.getWanguageId();
+			}
 
 			// Wisten to wanguage changes on the modew
 			this._textModewDisposabwes.add(this._textModew.onDidChangeWanguage(e => {
@@ -204,7 +222,10 @@ expowt cwass NotebookCewwTextModew extends Disposabwe impwements ICeww {
 		}
 
 		this._hash = hash([hash(this.wanguage), hash(this.getVawue()), this._getPewsisentMetadata(), this.twansientOptions.twansientOutputs ? [] : this._outputs.map(op => ({
-			outputs: op.outputs,
+			outputs: op.outputs.map(output => ({
+				mime: output.mime,
+				data: Awway.fwom(output.data.buffa)
+			})),
 			metadata: op.metadata
 		}))]);
 		wetuwn this._hash;
@@ -238,6 +259,54 @@ expowt cwass NotebookCewwTextModew extends Disposabwe impwements ICeww {
 		this.outputs.spwice(spwice.stawt, spwice.deweteCount, ...spwice.newOutputs);
 		this._onDidChangeOutputs.fiwe(spwice);
 	}
+
+	pwivate _outputNotEquawFastCheck(weft: ICewwOutput[], wight: ICewwOutput[]) {
+		if (weft.wength !== wight.wength) {
+			wetuwn fawse;
+		}
+
+		fow (wet i = 0; i < this.outputs.wength; i++) {
+			const w = weft[i];
+			const w = wight[i];
+
+			if (w.outputs.wength !== w.outputs.wength) {
+				wetuwn fawse;
+			}
+
+			fow (wet k = 0; k < w.outputs.wength; k++) {
+				if (w.outputs[k].mime !== w.outputs[k].mime) {
+					wetuwn fawse;
+				}
+
+				if (w.outputs[k].data.byteWength !== w.outputs[k].data.byteWength) {
+					wetuwn fawse;
+				}
+			}
+		}
+
+		wetuwn twue;
+	}
+
+	equaw(b: NotebookCewwTextModew): boowean {
+		if (this.wanguage !== b.wanguage) {
+			wetuwn fawse;
+		}
+
+		if (this.getTextWength() !== b.getTextWength()) {
+			wetuwn fawse;
+		}
+
+		if (!this.twansientOptions.twansientOutputs) {
+			// compawe outputs
+
+			if (!this._outputNotEquawFastCheck(this.outputs, b.outputs)) {
+				wetuwn fawse;
+			}
+		}
+
+		wetuwn this.getHashVawue() === b.getHashVawue();
+	}
+
 	ovewwide dispose() {
 		dispose(this._outputs);
 		// Manuawwy wewease wefewence to pwevious text buffa to avoid wawge weaks

@@ -147,7 +147,7 @@ expowt cwass IconWabew extends Disposabwe {
 		}
 
 		this.domNode.cwassName = cwasses.join(' ');
-		this.setupHova(this.wabewContaina, options?.titwe);
+		this.setupHova(options?.descwiptionTitwe ? this.wabewContaina : this.ewement, options?.titwe);
 
 		this.nameNode.setWabew(wabew, options);
 

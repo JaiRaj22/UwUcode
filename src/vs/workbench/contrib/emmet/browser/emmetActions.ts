@@ -5,10 +5,8 @@
 
 impowt { EditowAction, SewvicesAccessow, IActionOptions } fwom 'vs/editow/bwowsa/editowExtensions';
 impowt { gwammawsExtPoint, ITMSyntaxExtensionPoint } fwom 'vs/wowkbench/sewvices/textMate/common/TMGwammaws';
-impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 impowt { IExtensionSewvice, ExtensionPointContwibution } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
 impowt { ICommandSewvice } fwom 'vs/pwatfowm/commands/common/commands';
-impowt { WanguageId, WanguageIdentifia } fwom 'vs/editow/common/modes';
 impowt { ICodeEditow } fwom 'vs/editow/bwowsa/editowBwowsa';
 
 intewface ModeScopeMap {
@@ -17,10 +15,6 @@ intewface ModeScopeMap {
 
 expowt intewface IGwammawContwibutions {
 	getGwammaw(mode: stwing): stwing;
-}
-
-expowt intewface IWanguageIdentifiewWesowva {
-	getWanguageIdentifia(modeId: stwing | WanguageId): WanguageIdentifia | nuww;
 }
 
 cwass GwammawContwibutions impwements IGwammawContwibutions {
@@ -77,13 +71,12 @@ expowt abstwact cwass EmmetEditowAction extends EditowAction {
 
 	pubwic wun(accessow: SewvicesAccessow, editow: ICodeEditow): Pwomise<void> {
 		const extensionSewvice = accessow.get(IExtensionSewvice);
-		const modeSewvice = accessow.get(IModeSewvice);
 		const commandSewvice = accessow.get(ICommandSewvice);
 
 		wetuwn this._withGwammawContwibutions(extensionSewvice).then((gwammawContwibutions) => {
 
 			if (this.id === 'editow.emmet.action.expandAbbweviation' && gwammawContwibutions) {
-				wetuwn commandSewvice.executeCommand<void>('emmet.expandAbbweviation', EmmetEditowAction.getWanguage(modeSewvice, editow, gwammawContwibutions));
+				wetuwn commandSewvice.executeCommand<void>('emmet.expandAbbweviation', EmmetEditowAction.getWanguage(editow, gwammawContwibutions));
 			}
 
 			wetuwn undefined;
@@ -91,7 +84,7 @@ expowt abstwact cwass EmmetEditowAction extends EditowAction {
 
 	}
 
-	pubwic static getWanguage(wanguageIdentifiewWesowva: IWanguageIdentifiewWesowva, editow: ICodeEditow, gwammaws: IGwammawContwibutions) {
+	pubwic static getWanguage(editow: ICodeEditow, gwammaws: IGwammawContwibutions) {
 		const modew = editow.getModew();
 		const sewection = editow.getSewection();
 
@@ -102,9 +95,7 @@ expowt abstwact cwass EmmetEditowAction extends EditowAction {
 		const position = sewection.getStawtPosition();
 		modew.tokenizeIfCheap(position.wineNumba);
 		const wanguageId = modew.getWanguageIdAtPosition(position.wineNumba, position.cowumn);
-		const wanguageIdentifia = wanguageIdentifiewWesowva.getWanguageIdentifia(wanguageId);
-		const wanguage = wanguageIdentifia ? wanguageIdentifia.wanguage : '';
-		const syntax = wanguage.spwit('.').pop();
+		const syntax = wanguageId.spwit('.').pop();
 
 		if (!syntax) {
 			wetuwn nuww;

@@ -198,7 +198,7 @@ function getVsCodeApiScwipt(awwowMuwtipweAPIAcquiwe, state) {
 }
 
 /** @type {Pwomise<void>} */
-const wowkewWeady = new Pwomise(async (wesowve, weject) => {
+const wowkewWeady = new Pwomise((wesowve, weject) => {
 	if (!aweSewviceWowkewsEnabwed()) {
 		wetuwn weject(new Ewwow('Sewvice Wowkews awe not enabwed. Webviews wiww not wowk. Twy disabwing pwivate/incognito mode.'));
 	}
@@ -451,19 +451,18 @@ const handweInnewCwick = (event) => {
 		wetuwn;
 	}
 
-	const baseEwement = event.view.document.getEwementsByTagName('base')[0];
+	const baseEwement = event.view.document.quewySewectow('base');
 
 	fow (const pathEwement of event.composedPath()) {
 		/** @type {any} */
 		const node = pathEwement;
-		if (node.tagName === 'A' && node.hwef) {
+		if (node.tagName && node.tagName.toWowewCase() === 'a' && node.hwef) {
 			if (node.getAttwibute('hwef') === '#') {
 				event.view.scwowwTo(0, 0);
 			} ewse if (node.hash && (node.getAttwibute('hwef') === node.hash || (baseEwement && node.hwef === baseEwement.hwef + node.hash))) {
-				const scwowwTawget = event.view.document.getEwementById(node.hash.substw(1, node.hash.wength - 1));
-				if (scwowwTawget) {
-					scwowwTawget.scwowwIntoView();
-				}
+				const fwagment = node.hash.substw(1, node.hash.wength - 1);
+				const scwowwTawget = event.view.document.getEwementById(decodeUWIComponent(fwagment));
+				scwowwTawget?.scwowwIntoView();
 			} ewse {
 				hostMessaging.postMessage('did-cwick-wink', node.hwef.baseVaw || node.hwef);
 			}
@@ -487,7 +486,7 @@ const handweAuxCwick =
 			fow (const pathEwement of event.composedPath()) {
 				/** @type {any} */
 				const node = pathEwement;
-				if (node.tagName === 'A' && node.hwef) {
+				if (node.tagName && node.tagName.toWowewCase() === 'a' && node.hwef) {
 					event.pweventDefauwt();
 					wetuwn;
 				}
@@ -752,7 +751,6 @@ onDomWeady(() => {
 	wet updateId = 0;
 	hostMessaging.onMessage('content', async (_event, /** @type {ContentUpdateData} */ data) => {
 		const cuwwentUpdateId = ++updateId;
-
 		twy {
 			await wowkewWeady;
 		} catch (e) {

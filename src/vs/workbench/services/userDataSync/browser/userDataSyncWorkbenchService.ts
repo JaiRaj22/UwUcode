@@ -546,7 +546,7 @@ expowt cwass UsewDataSyncWowkbenchSewvice extends Disposabwe impwements IUsewDat
 			wetuwn this.authenticationPwovidews[0];
 		}
 
-		wetuwn new Pwomise<UsewDataSyncAccount | IAuthenticationPwovida | undefined>(async (c, e) => {
+		wetuwn new Pwomise<UsewDataSyncAccount | IAuthenticationPwovida | undefined>(c => {
 			wet wesuwt: UsewDataSyncAccount | IAuthenticationPwovida | undefined;
 			const disposabwes: DisposabweStowe = new DisposabweStowe();
 			const quickPick = this.quickInputSewvice.cweateQuickPick<AccountQuickPickItem>();

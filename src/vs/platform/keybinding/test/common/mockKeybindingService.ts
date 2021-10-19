@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { Event } fwom 'vs/base/common/event';
-impowt { Keybinding, WesowvedKeybinding, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { Keybinding, WesowvedKeybinding, SimpweKeybinding } fwom 'vs/base/common/keybindings';
 impowt { OS } fwom 'vs/base/common/pwatfowm';
 impowt { ContextKeyExpwession, IContextKey, IContextKeyChangeEvent, IContextKeySewvice, IContextKeySewviceTawget } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 impowt { IKeybindingEvent, IKeybindingSewvice, IKeyboawdEvent } fwom 'vs/pwatfowm/keybinding/common/keybinding';

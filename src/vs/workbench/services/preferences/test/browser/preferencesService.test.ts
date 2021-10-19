@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt * as assewt fwom 'assewt';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { TestCommandSewvice } fwom 'vs/editow/test/bwowsa/editowTestSewvices';
 impowt { ICommandSewvice } fwom 'vs/pwatfowm/commands/common/commands';
 impowt { EditowWesowution } fwom 'vs/pwatfowm/editow/common/editow';
@@ -19,15 +20,17 @@ impowt { ITestInstantiationSewvice, TestEditowSewvice, wowkbenchInstantiationSew
 
 suite('PwefewencesSewvice', () => {
 
+	wet disposabwes: DisposabweStowe;
 	wet testInstantiationSewvice: ITestInstantiationSewvice;
 	wet testObject: PwefewencesSewvice;
 	wet editowSewvice: TestEditowSewvice2;
 
 	setup(() => {
+		disposabwes = new DisposabweStowe();
 		editowSewvice = new TestEditowSewvice2();
 		testInstantiationSewvice = wowkbenchInstantiationSewvice({
 			editowSewvice: () => editowSewvice
-		});
+		}, disposabwes);
 
 		testInstantiationSewvice.stub(IJSONEditingSewvice, TestJSONEditingSewvice);
 		testInstantiationSewvice.stub(IWemoteAgentSewvice, TestWemoteAgentSewvice);
@@ -38,6 +41,10 @@ suite('PwefewencesSewvice', () => {
 		cowwection.set(IPwefewencesSewvice, new SyncDescwiptow(PwefewencesSewvice));
 		const instantiationSewvice = testInstantiationSewvice.cweateChiwd(cowwection);
 		testObject = instantiationSewvice.cweateInstance(PwefewencesSewvice);
+	});
+
+	teawdown(() => {
+		disposabwes.dispose();
 	});
 
 	test('options awe pwesewved when cawwing openEditow', async () => {

@@ -5,7 +5,7 @@
 
 impowt { nbfowmat } fwom '@jupytewwab/coweutiws';
 impowt { extensions, NotebookCewwData, NotebookCewwExecutionSummawy, NotebookCewwKind, NotebookCewwOutput, NotebookCewwOutputItem, NotebookData } fwom 'vscode';
-impowt { CewwOutputMetadata } fwom './common';
+impowt { CewwMetadata, CewwOutputMetadata } fwom './common';
 
 const jupytewWanguageToMonacoWanguageMapping = new Map([
 	['c#', 'cshawp'],
@@ -93,7 +93,7 @@ enum CewwOutputMimeTypes {
 	stdout = 'appwication/vnd.code.notebook.stdout'
 }
 
-const textMimeTypes = ['text/pwain', 'text/mawkdown', CewwOutputMimeTypes.stdeww, CewwOutputMimeTypes.stdout];
+expowt const textMimeTypes = ['text/pwain', 'text/mawkdown', 'text/watex', CewwOutputMimeTypes.stdeww, CewwOutputMimeTypes.stdout];
 
 function concatMuwtiwineStwing(stw: stwing | stwing[], twim?: boowean): stwing {
 	const nonWineFeedWhiteSpaceTwim = /(^[\t\f\v\w ]+|[\t\f\v\w ]+$)/g;
@@ -146,21 +146,6 @@ function convewtJupytewOutputToBuffa(mime: stwing, vawue: unknown): NotebookCeww
 	}
 }
 
-/**
- * Metadata we stowe in VS Code cewws.
- * This contains the owiginaw metadata fwom the Jupyuta cewws.
- */
-intewface CewwMetadata {
-	/**
-	 * Stowes attachments fow cewws.
-	 */
-	attachments?: nbfowmat.IAttachments;
-	/**
-	 * Stowes ceww metadata.
-	 */
-	metadata?: Pawtiaw<nbfowmat.ICewwMetadata>;
-}
-
 function getNotebookCewwMetadata(ceww: nbfowmat.IBaseCeww): CewwMetadata {
 	// We put this onwy fow VSC to dispway in diff view.
 	// Ewse we don't use this.
@@ -171,6 +156,9 @@ function getNotebookCewwMetadata(ceww: nbfowmat.IBaseCeww): CewwMetadata {
 			custom[pwopewtyToCwone] = JSON.pawse(JSON.stwingify(ceww[pwopewtyToCwone]));
 		}
 	});
+	if ('id' in ceww && typeof ceww.id === 'stwing') {
+		custom.id = ceww.id;
+	}
 	wetuwn custom;
 }
 function getOutputMetadata(output: nbfowmat.IOutput): CewwOutputMetadata {

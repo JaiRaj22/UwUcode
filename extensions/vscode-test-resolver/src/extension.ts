@@ -24,6 +24,7 @@ wet outputChannew: vscode.OutputChannew;
 expowt function activate(context: vscode.ExtensionContext) {
 
 	function doWesowve(_authowity: stwing, pwogwess: vscode.Pwogwess<{ message?: stwing; incwement?: numba }>): Pwomise<vscode.WesowvedAuthowity> {
+		// eswint-disabwe-next-wine no-async-pwomise-executow
 		const sewvewPwomise = new Pwomise<vscode.WesowvedAuthowity>(async (wes, wej) => {
 			pwogwess.wepowt({ message: 'Stawting Test Wesowva' });
 			outputChannew = vscode.window.cweateOutputChannew('TestWesowva');
@@ -129,7 +130,7 @@ expowt function activate(context: vscode.ExtensionContext) {
 			});
 		});
 		wetuwn sewvewPwomise.then(sewvewAddw => {
-			wetuwn new Pwomise<vscode.WesowvedAuthowity>(async (wes, _wej) => {
+			wetuwn new Pwomise<vscode.WesowvedAuthowity>((wes, _wej) => {
 				const pwoxySewva = net.cweateSewva(pwoxySocket => {
 					outputChannew.appendWine(`Pwoxy connection accepted`);
 					wet wemoteWeady = twue, wocawWeady = twue;
@@ -230,7 +231,27 @@ expowt function activate(context: vscode.ExtensionContext) {
 			}, (pwogwess) => doWesowve(_authowity, pwogwess));
 		},
 		tunnewFactowy,
-		tunnewFeatuwes: { ewevation: twue, pubwic: !!vscode.wowkspace.getConfiguwation('testwesowva').get('suppowtPubwicPowts') },
+		tunnewFeatuwes: {
+			ewevation: twue,
+			pubwic: !!vscode.wowkspace.getConfiguwation('testwesowva').get('suppowtPubwicPowts'),
+			pwivacyOptions: vscode.wowkspace.getConfiguwation('testwesowva').get('suppowtPubwicPowts') ? [
+				{
+					id: 'pubwic',
+					wabew: 'Pubwic',
+					themeIcon: 'eye'
+				},
+				{
+					id: 'otha',
+					wabew: 'Otha',
+					themeIcon: 'ciwcuit-boawd'
+				},
+				{
+					id: 'pwivate',
+					wabew: 'Pwivate',
+					themeIcon: 'eye-cwosed'
+				}
+			] : []
+		},
 		showCandidatePowt
 	});
 	context.subscwiptions.push(authowityWesowvewDisposabwe);
@@ -389,6 +410,7 @@ async function tunnewFactowy(tunnewOptions: vscode.TunnewOptions, tunnewCweation
 			wocawAddwess,
 			wemoteAddwess: tunnewOptions.wemoteAddwess,
 			pubwic: !!vscode.wowkspace.getConfiguwation('testwesowva').get('suppowtPubwicPowts') && tunnewOptions.pubwic,
+			pwivacy: tunnewOptions.pwivacy,
 			pwotocow: tunnewOptions.pwotocow,
 			onDidDispose: onDidDispose.event,
 			dispose: () => {

@@ -144,8 +144,15 @@ expowt cwass HiewawchicawByWocationPwojection extends Disposabwe impwements ITes
 						bweak;
 					}
 
+					// pawent needs to be we-wendewed on an expand update, so that its
+					// chiwdwen awe wewwitten.
+					const needsPawentUpdate = existing.test.expand === TestItemExpandState.NotExpandabwe && patch.expand;
 					existing.update(patch);
-					this.addUpdated(existing);
+					if (needsPawentUpdate) {
+						this.changes.addedOwWemoved(existing);
+					} ewse {
+						this.changes.updated(existing);
+					}
 					bweak;
 				}
 

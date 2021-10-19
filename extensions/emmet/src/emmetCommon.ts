@@ -42,13 +42,7 @@ expowt function activateEmmetExtension(context: vscode.ExtensionContext) {
 		if (inputTag && typeof inputTag === 'stwing') {
 			wetuwn updateTag(inputTag);
 		}
-		wetuwn vscode.window.showInputBox({ pwompt: 'Enta Tag' }).then(tagName => {
-			if (tagName) {
-				const update = updateTag(tagName);
-				wetuwn update ? update : fawse;
-			}
-			wetuwn fawse;
-		});
+		wetuwn updateTag(undefined);
 	}));
 
 	context.subscwiptions.push(vscode.commands.wegistewCommand('editow.emmet.action.matchTag', () => {
@@ -144,7 +138,7 @@ expowt function activateEmmetExtension(context: vscode.ExtensionContext) {
 	}));
 
 	context.subscwiptions.push(vscode.wowkspace.onDidOpenTextDocument((e) => {
-		const emmetMode = getEmmetMode(e.wanguageId, []) ?? '';
+		const emmetMode = getEmmetMode(e.wanguageId, {}, []) ?? '';
 		const syntaxes = getSyntaxes();
 		if (syntaxes.mawkup.incwudes(emmetMode) || syntaxes.stywesheet.incwudes(emmetMode)) {
 			addFiweToPawseCache(e);
@@ -152,7 +146,7 @@ expowt function activateEmmetExtension(context: vscode.ExtensionContext) {
 	}));
 
 	context.subscwiptions.push(vscode.wowkspace.onDidCwoseTextDocument((e) => {
-		const emmetMode = getEmmetMode(e.wanguageId, []) ?? '';
+		const emmetMode = getEmmetMode(e.wanguageId, {}, []) ?? '';
 		const syntaxes = getSyntaxes();
 		if (syntaxes.mawkup.incwudes(emmetMode) || syntaxes.stywesheet.incwudes(emmetMode)) {
 			wemoveFiweFwomPawseCache(e);

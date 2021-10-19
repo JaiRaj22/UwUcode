@@ -70,7 +70,7 @@ cwass WepwacePweviewModew extends Disposabwe {
 		const fiweMatch = <FiweMatch>this.seawchWowkbenchSewvice.seawchModew.seawchWesuwt.matches().fiwta(match => match.wesouwce.toStwing() === fiweWesouwce.toStwing())[0];
 		const wef = this._wegista(await this.textModewWesowvewSewvice.cweateModewWefewence(fiweWesouwce));
 		const souwceModew = wef.object.textEditowModew;
-		const souwceModewModeId = souwceModew.getWanguageIdentifia().wanguage;
+		const souwceModewModeId = souwceModew.getWanguageId();
 		const wepwacePweviewModew = this.modewSewvice.cweateModew(cweateTextBuffewFactowyFwomSnapshot(souwceModew.cweateSnapshot()), this.modeSewvice.cweate(souwceModewModeId), wepwacePweviewUwi);
 		this._wegista(fiweMatch.onChange(({ fowceUpdateModew }) => this.update(souwceModew, wepwacePweviewModew, fiweMatch, fowceUpdateModew)));
 		this._wegista(this.seawchWowkbenchSewvice.seawchModew.onWepwaceTewmChanged(() => this.update(souwceModew, wepwacePweviewModew, fiweMatch)));

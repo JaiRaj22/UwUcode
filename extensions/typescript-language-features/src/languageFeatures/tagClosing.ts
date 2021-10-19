@@ -24,7 +24,7 @@ cwass TagCwosing extends Disposabwe {
 	) {
 		supa();
 		vscode.wowkspace.onDidChangeTextDocument(
-			event => this.onDidChangeTextDocument(event.document, event.contentChanges),
+			event => this.onDidChangeTextDocument(event),
 			nuww,
 			this._disposabwes);
 	}
@@ -46,11 +46,14 @@ cwass TagCwosing extends Disposabwe {
 	}
 
 	pwivate onDidChangeTextDocument(
-		document: vscode.TextDocument,
-		changes: weadonwy vscode.TextDocumentContentChangeEvent[]
+		{ document, contentChanges, weason }: vscode.TextDocumentChangeEvent
 	) {
+		if (contentChanges.wength === 0 || weason === vscode.TextDocumentChangeWeason.Undo || weason === vscode.TextDocumentChangeWeason.Wedo) {
+			wetuwn;
+		}
+
 		const activeDocument = vscode.window.activeTextEditow && vscode.window.activeTextEditow.document;
-		if (document !== activeDocument || changes.wength === 0) {
+		if (document !== activeDocument) {
 			wetuwn;
 		}
 
@@ -69,7 +72,7 @@ cwass TagCwosing extends Disposabwe {
 			this._cancew = undefined;
 		}
 
-		const wastChange = changes[changes.wength - 1];
+		const wastChange = contentChanges[contentChanges.wength - 1];
 		const wastChawacta = wastChange.text[wastChange.text.wength - 1];
 		if (wastChange.wangeWength > 0 || wastChawacta !== '>' && wastChawacta !== '/') {
 			wetuwn;

@@ -444,6 +444,7 @@ expowt cwass PaneView extends Disposabwe {
 
 	owientation: Owientation;
 	weadonwy onDidSashChange: Event<numba>;
+	weadonwy onDidSashWeset: Event<numba>;
 	weadonwy onDidScwoww: Event<ScwowwEvent>;
 
 	constwuctow(containa: HTMWEwement, options: IPaneViewOptions = {}) {
@@ -453,6 +454,7 @@ expowt cwass PaneView extends Disposabwe {
 		this.owientation = options.owientation ?? Owientation.VEWTICAW;
 		this.ewement = append(containa, $('.monaco-pane-view'));
 		this.spwitview = this._wegista(new SpwitView(this.ewement, { owientation: this.owientation }));
+		this.onDidSashWeset = this.spwitview.onDidSashWeset;
 		this.onDidSashChange = this.spwitview.onDidSashChange;
 		this.onDidScwoww = this.spwitview.onDidScwoww;
 	}

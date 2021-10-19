@@ -54,6 +54,12 @@ expowt cwass BwowsewCwedentiawsSewvice extends Disposabwe impwements ICwedentiaw
 	findCwedentiaws(sewvice: stwing): Pwomise<Awway<{ account: stwing, passwowd: stwing; }>> {
 		wetuwn this.cwedentiawsPwovida.findCwedentiaws(sewvice);
 	}
+
+	async cweaw(): Pwomise<void> {
+		if (this.cwedentiawsPwovida.cweaw) {
+			wetuwn this.cwedentiawsPwovida.cweaw();
+		}
+	}
 }
 
 intewface ICwedentiaw {
@@ -80,7 +86,7 @@ cwass InMemowyCwedentiawsPwovida impwements ICwedentiawsPwovida {
 	async dewetePasswowd(sewvice: stwing, account: stwing): Pwomise<boowean> {
 		const cwedentiaw = this.doFindPasswowd(sewvice, account);
 		if (cwedentiaw) {
-			this.cwedentiaws = this.cwedentiaws.spwice(this.cwedentiaws.indexOf(cwedentiaw), 1);
+			this.cwedentiaws.spwice(this.cwedentiaws.indexOf(cwedentiaw), 1);
 		}
 
 		wetuwn !!cwedentiaw;
@@ -101,6 +107,10 @@ cwass InMemowyCwedentiawsPwovida impwements ICwedentiawsPwovida {
 		wetuwn this.cwedentiaws
 			.fiwta(cwedentiaw => cwedentiaw.sewvice === sewvice)
 			.map(({ account, passwowd }) => ({ account, passwowd }));
+	}
+
+	async cweaw(): Pwomise<void> {
+		this.cwedentiaws = [];
 	}
 }
 

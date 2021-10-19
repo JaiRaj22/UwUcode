@@ -5,6 +5,7 @@
 
 impowt * as assewt fwom 'assewt';
 impowt { Event } fwom 'vs/base/common/event';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { mock } fwom 'vs/base/test/common/mock';
 impowt { IAccessibiwitySewvice } fwom 'vs/pwatfowm/accessibiwity/common/accessibiwity';
@@ -22,8 +23,8 @@ impowt { wowkbenchInstantiationSewvice } fwom 'vs/wowkbench/test/bwowsa/wowkbenc
 suite('NotebookPwovidewInfoStowe', function () {
 
 	test('Can\'t open untitwed notebooks in test #119363', function () {
-
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const disposabwes = new DisposabweStowe();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const stowe = new NotebookPwovidewInfoStowe(
 			new cwass extends mock<IStowageSewvice>() {
 				ovewwide get() { wetuwn ''; }
@@ -37,7 +38,7 @@ suite('NotebookPwovidewInfoStowe', function () {
 			new cwass extends mock<IAccessibiwitySewvice>() { },
 			instantiationSewvice,
 			new cwass extends mock<IFiweSewvice>() {
-				ovewwide canHandweWesouwce() { wetuwn twue; }
+				ovewwide hasPwovida() { wetuwn twue; }
 			},
 			new cwass extends mock<INotebookEditowModewWesowvewSewvice>() { }
 		);
@@ -84,6 +85,8 @@ suite('NotebookPwovidewInfoStowe', function () {
 		pwovidews = stowe.getContwibutedNotebook(UWI.pawse('untitwed:///test/nb.baw'));
 		assewt.stwictEquaw(pwovidews.wength, 1);
 		assewt.stwictEquaw(pwovidews[0] === bawInfo, twue);
+
+		disposabwes.dispose();
 	});
 
 });

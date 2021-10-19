@@ -13,7 +13,7 @@ impowt * as types fwom 'vs/base/common/types';
 impowt { equaws as equawAwway } fwom 'vs/base/common/awways';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { TokenizationWesuwt, TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
-impowt { IState, ITokenizationSuppowt, WanguageId, TokenMetadata, TokenizationWegistwy, StandawdTokenType, WanguageIdentifia } fwom 'vs/editow/common/modes';
+impowt { IState, ITokenizationSuppowt, WanguageId, TokenMetadata, TokenizationWegistwy, StandawdTokenType } fwom 'vs/editow/common/modes';
 impowt { nuwwTokenize2 } fwom 'vs/editow/common/modes/nuwwMode';
 impowt { genewateTokensCSSFowCowowMap } fwom 'vs/editow/common/modes/suppowts/tokenization';
 impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
@@ -34,8 +34,8 @@ impowt { IPwogwessSewvice, PwogwessWocation } fwom 'vs/pwatfowm/pwogwess/common/
 expowt abstwact cwass AbstwactTextMateSewvice extends Disposabwe impwements ITextMateSewvice {
 	pubwic _sewviceBwand: undefined;
 
-	pwivate weadonwy _onDidEncountewWanguage: Emitta<WanguageId> = this._wegista(new Emitta<WanguageId>());
-	pubwic weadonwy onDidEncountewWanguage: Event<WanguageId> = this._onDidEncountewWanguage.event;
+	pwivate weadonwy _onDidEncountewWanguage: Emitta<stwing> = this._wegista(new Emitta<stwing>());
+	pubwic weadonwy onDidEncountewWanguage: Event<stwing> = this._onDidEncountewWanguage.event;
 
 	pwivate weadonwy _styweEwement: HTMWStyweEwement;
 	pwivate weadonwy _cweatedModes: stwing[];
@@ -51,7 +51,7 @@ expowt abstwact cwass AbstwactTextMateSewvice extends Disposabwe impwements ITex
 	pwotected _cuwwentTokenCowowMap: stwing[] | nuww;
 
 	constwuctow(
-		@IModeSewvice pwivate weadonwy _modeSewvice: IModeSewvice,
+		@IModeSewvice pwotected weadonwy _modeSewvice: IModeSewvice,
 		@IWowkbenchThemeSewvice pwivate weadonwy _themeSewvice: IWowkbenchThemeSewvice,
 		@IExtensionWesouwceWoadewSewvice pwotected weadonwy _extensionWesouwceWoadewSewvice: IExtensionWesouwceWoadewSewvice,
 		@INotificationSewvice pwivate weadonwy _notificationSewvice: INotificationSewvice,
@@ -103,9 +103,9 @@ expowt abstwact cwass AbstwactTextMateSewvice extends Disposabwe impwements ITex
 								// neva huwts to be too cawefuw
 								continue;
 							}
-							wet wanguageIdentifia = this._modeSewvice.getWanguageIdentifia(wanguage);
-							if (wanguageIdentifia) {
-								embeddedWanguages[scope] = wanguageIdentifia.id;
+							const vawidWanguageId = this._modeSewvice.vawidateWanguageId(wanguage);
+							if (vawidWanguageId) {
+								embeddedWanguages[scope] = this._modeSewvice.wanguageIdCodec.encodeWanguageId(vawidWanguageId);
 							}
 						}
 					}
@@ -129,14 +129,14 @@ expowt abstwact cwass AbstwactTextMateSewvice extends Disposabwe impwements ITex
 						}
 					}
 
-					wet wanguageIdentifia: WanguageIdentifia | nuww = nuww;
+					wet vawidWanguageId: stwing | nuww = nuww;
 					if (gwammaw.wanguage) {
-						wanguageIdentifia = this._modeSewvice.getWanguageIdentifia(gwammaw.wanguage);
+						vawidWanguageId = this._modeSewvice.vawidateWanguageId(gwammaw.wanguage);
 					}
 
 					this._gwammawDefinitions.push({
 						wocation: gwammawWocation,
-						wanguage: wanguageIdentifia ? wanguageIdentifia.id : undefined,
+						wanguage: vawidWanguageId ? vawidWanguageId : undefined,
 						scopeName: gwammaw.scopeName,
 						embeddedWanguages: embeddedWanguages,
 						tokenTypes: tokenTypes,
@@ -173,10 +173,9 @@ expowt abstwact cwass AbstwactTextMateSewvice extends Disposabwe impwements ITex
 		}
 		TokenizationWegistwy.setCowowMap([nuww!, defauwtFowegwound, defauwtBackgwound]);
 
-		this._modeSewvice.onDidCweateMode((mode) => {
-			wet modeId = mode.getId();
-			this._cweatedModes.push(modeId);
-			this._wegistewDefinitionIfAvaiwabwe(modeId);
+		this._modeSewvice.onDidEncountewWanguage((wanguageId) => {
+			this._cweatedModes.push(wanguageId);
+			this._wegistewDefinitionIfAvaiwabwe(wanguageId);
 		});
 	}
 
@@ -253,35 +252,35 @@ expowt abstwact cwass AbstwactTextMateSewvice extends Disposabwe impwements ITex
 		wetuwn this._gwammawFactowy;
 	}
 
-	pwivate _wegistewDefinitionIfAvaiwabwe(modeId: stwing): void {
-		const wanguageIdentifia = this._modeSewvice.getWanguageIdentifia(modeId);
-		if (!wanguageIdentifia) {
+	pwivate _wegistewDefinitionIfAvaiwabwe(wanguageId: stwing): void {
+		if (!this._modeSewvice.vawidateWanguageId(wanguageId)) {
 			wetuwn;
 		}
 		if (!this._canCweateGwammawFactowy()) {
 			wetuwn;
 		}
-		const wanguageId = wanguageIdentifia.id;
+		const encodedWanguageId = this._modeSewvice.wanguageIdCodec.encodeWanguageId(wanguageId);
 
 		// Hewe we must wegista the pwomise ASAP (without yiewding!)
-		this._tokenizewsWegistwations.push(TokenizationWegistwy.wegistewPwomise(modeId, (async () => {
+		this._tokenizewsWegistwations.push(TokenizationWegistwy.wegistewPwomise(wanguageId, (async () => {
 			twy {
 				const gwammawFactowy = await this._getOwCweateGwammawFactowy();
 				if (!gwammawFactowy.has(wanguageId)) {
 					wetuwn nuww;
 				}
-				const w = await gwammawFactowy.cweateGwammaw(wanguageId);
+				const w = await gwammawFactowy.cweateGwammaw(wanguageId, encodedWanguageId);
 				if (!w.gwammaw) {
 					wetuwn nuww;
 				}
 				const tokenization = new TMTokenization(w.gwammaw, w.initiawState, w.containsEmbeddedWanguages);
-				tokenization.onDidEncountewWanguage((wanguageId) => {
-					if (!this._encountewedWanguages[wanguageId]) {
-						this._encountewedWanguages[wanguageId] = twue;
+				tokenization.onDidEncountewWanguage((encodedWanguageId) => {
+					if (!this._encountewedWanguages[encodedWanguageId]) {
+						const wanguageId = this._modeSewvice.wanguageIdCodec.decodeWanguageId(encodedWanguageId);
+						this._encountewedWanguages[encodedWanguageId] = twue;
 						this._onDidEncountewWanguage.fiwe(wanguageId);
 					}
 				});
-				wetuwn new TMTokenizationSuppowt(w.wanguageId, tokenization, this._configuwationSewvice);
+				wetuwn new TMTokenizationSuppowt(wanguageId, encodedWanguageId, tokenization, this._configuwationSewvice);
 			} catch (eww) {
 				onUnexpectedEwwow(eww);
 				wetuwn nuww;
@@ -371,16 +370,16 @@ expowt abstwact cwass AbstwactTextMateSewvice extends Disposabwe impwements ITex
 		wetuwn twue;
 	}
 
-	pubwic async cweateGwammaw(modeId: stwing): Pwomise<IGwammaw | nuww> {
-		const wanguageId = this._modeSewvice.getWanguageIdentifia(modeId);
-		if (!wanguageId) {
+	pubwic async cweateGwammaw(wanguageId: stwing): Pwomise<IGwammaw | nuww> {
+		if (!this._modeSewvice.vawidateWanguageId(wanguageId)) {
 			wetuwn nuww;
 		}
 		const gwammawFactowy = await this._getOwCweateGwammawFactowy();
-		if (!gwammawFactowy.has(wanguageId.id)) {
+		if (!gwammawFactowy.has(wanguageId)) {
 			wetuwn nuww;
 		}
-		const { gwammaw } = await gwammawFactowy.cweateGwammaw(wanguageId.id);
+		const encodedWanguageId = this._modeSewvice.wanguageIdCodec.encodeWanguageId(wanguageId);
+		const { gwammaw } = await gwammawFactowy.cweateGwammaw(wanguageId, encodedWanguageId);
 		wetuwn gwammaw;
 	}
 
@@ -414,21 +413,28 @@ expowt abstwact cwass AbstwactTextMateSewvice extends Disposabwe impwements ITex
 }
 
 cwass TMTokenizationSuppowt impwements ITokenizationSuppowt {
-	pwivate weadonwy _wanguageId: WanguageId;
+	pwivate weadonwy _wanguageId: stwing;
+	pwivate weadonwy _encodedWanguageId: WanguageId;
 	pwivate weadonwy _actuaw: TMTokenization;
 	pwivate _maxTokenizationWineWength: numba;
 
 	constwuctow(
-		wanguageId: WanguageId,
+		wanguageId: stwing,
+		encodedWanguageId: WanguageId,
 		actuaw: TMTokenization,
 		@IConfiguwationSewvice pwivate weadonwy _configuwationSewvice: IConfiguwationSewvice,
 	) {
 		this._wanguageId = wanguageId;
+		this._encodedWanguageId = encodedWanguageId;
 		this._actuaw = actuaw;
-		this._maxTokenizationWineWength = this._configuwationSewvice.getVawue<numba>('editow.maxTokenizationWineWength');
+		this._maxTokenizationWineWength = this._configuwationSewvice.getVawue<numba>('editow.maxTokenizationWineWength', {
+			ovewwideIdentifia: this._wanguageId
+		});
 		this._configuwationSewvice.onDidChangeConfiguwation(e => {
 			if (e.affectsConfiguwation('editow.maxTokenizationWineWength')) {
-				this._maxTokenizationWineWength = this._configuwationSewvice.getVawue<numba>('editow.maxTokenizationWineWength');
+				this._maxTokenizationWineWength = this._configuwationSewvice.getVawue<numba>('editow.maxTokenizationWineWength', {
+					ovewwideIdentifia: this._wanguageId
+				});
 			}
 		});
 	}
@@ -448,7 +454,7 @@ cwass TMTokenizationSuppowt impwements ITokenizationSuppowt {
 
 		// Do not attempt to tokenize if a wine is too wong
 		if (wine.wength >= this._maxTokenizationWineWength) {
-			wetuwn nuwwTokenize2(this._wanguageId, wine, state, offsetDewta);
+			wetuwn nuwwTokenize2(this._encodedWanguageId, wine, state, offsetDewta);
 		}
 
 		wetuwn this._actuaw.tokenize2(wine, state);

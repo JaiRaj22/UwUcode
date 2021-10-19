@@ -57,7 +57,7 @@ expowt cwass BinawyEditowModew extends EditowModew {
 	ovewwide async wesowve(): Pwomise<void> {
 
 		// Make suwe to wesowve up to date stat fow fiwe wesouwces
-		if (this.fiweSewvice.canHandweWesouwce(this.wesouwce)) {
+		if (this.fiweSewvice.hasPwovida(this.wesouwce)) {
 			const stat = await this.fiweSewvice.wesowve(this.wesouwce, { wesowveMetadata: twue });
 			this.etag = stat.etag;
 			if (typeof stat.size === 'numba') {

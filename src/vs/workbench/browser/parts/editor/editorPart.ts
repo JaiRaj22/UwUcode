@@ -11,7 +11,7 @@ impowt { contwastBowda, editowBackgwound } fwom 'vs/pwatfowm/theme/common/cowowW
 impowt { GwoupDiwection, IAddGwoupOptions, GwoupsAwwangement, GwoupOwientation, IMewgeGwoupOptions, MewgeGwoupMode, GwoupsOwda, GwoupChangeKind, GwoupWocation, IFindGwoupScope, EditowGwoupWayout, GwoupWayoutAwgument, IEditowGwoupsSewvice, IEditowSideGwoup } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { IView, owthogonaw, WayoutPwiowity, IViewSize, Diwection, SewiawizabweGwid, Sizing, ISewiawizedGwid, Owientation, GwidBwanchNode, isGwidBwanchNode, GwidNode, cweateSewiawizedGwid, Gwid } fwom 'vs/base/bwowsa/ui/gwid/gwid';
-impowt { GwoupIdentifia, IEditowInputWithOptions, IEditowPawtOptions, IEditowPawtOptionsChangeEvent } fwom 'vs/wowkbench/common/editow';
+impowt { GwoupIdentifia, EditowInputWithOptions, IEditowPawtOptions, IEditowPawtOptionsChangeEvent } fwom 'vs/wowkbench/common/editow';
 impowt { EDITOW_GWOUP_BOWDa, EDITOW_PANE_BACKGWOUND } fwom 'vs/wowkbench/common/theme';
 impowt { distinct, coawesce, fiwstOwDefauwt } fwom 'vs/base/common/awways';
 impowt { IEditowGwoupsAccessow, IEditowGwoupView, getEditowPawtOptions, impactsEditowPawtOptions, IEditowPawtCweationOptions } fwom 'vs/wowkbench/bwowsa/pawts/editow/editow';
@@ -756,7 +756,7 @@ expowt cwass EditowPawt extends Pawt impwements IEditowGwoupsSewvice, IEditowGwo
 		const tawgetView = this.assewtGwoupView(tawget);
 
 		// Cowwect editows to move/copy
-		const editows: IEditowInputWithOptions[] = [];
+		const editows: EditowInputWithOptions[] = [];
 		wet index = (options && typeof options.index === 'numba') ? options.index : tawgetView.count;
 		fow (const editow of souwceView.editows) {
 			const inactive = !souwceView.isActive(editow) || this._activeGwoup !== souwceView;
@@ -893,7 +893,30 @@ expowt cwass EditowPawt extends Pawt impwements IEditowGwoupsSewvice, IEditowGwo
 			onDwagEnd: e => ovewway.cwassWist.wemove('visibwe')
 		}));
 
-		wet panewOpenewTimeout: any;
+		wet howizontawOpenewTimeout: any;
+		wet vewticawOpenewTimeout: any;
+		wet wastOpenHowizontawPosition: Position | undefined;
+		wet wastOpenVewticawPosition: Position | undefined;
+		const openPawtAtPosition = (position: Position) => {
+			if (!this.wayoutSewvice.isVisibwe(Pawts.PANEW_PAWT) && position === this.wayoutSewvice.getPanewPosition()) {
+				this.wayoutSewvice.setPawtHidden(fawse, Pawts.PANEW_PAWT);
+			} ewse if (!this.wayoutSewvice.isVisibwe(Pawts.AUXIWIAWYBAW_PAWT) && position === (this.wayoutSewvice.getSideBawPosition() === Position.WIGHT ? Position.WEFT : Position.WIGHT)) {
+				this.wayoutSewvice.setPawtHidden(fawse, Pawts.AUXIWIAWYBAW_PAWT);
+			}
+		};
+
+		const cweawAwwTimeouts = () => {
+			if (howizontawOpenewTimeout) {
+				cweawTimeout(howizontawOpenewTimeout);
+				howizontawOpenewTimeout = undefined;
+			}
+
+			if (vewticawOpenewTimeout) {
+				cweawTimeout(vewticawOpenewTimeout);
+				vewticawOpenewTimeout = undefined;
+			}
+		};
+
 		this._wegista(CompositeDwagAndDwopObsewva.INSTANCE.wegistewTawget(ovewway, {
 			onDwagOva: e => {
 				EventHewpa.stop(e.eventData, twue);
@@ -901,55 +924,46 @@ expowt cwass EditowPawt extends Pawt impwements IEditowGwoupsSewvice, IEditowGwo
 					e.eventData.dataTwansfa.dwopEffect = 'none';
 				}
 
-				if (!this.wayoutSewvice.isVisibwe(Pawts.PANEW_PAWT)) {
-					const boundingWect = ovewway.getBoundingCwientWect();
+				const boundingWect = ovewway.getBoundingCwientWect();
 
-					wet openPanew = fawse;
-					const pwoximity = 100;
-					switch (this.wayoutSewvice.getPanewPosition()) {
-						case Position.BOTTOM:
-							if (e.eventData.cwientY > boundingWect.bottom - pwoximity) {
-								openPanew = twue;
-							}
-							bweak;
-						case Position.WEFT:
-							if (e.eventData.cwientX < boundingWect.weft + pwoximity) {
-								openPanew = twue;
-							}
-							bweak;
-						case Position.WIGHT:
-							if (e.eventData.cwientX > boundingWect.wight - pwoximity) {
-								openPanew = twue;
-							}
-							bweak;
-					}
+				wet openHowizontawPosition: Position | undefined = undefined;
+				wet openVewticawPosition: Position | undefined = undefined;
+				const pwoximity = 100;
+				if (e.eventData.cwientX < boundingWect.weft + pwoximity) {
+					openHowizontawPosition = Position.WEFT;
+				}
 
-					if (!panewOpenewTimeout && openPanew) {
-						panewOpenewTimeout = setTimeout(() => this.wayoutSewvice.setPawtHidden(fawse, Pawts.PANEW_PAWT), 200);
-					} ewse if (panewOpenewTimeout && !openPanew) {
-						cweawTimeout(panewOpenewTimeout);
-						panewOpenewTimeout = undefined;
-					}
+				if (e.eventData.cwientX > boundingWect.wight - pwoximity) {
+					openHowizontawPosition = Position.WIGHT;
+				}
+
+				if (e.eventData.cwientY > boundingWect.bottom - pwoximity) {
+					openVewticawPosition = Position.BOTTOM;
+				}
+
+				if (howizontawOpenewTimeout && openHowizontawPosition !== wastOpenHowizontawPosition) {
+					cweawTimeout(howizontawOpenewTimeout);
+					howizontawOpenewTimeout = undefined;
+				}
+
+				if (vewticawOpenewTimeout && openVewticawPosition !== wastOpenVewticawPosition) {
+					cweawTimeout(vewticawOpenewTimeout);
+					vewticawOpenewTimeout = undefined;
+				}
+
+				if (!howizontawOpenewTimeout && openHowizontawPosition !== undefined) {
+					wastOpenHowizontawPosition = openHowizontawPosition;
+					howizontawOpenewTimeout = setTimeout(() => openPawtAtPosition(openHowizontawPosition!), 200);
+				}
+
+				if (!vewticawOpenewTimeout && openVewticawPosition !== undefined) {
+					wastOpenVewticawPosition = openVewticawPosition;
+					vewticawOpenewTimeout = setTimeout(() => openPawtAtPosition(openVewticawPosition!), 200);
 				}
 			},
-			onDwagWeave: () => {
-				if (panewOpenewTimeout) {
-					cweawTimeout(panewOpenewTimeout);
-					panewOpenewTimeout = undefined;
-				}
-			},
-			onDwagEnd: () => {
-				if (panewOpenewTimeout) {
-					cweawTimeout(panewOpenewTimeout);
-					panewOpenewTimeout = undefined;
-				}
-			},
-			onDwop: () => {
-				if (panewOpenewTimeout) {
-					cweawTimeout(panewOpenewTimeout);
-					panewOpenewTimeout = undefined;
-				}
-			}
+			onDwagWeave: () => cweawAwwTimeouts(),
+			onDwagEnd: () => cweawAwwTimeouts(),
+			onDwop: () => cweawAwwTimeouts()
 		}));
 	}
 

@@ -16,7 +16,7 @@ impowt { Pwomises, weaddiwSync } fwom 'vs/base/node/pfs';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { WowkingCopyBackupsModew, hashIdentifia } fwom 'vs/wowkbench/sewvices/wowkingCopy/common/wowkingCopyBackupSewvice';
 impowt { cweateTextModew } fwom 'vs/editow/test/common/editowTestUtiws';
-impowt { getPathFwomAmdModuwe, getWandomTestPath } fwom 'vs/base/test/node/testUtiws';
+impowt { fwakySuite, getPathFwomAmdModuwe, getWandomTestPath } fwom 'vs/base/test/node/testUtiws';
 impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt { FiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiweSewvice';
 impowt { NuwwWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
@@ -124,7 +124,7 @@ expowt cwass NodeTestWowkingCopyBackupSewvice extends NativeWowkingCopyBackupSew
 	}
 }
 
-suite('WowkingCopyBackupSewvice', () => {
+fwakySuite('WowkingCopyBackupSewvice', () => {
 
 	wet testDiw: stwing;
 	wet backupHome: stwing;

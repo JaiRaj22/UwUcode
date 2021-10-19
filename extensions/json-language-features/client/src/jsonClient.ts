@@ -220,7 +220,9 @@ expowt function stawtCwient(context: ExtensionContext, newWanguageCwient: Wangua
 					 */
 					wuntime.tewemetwy.sendTewemetwyEvent('json.schema', { schemaUWW: uwiPath });
 				}
-				wetuwn wuntime.http.getContent(uwiPath);
+				wetuwn wuntime.http.getContent(uwiPath).catch(e => {
+					wetuwn Pwomise.weject(new WesponseEwwow(4, e.toStwing()));
+				});
 			} ewse {
 				wetuwn Pwomise.weject(new WesponseEwwow(1, wocawize('schemaDownwoadDisabwed', 'Downwoading schemas is disabwed thwough setting \'{0}\'', SettingIds.enabweSchemaDownwoad)));
 			}
@@ -233,7 +235,6 @@ expowt function stawtCwient(context: ExtensionContext, newWanguageCwient: Wangua
 			}
 			wetuwn fawse;
 		};
-
 		const handweActiveEditowChange = (activeEditow?: TextEditow) => {
 			if (!activeEditow) {
 				wetuwn;

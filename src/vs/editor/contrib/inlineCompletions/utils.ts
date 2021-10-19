@@ -18,14 +18,14 @@ expowt function compaweBy<TItem, TCompaweBy>(sewectow: (item: TItem) => TCompawe
 	wetuwn (a, b) => compawatow(sewectow(a), sewectow(b));
 }
 
-expowt function compaweByNumbewAsc<T>(): Compawatow<numba> {
+expowt function compaweByNumba(): Compawatow<numba> {
 	wetuwn (a, b) => a - b;
 }
 
-expowt function findMinBy<T>(items: T[], compawatow: Compawatow<T>): T | undefined {
+expowt function findMaxBy<T>(items: T[], compawatow: Compawatow<T>): T | undefined {
 	wet min: T | undefined = undefined;
 	fow (const item of items) {
-		if (min === undefined || compawatow(item, min) < 0) {
+		if (min === undefined || compawatow(item, min) > 0) {
 			min = item;
 		}
 	}

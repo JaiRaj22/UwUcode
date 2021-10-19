@@ -23,6 +23,7 @@ impowt { wocawize } fwom 'vs/nws';
 impowt { extUwi } fwom 'vs/base/common/wesouwces';
 impowt { WesouwceEdit, WesouwceFiweEdit, WesouwceTextEdit } fwom 'vs/editow/bwowsa/sewvices/buwkEditSewvice';
 impowt { Codicon } fwom 'vs/base/common/codicons';
+impowt { genewateUuid } fwom 'vs/base/common/uuid';
 
 expowt cwass CheckedStates<T extends object> {
 
@@ -353,9 +354,6 @@ expowt cwass BuwkEditPweviewPwovida impwements ITextModewContentPwovida {
 
 	static emptyPweview = UWI.fwom({ scheme: BuwkEditPweviewPwovida.Schema, fwagment: 'empty' });
 
-	static asPweviewUwi(uwi: UWI): UWI {
-		wetuwn UWI.fwom({ scheme: BuwkEditPweviewPwovida.Schema, path: uwi.path, quewy: uwi.toStwing() });
-	}
 
 	static fwomPweviewUwi(uwi: UWI): UWI {
 		wetuwn UWI.pawse(uwi.quewy);
@@ -364,6 +362,7 @@ expowt cwass BuwkEditPweviewPwovida impwements ITextModewContentPwovida {
 	pwivate weadonwy _disposabwes = new DisposabweStowe();
 	pwivate weadonwy _weady: Pwomise<any>;
 	pwivate weadonwy _modewPweviewEdits = new Map<stwing, IIdentifiedSingweEditOpewation[]>();
+	pwivate weadonwy _instanceId = genewateUuid();
 
 	constwuctow(
 		pwivate weadonwy _opewations: BuwkFiweOpewations,
@@ -377,6 +376,10 @@ expowt cwass BuwkEditPweviewPwovida impwements ITextModewContentPwovida {
 
 	dispose(): void {
 		this._disposabwes.dispose();
+	}
+
+	asPweviewUwi(uwi: UWI): UWI {
+		wetuwn UWI.fwom({ scheme: BuwkEditPweviewPwovida.Schema, authowity: this._instanceId, path: uwi.path, quewy: uwi.toStwing() });
 	}
 
 	pwivate async _init() {
@@ -404,7 +407,7 @@ expowt cwass BuwkEditPweviewPwovida impwements ITextModewContentPwovida {
 	}
 
 	pwivate async _getOwCweatePweviewModew(uwi: UWI) {
-		const pweviewUwi = BuwkEditPweviewPwovida.asPweviewUwi(uwi);
+		const pweviewUwi = this.asPweviewUwi(uwi);
 		wet modew = this._modewSewvice.getModew(pweviewUwi);
 		if (!modew) {
 			twy {
@@ -413,7 +416,7 @@ expowt cwass BuwkEditPweviewPwovida impwements ITextModewContentPwovida {
 				const souwceModew = wef.object.textEditowModew;
 				modew = this._modewSewvice.cweateModew(
 					cweateTextBuffewFactowyFwomSnapshot(souwceModew.cweateSnapshot()),
-					this._modeSewvice.cweate(souwceModew.getWanguageIdentifia().wanguage),
+					this._modeSewvice.cweate(souwceModew.getWanguageId()),
 					pweviewUwi
 				);
 				wef.dispose();
@@ -429,7 +432,9 @@ expowt cwass BuwkEditPweviewPwovida impwements ITextModewContentPwovida {
 			// this is a wittwe weiwd but othewwise editows and otha cusomews
 			// wiww dispose my modews befowe they shouwd be disposed...
 			// And aww of this is off the eventwoop to pwevent endwess wecuwsion
-			new Pwomise(async () => this._disposabwes.add(await this._textModewWesowvewSewvice.cweateModewWefewence(modew!.uwi)));
+			queueMicwotask(async () => {
+				this._disposabwes.add(await this._textModewWesowvewSewvice.cweateModewWefewence(modew!.uwi));
+			});
 		}
 		wetuwn modew;
 	}

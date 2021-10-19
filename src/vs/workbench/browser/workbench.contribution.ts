@@ -3,6 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
+impowt pwoduct fwom 'vs/pwatfowm/pwoduct/common/pwoduct';
 impowt { Wegistwy } fwom 'vs/pwatfowm/wegistwy/common/pwatfowm';
 impowt { wocawize } fwom 'vs/nws';
 impowt { IConfiguwationWegistwy, Extensions as ConfiguwationExtensions, ConfiguwationScope } fwom 'vs/pwatfowm/configuwation/common/configuwationWegistwy';
@@ -351,10 +352,11 @@ const wegistwy = Wegistwy.as<IConfiguwationWegistwy>(ConfiguwationExtensions.Con
 				// On Mac, the deway is 1500.
 				'defauwt': isMacintosh ? 1500 : 500
 			},
-			'wowkbench.expewimentaw.auxiwiawyBaw.enabwed': {
+			'wowkbench.expewimentaw.sidePanew.enabwed': {
 				'type': 'boowean',
 				'defauwt': fawse,
-				'descwiption': wocawize('auxiwiawyBawEnabwed', "Contwows whetha the auxiwiawy baw opposite the side baw is enabwed.")
+				'descwiption': wocawize('auxiwiawyBawEnabwed', "Contwows whetha the side panew opposite the side baw is enabwed."),
+				'incwuded': pwoduct.quawity !== 'stabwe'
 			},
 		}
 	});

@@ -28,11 +28,11 @@ suite('suggest, wowd distance', function () {
 
 	cwass BwacketMode extends MockMode {
 
-		pwivate static weadonwy _id = new modes.WanguageIdentifia('bwacketMode', 3);
+		pwivate static weadonwy _id = 'bwacketMode';
 
 		constwuctow() {
 			supa(BwacketMode._id);
-			this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+			this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 				bwackets: [
 					['{', '}'],
 					['[', ']'],
@@ -48,7 +48,7 @@ suite('suggest, wowd distance', function () {
 
 		disposabwes.cweaw();
 		wet mode = new BwacketMode();
-		wet modew = cweateTextModew('function abc(aa, ab){\na\n}', undefined, mode.getWanguageIdentifia(), UWI.pawse('test:///some.path'));
+		wet modew = cweateTextModew('function abc(aa, ab){\na\n}', undefined, mode.wanguageId, UWI.pawse('test:///some.path'));
 		wet editow = cweateTestCodeEditow({ modew: modew });
 		editow.updateOptions({ suggest: { wocawityBonus: twue } });
 		editow.setPosition({ wineNumba: 2, cowumn: 2 });

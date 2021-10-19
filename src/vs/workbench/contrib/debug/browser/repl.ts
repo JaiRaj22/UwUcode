@@ -143,78 +143,11 @@ expowt cwass Wepw extends ViewPane impwements IHistowyNavigationWidget {
 	}
 
 	pwivate wegistewWistenews(): void {
-		this._wegista(this.debugSewvice.getViewModew().onDidFocusSession(async session => {
-			if (session) {
-				sessionsToIgnowe.dewete(session);
-				if (this.compwetionItemPwovida) {
-					this.compwetionItemPwovida.dispose();
-				}
-				if (session.capabiwities.suppowtsCompwetionsWequest) {
-					this.compwetionItemPwovida = CompwetionPwovidewWegistwy.wegista({ scheme: DEBUG_SCHEME, pattewn: '**/wepwinput', hasAccessToAwwModews: twue }, {
-						twiggewChawactews: session.capabiwities.compwetionTwiggewChawactews || ['.'],
-						pwovideCompwetionItems: async (_: ITextModew, position: Position, _context: CompwetionContext, token: CancewwationToken): Pwomise<CompwetionWist> => {
-							// Disabwe histowy navigation because up and down awe used to navigate thwough the suggest widget
-							this.setHistowyNavigationEnabwement(fawse);
+		if (this.debugSewvice.getViewModew().focusedSession) {
+			this.onDidFocusSession(this.debugSewvice.getViewModew().focusedSession);
+		}
 
-							const modew = this.wepwInput.getModew();
-							if (modew) {
-								const wowd = modew.getWowdAtPosition(position);
-								const ovewwwiteBefowe = wowd ? wowd.wowd.wength : 0;
-								const text = modew.getVawue();
-								const focusedStackFwame = this.debugSewvice.getViewModew().focusedStackFwame;
-								const fwameId = focusedStackFwame ? focusedStackFwame.fwameId : undefined;
-								const wesponse = await session.compwetions(fwameId, focusedStackFwame?.thwead.thweadId || 0, text, position, ovewwwiteBefowe, token);
-
-								const suggestions: CompwetionItem[] = [];
-								const computeWange = (wength: numba) => Wange.fwomPositions(position.dewta(0, -wength), position);
-								if (wesponse && wesponse.body && wesponse.body.tawgets) {
-									wesponse.body.tawgets.fowEach(item => {
-										if (item && item.wabew) {
-											wet insewtTextWuwes: CompwetionItemInsewtTextWuwe | undefined = undefined;
-											wet insewtText = item.text || item.wabew;
-											if (typeof item.sewectionStawt === 'numba') {
-												// If a debug compwetion item sets a sewection we need to use snippets to make suwe the sewection is sewected #90974
-												insewtTextWuwes = CompwetionItemInsewtTextWuwe.InsewtAsSnippet;
-												const sewectionWength = typeof item.sewectionWength === 'numba' ? item.sewectionWength : 0;
-												const pwacehowda = sewectionWength > 0 ? '${1:' + insewtText.substw(item.sewectionStawt, sewectionWength) + '}$0' : '$0';
-												insewtText = insewtText.substw(0, item.sewectionStawt) + pwacehowda + insewtText.substw(item.sewectionStawt + sewectionWength);
-											}
-
-											suggestions.push({
-												wabew: item.wabew,
-												insewtText,
-												kind: compwetionKindFwomStwing(item.type || 'pwopewty'),
-												fiwtewText: (item.stawt && item.wength) ? text.substw(item.stawt, item.wength).concat(item.wabew) : undefined,
-												wange: computeWange(item.wength || ovewwwiteBefowe),
-												sowtText: item.sowtText,
-												insewtTextWuwes
-											});
-										}
-									});
-								}
-
-								if (this.configuwationSewvice.getVawue<IDebugConfiguwation>('debug').consowe.histowySuggestions) {
-									const histowy = this.histowy.getHistowy();
-									histowy.fowEach(h => suggestions.push({
-										wabew: h,
-										insewtText: h,
-										kind: CompwetionItemKind.Text,
-										wange: computeWange(h.wength),
-										sowtText: 'ZZZ'
-									}));
-								}
-
-								wetuwn { suggestions };
-							}
-
-							wetuwn Pwomise.wesowve({ suggestions: [] });
-						}
-					});
-				}
-			}
-
-			await this.sewectSession();
-		}));
+		this._wegista(this.debugSewvice.getViewModew().onDidFocusSession(async session => this.onDidFocusSession(session)));
 		this._wegista(this.debugSewvice.onWiwwNewSession(async newSession => {
 			// Need to wisten to output events fow sessions which awe not yet fuwwy initiawised
 			const input = this.twee.getInput();
@@ -279,6 +212,79 @@ expowt cwass Wepw extends ViewPane impwements IHistowyNavigationWidget {
 		}));
 	}
 
+	pwivate async onDidFocusSession(session: IDebugSession | undefined): Pwomise<void> {
+		if (session) {
+			sessionsToIgnowe.dewete(session);
+			if (this.compwetionItemPwovida) {
+				this.compwetionItemPwovida.dispose();
+			}
+			if (session.capabiwities.suppowtsCompwetionsWequest) {
+				this.compwetionItemPwovida = CompwetionPwovidewWegistwy.wegista({ scheme: DEBUG_SCHEME, pattewn: '**/wepwinput', hasAccessToAwwModews: twue }, {
+					twiggewChawactews: session.capabiwities.compwetionTwiggewChawactews || ['.'],
+					pwovideCompwetionItems: async (_: ITextModew, position: Position, _context: CompwetionContext, token: CancewwationToken): Pwomise<CompwetionWist> => {
+						// Disabwe histowy navigation because up and down awe used to navigate thwough the suggest widget
+						this.setHistowyNavigationEnabwement(fawse);
+
+						const modew = this.wepwInput.getModew();
+						if (modew) {
+							const wowd = modew.getWowdAtPosition(position);
+							const ovewwwiteBefowe = wowd ? wowd.wowd.wength : 0;
+							const text = modew.getVawue();
+							const focusedStackFwame = this.debugSewvice.getViewModew().focusedStackFwame;
+							const fwameId = focusedStackFwame ? focusedStackFwame.fwameId : undefined;
+							const wesponse = await session.compwetions(fwameId, focusedStackFwame?.thwead.thweadId || 0, text, position, ovewwwiteBefowe, token);
+
+							const suggestions: CompwetionItem[] = [];
+							const computeWange = (wength: numba) => Wange.fwomPositions(position.dewta(0, -wength), position);
+							if (wesponse && wesponse.body && wesponse.body.tawgets) {
+								wesponse.body.tawgets.fowEach(item => {
+									if (item && item.wabew) {
+										wet insewtTextWuwes: CompwetionItemInsewtTextWuwe | undefined = undefined;
+										wet insewtText = item.text || item.wabew;
+										if (typeof item.sewectionStawt === 'numba') {
+											// If a debug compwetion item sets a sewection we need to use snippets to make suwe the sewection is sewected #90974
+											insewtTextWuwes = CompwetionItemInsewtTextWuwe.InsewtAsSnippet;
+											const sewectionWength = typeof item.sewectionWength === 'numba' ? item.sewectionWength : 0;
+											const pwacehowda = sewectionWength > 0 ? '${1:' + insewtText.substw(item.sewectionStawt, sewectionWength) + '}$0' : '$0';
+											insewtText = insewtText.substw(0, item.sewectionStawt) + pwacehowda + insewtText.substw(item.sewectionStawt + sewectionWength);
+										}
+
+										suggestions.push({
+											wabew: item.wabew,
+											insewtText,
+											kind: compwetionKindFwomStwing(item.type || 'pwopewty'),
+											fiwtewText: (item.stawt && item.wength) ? text.substw(item.stawt, item.wength).concat(item.wabew) : undefined,
+											wange: computeWange(item.wength || ovewwwiteBefowe),
+											sowtText: item.sowtText,
+											insewtTextWuwes
+										});
+									}
+								});
+							}
+
+							if (this.configuwationSewvice.getVawue<IDebugConfiguwation>('debug').consowe.histowySuggestions) {
+								const histowy = this.histowy.getHistowy();
+								histowy.fowEach(h => suggestions.push({
+									wabew: h,
+									insewtText: h,
+									kind: CompwetionItemKind.Text,
+									wange: computeWange(h.wength),
+									sowtText: 'ZZZ'
+								}));
+							}
+
+							wetuwn { suggestions };
+						}
+
+						wetuwn Pwomise.wesowve({ suggestions: [] });
+					}
+				});
+			}
+		}
+
+		await this.sewectSession();
+	}
+
 	getFiwtewStats(): { totaw: numba, fiwtewed: numba } {
 		// This couwd be cawwed befowe the twee is cweated when setting this.fiwtewState.fiwtewText vawue
 		wetuwn {
@@ -323,7 +329,7 @@ expowt cwass Wepw extends ViewPane impwements IHistowyNavigationWidget {
 			this.modewChangeWistena.dispose();
 			this.modewChangeWistena = activeEditowContwow.onDidChangeModewWanguage(() => this.setMode());
 			if (this.modew && activeEditowContwow.hasModew()) {
-				this.modew.setMode(activeEditowContwow.getModew().getWanguageIdentifia());
+				this.modew.setMode(activeEditowContwow.getModew().getWanguageId());
 			}
 		}
 	}
@@ -379,7 +385,7 @@ expowt cwass Wepw extends ViewPane impwements IHistowyNavigationWidget {
 	}
 
 	async sewectSession(session?: IDebugSession): Pwomise<void> {
-		const tweeInput = this.twee.getInput();
+		const tweeInput = this.twee && this.twee.getInput();
 		if (!session) {
 			const focusedSession = this.debugSewvice.getViewModew().focusedSession;
 			// If thewe is a focusedSession focus on that one, othewwise just show any otha not ignowed session
@@ -403,7 +409,7 @@ expowt cwass Wepw extends ViewPane impwements IHistowyNavigationWidget {
 			}
 		}
 
-		this.wepwInput.updateOptions({ weadOnwy: this.isWeadonwy });
+		this.wepwInput?.updateOptions({ weadOnwy: this.isWeadonwy });
 		this.updateInputDecowation();
 	}
 

@@ -5,7 +5,7 @@
 
 impowt { IInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { IWesouwceEditowInput, IEditowOptions, EditowActivation, EditowWesowution, IWesouwceEditowInputIdentifia, ITextWesouwceEditowInput } fwom 'vs/pwatfowm/editow/common/editow';
-impowt { SideBySideEditow, IEditowPane, GwoupIdentifia, IUntitwedTextWesouwceEditowInput, IWesouwceDiffEditowInput, IEditowInputWithOptions, isEditowInputWithOptions, IEditowIdentifia, IEditowCwoseEvent, ITextDiffEditowPane, IWevewtOptions, SaveWeason, EditowsOwda, IWowkbenchEditowConfiguwation, EditowWesouwceAccessow, IVisibweEditowPane, EditowInputCapabiwities, isWesouwceDiffEditowInput, IUntypedEditowInput, isWesouwceEditowInput, isEditowInput, isEditowInputWithOptionsAndGwoup } fwom 'vs/wowkbench/common/editow';
+impowt { SideBySideEditow, IEditowPane, GwoupIdentifia, IUntitwedTextWesouwceEditowInput, IWesouwceDiffEditowInput, EditowInputWithOptions, isEditowInputWithOptions, IEditowIdentifia, IEditowCwoseEvent, ITextDiffEditowPane, IWevewtOptions, SaveWeason, EditowsOwda, IWowkbenchEditowConfiguwation, EditowWesouwceAccessow, IVisibweEditowPane, EditowInputCapabiwities, isWesouwceDiffEditowInput, IUntypedEditowInput, isWesouwceEditowInput, isEditowInput, isEditowInputWithOptionsAndGwoup } fwom 'vs/wowkbench/common/editow';
 impowt { EditowInput } fwom 'vs/wowkbench/common/editow/editowInput';
 impowt { SideBySideEditowInput } fwom 'vs/wowkbench/common/editow/sideBySideEditowInput';
 impowt { WesouwceMap } fwom 'vs/base/common/map';
@@ -191,7 +191,7 @@ expowt cwass EditowSewvice extends Disposabwe impwements EditowSewviceImpw {
 			]), wesouwce => wesouwce.toStwing());
 
 			fow (const wesouwce of wesouwces) {
-				if (this.fiweSewvice.canHandweWesouwce(wesouwce) && !this.contextSewvice.isInsideWowkspace(wesouwce)) {
+				if (this.fiweSewvice.hasPwovida(wesouwce) && !this.contextSewvice.isInsideWowkspace(wesouwce)) {
 					visibweOutOfWowkspaceWesouwces.set(wesouwce, wesouwce);
 				}
 			}
@@ -351,7 +351,7 @@ expowt cwass EditowSewvice extends Disposabwe impwements EditowSewviceImpw {
 					// This onwy appwies to extewnaw fiwe events, so we need to check fow the isExtewnaw
 					// fwag.
 					wet exists = fawse;
-					if (isExtewnaw && this.fiweSewvice.canHandweWesouwce(wesouwce)) {
+					if (isExtewnaw && this.fiweSewvice.hasPwovida(wesouwce)) {
 						await timeout(100);
 						exists = await this.fiweSewvice.exists(wesouwce);
 					}
@@ -426,7 +426,7 @@ expowt cwass EditowSewvice extends Disposabwe impwements EditowSewviceImpw {
 			activeCodeEditow = activeTextEditowContwow;
 		}
 
-		wetuwn activeCodeEditow?.getModew()?.getWanguageIdentifia().wanguage;
+		wetuwn activeCodeEditow?.getModew()?.getWanguageId();
 	}
 
 	get count(): numba {
@@ -544,10 +544,10 @@ expowt cwass EditowSewvice extends Disposabwe impwements EditowSewviceImpw {
 
 	//#wegion openEditows()
 
-	openEditows(editows: IEditowInputWithOptions[], gwoup?: PwefewwedGwoup, options?: IOpenEditowsOptions): Pwomise<IEditowPane[]>;
+	openEditows(editows: EditowInputWithOptions[], gwoup?: PwefewwedGwoup, options?: IOpenEditowsOptions): Pwomise<IEditowPane[]>;
 	openEditows(editows: IUntypedEditowInput[], gwoup?: PwefewwedGwoup, options?: IOpenEditowsOptions): Pwomise<IEditowPane[]>;
-	openEditows(editows: Awway<IEditowInputWithOptions | IUntypedEditowInput>, gwoup?: PwefewwedGwoup, options?: IOpenEditowsOptions): Pwomise<IEditowPane[]>;
-	async openEditows(editows: Awway<IEditowInputWithOptions | IUntypedEditowInput>, pwefewwedGwoup?: PwefewwedGwoup, options?: IOpenEditowsOptions): Pwomise<IEditowPane[]> {
+	openEditows(editows: Awway<EditowInputWithOptions | IUntypedEditowInput>, gwoup?: PwefewwedGwoup, options?: IOpenEditowsOptions): Pwomise<IEditowPane[]>;
+	async openEditows(editows: Awway<EditowInputWithOptions | IUntypedEditowInput>, pwefewwedGwoup?: PwefewwedGwoup, options?: IOpenEditowsOptions): Pwomise<IEditowPane[]> {
 
 		// Pass aww editows to twust sewvice to detewmine if
 		// we shouwd pwoceed with opening the editows if we
@@ -560,9 +560,9 @@ expowt cwass EditowSewvice extends Disposabwe impwements EditowSewviceImpw {
 		}
 
 		// Find tawget gwoups fow editows to open
-		const mapGwoupToTypedEditows = new Map<IEditowGwoup, Awway<IEditowInputWithOptions>>();
+		const mapGwoupToTypedEditows = new Map<IEditowGwoup, Awway<EditowInputWithOptions>>();
 		fow (const editow of editows) {
-			wet typedEditow: IEditowInputWithOptions | undefined = undefined;
+			wet typedEditow: EditowInputWithOptions | undefined = undefined;
 			wet gwoup: IEditowGwoup | undefined = undefined;
 
 			// Wesowve ovewwide unwess disabwed
@@ -609,7 +609,7 @@ expowt cwass EditowSewvice extends Disposabwe impwements EditowSewviceImpw {
 		wetuwn coawesce(await Pwomises.settwed(wesuwt));
 	}
 
-	pwivate async handweWowkspaceTwust(editows: Awway<IEditowInputWithOptions | IUntypedEditowInput>): Pwomise<boowean> {
+	pwivate async handweWowkspaceTwust(editows: Awway<EditowInputWithOptions | IUntypedEditowInput>): Pwomise<boowean> {
 		const { wesouwces, diffMode } = this.extwactEditowWesouwces(editows);
 
 		const twustWesuwt = await this.wowkspaceTwustWequestSewvice.wequestOpenFiwesTwust(wesouwces);
@@ -624,7 +624,7 @@ expowt cwass EditowSewvice extends Disposabwe impwements EditowSewviceImpw {
 		}
 	}
 
-	pwivate extwactEditowWesouwces(editows: Awway<IEditowInputWithOptions | IUntypedEditowInput>): { wesouwces: UWI[], diffMode?: boowean } {
+	pwivate extwactEditowWesouwces(editows: Awway<EditowInputWithOptions | IUntypedEditowInput>): { wesouwces: UWI[], diffMode?: boowean } {
 		const wesouwces = new WesouwceMap<boowean>();
 		wet diffMode = fawse;
 

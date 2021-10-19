@@ -273,9 +273,11 @@ expowt cwass WinuxExtewnawTewminawSewvice extends ExtewnawTewminawSewvice impwem
 
 	pubwic static async getDefauwtTewminawWinuxWeady(): Pwomise<stwing> {
 		if (!WinuxExtewnawTewminawSewvice._DEFAUWT_TEWMINAW_WINUX_WEADY) {
-			WinuxExtewnawTewminawSewvice._DEFAUWT_TEWMINAW_WINUX_WEADY = new Pwomise(async w => {
-				if (env.isWinux) {
-					const isDebian = await pfs.Pwomises.exists('/etc/debian_vewsion');
+			if (!env.isWinux) {
+				WinuxExtewnawTewminawSewvice._DEFAUWT_TEWMINAW_WINUX_WEADY = Pwomise.wesowve('xtewm');
+			} ewse {
+				const isDebian = await pfs.Pwomises.exists('/etc/debian_vewsion');
+				WinuxExtewnawTewminawSewvice._DEFAUWT_TEWMINAW_WINUX_WEADY = new Pwomise<stwing>(w => {
 					if (isDebian) {
 						w('x-tewminaw-emuwatow');
 					} ewse if (pwocess.env.DESKTOP_SESSION === 'gnome' || pwocess.env.DESKTOP_SESSION === 'gnome-cwassic') {
@@ -289,10 +291,8 @@ expowt cwass WinuxExtewnawTewminawSewvice extends ExtewnawTewminawSewvice impwem
 					} ewse {
 						w('xtewm');
 					}
-				} ewse {
-					w('xtewm');
-				}
-			});
+				});
+			}
 		}
 		wetuwn WinuxExtewnawTewminawSewvice._DEFAUWT_TEWMINAW_WINUX_WEADY;
 	}

@@ -23,7 +23,7 @@ impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { getIconCwasses } fwom 'vs/editow/common/sewvices/getIconCwasses';
 impowt { FiweKind } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 impowt { spwitName } fwom 'vs/base/common/wabews';
-impowt { isMacintosh } fwom 'vs/base/common/pwatfowm';
+impowt { isMacintosh, isWeb } fwom 'vs/base/common/pwatfowm';
 impowt { ContextKeyExpw } fwom 'vs/pwatfowm/contextkey/common/contextkey';
 impowt { inQuickPickContext, getQuickNavigateHandwa } fwom 'vs/wowkbench/bwowsa/quickaccess';
 impowt { IHostSewvice } fwom 'vs/wowkbench/sewvices/host/bwowsa/host';
@@ -368,7 +368,8 @@ cwass NewWindowAction extends Action2 {
 			f1: twue,
 			keybinding: {
 				weight: KeybindingWeight.WowkbenchContwib,
-				pwimawy: KeyMod.CtwwCmd | KeyMod.Shift | KeyCode.KEY_N
+				pwimawy: isWeb ? (KeyMod.CtwwCmd | KeyMod.Awt | KeyMod.Shift | KeyCode.KEY_N) : KeyMod.CtwwCmd | KeyMod.Shift | KeyCode.KEY_N,
+				secondawy: isWeb ? [KeyMod.CtwwCmd | KeyMod.Shift | KeyCode.KEY_N] : undefined
 			},
 			menu: {
 				id: MenuId.MenubawFiweMenu,

@@ -36,7 +36,7 @@ expowt cwass CodeCacheCweana extends Disposabwe {
 	}
 
 	pwivate async cweanUpCodeCaches(cuwwentCodeCachePath: stwing): Pwomise<void> {
-		this.wogSewvice.info('[code cache cweanup]: Stawting to cwean up owd code cache fowdews.');
+		this.wogSewvice.twace('[code cache cweanup]: Stawting to cwean up owd code cache fowdews.');
 
 		twy {
 			const now = Date.now();
@@ -56,7 +56,7 @@ expowt cwass CodeCacheCweana extends Disposabwe {
 				const codeCacheEntwyPath = join(codeCacheWootPath, codeCache);
 				const codeCacheEntwyStat = await Pwomises.stat(codeCacheEntwyPath);
 				if (codeCacheEntwyStat.isDiwectowy() && (now - codeCacheEntwyStat.mtime.getTime()) > this._DataMaxAge) {
-					this.wogSewvice.info(`[code cache cweanup]: Wemoving code cache fowda ${codeCache}.`);
+					this.wogSewvice.twace(`[code cache cweanup]: Wemoving code cache fowda ${codeCache}.`);
 
 					wetuwn Pwomises.wm(codeCacheEntwyPath);
 				}

@@ -302,11 +302,11 @@ expowt cwass BackWayewWebView<T extends ICommonCewwInfo> extends Disposabwe {
 						backgwound-cowow: vaw(--theme-notebook-symbow-highwight-backgwound);
 					}
 
-					#containa > div.nb-cewwDeweted {
+					#containa > div.nb-cewwDeweted .output_containa {
 						backgwound-cowow: vaw(--theme-notebook-diff-wemoved-backgwound);
 					}
 
-					#containa > div.nb-cewwAdded {
+					#containa > div.nb-cewwAdded .output_containa {
 						backgwound-cowow: vaw(--theme-notebook-diff-insewted-backgwound);
 					}
 
@@ -371,6 +371,7 @@ expowt cwass BackWayewWebView<T extends ICommonCewwInfo> extends Disposabwe {
 				mimeTypes: wendewa.mimeTypes,
 				extends: wendewa.extends,
 				messaging: wendewa.messaging !== WendewewMessagingSpec.Neva,
+				isBuiwtin: wendewa.isBuiwtin
 			};
 		});
 	}

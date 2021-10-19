@@ -313,7 +313,7 @@ suite('EditowGwoupModew', () => {
 	});
 
 	test('openEditow - pwefews existing side by side editow if same', () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const gwoup = cweateEditowGwoupModew();
 		const input1 = new TestFiweEditowInput('testInput', UWI.fiwe('fake1'));
@@ -341,7 +341,7 @@ suite('EditowGwoupModew', () => {
 	});
 
 	test('indexOf() - pwefews diwect matching editow ova side by side matching one', () => {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const gwoup = cweateEditowGwoupModew();
 		const input1 = new TestFiweEditowInput('testInput', UWI.fiwe('fake1'));
@@ -362,7 +362,7 @@ suite('EditowGwoupModew', () => {
 
 	test('contains() - untyped', function () {
 		const gwoup = cweateEditowGwoupModew();
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const input1 = input('input1', fawse, UWI.fiwe('/input1'));
 		const input2 = input('input2', fawse, UWI.fiwe('/input2'));
@@ -483,7 +483,7 @@ suite('EditowGwoupModew', () => {
 
 	test('contains()', () => {
 		const gwoup = cweateEditowGwoupModew();
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 
 		const input1 = input();
 		const input2 = input();

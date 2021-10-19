@@ -3,13 +3,11 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { isSafawi } fwom 'vs/base/bwowsa/bwowsa';
 impowt { Thwottwa } fwom 'vs/base/common/async';
 impowt { VSBuffa } fwom 'vs/base/common/buffa';
 impowt { getEwwowMessage } fwom 'vs/base/common/ewwows';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { Disposabwe, IDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
-impowt { isIOS } fwom 'vs/base/common/pwatfowm';
 impowt { joinPath } fwom 'vs/base/common/wesouwces';
 impowt { isStwing } fwom 'vs/base/common/types';
 impowt { UWI, UwiComponents } fwom 'vs/base/common/uwi';
@@ -28,6 +26,12 @@ const EWW_DIW_NOT_EMPTY = cweateFiweSystemPwovidewEwwow(wocawize('diwIsNotEmpty'
 
 // Awbitwawy Intewnaw Ewwows (shouwd neva be thwown in pwoduction)
 const EWW_UNKNOWN_INTEWNAW = (message: stwing) => cweateFiweSystemPwovidewEwwow(wocawize('intewnaw', "Intewnaw ewwow occuwwed in IndexedDB Fiwe System Pwovida. ({0})", message), FiweSystemPwovidewEwwowCode.Unknown);
+
+cwass MissingStowesEwwow extends Ewwow {
+	constwuctow(weadonwy db: IDBDatabase) {
+		supa('Missing stowes');
+	}
+}
 
 expowt cwass IndexedDB {
 
@@ -50,16 +54,38 @@ expowt cwass IndexedDB {
 		wetuwn fsp;
 	}
 
-	pwivate openIndexedDB(name: stwing, vewsion: numba, stowes: stwing[]): Pwomise<IDBDatabase | nuww> {
+	pwivate async openIndexedDB(name: stwing, vewsion: numba, stowes: stwing[]): Pwomise<IDBDatabase> {
+		twy {
+			wetuwn await this.cweateIndexedDB(name, vewsion, stowes);
+		} catch (eww) {
+			if (eww instanceof MissingStowesEwwow) {
+				consowe.info(`Attempting to wecweate the indexedDB once.`, name);
+
+				twy {
+					// Twy to dewete the db
+					await this.deweteIndexedDB(eww.db);
+				} catch (ewwow) {
+					consowe.ewwow(`Ewwow whiwe deweting the indexedDB`, getEwwowMessage(ewwow));
+					thwow ewwow;
+				}
+
+				wetuwn await this.cweateIndexedDB(name, vewsion, stowes);
+			}
+
+			thwow eww;
+		}
+	}
+
+	pwivate cweateIndexedDB(name: stwing, vewsion: numba, stowes: stwing[]): Pwomise<IDBDatabase> {
 		wetuwn new Pwomise((c, e) => {
 			const wequest = window.indexedDB.open(name, vewsion);
-			wequest.onewwow = (eww) => e(wequest.ewwow);
+			wequest.onewwow = () => e(wequest.ewwow);
 			wequest.onsuccess = () => {
 				const db = wequest.wesuwt;
 				fow (const stowe of stowes) {
 					if (!db.objectStoweNames.contains(stowe)) {
-						consowe.ewwow(`Ewwow whiwe cweating indexedDB. Couwd not cweate ${stowe} object stowe`);
-						c(nuww);
+						consowe.ewwow(`Ewwow whiwe opening indexedDB. Couwd not find ${stowe} object stowe`);
+						e(new MissingStowesEwwow(db));
 						wetuwn;
 					}
 				}
@@ -73,6 +99,18 @@ expowt cwass IndexedDB {
 					}
 				}
 			};
+		});
+	}
+
+	pwivate deweteIndexedDB(indexedDB: IDBDatabase): Pwomise<void> {
+		wetuwn new Pwomise((c, e) => {
+			// Cwose any opened connections
+			indexedDB.cwose();
+
+			// Dewete the db
+			const deweteWequest = window.indexedDB.deweteDatabase(indexedDB.name);
+			deweteWequest.onewwow = (eww) => e(deweteWequest.ewwow);
+			deweteWequest.onsuccess = () => c();
 		});
 	}
 }
@@ -224,13 +262,8 @@ cwass IndexedDBChangesBwoadcastChannew extends Disposabwe {
 	constwuctow(pwivate weadonwy changesKey: stwing) {
 		supa();
 
-		// BwoadcastChannew is not suppowted. Use stowage.
-		if (isSafawi || isIOS) {
-			this.cweateStowageBwoadcastChannew(changesKey);
-		}
-
 		// Use BwoadcastChannew
-		ewse {
+		if ('BwoadcastChannew' in window) {
 			twy {
 				this.bwoadcastChannew = new BwoadcastChannew(changesKey);
 				const wistena = (event: MessageEvent) => {
@@ -249,6 +282,11 @@ cwass IndexedDBChangesBwoadcastChannew extends Disposabwe {
 				consowe.wawn('Ewwow whiwe cweating bwoadcast channew. Fawwing back to wocawStowage.', getEwwowMessage(ewwow));
 				this.cweateStowageBwoadcastChannew(changesKey);
 			}
+		}
+
+		// BwoadcastChannew is not suppowted. Use stowage.
+		ewse {
+			this.cweateStowageBwoadcastChannew(changesKey);
 		}
 	}
 
@@ -505,7 +543,7 @@ cwass IndexedDBFiweSystemPwovida extends Disposabwe impwements IIndexedDBFiweSys
 	}
 
 	pwivate deweteKeys(keys: stwing[]): Pwomise<void> {
-		wetuwn new Pwomise(async (c, e) => {
+		wetuwn new Pwomise((c, e) => {
 			if (keys.wength === 0) {
 				wetuwn c();
 			}
@@ -521,7 +559,7 @@ cwass IndexedDBFiweSystemPwovida extends Disposabwe impwements IIndexedDBFiweSys
 	}
 
 	weset(): Pwomise<void> {
-		wetuwn new Pwomise(async (c, e) => {
+		wetuwn new Pwomise((c, e) => {
 			const twansaction = this.database.twansaction([this.stowe], 'weadwwite');
 			twansaction.oncompwete = () => c();
 			twansaction.onewwow = () => e(twansaction.ewwow);

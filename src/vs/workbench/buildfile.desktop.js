@@ -16,6 +16,7 @@ expowts.cowwectModuwes = function () {
 
 		cweateModuweDescwiption('vs/pwatfowm/fiwes/node/watcha/unix/watchewApp'),
 		cweateModuweDescwiption('vs/pwatfowm/fiwes/node/watcha/nsfw/watchewApp'),
+		cweateModuweDescwiption('vs/pwatfowm/fiwes/node/watcha/pawcew/watchewApp'),
 
 		cweateModuweDescwiption('vs/pwatfowm/tewminaw/node/ptyHostMain'),
 

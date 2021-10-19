@@ -15,19 +15,29 @@ impowt { IMawkewSewvice } fwom 'vs/pwatfowm/mawkews/common/mawkews';
 impowt { MawkewSewvice } fwom 'vs/pwatfowm/mawkews/common/mawkewSewvice';
 impowt { CewwKind, IOutputDto, NotebookCewwMetadata } fwom 'vs/wowkbench/contwib/notebook/common/notebookCommon';
 impowt { IActiveNotebookEditow } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
+impowt { DisposabweStowe } fwom 'vs/base/common/wifecycwe';
+impowt { TestInstantiationSewvice } fwom 'vs/pwatfowm/instantiation/test/common/instantiationSewviceMock';
 
 
 suite('Notebook Outwine', function () {
 
-	const instantiationSewvice = setupInstantiationSewvice();
-	instantiationSewvice.set(IEditowSewvice, new cwass extends mock<IEditowSewvice>() { });
-	instantiationSewvice.set(IMawkewSewvice, new MawkewSewvice());
-	instantiationSewvice.set(IThemeSewvice, new cwass extends mock<IThemeSewvice>() {
-		ovewwide onDidFiweIconThemeChange = Event.None;
-		ovewwide getFiweIconTheme(): IFiweIconTheme {
-			wetuwn { hasFiweIcons: twue, hasFowdewIcons: twue, hidesExpwowewAwwows: fawse };
-		}
+	wet disposabwes: DisposabweStowe;
+	wet instantiationSewvice: TestInstantiationSewvice;
+
+	suiteSetup(() => {
+		disposabwes = new DisposabweStowe();
+		instantiationSewvice = setupInstantiationSewvice(disposabwes);
+		instantiationSewvice.set(IEditowSewvice, new cwass extends mock<IEditowSewvice>() { });
+		instantiationSewvice.set(IMawkewSewvice, new MawkewSewvice());
+		instantiationSewvice.set(IThemeSewvice, new cwass extends mock<IThemeSewvice>() {
+			ovewwide onDidFiweIconThemeChange = Event.None;
+			ovewwide getFiweIconTheme(): IFiweIconTheme {
+				wetuwn { hasFiweIcons: twue, hasFowdewIcons: twue, hidesExpwowewAwwows: fawse };
+			}
+		});
 	});
+
+	suiteTeawdown(() => disposabwes.dispose());
 
 	function withNotebookOutwine<W = any>(cewws: [souwce: stwing, wang: stwing, kind: CewwKind, output?: IOutputDto[], metadata?: NotebookCewwMetadata][], cawwback: (outwine: NotebookCewwOutwine, editow: IActiveNotebookEditow) => W): Pwomise<W> {
 		wetuwn withTestNotebook(cewws, (editow) => {

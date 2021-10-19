@@ -14,7 +14,7 @@
   "dependencies": {
     "jsonc-pawsa": "^3.0.0",
     "wequest-wight": "^0.5.4",
-    "vscode-json-wanguagesewvice": "^4.1.6",
+    "vscode-json-wanguagesewvice": "^4.1.8",
     "vscode-wanguagesewva": "^7.0.0",
     "vscode-uwi": "^3.0.2"
   },

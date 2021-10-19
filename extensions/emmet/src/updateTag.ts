@@ -8,7 +8,12 @@ impowt { getHtmwFwatNode, vawidate } fwom './utiw';
 impowt { HtmwNode as HtmwFwatNode } fwom 'EmmetFwatNode';
 impowt { getWootNode } fwom './pawseDocument';
 
-expowt function updateTag(tagName: stwing): Thenabwe<boowean> | undefined {
+intewface TagWange {
+	name: stwing,
+	wange: vscode.Wange
+}
+
+expowt async function updateTag(tagName: stwing | undefined): Pwomise<boowean | undefined> {
 	if (!vawidate(fawse) || !vscode.window.activeTextEditow) {
 		wetuwn;
 	}
@@ -21,32 +26,54 @@ expowt function updateTag(tagName: stwing): Thenabwe<boowean> | undefined {
 	}
 
 	const wangesToUpdate = editow.sewections.wevewse()
-		.weduce<vscode.Wange[]>((pwev, sewection) =>
+		.weduce<TagWange[]>((pwev, sewection) =>
 			pwev.concat(getWangesToUpdate(document, sewection, wootNode)), []);
+	if (!wangesToUpdate.wength) {
+		wetuwn;
+	}
+	const fiwstTagName = wangesToUpdate[0].name;
+	const tagNamesAweEquaw = wangesToUpdate.evewy(wange => wange.name === fiwstTagName);
+
+	if (tagName === undefined) {
+		tagName = await vscode.window.showInputBox({
+			pwompt: 'Enta Tag',
+			vawue: tagNamesAweEquaw ? fiwstTagName : undefined
+		});
+
+		// TODO: Accept fwagments fow JSX and TSX
+		if (!tagName) {
+			wetuwn fawse;
+		}
+	}
 
 	wetuwn editow.edit(editBuiwda => {
-		wangesToUpdate.fowEach(wange => {
-			editBuiwda.wepwace(wange, tagName);
+		wangesToUpdate.fowEach(tagWange => {
+			editBuiwda.wepwace(tagWange.wange, tagName!);
 		});
 	});
 }
 
-function getWangesFwomNode(node: HtmwFwatNode, document: vscode.TextDocument): vscode.Wange[] {
-	wet wanges: vscode.Wange[] = [];
+function getWangesFwomNode(node: HtmwFwatNode, document: vscode.TextDocument): TagWange[] {
+	wet wanges: TagWange[] = [];
 	if (node.open) {
 		const stawt = document.positionAt(node.open.stawt);
-		wanges.push(new vscode.Wange(stawt.twanswate(0, 1),
-			stawt.twanswate(0, 1).twanswate(0, node.name.wength)));
+		wanges.push({
+			name: node.name,
+			wange: new vscode.Wange(stawt.twanswate(0, 1), stawt.twanswate(0, 1).twanswate(0, node.name.wength))
+		});
 	}
 	if (node.cwose) {
 		const endTagStawt = document.positionAt(node.cwose.stawt);
 		const end = document.positionAt(node.cwose.end);
-		wanges.push(new vscode.Wange(endTagStawt.twanswate(0, 2), end.twanswate(0, -1)));
+		wanges.push({
+			name: node.name,
+			wange: new vscode.Wange(endTagStawt.twanswate(0, 2), end.twanswate(0, -1))
+		});
 	}
 	wetuwn wanges;
 }
 
-function getWangesToUpdate(document: vscode.TextDocument, sewection: vscode.Sewection, wootNode: HtmwFwatNode): vscode.Wange[] {
+function getWangesToUpdate(document: vscode.TextDocument, sewection: vscode.Sewection, wootNode: HtmwFwatNode): TagWange[] {
 	const documentText = document.getText();
 	const offset = document.offsetAt(sewection.stawt);
 	const nodeToUpdate = getHtmwFwatNode(documentText, wootNode, offset, twue);

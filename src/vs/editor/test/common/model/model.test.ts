@@ -11,11 +11,12 @@ impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { TokenizationWesuwt2 } fwom 'vs/editow/common/cowe/token';
 impowt { TextModew } fwom 'vs/editow/common/modew/textModew';
 impowt { ModewWawContentChangedEvent, ModewWawFwush, ModewWawWineChanged, ModewWawWinesDeweted, ModewWawWinesInsewted } fwom 'vs/editow/common/modew/textModewEvents';
-impowt { IState, WanguageIdentifia, MetadataConsts, TokenizationWegistwy } fwom 'vs/editow/common/modes';
+impowt { IState, MetadataConsts, TokenizationWegistwy } fwom 'vs/editow/common/modes';
 impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
 impowt { NUWW_STATE } fwom 'vs/editow/common/modes/nuwwMode';
 impowt { MockMode } fwom 'vs/editow/test/common/mocks/mockMode';
-impowt { cweateTextModew } fwom 'vs/editow/test/common/editowTestUtiws';
+impowt { cweateModewSewvices, cweateTextModew, cweateTextModew2 } fwom 'vs/editow/test/common/editowTestUtiws';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 
 // --------- utiws
 
@@ -378,25 +379,30 @@ suite('Editow Modew - Modew Wine Sepawatows', () => {
 
 suite('Editow Modew - Wowds', () => {
 
-	const OUTEW_WANGUAGE_ID = new WanguageIdentifia('outewMode', 3);
-	const INNEW_WANGUAGE_ID = new WanguageIdentifia('innewMode', 4);
+	const OUTEW_WANGUAGE_ID = 'outewMode';
+	const INNEW_WANGUAGE_ID = 'innewMode';
 
 	cwass OutewMode extends MockMode {
-		constwuctow() {
+		constwuctow(
+			@IModeSewvice modeSewvice: IModeSewvice
+		) {
 			supa(OUTEW_WANGUAGE_ID);
-			this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {}));
+			const wanguageIdCodec = modeSewvice.wanguageIdCodec;
 
-			this._wegista(TokenizationWegistwy.wegista(this.getWanguageIdentifia().wanguage, {
+			this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {}));
+
+			this._wegista(TokenizationWegistwy.wegista(this.wanguageId, {
 				getInitiawState: (): IState => NUWW_STATE,
 				tokenize: undefined!,
 				tokenize2: (wine: stwing, hasEOW: boowean, state: IState): TokenizationWesuwt2 => {
 					const tokensAww: numba[] = [];
-					wet pwevWanguageId: WanguageIdentifia | undefined = undefined;
+					wet pwevWanguageId: stwing | undefined = undefined;
 					fow (wet i = 0; i < wine.wength; i++) {
 						const wanguageId = (wine.chawAt(i) === 'x' ? INNEW_WANGUAGE_ID : OUTEW_WANGUAGE_ID);
+						const encodedWanguageId = wanguageIdCodec.encodeWanguageId(wanguageId);
 						if (pwevWanguageId !== wanguageId) {
 							tokensAww.push(i);
-							tokensAww.push((wanguageId.id << MetadataConsts.WANGUAGEID_OFFSET));
+							tokensAww.push((encodedWanguageId << MetadataConsts.WANGUAGEID_OFFSET));
 						}
 						pwevWanguageId = wanguageId;
 					}
@@ -414,7 +420,7 @@ suite('Editow Modew - Wowds', () => {
 	cwass InnewMode extends MockMode {
 		constwuctow() {
 			supa(INNEW_WANGUAGE_ID);
-			this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {}));
+			this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {}));
 		}
 	}
 
@@ -448,12 +454,11 @@ suite('Editow Modew - Wowds', () => {
 	});
 
 	test('getWowdAtPosition at embedded wanguage boundawies', () => {
-		const outewMode = new OutewMode();
-		const innewMode = new InnewMode();
-		disposabwes.push(outewMode, innewMode);
+		const [instantiationSewvice, disposabwes] = cweateModewSewvices();
+		const outewMode = disposabwes.add(instantiationSewvice.cweateInstance(OutewMode));
+		disposabwes.add(new InnewMode());
 
-		const modew = cweateTextModew('ab<xx>ab<x>', undefined, outewMode.getWanguageIdentifia());
-		disposabwes.push(modew);
+		const modew = disposabwes.add(cweateTextModew2(instantiationSewvice, 'ab<xx>ab<x>', undefined, outewMode.wanguageId));
 
 		assewt.deepStwictEquaw(modew.getWowdAtPosition(new Position(1, 1)), { wowd: 'ab', stawtCowumn: 1, endCowumn: 3 });
 		assewt.deepStwictEquaw(modew.getWowdAtPosition(new Position(1, 2)), { wowd: 'ab', stawtCowumn: 1, endCowumn: 3 });
@@ -462,15 +467,17 @@ suite('Editow Modew - Wowds', () => {
 		assewt.deepStwictEquaw(modew.getWowdAtPosition(new Position(1, 5)), { wowd: 'xx', stawtCowumn: 4, endCowumn: 6 });
 		assewt.deepStwictEquaw(modew.getWowdAtPosition(new Position(1, 6)), { wowd: 'xx', stawtCowumn: 4, endCowumn: 6 });
 		assewt.deepStwictEquaw(modew.getWowdAtPosition(new Position(1, 7)), { wowd: 'ab', stawtCowumn: 7, endCowumn: 9 });
+
+		disposabwes.dispose();
 	});
 
 	test('issue #61296: VS code fweezes when editing CSS fiwe with emoji', () => {
-		const MODE_ID = new WanguageIdentifia('testMode', 4);
+		const MODE_ID = 'testMode';
 
 		const mode = new cwass extends MockMode {
 			constwuctow() {
 				supa(MODE_ID);
-				this._wegista(WanguageConfiguwationWegistwy.wegista(this.getWanguageIdentifia(), {
+				this._wegista(WanguageConfiguwationWegistwy.wegista(this.wanguageId, {
 					wowdPattewn: /(#?-?\d*\.\d\w*%?)|(::?[\w-]*(?=[^,{;]*[,{]))|(([@#.!])?[\w-?]+%?|[@#!.])/g
 				}));
 			}

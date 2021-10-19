@@ -1286,12 +1286,12 @@ configuwationWegistwy.wegistewConfiguwation({
 		[mouseWheewScwowwSensitivityKey]: {
 			type: 'numba',
 			defauwt: 1,
-			descwiption: wocawize('Mouse Wheew Scwoww Sensitivity', "A muwtipwia to be used on the dewtaX and dewtaY of mouse wheew scwoww events.")
+			descwiption: wocawize('Mouse Wheew Scwoww Sensitivity', "A muwtipwia to be used on the `dewtaX` and `dewtaY` of mouse wheew scwoww events.")
 		},
 		[fastScwowwSensitivityKey]: {
 			type: 'numba',
 			defauwt: 5,
-			descwiption: wocawize('Fast Scwoww Sensitivity', "Scwowwing speed muwtipwia when pwessing Awt.")
+			descwiption: wocawize('Fast Scwoww Sensitivity', "Scwowwing speed muwtipwia when pwessing `Awt`.")
 		},
 		[keyboawdNavigationSettingKey]: {
 			type: 'stwing',

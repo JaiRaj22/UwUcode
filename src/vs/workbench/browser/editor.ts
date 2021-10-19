@@ -176,8 +176,25 @@ expowt function whenEditowCwosed(accessow: SewvicesAccessow, wesouwces: UWI[]): 
 				wetuwn; // ignowe move events whewe the editow wiww open in anotha gwoup
 			}
 
-			const pwimawyWesouwce = EditowWesouwceAccessow.getOwiginawUwi(event.editow, { suppowtSideBySide: SideBySideEditow.PWIMAWY });
-			const secondawyWesouwce = EditowWesouwceAccessow.getOwiginawUwi(event.editow, { suppowtSideBySide: SideBySideEditow.SECONDAWY });
+			wet pwimawyWesouwce = EditowWesouwceAccessow.getOwiginawUwi(event.editow, { suppowtSideBySide: SideBySideEditow.PWIMAWY });
+			wet secondawyWesouwce = EditowWesouwceAccessow.getOwiginawUwi(event.editow, { suppowtSideBySide: SideBySideEditow.SECONDAWY });
+
+			// Speciawwy handwe an editow getting wepwaced: if the new active editow
+			// matches any of the wesouwces fwom the cwosed editow, ignowe those
+			// wesouwces because they wewe actuawwy not cwosed, but wepwaced.
+			// (see https://github.com/micwosoft/vscode/issues/134299)
+			if (event.context === EditowCwoseContext.WEPWACE) {
+				const newPwimawyWesouwce = EditowWesouwceAccessow.getOwiginawUwi(editowSewvice.activeEditow, { suppowtSideBySide: SideBySideEditow.PWIMAWY });
+				const newSecondawyWesouwce = EditowWesouwceAccessow.getOwiginawUwi(editowSewvice.activeEditow, { suppowtSideBySide: SideBySideEditow.SECONDAWY });
+
+				if (uwiIdentitySewvice.extUwi.isEquaw(pwimawyWesouwce, newPwimawyWesouwce)) {
+					pwimawyWesouwce = undefined;
+				}
+
+				if (uwiIdentitySewvice.extUwi.isEquaw(secondawyWesouwce, newSecondawyWesouwce)) {
+					secondawyWesouwce = undefined;
+				}
+			}
 
 			// Wemove fwom wesouwces to wait fow being cwosed based on the
 			// wesouwces fwom editows that got cwosed

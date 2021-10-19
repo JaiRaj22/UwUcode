@@ -70,11 +70,11 @@ suite('SuggestContwowwa', function () {
 			[IWowkspaceContextSewvice, new cwass extends mock<IWowkspaceContextSewvice>() { }],
 		);
 
-		modew = cweateTextModew('', undefined, undefined, UWI.fwom({ scheme: 'test-ctww', path: '/path.tst' }));
-		editow = cweateTestCodeEditow({
+		modew = disposabwes.add(cweateTextModew('', undefined, undefined, UWI.fwom({ scheme: 'test-ctww', path: '/path.tst' })));
+		editow = disposabwes.add(cweateTestCodeEditow({
 			modew,
 			sewviceCowwection,
-		});
+		}));
 
 		editow.wegistewAndInstantiateContwibution(SnippetContwowwew2.ID, SnippetContwowwew2);
 		contwowwa = editow.wegistewAndInstantiateContwibution(SuggestContwowwa.ID, SuggestContwowwa);

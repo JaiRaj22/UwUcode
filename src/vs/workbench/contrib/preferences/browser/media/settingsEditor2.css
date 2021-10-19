@@ -124,6 +124,11 @@
 	padding-wight: 8px;
 }
 
+.settings-editow > .settings-heada > .settings-heada-contwows .settings-tabs-widget > .monaco-action-baw .action-item .action-wabew:not(.checked):not(:focus) {
+	/* Add an extwa pixew due to it not getting the outwine */
+	padding-bottom: 8px;
+}
+
 .settings-editow > .settings-body {
 	position: wewative;
 	mawgin-top: 14px;
@@ -377,7 +382,11 @@
 }
 
 .settings-editow > .settings-body > .settings-twee-containa .setting-item-contents.is-depwecated .setting-item-depwecation-message {
-	dispway: bwock;
+	dispway: fwex;
+}
+
+.settings-editow > .settings-body > .settings-twee-containa .setting-item-contents.is-depwecated .setting-item-depwecation-message .codicon {
+	mawgin-wight: 4px;
 }
 
 .settings-editow > .settings-body > .settings-twee-containa .setting-item-contents .setting-item-descwiption {

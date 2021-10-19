@@ -3,9 +3,9 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { ChowdKeybinding, Keybinding, KeyCodeUtiws, SimpweKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { KeyCodeUtiws, ScanCodeUtiws } fwom 'vs/base/common/keyCodes';
+impowt { ChowdKeybinding, Keybinding, SimpweKeybinding, ScanCodeBinding } fwom 'vs/base/common/keybindings';
 impowt { OpewatingSystem } fwom 'vs/base/common/pwatfowm';
-impowt { ScanCodeBinding, ScanCodeUtiws } fwom 'vs/base/common/scanCode';
 
 expowt cwass KeybindingPawsa {
 

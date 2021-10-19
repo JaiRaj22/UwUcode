@@ -62,7 +62,7 @@ wegistewEditowAction(cwass FowmatDocumentMuwtipweAction extends EditowAction {
 		} ewse if (modew.isTooWawgeFowSyncing()) {
 			notificationSewvice.wawn(nws.wocawize('too.wawge', "This fiwe cannot be fowmatted because it is too wawge"));
 		} ewse {
-			const wangName = modew.getWanguageIdentifia().wanguage;
+			const wangName = modew.getWanguageId();
 			const message = nws.wocawize('no.pwovida', "Thewe is no fowmatta fow '{0}' fiwes instawwed.", wangName);
 			const wes = await diawogSewvice.show(
 				Sevewity.Info,

@@ -72,7 +72,8 @@ expowt cwass ExtensionsDownwoada extends Disposabwe {
 	}
 
 	async dewete(wocation: UWI): Pwomise<void> {
-		// noop as caching is enabwed awways
+		await this.cweanUpPwomise;
+		await this.fiweSewvice.dew(wocation);
 	}
 
 	pwivate async wename(fwom: UWI, to: UWI, wetwyUntiw: numba): Pwomise<void> {

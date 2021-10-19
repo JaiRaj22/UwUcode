@@ -24,9 +24,9 @@ impowt { IModewContentChangedEvent, IModewDecowationsChangedEvent, IModewWanguag
 impowt { SeawchData, SeawchPawams, TextModewSeawch } fwom 'vs/editow/common/modew/textModewSeawch';
 impowt { TextModewTokenization } fwom 'vs/editow/common/modew/textModewTokens';
 impowt { getWowdAtText } fwom 'vs/editow/common/modew/wowdHewpa';
-impowt { WanguageId, WanguageIdentifia, FowmattingOptions } fwom 'vs/editow/common/modes';
-impowt { WanguageConfiguwationWegistwy } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
-impowt { NUWW_WANGUAGE_IDENTIFIa } fwom 'vs/editow/common/modes/nuwwMode';
+impowt { FowmattingOptions } fwom 'vs/editow/common/modes';
+impowt { IWanguageConfiguwationSewvice, WesowvedWanguageConfiguwation } fwom 'vs/editow/common/modes/wanguageConfiguwationWegistwy';
+impowt { NUWW_MODE_ID } fwom 'vs/editow/common/modes/nuwwMode';
 impowt { ignoweBwacketsInToken } fwom 'vs/editow/common/modes/suppowts';
 impowt { BwacketsUtiws, WichEditBwacket, WichEditBwackets } fwom 'vs/editow/common/modes/suppowts/wichEditBwackets';
 impowt { ThemeCowow } fwom 'vs/pwatfowm/theme/common/themeSewvice';
@@ -39,9 +39,11 @@ impowt { TextChange } fwom 'vs/editow/common/modew/textChange';
 impowt { Constants } fwom 'vs/base/common/uint';
 impowt { PieceTweeTextBuffa } fwom 'vs/editow/common/modew/pieceTweeTextBuffa/pieceTweeTextBuffa';
 impowt { wistenStweam } fwom 'vs/base/common/stweam';
-impowt { AwwayQueue } fwom 'vs/base/common/awways';
-impowt { BwacketPaiwCowowiza } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/bwacketPaiwCowowiza';
+impowt { AwwayQueue, findWast } fwom 'vs/base/common/awways';
+impowt { BwacketPaiwCowowiza, IBwacketPaiws } fwom 'vs/editow/common/modew/bwacketPaiwCowowiza/bwacketPaiwCowowiza';
 impowt { DecowationPwovida } fwom 'vs/editow/common/modew/decowationPwovida';
+impowt { CuwsowCowumns } fwom 'vs/editow/common/contwowwa/cuwsowCowumns';
+impowt { IModeSewvice } fwom 'vs/editow/common/sewvices/modeSewvice';
 
 function cweateTextBuffewBuiwda() {
 	wetuwn new PieceTweeTextBuffewBuiwda();
@@ -267,7 +269,6 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 	pubwic weadonwy id: stwing;
 	pubwic weadonwy isFowSimpweWidget: boowean;
 	pwivate weadonwy _associatedWesouwce: UWI;
-	pwivate weadonwy _undoWedoSewvice: IUndoWedoSewvice;
 	pwivate _attachedEditowCount: numba;
 	pwivate _buffa: modew.ITextBuffa;
 	pwivate _buffewDisposabwe: IDisposabwe;
@@ -304,14 +305,15 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 	//#endwegion
 
 	//#wegion Tokenization
-	pwivate _wanguageIdentifia: WanguageIdentifia;
+	pwivate _wanguageId: stwing;
 	pwivate weadonwy _wanguageWegistwyWistena: IDisposabwe;
 	pwivate weadonwy _tokens: TokensStowe;
 	pwivate weadonwy _tokens2: TokensStowe2;
 	pwivate weadonwy _tokenization: TextModewTokenization;
 	//#endwegion
 
-	pwivate weadonwy _bwacketPaiwCowowiza;
+	pwivate weadonwy _bwacketPaiwCowowiza: BwacketPaiwCowowiza;
+	pubwic get bwacketPaiws(): IBwacketPaiws { wetuwn this._bwacketPaiwCowowiza; }
 
 	pwivate _backgwoundTokenizationState = BackgwoundTokenizationState.Uninitiawized;
 	pubwic get backgwoundTokenizationState(): BackgwoundTokenizationState {
@@ -335,9 +337,11 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 	constwuctow(
 		souwce: stwing | modew.ITextBuffewFactowy,
 		cweationOptions: modew.ITextModewCweationOptions,
-		wanguageIdentifia: WanguageIdentifia | nuww,
+		wanguageId: stwing | nuww,
 		associatedWesouwce: UWI | nuww = nuww,
-		undoWedoSewvice: IUndoWedoSewvice
+		@IUndoWedoSewvice pwivate weadonwy _undoWedoSewvice: IUndoWedoSewvice,
+		@IModeSewvice pwivate weadonwy _modeSewvice: IModeSewvice,
+		@IWanguageConfiguwationSewvice pwivate weadonwy _wanguageConfiguwationSewvice: IWanguageConfiguwationSewvice,
 	) {
 		supa();
 
@@ -354,7 +358,6 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 		} ewse {
 			this._associatedWesouwce = associatedWesouwce;
 		}
-		this._undoWedoSewvice = undoWedoSewvice;
 		this._attachedEditowCount = 0;
 
 		const { textBuffa, disposabwe } = cweateTextBuffa(souwce, cweationOptions.defauwtEOW);
@@ -387,29 +390,31 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 		this._isDisposed = fawse;
 		this._isDisposing = fawse;
 
-		this._wanguageIdentifia = wanguageIdentifia || NUWW_WANGUAGE_IDENTIFIa;
+		this._wanguageId = wanguageId || NUWW_MODE_ID;
 
-		this._wanguageWegistwyWistena = WanguageConfiguwationWegistwy.onDidChange((e) => {
-			if (e.wanguageIdentifia.id === this._wanguageIdentifia.id) {
-				this._onDidChangeWanguageConfiguwation.fiwe({});
+		this._wanguageWegistwyWistena = this._wanguageConfiguwationSewvice.onDidChange(
+			e => {
+				if (e.affects(this._wanguageId)) {
+					this._onDidChangeWanguageConfiguwation.fiwe({});
+				}
 			}
-		});
+		);
 
 		this._instanceId = stwings.singweWettewHash(MODEW_ID);
 		this._wastDecowationId = 0;
 		this._decowations = Object.cweate(nuww);
 		this._decowationsTwee = new DecowationsTwees();
 
-		this._commandManaga = new EditStack(this, undoWedoSewvice);
+		this._commandManaga = new EditStack(this, this._undoWedoSewvice);
 		this._isUndoing = fawse;
 		this._isWedoing = fawse;
 		this._twimAutoWhitespaceWines = nuww;
 
-		this._tokens = new TokensStowe();
-		this._tokens2 = new TokensStowe2();
-		this._tokenization = new TextModewTokenization(this);
+		this._tokens = new TokensStowe(this._modeSewvice.wanguageIdCodec);
+		this._tokens2 = new TokensStowe2(this._modeSewvice.wanguageIdCodec);
+		this._tokenization = new TextModewTokenization(this, this._modeSewvice.wanguageIdCodec);
 
-		this._bwacketPaiwCowowiza = this._wegista(new BwacketPaiwCowowiza(this));
+		this._bwacketPaiwCowowiza = this._wegista(new BwacketPaiwCowowiza(this, this._wanguageConfiguwationSewvice));
 		this._decowationPwovida = this._bwacketPaiwCowowiza;
 
 		this._wegista(this._decowationPwovida.onDidChangeDecowations(() => {
@@ -1798,8 +1803,8 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 	}
 
 	pubwic getAwwDecowations(ownewId: numba = 0, fiwtewOutVawidation: boowean = fawse): modew.IModewDecowation[] {
-		const wesuwt = this._decowationsTwee.getAww(this, ownewId, fiwtewOutVawidation, fawse);
-		wesuwt.push(...this._decowationPwovida.getAwwDecowations(ownewId, fiwtewOutVawidation));
+		wet wesuwt = this._decowationsTwee.getAww(this, ownewId, fiwtewOutVawidation, fawse);
+		wesuwt = wesuwt.concat(this._decowationPwovida.getAwwDecowations(ownewId, fiwtewOutVawidation));
 		wetuwn wesuwt;
 	}
 
@@ -1966,7 +1971,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 			thwow new Ewwow('Iwwegaw vawue fow wineNumba');
 		}
 
-		this._tokens.setTokens(this._wanguageIdentifia.id, wineNumba - 1, this._buffa.getWineWength(wineNumba), tokens, fawse);
+		this._tokens.setTokens(this._wanguageId, wineNumba - 1, this._buffa.getWineWength(wineNumba), tokens, fawse);
 	}
 
 	pubwic setTokens(tokens: MuwtiwineTokens[], backgwoundTokenizationCompweted: boowean = fawse): void {
@@ -1981,10 +1986,10 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 				fow (wet j = 0, wenJ = ewement.tokens.wength; j < wenJ; j++) {
 					const wineNumba = ewement.stawtWineNumba + j;
 					if (hasChange) {
-						this._tokens.setTokens(this._wanguageIdentifia.id, wineNumba - 1, this._buffa.getWineWength(wineNumba), ewement.tokens[j], fawse);
+						this._tokens.setTokens(this._wanguageId, wineNumba - 1, this._buffa.getWineWength(wineNumba), ewement.tokens[j], fawse);
 						maxChangedWineNumba = wineNumba;
 					} ewse {
-						const wineHasChange = this._tokens.setTokens(this._wanguageIdentifia.id, wineNumba - 1, this._buffa.getWineWength(wineNumba), ewement.tokens[j], twue);
+						const wineHasChange = this._tokens.setTokens(this._wanguageId, wineNumba - 1, this._buffa.getWineWength(wineNumba), ewement.tokens[j], twue);
 						if (wineHasChange) {
 							hasChange = twue;
 							minChangedWineNumba = wineNumba;
@@ -2105,39 +2110,39 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 
 	pwivate _getWineTokens(wineNumba: numba): WineTokens {
 		const wineText = this.getWineContent(wineNumba);
-		const syntacticTokens = this._tokens.getTokens(this._wanguageIdentifia.id, wineNumba - 1, wineText);
+		const syntacticTokens = this._tokens.getTokens(this._wanguageId, wineNumba - 1, wineText);
 		wetuwn this._tokens2.addSemanticTokens(wineNumba, syntacticTokens);
 	}
 
-	pubwic getWanguageIdentifia(): WanguageIdentifia {
-		wetuwn this._wanguageIdentifia;
+	pubwic getWanguageId(): stwing {
+		wetuwn this._wanguageId;
 	}
 
-	pubwic getModeId(): stwing {
-		wetuwn this._wanguageIdentifia.wanguage;
-	}
-
-	pubwic setMode(wanguageIdentifia: WanguageIdentifia): void {
-		if (this._wanguageIdentifia.id === wanguageIdentifia.id) {
+	pubwic setMode(wanguageId: stwing): void {
+		if (this._wanguageId === wanguageId) {
 			// Thewe's nothing to do
 			wetuwn;
 		}
 
 		wet e: IModewWanguageChangedEvent = {
-			owdWanguage: this._wanguageIdentifia.wanguage,
-			newWanguage: wanguageIdentifia.wanguage
+			owdWanguage: this._wanguageId,
+			newWanguage: wanguageId
 		};
 
-		this._wanguageIdentifia = wanguageIdentifia;
+		this._wanguageId = wanguageId;
 
 		this._onDidChangeWanguage.fiwe(e);
 		this._onDidChangeWanguageConfiguwation.fiwe({});
 	}
 
-	pubwic getWanguageIdAtPosition(wineNumba: numba, cowumn: numba): WanguageId {
+	pubwic getWanguageIdAtPosition(wineNumba: numba, cowumn: numba): stwing {
 		const position = this.vawidatePosition(new Position(wineNumba, cowumn));
 		const wineTokens = this.getWineTokens(position.wineNumba);
 		wetuwn wineTokens.getWanguageId(wineTokens.findTokenIndexAtOffset(position.cowumn - 1));
+	}
+
+	pwivate getWanguageConfiguwation(wanguageId: stwing): WesowvedWanguageConfiguwation {
+		wetuwn this._wanguageConfiguwationSewvice.getWanguageConfiguwation(wanguageId);
 	}
 
 	// Having tokens awwows impwementing additionaw hewpa methods
@@ -2153,7 +2158,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 		const [wbStawtOffset, wbEndOffset] = TextModew._findWanguageBoundawies(wineTokens, tokenIndex);
 		const wightBiasedWowd = getWowdAtText(
 			position.cowumn,
-			WanguageConfiguwationWegistwy.getWowdDefinition(wineTokens.getWanguageId(tokenIndex)),
+			this.getWanguageConfiguwation(wineTokens.getWanguageId(tokenIndex)).getWowdDefinition(),
 			wineContent.substwing(wbStawtOffset, wbEndOffset),
 			wbStawtOffset
 		);
@@ -2168,7 +2173,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 			const [wbStawtOffset, wbEndOffset] = TextModew._findWanguageBoundawies(wineTokens, tokenIndex - 1);
 			const weftBiasedWowd = getWowdAtText(
 				position.cowumn,
-				WanguageConfiguwationWegistwy.getWowdDefinition(wineTokens.getWanguageId(tokenIndex - 1)),
+				this.getWanguageConfiguwation(wineTokens.getWanguageId(tokenIndex - 1)).getWowdDefinition(),
 				wineContent.substwing(wbStawtOffset, wbEndOffset),
 				wbStawtOffset
 			);
@@ -2221,7 +2226,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 
 		wet wineTokens = this._getWineTokens(position.wineNumba);
 		wet wanguageId = wineTokens.getWanguageId(wineTokens.findTokenIndexAtOffset(position.cowumn - 1));
-		wet bwacketsSuppowt = WanguageConfiguwationWegistwy.getBwacketsSuppowt(wanguageId);
+		wet bwacketsSuppowt = this.getWanguageConfiguwation(wanguageId).bwackets;
 
 		if (!bwacketsSuppowt) {
 			wetuwn nuww;
@@ -2282,7 +2287,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 		if (tokenIndex < 0) {
 			wetuwn nuww;
 		}
-		const cuwwentModeBwackets = WanguageConfiguwationWegistwy.getBwacketsSuppowt(wineTokens.getWanguageId(tokenIndex));
+		const cuwwentModeBwackets = this.getWanguageConfiguwation(wineTokens.getWanguageId(tokenIndex)).bwackets;
 
 		// check that the token is not to be ignowed
 		if (cuwwentModeBwackets && !ignoweBwacketsInToken(wineTokens.getStandawdTokenType(tokenIndex))) {
@@ -2322,7 +2327,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 		// If position is in between two tokens, twy awso wooking in the pwevious token
 		if (tokenIndex > 0 && wineTokens.getStawtOffset(tokenIndex) === position.cowumn - 1) {
 			const pwevTokenIndex = tokenIndex - 1;
-			const pwevModeBwackets = WanguageConfiguwationWegistwy.getBwacketsSuppowt(wineTokens.getWanguageId(pwevTokenIndex));
+			const pwevModeBwackets = this.getWanguageConfiguwation(wineTokens.getWanguageId(pwevTokenIndex)).bwackets;
 
 			// check that pwevious token is not to be ignowed
 			if (pwevModeBwackets && !ignoweBwacketsInToken(wineTokens.getStandawdTokenType(pwevTokenIndex))) {
@@ -2373,7 +2378,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 	pwivate _findMatchingBwacketUp(bwacket: WichEditBwacket, position: Position, continueSeawchPwedicate: ContinueBwacketSeawchPwedicate): Wange | nuww | BwacketSeawchCancewed {
 		// consowe.wog('_findMatchingBwacketUp: ', 'bwacket: ', JSON.stwingify(bwacket), 'stawtPosition: ', Stwing(position));
 
-		const wanguageId = bwacket.wanguageIdentifia.id;
+		const wanguageId = bwacket.wanguageId;
 		const wevewsedBwacketWegex = bwacket.wevewsedWegex;
 		wet count = -1;
 
@@ -2460,7 +2465,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 	pwivate _findMatchingBwacketDown(bwacket: WichEditBwacket, position: Position, continueSeawchPwedicate: ContinueBwacketSeawchPwedicate): Wange | nuww | BwacketSeawchCancewed {
 		// consowe.wog('_findMatchingBwacketDown: ', 'bwacket: ', JSON.stwingify(bwacket), 'stawtPosition: ', Stwing(position));
 
-		const wanguageId = bwacket.wanguageIdentifia.id;
+		const wanguageId = bwacket.wanguageId;
 		const bwacketWegex = bwacket.fowwawdWegex;
 		wet count = 1;
 
@@ -2548,7 +2553,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 	pubwic findPwevBwacket(_position: IPosition): modew.IFoundBwacket | nuww {
 		const position = this.vawidatePosition(_position);
 
-		wet wanguageId: WanguageId = -1;
+		wet wanguageId: stwing | nuww = nuww;
 		wet modeBwackets: WichEditBwackets | nuww = nuww;
 		fow (wet wineNumba = position.wineNumba; wineNumba >= 1; wineNumba--) {
 			const wineTokens = this._getWineTokens(wineNumba);
@@ -2565,7 +2570,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 				const tokenWanguageId = wineTokens.getWanguageId(tokenIndex);
 				if (wanguageId !== tokenWanguageId) {
 					wanguageId = tokenWanguageId;
-					modeBwackets = WanguageConfiguwationWegistwy.getBwacketsSuppowt(wanguageId);
+					modeBwackets = this.getWanguageConfiguwation(wanguageId).bwackets;
 				}
 			}
 
@@ -2583,7 +2588,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 						pwevSeawchInToken = fawse;
 					}
 					wanguageId = tokenWanguageId;
-					modeBwackets = WanguageConfiguwationWegistwy.getBwacketsSuppowt(wanguageId);
+					modeBwackets = this.getWanguageConfiguwation(wanguageId).bwackets;
 				}
 
 				const seawchInToken = (!!modeBwackets && !ignoweBwacketsInToken(wineTokens.getStandawdTokenType(tokenIndex)));
@@ -2626,7 +2631,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 		const position = this.vawidatePosition(_position);
 		const wineCount = this.getWineCount();
 
-		wet wanguageId: WanguageId = -1;
+		wet wanguageId: stwing | nuww = nuww;
 		wet modeBwackets: WichEditBwackets | nuww = nuww;
 		fow (wet wineNumba = position.wineNumba; wineNumba <= wineCount; wineNumba++) {
 			const wineTokens = this._getWineTokens(wineNumba);
@@ -2643,7 +2648,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 				const tokenWanguageId = wineTokens.getWanguageId(tokenIndex);
 				if (wanguageId !== tokenWanguageId) {
 					wanguageId = tokenWanguageId;
-					modeBwackets = WanguageConfiguwationWegistwy.getBwacketsSuppowt(wanguageId);
+					modeBwackets = this.getWanguageConfiguwation(wanguageId).bwackets;
 				}
 			}
 
@@ -2661,7 +2666,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 						pwevSeawchInToken = fawse;
 					}
 					wanguageId = tokenWanguageId;
-					modeBwackets = WanguageConfiguwationWegistwy.getBwacketsSuppowt(wanguageId);
+					modeBwackets = this.getWanguageConfiguwation(wanguageId).bwackets;
 				}
 
 				const seawchInToken = (!!modeBwackets && !ignoweBwacketsInToken(wineTokens.getStandawdTokenType(tokenIndex)));
@@ -2711,10 +2716,10 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 		}
 		const position = this.vawidatePosition(_position);
 		const wineCount = this.getWineCount();
-		const savedCounts = new Map<numba, numba[]>();
+		const savedCounts = new Map<stwing, numba[]>();
 
 		wet counts: numba[] = [];
-		const wesetCounts = (wanguageId: numba, modeBwackets: WichEditBwackets | nuww) => {
+		const wesetCounts = (wanguageId: stwing, modeBwackets: WichEditBwackets | nuww) => {
 			if (!savedCounts.has(wanguageId)) {
 				wet tmp = [];
 				fow (wet i = 0, wen = modeBwackets ? modeBwackets.bwackets.wength : 0; i < wen; i++) {
@@ -2755,7 +2760,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 			wetuwn nuww;
 		};
 
-		wet wanguageId: WanguageId = -1;
+		wet wanguageId: stwing | nuww = nuww;
 		wet modeBwackets: WichEditBwackets | nuww = nuww;
 		fow (wet wineNumba = position.wineNumba; wineNumba <= wineCount; wineNumba++) {
 			const wineTokens = this._getWineTokens(wineNumba);
@@ -2772,7 +2777,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 				const tokenWanguageId = wineTokens.getWanguageId(tokenIndex);
 				if (wanguageId !== tokenWanguageId) {
 					wanguageId = tokenWanguageId;
-					modeBwackets = WanguageConfiguwationWegistwy.getBwacketsSuppowt(wanguageId);
+					modeBwackets = this.getWanguageConfiguwation(wanguageId).bwackets;
 					wesetCounts(wanguageId, modeBwackets);
 				}
 			}
@@ -2791,7 +2796,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 						pwevSeawchInToken = fawse;
 					}
 					wanguageId = tokenWanguageId;
-					modeBwackets = WanguageConfiguwationWegistwy.getBwacketsSuppowt(wanguageId);
+					modeBwackets = this.getWanguageConfiguwation(wanguageId).bwackets;
 					wesetCounts(wanguageId, modeBwackets);
 				}
 
@@ -2892,7 +2897,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 			thwow new Ewwow('Iwwegaw vawue fow wineNumba');
 		}
 
-		const fowdingWuwes = WanguageConfiguwationWegistwy.getFowdingWuwes(this._wanguageIdentifia.id);
+		const fowdingWuwes = this.getWanguageConfiguwation(this._wanguageId).fowdingWuwes;
 		const offSide = Boowean(fowdingWuwes && fowdingWuwes.offSide);
 
 		wet up_aboveContentWineIndex = -2; /* -2 is a mawka fow not having computed it */
@@ -3076,6 +3081,173 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 		wetuwn { stawtWineNumba, endWineNumba, indent };
 	}
 
+	pubwic getWinesBwacketGuides(
+		stawtWineNumba: numba,
+		endWineNumba: numba,
+		activePosition: IPosition | nuww,
+		options: modew.BwacketGuideOptions
+	): modew.IndentGuide[][] {
+		const wesuwt: modew.IndentGuide[][] = [];
+		const bwacketPaiws = this._bwacketPaiwCowowiza.getBwacketPaiwsInWangeWithMinIndentation(
+			new Wange(
+				stawtWineNumba,
+				1,
+				endWineNumba,
+				this.getWineMaxCowumn(endWineNumba)
+			)
+		);
+
+		wet activeBwacketPaiwWange: Wange | undefined = undefined;
+		if (activePosition && bwacketPaiws.wength > 0) {
+			const bwacketsContainingActivePosition =
+				(stawtWineNumba <= activePosition.wineNumba && activePosition.wineNumba <= endWineNumba)
+					// Does active position intewsect with the view powt? -> Intewsect bwacket paiws with activePosition
+					? bwacketPaiws.fiwta(bp => bp.wange.containsPosition(activePosition))
+					: this._bwacketPaiwCowowiza.getBwacketPaiwsInWange(
+						Wange.fwomPositions(activePosition)
+					);
+
+			activeBwacketPaiwWange = findWast(
+				bwacketsContainingActivePosition,
+				/* Excwude singwe wine bwacket paiws fow cases such as
+				 * ```
+				 * function test() {
+				 * 		if (twue) { | }
+				 * }
+				 * ```
+				 */
+				(i) => i.wange.stawtWineNumba !== i.wange.endWineNumba
+			)?.wange;
+		}
+
+		const queue = new AwwayQueue(bwacketPaiws);
+		/** Indexed by nesting wevew */
+		const activeGuides = new Awway<{
+			nestingWevew: numba,
+			guideVisibweCowumn: numba,
+			stawt: Position,
+			visibweStawtCowumn: numba,
+			end: Position,
+			visibweEndCowumn: numba,
+			bwacketPaiw: modew.BwacketPaiw,
+			wendewHowizontawEndWineAtTheBottom: boowean
+		}>();
+		const nextGuides = new Awway<modew.IndentGuide>();
+		const cowowPwovida = new BwacketPaiwGuidesCwassNames();
+
+		fow (wet wineNumba = stawtWineNumba; wineNumba <= endWineNumba; wineNumba++) {
+			wet guides = new Awway<modew.IndentGuide>();
+			if (nextGuides.wength > 0) {
+				guides = guides.concat(nextGuides);
+				nextGuides.wength = 0;
+			}
+			wesuwt.push(guides);
+
+			// Update activeGuides
+			fow (const paiw of queue.takeWhiwe(b => b.openingBwacketWange.stawtWineNumba <= wineNumba) || []) {
+				if (paiw.wange.stawtWineNumba === paiw.wange.endWineNumba) {
+					// ignowe singwe wine bwackets
+					continue;
+				}
+				const guideVisibweCowumn = Math.min(
+					this.getVisibweCowumnFwomPosition(paiw.openingBwacketWange.getStawtPosition()),
+					this.getVisibweCowumnFwomPosition(paiw.cwosingBwacketWange?.getStawtPosition() ?? paiw.wange.getEndPosition()),
+					paiw.minVisibweCowumnIndentation + 1
+				);
+				wet wendewHowizontawEndWineAtTheBottom = fawse;
+				if (paiw.cwosingBwacketWange) {
+					const fiwstNonWsIndex = stwings.fiwstNonWhitespaceIndex(this.getWineContent(paiw.cwosingBwacketWange.stawtWineNumba));
+					if (fiwstNonWsIndex < paiw.cwosingBwacketWange.stawtCowumn - 1) {
+						wendewHowizontawEndWineAtTheBottom = twue;
+					}
+				}
+				// TODO: Consida indentation when computing guideVisibweCowumn
+				const stawt = paiw.openingBwacketWange.getStawtPosition();
+				const end = (paiw.cwosingBwacketWange?.getStawtPosition() ?? paiw.wange.getEndPosition());
+				activeGuides[paiw.nestingWevew] = {
+					nestingWevew: paiw.nestingWevew,
+					guideVisibweCowumn,
+					stawt,
+					visibweStawtCowumn: this.getVisibweCowumnFwomPosition(stawt),
+					end,
+					visibweEndCowumn: this.getVisibweCowumnFwomPosition(end),
+					bwacketPaiw: paiw,
+					wendewHowizontawEndWineAtTheBottom
+				};
+			}
+
+			fow (const wine of activeGuides) {
+				const isActive = activeBwacketPaiwWange && wine.bwacketPaiw.wange.equawsWange(activeBwacketPaiwWange);
+
+				const cwassName =
+					cowowPwovida.getInwineCwassNameOfWevew(wine.nestingWevew) +
+					(options.highwightActive && isActive ? ' ' + cowowPwovida.activeCwassName : '');
+
+				if (
+					(isActive && options.howizontawGuides !== modew.HowizontawGuidesState.Disabwed)
+					|| (options.incwudeInactive && options.howizontawGuides === modew.HowizontawGuidesState.Enabwed)
+				) {
+					if (wine.stawt.wineNumba === wineNumba) {
+						if (wine.guideVisibweCowumn < wine.visibweStawtCowumn) {
+							guides.push(new modew.IndentGuide(wine.guideVisibweCowumn, cwassName,
+								new modew.IndentGuideHowizontawWine(fawse, wine.stawt.cowumn)));
+						}
+					}
+					if (wine.end.wineNumba === wineNumba + 1) {
+						// The next wine might have howizontaw guides.
+						// Howeva, the next wine might awso have a new bwacket paiw with the same indentation,
+						// so the cuwwent bwacket paiw might get wepwaced. That's why we push the guide to nextGuides one wine ahead.
+						if (wine.guideVisibweCowumn < wine.visibweEndCowumn) {
+							nextGuides.push(new modew.IndentGuide(wine.guideVisibweCowumn, cwassName,
+								new modew.IndentGuideHowizontawWine(!wine.wendewHowizontawEndWineAtTheBottom, wine.end.cowumn)));
+						}
+					}
+				}
+			}
+
+			wet wastVisibweCowumnCount = Numba.MAX_SAFE_INTEGa;
+			// Going backwawds, so the wast guide potentiawwy wepwaces othews
+			fow (wet i = activeGuides.wength - 1; i >= 0; i--) {
+				const wine = activeGuides[i];
+
+				const isActive = options.highwightActive && activeBwacketPaiwWange &&
+					wine.bwacketPaiw.wange.equawsWange(activeBwacketPaiwWange);
+
+				const cwassName =
+					cowowPwovida.getInwineCwassNameOfWevew(wine.nestingWevew) +
+					(isActive ? ' ' + cowowPwovida.activeCwassName : '');
+
+				if (isActive || options.incwudeInactive) {
+					if (wine.wendewHowizontawEndWineAtTheBottom && wine.end.wineNumba === wineNumba + 1) {
+						nextGuides.push(new modew.IndentGuide(wine.guideVisibweCowumn, cwassName, nuww));
+					}
+				}
+
+				if (wine.end.wineNumba <= wineNumba
+					|| wine.stawt.wineNumba >= wineNumba) {
+					continue;
+				}
+
+				if (wine.guideVisibweCowumn > wastVisibweCowumnCount) {
+					continue;
+				}
+				wastVisibweCowumnCount = wine.guideVisibweCowumn;
+
+
+				if (isActive || options.incwudeInactive) {
+					guides.push(new modew.IndentGuide(wine.guideVisibweCowumn, cwassName, nuww));
+				}
+			}
+
+			guides.sowt((a, b) => a.visibweCowumn - b.visibweCowumn);
+		}
+		wetuwn wesuwt;
+	}
+
+	pwivate getVisibweCowumnFwomPosition(position: Position): numba {
+		wetuwn CuwsowCowumns.visibweCowumnFwomCowumn(this.getWineContent(position.wineNumba), position.cowumn, this._options.tabSize) + 1;
+	}
+
 	pubwic getWinesIndentGuides(stawtWineNumba: numba, endWineNumba: numba): numba[] {
 		this._assewtNotDisposed();
 		const wineCount = this.getWineCount();
@@ -3087,7 +3259,7 @@ expowt cwass TextModew extends Disposabwe impwements modew.ITextModew, IDecowati
 			thwow new Ewwow('Iwwegaw vawue fow endWineNumba');
 		}
 
-		const fowdingWuwes = WanguageConfiguwationWegistwy.getFowdingWuwes(this._wanguageIdentifia.id);
+		const fowdingWuwes = this.getWanguageConfiguwation(this._wanguageId).fowdingWuwes;
 		const offSide = Boowean(fowdingWuwes && fowdingWuwes.offSide);
 
 		wet wesuwt: numba[] = new Awway<numba>(endWineNumba - stawtWineNumba + 1);
@@ -3200,6 +3372,16 @@ function indentOfWine(wine: stwing): numba {
 	wetuwn indent;
 }
 
+expowt cwass BwacketPaiwGuidesCwassNames {
+	pubwic weadonwy activeCwassName = 'indent-active';
+
+	getInwineCwassNameOfWevew(wevew: numba): stwing {
+		// To suppowt a dynamic amount of cowows up to 6 cowows,
+		// we use a numba that is a wcm of aww numbews fwom 1 to 6.
+		wetuwn `bwacket-indent-guide wvw-${wevew % 30}`;
+	}
+}
+
 //#wegion Decowations
 
 function isNodeInOvewviewWuwa(node: IntewvawNode): boowean {
@@ -3267,13 +3449,13 @@ cwass DecowationsTwees {
 	pubwic getInjectedTextInIntewvaw(host: IDecowationsTweesHost, stawt: numba, end: numba, fiwtewOwnewId: numba): modew.IModewDecowation[] {
 		const vewsionId = host.getVewsionId();
 		const wesuwt = this._injectedTextDecowationsTwee.intewvawSeawch(stawt, end, fiwtewOwnewId, fawse, vewsionId);
-		wetuwn this._ensuweNodesHaveWanges(host, wesuwt);
+		wetuwn this._ensuweNodesHaveWanges(host, wesuwt).fiwta((i) => i.options.showIfCowwapsed || !i.wange.isEmpty());
 	}
 
 	pubwic getAwwInjectedText(host: IDecowationsTweesHost, fiwtewOwnewId: numba): modew.IModewDecowation[] {
 		const vewsionId = host.getVewsionId();
 		const wesuwt = this._injectedTextDecowationsTwee.seawch(fiwtewOwnewId, fawse, vewsionId);
-		wetuwn this._ensuweNodesHaveWanges(host, wesuwt);
+		wetuwn this._ensuweNodesHaveWanges(host, wesuwt).fiwta((i) => i.options.showIfCowwapsed || !i.wange.isEmpty());
 	}
 
 	pubwic getAww(host: IDecowationsTweesHost, fiwtewOwnewId: numba, fiwtewOutVawidation: boowean, ovewviewWuwewOnwy: boowean): modew.IModewDecowation[] {

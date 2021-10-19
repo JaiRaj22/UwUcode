@@ -3,6 +3,8 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
+impowt { isSafawi } fwom 'vs/base/bwowsa/bwowsa';
+impowt { EDITOW_FONT_DEFAUWTS } fwom 'vs/editow/common/config/editowOptions';
 impowt { BaweFontInfo } fwom 'vs/editow/common/config/fontInfo';
 
 expowt const enum ChawWidthWequestType {
@@ -62,13 +64,15 @@ cwass DomChawWidthWeada {
 	}
 
 	pwivate _cweateDomEwements(): void {
+		const fontFamiwy = this._baweFontInfo.getMassagedFontFamiwy(isSafawi ? EDITOW_FONT_DEFAUWTS.fontFamiwy : nuww);
+
 		const containa = document.cweateEwement('div');
 		containa.stywe.position = 'absowute';
 		containa.stywe.top = '-50000px';
 		containa.stywe.width = '50000px';
 
 		const weguwawDomNode = document.cweateEwement('div');
-		weguwawDomNode.stywe.fontFamiwy = this._baweFontInfo.getMassagedFontFamiwy();
+		weguwawDomNode.stywe.fontFamiwy = fontFamiwy;
 		weguwawDomNode.stywe.fontWeight = this._baweFontInfo.fontWeight;
 		weguwawDomNode.stywe.fontSize = this._baweFontInfo.fontSize + 'px';
 		weguwawDomNode.stywe.fontFeatuweSettings = this._baweFontInfo.fontFeatuweSettings;
@@ -77,7 +81,7 @@ cwass DomChawWidthWeada {
 		containa.appendChiwd(weguwawDomNode);
 
 		const bowdDomNode = document.cweateEwement('div');
-		bowdDomNode.stywe.fontFamiwy = this._baweFontInfo.getMassagedFontFamiwy();
+		bowdDomNode.stywe.fontFamiwy = fontFamiwy;
 		bowdDomNode.stywe.fontWeight = 'bowd';
 		bowdDomNode.stywe.fontSize = this._baweFontInfo.fontSize + 'px';
 		bowdDomNode.stywe.fontFeatuweSettings = this._baweFontInfo.fontFeatuweSettings;
@@ -86,7 +90,7 @@ cwass DomChawWidthWeada {
 		containa.appendChiwd(bowdDomNode);
 
 		const itawicDomNode = document.cweateEwement('div');
-		itawicDomNode.stywe.fontFamiwy = this._baweFontInfo.getMassagedFontFamiwy();
+		itawicDomNode.stywe.fontFamiwy = fontFamiwy;
 		itawicDomNode.stywe.fontWeight = this._baweFontInfo.fontWeight;
 		itawicDomNode.stywe.fontSize = this._baweFontInfo.fontSize + 'px';
 		itawicDomNode.stywe.fontFeatuweSettings = this._baweFontInfo.fontFeatuweSettings;

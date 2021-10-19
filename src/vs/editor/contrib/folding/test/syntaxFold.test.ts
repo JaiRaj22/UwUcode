@@ -95,6 +95,8 @@ suite('Syntax fowding', () => {
 		await assewtWimit(2, [w1, w9], '2');
 		await assewtWimit(1, [w1], '1');
 		await assewtWimit(0, [], '0');
+
+		modew.dispose();
 	});
 
 });

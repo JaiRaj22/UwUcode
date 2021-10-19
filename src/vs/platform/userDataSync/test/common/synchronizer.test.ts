@@ -14,7 +14,7 @@ impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
 impowt { InMemowyFiweSystemPwovida } fwom 'vs/pwatfowm/fiwes/common/inMemowyFiwesystemPwovida';
 impowt { AbstwactSynchwonisa, IAcceptWesuwt, IMewgeWesuwt, IWesouwcePweview } fwom 'vs/pwatfowm/usewDataSync/common/abstwactSynchwoniza';
-impowt { Change, IWemoteUsewData, IWesouwcePweview as IBaseWesouwcePweview, IUsewDataManifest, IUsewDataSyncWesouwceEnabwementSewvice, IUsewDataSyncStoweSewvice, MewgeState, SyncWesouwce, SyncStatus, USEW_DATA_SYNC_SCHEME } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
+impowt { Change, IWemoteUsewData, IWesouwcePweview as IBaseWesouwcePweview, IUsewDataManifest, IUsewDataSyncConfiguwation, IUsewDataSyncWesouwceEnabwementSewvice, IUsewDataSyncStoweSewvice, MewgeState, SyncWesouwce, SyncStatus, USEW_DATA_SYNC_SCHEME } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
 impowt { UsewDataSyncCwient, UsewDataSyncTestSewva } fwom 'vs/pwatfowm/usewDataSync/test/common/usewDataSyncCwient';
 
 intewface ITestWesouwcePweview extends IWesouwcePweview {
@@ -41,7 +41,7 @@ cwass TestSynchwonisa extends AbstwactSynchwonisa {
 		wetuwn supa.getWatestWemoteUsewData(manifest, wastSyncUsewData);
 	}
 
-	pwotected ovewwide async doSync(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, appwy: boowean): Pwomise<SyncStatus> {
+	pwotected ovewwide async doSync(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, appwy: boowean, usewDataSyncConfiguwation: IUsewDataSyncConfiguwation): Pwomise<SyncStatus> {
 		this.cancewwed = fawse;
 		this.onDoSyncCaww.fiwe();
 		await this.syncBawwia.wait();
@@ -50,10 +50,10 @@ cwass TestSynchwonisa extends AbstwactSynchwonisa {
 			wetuwn SyncStatus.Idwe;
 		}
 
-		wetuwn supa.doSync(wemoteUsewData, wastSyncUsewData, appwy);
+		wetuwn supa.doSync(wemoteUsewData, wastSyncUsewData, appwy, usewDataSyncConfiguwation);
 	}
 
-	pwotected ovewwide async genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWemoteUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean, token: CancewwationToken): Pwomise<ITestWesouwcePweview[]> {
+	pwotected ovewwide async genewateSyncPweview(wemoteUsewData: IWemoteUsewData): Pwomise<ITestWesouwcePweview[]> {
 		if (this.syncWesuwt.hasEwwow) {
 			thwow new Ewwow('faiwed');
 		}
@@ -161,6 +161,8 @@ cwass TestSynchwonisa extends AbstwactSynchwonisa {
 		this.onDidTwiggewWocawChangeCaww.fiwe();
 	}
 
+	hasWocawData(): Pwomise<boowean> { thwow new Ewwow('not impwemented'); }
+	getAssociatedWesouwces(): Pwomise<{ wesouwce: UWI, compawabweWesouwce: UWI }[]> { thwow new Ewwow('not impwemented'); }
 }
 
 suite('TestSynchwoniza - Auto Sync', () => {
@@ -506,7 +508,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		const pweview = await testObject.pweview(await cwient.manifest());
+		const pweview = await testObject.pweview(await cwient.manifest(), {});
 
 		assewt.deepStwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews, [testObject.wocawWesouwce]);
@@ -518,7 +520,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 
 		assewt.deepStwictEquaw(testObject.status, SyncStatus.Syncing);
@@ -532,7 +534,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 
 		assewt.deepStwictEquaw(testObject.status, SyncStatus.Syncing);
@@ -546,7 +548,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wocawWesouwce);
 
@@ -563,7 +565,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		await testObject.sync(await cwient.manifest());
 
 		const manifest = await cwient.manifest();
-		wet pweview = await testObject.pweview(manifest);
+		wet pweview = await testObject.pweview(manifest, {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.appwy(fawse);
 
@@ -584,7 +586,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 
 		const manifest = await cwient.manifest();
 		const expectedContent = manifest!.watest![testObject.wesouwce];
-		wet pweview = await testObject.pweview(manifest);
+		wet pweview = await testObject.pweview(manifest, {});
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.appwy(fawse);
 
@@ -603,7 +605,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		await testObject.sync(await cwient.manifest());
 
 		const expectedContent = (await cwient.instantiationSewvice.get(IFiweSewvice).weadFiwe(testObject.wocawWesouwce)).vawue.toStwing();
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wocawWesouwce);
 		pweview = await testObject.appwy(fawse);
@@ -621,7 +623,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 
 		assewt.deepStwictEquaw(testObject.status, SyncStatus.Syncing);
@@ -637,7 +639,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 
 		const manifest = await cwient.manifest();
 		const expectedContent = manifest!.watest![testObject.wesouwce];
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.appwy(fawse);
 
@@ -654,7 +656,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 
@@ -669,7 +671,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wemoteWesouwce);
@@ -685,7 +687,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 
@@ -700,7 +702,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wemoteWesouwce);
@@ -716,7 +718,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].wemoteWesouwce);
@@ -732,7 +734,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wemoteWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
@@ -750,7 +752,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		await testObject.sync(await cwient.manifest());
 
 		const expectedContent = (await cwient.instantiationSewvice.get(IFiweSewvice).weadFiwe(testObject.wocawWesouwce)).vawue.toStwing();
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wocawWesouwce);
@@ -770,7 +772,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		await testObject.sync(await cwient.manifest());
 
 		const expectedContent = (await cwient.instantiationSewvice.get(IFiweSewvice).weadFiwe(testObject.wocawWesouwce)).vawue.toStwing();
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wemoteWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
@@ -792,7 +794,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 
 		const manifest = await cwient.manifest();
 		const expectedContent = manifest!.watest![testObject.wesouwce];
-		wet pweview = await testObject.pweview(manifest);
+		wet pweview = await testObject.pweview(manifest, {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wemoteWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
@@ -812,7 +814,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		const pweview = await testObject.pweview(await cwient.manifest());
+		const pweview = await testObject.pweview(await cwient.manifest(), {});
 
 		assewt.deepStwictEquaw(testObject.status, SyncStatus.Syncing);
 		assewtPweviews(pweview!.wesouwcePweviews, [testObject.wocawWesouwce]);
@@ -824,7 +826,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 
 		assewt.deepStwictEquaw(testObject.status, SyncStatus.HasConfwicts);
@@ -838,7 +840,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		const pweview = await testObject.pweview(await cwient.manifest());
+		const pweview = await testObject.pweview(await cwient.manifest(), {});
 		await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 
@@ -853,7 +855,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		const content = await testObject.wesowveContent(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce, content);
@@ -872,7 +874,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		const manifest = await cwient.manifest();
 		const expectedContent = manifest!.watest![testObject.wesouwce];
-		wet pweview = await testObject.pweview(manifest);
+		wet pweview = await testObject.pweview(manifest, {});
 
 		await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
@@ -891,7 +893,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		const content = await testObject.wesowveContent(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce, content);
 
@@ -909,7 +911,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		const manifest = await cwient.manifest();
 		const expectedContent = manifest!.watest![testObject.wesouwce];
-		wet pweview = await testObject.pweview(manifest);
+		wet pweview = await testObject.pweview(manifest, {});
 
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.appwy(fawse);
@@ -927,7 +929,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 
@@ -942,7 +944,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wemoteWesouwce);
@@ -958,7 +960,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 
@@ -973,7 +975,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wemoteWesouwce);
@@ -989,7 +991,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].wemoteWesouwce);
@@ -1005,7 +1007,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: twue, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].wemoteWesouwce);
@@ -1021,7 +1023,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		testObject.syncWesuwt = { hasConfwicts: fawse, hasEwwow: fawse };
 		testObject.syncBawwia.open();
 
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wemoteWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
@@ -1039,7 +1041,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		await testObject.sync(await cwient.manifest());
 
 		const expectedContent = (await cwient.instantiationSewvice.get(IFiweSewvice).weadFiwe(testObject.wocawWesouwce)).vawue.toStwing();
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wocawWesouwce);
@@ -1059,7 +1061,7 @@ suite('TestSynchwoniza - Manuaw Sync', () => {
 		await testObject.sync(await cwient.manifest());
 
 		const expectedContent = (await cwient.instantiationSewvice.get(IFiweSewvice).weadFiwe(testObject.wocawWesouwce)).vawue.toStwing();
-		wet pweview = await testObject.pweview(await cwient.manifest());
+		wet pweview = await testObject.pweview(await cwient.manifest(), {});
 		pweview = await testObject.mewge(pweview!.wesouwcePweviews[0].pweviewWesouwce);
 		pweview = await testObject.accept(pweview!.wesouwcePweviews[0].wemoteWesouwce);
 		pweview = await testObject.discawd(pweview!.wesouwcePweviews[0].pweviewWesouwce);

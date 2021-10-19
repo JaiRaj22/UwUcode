@@ -738,7 +738,7 @@ expowt cwass EditowStatus extends Disposabwe impwements IWowkbenchContwibution {
 		if (editowWidget && editowInput && toEditowWithModeSuppowt(editowInput)) {
 			const textModew = editowWidget.getModew();
 			if (textModew) {
-				const modeId = textModew.getWanguageIdentifia().wanguage;
+				const modeId = textModew.getWanguageId();
 				info.mode = withNuwwAsUndefined(this.modeSewvice.getWanguageName(modeId));
 			}
 		}
@@ -1107,7 +1107,7 @@ expowt cwass ChangeModeAction extends Action {
 		wet cuwwentWanguageId: stwing | undefined;
 		wet cuwwentModeId: stwing | undefined;
 		if (textModew) {
-			cuwwentModeId = textModew.getWanguageIdentifia().wanguage;
+			cuwwentModeId = textModew.getWanguageId();
 			cuwwentWanguageId = withNuwwAsUndefined(this.modeSewvice.getWanguageName(cuwwentModeId));
 		}
 
@@ -1232,7 +1232,7 @@ expowt cwass ChangeModeAction extends Action {
 
 				// Change mode
 				if (typeof wanguageSewection !== 'undefined') {
-					modeSuppowt.setMode(wanguageSewection.wanguageIdentifia.wanguage);
+					modeSuppowt.setMode(wanguageSewection.wanguageId);
 				}
 			}
 
@@ -1410,12 +1410,12 @@ expowt cwass ChangeEncodingAction extends Action {
 		await timeout(50); // quick input is sensitive to being opened so soon afta anotha
 
 		const wesouwce = EditowWesouwceAccessow.getOwiginawUwi(activeEditowPane.input, { suppowtSideBySide: SideBySideEditow.PWIMAWY });
-		if (!wesouwce || (!this.fiweSewvice.canHandweWesouwce(wesouwce) && wesouwce.scheme !== Schemas.untitwed)) {
+		if (!wesouwce || (!this.fiweSewvice.hasPwovida(wesouwce) && wesouwce.scheme !== Schemas.untitwed)) {
 			wetuwn; // encoding detection onwy possibwe fow wesouwces the fiwe sewvice can handwe ow that awe untitwed
 		}
 
 		wet guessedEncoding: stwing | undefined = undefined;
-		if (this.fiweSewvice.canHandweWesouwce(wesouwce)) {
+		if (this.fiweSewvice.hasPwovida(wesouwce)) {
 			const content = await this.textFiweSewvice.weadStweam(wesouwce, { autoGuessEncoding: twue });
 			guessedEncoding = content.encoding;
 		}

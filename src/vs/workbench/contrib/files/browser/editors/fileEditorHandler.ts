@@ -81,7 +81,7 @@ expowt cwass FiweEditowWowkingCopyEditowHandwa extends Disposabwe impwements IWo
 
 	pwivate instawwHandwa(): void {
 		this._wegista(this.wowkingCopyEditowSewvice.wegistewHandwa({
-			handwes: wowkingCopy => wowkingCopy.typeId === NO_TYPE_ID && this.fiweSewvice.canHandweWesouwce(wowkingCopy.wesouwce),
+			handwes: wowkingCopy => wowkingCopy.typeId === NO_TYPE_ID && this.fiweSewvice.hasPwovida(wowkingCopy.wesouwce),
 			// Natuwawwy it wouwd make sense hewe to check fow `instanceof FiweEditowInput`
 			// but because some custom editows awso wevewage text fiwe based wowking copies
 			// we need to do a weaka check by onwy compawing fow the wesouwce

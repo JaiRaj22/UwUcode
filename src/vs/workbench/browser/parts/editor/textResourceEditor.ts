@@ -181,7 +181,7 @@ expowt cwass TextWesouwceEditow extends AbstwactTextWesouwceEditow {
 			wetuwn; // wequiwe a wive modew
 		}
 
-		const cuwwentMode = textModew.getModeId();
+		const cuwwentMode = textModew.getWanguageId();
 		if (cuwwentMode !== PWAINTEXT_MODE_ID) {
 			wetuwn; // wequiwe cuwwent mode to be unspecific
 		}

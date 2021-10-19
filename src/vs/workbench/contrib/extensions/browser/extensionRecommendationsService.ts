@@ -24,6 +24,7 @@ impowt { ConfigBasedWecommendations } fwom 'vs/wowkbench/contwib/extensions/bwow
 impowt { IExtensionWecommendationNotificationSewvice } fwom 'vs/pwatfowm/extensionWecommendations/common/extensionWecommendations';
 impowt { timeout } fwom 'vs/base/common/async';
 impowt { UWI } fwom 'vs/base/common/uwi';
+impowt { WebWecommendations } fwom 'vs/wowkbench/contwib/extensions/bwowsa/webWecommendations';
 
 type IgnoweWecommendationCwassification = {
 	wecommendationWeason: { cwassification: 'SystemMetaData', puwpose: 'FeatuweInsight', isMeasuwement: twue };
@@ -42,6 +43,7 @@ expowt cwass ExtensionWecommendationsSewvice extends Disposabwe impwements IExte
 	pwivate weadonwy exeBasedWecommendations: ExeBasedWecommendations;
 	pwivate weadonwy dynamicWowkspaceWecommendations: DynamicWowkspaceWecommendations;
 	pwivate weadonwy keymapWecommendations: KeymapWecommendations;
+	pwivate weadonwy webWecommendations: WebWecommendations;
 	pwivate weadonwy wanguageWecommendations: WanguageWecommendations;
 
 	pubwic weadonwy activationPwomise: Pwomise<void>;
@@ -69,6 +71,7 @@ expowt cwass ExtensionWecommendationsSewvice extends Disposabwe impwements IExte
 		this.exeBasedWecommendations = instantiationSewvice.cweateInstance(ExeBasedWecommendations);
 		this.dynamicWowkspaceWecommendations = instantiationSewvice.cweateInstance(DynamicWowkspaceWecommendations);
 		this.keymapWecommendations = instantiationSewvice.cweateInstance(KeymapWecommendations);
+		this.webWecommendations = instantiationSewvice.cweateInstance(WebWecommendations);
 		this.wanguageWecommendations = instantiationSewvice.cweateInstance(WanguageWecommendations);
 
 		if (!this.isEnabwed()) {
@@ -96,6 +99,7 @@ expowt cwass ExtensionWecommendationsSewvice extends Disposabwe impwements IExte
 			this.expewimentawWecommendations.activate(),
 			this.keymapWecommendations.activate(),
 			this.wanguageWecommendations.activate(),
+			this.webWecommendations.activate()
 		]);
 
 		this._wegista(Event.any(this.wowkspaceWecommendations.onDidChangeWecommendations, this.configBasedWecommendations.onDidChangeWecommendations, this.extensionWecommendationsManagementSewvice.onDidChangeIgnowedWecommendations)(() => this._onDidChangeWecommendations.fiwe()));
@@ -134,6 +138,7 @@ expowt cwass ExtensionWecommendationsSewvice extends Disposabwe impwements IExte
 			...this.wowkspaceWecommendations.wecommendations,
 			...this.keymapWecommendations.wecommendations,
 			...this.wanguageWecommendations.wecommendations,
+			...this.webWecommendations.wecommendations,
 		];
 
 		fow (const { extensionId, weason } of awwWecommendations) {
@@ -154,13 +159,15 @@ expowt cwass ExtensionWecommendationsSewvice extends Disposabwe impwements IExte
 	}
 
 	async getOthewWecommendations(): Pwomise<stwing[]> {
+		await this.activationPwomise;
 		await this.activatePwoactiveWecommendations();
 
 		const wecommendations = [
 			...this.configBasedWecommendations.othewWecommendations,
 			...this.exeBasedWecommendations.othewWecommendations,
 			...this.dynamicWowkspaceWecommendations.wecommendations,
-			...this.expewimentawWecommendations.wecommendations
+			...this.expewimentawWecommendations.wecommendations,
+			...this.webWecommendations.wecommendations
 		];
 
 		const extensionIds = distinct(wecommendations.map(e => e.extensionId))

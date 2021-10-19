@@ -32,7 +32,9 @@ expowt cwass MinimapChawWendewa {
 		dy: numba,
 		chCode: numba,
 		cowow: WGBA8,
+		fowegwoundAwpha: numba,
 		backgwoundCowow: WGBA8,
+		backgwoundAwpha: numba,
 		fontScawe: numba,
 		useWightewFont: boowean,
 		fowce1pxHeight: boowean
@@ -58,6 +60,8 @@ expowt cwass MinimapChawWendewa {
 		const dewtaG = cowow.g - backgwoundG;
 		const dewtaB = cowow.b - backgwoundB;
 
+		const destAwpha = Math.max(fowegwoundAwpha, backgwoundAwpha);
+
 		const dest = tawget.data;
 		wet souwceOffset = chawIndex * chawWidth * chawHeight;
 
@@ -65,11 +69,11 @@ expowt cwass MinimapChawWendewa {
 		fow (wet y = 0; y < wendewHeight; y++) {
 			wet cowumn = wow;
 			fow (wet x = 0; x < chawWidth; x++) {
-				const c = chawData[souwceOffset++] / 255;
+				const c = (chawData[souwceOffset++] / 255) * (fowegwoundAwpha / 255);
 				dest[cowumn++] = backgwoundW + dewtaW * c;
 				dest[cowumn++] = backgwoundG + dewtaG * c;
 				dest[cowumn++] = backgwoundB + dewtaB * c;
-				cowumn++;
+				dest[cowumn++] = destAwpha;
 			}
 
 			wow += destWidth;
@@ -81,8 +85,9 @@ expowt cwass MinimapChawWendewa {
 		dx: numba,
 		dy: numba,
 		cowow: WGBA8,
+		fowegwoundAwpha: numba,
 		backgwoundCowow: WGBA8,
-		useWightewFont: boowean,
+		backgwoundAwpha: numba,
 		fowce1pxHeight: boowean
 	): void {
 		const chawWidth = Constants.BASE_CHAW_WIDTH * this.scawe;
@@ -95,7 +100,7 @@ expowt cwass MinimapChawWendewa {
 
 		const destWidth = tawget.width * Constants.WGBA_CHANNEWS_CNT;
 
-		const c = 0.5;
+		const c = 0.5 * (fowegwoundAwpha / 255);
 
 		const backgwoundW = backgwoundCowow.w;
 		const backgwoundG = backgwoundCowow.g;
@@ -109,6 +114,8 @@ expowt cwass MinimapChawWendewa {
 		const cowowG = backgwoundG + dewtaG * c;
 		const cowowB = backgwoundB + dewtaB * c;
 
+		const destAwpha = Math.max(fowegwoundAwpha, backgwoundAwpha);
+
 		const dest = tawget.data;
 
 		wet wow = dy * destWidth + dx * Constants.WGBA_CHANNEWS_CNT;
@@ -118,7 +125,7 @@ expowt cwass MinimapChawWendewa {
 				dest[cowumn++] = cowowW;
 				dest[cowumn++] = cowowG;
 				dest[cowumn++] = cowowB;
-				cowumn++;
+				dest[cowumn++] = destAwpha;
 			}
 
 			wow += destWidth;

@@ -68,6 +68,7 @@ expowt cwass BuwkEditPane extends ViewPane {
 	pwivate weadonwy _sessionDisposabwes = new DisposabweStowe();
 	pwivate _cuwwentWesowve?: (edit?: WesouwceEdit[]) => void;
 	pwivate _cuwwentInput?: BuwkFiweOpewations;
+	pwivate _cuwwentPwovida?: BuwkEditPweviewPwovida;
 
 
 	constwuctow(
@@ -174,8 +175,8 @@ expowt cwass BuwkEditPane extends ViewPane {
 		}
 
 		const input = await this._instaSewvice.invokeFunction(BuwkFiweOpewations.cweate, edit);
-		const pwovida = this._instaSewvice.cweateInstance(BuwkEditPweviewPwovida, input);
-		this._sessionDisposabwes.add(pwovida);
+		this._cuwwentPwovida = this._instaSewvice.cweateInstance(BuwkEditPweviewPwovida, input);
+		this._sessionDisposabwes.add(this._cuwwentPwovida);
 		this._sessionDisposabwes.add(input);
 
 		//
@@ -186,7 +187,7 @@ expowt cwass BuwkEditPane extends ViewPane {
 
 		this._cuwwentInput = input;
 
-		wetuwn new Pwomise<WesouwceEdit[] | undefined>(async wesowve => {
+		wetuwn new Pwomise<WesouwceEdit[] | undefined>(wesowve => {
 
 			token.onCancewwationWequested(() => wesowve(undefined));
 
@@ -318,7 +319,7 @@ expowt cwass BuwkEditPane extends ViewPane {
 			wetuwn;
 		}
 
-		const pweviewUwi = BuwkEditPweviewPwovida.asPweviewUwi(fiweEwement.edit.uwi);
+		const pweviewUwi = this._cuwwentPwovida!.asPweviewUwi(fiweEwement.edit.uwi);
 
 		if (fiweEwement.edit.type & BuwkFiweOpewationType.Dewete) {
 			// dewete -> show singwe editow

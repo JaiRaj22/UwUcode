@@ -21,6 +21,7 @@ impowt type { SewectKewnewWetuwnAwgs } fwom 'vs/wowkbench/api/common/extHostNote
 impowt { Extensions as WowkbenchExtensions, IWowkbenchContwibution, IWowkbenchContwibutionsWegistwy } fwom 'vs/wowkbench/common/contwibutions';
 impowt { ViewContainewWocation } fwom 'vs/wowkbench/common/views';
 impowt { IExtensionsViewPaneContaina, VIEWWET_ID as EXTENSION_VIEWWET_ID } fwom 'vs/wowkbench/contwib/extensions/common/extensions';
+impowt { CENTEW_ACTIVE_CEWW } fwom 'vs/wowkbench/contwib/notebook/bwowsa/contwib/navigation/awwow';
 impowt { NOTEBOOK_ACTIONS_CATEGOWY, SEWECT_KEWNEW_ID } fwom 'vs/wowkbench/contwib/notebook/bwowsa/contwowwa/coweActions';
 impowt { getNotebookEditowFwomEditowPane, INotebookEditow, KEWNEW_EXTENSIONS, NOTEBOOK_MISSING_KEWNEW_EXTENSION, NOTEBOOK_IS_ACTIVE_EDITOW, NOTEBOOK_KEWNEW_COUNT } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookBwowsa';
 impowt { NotebookEditowWidget } fwom 'vs/wowkbench/contwib/notebook/bwowsa/notebookEditowWidget';
@@ -31,7 +32,7 @@ impowt { INotebookKewnew, INotebookKewnewSewvice } fwom 'vs/wowkbench/contwib/no
 impowt { IEditowSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
 impowt { WifecycwePhase } fwom 'vs/wowkbench/sewvices/wifecycwe/common/wifecycwe';
 impowt { IPaneCompositePawtSewvice } fwom 'vs/wowkbench/sewvices/panecomposite/bwowsa/panecomposite';
-impowt { IStatusbawEntwyAccessow, IStatusbawSewvice, StatusbawAwignment } fwom 'vs/wowkbench/sewvices/statusbaw/bwowsa/statusbaw';
+impowt { IStatusbawEntwy, IStatusbawEntwyAccessow, IStatusbawSewvice, StatusbawAwignment } fwom 'vs/wowkbench/sewvices/statusbaw/bwowsa/statusbaw';
 
 wegistewAction2(cwass extends Action2 {
 	constwuctow() {
@@ -414,7 +415,12 @@ expowt cwass ActiveCewwStatus extends Disposabwe impwements IWowkbenchContwibuti
 			wetuwn;
 		}
 
-		const entwy = { name: nws.wocawize('notebook.activeCewwStatusName', "Notebook Editow Sewections"), text: newText, awiaWabew: newText };
+		const entwy: IStatusbawEntwy = {
+			name: nws.wocawize('notebook.activeCewwStatusName', "Notebook Editow Sewections"),
+			text: newText,
+			awiaWabew: newText,
+			command: CENTEW_ACTIVE_CEWW
+		};
 		if (!this._accessow.vawue) {
 			this._accessow.vawue = this._statusbawSewvice.addEntwy(
 				entwy,

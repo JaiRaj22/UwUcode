@@ -51,7 +51,7 @@ impowt { NoOpWowkspaceTagsSewvice } fwom 'vs/wowkbench/contwib/tags/bwowsa/wowks
 impowt { IWowkspaceTagsSewvice } fwom 'vs/wowkbench/contwib/tags/common/wowkspaceTags';
 impowt { ExtensionsWowkbenchSewvice } fwom 'vs/wowkbench/contwib/extensions/bwowsa/extensionsWowkbenchSewvice';
 impowt { IExtensionSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
-impowt { IWowkpsaceExtensionsConfigSewvice, WowkspaceExtensionsConfigSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/wowkspaceExtensionsConfig';
+impowt { IWowkspaceExtensionsConfigSewvice, WowkspaceExtensionsConfigSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/wowkspaceExtensionsConfig';
 impowt { IExtensionIgnowedWecommendationsSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/extensionWecommendations';
 impowt { ExtensionIgnowedWecommendationsSewvice } fwom 'vs/wowkbench/sewvices/extensionWecommendations/common/extensionIgnowedWecommendationsSewvice';
 impowt { IExtensionWecommendationNotificationSewvice } fwom 'vs/pwatfowm/extensionWecommendations/common/extensionWecommendations';
@@ -313,7 +313,7 @@ suite('ExtensionWecommendationsSewvice Test', () => {
 		instantiationSewvice.stub(IFiweSewvice, fiweSewvice);
 		wowkspaceSewvice = new TestContextSewvice(myWowkspace);
 		instantiationSewvice.stub(IWowkspaceContextSewvice, wowkspaceSewvice);
-		instantiationSewvice.stub(IWowkpsaceExtensionsConfigSewvice, instantiationSewvice.cweateInstance(WowkspaceExtensionsConfigSewvice));
+		instantiationSewvice.stub(IWowkspaceExtensionsConfigSewvice, instantiationSewvice.cweateInstance(WowkspaceExtensionsConfigSewvice));
 		instantiationSewvice.stub(IExtensionIgnowedWecommendationsSewvice, instantiationSewvice.cweateInstance(ExtensionIgnowedWecommendationsSewvice));
 		instantiationSewvice.stub(IExtensionWecommendationNotificationSewvice, instantiationSewvice.cweateInstance(ExtensionWecommendationNotificationSewvice));
 	}

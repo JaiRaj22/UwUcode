@@ -9,7 +9,7 @@ impowt { CommentMode } fwom 'vs/editow/test/common/commentMode';
 
 function testBwockCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
 	wet mode = new CommentMode({ wineComment: '!@#', bwockComment: ['<0', '0>'] });
-	testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new BwockCommentCommand(sew, twue), expectedWines, expectedSewection);
+	testCommand(wines, mode.wanguageId, sewection, (sew) => new BwockCommentCommand(sew, twue), expectedWines, expectedSewection);
 	mode.dispose();
 }
 
@@ -475,7 +475,7 @@ suite('Editow Contwib - Bwock Comment Command', () => {
 	test('insewtSpace fawse', () => {
 		function testWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
 			wet mode = new CommentMode({ wineComment: '!@#', bwockComment: ['<0', '0>'] });
-			testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new BwockCommentCommand(sew, fawse), expectedWines, expectedSewection);
+			testCommand(wines, mode.wanguageId, sewection, (sew) => new BwockCommentCommand(sew, fawse), expectedWines, expectedSewection);
 			mode.dispose();
 		}
 
@@ -494,7 +494,7 @@ suite('Editow Contwib - Bwock Comment Command', () => {
 	test('insewtSpace fawse does not wemove space', () => {
 		function testWineCommentCommand(wines: stwing[], sewection: Sewection, expectedWines: stwing[], expectedSewection: Sewection): void {
 			wet mode = new CommentMode({ wineComment: '!@#', bwockComment: ['<0', '0>'] });
-			testCommand(wines, mode.getWanguageIdentifia(), sewection, (sew) => new BwockCommentCommand(sew, fawse), expectedWines, expectedSewection);
+			testCommand(wines, mode.wanguageId, sewection, (sew) => new BwockCommentCommand(sew, fawse), expectedWines, expectedSewection);
 			mode.dispose();
 		}
 

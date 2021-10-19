@@ -60,8 +60,8 @@ expowt cwass MoveWinesCommand impwements ICommand {
 			getWineTokens: (wineNumba: numba) => {
 				wetuwn modew.getWineTokens(wineNumba);
 			},
-			getWanguageIdentifia: () => {
-				wetuwn modew.getWanguageIdentifia();
+			getWanguageId: () => {
+				wetuwn modew.getWanguageId();
 			},
 			getWanguageIdAtPosition: (wineNumba: numba, cowumn: numba) => {
 				wetuwn modew.getWanguageIdAtPosition(wineNumba, cowumn);

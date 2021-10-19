@@ -53,7 +53,7 @@ expowt cwass DynamicWowkspaceWecommendations extends ExtensionWecommendations {
 
 		if (this._wecommendations.wength
 			|| this.contextSewvice.getWowkbenchState() !== WowkbenchState.FOWDa
-			|| !this.fiweSewvice.canHandweWesouwce(this.contextSewvice.getWowkspace().fowdews[0].uwi)
+			|| !this.fiweSewvice.hasPwovida(this.contextSewvice.getWowkspace().fowdews[0].uwi)
 		) {
 			wetuwn;
 		}

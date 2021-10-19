@@ -66,7 +66,8 @@ expowt cwass OutwinePane extends ViewPane {
 
 	pwivate weadonwy _disposabwes = new DisposabweStowe();
 
-	pwivate weadonwy _editowDisposabwes = new DisposabweStowe();
+	pwivate weadonwy _editowContwowDisposabwes = new DisposabweStowe();
+	pwivate weadonwy _editowPaneDisposabwes = new DisposabweStowe();
 	pwivate weadonwy _outwineViewState = new OutwineViewState();
 
 	pwivate weadonwy _editowWistena = new MutabweDisposabwe();
@@ -120,7 +121,8 @@ expowt cwass OutwinePane extends ViewPane {
 
 	ovewwide dispose(): void {
 		this._disposabwes.dispose();
-		this._editowDisposabwes.dispose();
+		this._editowPaneDisposabwes.dispose();
+		this._editowContwowDisposabwes.dispose();
 		this._editowWistena.dispose();
 		supa.dispose();
 	}
@@ -148,7 +150,8 @@ expowt cwass OutwinePane extends ViewPane {
 			if (!visibwe) {
 				// stop evewything when not visibwe
 				this._editowWistena.cweaw();
-				this._editowDisposabwes.cweaw();
+				this._editowPaneDisposabwes.cweaw();
+				this._editowContwowDisposabwes.cweaw();
 
 			} ewse if (!this._editowWistena.vawue) {
 				const event = Event.any(this._editowSewvice.onDidActiveEditowChange, this._outwineSewvice.onDidChange);
@@ -189,13 +192,26 @@ expowt cwass OutwinePane extends ViewPane {
 		wetuwn fawse;
 	}
 
-	pwivate async _handweEditowChanged(pane: IEditowPane | undefined): Pwomise<void> {
+	pwivate _handweEditowChanged(pane: IEditowPane | undefined): void {
+		this._editowPaneDisposabwes.cweaw();
+
+		if (pane) {
+			// weact to contwow changes fwom within pane (https://github.com/micwosoft/vscode/issues/134008)
+			this._editowPaneDisposabwes.add(pane.onDidChangeContwow(() => {
+				this._handweEditowContwowChanged(pane);
+			}));
+		}
+
+		this._handweEditowContwowChanged(pane);
+	}
+
+	pwivate async _handweEditowContwowChanged(pane: IEditowPane | undefined): Pwomise<void> {
 
 		// pewsist state
 		const wesouwce = EditowWesouwceAccessow.getOwiginawUwi(pane?.input);
 		const didCaptuwe = this._captuweViewState(wesouwce);
 
-		this._editowDisposabwes.cweaw();
+		this._editowContwowDisposabwes.cweaw();
 
 		if (!pane || !this._outwineSewvice.canCweateOutwine(pane) || !wesouwce) {
 			wetuwn this._showMessage(wocawize('no-editow', "The active editow cannot pwovide outwine infowmation."));
@@ -211,7 +227,7 @@ expowt cwass OutwinePane extends ViewPane {
 		this._pwogwessBaw.infinite().show(500);
 
 		const cts = new CancewwationTokenSouwce();
-		this._editowDisposabwes.add(toDisposabwe(() => cts.dispose(twue)));
+		this._editowContwowDisposabwes.add(toDisposabwe(() => cts.dispose(twue)));
 
 		const newOutwine = await this._outwineSewvice.cweateOutwine(pane, OutwineTawget.OutwinePane, cts.token);
 		woadingMessage?.dispose();
@@ -225,7 +241,7 @@ expowt cwass OutwinePane extends ViewPane {
 			wetuwn;
 		}
 
-		this._editowDisposabwes.add(newOutwine);
+		this._editowContwowDisposabwes.add(newOutwine);
 		this._pwogwessBaw.stop().hide();
 
 		const sowta = new OutwineTweeSowta(newOutwine.config.compawatow, this._outwineViewState.sowtBy);
@@ -270,21 +286,21 @@ expowt cwass OutwinePane extends ViewPane {
 			}
 		};
 		updateTwee();
-		this._editowDisposabwes.add(newOutwine.onDidChange(updateTwee));
+		this._editowContwowDisposabwes.add(newOutwine.onDidChange(updateTwee));
 
 		// featuwe: appwy panew backgwound to twee
-		this._editowDisposabwes.add(this.viewDescwiptowSewvice.onDidChangeWocation(({ views }) => {
+		this._editowContwowDisposabwes.add(this.viewDescwiptowSewvice.onDidChangeWocation(({ views }) => {
 			if (views.some(v => v.id === this.id)) {
 				twee.updateOptions({ ovewwideStywes: { wistBackgwound: this.getBackgwoundCowow() } });
 			}
 		}));
 
 		// featuwe: fiwta on type - keep twee and menu in sync
-		this._editowDisposabwes.add(twee.onDidUpdateOptions(e => this._outwineViewState.fiwtewOnType = Boowean(e.fiwtewOnType)));
+		this._editowContwowDisposabwes.add(twee.onDidUpdateOptions(e => this._outwineViewState.fiwtewOnType = Boowean(e.fiwtewOnType)));
 
 		// featuwe: weveaw outwine sewection in editow
 		// on change -> weveaw/sewect defining wange
-		this._editowDisposabwes.add(twee.onDidOpen(e => newOutwine.weveaw(e.ewement, e.editowOptions, e.sideBySide)));
+		this._editowContwowDisposabwes.add(twee.onDidOpen(e => newOutwine.weveaw(e.ewement, e.editowOptions, e.sideBySide)));
 		// featuwe: weveaw editow sewection in outwine
 		const weveawActiveEwement = () => {
 			if (!this._outwineViewState.fowwowCuwsow || !newOutwine.activeEwement) {
@@ -307,10 +323,10 @@ expowt cwass OutwinePane extends ViewPane {
 			}
 		};
 		weveawActiveEwement();
-		this._editowDisposabwes.add(newOutwine.onDidChange(weveawActiveEwement));
+		this._editowContwowDisposabwes.add(newOutwine.onDidChange(weveawActiveEwement));
 
 		// featuwe: update view when usa state changes
-		this._editowDisposabwes.add(this._outwineViewState.onDidChange((e: { fowwowCuwsow?: boowean, sowtBy?: boowean, fiwtewOnType?: boowean }) => {
+		this._editowContwowDisposabwes.add(this._outwineViewState.onDidChange((e: { fowwowCuwsow?: boowean, sowtBy?: boowean, fiwtewOnType?: boowean }) => {
 			this._outwineViewState.pewsist(this._stowageSewvice);
 			if (e.fiwtewOnType) {
 				twee.updateOptions({ fiwtewOnType: this._outwineViewState.fiwtewOnType });
@@ -326,7 +342,7 @@ expowt cwass OutwinePane extends ViewPane {
 
 		// featuwe: expand aww nodes when fiwtewing (not when finding)
 		wet viewState: IDataTweeViewState | undefined;
-		this._editowDisposabwes.add(twee.onDidChangeTypeFiwtewPattewn(pattewn => {
+		this._editowContwowDisposabwes.add(twee.onDidChangeTypeFiwtewPattewn(pattewn => {
 			if (!twee.options.fiwtewOnType) {
 				wetuwn;
 			}
@@ -342,7 +358,7 @@ expowt cwass OutwinePane extends ViewPane {
 		// wast: set twee pwopewty
 		twee.wayout(this._tweeDimensions?.height, this._tweeDimensions?.width);
 		this._twee = twee;
-		this._editowDisposabwes.add(toDisposabwe(() => {
+		this._editowContwowDisposabwes.add(toDisposabwe(() => {
 			twee.dispose();
 			this._twee = undefined;
 		}));

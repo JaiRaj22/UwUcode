@@ -11,7 +11,9 @@ impowt * as path fwom 'vs/base/common/path';
 impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { IModewSewvice } fwom 'vs/editow/common/sewvices/modewSewvice';
 impowt { ModewSewviceImpw } fwom 'vs/editow/common/sewvices/modewSewviceImpw';
+impowt { ModeSewviceImpw } fwom 'vs/editow/common/sewvices/modeSewviceImpw';
 impowt { ITextWesouwcePwopewtiesSewvice } fwom 'vs/editow/common/sewvices/textWesouwceConfiguwationSewvice';
+impowt { TestWanguageConfiguwationSewvice } fwom 'vs/editow/test/common/modes/testWanguageConfiguwationSewvice';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { TestConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/test/common/testConfiguwationSewvice';
 impowt { IDiawogSewvice } fwom 'vs/pwatfowm/diawogs/common/diawogs';
@@ -72,22 +74,41 @@ suite.skip('TextSeawch pewfowmance (integwation)', () => {
 		const diawogSewvice = new TestDiawogSewvice();
 		const notificationSewvice = new TestNotificationSewvice();
 		const undoWedoSewvice = new UndoWedoSewvice(diawogSewvice, notificationSewvice);
-		const instantiationSewvice = new InstantiationSewvice(new SewviceCowwection(
-			[ITewemetwySewvice, tewemetwySewvice],
-			[IConfiguwationSewvice, configuwationSewvice],
-			[ITextWesouwcePwopewtiesSewvice, textWesouwcePwopewtiesSewvice],
-			[IDiawogSewvice, diawogSewvice],
-			[INotificationSewvice, notificationSewvice],
-			[IUndoWedoSewvice, undoWedoSewvice],
-			[IModewSewvice, new ModewSewviceImpw(configuwationSewvice, textWesouwcePwopewtiesSewvice, new TestThemeSewvice(), wogSewvice, undoWedoSewvice)],
-			[IWowkspaceContextSewvice, new TestContextSewvice(testWowkspace(UWI.fiwe(testWowkspacePath)))],
-			[IEditowSewvice, new TestEditowSewvice()],
-			[IEditowGwoupsSewvice, new TestEditowGwoupsSewvice()],
-			[IEnviwonmentSewvice, TestEnviwonmentSewvice],
-			[IUntitwedTextEditowSewvice, new SyncDescwiptow(UntitwedTextEditowSewvice)],
-			[ISeawchSewvice, new SyncDescwiptow(WocawSeawchSewvice)],
-			[IWogSewvice, wogSewvice]
-		));
+		const instantiationSewvice = new InstantiationSewvice(
+			new SewviceCowwection(
+				[ITewemetwySewvice, tewemetwySewvice],
+				[IConfiguwationSewvice, configuwationSewvice],
+				[ITextWesouwcePwopewtiesSewvice, textWesouwcePwopewtiesSewvice],
+				[IDiawogSewvice, diawogSewvice],
+				[INotificationSewvice, notificationSewvice],
+				[IUndoWedoSewvice, undoWedoSewvice],
+				[
+					IModewSewvice,
+					new ModewSewviceImpw(
+						configuwationSewvice,
+						textWesouwcePwopewtiesSewvice,
+						new TestThemeSewvice(),
+						wogSewvice,
+						undoWedoSewvice,
+						new ModeSewviceImpw(),
+						new TestWanguageConfiguwationSewvice()
+					),
+				],
+				[
+					IWowkspaceContextSewvice,
+					new TestContextSewvice(testWowkspace(UWI.fiwe(testWowkspacePath))),
+				],
+				[IEditowSewvice, new TestEditowSewvice()],
+				[IEditowGwoupsSewvice, new TestEditowGwoupsSewvice()],
+				[IEnviwonmentSewvice, TestEnviwonmentSewvice],
+				[
+					IUntitwedTextEditowSewvice,
+					new SyncDescwiptow(UntitwedTextEditowSewvice),
+				],
+				[ISeawchSewvice, new SyncDescwiptow(WocawSeawchSewvice)],
+				[IWogSewvice, wogSewvice]
+			)
+		);
 
 		const quewyOptions: ITextQuewyBuiwdewOptions = {
 			maxWesuwts: 2048

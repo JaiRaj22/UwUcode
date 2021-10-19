@@ -47,7 +47,7 @@ suite('Editow Modew - Modew Modes 1', () => {
 		const WANGUAGE_ID = 'modewModeTest1';
 		cawwedFow = [];
 		wanguageWegistwation = modes.TokenizationWegistwy.wegista(WANGUAGE_ID, tokenizationSuppowt);
-		thisModew = cweateTextModew(TEXT, undefined, new modes.WanguageIdentifia(WANGUAGE_ID, 0));
+		thisModew = cweateTextModew(TEXT, undefined, WANGUAGE_ID);
 	});
 
 	teawdown(() => {
@@ -200,7 +200,7 @@ suite('Editow Modew - Modew Modes 2', () => {
 			'Wine5';
 		const WANGUAGE_ID = 'modewModeTest2';
 		wanguageWegistwation = modes.TokenizationWegistwy.wegista(WANGUAGE_ID, tokenizationSuppowt);
-		thisModew = cweateTextModew(TEXT, undefined, new modes.WanguageIdentifia(WANGUAGE_ID, 0));
+		thisModew = cweateTextModew(TEXT, undefined, WANGUAGE_ID);
 	});
 
 	teawdown(() => {

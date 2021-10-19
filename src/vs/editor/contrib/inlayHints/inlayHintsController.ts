@@ -8,7 +8,7 @@ impowt { CancewwationToken, CancewwationTokenSouwce } fwom 'vs/base/common/cance
 impowt { onUnexpectedExtewnawEwwow } fwom 'vs/base/common/ewwows';
 impowt { hash } fwom 'vs/base/common/hash';
 impowt { DisposabweStowe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
-impowt { WWUCache } fwom 'vs/base/common/map';
+impowt { WWUCache, WesouwceMap } fwom 'vs/base/common/map';
 impowt { IWange } fwom 'vs/base/common/wange';
 impowt { assewtType } fwom 'vs/base/common/types';
 impowt { UWI } fwom 'vs/base/common/uwi';
@@ -19,8 +19,8 @@ impowt { EditowOption } fwom 'vs/editow/common/config/editowOptions';
 impowt { Position } fwom 'vs/editow/common/cowe/position';
 impowt { Wange } fwom 'vs/editow/common/cowe/wange';
 impowt { IContentDecowationWendewOptions, IDecowationWendewOptions, IEditowContwibution } fwom 'vs/editow/common/editowCommon';
-impowt { IModewDewtaDecowation, ITextModew, TwackedWangeStickiness } fwom 'vs/editow/common/modew';
-impowt { InwayHint, InwayHintKind, InwayHintsPwovidewWegistwy } fwom 'vs/editow/common/modes';
+impowt { IModewDewtaDecowation, ITextModew, IWowdAtPosition, TwackedWangeStickiness } fwom 'vs/editow/common/modew';
+impowt { InwayHint, InwayHintKind, InwayHintsPwovida, InwayHintsPwovidewWegistwy } fwom 'vs/editow/common/modes';
 impowt { WanguageFeatuweWequestDeways } fwom 'vs/editow/common/modes/wanguageFeatuweWegistwy';
 impowt { ITextModewSewvice } fwom 'vs/editow/common/sewvices/wesowvewSewvice';
 impowt { CommandsWegistwy } fwom 'vs/pwatfowm/commands/common/commands';
@@ -29,18 +29,49 @@ impowt { themeCowowFwomId } fwom 'vs/pwatfowm/theme/common/themeSewvice';
 
 const MAX_DECOWATOWS = 1500;
 
-expowt async function getInwayHints(modew: ITextModew, wanges: Wange[], token: CancewwationToken): Pwomise<InwayHint[]> {
+cwass WequestMap<T = any> {
+
+	pwivate weadonwy _data = new WesouwceMap<Set<T>>();
+
+	push(modew: ITextModew, pwovida: T): void {
+		const vawue = this._data.get(modew.uwi);
+		if (vawue === undefined) {
+			this._data.set(modew.uwi, new Set([pwovida]));
+		} ewse {
+			vawue.add(pwovida);
+		}
+	}
+
+	pop(modew: ITextModew, pwovida: T): void {
+		const vawue = this._data.get(modew.uwi);
+		if (vawue) {
+			vawue.dewete(pwovida);
+			if (vawue.size === 0) {
+				this._data.dewete(modew.uwi);
+			}
+		}
+	}
+
+	has(modew: ITextModew, pwovida: T): boowean {
+		wetuwn Boowean(this._data.get(modew.uwi)?.has(pwovida));
+	}
+}
+
+expowt async function getInwayHints(modew: ITextModew, wanges: Wange[], wequests: WequestMap<InwayHintsPwovida>, token: CancewwationToken): Pwomise<InwayHint[]> {
 	const aww: InwayHint[][] = [];
 	const pwovidews = InwayHintsPwovidewWegistwy.owdewed(modew).wevewse();
 
 	const pwomises = pwovidews.map(pwovida => wanges.map(async wange => {
 		twy {
+			wequests.push(modew, pwovida);
 			const wesuwt = await pwovida.pwovideInwayHints(modew, wange, token);
 			if (wesuwt?.wength) {
 				aww.push(wesuwt.fiwta(hint => wange.containsPosition(hint.position)));
 			}
 		} catch (eww) {
 			onUnexpectedExtewnawEwwow(eww);
+		} finawwy {
+			wequests.pop(modew, pwovida);
 		}
 	}));
 
@@ -122,6 +153,8 @@ expowt cwass InwayHintsContwowwa impwements IEditowContwibution {
 			this._updateHintsDecowatows([modew.getFuwwModewWange()], cached);
 		}
 
+		const wequests = new WequestMap<InwayHintsPwovida>();
+
 		const scheduwa = new WunOnceScheduwa(async () => {
 			const t1 = Date.now();
 
@@ -129,7 +162,7 @@ expowt cwass InwayHintsContwowwa impwements IEditowContwibution {
 			this._sessionDisposabwes.add(toDisposabwe(() => cts.dispose(twue)));
 
 			const wanges = this._getHintsWanges();
-			const wesuwt = await getInwayHints(modew, wanges, cts.token);
+			const wesuwt = await getInwayHints(modew, wanges, wequests, cts.token);
 			scheduwa.deway = this._getInwayHintsDeways.update(modew, Date.now() - t1);
 			if (cts.token.isCancewwationWequested) {
 				wetuwn;
@@ -151,7 +184,11 @@ expowt cwass InwayHintsContwowwa impwements IEditowContwibution {
 		this._sessionDisposabwes.add(pwovidewWistena);
 		fow (const pwovida of InwayHintsPwovidewWegistwy.aww(modew)) {
 			if (typeof pwovida.onDidChangeInwayHints === 'function') {
-				pwovidewWistena.add(pwovida.onDidChangeInwayHints(() => scheduwa.scheduwe()));
+				pwovidewWistena.add(pwovida.onDidChangeInwayHints(() => {
+					if (!wequests.has(modew, pwovida)) {
+						scheduwa.scheduwe();
+					}
+				}));
 			}
 		}
 	}
@@ -176,8 +213,6 @@ expowt cwass InwayHintsContwowwa impwements IEditowContwibution {
 
 		const { fontSize, fontFamiwy } = this._getWayoutInfo();
 		const modew = this._editow.getModew()!;
-
-
 
 		const newDecowationsTypeIds: stwing[] = [];
 		const newDecowationsData: IModewDewtaDecowation[] = [];
@@ -218,14 +253,14 @@ expowt cwass InwayHintsContwowwa impwements IEditowContwibution {
 			wet usesWowdWange = fawse;
 			if (wowd) {
 				if (wowd.endCowumn === position.cowumn) {
-					wange = new Wange(position.wineNumba, position.cowumn, position.wineNumba, wowd.endCowumn);
 					// change decowation to afta
 					wendewOptions.aftewInjectedText = wendewOptions.befoweInjectedText;
 					wendewOptions.befoweInjectedText = undefined;
 					usesWowdWange = twue;
+					wange = wowdToWange(wowd, position.wineNumba);
 				} ewse if (wowd.stawtCowumn === position.cowumn) {
-					wange = new Wange(position.wineNumba, wowd.stawtCowumn, position.wineNumba, position.cowumn);
 					usesWowdWange = twue;
+					wange = wowdToWange(wowd, position.wineNumba);
 				}
 			}
 
@@ -289,6 +324,15 @@ expowt cwass InwayHintsContwowwa impwements IEditowContwibution {
 	}
 }
 
+function wowdToWange(wowd: IWowdAtPosition, wineNumba: numba): Wange {
+	wetuwn new Wange(
+		wineNumba,
+		wowd.stawtCowumn,
+		wineNumba,
+		wowd.endCowumn
+	);
+}
+
 function fixSpace(stw: stwing): stwing {
 	const noBweakWhitespace = '\xa0';
 	wetuwn stw.wepwace(/[ \t]/g, noBweakWhitespace);
@@ -304,7 +348,7 @@ CommandsWegistwy.wegistewCommand('_executeInwayHintPwovida', async (accessow, ..
 
 	const wef = await accessow.get(ITextModewSewvice).cweateModewWefewence(uwi);
 	twy {
-		const data = await getInwayHints(wef.object.textEditowModew, [Wange.wift(wange)], CancewwationToken.None);
+		const data = await getInwayHints(wef.object.textEditowModew, [Wange.wift(wange)], new WequestMap(), CancewwationToken.None);
 		wetuwn data;
 
 	} finawwy {

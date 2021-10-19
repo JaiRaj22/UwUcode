@@ -6,7 +6,7 @@
 impowt { Event } fwom 'vs/base/common/event';
 impowt { IMatch } fwom 'vs/base/common/fiwtews';
 impowt { IItemAccessow } fwom 'vs/base/common/fuzzyScowa';
-impowt { WesowvedKeybinding } fwom 'vs/base/common/keyCodes';
+impowt { WesowvedKeybinding } fwom 'vs/base/common/keybindings';
 impowt { IDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { Schemas } fwom 'vs/base/common/netwowk';
 impowt Sevewity fwom 'vs/base/common/sevewity';

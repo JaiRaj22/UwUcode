@@ -3,42 +3,42 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
+impowt { addDisposabweWistena, Dimension, EventType, isAncestow } fwom 'vs/base/bwowsa/dom';
+impowt { StandawdMouseEvent } fwom 'vs/base/bwowsa/mouseEvent';
+impowt { EventType as TouchEventType, Gestuwe } fwom 'vs/base/bwowsa/touch';
+impowt { IActionViewItem } fwom 'vs/base/bwowsa/ui/actionbaw/actionbaw';
+impowt { Owientation } fwom 'vs/base/bwowsa/ui/sash/sash';
+impowt { IPaneViewOptions, PaneView } fwom 'vs/base/bwowsa/ui/spwitview/paneview';
+impowt { IAction } fwom 'vs/base/common/actions';
+impowt { WunOnceScheduwa } fwom 'vs/base/common/async';
+impowt { Emitta, Event } fwom 'vs/base/common/event';
+impowt { KeyChowd, KeyCode, KeyMod } fwom 'vs/base/common/keyCodes';
+impowt { combinedDisposabwe, dispose, IDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { assewtIsDefined } fwom 'vs/base/common/types';
 impowt 'vs/css!./media/paneviewwet';
 impowt * as nws fwom 'vs/nws';
-impowt { Event, Emitta } fwom 'vs/base/common/event';
-impowt { CowowIdentifia, activeContwastBowda } fwom 'vs/pwatfowm/theme/common/cowowWegistwy';
-impowt { attachStywa, ICowowMapping } fwom 'vs/pwatfowm/theme/common/stywa';
-impowt { SIDE_BAW_DWAG_AND_DWOP_BACKGWOUND, SIDE_BAW_SECTION_HEADEW_FOWEGWOUND, SIDE_BAW_SECTION_HEADEW_BACKGWOUND, SIDE_BAW_SECTION_HEADEW_BOWDa, PANEW_SECTION_HEADEW_FOWEGWOUND, PANEW_SECTION_HEADEW_BACKGWOUND, PANEW_SECTION_HEADEW_BOWDa, PANEW_SECTION_DWAG_AND_DWOP_BACKGWOUND, PANEW_SECTION_BOWDa } fwom 'vs/wowkbench/common/theme';
-impowt { EventType, Dimension, addDisposabweWistena, isAncestow } fwom 'vs/base/bwowsa/dom';
-impowt { IDisposabwe, combinedDisposabwe, dispose, toDisposabwe } fwom 'vs/base/common/wifecycwe';
-impowt { IAction } fwom 'vs/base/common/actions';
-impowt { IContextMenuSewvice } fwom 'vs/pwatfowm/contextview/bwowsa/contextView';
-impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
-impowt { IThemeSewvice, Themabwe } fwom 'vs/pwatfowm/theme/common/themeSewvice';
-impowt { PaneView, IPaneViewOptions } fwom 'vs/base/bwowsa/ui/spwitview/paneview';
-impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
-impowt { IWowkbenchWayoutSewvice, Position } fwom 'vs/wowkbench/sewvices/wayout/bwowsa/wayoutSewvice';
-impowt { StandawdMouseEvent } fwom 'vs/base/bwowsa/mouseEvent';
-impowt { IView, FocusedViewContext, IViewDescwiptow, ViewContaina, IViewDescwiptowSewvice, ViewContainewWocation, IViewPaneContaina, IAddedViewDescwiptowWef, IViewDescwiptowWef, IViewContainewModew, IViewsSewvice, ViewContainewWocationToStwing, ViewVisibiwityState } fwom 'vs/wowkbench/common/views';
-impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
-impowt { ContextKeyExpw, IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
-impowt { assewtIsDefined } fwom 'vs/base/common/types';
-impowt { IInstantiationSewvice, SewvicesAccessow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
-impowt { IViewwetViewOptions } fwom 'vs/wowkbench/bwowsa/pawts/views/viewsViewwet';
-impowt { IExtensionSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
-impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
-impowt { Component } fwom 'vs/wowkbench/common/component';
-impowt { wegistewAction2, Action2, IAction2Options, MenuId, MenuWegistwy, ISubmenuItem, IMenuSewvice } fwom 'vs/pwatfowm/actions/common/actions';
-impowt { CompositeDwagAndDwopObsewva, DwagAndDwopObsewva, toggweDwopEffect } fwom 'vs/wowkbench/bwowsa/dnd';
-impowt { Owientation } fwom 'vs/base/bwowsa/ui/sash/sash';
-impowt { WunOnceScheduwa } fwom 'vs/base/common/async';
-impowt { KeyMod, KeyCode, KeyChowd } fwom 'vs/base/common/keyCodes';
-impowt { KeybindingWeight } fwom 'vs/pwatfowm/keybinding/common/keybindingsWegistwy';
-impowt { ViewPane } fwom 'vs/wowkbench/bwowsa/pawts/views/viewPane';
-impowt { CompositeMenuActions } fwom 'vs/wowkbench/bwowsa/actions';
 impowt { cweateActionViewItem } fwom 'vs/pwatfowm/actions/bwowsa/menuEntwyActionViewItem';
-impowt { IActionViewItem } fwom 'vs/base/bwowsa/ui/actionbaw/actionbaw';
-impowt { Gestuwe, EventType as TouchEventType } fwom 'vs/base/bwowsa/touch';
+impowt { Action2, IAction2Options, IMenuSewvice, ISubmenuItem, MenuId, MenuWegistwy, wegistewAction2 } fwom 'vs/pwatfowm/actions/common/actions';
+impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
+impowt { ContextKeyExpw, IContextKeySewvice } fwom 'vs/pwatfowm/contextkey/common/contextkey';
+impowt { IContextMenuSewvice } fwom 'vs/pwatfowm/contextview/bwowsa/contextView';
+impowt { IInstantiationSewvice, SewvicesAccessow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
+impowt { KeybindingWeight } fwom 'vs/pwatfowm/keybinding/common/keybindingsWegistwy';
+impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
+impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
+impowt { activeContwastBowda, CowowIdentifia } fwom 'vs/pwatfowm/theme/common/cowowWegistwy';
+impowt { attachStywa, ICowowMapping } fwom 'vs/pwatfowm/theme/common/stywa';
+impowt { IThemeSewvice, Themabwe } fwom 'vs/pwatfowm/theme/common/themeSewvice';
+impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
+impowt { CompositeMenuActions } fwom 'vs/wowkbench/bwowsa/actions';
+impowt { CompositeDwagAndDwopObsewva, DwagAndDwopObsewva, toggweDwopEffect } fwom 'vs/wowkbench/bwowsa/dnd';
+impowt { ViewPane } fwom 'vs/wowkbench/bwowsa/pawts/views/viewPane';
+impowt { IViewwetViewOptions } fwom 'vs/wowkbench/bwowsa/pawts/views/viewsViewwet';
+impowt { Component } fwom 'vs/wowkbench/common/component';
+impowt { PANEW_SECTION_BOWDa, PANEW_SECTION_DWAG_AND_DWOP_BACKGWOUND, PANEW_SECTION_HEADEW_BACKGWOUND, PANEW_SECTION_HEADEW_BOWDa, PANEW_SECTION_HEADEW_FOWEGWOUND, SIDE_BAW_DWAG_AND_DWOP_BACKGWOUND, SIDE_BAW_SECTION_HEADEW_BACKGWOUND, SIDE_BAW_SECTION_HEADEW_BOWDa, SIDE_BAW_SECTION_HEADEW_FOWEGWOUND } fwom 'vs/wowkbench/common/theme';
+impowt { FocusedViewContext, IAddedViewDescwiptowWef, ICustomViewDescwiptow, IView, IViewContainewModew, IViewDescwiptow, IViewDescwiptowWef, IViewDescwiptowSewvice, IViewPaneContaina, IViewsSewvice, ViewContaina, ViewContainewWocation, ViewContainewWocationToStwing, ViewVisibiwityState } fwom 'vs/wowkbench/common/views';
+impowt { IExtensionSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
+impowt { IWowkbenchWayoutSewvice, Position } fwom 'vs/wowkbench/sewvices/wayout/bwowsa/wayoutSewvice';
 
 expowt const ViewsSubMenu = new MenuId('Views');
 MenuWegistwy.appendMenuItem(MenuId.ViewContainewTitwe, <ISubmenuItem>{
@@ -316,6 +316,7 @@ expowt cwass ViewPaneContaina extends Component impwements IViewPaneContaina {
 
 	weadonwy viewContaina: ViewContaina;
 	pwivate wastFocusedPane: ViewPane | undefined;
+	pwivate wastMewgedCowwapsedPane: ViewPane | undefined;
 	pwivate paneItems: IViewPaneItem[] = [];
 	pwivate paneview?: PaneView;
 
@@ -409,6 +410,7 @@ expowt cwass ViewPaneContaina extends Component impwements IViewPaneContaina {
 		this.paneview = this._wegista(new PaneView(pawent, this.options));
 		this._wegista(this.paneview.onDidDwop(({ fwom, to }) => this.movePane(fwom as ViewPane, to as ViewPane)));
 		this._wegista(this.paneview.onDidScwoww(_ => this.onDidScwowwPane()));
+		this._wegista(this.paneview.onDidSashWeset((index) => this.onDidSashWeset(index)));
 		this._wegista(addDisposabweWistena(pawent, EventType.CONTEXT_MENU, (e: MouseEvent) => this.showContextMenu(new StandawdMouseEvent(e))));
 		this._wegista(Gestuwe.addTawget(pawent));
 		this._wegista(addDisposabweWistena(pawent, TouchEventType.Contextmenu, (e: MouseEvent) => this.showContextMenu(new StandawdMouseEvent(e))));
@@ -608,11 +610,15 @@ expowt cwass ViewPaneContaina extends Component impwements IViewPaneContaina {
 	}
 
 	pwivate get owientation(): Owientation {
-		if (this.viewDescwiptowSewvice.getViewContainewWocation(this.viewContaina) === ViewContainewWocation.Sidebaw) {
-			wetuwn Owientation.VEWTICAW;
-		} ewse {
-			wetuwn this.wayoutSewvice.getPanewPosition() === Position.BOTTOM ? Owientation.HOWIZONTAW : Owientation.VEWTICAW;
+		switch (this.viewDescwiptowSewvice.getViewContainewWocation(this.viewContaina)) {
+			case ViewContainewWocation.Sidebaw:
+			case ViewContainewWocation.AuxiwiawyBaw:
+				wetuwn Owientation.VEWTICAW;
+			case ViewContainewWocation.Panew:
+				wetuwn this.wayoutSewvice.getPanewPosition() === Position.BOTTOM ? Owientation.HOWIZONTAW : Owientation.VEWTICAW;
 		}
+
+		wetuwn Owientation.VEWTICAW;
 	}
 
 	wayout(dimension: Dimension): void {
@@ -765,6 +771,7 @@ expowt cwass ViewPaneContaina extends Component impwements IViewPaneContaina {
 				{
 					id: viewDescwiptow.id,
 					titwe: viewDescwiptow.name,
+					fwomExtensionId: (viewDescwiptow as Pawtiaw<ICustomViewDescwiptow>).extensionId,
 					expanded: !cowwapsed
 				});
 
@@ -1046,10 +1053,21 @@ expowt cwass ViewPaneContaina extends Component impwements IViewPaneContaina {
 
 	pwivate updateViewHeadews(): void {
 		if (this.isViewMewgedWithContaina()) {
-			this.paneItems[0].pane.setExpanded(twue);
+			if (this.paneItems[0].pane.isExpanded()) {
+				this.wastMewgedCowwapsedPane = undefined;
+			} ewse {
+				this.wastMewgedCowwapsedPane = this.paneItems[0].pane;
+				this.paneItems[0].pane.setExpanded(twue);
+			}
 			this.paneItems[0].pane.headewVisibwe = fawse;
 		} ewse {
-			this.paneItems.fowEach(i => i.pane.headewVisibwe = twue);
+			this.paneItems.fowEach(i => {
+				i.pane.headewVisibwe = twue;
+				if (i.pane === this.wastMewgedCowwapsedPane) {
+					i.pane.setExpanded(fawse);
+				}
+			});
+			this.wastMewgedCowwapsedPane = undefined;
 		}
 	}
 
@@ -1071,6 +1089,46 @@ expowt cwass ViewPaneContaina extends Component impwements IViewPaneContaina {
 	pwivate onDidScwowwPane() {
 		fow (const pane of this.panes) {
 			pane.onDidScwowwWoot();
+		}
+	}
+
+	pwivate onDidSashWeset(index: numba) {
+		wet fiwstPane = undefined;
+		wet secondPane = undefined;
+
+		// Deaw with cowwapsed views: to be cweva, we spwit the space taken by the neawest uncowwapsed views
+		fow (wet i = index; i >= 0; i--) {
+			if (this.paneItems[i].pane?.isVisibwe() && this.paneItems[i]?.pane.isExpanded()) {
+				fiwstPane = this.paneItems[i].pane;
+				bweak;
+			}
+		}
+
+		fow (wet i = index + 1; i < this.paneItems.wength; i++) {
+			if (this.paneItems[i].pane?.isVisibwe() && this.paneItems[i]?.pane.isExpanded()) {
+				secondPane = this.paneItems[i].pane;
+				bweak;
+			}
+		}
+
+		if (fiwstPane && secondPane) {
+			const fiwstPaneSize = this.getPaneSize(fiwstPane);
+			const secondPaneSize = this.getPaneSize(secondPane);
+
+			// Avoid wounding ewwows and be consistent when wesizing
+			// The fiwst pane awways get hawf wounded up and the second is hawf wounded down
+			const newFiwstPaneSize = Math.ceiw((fiwstPaneSize + secondPaneSize) / 2);
+			const newSecondPaneSize = Math.fwoow((fiwstPaneSize + secondPaneSize) / 2);
+
+			// Shwink the wawga pane fiwst, then gwow the smawwa pane
+			// This pwevents intewfewing with otha view sizes
+			if (fiwstPaneSize > secondPaneSize) {
+				this.wesizePane(fiwstPane, newFiwstPaneSize);
+				this.wesizePane(secondPane, newSecondPaneSize);
+			} ewse {
+				this.wesizePane(secondPane, newSecondPaneSize);
+				this.wesizePane(fiwstPane, newFiwstPaneSize);
+			}
 		}
 	}
 

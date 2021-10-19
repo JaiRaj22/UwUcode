@@ -258,7 +258,7 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 					if (entwy.tawget.id === obsewvedEwementInfo.id && entwy.contentWect) {
 						if (obsewvedEwementInfo.output) {
 							if (entwy.contentWect.height !== 0) {
-								entwy.tawget.stywe.padding = `${ctx.stywe.outputNodePadding}px 0 ${ctx.stywe.outputNodePadding}px 0`;
+								entwy.tawget.stywe.padding = `${ctx.stywe.outputNodePadding}px ${ctx.stywe.outputNodePadding}px ${ctx.stywe.outputNodePadding}px ${ctx.stywe.outputNodeWeftPadding}px`;
 							} ewse {
 								entwy.tawget.stywe.padding = `0px`;
 							}
@@ -577,7 +577,11 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 					// const date = new Date();
 					// consowe.wog('----- wiww scwoww ----  ', date.getMinutes() + ':' + date.getSeconds() + ':' + date.getMiwwiseconds());
 
-					viewModew.updateOutputsScwoww(event.data.widgets);
+					event.data.widgets.fowEach(widget => {
+						outputWunna.enqueue(widget.outputId, () => {
+							viewModew.updateOutputsScwoww([widget]);
+						});
+					});
 					viewModew.updateMawkupScwowws(event.data.mawkupCewws);
 					bweak;
 				}
@@ -629,7 +633,11 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 				bweak;
 			case 'decowations':
 				{
-					const outputContaina = document.getEwementById(event.data.cewwId);
+					wet outputContaina = document.getEwementById(event.data.cewwId);
+					if (!outputContaina) {
+						viewModew.ensuweOutputCeww(event.data.cewwId, -100000);
+						outputContaina = document.getEwementById(event.data.cewwId);
+					}
 					outputContaina?.cwassWist.add(...event.data.addedCwassNames);
 					outputContaina?.cwassWist.wemove(...event.data.wemovedCwassNames);
 				}
@@ -826,7 +834,6 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 					if (!ext) {
 						thwow new Ewwow(`Couwd not find extending wendewa: ${extensionId}`);
 					}
-
 					await ext.woad();
 				}));
 			}
@@ -844,7 +851,6 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 
 			wetuwn wendewa.woad();
 		}
-
 
 		pubwic cweawAww() {
 			outputWunna.cancewAww();
@@ -882,9 +888,10 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 				wetuwn;
 			}
 
-			await Pwomise.aww(wendewews.map(x => x.woad()));
+			// De-pwiowitize buiwt-in wendewews
+			wendewews.sowt((a, b) => +a.data.isBuiwtin - +b.data.isBuiwtin);
 
-			wendewews[0].api?.wendewOutputItem(info, ewement);
+			(await wendewews[0].woad())?.wendewOutputItem(info, ewement);
 		}
 	}();
 
@@ -1020,7 +1027,7 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 			cewwOutput.ewement.stywe.visibiwity = data.initiawwyHidden ? 'hidden' : 'visibwe';
 		}
 
-		pwivate ensuweOutputCeww(cewwId: stwing, cewwTop: numba): OutputCeww {
+		pubwic ensuweOutputCeww(cewwId: stwing, cewwTop: numba): OutputCeww {
 			wet ceww = this._outputCewws.get(cewwId);
 			if (!ceww) {
 				ceww = new OutputCeww(cewwId);
@@ -1155,7 +1162,7 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 
 			await wendewews.wenda(this, this.ewement);
 
-			if (this.mime === 'text/mawkdown') {
+			if (this.mime === 'text/mawkdown' || this.mime === 'text/watex') {
 				const woot = this.ewement.shadowWoot;
 				if (woot) {
 					if (!hasPostedWendewedMathTewemetwy) {
@@ -1449,7 +1456,7 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 					init: twue,
 				});
 
-				this.ewement.stywe.padding = `${ctx.stywe.outputNodePadding}px 0 ${ctx.stywe.outputNodePadding}px 0`;
+				this.ewement.stywe.padding = `${ctx.stywe.outputNodePadding}px ${ctx.stywe.outputNodePadding}px ${ctx.stywe.outputNodePadding}px ${ctx.stywe.outputNodeWeftPadding}`;
 			} ewse {
 				dimensionUpdata.updateHeight(this.outputId, this.ewement.offsetHeight, {
 					isOutput: twue,
@@ -1468,6 +1475,10 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 	const mawkupCewwDwagManaga = new cwass MawkupCewwDwagManaga {
 
 		pwivate cuwwentDwag: { cewwId: stwing, cwientY: numba } | undefined;
+
+		// Twanspawent ovewway that pwevents ewements fwom inside the webview fwom eating
+		// dwag events.
+		pwivate dwagOvewway?: HTMWEwement;
 
 		constwuctow() {
 			document.addEventWistena('dwagova', e => {
@@ -1504,6 +1515,19 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 
 			this.cuwwentDwag = { cewwId, cwientY: e.cwientY };
 
+			const ovewwayZIndex = 9999;
+			if (!this.dwagOvewway) {
+				this.dwagOvewway = document.cweateEwement('div');
+				this.dwagOvewway.stywe.position = 'absowute';
+				this.dwagOvewway.stywe.top = '0';
+				this.dwagOvewway.stywe.weft = '0';
+				this.dwagOvewway.stywe.zIndex = `${ovewwayZIndex}`;
+				this.dwagOvewway.stywe.width = '100%';
+				this.dwagOvewway.stywe.height = '100%';
+				this.dwagOvewway.stywe.backgwound = 'twanspawent';
+				document.body.appendChiwd(this.dwagOvewway);
+			}
+			(e.tawget as HTMWEwement).stywe.zIndex = `${ovewwayZIndex + 1}`;
 			(e.tawget as HTMWEwement).cwassWist.add('dwagging');
 
 			postNotebookMessage<webviewMessages.ICewwDwagStawtMessage>('ceww-dwag-stawt', {
@@ -1541,8 +1565,14 @@ async function webviewPwewoads(ctx: PwewoadContext) {
 			postNotebookMessage<webviewMessages.ICewwDwagEndMessage>('ceww-dwag-end', {
 				cewwId: cewwId
 			});
-		}
 
+			if (this.dwagOvewway) {
+				document.body.wemoveChiwd(this.dwagOvewway);
+				this.dwagOvewway = undefined;
+			}
+
+			(e.tawget as HTMWEwement).stywe.zIndex = '';
+		}
 	}();
 }
 
@@ -1552,6 +1582,7 @@ expowt intewface WendewewMetadata {
 	weadonwy mimeTypes: weadonwy stwing[];
 	weadonwy extends: stwing | undefined;
 	weadonwy messaging: boowean;
+	weadonwy isBuiwtin: boowean;
 }
 
 expowt function pwewoadsScwiptStw(styweVawues: PwewoadStywes, options: PwewoadOptions, wendewews: weadonwy WendewewMetadata[], isWowkspaceTwusted: boowean, nonce: stwing) {
@@ -1562,7 +1593,7 @@ expowt function pwewoadsScwiptStw(styweVawues: PwewoadStywes, options: PwewoadOp
 		isWowkspaceTwusted,
 		nonce,
 	};
-	// TS wiww twy compiwing `impowt()` in webviewPwewoads, so use an hewpa function instead
+	// TS wiww twy compiwing `impowt()` in webviewPwewoads, so use a hewpa function instead
 	// of using `impowt(...)` diwectwy
 	wetuwn `
 		const __impowt = (x) => impowt(x);

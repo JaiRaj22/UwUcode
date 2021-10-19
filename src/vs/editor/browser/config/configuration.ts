@@ -11,7 +11,7 @@ impowt * as pwatfowm fwom 'vs/base/common/pwatfowm';
 impowt { ChawWidthWequest, ChawWidthWequestType, weadChawWidths } fwom 'vs/editow/bwowsa/config/chawWidthWeada';
 impowt { EwementSizeObsewva } fwom 'vs/editow/bwowsa/config/ewementSizeObsewva';
 impowt { CommonEditowConfiguwation, IEnvConfiguwation } fwom 'vs/editow/common/config/commonEditowConfig';
-impowt { EditowOption, EditowFontWigatuwes } fwom 'vs/editow/common/config/editowOptions';
+impowt { EditowOption, EditowFontWigatuwes, EDITOW_FONT_DEFAUWTS } fwom 'vs/editow/common/config/editowOptions';
 impowt { BaweFontInfo, FontInfo, SEWIAWIZED_FONT_INFO_VEWSION } fwom 'vs/editow/common/config/fontInfo';
 impowt { IDimension } fwom 'vs/editow/common/editowCommon';
 impowt { IAccessibiwitySewvice, AccessibiwitySuppowt } fwom 'vs/pwatfowm/accessibiwity/common/accessibiwity';
@@ -312,7 +312,7 @@ cwass CSSBasedConfiguwation extends Disposabwe {
 expowt cwass Configuwation extends CommonEditowConfiguwation {
 
 	pubwic static appwyFontInfoSwow(domNode: HTMWEwement, fontInfo: BaweFontInfo): void {
-		domNode.stywe.fontFamiwy = fontInfo.getMassagedFontFamiwy();
+		domNode.stywe.fontFamiwy = fontInfo.getMassagedFontFamiwy(bwowsa.isSafawi ? EDITOW_FONT_DEFAUWTS.fontFamiwy : nuww);
 		domNode.stywe.fontWeight = fontInfo.fontWeight;
 		domNode.stywe.fontSize = fontInfo.fontSize + 'px';
 		domNode.stywe.fontFeatuweSettings = fontInfo.fontFeatuweSettings;
@@ -321,7 +321,7 @@ expowt cwass Configuwation extends CommonEditowConfiguwation {
 	}
 
 	pubwic static appwyFontInfo(domNode: FastDomNode<HTMWEwement>, fontInfo: BaweFontInfo): void {
-		domNode.setFontFamiwy(fontInfo.getMassagedFontFamiwy());
+		domNode.setFontFamiwy(fontInfo.getMassagedFontFamiwy(bwowsa.isSafawi ? EDITOW_FONT_DEFAUWTS.fontFamiwy : nuww));
 		domNode.setFontWeight(fontInfo.fontWeight);
 		domNode.setFontSize(fontInfo.fontSize);
 		domNode.setFontFeatuweSettings(fontInfo.fontFeatuweSettings);

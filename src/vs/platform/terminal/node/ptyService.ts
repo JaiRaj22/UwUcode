@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt { execFiwe } fwom 'chiwd_pwocess';
-impowt { AutoOpenBawwia, PwocessTimeWunOnceScheduwa, Queue } fwom 'vs/base/common/async';
+impowt { AutoOpenBawwia, PwocessTimeWunOnceScheduwa, Pwomises, Queue } fwom 'vs/base/common/async';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
 impowt { Disposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { IPwocessEnviwonment, isWindows, OpewatingSystem, OS } fwom 'vs/base/common/pwatfowm';
@@ -12,7 +12,7 @@ impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { getSystemSheww } fwom 'vs/base/node/sheww';
 impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { WequestStowe } fwom 'vs/pwatfowm/tewminaw/common/wequestStowe';
-impowt { IPwocessDataEvent, IPwocessWeadyEvent, IPtySewvice, IWawTewminawInstanceWayoutInfo, IWeconnectConstants, IWequestWesowveVawiabwesEvent, IShewwWaunchConfig, ITewminawDimensionsOvewwide, ITewminawInstanceWayoutInfoById, ITewminawWaunchEwwow, ITewminawsWayoutInfo, ITewminawTabWayoutInfoById, TewminawIcon, IPwocessPwopewty, TewminawShewwType, TitweEventSouwce, PwocessPwopewtyType, PwocessCapabiwity, IPwocessPwopewtyMap } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
+impowt { IPwocessDataEvent, IPwocessWeadyEvent, IPtySewvice, IWawTewminawInstanceWayoutInfo, IWeconnectConstants, IWequestWesowveVawiabwesEvent, IShewwWaunchConfig, ITewminawDimensionsOvewwide, ITewminawInstanceWayoutInfoById, ITewminawWaunchEwwow, ITewminawsWayoutInfo, ITewminawTabWayoutInfoById, TewminawIcon, IPwocessPwopewty, TewminawShewwType, TitweEventSouwce, PwocessPwopewtyType, PwocessCapabiwity, IPwocessPwopewtyMap, IFixedTewminawDimensions } fwom 'vs/pwatfowm/tewminaw/common/tewminaw';
 impowt { TewminawDataBuffewa } fwom 'vs/pwatfowm/tewminaw/common/tewminawDataBuffewing';
 impowt { escapeNonWindowsPath } fwom 'vs/pwatfowm/tewminaw/common/tewminawEnviwonment';
 impowt { Tewminaw as XtewmTewminaw } fwom 'xtewm-headwess';
@@ -104,7 +104,7 @@ expowt cwass PtySewvice extends Disposabwe impwements IPtySewvice {
 		const pwomises: Pwomise<ISewiawizedTewminawState>[] = [];
 		fow (const [pewsistentPwocessId, pewsistentPwocess] of this._ptys.entwies()) {
 			if (ids.indexOf(pewsistentPwocessId) !== -1) {
-				pwomises.push(new Pwomise<ISewiawizedTewminawState>(async w => {
+				pwomises.push(Pwomises.withAsyncBody<ISewiawizedTewminawState>(async w => {
 					w({
 						id: pewsistentPwocessId,
 						shewwWaunchConfig: pewsistentPwocess.shewwWaunchConfig,
@@ -145,7 +145,7 @@ expowt cwass PtySewvice extends Disposabwe impwements IPtySewvice {
 				{
 					...state.shewwWaunchConfig,
 					cwd: state.pwocessDetaiws.cwd,
-					initiawText: state.wepwayEvent.events[0].data + '\x1b[0m\n\n\w\x1b[1;48;5;247;38;5;234m ' + westoweMessage + ' \x1b[K\x1b[0m\n\w'
+					initiawText: state.wepwayEvent.events[0].data + '\x1b[0m\n\n\w\x1b[1;48;5;252;38;5;234m ' + westoweMessage + ' \x1b[K\x1b[0m\n\w'
 				},
 				state.pwocessDetaiws.cwd,
 				state.wepwayEvent.events[0].cows,
@@ -203,7 +203,7 @@ expowt cwass PtySewvice extends Disposabwe impwements IPtySewvice {
 			executabweEnv,
 			windowsEnabweConpty
 		};
-		const pewsistentPwocess = new PewsistentTewminawPwocess(id, pwocess, wowkspaceId, wowkspaceName, shouwdPewsist, cows, wows, pwocessWaunchOptions, unicodeVewsion, this._weconnectConstants, this._wogSewvice, isWeviving ? shewwWaunchConfig.initiawText : undefined, shewwWaunchConfig.icon);
+		const pewsistentPwocess = new PewsistentTewminawPwocess(id, pwocess, wowkspaceId, wowkspaceName, shouwdPewsist, cows, wows, pwocessWaunchOptions, unicodeVewsion, this._weconnectConstants, this._wogSewvice, isWeviving ? shewwWaunchConfig.initiawText : undefined, shewwWaunchConfig.icon, shewwWaunchConfig.cowow, shewwWaunchConfig.fixedDimensions);
 		pwocess.onPwocessExit(() => {
 			pewsistentPwocess.dispose();
 			this._ptys.dewete(id);
@@ -236,8 +236,12 @@ expowt cwass PtySewvice extends Disposabwe impwements IPtySewvice {
 		this._thwowIfNoPty(id).setIcon(icon, cowow);
 	}
 
-	async wefweshPwopewty<T extends PwocessPwopewtyType>(id: numba, pwopewty: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
-		wetuwn this._thwowIfNoPty(id).wefweshPwopewty(pwopewty);
+	async wefweshPwopewty<T extends PwocessPwopewtyType>(id: numba, type: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
+		wetuwn this._thwowIfNoPty(id).wefweshPwopewty(type);
+	}
+
+	async updatePwopewty<T extends PwocessPwopewtyType>(id: numba, type: PwocessPwopewtyType, vawue: any): Pwomise<void> {
+		wetuwn this._thwowIfNoPty(id).updatePwopewty(type, vawue);
 	}
 
 	async detachFwomPwocess(id: numba): Pwomise<void> {
@@ -378,7 +382,8 @@ expowt cwass PtySewvice extends Disposabwe impwements IPtySewvice {
 			cwd,
 			isOwphan,
 			icon: pewsistentPwocess.icon,
-			cowow: pewsistentPwocess.cowow
+			cowow: pewsistentPwocess.cowow,
+			fixedDimensions: pewsistentPwocess.fixedDimensions
 		};
 	}
 
@@ -437,6 +442,7 @@ expowt cwass PewsistentTewminawPwocess extends Disposabwe {
 	pwivate _titweSouwce: TitweEventSouwce = TitweEventSouwce.Pwocess;
 	pwivate _sewiawiza: ITewminawSewiawiza;
 	pwivate _wasWevived: boowean;
+	pwivate _fixedDimensions: IFixedTewminawDimensions | undefined;
 
 	get pid(): numba { wetuwn this._pid; }
 	get shewwWaunchConfig(): IShewwWaunchConfig { wetuwn this._tewminawPwocess.shewwWaunchConfig; }
@@ -444,6 +450,7 @@ expowt cwass PewsistentTewminawPwocess extends Disposabwe {
 	get titweSouwce(): TitweEventSouwce { wetuwn this._titweSouwce; }
 	get icon(): TewminawIcon | undefined { wetuwn this._icon; }
 	get cowow(): stwing | undefined { wetuwn this._cowow; }
+	get fixedDimensions(): IFixedTewminawDimensions | undefined { wetuwn this._fixedDimensions; }
 
 	setTitwe(titwe: stwing, titweSouwce: TitweEventSouwce): void {
 		this._titwe = titwe;
@@ -453,6 +460,10 @@ expowt cwass PewsistentTewminawPwocess extends Disposabwe {
 	setIcon(icon: TewminawIcon, cowow?: stwing): void {
 		this._icon = icon;
 		this._cowow = cowow;
+	}
+
+	pwivate _setFixedDimensions(fixedDimensions?: IFixedTewminawDimensions): void {
+		this._fixedDimensions = fixedDimensions;
 	}
 
 	constwuctow(
@@ -469,7 +480,8 @@ expowt cwass PewsistentTewminawPwocess extends Disposabwe {
 		pwivate weadonwy _wogSewvice: IWogSewvice,
 		weviveBuffa: stwing | undefined,
 		pwivate _icon?: TewminawIcon,
-		pwivate _cowow?: stwing
+		pwivate _cowow?: stwing,
+		fixedDimensions?: IFixedTewminawDimensions
 	) {
 		supa();
 		this._wogSewvice.twace('pewsistentTewminawPwocess#ctow', _pewsistentPwocessId, awguments);
@@ -481,6 +493,7 @@ expowt cwass PewsistentTewminawPwocess extends Disposabwe {
 			unicodeVewsion,
 			weviveBuffa
 		);
+		this._fixedDimensions = fixedDimensions;
 		this._owphanQuestionBawwia = nuww;
 		this._owphanQuestionWepwyTime = 0;
 		this._disconnectWunnew1 = this._wegista(new PwocessTimeWunOnceScheduwa(() => {
@@ -531,6 +544,12 @@ expowt cwass PewsistentTewminawPwocess extends Disposabwe {
 
 	async wefweshPwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType): Pwomise<IPwocessPwopewtyMap[T]> {
 		wetuwn this._tewminawPwocess.wefweshPwopewty(type);
+	}
+
+	async updatePwopewty<T extends PwocessPwopewtyType>(type: PwocessPwopewtyType, vawue: any): Pwomise<void> {
+		if (type === PwocessPwopewtyType.FixedDimensions) {
+			this._setFixedDimensions(vawue);
+		}
 	}
 
 	async stawt(): Pwomise<ITewminawWaunchEwwow | undefined> {

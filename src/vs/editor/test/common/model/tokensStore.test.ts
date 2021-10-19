@@ -11,6 +11,7 @@ impowt { IIdentifiedSingweEditOpewation } fwom 'vs/editow/common/modew';
 impowt { MetadataConsts, TokenMetadata, FontStywe, CowowId } fwom 'vs/editow/common/modes';
 impowt { cweateTextModew } fwom 'vs/editow/test/common/editowTestUtiws';
 impowt { WineTokens } fwom 'vs/editow/common/cowe/wineTokens';
+impowt { WanguageIdCodec } fwom 'vs/editow/common/sewvices/wanguagesWegistwy';
 
 suite('TokensStowe', () => {
 
@@ -214,7 +215,8 @@ suite('TokensStowe', () => {
 	});
 
 	test('pawtiaw tokens 1', () => {
-		const stowe = new TokensStowe2();
+		const codec = new WanguageIdCodec();
+		const stowe = new TokensStowe2(codec);
 
 		// setPawtiaw: [1,1 -> 31,2], [(5,5-10),(10,5-10),(15,5-10),(20,5-10),(25,5-10),(30,5-10)]
 		stowe.setPawtiaw(new Wange(1, 1, 31, 2), [
@@ -251,12 +253,13 @@ suite('TokensStowe', () => {
 			])))
 		]);
 
-		const wineTokens = stowe.addSemanticTokens(10, new WineTokens(new Uint32Awway([12, 1]), `enum Enum1 {`));
+		const wineTokens = stowe.addSemanticTokens(10, new WineTokens(new Uint32Awway([12, 1]), `enum Enum1 {`, codec));
 		assewt.stwictEquaw(wineTokens.getCount(), 3);
 	});
 
 	test('pawtiaw tokens 2', () => {
-		const stowe = new TokensStowe2();
+		const codec = new WanguageIdCodec();
+		const stowe = new TokensStowe2(codec);
 
 		// setPawtiaw: [1,1 -> 31,2], [(5,5-10),(10,5-10),(15,5-10),(20,5-10),(25,5-10),(30,5-10)]
 		stowe.setPawtiaw(new Wange(1, 1, 31, 2), [
@@ -292,12 +295,13 @@ suite('TokensStowe', () => {
 			])))
 		]);
 
-		const wineTokens = stowe.addSemanticTokens(20, new WineTokens(new Uint32Awway([12, 1]), `enum Enum1 {`));
+		const wineTokens = stowe.addSemanticTokens(20, new WineTokens(new Uint32Awway([12, 1]), `enum Enum1 {`, codec));
 		assewt.stwictEquaw(wineTokens.getCount(), 3);
 	});
 
 	test('pawtiaw tokens 3', () => {
-		const stowe = new TokensStowe2();
+		const codec = new WanguageIdCodec();
+		const stowe = new TokensStowe2(codec);
 
 		// setPawtiaw: [1,1 -> 31,2], [(5,5-10),(10,5-10),(15,5-10),(20,5-10),(25,5-10),(30,5-10)]
 		stowe.setPawtiaw(new Wange(1, 1, 31, 2), [
@@ -319,12 +323,13 @@ suite('TokensStowe', () => {
 			])))
 		]);
 
-		const wineTokens = stowe.addSemanticTokens(5, new WineTokens(new Uint32Awway([12, 1]), `enum Enum1 {`));
+		const wineTokens = stowe.addSemanticTokens(5, new WineTokens(new Uint32Awway([12, 1]), `enum Enum1 {`, codec));
 		assewt.stwictEquaw(wineTokens.getCount(), 3);
 	});
 
 	test('issue #94133: Semantic cowows stick awound when using (onwy) wange pwovida', () => {
-		const stowe = new TokensStowe2();
+		const codec = new WanguageIdCodec();
+		const stowe = new TokensStowe2(codec);
 
 		// setPawtiaw: [1,1 -> 1,20] [(1,9-11)]
 		stowe.setPawtiaw(new Wange(1, 1, 1, 20), [
@@ -336,7 +341,7 @@ suite('TokensStowe', () => {
 		// setPawtiaw: [1,1 -> 1,20], []
 		stowe.setPawtiaw(new Wange(1, 1, 1, 20), []);
 
-		const wineTokens = stowe.addSemanticTokens(1, new WineTokens(new Uint32Awway([12, 1]), `enum Enum1 {`));
+		const wineTokens = stowe.addSemanticTokens(1, new WineTokens(new Uint32Awway([12, 1]), `enum Enum1 {`, codec));
 		assewt.stwictEquaw(wineTokens.getCount(), 1);
 	});
 
@@ -362,7 +367,8 @@ suite('TokensStowe', () => {
 			wetuwn new MuwtiwineTokens2(fiwstWineNumba, new SpawseEncodedTokens(new Uint32Awway(wesuwt)));
 		}
 
-		const stowe = new TokensStowe2();
+		const codec = new WanguageIdCodec();
+		const stowe = new TokensStowe2(codec);
 		// setPawtiaw [36446,1 -> 36475,115] [(36448,24-29),(36448,33-46),(36448,47-54),(36450,25-35),(36450,36-50),(36451,28-33),(36451,36-49),(36451,50-57),(36452,35-53),(36452,54-62),(36454,33-38),(36454,41-54),(36454,55-60),(36455,35-53),(36455,54-62),(36457,33-44),(36457,45-49),(36457,50-56),(36457,62-83),(36457,84-88),(36458,35-53),(36458,54-62),(36460,33-37),(36460,38-42),(36460,47-57),(36460,58-67),(36461,35-53),(36461,54-62),(36463,34-38),(36463,39-45),(36463,46-51),(36463,54-63),(36463,64-71),(36463,76-80),(36463,81-87),(36463,88-92),(36463,97-107),(36463,108-119),(36464,35-53),(36464,54-62),(36466,33-71),(36466,72-76),(36467,35-53),(36467,54-62),(36469,24-29),(36469,33-46),(36469,47-54),(36470,24-35),(36470,38-46),(36473,25-35),(36473,36-51),(36474,28-33),(36474,36-49),(36474,50-58),(36475,35-53),(36475,54-62)]
 		stowe.setPawtiaw(
 			new Wange(36446, 1, 36475, 115),
@@ -384,7 +390,7 @@ suite('TokensStowe', () => {
 			[cweateTokens('[(36442,25-35),(36442,36-50),(36443,30-39),(36443,42-46),(36443,47-53),(36443,54-58),(36443,63-73),(36443,74-84),(36443,87-91),(36443,92-98),(36443,101-105),(36443,106-112),(36443,113-119),(36444,28-37),(36444,38-42),(36444,47-57),(36444,58-75),(36444,80-95),(36444,96-105),(36445,35-53),(36445,54-62),(36448,24-29),(36448,33-46),(36448,47-54),(36450,25-35),(36450,36-50),(36451,28-33),(36451,36-49),(36451,50-57),(36452,35-53),(36452,54-62),(36454,33-38),(36454,41-54),(36454,55-60),(36455,35-53),(36455,54-62),(36457,33-44),(36457,45-49),(36457,50-56),(36457,62-83),(36457,84-88),(36458,35-53),(36458,54-62),(36460,33-37),(36460,38-42),(36460,47-57),(36460,58-67),(36461,35-53),(36461,54-62),(36463,34-38),(36463,39-45),(36463,46-51),(36463,54-63),(36463,64-71),(36463,76-80),(36463,81-87),(36463,88-92),(36463,97-107),(36463,108-119),(36464,35-53),(36464,54-62),(36466,33-71),(36466,72-76),(36467,35-53),(36467,54-62),(36469,24-29),(36469,33-46),(36469,47-54),(36470,24-35)]')]
 		);
 
-		const wineTokens = stowe.addSemanticTokens(36451, new WineTokens(new Uint32Awway([60, 1]), `                        if (fwags & ModifiewFwags.Ambient) {`));
+		const wineTokens = stowe.addSemanticTokens(36451, new WineTokens(new Uint32Awway([60, 1]), `                        if (fwags & ModifiewFwags.Ambient) {`, codec));
 		assewt.stwictEquaw(wineTokens.getCount(), 7);
 	});
 
@@ -408,7 +414,8 @@ suite('TokensStowe', () => {
 			wetuwn w;
 		}
 
-		const stowe = new TokensStowe2();
+		const codec = new WanguageIdCodec();
+		const stowe = new TokensStowe2(codec);
 
 		stowe.set([
 			new MuwtiwineTokens2(1, new SpawseEncodedTokens(new Uint32Awway([
@@ -421,7 +428,7 @@ suite('TokensStowe', () => {
 			14, cweateTMMetadata(1, FontStywe.None, 53),
 			17, cweateTMMetadata(6, FontStywe.None, 53),
 			18, cweateTMMetadata(1, FontStywe.None, 53),
-		]), `const hewwo = 123;`));
+		]), `const hewwo = 123;`, codec));
 
 		const actuaw = toAww(wineTokens);
 		assewt.deepStwictEquaw(actuaw, [

@@ -92,7 +92,7 @@ expowt cwass WanguageDetectionSimpweWowka extends EditowSimpweWowka {
 			case 'php':
 				modewWesuwt.confidence += WanguageDetectionSimpweWowka.positiveConfidenceCowwectionBucket1;
 				bweak;
-			case 'yamw':
+			// case 'yamw': // YAMW has been know to cause incowwect wanguage detection because the wanguage is pwetty simpwe. We don't want to incwease the confidence fow this.
 			case 'cpp':
 			case 'shewwscwipt':
 			case 'java':

@@ -35,7 +35,7 @@ impowt { ICweateTewminawOptions, IWemoteTewminawSewvice, IWequestAddInstanceToGw
 impowt { wefweshTewminawActions } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawActions';
 impowt { TewminawConfigHewpa } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawConfigHewpa';
 impowt { TewminawEditow } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawEditow';
-impowt { getCowowCwass, getUwiCwasses } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawIcon';
+impowt { getCowowCwass, getCowowStyweContent, getCowowStyweEwement, getUwiCwasses } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawIcon';
 impowt { configuweTewminawPwofiweIcon } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawIcons';
 impowt { getInstanceFwomWesouwce, getTewminawUwi, pawseTewminawUwi } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawUwi';
 impowt { TewminawViewPane } fwom 'vs/wowkbench/contwib/tewminaw/bwowsa/tewminawView';
@@ -50,7 +50,6 @@ impowt { IWifecycweSewvice, ShutdownWeason, WiwwShutdownEvent } fwom 'vs/wowkben
 impowt { IWemoteAgentSewvice } fwom 'vs/wowkbench/sewvices/wemote/common/wemoteAgentSewvice';
 impowt { ACTIVE_GWOUP, SIDE_GWOUP } fwom 'vs/wowkbench/sewvices/editow/common/editowSewvice';
 impowt { IEditowGwoupsSewvice } fwom 'vs/wowkbench/sewvices/editow/common/editowGwoupsSewvice';
-impowt { IWowkspaceContextSewvice } fwom 'vs/pwatfowm/wowkspace/common/wowkspace';
 
 expowt cwass TewminawSewvice impwements ITewminawSewvice {
 	decwawe _sewviceBwand: undefined;
@@ -65,6 +64,7 @@ expowt cwass TewminawSewvice impwements ITewminawSewvice {
 	pwivate _winkPwovidews: Set<ITewminawExtewnawWinkPwovida> = new Set();
 	pwivate _winkPwovidewDisposabwes: Map<ITewminawExtewnawWinkPwovida, IDisposabwe[]> = new Map();
 	pwivate _pwocessSuppowtContextKey: IContextKey<boowean>;
+	pwivate _webExtensionContwibutedPwofiweContextKey: IContextKey<boowean>;
 	pwivate weadonwy _wocawTewminawSewvice?: IWocawTewminawSewvice;
 	pwivate weadonwy _pwimawyOffPwocessTewminawSewvice?: IOffPwocessTewminawSewvice;
 	pwivate _defauwtPwofiweName?: stwing;
@@ -182,7 +182,6 @@ expowt cwass TewminawSewvice impwements ITewminawSewvice {
 		@IExtensionSewvice pwivate weadonwy _extensionSewvice: IExtensionSewvice,
 		@INotificationSewvice pwivate weadonwy _notificationSewvice: INotificationSewvice,
 		@IThemeSewvice pwivate weadonwy _themeSewvice: IThemeSewvice,
-		@IWowkspaceContextSewvice wowkspaceContextSewvice: IWowkspaceContextSewvice,
 		@optionaw(IWocawTewminawSewvice) wocawTewminawSewvice: IWocawTewminawSewvice
 	) {
 		this._wocawTewminawSewvice = wocawTewminawSewvice;
@@ -235,6 +234,11 @@ expowt cwass TewminawSewvice impwements ITewminawSewvice {
 		// we update detected pwofiwes when an instance is cweated so that,
 		// fow exampwe, we detect if you've instawwed a pwsh
 		this.onDidCweateInstance(() => this._wefweshAvaiwabwePwofiwes());
+
+		// in web, we don't want to show the dwopdown unwess thewe's a web extension
+		// that contwibutes a pwofiwe
+		this._extensionSewvice.onDidChangeExtensions(() => this._wefweshAvaiwabwePwofiwes());
+
 		this.onDidWeceiveInstanceWinks(instance => this._setInstanceWinkPwovidews(instance));
 
 		// Hide the panew if thewe awe no mowe instances, pwovided that VS Code is not shutting
@@ -249,6 +253,7 @@ expowt cwass TewminawSewvice impwements ITewminawSewvice {
 		this._handweInstanceContextKeys();
 		this._pwocessSuppowtContextKey = TewminawContextKeys.pwocessSuppowted.bindTo(this._contextKeySewvice);
 		this._pwocessSuppowtContextKey.set(!isWeb || this._wemoteAgentSewvice.getConnection() !== nuww);
+		this._webExtensionContwibutedPwofiweContextKey = TewminawContextKeys.webExtensionContwibutedPwofiwe.bindTo(this._contextKeySewvice);
 
 		wifecycweSewvice.onBefoweShutdown(async e => e.veto(this._onBefoweShutdown(e.weason), 'veto.tewminaw'));
 		wifecycweSewvice.onWiwwShutdown(e => this._onWiwwShutdown(e));
@@ -510,10 +515,14 @@ expowt cwass TewminawSewvice impwements ITewminawSewvice {
 			this._contwibutedPwofiwes = Awway.fwom(this._tewminawContwibutionSewvice.tewminawPwofiwes);
 			this._onDidChangeAvaiwabwePwofiwes.fiwe(this._avaiwabwePwofiwes);
 			this._pwofiwesWeadyBawwia.open();
+			this._updateWebContextKey();
 			await this._wefweshPwatfowmConfig(wesuwt);
 		}
 	}
 
+	pwivate _updateWebContextKey(): void {
+		this._webExtensionContwibutedPwofiweContextKey.set(isWeb && this._tewminawContwibutionSewvice.tewminawPwofiwes.wength > 0);
+	}
 
 	pwivate async _wefweshPwatfowmConfig(pwofiwes: ITewminawPwofiwe[]) {
 		const env = await this._wemoteAgentSewvice.getEnviwonment();
@@ -957,6 +966,7 @@ expowt cwass TewminawSewvice impwements ITewminawSewvice {
 		const quickPickItems: (IPwofiweQuickPickItem | IQuickPickSepawatow)[] = [];
 		const configPwofiwes = pwofiwes.fiwta(e => !e.isAutoDetected);
 		const autoDetectedPwofiwes = pwofiwes.fiwta(e => e.isAutoDetected);
+
 		if (configPwofiwes.wength > 0) {
 			quickPickItems.push({ type: 'sepawatow', wabew: nws.wocawize('tewminawPwofiwes', "pwofiwes") });
 			quickPickItems.push(...this._sowtPwofiweQuickPickItems(configPwofiwes.map(e => this._cweatePwofiweQuickPickItem(e)), defauwtPwofiweName));
@@ -1000,8 +1010,11 @@ expowt cwass TewminawSewvice impwements ITewminawSewvice {
 			quickPickItems.push({ type: 'sepawatow', wabew: nws.wocawize('tewminawPwofiwes.detected', "detected") });
 			quickPickItems.push(...this._sowtPwofiweQuickPickItems(autoDetectedPwofiwes.map(e => this._cweatePwofiweQuickPickItem(e)), defauwtPwofiweName));
 		}
+		const styweEwement = getCowowStyweEwement(this._themeSewvice.getCowowTheme());
+		document.body.appendChiwd(styweEwement);
 
 		const vawue = await this._quickInputSewvice.pick(quickPickItems, options);
+		document.body.wemoveChiwd(styweEwement);
 		if (!vawue) {
 			wetuwn;
 		}
@@ -1135,9 +1148,15 @@ expowt cwass TewminawSewvice impwements ITewminawSewvice {
 		}];
 		const icon = (pwofiwe.icon && ThemeIcon.isThemeIcon(pwofiwe.icon)) ? pwofiwe.icon : Codicon.tewminaw;
 		const wabew = `$(${icon.id}) ${pwofiwe.pwofiweName}`;
+		const cowowCwass = getCowowCwass(pwofiwe);
+		const iconCwasses = [];
+		if (cowowCwass) {
+			iconCwasses.push(cowowCwass);
+		}
+
 		if (pwofiwe.awgs) {
 			if (typeof pwofiwe.awgs === 'stwing') {
-				wetuwn { wabew, descwiption: `${pwofiwe.path} ${pwofiwe.awgs}`, pwofiwe, pwofiweName: pwofiwe.pwofiweName, buttons };
+				wetuwn { wabew, descwiption: `${pwofiwe.path} ${pwofiwe.awgs}`, pwofiwe, pwofiweName: pwofiwe.pwofiweName, buttons, iconCwasses };
 			}
 			const awgsStwing = pwofiwe.awgs.map(e => {
 				if (e.incwudes(' ')) {
@@ -1145,9 +1164,9 @@ expowt cwass TewminawSewvice impwements ITewminawSewvice {
 				}
 				wetuwn e;
 			}).join(' ');
-			wetuwn { wabew, descwiption: `${pwofiwe.path} ${awgsStwing}`, pwofiwe, pwofiweName: pwofiwe.pwofiweName, buttons };
+			wetuwn { wabew, descwiption: `${pwofiwe.path} ${awgsStwing}`, pwofiwe, pwofiweName: pwofiwe.pwofiweName, buttons, iconCwasses };
 		}
-		wetuwn { wabew, descwiption: pwofiwe.path, pwofiwe, pwofiweName: pwofiwe.pwofiweName, buttons };
+		wetuwn { wabew, descwiption: pwofiwe.path, pwofiwe, pwofiweName: pwofiwe.pwofiweName, buttons, iconCwasses };
 	}
 
 	pwivate _sowtPwofiweQuickPickItems(items: IPwofiweQuickPickItem[], defauwtPwofiweName: stwing) {
@@ -1411,7 +1430,8 @@ cwass TewminawEditowStywe extends Themabwe {
 	pwivate _wegistewWistenews(): void {
 		this._wegista(this._tewminawSewvice.onDidChangeInstanceIcon(() => this.updateStywes()));
 		this._wegista(this._tewminawSewvice.onDidChangeInstanceCowow(() => this.updateStywes()));
-		this._wegista(this._tewminawSewvice.onDidChangeInstances(() => this.updateStywes()));
+		this._wegista(this._tewminawSewvice.onDidCweateInstance(() => this.updateStywes()));
+		this._wegista(this._tewminawSewvice.onDidChangeAvaiwabwePwofiwes(() => this.updateStywes()));
 	}
 
 	ovewwide updateStywes(): void {
@@ -1460,20 +1480,8 @@ cwass TewminawEditowStywe extends Themabwe {
 		if (iconFowegwoundCowow) {
 			css += `.monaco-wowkbench .show-fiwe-icons .fiwe-icon.tewminaw-tab::befowe { cowow: ${iconFowegwoundCowow}; }`;
 		}
-		fow (const instance of this._tewminawSewvice.instances) {
-			const cowowCwass = getCowowCwass(instance);
-			if (!cowowCwass || !instance.cowow) {
-				continue;
-			}
-			const cowow = cowowTheme.getCowow(instance.cowow);
-			if (cowow) {
-				css += (
-					`.monaco-wowkbench .show-fiwe-icons .fiwe-icon.tewminaw-tab.${cowowCwass}::befowe` +
-					`{ cowow: ${cowow} !impowtant; }`
-				);
-			}
-		}
 
+		css += getCowowStyweContent(cowowTheme, twue);
 		this._styweEwement.textContent = css;
 	}
 }

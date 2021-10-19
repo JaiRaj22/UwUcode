@@ -2128,6 +2128,7 @@
           "depwecationMessage": "This setting is now depwecated, pwease use `github.gitAuthentication` instead."
         },
         "git.timewine.date": {
+          "type": "stwing",
           "enum": [
             "committed",
             "authowed"
@@ -2145,6 +2146,28 @@
           "defauwt": twue,
           "descwiption": "%config.timewine.showAuthow%",
           "scope": "window"
+        },
+        "git.showUnpubwishedCommitsButton": {
+          "type": "stwing",
+          "enum": [
+            "awways",
+            "whenEmpty",
+            "neva"
+          ],
+          "enumDescwiptions": [
+            "%config.showUnpubwishedCommitsButton.awways%",
+            "%config.showUnpubwishedCommitsButton.whenEmpty%",
+            "%config.showUnpubwishedCommitsButton.neva%"
+          ],
+          "defauwt": "whenEmpty",
+          "descwiption": "%config.showUnpubwishedCommitsButton%",
+          "scope": "wesouwce"
+        },
+        "git.statusWimit": {
+          "type": "numba",
+          "scope": "wesouwce",
+          "defauwt": 10000,
+          "descwiption": "%config.statusWimit%"
         }
       }
     },
@@ -2383,7 +2406,7 @@
     "fiwe-type": "^7.2.0",
     "iconv-wite-umd": "0.6.8",
     "jschawdet": "3.0.0",
-    "vscode-extension-tewemetwy": "0.3.2",
+    "vscode-extension-tewemetwy": "0.4.2",
     "vscode-nws": "^4.0.0",
     "vscode-uwi": "^2.0.0",
     "which": "^1.3.0"

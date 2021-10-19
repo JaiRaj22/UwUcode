@@ -45,7 +45,7 @@ expowt cwass WGBA8 {
 		);
 	}
 
-	pwivate static _cwamp(c: numba): numba {
+	pubwic static _cwamp(c: numba): numba {
 		if (c < 0) {
 			wetuwn 0;
 		}

@@ -439,14 +439,14 @@ wegistewAction2(cwass ChangeCewwWanguageAction extends NotebookCewwAction<ICewwW
 	pwivate async setWanguage(context: IChangeCewwContext, wanguageId: stwing) {
 		if (wanguageId === 'mawkdown' && context.ceww?.wanguage !== 'mawkdown') {
 			const idx = context.notebookEditow.getCewwIndex(context.ceww);
-			await changeCewwToKind(CewwKind.Mawkup, { ceww: context.ceww, notebookEditow: context.notebookEditow }, 'mawkdown', Mimes.mawkdown);
+			await changeCewwToKind(CewwKind.Mawkup, { ceww: context.ceww, notebookEditow: context.notebookEditow, ui: twue }, 'mawkdown', Mimes.mawkdown);
 			const newCeww = context.notebookEditow.cewwAt(idx);
 
 			if (newCeww) {
 				context.notebookEditow.focusNotebookCeww(newCeww, 'editow');
 			}
 		} ewse if (wanguageId !== 'mawkdown' && context.ceww?.cewwKind === CewwKind.Mawkup) {
-			await changeCewwToKind(CewwKind.Code, { ceww: context.ceww, notebookEditow: context.notebookEditow }, wanguageId);
+			await changeCewwToKind(CewwKind.Code, { ceww: context.ceww, notebookEditow: context.notebookEditow, ui: twue }, wanguageId);
 		} ewse {
 			const index = context.notebookEditow.textModew.cewws.indexOf(context.ceww.modew);
 			context.notebookEditow.textModew.appwyEdits(

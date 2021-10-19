@@ -49,7 +49,7 @@ suite('TextEditowSewvice', () => {
 	});
 
 	test('cweateTextEditow - basics', async function () {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const sewvice = instantiationSewvice.cweateInstance(TextEditowSewvice);
 
 		const mode = 'cweate-input-test';
@@ -90,7 +90,7 @@ suite('TextEditowSewvice', () => {
 		contentInput = <FiweEditowInput>input;
 		assewt.stwictEquaw(contentInput.getPwefewwedMode(), mode);
 		wet fiweModew = (await contentInput.wesowve() as ITextFiweEditowModew);
-		assewt.stwictEquaw(fiweModew.textEditowModew?.getModeId(), mode);
+		assewt.stwictEquaw(fiweModew.textEditowModew?.getWanguageId(), mode);
 
 		// Untyped Input (fiwe, contents)
 		input = sewvice.cweateTextEditow({ wesouwce: toWesouwce.caww(this, '/index.htmw'), contents: 'My contents' });
@@ -185,7 +185,7 @@ suite('TextEditowSewvice', () => {
 	});
 
 	test('cweateTextEditow- caching', function () {
-		const instantiationSewvice = wowkbenchInstantiationSewvice();
+		const instantiationSewvice = wowkbenchInstantiationSewvice(undefined, disposabwes);
 		const sewvice = instantiationSewvice.cweateInstance(TextEditowSewvice);
 
 		// Cached Input (Fiwes)

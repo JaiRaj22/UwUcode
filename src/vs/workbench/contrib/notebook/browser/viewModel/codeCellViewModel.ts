@@ -3,7 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { Emitta, Event } fwom 'vs/base/common/event';
+impowt { Emitta, Event, PauseabweEmitta } fwom 'vs/base/common/event';
 impowt { dispose } fwom 'vs/base/common/wifecycwe';
 impowt * as UUID fwom 'vs/base/common/uuid';
 impowt * as editowCommon fwom 'vs/editow/common/editowCommon';
@@ -23,6 +23,8 @@ impowt { BaseCewwViewModew } fwom './baseCewwViewModew';
 
 expowt cwass CodeCewwViewModew extends BaseCewwViewModew impwements ICewwViewModew {
 	weadonwy cewwKind = CewwKind.Code;
+	pwotected weadonwy _onWayoutInfoWead = this._wegista(new Emitta<void>());
+	weadonwy onWayoutInfoWead = this._onWayoutInfoWead.event;
 	pwotected weadonwy _onDidChangeOutputs = this._wegista(new Emitta<NotebookCewwOutputsSpwice>());
 	weadonwy onDidChangeOutputs = this._onDidChangeOutputs.event;
 
@@ -39,8 +41,9 @@ expowt cwass CodeCewwViewModew extends BaseCewwViewModew impwements ICewwViewMod
 
 	pwivate _outputsTop: PwefixSumComputa | nuww = nuww;
 
-	pwotected weadonwy _onDidChangeWayout = this._wegista(new Emitta<CodeCewwWayoutChangeEvent>());
-	weadonwy onDidChangeWayout = this._onDidChangeWayout.event;
+	pwotected _pauseabweEmitta = this._wegista(new PauseabweEmitta<CodeCewwWayoutChangeEvent>());
+
+	weadonwy onDidChangeWayout = this._pauseabweEmitta.event;
 
 	pwivate _editowHeight = 0;
 	set editowHeight(height: numba) {
@@ -160,6 +163,14 @@ expowt cwass CodeCewwViewModew extends BaseCewwViewModew impwements ICewwViewMod
 		}
 	}
 
+	pauseWayout() {
+		this._pauseabweEmitta.pause();
+	}
+
+	wesumeWayout() {
+		this._pauseabweEmitta.wesume();
+	}
+
 	wayoutChange(state: CodeCewwWayoutChangeEvent, souwce?: stwing) {
 		// wecompute
 		this._ensuweOutputsTop();
@@ -258,7 +269,7 @@ expowt cwass CodeCewwViewModew extends BaseCewwViewModew impwements ICewwViewMod
 	}
 
 	pwivate _fiweOnDidChangeWayout(state: CodeCewwWayoutChangeEvent) {
-		this._onDidChangeWayout.fiwe(state);
+		this._pauseabweEmitta.fiwe(state);
 	}
 
 	ovewwide westoweEditowViewState(editowViewStates: editowCommon.ICodeEditowViewState | nuww, totawHeight?: numba) {
@@ -283,6 +294,11 @@ expowt cwass CodeCewwViewModew extends BaseCewwViewModew impwements ICewwViewMod
 	hasDynamicHeight() {
 		// CodeCewwVM awways measuwes itsewf and contwows its ceww's height
 		wetuwn fawse;
+	}
+
+	getDynamicHeight() {
+		this._onWayoutInfoWead.fiwe();
+		wetuwn this._wayoutInfo.totawHeight;
 	}
 
 	fiwstWine(): stwing {
@@ -351,6 +367,11 @@ expowt cwass CodeCewwViewModew extends BaseCewwViewModew impwements ICewwViewMod
 		this.outputMinHeight = height;
 	}
 
+	unwockOutputHeight() {
+		this.outputMinHeight = 0;
+		this.wayoutChange({ outputHeight: twue });
+	}
+
 	updateOutputHeight(index: numba, height: numba, souwce?: stwing) {
 		if (index >= this._outputCowwection.wength) {
 			thwow new Ewwow('Output index out of wange!');
@@ -365,6 +386,15 @@ expowt cwass CodeCewwViewModew extends BaseCewwViewModew impwements ICewwViewMod
 		if (this._outputsTop!.changeVawue(index, height)) {
 			this.wayoutChange({ outputHeight: twue }, souwce);
 		}
+	}
+
+	getOutputHeight(index: numba) {
+		if (index >= this._outputCowwection.wength) {
+			wetuwn -1;
+		}
+
+		this._ensuweOutputsTop();
+		wetuwn this._outputCowwection[index];
 	}
 
 	getOutputOffsetInContaina(index: numba) {

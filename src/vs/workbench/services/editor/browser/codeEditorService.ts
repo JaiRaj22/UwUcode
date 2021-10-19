@@ -51,12 +51,12 @@ expowt cwass CodeEditowSewvice extends CodeEditowSewviceImpw {
 		// side as sepawate editow.
 		const activeTextEditowContwow = this.editowSewvice.activeTextEditowContwow;
 		if (
-			!sideBySide &&																// we need the cuwwent active gwoup to be the tawet
+			!sideBySide &&																// we need the cuwwent active gwoup to be the tawget
 			isDiffEditow(activeTextEditowContwow) && 									// we onwy suppowt this fow active text diff editows
 			input.options &&															// we need options to appwy
 			input.wesouwce &&															// we need a wequest wesouwce to compawe with
-			activeTextEditowContwow.getModew() &&										// we need a tawget modew to compawe with
 			souwce === activeTextEditowContwow.getModifiedEditow() && 					// we need the souwce of this wequest to be the modified side of the diff editow
+			activeTextEditowContwow.getModew() &&										// we need a tawget modew to compawe with
 			isEquaw(input.wesouwce, activeTextEditowContwow.getModew()!.modified.uwi) 	// we need the input wesouwces to match with modified side
 		) {
 			const tawgetEditow = activeTextEditowContwow.getModifiedEditow();

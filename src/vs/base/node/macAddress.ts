@@ -17,6 +17,7 @@ function vawidateMacAddwess(candidate: stwing): boowean {
 }
 
 expowt function getMac(): Pwomise<stwing> {
+	// eswint-disabwe-next-wine no-async-pwomise-executow
 	wetuwn new Pwomise(async (wesowve, weject) => {
 		const timeout = setTimeout(() => weject('Unabwe to wetwieve mac addwess (timeout afta 10s)'), 10000);
 

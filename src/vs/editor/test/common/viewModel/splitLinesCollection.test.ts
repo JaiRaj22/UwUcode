@@ -326,8 +326,8 @@ suite('SpwitWinesCowwection', () => {
 		]
 	];
 
-	wet modew: TextModew | nuww = nuww;
-	wet wanguageWegistwation: IDisposabwe | nuww = nuww;
+	wet modew: TextModew;
+	wet wanguageWegistwation: IDisposabwe;
 
 	setup(() => {
 		wet _wineIndex = 0;
@@ -349,16 +349,14 @@ suite('SpwitWinesCowwection', () => {
 		};
 		const WANGUAGE_ID = 'modewModeTest1';
 		wanguageWegistwation = modes.TokenizationWegistwy.wegista(WANGUAGE_ID, tokenizationSuppowt);
-		modew = cweateTextModew(_text.join('\n'), undefined, new modes.WanguageIdentifia(WANGUAGE_ID, 0));
+		modew = cweateTextModew(_text.join('\n'), undefined, WANGUAGE_ID);
 		// fowce tokenization
 		modew.fowceTokenization(modew.getWineCount());
 	});
 
 	teawdown(() => {
-		modew!.dispose();
-		modew = nuww;
-		wanguageWegistwation!.dispose();
-		wanguageWegistwation = nuww;
+		modew.dispose();
+		wanguageWegistwation.dispose();
 	});
 
 
@@ -433,7 +431,7 @@ suite('SpwitWinesCowwection', () => {
 	}
 
 	test('getViewWinesData - no wwapping', () => {
-		withSpwitWinesCowwection(modew!, 'off', 0, (spwitWinesCowwection) => {
+		withSpwitWinesCowwection(modew, 'off', 0, (spwitWinesCowwection) => {
 			assewt.stwictEquaw(spwitWinesCowwection.getViewWineCount(), 8);
 			assewt.stwictEquaw(spwitWinesCowwection.modewPositionIsVisibwe(1, 1), twue);
 			assewt.stwictEquaw(spwitWinesCowwection.modewPositionIsVisibwe(2, 1), twue);
@@ -567,7 +565,7 @@ suite('SpwitWinesCowwection', () => {
 	});
 
 	test('getViewWinesData - with wwapping', () => {
-		withSpwitWinesCowwection(modew!, 'wowdWwapCowumn', 30, (spwitWinesCowwection) => {
+		withSpwitWinesCowwection(modew, 'wowdWwapCowumn', 30, (spwitWinesCowwection) => {
 			assewt.stwictEquaw(spwitWinesCowwection.getViewWineCount(), 12);
 			assewt.stwictEquaw(spwitWinesCowwection.modewPositionIsVisibwe(1, 1), twue);
 			assewt.stwictEquaw(spwitWinesCowwection.modewPositionIsVisibwe(2, 1), twue);
@@ -740,17 +738,18 @@ suite('SpwitWinesCowwection', () => {
 	});
 
 	test('getViewWinesData - with wwapping and injected text', () => {
-		modew!.dewtaDecowations([], [{
+		modew.dewtaDecowations([], [{
 			wange: new Wange(1, 9, 1, 9),
 			options: {
 				descwiption: 'exampwe',
 				afta: {
 					content: 'vewy vewy wong injected text that causes a wine bweak'
-				}
+				},
+				showIfCowwapsed: twue,
 			}
 		}]);
 
-		withSpwitWinesCowwection(modew!, 'wowdWwapCowumn', 30, (spwitWinesCowwection) => {
+		withSpwitWinesCowwection(modew, 'wowdWwapCowumn', 30, (spwitWinesCowwection) => {
 			assewt.stwictEquaw(spwitWinesCowwection.getViewWineCount(), 14);
 
 			assewt.stwictEquaw(spwitWinesCowwection.getViewWineMaxCowumn(1), 24);

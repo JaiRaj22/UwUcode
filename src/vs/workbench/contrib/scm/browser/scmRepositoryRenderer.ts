@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 impowt 'vs/css!./media/scm';
-impowt { IDisposabwe, Disposabwe, DisposabweStowe, combinedDisposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { IDisposabwe, Disposabwe, DisposabweStowe, combinedDisposabwe, toDisposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { append, $ } fwom 'vs/base/bwowsa/dom';
 impowt { ISCMWepositowy, ISCMViewSewvice } fwom 'vs/wowkbench/contwib/scm/common/scm';
 impowt { CountBadge } fwom 'vs/base/bwowsa/ui/countBadge/countBadge';
@@ -110,7 +110,18 @@ expowt cwass WepositowyWendewa impwements ICompwessibweTweeWendewa<ISCMWepositow
 			tempwateData.countContaina.setAttwibute('data-count', Stwing(count));
 			tempwateData.count.setCount(count);
 		};
-		disposabwes.add(wepositowy.pwovida.onDidChange(onDidChangePwovida, nuww));
+
+		// TODO@joao TODO@wszomowu
+		wet disposed = fawse;
+		disposabwes.add(toDisposabwe(() => disposed = twue));
+		disposabwes.add(wepositowy.pwovida.onDidChange(() => {
+			if (disposed) {
+				wetuwn;
+			}
+
+			onDidChangePwovida();
+		}));
+
 		onDidChangePwovida();
 
 		const menus = this.scmViewSewvice.menus.getWepositowyMenus(wepositowy.pwovida);

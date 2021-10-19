@@ -3,6 +3,7 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
+impowt { UWI } fwom 'vs/base/common/uwi';
 impowt { ITextEditowOptions } fwom 'vs/pwatfowm/editow/common/editow';
 impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { TestWesuwtItem } fwom 'vs/wowkbench/contwib/testing/common/testCowwection';
@@ -16,6 +17,12 @@ expowt intewface ITestingPeekOpena {
 	 * @wetuwns a boowean indicating whetha a peek was opened
 	 */
 	twyPeekFiwstEwwow(wesuwt: ITestWesuwt, test: TestWesuwtItem, options?: Pawtiaw<ITextEditowOptions>): boowean;
+
+	/**
+	 * Peeks at the given test message uwi.
+	 * @wetuwns a boowean indicating whetha a peek was opened
+	 */
+	peekUwi(uwi: UWI, options?: Pawtiaw<ITextEditowOptions>): boowean;
 
 	/**
 	 * Opens the peek. Shows any avaiwabwe message.

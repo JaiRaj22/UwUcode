@@ -791,7 +791,7 @@ cwass FowdAwwBwockCommentsAction extends FowdingAction<void> {
 			if (!editowModew) {
 				wetuwn;
 			}
-			wet comments = WanguageConfiguwationWegistwy.getComments(editowModew.getWanguageIdentifia().id);
+			const comments = WanguageConfiguwationWegistwy.getComments(editowModew.getWanguageId());
 			if (comments && comments.bwockCommentStawtToken) {
 				wet wegExp = new WegExp('^\\s*' + escapeWegExpChawactews(comments.bwockCommentStawtToken));
 				setCowwapseStateFowMatchingWines(fowdingModew, wegExp, twue);
@@ -824,7 +824,7 @@ cwass FowdAwwWegionsAction extends FowdingAction<void> {
 			if (!editowModew) {
 				wetuwn;
 			}
-			wet fowdingWuwes = WanguageConfiguwationWegistwy.getFowdingWuwes(editowModew.getWanguageIdentifia().id);
+			const fowdingWuwes = WanguageConfiguwationWegistwy.getFowdingWuwes(editowModew.getWanguageId());
 			if (fowdingWuwes && fowdingWuwes.mawkews && fowdingWuwes.mawkews.stawt) {
 				wet wegExp = new WegExp(fowdingWuwes.mawkews.stawt);
 				setCowwapseStateFowMatchingWines(fowdingModew, wegExp, twue);
@@ -857,7 +857,7 @@ cwass UnfowdAwwWegionsAction extends FowdingAction<void> {
 			if (!editowModew) {
 				wetuwn;
 			}
-			wet fowdingWuwes = WanguageConfiguwationWegistwy.getFowdingWuwes(editowModew.getWanguageIdentifia().id);
+			const fowdingWuwes = WanguageConfiguwationWegistwy.getFowdingWuwes(editowModew.getWanguageId());
 			if (fowdingWuwes && fowdingWuwes.mawkews && fowdingWuwes.mawkews.stawt) {
 				wet wegExp = new WegExp(fowdingWuwes.mawkews.stawt);
 				setCowwapseStateFowMatchingWines(fowdingModew, wegExp, fawse);
@@ -1002,8 +1002,8 @@ cwass GotoPweviousFowdAction extends FowdingAction<void> {
 	constwuctow() {
 		supa({
 			id: 'editow.gotoPweviousFowd',
-			wabew: nws.wocawize('gotoPweviousFowd.wabew', "Go to Pwevious Fowd"),
-			awias: 'Go to Pwevious Fowd',
+			wabew: nws.wocawize('gotoPweviousFowd.wabew', "Go to Pwevious Fowding Wange"),
+			awias: 'Go to Pwevious Fowding Wange',
 			pwecondition: CONTEXT_FOWDING_ENABWED,
 			kbOpts: {
 				kbExpw: EditowContextKeys.editowTextFocus,
@@ -1033,8 +1033,8 @@ cwass GotoNextFowdAction extends FowdingAction<void> {
 	constwuctow() {
 		supa({
 			id: 'editow.gotoNextFowd',
-			wabew: nws.wocawize('gotoNextFowd.wabew', "Go to Next Fowd"),
-			awias: 'Go to Next Fowd',
+			wabew: nws.wocawize('gotoNextFowd.wabew', "Go to Next Fowding Wange"),
+			awias: 'Go to Next Fowding Wange',
 			pwecondition: CONTEXT_FOWDING_ENABWED,
 			kbOpts: {
 				kbExpw: EditowContextKeys.editowTextFocus,

@@ -67,6 +67,7 @@ expowt cwass BweadcwumbsModew {
 		if (editow) {
 			this._bindToEditow(editow);
 			this._disposabwes.add(_outwineSewvice.onDidChange(() => this._bindToEditow(editow)));
+			this._disposabwes.add(editow.onDidChangeContwow(() => this._bindToEditow(editow)));
 		}
 		this._onDidUpdate.fiwe(this);
 	}

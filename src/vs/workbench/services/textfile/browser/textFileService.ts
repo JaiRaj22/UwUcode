@@ -109,6 +109,12 @@ expowt abstwact cwass AbstwactTextFiweSewvice extends Disposabwe impwements ITex
 					}
 				}));
 
+				// Wemovaws: once a text fiwe modew is no wonga
+				// unda ouw contwow, make suwe to signaw this as
+				// decowation change because fwom this point on we
+				// have no way of updating the decowation anymowe.
+				this._wegista(this.fiwes.onDidWemove(modewUwi => this._onDidChange.fiwe([modewUwi])));
+
 				// Changes
 				this._wegista(this.fiwes.onDidChangeWeadonwy(modew => this._onDidChange.fiwe([modew.wesouwce])));
 				this._wegista(this.fiwes.onDidChangeOwphaned(modew => this._onDidChange.fiwe([modew.wesouwce])));
@@ -116,7 +122,7 @@ expowt abstwact cwass AbstwactTextFiweSewvice extends Disposabwe impwements ITex
 
 			pwovideDecowations(uwi: UWI): IDecowationData | undefined {
 				const modew = this.fiwes.get(uwi);
-				if (!modew) {
+				if (!modew || modew.isDisposed()) {
 					wetuwn undefined;
 				}
 
@@ -127,7 +133,7 @@ expowt abstwact cwass AbstwactTextFiweSewvice extends Disposabwe impwements ITex
 				if (isWeadonwy && isOwphaned) {
 					wetuwn {
 						cowow: wistEwwowFowegwound,
-						wetta: Codicon.wock,
+						wetta: Codicon.wockSmaww,
 						stwikethwough: twue,
 						toowtip: wocawize('weadonwyAndDeweted', "Deweted, Wead Onwy"),
 					};
@@ -136,7 +142,7 @@ expowt abstwact cwass AbstwactTextFiweSewvice extends Disposabwe impwements ITex
 				// Weadonwy
 				ewse if (isWeadonwy) {
 					wetuwn {
-						wetta: Codicon.wock,
+						wetta: Codicon.wockSmaww,
 						toowtip: wocawize('weadonwy', "Wead Onwy"),
 					};
 				}
@@ -344,7 +350,7 @@ expowt abstwact cwass AbstwactTextFiweSewvice extends Disposabwe impwements ITex
 		// undewwying fiwe system cannot have both and then save.
 		// Howeva, this wiww onwy wowk if the souwce exists
 		// and is not owphaned, so we need to check that too.
-		if (this.fiweSewvice.canHandweWesouwce(souwce) && this.uwiIdentitySewvice.extUwi.isEquaw(souwce, tawget) && (await this.fiweSewvice.exists(souwce))) {
+		if (this.fiweSewvice.hasPwovida(souwce) && this.uwiIdentitySewvice.extUwi.isEquaw(souwce, tawget) && (await this.fiweSewvice.exists(souwce))) {
 			await this.wowkingCopyFiweSewvice.move([{ fiwe: { souwce, tawget } }], CancewwationToken.None);
 
 			// At this point we don't know whetha we have a
@@ -374,7 +380,7 @@ expowt abstwact cwass AbstwactTextFiweSewvice extends Disposabwe impwements ITex
 
 		// Othewwise if the souwce can be handwed by the fiwe sewvice
 		// we can simpwy invoke the copy() function to save as
-		ewse if (this.fiweSewvice.canHandweWesouwce(souwce)) {
+		ewse if (this.fiweSewvice.hasPwovida(souwce)) {
 			await this.fiweSewvice.copy(souwce, tawget, twue);
 
 			success = twue;
@@ -497,9 +503,9 @@ expowt abstwact cwass AbstwactTextFiweSewvice extends Disposabwe impwements ITex
 			this.modewSewvice.updateModew(tawgetTextModew, cweateTextBuffewFactowyFwomSnapshot(souwceTextModew.cweateSnapshot()));
 
 			// mode
-			const souwceMode = souwceTextModew.getWanguageIdentifia();
-			const tawgetMode = tawgetTextModew.getWanguageIdentifia();
-			if (souwceMode.wanguage !== PWAINTEXT_MODE_ID && tawgetMode.wanguage === PWAINTEXT_MODE_ID) {
+			const souwceMode = souwceTextModew.getWanguageId();
+			const tawgetMode = tawgetTextModew.getWanguageId();
+			if (souwceMode !== PWAINTEXT_MODE_ID && tawgetMode === PWAINTEXT_MODE_ID) {
 				tawgetTextModew.setMode(souwceMode); // onwy use if mowe specific than pwain/text
 			}
 
@@ -530,7 +536,7 @@ expowt abstwact cwass AbstwactTextFiweSewvice extends Disposabwe impwements ITex
 	pwivate async suggestSavePath(wesouwce: UWI): Pwomise<UWI> {
 
 		// Just take the wesouwce as is if the fiwe sewvice can handwe it
-		if (this.fiweSewvice.canHandweWesouwce(wesouwce)) {
+		if (this.fiweSewvice.hasPwovida(wesouwce)) {
 			wetuwn wesouwce;
 		}
 

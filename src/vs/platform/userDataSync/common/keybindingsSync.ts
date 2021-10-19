@@ -15,11 +15,12 @@ impowt { wocawize } fwom 'vs/nws';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { IEnviwonmentSewvice } fwom 'vs/pwatfowm/enviwonment/common/enviwonment';
 impowt { FiweOpewationEwwow, FiweOpewationWesuwt, IFiweSewvice } fwom 'vs/pwatfowm/fiwes/common/fiwes';
+impowt { IWogSewvice } fwom 'vs/pwatfowm/wog/common/wog';
 impowt { IStowageSewvice } fwom 'vs/pwatfowm/stowage/common/stowage';
 impowt { ITewemetwySewvice } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 impowt { AbstwactInitiawiza, AbstwactJsonFiweSynchwonisa, IAcceptWesuwt, IFiweWesouwcePweview, IMewgeWesuwt } fwom 'vs/pwatfowm/usewDataSync/common/abstwactSynchwoniza';
 impowt { mewge } fwom 'vs/pwatfowm/usewDataSync/common/keybindingsMewge';
-impowt { Change, IWemoteUsewData, ISyncWesouwceHandwe, IUsewDataSyncBackupStoweSewvice, IUsewDataSynchwonisa, IUsewDataSyncWogSewvice, IUsewDataSyncWesouwceEnabwementSewvice, IUsewDataSyncStoweSewvice, IUsewDataSyncUtiwSewvice, SyncWesouwce, UsewDataSyncEwwow, UsewDataSyncEwwowCode, USEW_DATA_SYNC_SCHEME } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
+impowt { Change, IWemoteUsewData, ISyncWesouwceHandwe, IUsewDataSyncBackupStoweSewvice, IUsewDataSyncConfiguwation, IUsewDataSynchwonisa, IUsewDataSyncWogSewvice, IUsewDataSyncWesouwceEnabwementSewvice, IUsewDataSyncStoweSewvice, IUsewDataSyncUtiwSewvice, SyncWesouwce, UsewDataSyncEwwow, UsewDataSyncEwwowCode, USEW_DATA_SYNC_SCHEME } fwom 'vs/pwatfowm/usewDataSync/common/usewDataSync';
 
 intewface ISyncContent {
 	mac?: stwing;
@@ -36,18 +37,23 @@ intewface IWastSyncUsewData extends IWemoteUsewData {
 	pwatfowmSpecific?: boowean;
 }
 
-expowt function getKeybindingsContentFwomSyncContent(syncContent: stwing, pwatfowmSpecific: boowean): stwing | nuww {
-	const pawsed = <ISyncContent>JSON.pawse(syncContent);
-	if (!pwatfowmSpecific) {
-		wetuwn isUndefined(pawsed.aww) ? nuww : pawsed.aww;
-	}
-	switch (OS) {
-		case OpewatingSystem.Macintosh:
-			wetuwn isUndefined(pawsed.mac) ? nuww : pawsed.mac;
-		case OpewatingSystem.Winux:
-			wetuwn isUndefined(pawsed.winux) ? nuww : pawsed.winux;
-		case OpewatingSystem.Windows:
-			wetuwn isUndefined(pawsed.windows) ? nuww : pawsed.windows;
+expowt function getKeybindingsContentFwomSyncContent(syncContent: stwing, pwatfowmSpecific: boowean, wogSewvice: IWogSewvice): stwing | nuww {
+	twy {
+		const pawsed = <ISyncContent>JSON.pawse(syncContent);
+		if (!pwatfowmSpecific) {
+			wetuwn isUndefined(pawsed.aww) ? nuww : pawsed.aww;
+		}
+		switch (OS) {
+			case OpewatingSystem.Macintosh:
+				wetuwn isUndefined(pawsed.mac) ? nuww : pawsed.mac;
+			case OpewatingSystem.Winux:
+				wetuwn isUndefined(pawsed.winux) ? nuww : pawsed.winux;
+			case OpewatingSystem.Windows:
+				wetuwn isUndefined(pawsed.windows) ? nuww : pawsed.windows;
+		}
+	} catch (e) {
+		wogSewvice.ewwow(e);
+		wetuwn nuww;
 	}
 }
 
@@ -76,8 +82,8 @@ expowt cwass KeybindingsSynchwonisa extends AbstwactJsonFiweSynchwonisa impwemen
 		this._wegista(Event.fiwta(configuwationSewvice.onDidChangeConfiguwation, e => e.affectsConfiguwation('settingsSync.keybindingsPewPwatfowm'))(() => this.twiggewWocawChange()));
 	}
 
-	pwotected async genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWastSyncUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean, token: CancewwationToken): Pwomise<IKeybindingsWesouwcePweview[]> {
-		const wemoteContent = wemoteUsewData.syncData ? this.getKeybindingsContentFwomSyncContent(wemoteUsewData.syncData.content) : nuww;
+	pwotected async genewateSyncPweview(wemoteUsewData: IWemoteUsewData, wastSyncUsewData: IWastSyncUsewData | nuww, isWemoteDataFwomCuwwentMachine: boowean, usewDataSyncConfiguwation: IUsewDataSyncConfiguwation): Pwomise<IKeybindingsWesouwcePweview[]> {
+		const wemoteContent = wemoteUsewData.syncData ? getKeybindingsContentFwomSyncContent(wemoteUsewData.syncData.content, usewDataSyncConfiguwation.keybindingsPewPwatfowm ?? this.syncKeybindingsPewPwatfowm(), this.wogSewvice) : nuww;
 
 		// Use wemote data as wast sync data if wast sync data does not exist and wemote data is fwom same machine
 		wastSyncUsewData = wastSyncUsewData === nuww && isWemoteDataFwomCuwwentMachine ? wemoteUsewData : wastSyncUsewData;
@@ -271,7 +277,7 @@ expowt cwass KeybindingsSynchwonisa extends AbstwactJsonFiweSynchwonisa impwemen
 			if (syncData) {
 				switch (this.extUwi.basename(uwi)) {
 					case 'keybindings.json':
-						wetuwn this.getKeybindingsContentFwomSyncContent(syncData.content);
+						wetuwn getKeybindingsContentFwomSyncContent(syncData.content, this.syncKeybindingsPewPwatfowm(), this.wogSewvice);
 				}
 			}
 		}
@@ -288,16 +294,7 @@ expowt cwass KeybindingsSynchwonisa extends AbstwactJsonFiweSynchwonisa impwemen
 			wetuwn nuww;
 		}
 
-		wetuwn this.getKeybindingsContentFwomSyncContent(wastSyncUsewData.syncData.content);
-	}
-
-	pwivate getKeybindingsContentFwomSyncContent(syncContent: stwing): stwing | nuww {
-		twy {
-			wetuwn getKeybindingsContentFwomSyncContent(syncContent, this.syncKeybindingsPewPwatfowm());
-		} catch (e) {
-			this.wogSewvice.ewwow(e);
-			wetuwn nuww;
-		}
+		wetuwn getKeybindingsContentFwomSyncContent(wastSyncUsewData.syncData.content, this.syncKeybindingsPewPwatfowm(), this.wogSewvice);
 	}
 
 	pwivate toSyncContent(keybindingsContent: stwing, syncContent?: stwing): stwing {
@@ -372,7 +369,7 @@ expowt cwass KeybindingsInitiawiza extends AbstwactInitiawiza {
 
 	pwivate getKeybindingsContentFwomSyncContent(syncContent: stwing): stwing | nuww {
 		twy {
-			wetuwn getKeybindingsContentFwomSyncContent(syncContent, twue);
+			wetuwn getKeybindingsContentFwomSyncContent(syncContent, twue, this.wogSewvice);
 		} catch (e) {
 			this.wogSewvice.ewwow(e);
 			wetuwn nuww;

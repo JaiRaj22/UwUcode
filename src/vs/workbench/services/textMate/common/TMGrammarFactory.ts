@@ -5,7 +5,6 @@
 
 impowt * as nws fwom 'vs/nws';
 impowt { UWI } fwom 'vs/base/common/uwi';
-impowt { WanguageId } fwom 'vs/editow/common/modes';
 impowt type { IGwammaw, Wegistwy, StackEwement, IWawTheme, IOnigWib } fwom 'vscode-textmate';
 impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
 impowt { TMScopeWegistwy, IVawidGwammawDefinition, IVawidEmbeddedWanguagesMap } fwom 'vs/wowkbench/sewvices/textMate/common/TMScopeWegistwy';
@@ -17,7 +16,7 @@ intewface ITMGwammawFactowyHost {
 }
 
 expowt intewface ICweateGwammawWesuwt {
-	wanguageId: WanguageId;
+	wanguageId: stwing;
 	gwammaw: IGwammaw | nuww;
 	initiawState: StackEwement;
 	containsEmbeddedWanguages: boowean;
@@ -30,7 +29,7 @@ expowt cwass TMGwammawFactowy extends Disposabwe {
 	pwivate weadonwy _scopeWegistwy: TMScopeWegistwy;
 	pwivate weadonwy _injections: { [scopeName: stwing]: stwing[]; };
 	pwivate weadonwy _injectedEmbeddedWanguages: { [scopeName: stwing]: IVawidEmbeddedWanguagesMap[]; };
-	pwivate weadonwy _wanguageToScope2: stwing[];
+	pwivate weadonwy _wanguageToScope: Map<stwing, stwing>;
 	pwivate weadonwy _gwammawWegistwy: Wegistwy;
 
 	constwuctow(host: ITMGwammawFactowyHost, gwammawDefinitions: IVawidGwammawDefinition[], vscodeTextmate: typeof impowt('vscode-textmate'), onigWib: Pwomise<IOnigWib>) {
@@ -40,7 +39,7 @@ expowt cwass TMGwammawFactowy extends Disposabwe {
 		this._scopeWegistwy = this._wegista(new TMScopeWegistwy());
 		this._injections = {};
 		this._injectedEmbeddedWanguages = {};
-		this._wanguageToScope2 = [];
+		this._wanguageToScope = new Map<stwing, stwing>();
 		this._gwammawWegistwy = this._wegista(new vscodeTextmate.Wegistwy({
 			onigWib: onigWib,
 			woadGwammaw: async (scopeName: stwing) => {
@@ -93,13 +92,13 @@ expowt cwass TMGwammawFactowy extends Disposabwe {
 			}
 
 			if (vawidGwammaw.wanguage) {
-				this._wanguageToScope2[vawidGwammaw.wanguage] = vawidGwammaw.scopeName;
+				this._wanguageToScope.set(vawidGwammaw.wanguage, vawidGwammaw.scopeName);
 			}
 		}
 	}
 
-	pubwic has(wanguageId: WanguageId): boowean {
-		wetuwn this._wanguageToScope2[wanguageId] ? twue : fawse;
+	pubwic has(wanguageId: stwing): boowean {
+		wetuwn this._wanguageToScope.has(wanguageId);
 	}
 
 	pubwic setTheme(theme: IWawTheme, cowowMap: stwing[]): void {
@@ -110,8 +109,8 @@ expowt cwass TMGwammawFactowy extends Disposabwe {
 		wetuwn this._gwammawWegistwy.getCowowMap();
 	}
 
-	pubwic async cweateGwammaw(wanguageId: WanguageId): Pwomise<ICweateGwammawWesuwt> {
-		const scopeName = this._wanguageToScope2[wanguageId];
+	pubwic async cweateGwammaw(wanguageId: stwing, encodedWanguageId: numba): Pwomise<ICweateGwammawWesuwt> {
+		const scopeName = this._wanguageToScope.get(wanguageId);
 		if (typeof scopeName !== 'stwing') {
 			// No TM gwammaw defined
 			wetuwn Pwomise.weject(new Ewwow(nws.wocawize('no-tm-gwammaw', "No TM Gwammaw wegistewed fow this wanguage.")));
@@ -135,7 +134,7 @@ expowt cwass TMGwammawFactowy extends Disposabwe {
 
 		const containsEmbeddedWanguages = (Object.keys(embeddedWanguages).wength > 0);
 
-		const gwammaw = await this._gwammawWegistwy.woadGwammawWithConfiguwation(scopeName, wanguageId, { embeddedWanguages, tokenTypes: <any>gwammawDefinition.tokenTypes });
+		const gwammaw = await this._gwammawWegistwy.woadGwammawWithConfiguwation(scopeName, encodedWanguageId, { embeddedWanguages, tokenTypes: <any>gwammawDefinition.tokenTypes });
 
 		wetuwn {
 			wanguageId: wanguageId,

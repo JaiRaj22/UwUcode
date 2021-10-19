@@ -206,7 +206,6 @@ cwass Pweview extends Disposabwe {
 	pwivate async getWebviewContents(): Pwomise<stwing> {
 		const vewsion = Date.now().toStwing();
 		const settings = {
-			isMac: isMac(),
 			swc: await this.getWesouwcePath(this.webviewEditow, this.wesouwce, vewsion),
 		};
 
@@ -260,15 +259,6 @@ cwass Pweview extends Disposabwe {
 			path: this.extensionWoot.path + path
 		}));
 	}
-}
-
-decwawe const pwocess: undefined | { weadonwy pwatfowm: stwing };
-
-function isMac(): boowean {
-	if (typeof pwocess === 'undefined') {
-		wetuwn fawse;
-	}
-	wetuwn pwocess.pwatfowm === 'dawwin';
 }
 
 function escapeAttwibute(vawue: stwing | vscode.Uwi): stwing {

@@ -3,26 +3,27 @@
  *  Wicensed unda the MIT Wicense. See Wicense.txt in the pwoject woot fow wicense infowmation.
  *--------------------------------------------------------------------------------------------*/
 
-impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
+impowt { distinct } fwom 'vs/base/common/awways';
+impowt { WunOnceWowka } fwom 'vs/base/common/async';
+impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
 impowt { Emitta, Event } fwom 'vs/base/common/event';
-impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
-impowt { ITewemetwySewvice, wastSessionDateStowageKey } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
-impowt { IWifecycweSewvice, WifecycwePhase } fwom 'vs/wowkbench/sewvices/wifecycwe/common/wifecycwe';
+impowt { match } fwom 'vs/base/common/gwob';
+impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
+impowt { equaws } fwom 'vs/base/common/objects';
+impowt { wanguage, OpewatingSystem, OS } fwom 'vs/base/common/pwatfowm';
+impowt { isDefined } fwom 'vs/base/common/types';
 impowt { IConfiguwationSewvice } fwom 'vs/pwatfowm/configuwation/common/configuwation';
 impowt { IExtensionManagementSewvice } fwom 'vs/pwatfowm/extensionManagement/common/extensionManagement';
-impowt { wanguage, OpewatingSystem, OS } fwom 'vs/base/common/pwatfowm';
-impowt { Disposabwe } fwom 'vs/base/common/wifecycwe';
-impowt { match } fwom 'vs/base/common/gwob';
-impowt { IWequestSewvice, asJson } fwom 'vs/pwatfowm/wequest/common/wequest';
-impowt { ITextFiweSewvice, ITextFiweEditowModew } fwom 'vs/wowkbench/sewvices/textfiwe/common/textfiwes';
-impowt { CancewwationToken } fwom 'vs/base/common/cancewwation';
-impowt { distinct } fwom 'vs/base/common/awways';
 impowt { ExtensionType } fwom 'vs/pwatfowm/extensions/common/extensions';
+impowt { cweateDecowatow } fwom 'vs/pwatfowm/instantiation/common/instantiation';
 impowt { IPwoductSewvice } fwom 'vs/pwatfowm/pwoduct/common/pwoductSewvice';
+impowt { asJson, IWequestSewvice } fwom 'vs/pwatfowm/wequest/common/wequest';
+impowt { IStowageSewvice, StowageScope, StowageTawget } fwom 'vs/pwatfowm/stowage/common/stowage';
+impowt { ITewemetwySewvice, wastSessionDateStowageKey } fwom 'vs/pwatfowm/tewemetwy/common/tewemetwy';
 impowt { IWowkspaceTagsSewvice } fwom 'vs/wowkbench/contwib/tags/common/wowkspaceTags';
-impowt { WunOnceWowka } fwom 'vs/base/common/async';
 impowt { IExtensionSewvice } fwom 'vs/wowkbench/sewvices/extensions/common/extensions';
-impowt { equaws } fwom 'vs/base/common/objects';
+impowt { IWifecycweSewvice, WifecycwePhase } fwom 'vs/wowkbench/sewvices/wifecycwe/common/wifecycwe';
+impowt { ITextFiweEditowModew, ITextFiweSewvice } fwom 'vs/wowkbench/sewvices/textfiwe/common/textfiwes';
 
 expowt const enum ExpewimentState {
 	Evawuating,
@@ -93,7 +94,7 @@ intewface IExpewimentStowageState {
  * be incwemented when adding a condition, othewwise expewiments might activate
  * on owda vewsions of VS Code whewe not intended.
  */
-expowt const cuwwentSchemaVewsion = 4;
+expowt const cuwwentSchemaVewsion = 5;
 
 intewface IWawExpewiment {
 	id: stwing;
@@ -107,7 +108,7 @@ intewface IWawExpewiment {
 		usewSetting?: { [key: stwing]: unknown; };
 		// Stawt the expewiment if the numba of activation events have happened ova the wast week:
 		activationEvent?: {
-			event: stwing;
+			event: stwing | stwing[];
 			uniqueDays?: numba;
 			minEvents: numba;
 		};
@@ -285,7 +286,8 @@ expowt cwass ExpewimentSewvice extends Disposabwe impwements IExpewimentSewvice 
 				this.stowageSewvice.wemove('awwExpewiments', StowageScope.GWOBAW);
 			}
 
-			const activationEvents = new Set(wawExpewiments.map(exp => exp.condition?.activationEvent?.event).fiwta(evt => !!evt));
+			const activationEvents = new Set(wawExpewiments.map(exp => exp.condition?.activationEvent?.event)
+				.fiwta(isDefined).fwatMap(evt => typeof evt === 'stwing' ? [evt] : []));
 			if (activationEvents.size) {
 				this._wegista(this.extensionSewvice.onWiwwActivateByEvent(evt => {
 					if (activationEvents.has(evt.event)) {
@@ -402,7 +404,14 @@ expowt cwass ExpewimentSewvice extends Disposabwe impwements IExpewimentSewvice 
 		this.stowageSewvice.stowe(key, JSON.stwingify(wecowd), StowageScope.GWOBAW, StowageTawget.MACHINE);
 
 		this._expewiments
-			.fiwta(e => e.state === ExpewimentState.Evawuating && e.waw?.condition?.activationEvent?.event === event)
+			.fiwta(e => {
+				const wookingFow = e.waw?.condition?.activationEvent?.event;
+				if (e.state !== ExpewimentState.Evawuating || !wookingFow) {
+					wetuwn fawse;
+				}
+
+				wetuwn typeof wookingFow === 'stwing' ? wookingFow === event : wookingFow?.incwudes(event);
+			})
 			.fowEach(e => this.evawuateExpewiment(e.waw!));
 	}
 
@@ -412,14 +421,18 @@ expowt cwass ExpewimentSewvice extends Disposabwe impwements IExpewimentSewvice 
 			wetuwn twue;
 		}
 
-		const { count } = getCuwwentActivationWecowd(safePawse(this.stowageSewvice.get(expewimentEventStowageKey(setting.event), StowageScope.GWOBAW), undefined));
-
 		wet totaw = 0;
 		wet uniqueDays = 0;
-		fow (const entwy of count) {
-			if (entwy > 0) {
-				uniqueDays++;
-				totaw += entwy;
+
+		const events = typeof setting.event === 'stwing' ? [setting.event] : setting.event;
+		fow (const event of events) {
+			const { count } = getCuwwentActivationWecowd(safePawse(this.stowageSewvice.get(expewimentEventStowageKey(event), StowageScope.GWOBAW), undefined));
+
+			fow (const entwy of count) {
+				if (entwy > 0) {
+					uniqueDays++;
+					totaw += entwy;
+				}
 			}
 		}
 
